@@ -1,0 +1,353 @@
+#org $968D, $169D
+JMP GetAPItem
+
+#org $A150, $2160
+JMP DisplayCurrentKeys
+
+#org $E818, $1E828
+JMP $DD47
+
+#org $CD72, $1CD82
+JMP StorePalaceNum
+
+#org $D9DF, $1D9EF
+JMP CheckPalaceKeys
+
+#org $B6BD, $F6CD
+NOP
+NOP
+
+#org $B2B9, $172C9
+JSR LoadAPFile
+
+#org $B8B3, $178C3
+JMP InitSavedData
+
+#org $CF26, $1CF36
+JSR SaveAPData
+
+#org $A1DD, $21ED
+LDA $F7
+CMP #$F0
+
+#org $B52F, $F53F
+JMP SetSpellChecks
+
+#org $B51C, $F52C
+JMP CheckSpellChecks
+
+#org $87A5, $47B5
+JMP $87C2
+
+#org $B4BF, $F4CF
+LDA $7A19
+
+#org $B4D7, $F4E7
+LDA $7A19
+
+#ORG $B4E3, $F4F3
+JMP SetUpStabCheck
+
+#ORG $B4CB, $F4DB
+JMP SetDownStabCheck
+
+#org $C9EA, $1C9FA
+#byte $16, $16, $16, $16
+
+#org $A8B0, $28C0
+CollectibleOffset:
+#byte $00, $00, $02, $04, $06
+CollectibleBits:
+#byte $10, $04, $10, $40, $20
+EXPBytes:
+#byte $32, $64, $C8, $F4
+CollectibleSprites:
+#byte $16, $16, $13, $14, $15
+
+#org $A770, $12780
+PalaceNumbers:
+#byte $00, $01, $06, $FF, $FF, $02, $03, $04, $05
+
+#org $A560, $16570
+SaveOffsets:
+#byte $00, $10, $20
+
+#org $B820, $0F830
+SpellBytes:
+#byte $01, $02, $04, $08, $10, $20, $40, $80
+
+
+#org $AA50, $2A60
+GetAPItem:
+LDA $0C9C
+BNE ItemHandler_Return
+LDA $7A10
+BNE HandleItem
+ItemHandler_Return:
+LDA $0776
+JMP $9690
+HandleItem:
+CMP #$10
+BCS CheckMagic
+SEC
+SBC #$01
+TAY
+LDA #$01
+STA $0785,Y
+TYA
+JMP DoneGettingItem
+CheckMagic:
+CMP #$20
+BCS CheckContainer
+SEC
+SBC #$10
+TAY
+LDA #$01
+STA $077B,Y
+LDA #$16
+JMP DoneGettingItem
+CheckContainer:
+CMP #$30
+BCS CheckCollectible
+SEC
+SBC #$20
+TAX
+LDA $0783,X
+CMP #$08
+BCS ContainerMax
+INC $0783,X
+ContainerMax:
+LDA #$F0
+STA $070C,X
+TXA
+CLC
+ADC #$0E
+JMP DoneGettingItem
+CheckCollectible:
+CMP #$40
+BCS CheckPowerup
+SEC
+SBC #$30
+TAX
+LDA CollectibleOffset,X
+TAY
+LDA CollectibleBits,X
+ORA $0796,Y
+STA $0796,Y
+LDA CollectibleSprites,X
+JMP DoneGettingItem
+CheckPowerup:
+CMP #$50
+BCS CheckKeys
+SEC
+SBC #$40
+BNE Not1Up
+INC $0700
+LDA #$12
+JMP DoneGettingItem
+Not1Up:
+CMP #$03
+BCS GetExperience
+SEC
+SBC #$01
+TAX
+BNE CalcMagicCap
+LDA #$10
+STA $0C9D
+CLC
+ADC $070C
+JMP AddMagic
+CalcMagicCap:
+LDA #$11
+STA $0C9D
+LDA $0783
+ASL
+ASL
+ASL
+ASL
+CLC
+ADC $070C
+AddMagic:
+STA $070C
+JMP DoneGettingItemNoAnim
+GetExperience:
+PHA
+LDA #$0B
+STA $0C9D
+PLA
+SEC
+SBC #$03
+TAX
+LDA EXPBytes,X
+CMP #$F4
+BNE Gain500EXP
+INC $0755
+Gain500EXP:
+CLC
+ADC $0756
+BCC EXPDone
+INC $0755
+EXPDone:
+STA $0756
+JMP DoneGettingItem_NoSound
+CheckKeys:
+SEC
+SBC #$50
+TAX
+INC $7A11,X
+LDA #$08
+DoneGettingItem:
+STA $0C9D
+DoneGettingItemNoAnim:
+LDA #$10
+STA $00EB
+DoneGettingItem_NoSound:
+LDA #$70
+STA $0C9C
+LDA #$00
+STA $7A10
+JMP ItemHandler_Return
+
+DisplayCurrentKeys:
+LDX $7A17
+LDA $7A11,X
+CLC
+ADC #$D0
+STA $7881,X
+JMP $A159
+
+
+
+#org $A780, $12790
+StorePalaceNum:
+LDA $CD2A,Y
+PHA
+SEC
+SBC #$04
+TAY
+LDA PalaceNumbers,Y
+STA $7A17
+PLA
+JMP $CD75
+
+CheckPalaceKeys:
+TXA
+PHA
+LDA $7A17
+TAX
+LDA $7A11,X
+BEQ OutofKeys
+STA $0793
+DEC $7A11,X
+LeaveKeys:
+PLA
+TAX
+LDA $0793
+JMP $D9E2
+OutofKeys:
+LDA #$00
+STA $0793
+JMP LeaveKeys
+
+#org $BDB0, $17DC0
+LoadAPFile:
+STX $7A20
+STY $7A21
+TAX
+LDA #$00
+CheckSaveCount:
+CPX #$00
+BEQ HaveSaveNumber
+CLC
+ADC #$10
+DEX
+BNE CheckSaveCount
+HaveSaveNumber:
+LDY #$00
+TAX
+CheckItemSave:
+LDA $7A30,X
+STA $7A10,Y
+CPY #$0E
+BEQ ExitSaveInit
+INX
+INY
+BNE CheckItemSave
+ExitSaveInit:
+LDX $7A20
+LDY $7A21
+LDA $19
+JMP $B911
+
+InitSavedData:
+STX $7A20
+STY $7A21
+LDX $19
+LDA #$00
+DelSave_Check:
+CPX #$00
+BEQ DelSave_HaveNum
+CLC
+ADC #$10
+DEX
+JMP DelSave_Check
+DelSave_HaveNum:
+TAX
+LDY #$00
+LDA #$00
+DelSave_Del:
+STA $7A30,X
+CPY #$0E
+BEQ DelSave_End
+INY
+INX
+BNE DelSave_Del
+DelSave_End:
+LDX $7A20
+LDY $7A21
+LDA $B23C,X
+JMP $B8B6
+
+SaveAPData:
+STX $7A20
+STY $7A21
+LDX $0772
+LDA SaveOffsets,X
+TAX
+LDY #$00
+SaveNextData:
+LDA $7A10,Y
+STA $7A30,X
+CPY #$0E
+BEQ EndAPSave
+INY
+INX
+JMP SaveNextData
+EndAPSave:
+LDX $7A20
+LDY $7A21
+JMP $B9CA
+
+#org $B840, $0F850
+SetSpellChecks:
+LDA SpellBytes,Y
+ORA $7A18
+STA $7A18
+JMP $B534
+
+CheckSpellChecks:
+LDA SpellBytes,Y
+BIT $7A18
+JMP $B51F
+
+SetUpStabCheck:
+LDA $7A19
+ORA #$04
+STA $7A19
+JMP $B5C7
+
+SetDownStabCheck:
+LDA $7A19
+ORA #$10
+STA $7A19
+JMP $B5C7
