@@ -12,10 +12,10 @@ import settings
 from .Items import get_item_names_per_category, item_table
 from .Locations import set_locations, static_locations
 from .Regions import init_areas
-from .Options import EBOptions, eb_option_groups, StartingCharacter
+from .Options import EBOptions, eb_option_groups
 from .setup_game import setup_gamevars, place_static_items
-from .Client import EarthBoundClient
-from .Rules import set_location_rules
+from .Client import Zelda2Client
+from .Rules import set_location_rules, set_region_rules
 from .Rom import patch_rom, get_base_rom_path, EBProcPatch, valid_hashes
 from worlds.generic.Rules import add_item_rule, forbid_items_for_player
 
@@ -78,6 +78,7 @@ class Z2World(World):
         self.location_cache = []
         self.event_count = 1
         self.world_version = world_version
+        self.filler_items = []
 
     def generate_early(self):  # Todo: place locked items in generate_early
         setup_gamevars(self)
@@ -111,13 +112,11 @@ class Z2World(World):
         finally:
             self.rom_name_available_event.set()  # make sure threading continues and errors are collected
 
-   # def fill_slot_data(self) -> Dict[str, List[int]]:
-    #    return {
-     #       "starting_area": self.start_location,
-      #      "pizza_logic": self.options.monkey_caves_mode.value,
-       #     "free_sancs": self.options.no_free_sanctuaries.value,
-        #    "shopsanity": self.options.shop_randomizer.value
-        #}
+    def fill_slot_data(self) -> Dict[str, List[int]]:
+        return {
+            "early_boulder": self.early_boulder,
+            "candle_logic": self.options.candle_logic
+        }
 
     def modify_multidata(self, multidata: dict):
         import base64
@@ -135,7 +134,7 @@ class Z2World(World):
         return Item(name, data.classification, data.code, self.player)
 
     def get_filler_item_name(self) -> str:
-        return self.random.choice(filler_items)
+        return self.random.choice(self.filler_items)
 
     def get_excluded_items(self) -> Set[str]:
         excluded_items: Set[str] = set()
@@ -198,7 +197,7 @@ class Z2World(World):
         return item
 
     def generate_filler(self, pool: List[Item]) -> None:
-        for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(pool) - self.event_count):  # Change to fix event count
+        for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(pool) - self.event_count):
             item = self.set_classifications(self.get_filler_item_name())
             pool.append(item)
 
