@@ -10,7 +10,7 @@ class LocationData(NamedTuple):
     code: Optional[int]
 
 
-def set_locations(world: "Zelda2World") -> List[LocationData]:
+def get_locations(world: "Zelda2World") -> List[LocationData]:
 
     location_table: List[LocationData] = [
         LocationData("Northwestern Hyrule", "Northern Desert Cave", 0x01),
@@ -18,6 +18,8 @@ def set_locations(world: "Zelda2World") -> List[LocationData]:
 
         LocationData("Great Palace", "Dark Link", None)
     ]
+    
+    return location_table
 
 static_locations = {
     "Northern Desert Cave": 0x01,

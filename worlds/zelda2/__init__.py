@@ -10,7 +10,7 @@ from worlds.AutoWorld import World, WebWorld
 from Options import OptionGroup
 import settings
 from .Items import get_item_names_per_category, item_table
-from .Locations import set_locations, static_locations
+from .Locations import get_locations, static_locations
 from .Regions import init_areas
 from .Options import Z2Options, z2_option_groups
 from .setup_game import setup_gamevars, place_static_items
@@ -86,7 +86,7 @@ class Z2World(World):
         setup_gamevars(self)
 
     def create_regions(self) -> None:
-        init_areas(self, set_locations(self))
+        init_areas(self, get_locations(self))
         place_static_items(self)
 
     def create_items(self) -> None:
