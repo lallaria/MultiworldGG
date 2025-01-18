@@ -17,6 +17,7 @@ from .setup_game import setup_gamevars, place_static_items
 from .Client import Zelda2Client
 from .Rules import set_location_rules, set_region_rules
 from .Rom import patch_rom, get_base_rom_path, Z2ProcPatch
+from .game_data import world_version
 from worlds.generic.Rules import add_item_rule, forbid_items_for_player
 
 

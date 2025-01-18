@@ -13,11 +13,13 @@ class LocationData(NamedTuple):
 def set_locations(world: "Zelda2World") -> List[LocationData]:
 
     location_table: List[LocationData] = [
-        LocationData("Northwest Hyrule", "North Castle Area: Cave", 0x01),
+        LocationData("Northwestern Hyrule", "Northern Desert Cave", 0x01),
+        LocationData("Northwestern Hyrule", "Northwestern Forest Item", 0x02),
 
         LocationData("Great Palace", "Dark Link", None)
     ]
 
 static_locations = {
-    "North Castle Area: Cave": 0x01
+    "Northern Desert Cave": 0x01,
+    "Northwestern Forest Item": 0x02,
 }

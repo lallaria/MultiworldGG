@@ -15,9 +15,14 @@ class RandomTunicColor(Toggle):
     """Randomizes Link's normal and Shield tunic color."""
     display_name = "Random Tunic Color"
 
+class EarlyCandle(Toggle):
+    """Ensures that the Candle will be accessible early on."""
+    display_name = "Early Candle"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
+    early_candle: EarlyCandle
     random_tunic_color: RandomTunicColor
 
 
@@ -26,7 +31,11 @@ z2_option_groups = [
         RequiredCrystals
     ]),
 
+    OptionGroup("Item Settings", [
+        EarlyCandle
+    ]),
+
     OptionGroup("Cosmetic Settings", [
         RandomTunicColor
-    ])
+    ]),
 ]
