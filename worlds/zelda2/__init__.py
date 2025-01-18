@@ -12,11 +12,11 @@ import settings
 from .Items import get_item_names_per_category, item_table
 from .Locations import set_locations, static_locations
 from .Regions import init_areas
-from .Options import EBOptions, eb_option_groups
+from .Options import Z2Options, z2_option_groups
 from .setup_game import setup_gamevars, place_static_items
 from .Client import Zelda2Client
 from .Rules import set_location_rules, set_region_rules
-from .Rom import patch_rom, get_base_rom_path, EBProcPatch, valid_hashes
+from .Rom import patch_rom, get_base_rom_path, Z2ProcPatch
 from worlds.generic.Rules import add_item_rule, forbid_items_for_player
 
 
@@ -25,7 +25,7 @@ class Z2Settings(settings.Group):
         """File name of the Zelda 2 US ROM"""
         description = "Zelda 2 ROM File"
         copy_to = "Zelda 2.nes"
-        md5s = valid_hashes
+        md5 = "764d36fa8a2450834da5e8194281035a"
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
 
@@ -35,7 +35,7 @@ class Z2Web(WebWorld):
 
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the EarthBound randomizer"
+        "A guide to setting up the Zelda 2 randomizer"
         "and connecting to an Archipelago server.",
         "English",
         "setup_en.md",
@@ -45,12 +45,13 @@ class Z2Web(WebWorld):
 
     tutorials = [setup_en]
 
-    option_groups = eb_option_groups
+    option_groups = z2_option_groups
 
 
 class Z2World(World):
-    """EarthBound is a contemporary-themed JRPG. Take four psychically-endowed children
-       across the world in search of 8 Melodies to defeat Giygas, the cosmic evil."""
+    """In the exciting sequel to Legend of Zelda, Link must find the Triforce of Courage in the Great Palace
+       to awaken Zelda, cursed with a sleeping spell. Along the wy, he is being hunted by Ganon's followers,
+       who seek to use his blood to revive their master."""
     
     game = "Zelda II: The Adventure of Link"
     option_definitions = Z2Options
@@ -62,7 +63,7 @@ class Z2World(World):
     item_name_groups = get_item_names_per_category()
 
     web = Z2Web()
-    settings: typing.ClassVar[EBSettings]
+    settings: typing.ClassVar[Z2Settings]
 
     options_dataclass = Z2Options
     options: Z2Options
@@ -100,7 +101,7 @@ class Z2World(World):
     def generate_output(self, output_directory: str):
         try:
             patch = EBProcPatch()
-            patch.write_file("earthbound_basepatch.bsdiff4", pkgutil.get_data(__name__, "earthbound_basepatch.bsdiff4"))
+            patch.write_file("z2_base.bsdiff4", pkgutil.get_data(__name__, "z2_base.bsdiff4"))
             patch_rom(self, patch, self.player)
 
             self.rom_name = patch.name

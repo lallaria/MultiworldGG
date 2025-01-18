@@ -2,7 +2,7 @@ import logging
 import struct
 import time
 from struct import pack
-from .Rom import location_table, hidden_table
+from .game_data import location_table
 from typing import TYPE_CHECKING, Dict, Set
 
 from NetUtils import ClientStatus
@@ -17,7 +17,7 @@ EXPECTED_ROM_NAME = "ZELDA2AP"
 
 
 class Zelda2Client(BizHawkClient):
-    game = "Zelda II"
+    game = "Zelda II: The Adventure of Link"
     system = ("NES")
     location_map = location_table
 
