@@ -19,8 +19,6 @@ item_table: Dict[str, ItemData] = {
     "Hammer": ItemData("Items", 0x07, ItemClassification.progression),
     "Magical Key": ItemData("Items", 0x08, ItemClassification.progression_skip_balancing),
 
-    "Handy Glove": ItemData("Items", 0x02, ItemClassification.progression),
-
     "Shield Spell": ItemData("Items", 0x10, ItemClassification.useful),
     "Jump Spell": ItemData("Spells", 0x11, ItemClassification.progression),
     "Life Spell": ItemData("Spells", 0x12, ItemClassification.useful),
@@ -38,6 +36,7 @@ item_table: Dict[str, ItemData] = {
     "Trophy": ItemData("Key Items", 0x32, ItemClassification.progression),
     "Water of Life": ItemData("Key Items", 0x33, ItemClassification.progression),
     "Child": ItemData("Key Items", 0x34, ItemClassification.progression),
+    "Bagu's Letter": ItemData("Key Items", 0x35, ItemClassification.progression),
 
     "1-Up Doll": ItemData("Collectibles", 0x40, ItemClassification.useful, 3),
     "Blue Magic Jar": ItemData("Collectibles", 0x41, ItemClassification.filler, 0),
@@ -55,6 +54,7 @@ item_table: Dict[str, ItemData] = {
     "Three-Eye Rock Palace Key": ItemData("Keys", 0x55, ItemClassification.progression, 0),
 
     "Triforce of Courage": ItemData("Events", None, ItemClassification.progression, 0),
+    "Crystal Returned": ItemData("Events", None, ItemClassification.progression, 0),
 }
 
 

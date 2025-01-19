@@ -18,7 +18,8 @@ def get_locations(world: "Z2World") -> List[LocationData]:
         LocationData("Northwestern Hyrule", "North Castle Cave", 0x03),
         LocationData("Northwestern Hyrule", "Sage of Rauru", 0x04),
         LocationData("Northwestern Hyrule", "Sage of Ruto", 0x05),
-        LocationData("Northwestern Hyrule", "Parapa Coast Item", 0x06),
+        LocationData("Northwestern Hyrule", "Tantari Coast Item", 0x06),
+        
         LocationData("Parapa Palace", "Parapa Palace: 1F West Hall", 0x07),
         LocationData("Parapa Palace", "Parapa Palace: Pedestal Item", 0x08),
         LocationData("Parapa Palace", "Parapa Palace: Crumbling Bridge", 0x09),
@@ -150,7 +151,7 @@ static_locations = {
     "North Castle Cave": 0x03,
     "Sage of Rauru": 0x04,
     "Sage of Ruto": 0x05,
-    "Parapa Coast Item": 0x06,
+    "Tantari Coast Item": 0x06,
     "Parapa Palace: 1F West Hall": 0x07,
     "Parapa Palace: Pedestal Item": 0x08,
     "Parapa Palace: Crumbling Bridge": 0x09,

@@ -99,6 +99,7 @@ class Z2World(World):
 
     def set_rules(self) -> None:
         set_location_rules(self)
+        set_region_rules(self)
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Triforce of Courage", self.player)
 
     def generate_output(self, output_directory: str):
