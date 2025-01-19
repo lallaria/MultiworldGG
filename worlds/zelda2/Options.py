@@ -19,20 +19,34 @@ class EarlyCandle(Toggle):
     """Ensures that the Candle will be accessible early on."""
     display_name = "Early Candle"
 
+class RequireCandle(DefaultOnToggle):
+    """If enabled, you will be logically expected to have the Candle before going inton any caves.
+       This does not include the Parapa cave, as the original game expects you to traverse this cave
+       in the dark."""
+    display_name = "Candle Logic"
+
+class Keysanity(Toggle):
+    """Puts Keys into the item pool. Regardless of the setting, keys can only be used in their respective dungeon."""
+    display_name = "Keysanity"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
     early_candle: EarlyCandle
+    candle_required: RequireCandle
+    keysanity: Keysanity
     random_tunic_color: RandomTunicColor
 
 
 z2_option_groups = [
     OptionGroup("Game Settings", [
-        RequiredCrystals
+        RequiredCrystals,
+        RequireCandle
     ]),
 
     OptionGroup("Item Settings", [
-        EarlyCandle
+        EarlyCandle,
+        Keysanity
     ]),
 
     OptionGroup("Cosmetic Settings", [

@@ -24,6 +24,8 @@ def init_areas(world: "Z2World", locations: List[LocationData]) -> None:
         create_region(world, world.player, locations_per_region, "Parapa Palace"),
         create_region(world, world.player, locations_per_region, "Western Hyrule"),
         create_region(world, world.player, locations_per_region, "Midoro Palace"),
+        create_region(world, world.player, locations_per_region, "Death Mountain"),
+        create_region(world, world.player, locations_per_region, "Western Coast"),
         create_region(world, world.player, locations_per_region, "Island Palace"),
         create_region(world, world.player, locations_per_region, "Eastern Hyrule"),
         create_region(world, world.player, locations_per_region, "Northeastern Hyrule"),
@@ -35,10 +37,15 @@ def init_areas(world: "Z2World", locations: List[LocationData]) -> None:
     ]
 
     multiworld.regions += regions
-    connect_menu_region(world)
 
-    multiworld.get_region("Northwestern Hyrule", player).add_exits(["Western Hyrule", "Parapa Palace"],
-                                                           {"Onett": lambda state: state.has("Onett Teleport", player)})
+    multiworld.get_region("Menu", player).add_exits(["Western Hyrule"]), # Change to start location eventually
+    multiworld.get_region("Northwestern Hyrule", player).add_exits(["Western Hyrule", "Parapa Palace"]),
+    multiworld.get_region("Western Hyrule", player).add_exits(["Midoro Palace", "Death Mountain", "Western Coast", "Northwestern Hyrule"]),
+    multiworld.get_region("Death Mountain", player).add_exits(["Western Hyrule", "Western Coast"]),
+    multiworld.get_region("Western Coast", player).add_exits(["Island Palace", "Eastern Hyrule", "Death Mountain", "Western Hyrule"]),
+    multiworld.get_region("Eastern Hyrule", player).add_exits(["Western Hyrule", "Northeastern Hyrule", "Southeastern Hyrule", "Palace on the Sea"]),
+    multiworld.get_region("Northeastern Hyrule", player).add_exits(["Eastern Hyrule", "Maze Palace"]),
+    multiworld.get_region("Southeastern Hyrule", player).add_exits(["Eastern Hyrule", "Three-Eye Rock Palace", "Great Palace"]),
 
 
 def create_location(player: int, location_data: LocationData, region: Region) -> Location:
@@ -66,9 +73,4 @@ def get_locations_per_region(locations: List[LocationData]) -> Dict[str, List[Lo
         per_region.setdefault(location.region, []).append(location)
 
     return per_region
-
-
-def connect_menu_region(world: "EarthBoundWorld") -> None:
-    world.starting_region = "Northwestern Hyrule" # This will change eventually
-    world.multiworld.get_region("Menu", world.player).add_exits([world.starting_region, "Northwestern Hyrule"])
     

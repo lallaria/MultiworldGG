@@ -90,7 +90,8 @@ class Z2World(World):
         place_static_items(self)
 
     def create_items(self) -> None:
-        pool = self.get_item_pool(self.get_excluded_items())
+        pool = self.get_item_pool()
+        print(pool)
         self.generate_filler(pool)
 
         self.multiworld.itempool += pool
@@ -138,61 +139,6 @@ class Z2World(World):
     def get_filler_item_name(self) -> str:
         return self.random.choice(self.filler_items)
 
-    def get_excluded_items(self) -> Set[str]:
-        excluded_items: Set[str] = set()
-        excluded_items.add(self.starting_character)
-
-        if self.options.shuffle_teleports == 0:
-            excluded_items.add("Onett Teleport")
-            excluded_items.add("Twoson Teleport")
-            excluded_items.add("Happy-Happy Village Teleport")
-            excluded_items.add("Threed Teleport")
-            excluded_items.add("Saturn Valley Teleport")
-            excluded_items.add("Dusty Dunes Teleport")
-            excluded_items.add("Fourside Teleport")
-            excluded_items.add("Winters Teleport")
-            excluded_items.add("Summers Teleport")
-            excluded_items.add("Scaraba Teleport")
-            excluded_items.add("Deep Darkness Teleport")
-            excluded_items.add("Tenda Village Teleport")
-            excluded_items.add("Lost Underworld Teleport")
-            excluded_items.add("Magicant Teleport")
-            excluded_items.add("Progressive Poo PSI")
-            excluded_items.add("Dalaam Teleport")
-        elif self.options.magicant_mode not in [0, 3]:
-            excluded_items.add("Magicant Teleport")
-
-        if self.options.character_shuffle == 0:
-            excluded_items.add("Ness")
-            excluded_items.add("Paula")
-            excluded_items.add("Jeff")
-            excluded_items.add("Poo")
-            excluded_items.add("Flying Man")
-
-        if self.options.progressive_weapons:
-            excluded_items.add("Magicant Bat")
-            excluded_items.add("Legendary Bat")
-            excluded_items.add("Pop Gun")
-            excluded_items.add("Stun Gun")
-            excluded_items.add("Death Ray")
-            excluded_items.add("Moon Beam Gun")
-
-        if self.options.progressive_armor:
-            excluded_items.add("Platinum Band")
-            excluded_items.add("Diamond Band")
-            excluded_items.add("Pixie's Bracelet")
-            excluded_items.add("Cherub's Band")
-            excluded_items.add("Goddess Band")
-            excluded_items.add("Coin of Slumber")
-            excluded_items.add("Souvenir Coin")
-            excluded_items.add("Mr. Saturn Coin")
-
-        if not self.options.no_free_sanctuaries:
-            excluded_items.add("Tiny Key")
-            excluded_items.add("Tenda Lavapants")
-
-        return excluded_items
-
     def set_classifications(self, name: str) -> Item:
         data = item_table[name]
         item = Item(name, data.classification, data.code, self.player)
@@ -203,13 +149,11 @@ class Z2World(World):
             item = self.set_classifications(self.get_filler_item_name())
             pool.append(item)
 
-    def get_item_pool(self, excluded_items: Set[str]) -> List[Item]:
+    def get_item_pool(self) -> List[Item]:
         pool: List[Item] = []
 
         for name, data in item_table.items():
-            if name not in excluded_items:
-                for _ in range(data.amount):
-                    item = self.set_classifications(name)
-                    pool.append(item)
-
+            for _ in range(data.amount):
+                item = self.set_classifications(name)
+                pool.append(item)
         return pool

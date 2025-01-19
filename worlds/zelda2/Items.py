@@ -53,6 +53,8 @@ item_table: Dict[str, ItemData] = {
     "Maze Palace Key": ItemData("Keys", 0x53, ItemClassification.progression, 0),
     "Sea Palace Key": ItemData("Keys", 0x54, ItemClassification.progression, 0),
     "Three-Eye Rock Palace Key": ItemData("Keys", 0x55, ItemClassification.progression, 0),
+
+    "Triforce of Courage": ItemData("Events", None, ItemClassification.progression, 0),
 }
 
 
@@ -62,7 +64,7 @@ def get_item_names_per_category() -> Dict[str, Set[str]]:
     for name, data in item_table.items():
         if data.category != "Events":
             categories.setdefault(data.category, set()).add(name)
-        elif data.catagory == "Collectibles":
+        elif data.category == "Collectibles":
             world.filler_items.append(item)
 
     return categories
