@@ -8,7 +8,7 @@ JMP DisplayCurrentKeys
 JMP $DD47
 
 #org $CD72, $1CD82
-JMP StorePalaceNum
+JMP StorePalacePerBank
 
 #org $D9DF, $1D9EF
 JMP CheckPalaceKeys
@@ -76,6 +76,9 @@ CollectibleSprites:
 #org $A770, $12780
 PalaceNumbers:
 #byte $00, $01, $06, $FF, $FF, $02, $03, $04, $05
+
+PalaceTiles:
+#byte $04, $05, $09, $0A, $0B, $0C
 
 #org $A560, $16570
 SaveOffsets:
@@ -230,13 +233,13 @@ JMP $A159
 #org $A780, $12790
 StorePalaceNum:
 LDA $CD2A,Y
-PHA
 SEC
 SBC #$04
 TAY
 LDA PalaceNumbers,Y
 STA $7A17
-PLA
+TAY
+LDA PalaceTiles,Y
 JMP $CD75
 
 CheckPalaceKeys:
@@ -360,3 +363,17 @@ LDA $7A19
 ORA #$10
 STA $7A19
 JMP $B5C7
+
+#org $FF60, $1FF70
+StorePalacePerBank:
+LDA $0769
+CMP #$04
+BEQ StorePalaceNormal
+JMP GreatPalace
+StorePalaceNormal:
+JMP StorePalaceNum
+
+#org $BE60, $17E70
+GreatPalace:
+LDA $CD2A,Y
+JMP $CD75
