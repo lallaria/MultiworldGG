@@ -80,7 +80,8 @@ class Z2World(World):
         self.location_cache = []
         self.event_count = 1
         self.world_version = world_version
-        self.filler_items = []
+        self.filler_items = ["50 Point P-Bag", "100 Point P-Bag", "200 Point P-Bag", "500 Point P-Bag",
+                             "1-Up Doll", "Blue Magic Jar", "Red Magic Jar"]
 
     def generate_early(self):  # Todo: place locked items in generate_early
         setup_gamevars(self)
@@ -102,7 +103,7 @@ class Z2World(World):
 
     def generate_output(self, output_directory: str):
         try:
-            patch = EBProcPatch()
+            patch = Z2ProcPatch()
             patch.write_file("z2_base.bsdiff4", pkgutil.get_data(__name__, "z2_base.bsdiff4"))
             patch_rom(self, patch, self.player)
 
@@ -117,8 +118,8 @@ class Z2World(World):
 
     def fill_slot_data(self) -> Dict[str, List[int]]:
         return {
-            "early_boulder": self.early_boulder,
-            "candle_logic": self.options.candle_logic
+            #"early_boulder": self.early_boulder,
+            "cande_required": self.options.candle_required
         }
 
     def modify_multidata(self, multidata: dict):
@@ -145,7 +146,7 @@ class Z2World(World):
         return item
 
     def generate_filler(self, pool: List[Item]) -> None:
-        for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(pool) - self.event_count):
+        for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(pool)):
             item = self.set_classifications(self.get_filler_item_name())
             pool.append(item)
 

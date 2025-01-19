@@ -39,13 +39,13 @@ item_table: Dict[str, ItemData] = {
     "Water of Life": ItemData("Key Items", 0x33, ItemClassification.progression),
     "Child": ItemData("Key Items", 0x34, ItemClassification.progression),
 
-    "1-Up Doll": ItemData("Collectibles", 0x40, ItemClassification.useful),
-    "Blue Magic Jar": ItemData("Collectibles", 0x41, ItemClassification.filler),
-    "Red Magic Jar": ItemData("Collectibles", 0x42, ItemClassification.useful),
-    "50 Point P-Bag": ItemData("Collectibles", 0x43, ItemClassification.filler),
-    "100 Point P-Bag": ItemData("Collectibles", 0x44, ItemClassification.filler),
-    "200 Point P-Bag": ItemData("Collectibles", 0x45, ItemClassification.useful),
-    "500 Point P-Bag": ItemData("Collectibles", 0x46, ItemClassification.useful),
+    "1-Up Doll": ItemData("Collectibles", 0x40, ItemClassification.useful, 3),
+    "Blue Magic Jar": ItemData("Collectibles", 0x41, ItemClassification.filler, 0),
+    "Red Magic Jar": ItemData("Collectibles", 0x42, ItemClassification.useful, 0),
+    "50 Point P-Bag": ItemData("Collectibles", 0x43, ItemClassification.filler, 0),
+    "100 Point P-Bag": ItemData("Collectibles", 0x44, ItemClassification.filler, 0),
+    "200 Point P-Bag": ItemData("Collectibles", 0x45, ItemClassification.useful, 0),
+    "500 Point P-Bag": ItemData("Collectibles", 0x46, ItemClassification.useful, 0),
 
     "Parapa Palace Key": ItemData("Keys", 0x50, ItemClassification.progression, 0),
     "Midoro Palace Key": ItemData("Keys", 0x51, ItemClassification.progression, 0),
@@ -64,7 +64,5 @@ def get_item_names_per_category() -> Dict[str, Set[str]]:
     for name, data in item_table.items():
         if data.category != "Events":
             categories.setdefault(data.category, set()).add(name)
-        elif data.category == "Collectibles":
-            world.filler_items.append(item)
 
     return categories
