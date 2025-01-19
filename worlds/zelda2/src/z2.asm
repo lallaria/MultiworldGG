@@ -51,8 +51,17 @@ JMP SetUpStabCheck
 #ORG $B4CB, $F4DB
 JMP SetDownStabCheck
 
+#ORG $9620, $5630
+LDA #$12
+
+#ORG $9610, $9620
+LDA #$12
+
 #org $C9EA, $1C9FA
 #byte $16, $16, $16, $16
+
+#org $0000, $1033B
+#byte $64, $75
 
 #org $A8B0, $28C0
 CollectibleOffset:
