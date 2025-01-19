@@ -1,7 +1,7 @@
 from typing import List, Optional, NamedTuple, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from . import EarthBoundWorld
+    from . import Z2World
 
 
 class LocationData(NamedTuple):
