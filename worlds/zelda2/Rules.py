@@ -107,6 +107,21 @@ def set_location_rules(world: "Z2World") -> None:
 
     apply_location_rules(world, "Three-Eye Rock Palace: 1F Block Mountain", lambda state: state.has("Handy Glove", world.player))
     apply_location_rules(world, "Three-Eye Rock Palace: 1F Enclosed Item", lambda state: state.has_all(("Handy Glove", "Jump Spell", "Up Thrust"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Middle Pit", lambda state: state.has("Three-Eye Rock Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Bottom Pit", lambda state: state.has("Three-Eye Rock Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Pit of Sadness", lambda state: state.has_all(("Magical Key", "Handy Glove"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Block Stairs", lambda state: state.has_all(("Magical Key", "Handy Glove"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Pedestal Item", lambda state: state.has_all(("Magical Key", "Handy Glove"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Return of Helmethead", lambda state: state.has_all(("Magical Key", "Handy Glove"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Helmethead III: The Revengening", lambda state: state.has_all(("Magical Key", "Handy Glove", "Fairy Spell"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Pit Hall", lambda state: state.has_all(("Magical Key", "Handy Glove", "Fairy Spell"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Basement Block Mountain", lambda state: state.has_all(("Magical Key", "Handy Glove", "Fairy Spell"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Barba Drop", lambda state: state.has_all(("Magical Key", "Handy Glove", "Fairy Spell"), world.player))
+    apply_location_rules(world, "Three-Eye Rock Palace: Statue", lambda state: state.has_all(("Magical Key", "Handy Glove", "Fairy Spell"), world.player))
+
+    apply_location_rules(world, "Great Palace - East Wing Item", lambda state: state.has_all(("Handy Glove", "Down Thrust"), world.player))
+    apply_location_rules(world, "Great Palace - Thunderbird Drop", lambda state: state.has_all(("Handy Glove", "Down Thrust"), world.player))
+    apply_location_rules(world, "Dark Link", lambda state: state.has_all(("Handy Glove", "Down Thrust"), world.player))
     
 
 def set_region_rules(world: "Z2World") -> None:
