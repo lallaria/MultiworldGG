@@ -1,3 +1,4 @@
+import base64
 import os
 import typing
 import threading
@@ -22,7 +23,7 @@ from worlds.generic.Rules import add_item_rule, forbid_items_for_player
 
 
 class Z2Settings(settings.Group):
-    class RomFile(settings.SNESRomPath):
+    class RomFile(settings.UserFilePath):
         """File name of the Zelda 2 US ROM"""
         description = "Zelda 2 ROM File"
         copy_to = "Zelda 2.nes"
@@ -123,8 +124,7 @@ class Z2World(World):
             "candle_required": self.options.candle_required.value
         }
 
-    def modify_multidata(self, multidata: dict):
-        import base64
+    def modify_multidata(self, multidata: dict) -> None:
         # wait for self.rom_name to be available.
         self.rom_name_available_event.wait()
         rom_name = getattr(self, "rom_name", None)

@@ -44,13 +44,25 @@ def patch_rom(world, rom, player: int):
 
         rom.write_bytes(0x00E8E, bytearray([shield_color])) #Shield palette
         rom.write_bytes(0x040B1, bytearray([tunic_color])) # Normal palette
-        rom.write_bytes(0x1C470, bytearray([tunic_color])) # Map palette
+        rom.write_bytes(0x17C1B, bytearray([tunic_color])) # File select
+        rom.write_bytes(0x1C466, bytearray([tunic_color])) # Loading
+        rom.write_bytes(0x1C47E, bytearray([tunic_color])) # Map palette
 
     if world.options.random_palace_graphics:
-        for i in range(6):
+        for i in range(7):
             base_color = world.random.randint(0x01, 0x0C)
             secondary_color = base_color + 0x20
             rom.write_bytes(0x10486 + (16 * i), bytearray([base_color, secondary_color]))
+            rom.write_bytes(0x13F10 + (16 * i), bytearray([base_color, secondary_color]))
+        rom.copy_bytes(0x29650, 0x20, 0x3AB00)
+        rom.copy_bytes(0x2B650, 0x20, 0x3AB20)
+        rom.copy_bytes(0x2D650, 0x20, 0x3AB40)
+        rom.copy_bytes(0x33650, 0x20, 0x3AB60)
+        rom.copy_bytes(0x35650, 0x20, 0x3AB80)
+        rom.copy_bytes(0x37650, 0x20, 0x3ABA0)
+        rom.copy_bytes(0x39650, 0x20, 0x3ABC0)
+
+    rom.write_bytes(0x17B10, bytearray([world.options.required_crystals.value]))
 
     if world.options.remove_early_boulder:
         rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
@@ -104,9 +116,6 @@ class Z2PatchExtensions(APPatchExtension):
         if client_version != version_check_str and version_check_str != "":
             raise Exception(f"Error! Patch generated on EarthBound APWorld version {version_check_str} doesn't match client version {client_version}! " +
                             f"Please use EarthBound APWorld version {version_check_str} for patching.")
-        elif version_check_str == "":
-            raise Exception(f"Error! Patch generated on old EarthBound APWorld version, doesn't match client version {client_version}! " +
-                            f"Please verify you are using the same APWorld as the generator.")
 
         return rom.get_bytes()
 
