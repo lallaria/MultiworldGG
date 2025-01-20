@@ -64,6 +64,9 @@ JMP InitPalaceScene
 #ORG $B526, $F536
 JMP $B52D
 
+#ORG $A162, $2172
+JMP Display2DigitLifeCount
+
 #ORG $9620, $5630
 LDA #$12
 
@@ -173,7 +176,11 @@ BCS CheckKeys
 SEC
 SBC #$40
 BNE Not1Up
+LDA $0700
+CMP #$FF
+BEQ DontOverflowLives
 INC $0700
+DontOverflowLives:
 LDA #$12
 JMP DoneGettingItem
 Not1Up:
@@ -433,3 +440,57 @@ SkipInitForceZero:
 LDA #$00
 STA $0561
 JMP $CAE6
+
+Display2DigitLifeCount:
+LDA $0700
+CMP #$0B
+BCS TenOrMoreLives
+JMP $A165
+TenOrMoreLives:
+TAY
+DEY
+TYA
+LDY #$00
+CheckLiveCounter:
+SEC
+SBC #$0A
+INY
+CMP #$0A
+BCC FinalLifeCount
+JMP CheckLiveCounter
+FinalLifeCount:
+CLC
+ADC #$D0
+STA $7804
+INY
+TYA
+PHA
+LDA $0700
+CMP #$65
+BCS GetHundredLives
+PLA
+JMP $A165
+GetHundredLives:
+PLA
+LDA $7804
+STA $7805
+TYA
+CLC
+SEC
+SBC #$0B
+ADC #$CF
+STA $7804
+LDA $0700
+SEC
+SBC #$65
+CMP #$64
+BCS Load200
+LDA #$02
+JMP $A165
+Load200:
+LDA $7804
+SEC
+SBC #$0A
+STA $7804
+LDA #$03
+JMP $A165
