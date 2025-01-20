@@ -6,7 +6,7 @@ import struct
 from worlds.Files import APProcedurePatch, APTokenMixin, APTokenTypes, APPatchExtension
 from typing import TYPE_CHECKING, Optional
 from logging import warning
-# from .local_data import local_locations
+from .game_data import world_version
 
 if TYPE_CHECKING:
     from . import Z2World
