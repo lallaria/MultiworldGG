@@ -78,7 +78,7 @@ class Z2World(World):
 
         self.locked_locations = []
         self.location_cache = []
-        self.extra_count = 1
+        self.extra_count = 0
         self.world_version = world_version
         self.filler_items = ["50 Point P-Bag", "100 Point P-Bag", "200 Point P-Bag", "500 Point P-Bag",
                              "1-Up Doll", "Blue Magic Jar", "Red Magic Jar"]

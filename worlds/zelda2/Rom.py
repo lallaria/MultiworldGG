@@ -10,8 +10,8 @@ from .game_data import world_version
 
 if TYPE_CHECKING:
     from . import Z2World
-valid_hashes = ["a864b2e5c141d2dec1c4cbed75a42a85",  # Cartridge
-                "6d71ccc8e2afda15d011348291afdf4f"]  # VC
+
+md5 = "764d36fa8a2450834da5e8194281035a"
 
 
 class LocalRom(object):
@@ -46,6 +46,12 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0x040B1, bytearray([tunic_color])) # Normal palette
         rom.write_bytes(0x1C470, bytearray([tunic_color])) # Map palette
 
+    if world.options.random_palace_graphics:
+        for i in range(6):
+            base_color = world.random.randint(0x01, 0x0C)
+            secondary_color = base_color + 0x20
+            rom.write_bytes(0x10486 + (16 * i), bytearray([base_color, secondary_color]))
+
     if world.options.remove_early_boulder:
         rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
 
@@ -60,7 +66,7 @@ def patch_rom(world, rom, player: int):
 
 
 class Z2ProcPatch(APProcedurePatch, APTokenMixin):
-    hash = valid_hashes
+    hash = md5
     game = "Zelda II: The Adventure of Link"
     patch_file_ending = ".apz2"
     result_file_ending = ".nes"

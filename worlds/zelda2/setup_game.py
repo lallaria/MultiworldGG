@@ -35,4 +35,4 @@ def add_keys(world):
 
         for i in range(2):
             world.multiworld.itempool.append(world.create_item("Three-Eye Rock Palace Key"))
-        world.extra_count = 24
+        world.extra_count += 24

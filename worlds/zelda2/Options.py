@@ -54,6 +54,10 @@ class StartingMagic(Range):
     range_end = 8
     default = 2
 
+class RandomPalaceGraphics(Toggle):
+    """Randomizes the color and tiles of each Palace except the Great Palace."""
+    display_name = "Random Palace Graphics"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
@@ -65,6 +69,7 @@ class Z2Options(PerGameCommonOptions):
     starting_attack: StartingAttack
     keysanity: Keysanity
     random_tunic_color: RandomTunicColor
+    random_palace_graphics: RandomPalaceGraphics
 
 
 z2_option_groups = [
@@ -89,6 +94,7 @@ z2_option_groups = [
     ]),
 
     OptionGroup("Cosmetic Settings", [
-        RandomTunicColor
+        RandomTunicColor,
+        RandomPalaceGraphics
     ]),
 ]
