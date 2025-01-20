@@ -2,6 +2,10 @@
 OptionsFlag_PalaceRespawn:
 #byte $00
 
+#org $BDA3, $17DB3
+OptionsFlag_StartingLives:
+#byte $03
+
 #org $968D, $169D
 JMP GetAPItem
 
@@ -69,6 +73,9 @@ JMP Display2DigitLifeCount
 
 #ORG $9620, $5630
 LDA #$12
+
+#ORG $C35A, $1C36A
+JMP LoadLives
 
 #ORG $9610, $9620
 LDA #$12
@@ -180,6 +187,10 @@ LDA $0700
 CMP #$FF
 BEQ DontOverflowLives
 INC $0700
+LDA $7A1E
+CMP #$FF
+BEQ DontOverflowLives
+INC $7A1E
 DontOverflowLives:
 LDA #$12
 JMP DoneGettingItem
@@ -312,6 +323,7 @@ INX
 INY
 BNE CheckItemSave
 ExitSaveInit:
+STA $0700
 LDX $7A20
 LDY $7A21
 LDA $19
@@ -341,6 +353,8 @@ INY
 INX
 BNE DelSave_Del
 DelSave_End:
+LDA OptionsFlag_StartingLives
+STA $7A30,X
 LDX $7A20
 LDY $7A21
 LDA $B23C,X
@@ -494,3 +508,9 @@ SBC #$0A
 STA $7804
 LDA #$03
 JMP $A165
+
+#org $AC40,$2C50
+LoadLives:
+LDA $7A1E
+STA $0700
+JMP $C35D

@@ -68,6 +68,15 @@ class PalaceRespawn(DefaultOnToggle):
        but not if you save and reset. If disabled, this only applies to the Great Palace."""
     display_name = "Respawn at Palaces"
 
+class StartingLives(Range):
+    """How many lives you will start with upon loading the game.
+       This value will be permanently increased by one every time you find a
+       1-Up Doll."""
+    display_name = "Starting Lives"
+    range_start = 0
+    range_end = 255
+    default = 3
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
@@ -79,6 +88,7 @@ class Z2Options(PerGameCommonOptions):
     starting_life: StartingLife
     starting_magic: StartingMagic
     starting_attack: StartingAttack
+    starting_lives: StartingLives
     keysanity: Keysanity
     random_tunic_color: RandomTunicColor
     random_palace_graphics: RandomPalaceGraphics
@@ -101,7 +111,8 @@ z2_option_groups = [
     ]),
 
     OptionGroup("Convenience Settings", [
-        PalaceRespawn
+        PalaceRespawn,
+        StartingLives
     ]),
 
     OptionGroup("Starting Stats", [
