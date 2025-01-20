@@ -6,6 +6,10 @@ OptionsFlag_PalaceRespawn:
 OptionsFlag_StartingLives:
 #byte $03
 
+#org $AC30, $2C40
+OptionsFlag_PreserveEXP:
+#byte $01
+
 #org $968D, $169D
 JMP GetAPItem
 
@@ -76,6 +80,9 @@ LDA #$12
 
 #ORG $C35A, $1C36A
 JMP LoadLives
+
+#ORG $CAC4, $1CAD4
+JMP SaveEXP
 
 #ORG $9610, $9620
 LDA #$12
@@ -361,6 +368,10 @@ LDA $B23C,X
 JMP $B8B6
 
 SaveAPData:
+LDA $0775
+STA $7A1A
+LDA $0776
+STA $7A1B
 STX $7A20
 STY $7A21
 LDX $0772
@@ -513,4 +524,21 @@ JMP $A165
 LoadLives:
 LDA $7A1E
 STA $0700
+LDA OptionsFlag_PreserveEXP
+BEQ NoLoadExp
+LDA $7A1B
+STA $0776
+LDA $7A1A
+STA $0775
+NoLoadExp:
 JMP $C35D
+
+SaveEXP:
+LDA OptionsFlag_PreserveEXP
+BEQ ClearExp
+LDA #$00
+JMP $CACA
+ClearExp:
+LDA #$00
+STA $0775
+JMP $CAC7

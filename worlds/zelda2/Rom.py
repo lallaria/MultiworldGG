@@ -72,6 +72,11 @@ def patch_rom(world, rom, player: int):
 
     rom.write_bytes(0x17DB3, bytearray([world.options.starting_lives.value]))
 
+    if world.options.keep_exp:
+        rom.write_bytes(0x21DA, bytearray([0x59, 0x07]))
+        rom.write_bytes(0x21DD, bytearray([0x59, 0x07]))
+        rom.write_bytes(0x2C40, bytearray([0x01]))
+
     if world.options.remove_early_boulder:
         rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
 
