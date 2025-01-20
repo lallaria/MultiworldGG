@@ -32,6 +32,11 @@ def set_location_rules(world: "Z2World") -> None:
         apply_location_rules(world, "New Kasuto Shrine", lambda state: state.has("Candle", world.player))
         apply_location_rules(world, "New Kasuto House", lambda state: state.has("Candle", world.player))
 
+    if world.options.cross_required:
+        apply_location_rules(world, "Sage of Kasuto", lambda state: state.has("Cross", world.player))
+        apply_location_rules(world, "Death Valley Entrance", lambda state: state.has("Cross", world.player))
+        apply_location_rules(world, "Death Valley Midway Item", lambda state: state.has("Cross", world.player))
+
     apply_location_rules(world, "Sage of Ruto", lambda state: state.has("Trophy", world.player))
 
     apply_location_rules(world, "Parapa Palace: Pedestal Item", lambda state: state.has("Parapa Palace Key", world.player, 3) or state.has("Magical Key", world.player))
@@ -100,7 +105,6 @@ def set_location_rules(world: "Z2World") -> None:
     apply_location_rules(world, "Palace on the Sea: Statue", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player, 5) or state.has("Magical Key", world.player)))
 
     apply_location_rules(world, "Southeastern Swamp", lambda state: state.has_any(can_get_high, world.player))
-    apply_location_rules(world, "Sage of Kasuto", lambda state: state.has("Cross", world.player))
     apply_location_rules(world, "Sage of New Kasuto", lambda state: state.has("Hammer", world.player))
     apply_location_rules(world, "New Kasuto Shrine", lambda state: state.has_all(("Hammer", "Spell Spell"), world.player))
     apply_location_rules(world, "New Kasuto House", lambda state: state.has("Hammer", world.player))
@@ -131,6 +135,9 @@ def set_region_rules(world: "Z2World") -> None:
         apply_region_rules(world, "Eastern Hyrule -> Northeastern Hyrule", lambda state: state.has_any(("Candle", "Boots"), world.player))
         apply_region_rules(world, "Southeastern Hyrule -> Great Palace", lambda state: state.has("Candle", world.player))
         apply_region_rules(world, "Western Coast -> Island Palace", lambda state: state.has("Candle", world.player))
+    
+    if world.options.cross_required:
+        apply_region_rules(world, "Western Coast -> Island Palace", lambda state: state.has("Cross", world.player))
 
     apply_region_rules(world, "Western Hyrule -> Death Mountain", lambda state: state.has("Bagu's Letter", world.player))
     apply_region_rules(world, "Western Hyrule -> Western Coast", lambda state: state.has("Hammer", world.player))

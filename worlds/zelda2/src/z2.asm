@@ -1,3 +1,7 @@
+#org $AB60, $2B70
+OptionsFlag_PalaceRespawn:
+#byte $00
+
 #org $968D, $169D
 JMP GetAPItem
 
@@ -51,6 +55,15 @@ JMP SetUpStabCheck
 #ORG $B4CB, $F4DB
 JMP SetDownStabCheck
 
+#org $CAD3, $1CAE3
+JMP TriggerPalaceRespawn
+
+#ORG $CAE1, $1CAF1
+JMP InitPalaceScene
+
+#ORG $B526, $F536
+JMP $B52D
+
 #ORG $9620, $5630
 LDA #$12
 
@@ -61,6 +74,9 @@ LDA #$12
 #byte $16, $16, $16, $16
 
 #org $0000, $1033B
+#byte $64, $75
+
+#org $0000, $126BF
 #byte $64, $75
 
 #org $A8B0, $28C0
@@ -88,6 +104,9 @@ SaveOffsets:
 SpellBytes:
 #byte $01, $02, $04, $08, $10, $20, $40, $80
 
+#org $AB70, $2B80
+PalaceScenes:
+#byte $00, $0E, $00, $0F, $23, $24
 
 #org $AA50, $2A60
 GetAPItem:
@@ -225,7 +244,7 @@ LDX $7A17
 LDA $7A11,X
 CLC
 ADC #$D0
-STA $7881,X
+STA $7881
 JMP $A159
 
 
@@ -375,5 +394,42 @@ JMP StorePalaceNum
 
 #org $BE60, $17E70
 GreatPalace:
+LDA #$07
+STA $7A17
 LDA $CD2A,Y
 JMP $CD75
+
+;If I want to make all scenes respawn, I can do that here too
+#org $AB80, $2B90
+TriggerPalaceRespawn:
+CMP #$0F
+BEQ SpawnAtGreatPalace
+LDA OptionsFlag_PalaceRespawn
+BEQ PalaceRespawnDisabled
+LDA $0707
+CMP #$03
+BCC PalaceRespawnDisabled
+SpawnAtGreatPalace:
+JMP $CADE
+PalaceRespawnDisabled:
+JMP $CAD7
+
+InitPalaceScene:
+LDA OptionsFlag_PalaceRespawn
+BEQ SkipInitForceZero
+LDA $0707
+CMP #$03
+BCC SkipInit
+LDA $7A17
+CMP #$07
+BEQ SkipInitForceZero ; Great Palace
+TAY
+LDA PalaceScenes,Y
+STA $0561
+SkipInit:
+LDA #$00
+JMP $CAE6
+SkipInitForceZero:
+LDA #$00
+STA $0561
+JMP $CAE6

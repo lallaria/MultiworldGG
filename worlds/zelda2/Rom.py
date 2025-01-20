@@ -64,6 +64,11 @@ def patch_rom(world, rom, player: int):
 
     rom.write_bytes(0x17B10, bytearray([world.options.required_crystals.value]))
 
+    rom.write_bytes(0x17AF3, bytearray([world.options.starting_attack.value]))
+    rom.write_bytes(0x17AF4, bytearray([world.options.starting_magic.value]))
+    rom.write_bytes(0x17AF5, bytearray([world.options.starting_life.value]))
+    rom.write_bytes(0x2B70, bytearray([world.options.palace_respawn.value]))
+
     if world.options.remove_early_boulder:
         rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
 

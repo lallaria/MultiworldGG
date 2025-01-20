@@ -25,6 +25,11 @@ class RequireCandle(DefaultOnToggle):
        in the dark."""
     display_name = "Candle Logic"
 
+class RequireCross(DefaultOnToggle):
+    """If enabled, you will be logically expected to have the Cross before going to Old Kasuto
+       or Death Valley."""
+    display_name = "Cross Logic"
+
 class Keysanity(Toggle):
     """Puts Keys into the item pool. Regardless of the setting, keys can only be used in their respective dungeon."""
     display_name = "Keysanity"
@@ -58,12 +63,19 @@ class RandomPalaceGraphics(Toggle):
     """Randomizes the color and tiles of each Palace except the Great Palace."""
     display_name = "Random Palace Graphics"
 
+class PalaceRespawn(DefaultOnToggle):
+    """If enabled, you will respawn at the current Palace entrance if you game over,
+       but not if you save and reset. If disabled, this only applies to the Great Palace."""
+    display_name = "Respawn at Palaces"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
     early_candle: EarlyCandle
     candle_required: RequireCandle
+    cross_required: RequireCross
     remove_early_boulder: RemoveEarlyBoulder
+    palace_respawn: PalaceRespawn
     starting_life: StartingLife
     starting_magic: StartingMagic
     starting_attack: StartingAttack
@@ -84,7 +96,12 @@ z2_option_groups = [
 
     OptionGroup("Logic Settings", [
         RequireCandle,
+        RequireCross,
         RemoveEarlyBoulder
+    ]),
+
+    OptionGroup("Convenience Settings", [
+        PalaceRespawn
     ]),
 
     OptionGroup("Starting Stats", [
