@@ -30,9 +30,16 @@ class RequireCross(DefaultOnToggle):
        or Death Valley."""
     display_name = "Cross Logic"
 
-class Keysanity(Toggle):
-    """Puts Keys into the item pool. Regardless of the setting, keys can only be used in their respective dungeon."""
-    display_name = "Keysanity"
+class KeyShuffle(Choice):
+    """Vanilla: All dungeon keys will be found at their vanilla locations.
+       Shuffled In Dungeon: Keys will be shuffled amongst their original dungeon checks.
+       Keysanity: Keys will be able to be found anywhere.
+       Regardless of the option chosen, Keys will only be usable in their respective dungeon."""
+    display_name = "Key Shuffle"
+    option_vanilla = 0
+    option_shuffled_in_dungeon = 1
+    option_keysanity = 2
+    default = 1
 
 class RemoveEarlyBoulder(Toggle):
     """Removes the boulder blocking the south part of the western continent."""
@@ -94,7 +101,7 @@ class Z2Options(PerGameCommonOptions):
     starting_attack: StartingAttack
     starting_lives: StartingLives
     keep_exp: KeepExp
-    keysanity: Keysanity
+    key_shuffle: KeyShuffle
     random_tunic_color: RandomTunicColor
     random_palace_graphics: RandomPalaceGraphics
 
@@ -106,7 +113,7 @@ z2_option_groups = [
 
     OptionGroup("Item Settings", [
         EarlyCandle,
-        Keysanity
+        KeyShuffle
     ]),
 
     OptionGroup("Logic Settings", [

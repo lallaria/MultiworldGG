@@ -92,15 +92,15 @@ def set_location_rules(world: "Z2World") -> None:
 
     apply_location_rules(world, "Palace on the Sea: Ledge Item", lambda state: state.has("Fairy Spell", world.player))
     apply_location_rules(world, "Palace on the Sea: Crumbling Bridge", lambda state: state.has("Fairy Spell", world.player))
-    apply_location_rules(world, "Palace on the Sea: Falling Blocks", lambda state: state.has_all(("Fairy Spell", "Handy Glove"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
-    apply_location_rules(world, "Palace on the Sea: Above Elevator", lambda state: state.has_all(("Fairy Spell", "Jump Spell"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
-    apply_location_rules(world, "Palace on the Sea: Block Alcove", lambda state: state.has_all(("Fairy Spell", "Handy Glove", "Up Thrust", "Down Thrust"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
-    apply_location_rules(world, "Palace on the Sea: Knuckle Alcove", lambda state: state.has_all(("Fairy Spell", "Jump Spell"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Palace on the Sea: Falling Blocks", lambda state: state.has_all(("Fairy Spell", "Handy Glove"), world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Above Elevator", lambda state: state.has_all(("Fairy Spell", "Jump Spell"), world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Block Alcove", lambda state: state.has_all(("Fairy Spell", "Handy Glove", "Up Thrust", "Down Thrust"), world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Knuckle Alcove", lambda state: state.has_all(("Fairy Spell", "Jump Spell"), world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
     apply_location_rules(world, "Palace on the Sea: Pedestal Item", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player, 5) or state.has("Magical Key", world.player)))
     apply_location_rules(world, "Palace on the Sea: Skeleton Key", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
     apply_location_rules(world, "Palace on the Sea: West Wing", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player, 4) or state.has("Magical Key", world.player)))
     apply_location_rules(world, "Palace on the Sea: Block Line", lambda state: state.has("Fairy Spell", world.player) and state.has_any(("Handy Glove", "Jump Spell"), world.player) and (state.has("Sea Palace Key", world.player, 4) or state.has("Magical Key", world.player)))
-    apply_location_rules(world, "Palace on the Sea: West Knuckle Alcove", lambda state: state.has_all(("Fairy Spell", "Handy Glove", "Up Thrust", "Down Thrust"), world.player)) and (state.has("Sea Palace Key", world.player, 4) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Palace on the Sea: West Knuckle Alcove", lambda state: state.has_all(("Fairy Spell", "Handy Glove", "Up Thrust", "Down Thrust"), world.player) and (state.has("Sea Palace Key", world.player, 4) or state.has("Magical Key", world.player)))
     apply_location_rules(world, "Palace on the Sea: Gooma Drop", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player, 5) or state.has("Magical Key", world.player)))
     apply_location_rules(world, "Palace on the Sea: Statue", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player, 5) or state.has("Magical Key", world.player)))
 
@@ -134,7 +134,7 @@ def set_region_rules(world: "Z2World") -> None:
         apply_region_rules(world, "Southeastern Hyrule -> Great Palace", lambda state: state.has("Candle", world.player))
         apply_region_rules(world, "Western Coast -> Island Palace", lambda state: state.has("Candle", world.player))
         # If candle isn't required, this has no rule anyway
-        if world.options.remove_early_boulder:
+        if not world.options.remove_early_boulder:
             apply_region_rules(world, "Northwestern Hyrule -> Western Hyrule", lambda state: state.has_any(("Candle", "Hammer"), world.player))
             apply_region_rules(world, "Western Hyrule -> Northwestern Hyrule", lambda state: state.has_any(("Candle", "Hammer"), world.player))
 
