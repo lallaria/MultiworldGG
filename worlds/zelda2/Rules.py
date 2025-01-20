@@ -74,9 +74,23 @@ def set_location_rules(world: "Z2World") -> None:
     apply_location_rules(world, "Maze Palace: West Hall of Fire", lambda state: state.has("Maze Palace Key", world.player, 4) or state.has("Magical Key", world.player))
     apply_location_rules(world, "Maze Palace: Pedestal Item", lambda state: state.has("Maze Palace Key", world.player, 5) or state.has("Magical Key", world.player))
     apply_location_rules(world, "Maze Palace: Block Mountain Basement", lambda state: state.has("Handy Glove", world.player))
-    apply_location_rules(world, "Maze Palace: Pillar Item", lambda state:(state.has("Maze Palace Key", world.player, 6) or state.has("Magical Key", world.player)) and state.has("Jump Spell", world.player))
-    apply_location_rules(world, "Maze Palace: Carock Drop", lambda state:(state.has("Maze Palace Key", world.player, 6) or state.has("Magical Key", world.player)) and state.has("Reflect Spell", world.player))
+    apply_location_rules(world, "Maze Palace: Pillar Item", lambda state: (state.has("Maze Palace Key", world.player, 6) or state.has("Magical Key", world.player)) and state.has("Jump Spell", world.player))
+    apply_location_rules(world, "Maze Palace: Carock Drop", lambda state: (state.has("Maze Palace Key", world.player, 6) or state.has("Magical Key", world.player)) and state.has("Reflect Spell", world.player))
     apply_location_rules(world, "Maze Palace: Statue", lambda state:(state.has("Maze Palace Key", world.player, 6) or state.has("Magical Key", world.player)) and state.has("Reflect Spell", world.player))
+
+    apply_location_rules(world, "Palace on the Sea: Ledge Item", lambda state: state.has("Fairy Spell", world.player))
+    apply_location_rules(world, "Palace on the Sea: Crumbling Bridge", lambda state: state.has("Fairy Spell", world.player))
+    apply_location_rules(world, "Palace on the Sea: Falling Blocks", lambda state: state.has_all(("Fairy Spell", "Handy Glove"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Palace on the Sea: Above Elevator", lambda state: state.has_all(("Fairy Spell", "Jump Spell"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Palace on the Sea: Block Alcove", lambda state: state.has_all(("Fairy Spell", "Handy Glove", "Up Thrust", "Down Thrust"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Palace on the Sea: Knuckle Alcove", lambda state: state.has_all(("Fairy Spell", "Jump Spell"), world.player)) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player))
+    apply_location_rules(world, "Palace on the Sea: Pedestal Item", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player, 5) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Skeleton Key", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: West Wing", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Block Line", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: West Knuckle Alcove", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Gooma Drop", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
+    apply_location_rules(world, "Palace on the Sea: Statue", lambda state: state.has("Fairy Spell", world.player) and (state.has("Sea Palace Key", world.player) or state.has("Magical Key", world.player)))
     
 
 def set_region_rules(world: "Z2World") -> None:
