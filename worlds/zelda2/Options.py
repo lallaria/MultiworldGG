@@ -77,6 +77,10 @@ class StartingLives(Range):
     range_end = 255
     default = 3
 
+class KeepExp(DefaultOnToggle):
+    """If enabled, you will retain your EXP after game over, and it will be saved to your file."""
+    display_name = "Keep EXP"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
@@ -89,6 +93,7 @@ class Z2Options(PerGameCommonOptions):
     starting_magic: StartingMagic
     starting_attack: StartingAttack
     starting_lives: StartingLives
+    keep_exp: KeepExp
     keysanity: Keysanity
     random_tunic_color: RandomTunicColor
     random_palace_graphics: RandomPalaceGraphics
@@ -112,7 +117,8 @@ z2_option_groups = [
 
     OptionGroup("Convenience Settings", [
         PalaceRespawn,
-        StartingLives
+        StartingLives,
+        KeepExp
     ]),
 
     OptionGroup("Starting Stats", [

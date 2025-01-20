@@ -130,11 +130,15 @@ def set_location_rules(world: "Z2World") -> None:
 
 def set_region_rules(world: "Z2World") -> None:
     if world.options.candle_required:
-        apply_region_rules(world, "Northwestern Hyrule -> Western Hyrule", lambda state: state.has_any(("Candle", "Hammer"), world.player))
-        apply_region_rules(world, "Western Hyrule -> Northwestern Hyrule", lambda state: state.has_any(("Candle", "Hammer"), world.player))
         apply_region_rules(world, "Eastern Hyrule -> Northeastern Hyrule", lambda state: state.has_any(("Candle", "Boots"), world.player))
         apply_region_rules(world, "Southeastern Hyrule -> Great Palace", lambda state: state.has("Candle", world.player))
         apply_region_rules(world, "Western Coast -> Island Palace", lambda state: state.has("Candle", world.player))
+        # If candle isn't required, this has no rule anyway
+        if world.options.remove_early_boulder:
+            apply_region_rules(world, "Northwestern Hyrule -> Western Hyrule", lambda state: state.has_any(("Candle", "Hammer"), world.player))
+            apply_region_rules(world, "Western Hyrule -> Northwestern Hyrule", lambda state: state.has_any(("Candle", "Hammer"), world.player))
+
+
     
     if world.options.cross_required:
         apply_region_rules(world, "Western Coast -> Island Palace", lambda state: state.has("Cross", world.player))
