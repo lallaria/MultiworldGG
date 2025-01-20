@@ -46,6 +46,11 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0x040B1, bytearray([tunic_color])) # Normal palette
         rom.write_bytes(0x1C470, bytearray([tunic_color])) # Map palette
 
+    if world.options.remove_early_boulder:
+        rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
+
+    #if world.options.better_boots:
+
     from Main import __version__
     rom.name = bytearray(f'Zelda2AP{__version__.replace(".", "")[0:3]}_{player}_{world.multiworld.seed:11}\0', "utf8")[:21]
     rom.name.extend([0] * (21 - len(rom.name)))
