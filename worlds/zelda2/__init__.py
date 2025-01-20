@@ -13,7 +13,7 @@ from .Items import get_item_names_per_category, item_table
 from .Locations import get_locations, static_locations
 from .Regions import init_areas
 from .Options import Z2Options, z2_option_groups
-from .setup_game import setup_gamevars, place_static_items
+from .setup_game import setup_gamevars, place_static_items, add_keys
 from .Client import Zelda2Client
 from .Rules import set_location_rules, set_region_rules
 from .Rom import patch_rom, get_base_rom_path, Z2ProcPatch
@@ -78,13 +78,14 @@ class Z2World(World):
 
         self.locked_locations = []
         self.location_cache = []
-        self.event_count = 1
+        self.extra_count = 1
         self.world_version = world_version
         self.filler_items = ["50 Point P-Bag", "100 Point P-Bag", "200 Point P-Bag", "500 Point P-Bag",
                              "1-Up Doll", "Blue Magic Jar", "Red Magic Jar"]
 
     def generate_early(self):  # Todo: place locked items in generate_early
         setup_gamevars(self)
+        add_keys(self)
 
     def create_regions(self) -> None:
         init_areas(self, get_locations(self))
@@ -92,7 +93,6 @@ class Z2World(World):
 
     def create_items(self) -> None:
         pool = self.get_item_pool()
-        print(pool)
         self.generate_filler(pool)
 
         self.multiworld.itempool += pool
@@ -120,7 +120,7 @@ class Z2World(World):
     def fill_slot_data(self) -> Dict[str, List[int]]:
         return {
             #"early_boulder": self.early_boulder,
-            "cande_required": self.options.candle_required
+            "candle_required": self.options.candle_required.value
         }
 
     def modify_multidata(self, multidata: dict):
@@ -147,7 +147,7 @@ class Z2World(World):
         return item
 
     def generate_filler(self, pool: List[Item]) -> None:
-        for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(pool)):
+        for _ in range(len(self.multiworld.get_unfilled_locations(self.player)) - len(pool) - self.extra_count):
             item = self.set_classifications(self.get_filler_item_name())
             pool.append(item)
 

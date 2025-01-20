@@ -80,7 +80,7 @@ class Z2ProcPatch(APProcedurePatch, APTokenMixin):
         self.write_token(APTokenTypes.COPY, destination, (amount, source))
 
 
-class EBPatchExtensions(APPatchExtension):
+class Z2PatchExtensions(APPatchExtension):
     game = "Zelda II: The Adventure of Link"
 
     @staticmethod
