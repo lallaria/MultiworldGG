@@ -38,12 +38,12 @@ def init_areas(world: "Z2World", locations: List[LocationData]) -> None:
 
     multiworld.regions += regions
 
-    multiworld.get_region("Menu", player).add_exits(["Western Hyrule"]), # Change to start location eventually
+    multiworld.get_region("Menu", player).add_exits(["Northwestern Hyrule"]), # Change to start location eventually
     multiworld.get_region("Northwestern Hyrule", player).add_exits(["Western Hyrule", "Parapa Palace"]),
     multiworld.get_region("Western Hyrule", player).add_exits(["Midoro Palace", "Death Mountain", "Western Coast", "Northwestern Hyrule"]),
     multiworld.get_region("Death Mountain", player).add_exits(["Western Hyrule", "Western Coast"]),
     multiworld.get_region("Western Coast", player).add_exits(["Island Palace", "Eastern Hyrule", "Death Mountain", "Western Hyrule"]),
-    multiworld.get_region("Eastern Hyrule", player).add_exits(["Western Hyrule", "Northeastern Hyrule", "Southeastern Hyrule", "Palace on the Sea"]),
+    multiworld.get_region("Eastern Hyrule", player).add_exits(["Western Coast", "Northeastern Hyrule", "Southeastern Hyrule", "Palace on the Sea"]),
     multiworld.get_region("Northeastern Hyrule", player).add_exits(["Eastern Hyrule", "Maze Palace"]),
     multiworld.get_region("Southeastern Hyrule", player).add_exits(["Eastern Hyrule", "Three-Eye Rock Palace", "Great Palace"]),
 
