@@ -120,7 +120,7 @@ def get_base_rom_bytes(file_name: str = "") -> bytes:
         basemd5 = hashlib.md5()
         basemd5.update(base_rom_bytes)
         rom_hash = basemd5.hexdigest
-        if basemd5.hexdigest() not in valid_hashes:
+        if basemd5.hexdigest() != md5:
             raise Exception('Supplied Base Rom does not match known MD5 for US(1.0) release. '
                             'Get the correct game and version, then dump it')
         get_base_rom_bytes.base_rom_bytes = base_rom_bytes
