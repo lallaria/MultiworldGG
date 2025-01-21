@@ -8,7 +8,6 @@ def setup_gamevars(world):
 
 def place_static_items(world):
     if world.options.key_shuffle == 0:
-        world.get_location("Parapa Palace: 1F West Hall").place_locked_item(world.create_item("Parapa Palace Key"))
         world.get_location("Parapa Palace: Stairwell").place_locked_item(world.create_item("Parapa Palace Key"))
         world.get_location("Parapa Palace: Guarded Item").place_locked_item(world.create_item("Parapa Palace Key"))
 
@@ -37,7 +36,10 @@ def place_static_items(world):
 
         world.get_location("Three-Eye Rock Palace: Return of Helmethead").place_locked_item(world.create_item("Three-Eye Rock Palace Key"))
         world.get_location("Three-Eye Rock Palace: Helmethead III: The Revengening").place_locked_item(world.create_item("Three-Eye Rock Palace Key"))
-        
+    
+    if world.options.key_shuffle < 2:
+        world.get_location("Parapa Palace: 1F West Hall").place_locked_item(world.create_item("Parapa Palace Key"))
+        world.extra_count += 23
 
     world.get_location("Parapa Palace: Statue").place_locked_item(world.create_item("Crystal Returned"))
     world.get_location("Midoro Palace: Statue").place_locked_item(world.create_item("Crystal Returned"))

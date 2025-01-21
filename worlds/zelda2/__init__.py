@@ -9,6 +9,7 @@ from typing import List, Set, Dict, TextIO
 from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
 from Options import OptionGroup
+from Fill import fill_restrictive
 import settings
 from .Items import get_item_names_per_category, item_table
 from .Locations import get_locations, static_locations
@@ -103,6 +104,144 @@ class Z2World(World):
         set_region_rules(self)
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Triforce of Courage", self.player)
 
+    def pre_fill(self) -> None:
+        if self.options.key_shuffle == 1:
+            state = self.multiworld.get_all_state(False)
+            parapa_palace_checks = [
+                self.multiworld.get_location("Parapa Palace: Horsehead Drop", self.player),
+                self.multiworld.get_location("Parapa Palace: Pedestal Item", self.player),
+                self.multiworld.get_location("Parapa Palace: Crumbling Bridge", self.player),
+                self.multiworld.get_location("Parapa Palace: Stairwell", self.player),
+                self.multiworld.get_location("Parapa Palace: Guarded Item", self.player),
+            ]
+
+            midoro_palace_checks = [
+                self.multiworld.get_location("Midoro Palace: B2F Hall", self.player),
+                self.multiworld.get_location("Midoro Palace: Lava Blocks Item", self.player),
+                self.multiworld.get_location("Midoro Palace: Floating Block Hall", self.player),
+                self.multiworld.get_location("Midoro Palace: Falling Blocks Item", self.player),
+                self.multiworld.get_location("Midoro Palace: Pedestal Item", self.player),
+                self.multiworld.get_location("Midoro Palace: Guarded Item", self.player),
+                self.multiworld.get_location("Midoro Palace: Crumbling Blocks", self.player),
+                self.multiworld.get_location("Midoro Palace: Helmethead Drop", self.player),
+            ]
+
+            island_palace_checks = [
+                self.multiworld.get_location("Island Palace: Buried Item Left", self.player),
+                self.multiworld.get_location("Island Palace: Buried Item Right", self.player),
+                self.multiworld.get_location("Island Palace: Outside", self.player),
+                self.multiworld.get_location("Island Palace: Block Mountain", self.player),
+                self.multiworld.get_location("Island Palace: Precarious Item", self.player),
+                self.multiworld.get_location("Island Palace: Pedestal Item", self.player),
+                self.multiworld.get_location("Island Palace: Pillar Item", self.player),
+                self.multiworld.get_location("Island Palace: Guarded by Iron Knuckles", self.player),
+                self.multiworld.get_location("Island Palace: Rebonack Drop", self.player),
+            ]
+
+            maze_palace_checks = [
+                self.multiworld.get_location("Maze Palace: Nook Item", self.player),
+                self.multiworld.get_location("Maze Palace: Sealed Item", self.player),
+                self.multiworld.get_location("Maze Palace: Block Mountain Left", self.player),
+                self.multiworld.get_location("Maze Palace: Block Mountain Right", self.player),
+                self.multiworld.get_location("Maze Palace: West Hall of Fire", self.player),
+                self.multiworld.get_location("Maze Palace: East Hall of Fire", self.player),
+                self.multiworld.get_location("Maze Palace: Basement Hall of Fire", self.player),
+                self.multiworld.get_location("Maze Palace: Block Mountain Basement", self.player),
+                self.multiworld.get_location("Maze Palace: Pillar Item", self.player),
+                self.multiworld.get_location("Maze Palace: Pedestal Item", self.player),
+                self.multiworld.get_location("Maze Palace: Carock Drop", self.player),
+            ]
+
+            sea_palace_checks = [
+                self.multiworld.get_location("Palace on the Sea: Ledge Item", self.player),
+                self.multiworld.get_location("Palace on the Sea: Crumbling Bridge", self.player),
+                self.multiworld.get_location("Palace on the Sea: Falling Blocks", self.player),
+                self.multiworld.get_location("Palace on the Sea: Above Elevator", self.player),
+                self.multiworld.get_location("Palace on the Sea: Block Alcove", self.player),
+                self.multiworld.get_location("Palace on the Sea: Knuckle Alcove", self.player),
+                self.multiworld.get_location("Palace on the Sea: Pedestal Item", self.player),
+                self.multiworld.get_location("Palace on the Sea: Skeleton Key", self.player),
+                self.multiworld.get_location("Palace on the Sea: West Wing", self.player),
+                self.multiworld.get_location("Palace on the Sea: Block Line", self.player),
+                self.multiworld.get_location("Palace on the Sea: West Knuckle Alcove", self.player),
+                self.multiworld.get_location("Palace on the Sea: Gooma Drop", self.player),
+            ]
+
+            rock_palace_checks = [
+                self.multiworld.get_location("Three-Eye Rock Palace: 1F Block Mountain", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: 1F Enclosed Item", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Middle Pit", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Bottom Pit", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Block Stairs", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Pit of Sadness", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Return of Helmethead", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Pedestal Item", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Helmethead III: The Revengening", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Basement Block Mountain", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Pit Hall", self.player),
+                self.multiworld.get_location("Three-Eye Rock Palace: Barba Drop", self.player),
+            ]
+
+            parapa_keys = [
+                self.create_item("Parapa Palace Key"),
+                self.create_item("Parapa Palace Key")
+            ]
+
+            midoro_keys = [
+                self.create_item("Midoro Palace Key"),
+                self.create_item("Midoro Palace Key"),
+                self.create_item("Midoro Palace Key"),
+                self.create_item("Midoro Palace Key")
+            ]
+
+            island_keys = [
+                self.create_item("Island Palace Key"),
+                self.create_item("Island Palace Key"),
+                self.create_item("Island Palace Key"),
+                self.create_item("Island Palace Key")
+            ]
+
+            maze_keys = [
+                self.create_item("Maze Palace Key"),
+                self.create_item("Maze Palace Key"),
+                self.create_item("Maze Palace Key"),
+                self.create_item("Maze Palace Key"),
+                self.create_item("Maze Palace Key"),
+                self.create_item("Maze Palace Key")
+            ]
+
+            sea_keys = [
+                self.create_item("Sea Palace Key"),
+                self.create_item("Sea Palace Key"),
+                self.create_item("Sea Palace Key"),
+                self.create_item("Sea Palace Key"),
+                self.create_item("Sea Palace Key")
+            ]
+
+            rock_keys = [
+                self.create_item("Three-Eye Rock Palace Key"),
+                self.create_item("Three-Eye Rock Palace Key")
+            ]
+
+            self.random.shuffle(parapa_palace_checks)
+            self.random.shuffle(midoro_palace_checks)
+            self.random.shuffle(island_palace_checks)
+            self.random.shuffle(maze_palace_checks)
+            self.random.shuffle(sea_palace_checks)
+            self.random.shuffle(rock_palace_checks)
+
+            dungeon_checks = [
+                (parapa_palace_checks, parapa_keys),
+                (midoro_palace_checks, midoro_keys),
+                (island_palace_checks, island_keys),
+                (maze_palace_checks, maze_keys),
+                (sea_palace_checks, sea_keys),
+                (rock_palace_checks, rock_keys)
+            ]
+            
+            for checks, keys in dungeon_checks:
+                fill_restrictive(self.multiworld, state, checks, keys, True, True)
+
     def generate_output(self, output_directory: str):
         try:
             patch = Z2ProcPatch()
@@ -144,6 +283,8 @@ class Z2World(World):
     def set_classifications(self, name: str) -> Item:
         data = item_table[name]
         item = Item(name, data.classification, data.code, self.player)
+        # if item.name == "Candle" and not self.options.candle_required:
+        # if item.name == "Cross" and not self.options.cross_required:
         return item
 
     def generate_filler(self, pool: List[Item]) -> None:
