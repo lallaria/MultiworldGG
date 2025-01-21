@@ -92,6 +92,10 @@ class FastPalace(Toggle):
     """If enabled, most of the Great Palace will be skipped."""
     display_name = "Fast Great Palace"
 
+class BetterBoots(Toggle):
+    """If enabled, the water near Saria Town will be changed so that it can be walked on using the Boots."""
+    display_name = "Better Boots"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
@@ -100,6 +104,7 @@ class Z2Options(PerGameCommonOptions):
     candle_required: RequireCandle
     cross_required: RequireCross
     remove_early_boulder: RemoveEarlyBoulder
+    better_boots: BetterBoots
     palace_respawn: PalaceRespawn
     fast_great_palace: FastPalace
     starting_life: StartingLife
@@ -124,7 +129,8 @@ z2_option_groups = [
     OptionGroup("Logic Settings", [
         RequireCandle,
         RequireCross,
-        RemoveEarlyBoulder
+        RemoveEarlyBoulder,
+        BetterBoots
     ]),
 
     OptionGroup("Convenience Settings", [

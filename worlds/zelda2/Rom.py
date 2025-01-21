@@ -90,7 +90,31 @@ def patch_rom(world, rom, player: int):
     if world.options.remove_early_boulder:
         rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
 
-    #if world.options.better_boots:
+    if world.options.better_boots:
+        rom.write_bytes(0x052F0, bytearray([0x7D]))
+        rom.write_bytes(0x052FE, bytearray([0xFD]))
+        rom.write_bytes(0x052F3, bytearray([0xFD]))
+        rom.write_bytes(0x052E4, bytearray([0x7D]))
+        rom.write_bytes(0x052F4, bytearray([0x0D]))
+        rom.write_bytes(0x052FF, bytearray([0xBD]))
+        rom.write_bytes(0x05309, bytearray([0x3D]))
+        rom.write_bytes(0x0530B, bytearray([0xFD]))
+        rom.write_bytes(0x05315, bytearray([0xBD]))
+        rom.write_bytes(0x0531E, bytearray([0xAD]))
+        rom.write_bytes(0x05327, bytearray([0xAD]))
+        rom.write_bytes(0x05330, bytearray([0x9D]))
+        rom.write_bytes(0x0533B, bytearray([0x8D]))
+        rom.write_bytes(0x052CB, bytearray([0x1D]))
+        rom.write_bytes(0x05277, bytearray([0x2D]))
+        rom.write_bytes(0x05281, bytearray([0x1D]))
+        rom.write_bytes(0x0528B, bytearray([0x1D]))
+        rom.write_bytes(0x05294, bytearray([0x2D]))
+        rom.write_bytes(0x0529E, bytearray([0x9D]))
+        rom.write_bytes(0x052A0, bytearray([0x0D]))
+        rom.write_bytes(0x052B5, bytearray([0x3D]))
+        rom.write_bytes(0x052AA, bytearray([0x3D]))
+        rom.write_bytes(0x052C0, bytearray([0x2D]))
+
 
     from Main import __version__
     rom.name = bytearray(f'Zelda2AP{__version__.replace(".", "")[0:3]}_{player}_{world.multiworld.seed:11}\0', "utf8")[:21]
