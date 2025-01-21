@@ -114,12 +114,14 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0x052B5, bytearray([0x3D]))
         rom.write_bytes(0x052AA, bytearray([0x3D]))
         rom.write_bytes(0x052C0, bytearray([0x2D]))
+    
+    rom.write_bytes(0x3A2B0, world.world_version.encode("ascii"))
 
 
     from Main import __version__
-    rom.name = bytearray(f'Zelda2AP{__version__.replace(".", "")[0:3]}_{player}_{world.multiworld.seed:11}\0', "utf8")[:21]
+    rom.name = bytearray(f'ZELDA2AP{__version__.replace(".", "")[0:3]}_{player}_{world.multiworld.seed:11}\0', "utf8")[:21]
     rom.name.extend([0] * (21 - len(rom.name)))
-    rom.write_bytes(0x00FFC0, rom.name)
+    rom.write_bytes(0x3A290, rom.name)
 
     rom.write_file("token_patch.bin", rom.get_token_binary())
 
@@ -156,13 +158,14 @@ class Z2PatchExtensions(APPatchExtension):
     @staticmethod
     def repoint_vanilla_tables(caller: APProcedurePatch, rom: LocalRom) -> bytes:
         rom = LocalRom(rom)
-        version_check = rom.read_bytes(0x3FF0A0, 16)
-        version_check = version_check.split(b'\x00', 1)[0]
+        version_check = rom.read_bytes(0x3A2B0, 16)
+        version_check = version_check.split(b'\xFF', 1)[0]
+        print(version_check)
         version_check_str = version_check.decode("ascii")
         client_version = world_version
         if client_version != version_check_str and version_check_str != "":
-            raise Exception(f"Error! Patch generated on EarthBound APWorld version {version_check_str} doesn't match client version {client_version}! " +
-                            f"Please use EarthBound APWorld version {version_check_str} for patching.")
+            raise Exception(f"Error! Patch generated on Zelda II APWorld version {version_check_str} doesn't match client version {client_version}! " +
+                            f"Please use Zelda II APWorld version {version_check_str} for patching.")
 
         return rom.get_bytes()
 

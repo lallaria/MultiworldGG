@@ -98,9 +98,9 @@ LDA #$12
 
 #org $A8B0, $28C0
 CollectibleOffset:
-#byte $00, $00, $02, $04, $06
+#byte $00, $00, $02, $04, $06, $04
 CollectibleBits:
-#byte $10, $04, $10, $40, $20
+#byte $10, $04, $10, $40, $20, $08
 EXPBytes:
 #byte $32, $64, $C8, $F4
 CollectibleSprites:
