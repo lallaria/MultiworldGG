@@ -44,16 +44,24 @@ def patch_rom(world, rom, player: int):
 
         rom.write_bytes(0x00E8E, bytearray([shield_color])) #Shield palette
         rom.write_bytes(0x040B1, bytearray([tunic_color])) # Normal palette
+        rom.write_bytes(0x040C1, bytearray([tunic_color])) # Normal palette
+        rom.write_bytes(0x040D1, bytearray([tunic_color])) # Normal palette
+        rom.write_bytes(0x040D1, bytearray([tunic_color])) # Normal palette
         rom.write_bytes(0x17C1B, bytearray([tunic_color])) # File select
         rom.write_bytes(0x1C466, bytearray([tunic_color])) # Loading
         rom.write_bytes(0x1C47E, bytearray([tunic_color])) # Map palette
 
     if world.options.random_palace_graphics:
         for i in range(7):
-            base_color = world.random.randint(0x01, 0x0C)
+            base_color = world.random.randint(0x00, 0x0C)
             secondary_color = base_color + 0x20
+            if base_color >= 0x10:
+                tertiary_color = base_color - 0x10
+            else:
+                tertiary_color = 0x0F
             rom.write_bytes(0x10486 + (16 * i), bytearray([base_color, secondary_color]))
-            rom.write_bytes(0x13F10 + (16 * i), bytearray([base_color, secondary_color]))
+            rom.write_bytes(0x13F16 + (16 * i), bytearray([base_color, secondary_color]))
+            rom.write_bytes(0x13F05 + (16 * i), bytearray([tertiary_color]))
         rom.copy_bytes(0x29650, 0x20, 0x3AB00)
         rom.copy_bytes(0x2B650, 0x20, 0x3AB20)
         rom.copy_bytes(0x2D650, 0x20, 0x3AB40)
@@ -63,14 +71,16 @@ def patch_rom(world, rom, player: int):
         rom.copy_bytes(0x39650, 0x20, 0x3ABC0)
 
     rom.write_bytes(0x17B10, bytearray([world.options.required_crystals.value]))
-
     rom.write_bytes(0x17AF3, bytearray([world.options.starting_attack.value]))
     rom.write_bytes(0x17AF4, bytearray([world.options.starting_magic.value]))
     rom.write_bytes(0x17AF5, bytearray([world.options.starting_life.value]))
     rom.write_bytes(0x2B70, bytearray([world.options.palace_respawn.value]))
     rom.write_bytes(0x2B70, bytearray([world.options.palace_respawn.value]))
-
     rom.write_bytes(0x17DB3, bytearray([world.options.starting_lives.value]))
+
+    if world.options.fast_great_palace:
+        rom.write_bytes(0x1472C, bytearray([0xAA]))
+        rom.write_bytes(0x147D5, bytearray([0x03]))
 
     if world.options.keep_exp:
         rom.write_bytes(0x21DA, bytearray([0x59, 0x07]))

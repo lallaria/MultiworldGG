@@ -88,20 +88,25 @@ class KeepExp(DefaultOnToggle):
     """If enabled, you will retain your EXP after game over, and it will be saved to your file."""
     display_name = "Keep EXP"
 
+class FastPalace(Toggle):
+    """If enabled, most of the Great Palace will be skipped."""
+    display_name = "Fast Great Palace"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
+    key_shuffle: KeyShuffle
     early_candle: EarlyCandle
     candle_required: RequireCandle
     cross_required: RequireCross
     remove_early_boulder: RemoveEarlyBoulder
     palace_respawn: PalaceRespawn
+    fast_great_palace: FastPalace
     starting_life: StartingLife
     starting_magic: StartingMagic
     starting_attack: StartingAttack
     starting_lives: StartingLives
     keep_exp: KeepExp
-    key_shuffle: KeyShuffle
     random_tunic_color: RandomTunicColor
     random_palace_graphics: RandomPalaceGraphics
 
@@ -124,6 +129,7 @@ z2_option_groups = [
 
     OptionGroup("Convenience Settings", [
         PalaceRespawn,
+        FastPalace,
         StartingLives,
         KeepExp
     ]),

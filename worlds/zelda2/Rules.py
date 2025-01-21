@@ -124,8 +124,8 @@ def set_location_rules(world: "Z2World") -> None:
     apply_location_rules(world, "Three-Eye Rock Palace: Statue", lambda state: state.has_all(("Magical Key", "Handy Glove", "Fairy Spell"), world.player))
 
     apply_location_rules(world, "Great Palace - East Wing Item", lambda state: state.has_all(("Handy Glove", "Down Thrust"), world.player))
-    apply_location_rules(world, "Great Palace - Thunderbird Drop", lambda state: state.has_all(("Handy Glove", "Down Thrust"), world.player))
-    apply_location_rules(world, "Dark Link", lambda state: state.has_all(("Handy Glove", "Down Thrust"), world.player))
+    apply_location_rules(world, "Great Palace - Thunderbird Drop", lambda state: state.has_all(("Handy Glove", "Down Thrust", "Thunder Spell"), world.player))
+    apply_location_rules(world, "Dark Link", lambda state: state.has_all(("Handy Glove", "Down Thrust", "Thunder Spell"), world.player))
     
 
 def set_region_rules(world: "Z2World") -> None:
