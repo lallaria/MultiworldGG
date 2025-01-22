@@ -111,9 +111,9 @@ class Zelda2Client(BizHawkClient):
         new_checks = []
 
         for loc_id, loc_pointer in self.location_map.items():
-            if loc_id not in ctx.locations_checked:
+            if loc_id not in ctx.locations_checked: #and location in ctx.locations?
                 location = loc_array[loc_pointer]
-                if location == 0:
+                if location[0] & ~location[1]:
                     new_checks.append(loc_id)
 
             if loc_id in ctx.checked_locations:
