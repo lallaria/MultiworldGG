@@ -54,13 +54,14 @@ class Zelda2Client(BizHawkClient):
     async def set_auth(self, ctx: "BizHawkClientContext") -> None:
         from CommonClient import logger
 
-        slot_name_length = await bizhawk.read(ctx.bizhawk_ctx, [(0x1A2B0, 1, "CHR ROM")])
+        slot_name_length = await bizhawk.read(ctx.bizhawk_ctx, [(0x1A2B0, 1, "CHR VROM")])
         slot_name_bytes = await bizhawk.read(
-            ctx.bizhawk_ctx, [(0x1A2B1, slot_name_length[0][0], "CHR ROM")]
+            ctx.bizhawk_ctx, [(0x1A2B1, slot_name_length[0][0], "CHR VROM")]
         )
         ctx.auth = bytes([byte for byte in slot_name_bytes[0] if byte != 0]).decode(
             "utf-8"
         )
+        
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if cmd != "Bounced":
@@ -97,7 +98,7 @@ class Zelda2Client(BizHawkClient):
         game_state = int.from_bytes(read_state[2], "little")
         special_checks = int.from_bytes(read_state[3], "little")
         goal_trigger = int.from_bytes(read_state[4], "little")
-        total_received_items = int.from_bytes(read_state[5], "big")
+        total_received_items = int.from_bytes(read_state[5], "little")
 
         # is_dead = int.from_bytes(read_state[4], "little")
 
@@ -118,21 +119,21 @@ class Zelda2Client(BizHawkClient):
             if loc_id in ctx.checked_locations:
                 loc_array[loc_pointer] = 0 
 
-        await bizhawk.write(ctx.bizhawk_ctx, [(0x0500, loc_array, "RAM")])
+        await bizhawk.write(ctx.bizhawk_ctx, [(0x0600, loc_array, "RAM")])
                 
         for new_check_id in new_checks:
             ctx.locations_checked.add(new_check_id)
             location = ctx.location_names[new_check_id]
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
 
+        print(total_received_items)
         if total_received_items < len(ctx.items_received):
             item = ctx.items_received[total_received_items]
             total_received_items += 1
 
-            if item.item in item_ids:
-                ram_item = item_ids[item.item]
-                await bizhawk.write(ctx.bizhawk_ctx, [(0x780, bytes([item.item]), "SRAM")])
-                await bizhawk.write(ctx.bizhawk_ctx, [(0x781, bytes([total_received_items]), "SRAM")])
+            print(item.item)
+            await bizhawk.write(ctx.bizhawk_ctx, [(0x7A10, bytes([item.item]), "SYSTEM BUS")])
+            await bizhawk.write(ctx.bizhawk_ctx, [(0x7A1C, bytes([total_received_items]), "SYSTEM BUS")])
 
         if not ctx.finished_game and goal_trigger == 0x04:
             await ctx.send_msgs([{
