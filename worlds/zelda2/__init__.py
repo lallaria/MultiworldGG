@@ -283,8 +283,12 @@ class Z2World(World):
     def set_classifications(self, name: str) -> Item:
         data = item_table[name]
         item = Item(name, data.classification, data.code, self.player)
-        # if item.name == "Candle" and not self.options.candle_required:
-        # if item.name == "Cross" and not self.options.cross_required:
+        if item.name == "Candle" and not self.options.candle_required:
+            item.classification = ItemClassification.useful
+
+        if item.name == "Cross" and not self.options.cross_required:
+            item.classification = ItemClassification.useful
+
         return item
 
     def generate_filler(self, pool: List[Item]) -> None:
