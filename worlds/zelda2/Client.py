@@ -13,7 +13,7 @@ import time
 if TYPE_CHECKING:
     from worlds._bizhawk.context import BizHawkClientContext
 
-EXPECTED_ROM_NAME = "ZELDA2AP"
+EXPECTED_ROM_NAME = "LEGEND OF ZELDA2"
 
 
 class Zelda2Client(BizHawkClient):
@@ -30,8 +30,9 @@ class Zelda2Client(BizHawkClient):
         try:
             # Check ROM name/patch version
             rom_name_bytes = (
-                await bizhawk.read(ctx.bizhawk_ctx, [(0x7030, 11, "PRG ROM")])
+                await bizhawk.read(ctx.bizhawk_ctx, [(0x1FFE0, 16, "PRG ROM")])
             )[0]
+
             rom_name = bytes([byte for byte in rom_name_bytes if byte != 0]).decode(
                 "ascii"
             )
@@ -53,9 +54,9 @@ class Zelda2Client(BizHawkClient):
     async def set_auth(self, ctx: "BizHawkClientContext") -> None:
         from CommonClient import logger
 
-        slot_name_length = await bizhawk.read(ctx.bizhawk_ctx, [(0x7040, 1, "PRG ROM")])
+        slot_name_length = await bizhawk.read(ctx.bizhawk_ctx, [(0x1A2B0, 1, "CHR ROM")])
         slot_name_bytes = await bizhawk.read(
-            ctx.bizhawk_ctx, [(0x7041, slot_name_length[0][0], "PRG ROM")]
+            ctx.bizhawk_ctx, [(0x1A2B1, slot_name_length[0][0], "CHR ROM")]
         )
         ctx.auth = bytes([byte for byte in slot_name_bytes[0] if byte != 0]).decode(
             "utf-8"
@@ -84,37 +85,26 @@ class Zelda2Client(BizHawkClient):
         if ctx.server is None or ctx.server.socket.closed or ctx.slot_data is None:
             return
 
-        from .Rom import item_ids
+        read_state = await bizhawk.read(ctx.bizhawk_ctx, [(0x7A10, 1, "SYSTEM BUS"), # Item that the server has sent
+                                                            (0x0600, 0xDF, "RAM"), # Table of flags for locations
+                                                            (0x0736, 1, "RAM"), # Game state
+                                                            (0x7A18, 2, "SYSTEM BUS"), #NPC checks, stored separately
+                                                            (0x076C, 1, "RAM"), # State I read for the goal
+                                                            (0x7A1C, 2, "SYSTEM BUS")]) # total number of items gotten from the server
 
-        #if goal_flag[0] != 0x00:
-            #await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-            #ctx.finished_game = True
-
-        read_state = await bizhawk.read(ctx.bizhawk_ctx, [(0x229, 1, "RAM"),
-                                                            (0x0500, 0xFF, "RAM"),
-                                                            (0x0780, 1, "RAM"),
-                                                            (0x7051, 1, "PRG ROM"),
-                                                            (0x022C, 1, "RAM"),
-                                                            (0x022D, 1, "RAM"),
-                                                            (0x0783, 1, "RAM"),
-                                                            (0x0781, 1, "RAM")])
-
-        demo_mode = int.from_bytes(read_state[0], "little")
+        currently_obtained_item = int.from_bytes(read_state[0], "little")
         loc_array = bytearray(read_state[1])
-        item_pause = int.from_bytes(read_state[2], "little")
-        hidden_checks = int.from_bytes(read_state[3], "little")
-        is_dead = int.from_bytes(read_state[4], "little")
-        is_paused = int.from_bytes(read_state[5], "little")
-        goal_trigger = int.from_bytes(read_state[6], "little")
-        recv_count = int.from_bytes(read_state[7], "big")
+        game_state = int.from_bytes(read_state[2], "little")
+        special_checks = int.from_bytes(read_state[3], "little")
+        goal_trigger = int.from_bytes(read_state[4], "little")
+        total_received_items = int.from_bytes(read_state[5], "big")
 
-        if hidden_checks == 0x01:
-            self.location_map.update(hidden_table)
+        # is_dead = int.from_bytes(read_state[4], "little")
 
-        if demo_mode != 0x00:
+        if currently_obtained_item > 0x00:
             return
 
-        if item_pause != 0x00:
+        if game_state != 0x0B: # Are we in side-scroll mode?
             return
 
         new_checks = []
@@ -135,16 +125,16 @@ class Zelda2Client(BizHawkClient):
             location = ctx.location_names[new_check_id]
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
 
-        if recv_count < len(ctx.items_received):
-            item = ctx.items_received[recv_count]
-            recv_count += 1
+        if total_received_items < len(ctx.items_received):
+            item = ctx.items_received[total_received_items]
+            total_received_items += 1
 
             if item.item in item_ids:
                 ram_item = item_ids[item.item]
-                await bizhawk.write(ctx.bizhawk_ctx, [(0x780, bytes([ram_item]), "RAM")])
-                await bizhawk.write(ctx.bizhawk_ctx, [(0x781, bytes([recv_count]), "RAM")])
+                await bizhawk.write(ctx.bizhawk_ctx, [(0x780, bytes([item.item]), "SRAM")])
+                await bizhawk.write(ctx.bizhawk_ctx, [(0x781, bytes([total_received_items]), "SRAM")])
 
-        if not ctx.finished_game and goal_trigger == 0x01:
+        if not ctx.finished_game and goal_trigger == 0x04:
             await ctx.send_msgs([{
                 "cmd": "StatusUpdate",
                 "status": ClientStatus.CLIENT_GOAL

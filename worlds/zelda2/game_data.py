@@ -5,3 +5,6 @@ location_table = {
 
 }
 
+item_ids = {
+    
+}

@@ -11,7 +11,7 @@ from .game_data import world_version
 if TYPE_CHECKING:
     from . import Z2World
 
-md5 = "764d36fa8a2450834da5e8194281035a"
+md5 = "88c0493fb1146834836c0ff4f3e06e45"
 
 
 class LocalRom(object):
@@ -62,13 +62,24 @@ def patch_rom(world, rom, player: int):
             rom.write_bytes(0x10486 + (16 * i), bytearray([base_color, secondary_color]))
             rom.write_bytes(0x13F16 + (16 * i), bytearray([base_color, secondary_color]))
             rom.write_bytes(0x13F05 + (16 * i), bytearray([tertiary_color]))
-        rom.copy_bytes(0x29650, 0x20, 0x3AB00)
-        rom.copy_bytes(0x2B650, 0x20, 0x3AB20)
-        rom.copy_bytes(0x2D650, 0x20, 0x3AB40)
-        rom.copy_bytes(0x33650, 0x20, 0x3AB60)
-        rom.copy_bytes(0x35650, 0x20, 0x3AB80)
-        rom.copy_bytes(0x37650, 0x20, 0x3ABA0)
-        rom.copy_bytes(0x39650, 0x20, 0x3ABC0)
+            rom.write_bytes(0x13F19 + (16 * i), bytearray([base_color]))
+
+        palace_tilesets = [0, 1, 2, 5, 6, 7, 8]
+        base_tilesets = palace_tilesets.copy()
+        world.random.shuffle(palace_tilesets)
+        for i in range(9):
+            rom.copy_bytes(0x29650 + (i * 0x2000), 0xC0, 0x3AB00 + (i * 0xC0)) # Bricks
+
+        for i in range(9):
+            rom.copy_bytes(0x298F0 + (i * 0x2000), 0x40, 0x3B1C0 + (i * 0x40)) # Pillar head
+
+        for i in range(9):
+            rom.copy_bytes(0x29A60 + (i * 0x2000), 0x20, 0x3B400 + (i * 0x20)) # Pillar Body
+
+        for index, tileset in enumerate(base_tilesets):
+            rom.copy_bytes(0x3AB00 + (palace_tilesets[index] * 0xC0), 0xC0, 0x29650 + (tileset * 0x2000))
+            rom.copy_bytes(0x3B1C0 + (palace_tilesets[index] * 0x40), 0x40, 0x298F0 + (tileset * 0x2000))
+            rom.copy_bytes(0x3B400 + (palace_tilesets[index] * 0x20), 0x20, 0x29A60 + (tileset * 0x2000))
 
     rom.write_bytes(0x17B10, bytearray([world.options.required_crystals.value]))
     rom.write_bytes(0x17AF3, bytearray([world.options.starting_attack.value]))
@@ -123,6 +134,12 @@ def patch_rom(world, rom, player: int):
     rom.name.extend([0] * (21 - len(rom.name)))
     rom.write_bytes(0x3A290, rom.name)
 
+    player_name_length = 0
+    for i, byte in enumerate(world.multiworld.player_name[player].encode("utf-8")):
+        rom.write_byte(0x3A2C1 + i, byte)
+        player_name_length += 1
+    rom.write_byte(0x3A2C0, player_name_length)
+
     rom.write_file("token_patch.bin", rom.get_token_binary())
 
 
@@ -160,7 +177,6 @@ class Z2PatchExtensions(APPatchExtension):
         rom = LocalRom(rom)
         version_check = rom.read_bytes(0x3A2B0, 16)
         version_check = version_check.split(b'\xFF', 1)[0]
-        print(version_check)
         version_check_str = version_check.decode("ascii")
         client_version = world_version
         if client_version != version_check_str and version_check_str != "":
@@ -169,20 +185,33 @@ class Z2PatchExtensions(APPatchExtension):
 
         return rom.get_bytes()
 
+header = b"\x4E\x45\x53\x1A\x08\x10\x12\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+
+
+def read_headerless_nes_rom(rom: bytes) -> bytes:
+    if rom[:4] == b"NES\x1A":
+        return rom[16:]
+    else:
+        return rom
+
 
 def get_base_rom_bytes(file_name: str = "") -> bytes:
     base_rom_bytes = getattr(get_base_rom_bytes, "base_rom_bytes", None)
     if not base_rom_bytes:
         file_name = get_base_rom_path(file_name)
-        base_rom_bytes = bytes(Utils.read_snes_rom(open(file_name, "rb")))
+        base_rom_bytes = read_headerless_nes_rom(bytes(open(file_name, "rb").read()))
 
         basemd5 = hashlib.md5()
         basemd5.update(base_rom_bytes)
         rom_hash = basemd5.hexdigest
         if basemd5.hexdigest() != md5:
+            print(basemd5.hexdigest())
             raise Exception('Supplied Base Rom does not match known MD5 for US(1.0) release. '
                             'Get the correct game and version, then dump it')
-        get_base_rom_bytes.base_rom_bytes = base_rom_bytes
+        headered_rom = bytearray(base_rom_bytes)
+        headered_rom[0:0] = header
+        setattr(get_base_rom_bytes, "base_rom_bytes", bytes(headered_rom))
+        return bytes(headered_rom)
     return base_rom_bytes
 
 
