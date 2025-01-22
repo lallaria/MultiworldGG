@@ -86,12 +86,12 @@ class Zelda2Client(BizHawkClient):
         if ctx.server is None or ctx.server.socket.closed or ctx.slot_data is None:
             return
 
-        read_state = await bizhawk.read(ctx.bizhawk_ctx, [(0x7A10, 1, "SYSTEM BUS"), # Item that the server has sent
+        read_state = await bizhawk.read(ctx.bizhawk_ctx, [(0x1A10, 1, "WRAM"), # Item that the server has sent
                                                             (0x0600, 0xDF, "RAM"), # Table of flags for locations
                                                             (0x0736, 1, "RAM"), # Game state
-                                                            (0x7A18, 2, "SYSTEM BUS"), #NPC checks, stored separately
+                                                            (0x1A18, 2, "WRAM"), #NPC checks, stored separately
                                                             (0x076C, 1, "RAM"), # State I read for the goal
-                                                            (0x7A1C, 2, "SYSTEM BUS")]) # total number of items gotten from the server
+                                                            (0x1A1C, 2, "WRAM")]) # total number of items gotten from the server
 
         currently_obtained_item = int.from_bytes(read_state[0], "little")
         loc_array = bytearray(read_state[1])
@@ -110,30 +110,30 @@ class Zelda2Client(BizHawkClient):
 
         new_checks = []
 
-        for loc_id, loc_pointer in self.location_map.items():
-            if loc_id not in ctx.locations_checked: #and location in ctx.locations?
-                location = loc_array[loc_pointer]
-                if location[0] & ~location[1]:
-                    new_checks.append(loc_id)
-
-            if loc_id in ctx.checked_locations:
-                loc_array[loc_pointer] = 0 
-
+        # This needs a significant rework. 
+        # Format should be [offset, bit] where bit is which bit gets unflipped when the location is checked...
+        for location_id in self.location_map:
+            if location_id not in ctx.locations_checked: 
+                location = loc_array[self.location_map[location_id][0]]
+                bitmask = 1 << (self.location_map[location_id][1])
+                if not location & bitmask:
+                    new_checks.append(location_id)
+                
+           # if location_id in ctx.checked_locations:
+               # loc_array[loc_pointer] = 0  Collect behavior. Do later
         await bizhawk.write(ctx.bizhawk_ctx, [(0x0600, loc_array, "RAM")])
                 
         for new_check_id in new_checks:
             ctx.locations_checked.add(new_check_id)
-            location = ctx.location_names[new_check_id]
+            location = ctx.location_names.lookup_in_slot(new_check_id)
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
 
-        print(total_received_items)
         if total_received_items < len(ctx.items_received):
             item = ctx.items_received[total_received_items]
             total_received_items += 1
 
-            print(item.item)
-            await bizhawk.write(ctx.bizhawk_ctx, [(0x7A10, bytes([item.item]), "SYSTEM BUS")])
-            await bizhawk.write(ctx.bizhawk_ctx, [(0x7A1C, bytes([total_received_items]), "SYSTEM BUS")])
+            await bizhawk.write(ctx.bizhawk_ctx, [(0x1A10, bytes([item.item]), "WRAM")])
+            await bizhawk.write(ctx.bizhawk_ctx, [(0x1A1C, bytes([total_received_items]), "WRAM")])
 
         if not ctx.finished_game and goal_trigger == 0x04:
             await ctx.send_msgs([{
