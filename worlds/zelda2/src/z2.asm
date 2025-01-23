@@ -84,6 +84,9 @@ JMP LoadLives
 #ORG $CAC4, $1CAD4
 JMP SaveEXP
 
+#ORG $C9E2, $1C9F2
+JMP SpawnAPItem
+
 #ORG $9610, $9620
 LDA #$12
 
@@ -200,7 +203,7 @@ CMP #$FF
 BEQ DontOverflowLives
 INC $0700
 LDA $7A1E
-CMP #$C8
+CMP #$FF
 BCS DontOverflowLives
 INC $7A1E
 DontOverflowLives:
@@ -563,3 +566,21 @@ LessThanSevenMagic:
 PLA
 MagicFlagDone:
 JMP MagicMagicDone
+
+#ORG $A960, $6970
+SpawnAPItem:
+LDY $072F
+LDA ($D4), Y
+CMP #$08
+BCC BecomeDoll
+CMP #$0E
+BEQ BecomeDoll
+CMP #$0F
+BEQ BecomeDoll
+CMP #$12
+BEQ BecomeDoll
+LDA #$08
+JMP $C9E7
+BecomeDoll:
+LDA #$12
+JMP $C9E7
