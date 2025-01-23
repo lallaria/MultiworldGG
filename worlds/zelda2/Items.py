@@ -28,7 +28,7 @@ item_table: Dict[str, ItemData] = {
     "Spell Spell": ItemData("Spells", 0x16, ItemClassification.progression),
     "Thunder Spell": ItemData("Spells", 0x17, ItemClassification.progression),
 
-    "Magic Container": ItemData("Containers", 0x20, ItemClassification.useful, 4),
+    "Magic Container": ItemData("Containers", 0x20, ItemClassification.progression, 4),
     "Heart Container": ItemData("Containers", 0x21, ItemClassification.useful, 4),
 
     "Down Thrust": ItemData("Attacks", 0x30, ItemClassification.progression),

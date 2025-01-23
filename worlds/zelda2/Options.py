@@ -81,7 +81,7 @@ class StartingLives(Range):
        1-Up Doll."""
     display_name = "Starting Lives"
     range_start = 0
-    range_end = 200
+    range_end = 255
     default = 3
 
 class KeepExp(DefaultOnToggle):

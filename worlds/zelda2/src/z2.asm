@@ -76,7 +76,7 @@ JMP $B52D
 JMP Display2DigitLifeCount
 
 #ORG $9620, $5630
-LDA #$12
+LDA #$08
 
 #ORG $C35A, $1C36A
 JMP LoadLives
@@ -86,6 +86,9 @@ JMP SaveEXP
 
 #ORG $9610, $9620
 LDA #$12
+
+; #ORG $E7D7, $1E7E7
+; CMP #$FF
 
 #org $C9EA, $1C9FA
 #byte $16, $16, $16, $16
@@ -104,7 +107,7 @@ CollectibleBits:
 EXPBytes:
 #byte $32, $64, $C8, $F4
 CollectibleSprites:
-#byte $16, $16, $13, $14, $15
+#byte $16, $16, $14, $13, $15
 
 #org $A770, $12780
 PalaceNumbers:
@@ -159,6 +162,8 @@ CMP #$30
 BCS CheckCollectible
 SEC
 SBC #$20
+JMP ContainerCheck
+MagicMagicDone:
 TAX
 LDA $0783,X
 CMP #$08
@@ -195,8 +200,8 @@ CMP #$FF
 BEQ DontOverflowLives
 INC $0700
 LDA $7A1E
-CMP #$FF
-BEQ DontOverflowLives
+CMP #$C8
+BCS DontOverflowLives
 INC $7A1E
 DontOverflowLives:
 LDA #$12
@@ -542,3 +547,19 @@ ClearExp:
 LDA #$00
 STA $0775
 JMP $CAC7
+
+
+#ORG $B070, $3080
+ContainerCheck:
+BNE MagicFlagDone
+PHA
+LDA $0783
+CMP #$07
+BCC LessThanSevenMagic
+LDA #$08
+ORA $079D
+STA $079D
+LessThanSevenMagic:
+PLA
+MagicFlagDone:
+JMP MagicMagicDone

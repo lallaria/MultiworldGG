@@ -107,7 +107,7 @@ def set_location_rules(world: "Z2World") -> None:
     apply_location_rules(world, "Southeastern Swamp", lambda state: state.has_any(can_get_high, world.player))
     apply_location_rules(world, "Sage of New Kasuto", lambda state: state.has("Hammer", world.player))
     apply_location_rules(world, "New Kasuto Shrine", lambda state: state.has_all(("Hammer", "Spell Spell"), world.player))
-    apply_location_rules(world, "New Kasuto House", lambda state: state.has("Hammer", world.player))
+    apply_location_rules(world, "New Kasuto House", lambda state: state.has("Hammer", world.player) and state.has("Magic Container", world.player, 3))
 
     apply_location_rules(world, "Three-Eye Rock Palace: 1F Block Mountain", lambda state: state.has("Handy Glove", world.player))
     apply_location_rules(world, "Three-Eye Rock Palace: 1F Enclosed Item", lambda state: state.has_all(("Handy Glove", "Jump Spell", "Up Thrust"), world.player))
