@@ -63,6 +63,9 @@ JMP SetUpStabCheck
 #ORG $B4CB, $F4DB
 JMP SetDownStabCheck
 
+#ORG $B554, $F564
+JMP SetBaguNote
+
 #org $CAD3, $1CAE3
 JMP TriggerPalaceRespawn
 
@@ -423,6 +426,19 @@ ORA #$10
 STA $7A19
 JMP $B5C7
 
+SetBaguNote:
+CPX #$00
+BNE NotBagu
+CPY #$03
+BNE NotBagu
+LDA #$08
+ORA $7A19
+STA $7A19
+JMP $B5C7
+NotBagu:
+LDA $0797,Y
+JMP $B557
+
 #org $FF60, $1FF70
 StorePalacePerBank:
 LDA $0769
@@ -584,3 +600,5 @@ JMP $C9E7
 BecomeDoll:
 LDA #$12
 JMP $C9E7
+
+
