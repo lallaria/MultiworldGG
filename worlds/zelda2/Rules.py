@@ -58,7 +58,7 @@ def set_location_rules(world: "Z2World") -> None:
     apply_location_rules(world, "Midoro Palace: Statue", lambda state: (state.has("Midoro Palace Key", world.player, 3) or state.has("Magical Key", world.player)) and state.has("Handy Glove", world.player))
 
     apply_location_rules(world, "Death Mountain Boulder Pit", lambda state: state.has("Hammer", world.player))
-    apply_location_rules(world, "Death Mountain Platforms", lambda state: state.has_any(can_get_high, world.player))
+    apply_location_rules(world, "Death Mountain Platforms", lambda state: state.has("Jump Spell", world.player))
 
     apply_location_rules(world, "Sage of Mido", lambda state: state.has("Water of Life", world.player))
     apply_location_rules(world, "Mido Swordsman", lambda state: state.has_any(can_get_high, world.player))
