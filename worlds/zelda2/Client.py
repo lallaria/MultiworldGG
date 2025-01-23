@@ -102,10 +102,7 @@ class Zelda2Client(BizHawkClient):
 
         # is_dead = int.from_bytes(read_state[4], "little")
 
-        if currently_obtained_item > 0x00:
-            return
-
-        if game_state != 0x0B: # Are we in side-scroll mode?
+        if game_state not in [0x0B, 0x05]: # Are we in side-scroll mode?
             return
 
         new_checks = []
@@ -128,7 +125,7 @@ class Zelda2Client(BizHawkClient):
             location = ctx.location_names.lookup_in_slot(new_check_id)
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": [new_check_id]}])
 
-        if total_received_items < len(ctx.items_received):
+        if total_received_items < len(ctx.items_received) and currently_obtained_item == 0x00:
             item = ctx.items_received[total_received_items]
             total_received_items += 1
 
