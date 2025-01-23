@@ -39,7 +39,16 @@ def place_static_items(world):
     
     if world.options.key_shuffle < 2:
         world.get_location("Parapa Palace: 1F West Hall").place_locked_item(world.create_item("Parapa Palace Key"))
-        world.extra_count += 23
+
+    if not world.options.spell_locations:
+        world.get_location("Sage of Rauru").place_locked_item(world.create_item("Shield Spell"))
+        world.get_location("Sage of Ruto").place_locked_item(world.create_item("Jump Spell"))
+        world.get_location("Sage of Saria").place_locked_item(world.create_item("Life Spell"))
+        world.get_location("Sage of Mido").place_locked_item(world.create_item("Fairy Spell"))
+        world.get_location("Sage of Nabooru").place_locked_item(world.create_item("Fire Spell"))
+        world.get_location("Sage of Darunia").place_locked_item(world.create_item("Reflect Spell"))
+        world.get_location("Sage of Kasuto").place_locked_item(world.create_item("Thunder Spell"))
+        world.get_location("Sage of New Kasuto").place_locked_item(world.create_item("Spell Spell"))
 
     world.get_location("Parapa Palace: Statue").place_locked_item(world.create_item("Crystal Returned"))
     world.get_location("Midoro Palace: Statue").place_locked_item(world.create_item("Crystal Returned"))
@@ -69,4 +78,15 @@ def add_keys(world):
 
         for i in range(2):
             world.multiworld.itempool.append(world.create_item("Three-Eye Rock Palace Key"))
-        world.extra_count += 24
+
+    if world.options.spell_locations == 2:
+        world.multiworld.itempool+= [
+        world.create_item("Shield Spell"),
+        world.create_item("Jump Spell"),
+        world.create_item("Life Spell"),
+        world.create_item("Fairy Spell"),
+        world.create_item("Fire Spell"),
+        world.create_item("Reflect Spell"),
+        world.create_item("Spell Spell"),
+        world.create_item("Thunder Spell"),
+        ]

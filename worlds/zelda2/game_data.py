@@ -1,5 +1,9 @@
 world_version = "1.0"
 
+spell_text = {
+    "Sage of Rauru": 0xE553
+}
+
 
 location_table = {
     0x01: [0x10, 3],

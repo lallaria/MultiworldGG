@@ -41,6 +41,16 @@ class KeyShuffle(Choice):
     option_keysanity = 2
     default = 1
 
+class SpellLocations(Choice):
+    """Vanilla: Spells will be found at their normal locations.
+       Shuffled: Spells will be randomized amongst all of the Wise Men.
+       Anywhere: Spells can be found anywhere."""
+    display_name = "Spell Locations"
+    option_vanilla = 0
+    option_shuffled = 1
+    option_anywhere = 2
+    default = 2
+
 class RemoveEarlyBoulder(Toggle):
     """Removes the boulder blocking the south part of the western continent."""
     display_name = "Remove Early Boulder"
@@ -100,6 +110,7 @@ class BetterBoots(Toggle):
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
     key_shuffle: KeyShuffle
+    spell_locations: SpellLocations
     early_candle: EarlyCandle
     candle_required: RequireCandle
     cross_required: RequireCross
@@ -123,7 +134,8 @@ z2_option_groups = [
 
     OptionGroup("Item Settings", [
         EarlyCandle,
-        KeyShuffle
+        KeyShuffle,
+        SpellLocations
     ]),
 
     OptionGroup("Logic Settings", [

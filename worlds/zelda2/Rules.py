@@ -146,7 +146,7 @@ def set_region_rules(world: "Z2World") -> None:
         apply_region_rules(world, "Western Hyrule -> Death Mountain", lambda state: state.has_any(("Bagu's Letter", "Fairy Spell"), world.player))
 
     if world.options.cross_required:
-        apply_region_rules(world, "Western Coast -> Island Palace", lambda state: state.has("Cross", world.player))
+        apply_region_rules(world, "Southeastern Hyrule -> Great Palace", lambda state: state.has("Cross", world.player))
 
     apply_region_rules(world, "Western Hyrule -> Western Coast", lambda state: state.has("Hammer", world.player))
 

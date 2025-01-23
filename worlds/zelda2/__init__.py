@@ -80,7 +80,7 @@ class Z2World(World):
 
         self.locked_locations = []
         self.location_cache = []
-        self.extra_count = 0
+        self.extra_count = 39
         self.world_version = world_version
         self.filler_items = ["50 Point P-Bag", "100 Point P-Bag", "200 Point P-Bag", "500 Point P-Bag",
                              "1-Up Doll", "Blue Magic Jar", "Red Magic Jar"]
@@ -91,7 +91,6 @@ class Z2World(World):
 
     def create_regions(self) -> None:
         init_areas(self, get_locations(self))
-        place_static_items(self)
 
     def create_items(self) -> None:
         pool = self.get_item_pool()
@@ -105,6 +104,32 @@ class Z2World(World):
         self.multiworld.completion_condition[self.player] = lambda state: state.has("Triforce of Courage", self.player)
 
     def pre_fill(self) -> None:
+        place_static_items(self)
+        if self.options.spell_locations == 1:
+            spells = [
+                self.create_item("Shield Spell"),
+                self.create_item("Jump Spell"),
+                self.create_item("Life Spell"),
+                self.create_item("Fairy Spell"),
+                self.create_item("Fire Spell"),
+                self.create_item("Reflect Spell"),
+                self.create_item("Thunder Spell"),
+                self.create_item("Spell Spell")
+            ]
+
+            old_men = [
+                self.multiworld.get_location("Sage of Rauru", self.player),
+                self.multiworld.get_location("Sage of Ruto", self.player),
+                self.multiworld.get_location("Sage of Saria", self.player),
+                self.multiworld.get_location("Sage of Mido", self.player),
+                self.multiworld.get_location("Sage of Nabooru", self.player),
+                self.multiworld.get_location("Sage of Darunia", self.player),
+                self.multiworld.get_location("Sage of Kasuto", self.player),
+                self.multiworld.get_location("Sage of New Kasuto", self.player),
+            ]
+
+            fill_restrictive(self.multiworld, self.multiworld.get_all_state(False), old_men, spells, True, True)
+
         if self.options.key_shuffle == 1:
             state = self.multiworld.get_all_state(False)
             parapa_palace_checks = [
