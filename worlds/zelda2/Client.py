@@ -2,7 +2,7 @@ import logging
 import struct
 import time
 from struct import pack
-from .game_data import location_table
+from .game_data import location_table, special_locations
 from typing import TYPE_CHECKING, Dict, Set
 
 from NetUtils import ClientStatus
@@ -20,6 +20,7 @@ class Zelda2Client(BizHawkClient):
     game = "Zelda II: The Adventure of Link"
     system = ("NES")
     location_map = location_table
+    npc_locations = special_locations
 
     def __init__(self) -> None:
         super().__init__()
@@ -96,7 +97,7 @@ class Zelda2Client(BizHawkClient):
         currently_obtained_item = int.from_bytes(read_state[0], "little")
         loc_array = bytearray(read_state[1])
         game_state = int.from_bytes(read_state[2], "little")
-        special_checks = int.from_bytes(read_state[3], "little")
+        npc_check_field = bytearray(read_state[3])
         goal_trigger = int.from_bytes(read_state[4], "little")
         total_received_items = int.from_bytes(read_state[5], "little")
 
@@ -114,6 +115,13 @@ class Zelda2Client(BizHawkClient):
                 location = loc_array[self.location_map[location_id][0]]
                 bitmask = 1 << (self.location_map[location_id][1])
                 if not location & bitmask:
+                    new_checks.append(location_id)
+
+        for location_id in self.npc_locations:
+            if location_id not in ctx.locations_checked:
+                location = npc_check_field[self.npc_locations[location_id][0]]
+                bitmask = 1 << (self.npc_locations[location_id][1])
+                if location & bitmask:
                     new_checks.append(location_id)
                 
            # if location_id in ctx.checked_locations:

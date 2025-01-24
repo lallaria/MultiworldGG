@@ -50,6 +50,11 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0x17C1B, bytearray([tunic_color])) # File select
         rom.write_bytes(0x1C466, bytearray([tunic_color])) # Loading
         rom.write_bytes(0x1C47E, bytearray([tunic_color])) # Map palette
+        rom.write_bytes(0xC0B1, bytearray([tunic_color]))
+        rom.write_bytes(0xC0C1, bytearray([tunic_color]))
+        rom.write_bytes(0xC0D1, bytearray([tunic_color]))
+        rom.write_bytes(0xC0E1, bytearray([tunic_color]))
+        rom.write_bytes(0xC0F1, bytearray([tunic_color]))
 
     if world.options.random_palace_graphics:
         for i in range(7):

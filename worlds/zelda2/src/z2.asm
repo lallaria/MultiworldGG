@@ -88,7 +88,7 @@ JMP LoadLives
 JMP SaveEXP
 
 #ORG $C9E2, $1C9F2
-JMP SpawnAPItem
+JMP $7A90
 
 #ORG $9610, $9620
 LDA #$12
@@ -350,6 +350,8 @@ JMP $B911
 InitSavedData:
 STX $7A20
 STY $7A21
+JMP PUTDACODEINSRAM
+CODEMOVEDONE:
 LDX $19
 LDA #$00
 DelSave_Check:
@@ -402,6 +404,23 @@ LDX $7A20
 LDY $7A21
 JMP $B9CA
 
+GreatPalace:
+LDA #$07
+STA $7A17
+LDA $CD2A,Y
+JMP $CD75
+PUTDACODEINSRAM:
+LDX #$00
+GetMoreCode:
+LDA $BB20,X
+STA $7A90,X
+CPX #$1F
+BEQ DoneMovingCode
+INX
+JMP GetMoreCode
+DoneMovingCode:
+JMP CODEMOVEDONE
+
 #org $B840, $0F850
 SetSpellChecks:
 LDA SpellBytes,Y
@@ -447,13 +466,6 @@ BEQ StorePalaceNormal
 JMP GreatPalace
 StorePalaceNormal:
 JMP StorePalaceNum
-
-#org $BE60, $17E70
-GreatPalace:
-LDA #$07
-STA $7A17
-LDA $CD2A,Y
-JMP $CD75
 
 ;If I want to make all scenes respawn, I can do that here too
 #org $AB80, $2B90
@@ -583,7 +595,7 @@ PLA
 MagicFlagDone:
 JMP MagicMagicDone
 
-#ORG $A960, $6970
+#ORG $BB20, $17B30
 SpawnAPItem:
 LDY $072F
 LDA ($D4), Y
@@ -600,5 +612,3 @@ JMP $C9E7
 BecomeDoll:
 LDA #$12
 JMP $C9E7
-
-
