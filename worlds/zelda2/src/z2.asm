@@ -87,6 +87,9 @@ JMP LoadLives
 #ORG $CAC4, $1CAD4
 JMP SaveEXP
 
+#ORG $A1C9, $21D9
+JMP StoreEXP
+
 #ORG $C9E2, $1C9F2
 JMP $7A90
 
@@ -412,7 +415,7 @@ JMP $CD75
 PUTDACODEINSRAM:
 LDX #$00
 GetMoreCode:
-LDA $BB20,X
+LDA $BF00,X
 STA $7A90,X
 CPX #$1F
 BEQ DoneMovingCode
@@ -579,6 +582,16 @@ LDA #$00
 STA $0775
 JMP $CAC7
 
+StoreEXP:
+LDA OptionsFlag_PreserveEXP
+BEQ ClearEXP2
+LDA $775
+STA $7A1A
+LDA $776
+STA $7A1B
+ClearEXP2:
+JMP $A1CF
+
 
 #ORG $B070, $3080
 ContainerCheck:
@@ -595,7 +608,7 @@ PLA
 MagicFlagDone:
 JMP MagicMagicDone
 
-#ORG $BB20, $17B30
+#ORG $BF00, $17F10
 SpawnAPItem:
 LDY $072F
 LDA ($D4), Y
@@ -606,7 +619,7 @@ BEQ BecomeDoll
 CMP #$0F
 BEQ BecomeDoll
 CMP #$12
-BEQ BecomeDoll
+BCS BecomeDoll
 LDA #$08
 JMP $C9E7
 BecomeDoll:

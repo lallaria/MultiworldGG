@@ -99,8 +99,6 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0x147D5, bytearray([0x03]))
 
     if world.options.keep_exp:
-        rom.write_bytes(0x21DA, bytearray([0x59, 0x07]))
-        rom.write_bytes(0x21DD, bytearray([0x59, 0x07]))
         rom.write_bytes(0x2C40, bytearray([0x01]))
 
     if world.options.remove_early_boulder:
