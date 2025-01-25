@@ -55,9 +55,17 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0xC0D1, bytearray([tunic_color]))
         rom.write_bytes(0xC0E1, bytearray([tunic_color]))
         rom.write_bytes(0xC0F1, bytearray([tunic_color]))
+        rom.write_bytes(0x100B1, bytearray([tunic_color]))
+        rom.write_bytes(0x100C1, bytearray([tunic_color]))
+        rom.write_bytes(0x100D1, bytearray([tunic_color]))
+        rom.write_bytes(0x100E1, bytearray([tunic_color]))
+        rom.write_bytes(0x80B1, bytearray([tunic_color]))
+        rom.write_bytes(0x80C1, bytearray([tunic_color]))
+        rom.write_bytes(0x80D1, bytearray([tunic_color]))
+        rom.write_bytes(0x80E1, bytearray([tunic_color]))
 
     if world.options.random_palace_graphics:
-        for i in range(7):
+        for i in range(6):
             base_color = world.random.randint(0x00, 0x0C)
             secondary_color = base_color + 0x20
             if base_color >= 0x10:
