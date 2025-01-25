@@ -110,7 +110,7 @@ def patch_rom(world, rom, player: int):
         rom.write_bytes(0x2C40, bytearray([0x01]))
 
     if world.options.remove_early_boulder:
-        rom.write_bytes(0x05189, bytearray([0x09])) #Remove the boulder blocking the west coast
+        rom.write_bytes(0x05199, bytearray([0x09])) #Remove the boulder blocking the west coast
 
     if world.options.better_boots:
         rom.write_bytes(0x052F0, bytearray([0x7D]))

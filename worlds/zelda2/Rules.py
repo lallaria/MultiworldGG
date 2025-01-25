@@ -73,7 +73,7 @@ def set_location_rules(world: "Z2World") -> None:
     apply_location_rules(world, "Island Palace: Rebonack Drop", lambda state:(state.has("Island Palace Key", world.player, 4) or state.has("Magical Key", world.player)) and state.has_all(("Handy Glove", "Down Thrust"), world.player))
     apply_location_rules(world, "Island Palace: Statue", lambda state:(state.has("Island Palace Key", world.player, 4) or state.has("Magical Key", world.player)) and state.has_all(("Handy Glove", "Down Thrust"), world.player))
 
-    apply_location_rules(world, "Eastern Peninsula Secret", lambda state: state.has_any(("Boots", "Hammer"), world.player) and state.has_any(can_get_high, world.player))
+    apply_location_rules(world, "Eastern Peninsula Secret", lambda state: state.has_any(("Boots", "Hammer"), world.player) and state.has("Jump Spell", world.player))
     apply_location_rules(world, "Ocean Item", lambda state: state.has("Boots", world.player))
 
     apply_location_rules(world, "Darunia Swordsman", lambda state: state.has("Jump Spell", world.player))

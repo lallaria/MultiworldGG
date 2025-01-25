@@ -137,7 +137,7 @@ SpellBytes:
 PalaceScenes:
 #byte $00, $0E, $00, $0F, $23, $24
 
-#org $AA50, $2A60
+#org $AA44, $2A54
 GetAPItem:
 LDA $0C9C
 BNE ItemHandler_Return
@@ -147,6 +147,10 @@ ItemHandler_Return:
 LDA $0776
 JMP $9690
 HandleItem:
+PHA
+LDA #$00
+STA $0743
+PLA
 CMP #$10
 BCS CheckMagic
 SEC
@@ -593,7 +597,7 @@ ClearEXP2:
 JMP $A1CF
 
 
-#ORG $B070, $3080
+#ORG $B080, $3090
 ContainerCheck:
 BNE MagicFlagDone
 PHA
