@@ -19,6 +19,7 @@ EXPECTED_ROM_NAME = "LEGEND OF ZELDA2"
 class Zelda2Client(BizHawkClient):
     game = "Zelda II: The Adventure of Link"
     system = ("NES")
+    patch_suffix = ".apz2"
     location_map = location_table
     npc_locations = special_locations
 

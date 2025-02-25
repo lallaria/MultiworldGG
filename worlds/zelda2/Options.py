@@ -54,6 +54,7 @@ class SpellLocations(Choice):
 class EncounterRate(Choice):
     """The rate at which random enemy encounters spawn. """
     display_name = "Encounter Rate"
+    # option_none = 0 This needs work
     option_quarter = 0
     option_half = 1
     option_1x = 2
