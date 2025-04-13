@@ -294,7 +294,9 @@ def get_rules_lookup(world, player: int):
                                                  and state.has("Fishing Rod", player)  # Water Breathing
                                                  and state.can_reach_region("The Nether", player)  # Regeneration, Fire Resistance, gold nuggets
                                                  and state.can_reach_region("Village", player)  # Night Vision, Invisibility
-                                                 and state.can_reach_location("Bring Home the Beacon", player)),
+                                                 and state.can_reach_location("Bring Home the Beacon", player)
+                                                 and can_adventure(world, state, player)
+                                                 and has_explorer_maps(world, state, player)),  # Wind Charged
             # Resistance
             "Bring Home the Beacon": lambda state: can_kill_wither(world, state, player)
                                                    and has_diamond_pickaxe(world, state, player)
