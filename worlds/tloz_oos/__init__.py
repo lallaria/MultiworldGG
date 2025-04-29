@@ -2,7 +2,7 @@ import os
 import logging
 from typing import List, Union, ClassVar, Any, Optional, Tuple
 import settings
-from BaseClasses import Tutorial, Region, Location, LocationProgressType, Item, ItemClassification
+from BaseClasses import Tutorial, Region, Location, LocationProgressType, Item, ItemClassification, MultiWorld
 from Fill import fill_restrictive, FillError
 from Options import Accessibility, OptionError
 from worlds.AutoWorld import WebWorld, World
@@ -31,12 +31,16 @@ class OracleOfSeasonsSettings(settings.Group):
         The name of the sprite file to use (from "data/sprites/oos_ooa/").
         Putting "link" as a value uses the default game sprite.
         Putting "random" as a value randomly picks a sprite from your sprites directory for each generated ROM.
+        If you want some weighted result, you can arrange the options like in your option yaml.
         """
 
     class OoSCharacterPalette(str):
         """
         The color palette used for character sprite throughout the game.
         Valid values are: "green", "red", "blue", "orange", and "random"
+        If you want some weighted result, you can arrange the options like in your option yaml.
+        If you want a color weight to only apply to a specific sprite, you can write color|sprite: weight.
+        For example, red|link: 1 would add red in the possible palettes with a weight of 1 only if link is the selected sprite
         """
 
     class OoSRevealDiggingSpots(str):
@@ -131,6 +135,9 @@ class OracleOfSeasonsWorld(World):
     def generate_early(self):
         if self.interpret_slot_data(None):
             return
+
+        if self.options.randomize_ai:
+            self.options.golden_beasts_requirement.value = 0
 
         conflicting_rings = self.options.required_rings.value & self.options.excluded_rings.value
         if len(conflicting_rings) > 0:
@@ -572,6 +579,10 @@ class OracleOfSeasonsWorld(World):
         if self.options.logic_difficulty in difficulties and not self.options.randomize_lost_woods_item_sequence and name == "Phonograph":
             classification = ItemClassification.filler
 
+        # UT doesn't let us know if the item is progression or not, so it is always progression
+        if hasattr(self.multiworld, "generation_is_fake"):
+            classification = ItemClassification.progression
+
         return Item(name, classification, ap_code, self.player)
 
     def build_item_pool_dict(self):
@@ -885,6 +896,84 @@ class OracleOfSeasonsWorld(World):
             return self.random_rings_pool.pop()
         return self.get_filler_item_name()  # It might loop but not enough to really matter
 
+    @classmethod
+    def stage_fill_hook(cls, multiworld: MultiWorld, progitempool, usefulitempool, filleritempool, fill_locations):
+        players = multiworld.get_game_players(OracleOfSeasonsWorld.game)
+        if not players:
+            return
+        weight_dict = {}
+        for player in players:
+            possible_items = [["Flippers", "Bush Breaker"], ["Power Bracelet"]]
+            bush_breakers = [["Progressive Sword"], ["Biggoron's Sword"]]
+            world: OracleOfSeasonsWorld = multiworld.worlds[player]
+            portal_connections = {world.portal_connections[key]: key for key in world.portal_connections}
+            portal_connections.update(world.portal_connections)
+
+            bad_portals = {"spool swamp portal", "horon village portal", "eyeglass lake portal", "temple remains lower portal", "d8 entrance portal"}
+            if portal_connections["temple remains lower portal"] in bad_portals:
+                bad_portals.add("temple remains upper portal")
+
+            if multiworld.random.random() < 0.5:
+                if portal_connections["horon village portal"] not in bad_portals:
+                    possible_items.append(["Progressive Boomerang", "Progressive Boomerang"])
+                else:
+                    possible_items.append(["Progressive Boomerang", "Progressive Boomerang"])
+
+            if portal_connections["eyeglass lake portal"] not in bad_portals and world.options.default_seed == "pegasus":
+                items = ["Progressive Feather", "Progressive Feather", "Seed Satchel", "Bush Breaker"]
+                if world.default_seasons["EYEGLASS_LAKE"] != SEASON_WINTER:
+                    items.append("Rod of Seasons (Winter)")
+                possible_items.append(items)
+
+            if world.options.default_seed == "ember":
+                possible_items.append(["Seed Satchel"])
+                possible_items.append(["Progressive Slingshot"])
+
+            if world.options.animal_companion == "dimitri":
+                possible_items.append(["Dimitri's Flute"])
+
+            if not world.options.remove_d0_alt_entrance:
+                if world.dungeon_entrances["d2 entrance"] == "enter d0" \
+                        or world.dungeon_entrances["d5 entrance"] == "enter d0" \
+                        or world.dungeon_entrances["d7 entrance"] == "enter d0" \
+                        or (world.dungeon_entrances["d8 entrance"] == "enter d0" and portal_connections["d8 entrance portal"] not in bad_portals):
+                    possible_items.append(["Bush Breaker"])
+
+            if world.options.logic_difficulty > 0:
+                if multiworld.random.random() < 0.5:
+                    bush_breakers.append(["Bombs (10)", "Bombs (10)"])
+                if world.options.default_seed == "gale":
+                    bush_breakers.append(["Progressive Slingshot"])
+
+            items = multiworld.random.choice(possible_items)
+            if "Bush Breaker" in items:
+                items.remove("Bush Breaker")
+                items.extend(multiworld.random.choice(bush_breakers))
+            for item in multiworld.precollected_items[player]:
+                if item.name in items:
+                    items.remove(item.name)
+            weight_dict[player] = items
+
+        indexes = {player: [] for player in players}
+        for i in range(len(progitempool)):
+            item = progitempool[i]
+            player = item.player
+            if player not in players:
+                continue
+
+            if len(indexes[player]) < len(weight_dict[player]):
+                indexes[player].append(i)
+            if item.name not in weight_dict[player]:
+                continue
+            other_index = indexes[player].pop()
+            progitempool[i], progitempool[other_index] = progitempool[other_index], progitempool[i]
+            weight_dict[player].remove(item.name)
+            for player in players:
+                if len(weight_dict[player]) > 0:
+                    break
+            else:
+                break
+
     def generate_output(self, output_directory: str):
         patch = oos_create_ap_procedure_patch(self)
         rom_path = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}"
@@ -893,7 +982,7 @@ class OracleOfSeasonsWorld(World):
 
     def fill_slot_data(self) -> dict:
         # Put options that are useful to the tracker inside slot data
-        options = ["goal", "death_link",
+        options = ["goal", "death_link", "move_link",
                    # Logic-impacting options
                    "logic_difficulty", "normalize_horon_village_season",
                    "shuffle_dungeons", "shuffle_portals",
@@ -980,8 +1069,6 @@ class OracleOfSeasonsWorld(World):
         self.options.shuffle_golden_ore_spots = OracleOfSeasonsGoldenOreSpotsShuffle.from_any(slot_data["shuffle_golden_ore_spots"])
         self.options.normalize_horon_village_season = OracleOfSeasonsHoronSeason.from_any(slot_data["normalize_horon_village_season"])
         self.options.deterministic_gasha_locations = OracleOfSeasonsGashaLocations.from_any(slot_data["deterministic_gasha_locations"])
-
-        self.remaining_progressive_gasha_seeds = 999999  # All gasha seeds need to be progression
 
         self.default_seasons = slot_data["default_seasons"]
         self.lost_woods_item_sequence = []  # Unknown
