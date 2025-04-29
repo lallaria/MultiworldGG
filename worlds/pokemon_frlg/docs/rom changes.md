@@ -22,7 +22,7 @@
     * Guaranteed Catch: Sets whether Poké Balls are guaranteeed to catch Pokémon or not
     * Encounter Rates: Sets whether encounter rates are vanilla or normalized
     * Blind Trainers: Sets whether trainers will approach the player when you enter their line of sight
-    * Item Messages: Sets what type of items will display messages in game when received from MultiworldGG
+    * Item Messages: Sets what type of items will display messages in game when received from Archipelago
 * Pressing the START button while you are hovering over a move in battle will open up a textbox with more details about the move including power, accuracy, priority, etc. Pressing any of START, A, or B will close this textbox
 * Damage type icons have been added to moves in the move summary screen and in battle
 * Cycling and running is allowed in most maps

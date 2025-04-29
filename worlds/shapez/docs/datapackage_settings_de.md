@@ -24,7 +24,7 @@ ordnungsgemäß befolgt wird. Anwendung auf eigene Gefahr.
 
 ## Warum muss ich das ganze selbst machen?
 
-Alle Spiele in MultiworldGG müssen eine Liste aller möglichen Locations **unabhängig der Spieler-Optionen** 
+Alle Spiele in Archipelago müssen eine Liste aller möglichen Locations **unabhängig der Spieler-Optionen** 
 bereitstellen. Diese Listen aller in einer Multiworld inkludierten Spiele werden in den Daten der Multiworld gespeichert
 und an alle verbundenen Clients gesendet. Je mehr mögliche Locations, desto größer das Datenpaket. Und mit ~80000 
 möglichen Locations hatte shapez zu einem gewissen Zeitpunkt ein (von der Datenmenge her) größeres Datenpaket als alle 

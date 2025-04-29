@@ -11,7 +11,7 @@ on your local machine.
 This tutorial is for advanced users and can result in the software not working properly, if not read carefully. 
 Proceed at your own risk.
 
-1. Go to `<MWGG installation>/lib/worlds`.
+1. Go to `<AP installation>/lib/worlds`.
 2. Rename `shapez.apworld` to `shapez.zip`.
 3. Open the zip file and go to `shapez/data/options.json`.
 4. Edit the values in this file to your desire and save the file.
@@ -24,7 +24,7 @@ Proceed at your own risk.
 
 ## Why do I have to do this manually?
 
-For every game in MultiworldGG, there must be a list of all possible locations, **regardless of player options**. When 
+For every game in Archipelago, there must be a list of all possible locations, **regardless of player options**. When 
 generating a multiworld, a list of all locations of all included games will be saved in the multiworld data and sent to 
 all clients. The higher the amount of possible locations, the bigger the datapackage. And having ~80000 possible 
 locations at one point made the datapackage for shapez bigger than all other supported games combined. So to reduce the 
