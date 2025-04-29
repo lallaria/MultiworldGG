@@ -13,6 +13,7 @@ from .NormalRules import *
 
 class MMRWebWorld(WebWorld):
     # ~ theme = "partyTime"
+    display_name = "The Legend of Zelda: Majora's Mask (Recompiled)"
     
     setup_en = Tutorial(
         tutorial_name="Start Guide",

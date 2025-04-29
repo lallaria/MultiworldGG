@@ -82,6 +82,7 @@ class LinksAwakeningSettings(settings.Group):
     option_overrides: OptionOverrides = {}
 
 class LinksAwakeningWebWorld(WebWorld):
+    display_name = "The Legend of Zelda: Link's Awakening DX (Beta)"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up Links Awakening DX for MultiWorld.",
