@@ -93,12 +93,14 @@ class LogicLevel(Choice):
     Hard Logic (1): Less forgiving logic, some checks require performing spindash jumps or dying to get the check.
     Expert DC Logic (2): The most unforgiving logic, some checks require performing out-of-bounds jumps (DC conversion).
     Expert DX Logic (3): The most unforgiving logic, some checks require performing out-of-bounds jumps (vanilla DX).
+    Expert+ DX Logic (4): Same as Expert DX but with extra speed runner level tricks (vanilla DX).
     """
     display_name = "Logic Level"
     option_normal_logic = 0
     option_hard_logic = 1
     option_expert_dc_logic = 2
     option_expert_dx_logic = 3
+    option_expert_plus_dx_logic = 4
     default = 0
 
 
@@ -229,6 +231,13 @@ class RingLoss(Choice):
     option_one_hit_k_o = 2
     option_one_hit_k_o_no_shields = 3
     default = 0
+
+
+class TrapLink(Toggle):
+    """
+    Whether your received traps are linked to other players
+    """
+    display_name = "Trap Link"
 
 
 class PlayableSonic(DefaultOnToggle):
@@ -400,10 +409,11 @@ class MissionBlackList(OptionSet):
     Mission 53 (Triple Jump in the Snowboard section of Ice Cap).
     Mission 54 (Flags in the Snowboard section of Ice Cap).
     Mission 58 (Flags in the rolling bounce section of Lost World).
+    Also, you can blacklist all the missions by using the character names. i.e. {'Big', 'Sonic'}
     """
     display_name = "Mission Blacklist"
     default = {'49', '53', '54', '58'}
-    valid_keys = [str(i) for i in range(1, 61)]
+    valid_keys = [str(i) for i in range(1, 61)] + ["Sonic", "Tails", "Knuckles", "Amy", "Big", "Gamma"]
 
 
 class TwinkleCircuitCheck(DefaultOnToggle):
@@ -551,13 +561,21 @@ class FishSanity(Toggle):
     display_name = "Fish Sanity"
 
 
-class LazyFishing(Toggle):
+class LazyFishing(Choice):
     """
-    Enabling Lazy Fishing does two things:
-    Grants infinite tension during fishing if you have the Power Rod upgrade.
-    Adds the Power Rod as a logic requirement for all fish in fish-sanity, B/A/S ranks and every "Keeper" mission for Big.
+    Enabling Lazy Fishing grants infinite tension during fishing if you have the Power Rod upgrade.
+    Depending on your option, the Power Rod will be a logic requirement or not for your locations:
+    0: Disabled (default).
+    1: Enabled, no requirements (Power Rod is not a logic requirement for any location check).
+    2: Enabled, fishsanity (Power Rod is a logic requirement for fish-sanity only).
+    3: Enabled, all (Power Rod is a logic requirement for fish-sanity, B/A/S ranks and every "Keeper" mission for Big).
     """
     display_name = "Lazy Fishing"
+    option_disabled = 0
+    option_enabled_no_requirements = 1
+    option_enabled_fishsanity = 2
+    option_enabled_all = 3
+    default = 0
 
 
 class JunkFillPercentage(Range):
@@ -691,6 +709,7 @@ class SonicAdventureDXOptions(PerGameCommonOptions):
     casinopolis_ring_link: CasinopolisRingLink
     hard_ring_link: HardRingLink
     ring_loss: RingLoss
+    trap_link: TrapLink
 
     playable_sonic: PlayableSonic
     playable_tails: PlayableTails
@@ -799,6 +818,7 @@ sadx_option_groups = [
         CasinopolisRingLink,
         HardRingLink,
         RingLoss,
+        TrapLink,
     ]),
     OptionGroup("Characters Options", [
         PlayableSonic,

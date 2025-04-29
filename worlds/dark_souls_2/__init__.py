@@ -31,17 +31,17 @@ class DS2Item(Item):
             name, classification, code, player
         )
 
-class DS2Web(WebWorld):
-    tutorials = [
-        Tutorial(
-            tutorial_name="Multiworld Setup Guide",
-            description="A guide to setting up the Dark Souls II Randomizer for MultiworldGG multiworld games.",
-            language="English",
-            file_name="setup_en.md",
-            link="setup/en",
-            authors=["bunnie"]
-        )
-    ]
+class DarkSouls2Web(WebWorld):
+    setup_en = Tutorial(
+        "Multiworld Setup Guide",
+        "A guide to setting up the MultiworldGG Dark Souls II randomizer on your computer.",
+        "English",
+        "setup_en.md",
+        "setup/en",
+        ["WildBunnie"]
+    )
+
+    tutorials = [setup_en]
 
 class DS2World(World):
     """
@@ -49,7 +49,7 @@ class DS2World(World):
     It is set in the kingdom of Drangleic and follows an undead traveler searching for a cure to their affliction.
     """
     game = "Dark Souls II"
-    author: str = "bunnie"
+    author: str = "WildBunnie"
 
     options_dataclass = DS2Options
     options: DS2Options
@@ -59,7 +59,7 @@ class DS2World(World):
     item_name_groups = group_table
     location_name_groups = location_name_groups
 
-    web = DS2Web()
+    web = DarkSouls2Web()
 
     def generate_early(self) -> None:
         if self.options.early_blacksmith == "early_global":
