@@ -6,6 +6,7 @@ import jinja2.exceptions
 from flask import request, redirect, url_for, render_template, Response, session, abort, send_from_directory
 from pony.orm import count, commit, db_session
 from werkzeug.utils import secure_filename
+from Utils import __version__
 
 from worlds.AutoWorld import AutoWorldRegister
 from . import app, cache
@@ -131,7 +132,7 @@ def new_room(seed: UUID):
 @app.route('/downloads/')
 @cache.cached()
 def downloads():
-    return render_template("clients.html")
+    return render_template("clients.html", version=__version__)
 
 
 @app.route('/legal/')
