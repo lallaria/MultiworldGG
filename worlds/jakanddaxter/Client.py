@@ -302,7 +302,7 @@ class JakAndDaxterContext(CommonContext):
         color = self.jsontotextparser.color_codes[c] if c else None
         message = f"[color={color}]{msg}[/color]" if c else msg
 
-        self.ui.log_panels["MultiworldGG"].on_message_markup(message)
+        self.ui.log_panels["Archipelago"].on_message_markup(message)
         self.ui.log_panels["All"].on_message_markup(message)
 
     def on_log_error(self, lg: Logger, message: str):

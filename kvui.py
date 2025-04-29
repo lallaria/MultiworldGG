@@ -1016,7 +1016,7 @@ class GameManager(ThemedApp):
 
     def print_json(self, data: typing.List[JSONMessagePart]):
         text = self.json_to_kivy_parser(data)
-        self.log_panels["MultiworldGG"].on_message_markup(text)
+        self.log_panels["Archipelago"].on_message_markup(text)
         self.log_panels["All"].on_message_markup(text)
 
     def focus_textinput(self):

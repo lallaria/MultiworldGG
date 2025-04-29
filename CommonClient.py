@@ -926,7 +926,7 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
         ctx.team = args["team"]
         ctx.slot = args["slot"]
         # int keys get lost in JSON transfer
-        ctx.slot_info = {0: NetworkSlot("Archipelago", "Archipelago", SlotType.player)}
+        ctx.slot_info = {0: NetworkSlot("MultiworldGG", "MultiworldGG", SlotType.player)}
         ctx.slot_info.update({int(pid): data for pid, data in args["slot_info"].items()})
         ctx.hint_points = args.get("hint_points", 0)
         ctx.consume_players_package(args["players"])
