@@ -52,14 +52,14 @@ jobs:
             exit 1
           }
           $NAME="$(ls build | Select-String -Pattern 'exe')".Split('.',2)[1]
-          $ZIP_NAME="MultworldGG_$NAME.7z"
+          $ZIP_NAME="MultiworldGG_$NAME.7z"
           echo "$NAME -> $ZIP_NAME"
           echo "ZIP_NAME=$ZIP_NAME" >> $Env:GITHUB_ENV
           New-Item -Path dist -ItemType Directory -Force
           cd build
-          Rename-Item "exe.$NAME" MultworldGG
-          7z a -mx=9 -mhe=on -ms "../dist/$ZIP_NAME" MultworldGG
-          Rename-Item MultworldGG "exe.$NAME"  # inno_setup.iss expects the original name
+          Rename-Item "exe.$NAME" MultiworldGG
+          7z a -mx=9 -mhe=on -ms "../dist/$ZIP_NAME" MultiworldGG
+          Rename-Item MultiworldGG "exe.$NAME"  # inno_setup.iss expects the original name
       - name: Build Setup
         run: |
           & "${env:ProgramFiles(x86)}\Inno Setup 6\iscc.exe" inno_setup.iss /DNO_SIGNTOOL
@@ -78,8 +78,8 @@ jobs:
           subject-path: |
             build/exe.*/MultiworldGGLauncher.exe
             build/exe.*/MultiworldGGLauncherDebug.exe
-            build/exe.*/MultworldGGGenerate.exe
-            build/exe.*/MultworldGGServer.exe
+            build/exe.*/MultiworldGGGenerate.exe
+            build/exe.*/MultiworldGGServer.exe
             dist/${{ env.ZIP_NAME }}
             setups/${{ env.SETUP_NAME }}
       - name: Check build loads expected worlds
@@ -99,7 +99,7 @@ jobs:
         run: |
           cd build/exe*
           cp Players/Templates/Clique.yaml Players/
-          timeout 30 ./MultworldGGGenerate
+          timeout 30 ./MultiworldGGGenerate
       - name: Store 7z
         uses: actions/upload-artifact@v4
         with:
@@ -155,7 +155,7 @@ jobs:
           echo -e "setup.py dist output:\n `ls dist`"
           cd dist && export APPIMAGE_NAME="`ls *.AppImage`" && cd ..
           export TAR_NAME="${APPIMAGE_NAME%.AppImage}.tar.gz"
-          (cd build && DIR_NAME="`ls | grep exe`" && mv "$DIR_NAME" MultworldGG && tar -cv MultworldGG | gzip -8 > ../dist/$TAR_NAME && mv MultworldGG "$DIR_NAME")
+          (cd build && DIR_NAME="`ls | grep exe`" && mv "$DIR_NAME" MultiworldGG && tar -cv MultiworldGG | gzip -8 > ../dist/$TAR_NAME && mv MultiworldGG "$DIR_NAME")
           echo "APPIMAGE_NAME=$APPIMAGE_NAME" >> $GITHUB_ENV
           echo "TAR_NAME=$TAR_NAME" >> $GITHUB_ENV
       # - copy code above to release.yml -
@@ -165,8 +165,8 @@ jobs:
         with:
           subject-path: |
             build/exe.*/MultiworldGGLauncher
-            build/exe.*/MultworldGGGenerate
-            build/exe.*/MultworldGGServer
+            build/exe.*/MultiworldGGGenerate
+            build/exe.*/MultiworldGGServer
             dist/${{ env.APPIMAGE_NAME }}*
             dist/${{ env.TAR_NAME }}
       - name: Build Again
@@ -190,7 +190,7 @@ jobs:
         run: |
           cd build/exe*
           cp Players/Templates/Clique.yaml Players/
-          timeout 30 ./MultworldGGGenerate
+          timeout 30 ./MultiworldGGGenerate
       - name: Store AppImage
         uses: actions/upload-artifact@v4
         with:

@@ -21,13 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV  # tag x.y.z will become "MultworldGG x.y.z"
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV  # tag x.y.z will become "MultiworldGG x.y.z"
       - name: Create Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
         with:
           draft: true  # don't publish right away, especially since windows build is added by hand
           prerelease: false
-          name: MultworldGG ${{ env.RELEASE_VERSION }}
+          name: MultiworldGG ${{ env.RELEASE_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -62,14 +62,14 @@ jobs:
             exit 1
           }
           $NAME="$(ls build | Select-String -Pattern 'exe')".Split('.',2)[1]
-          $ZIP_NAME="MultworldGG_$NAME.7z"
+          $ZIP_NAME="MultiworldGG_$NAME.7z"
           echo "$NAME -> $ZIP_NAME"
           echo "ZIP_NAME=$ZIP_NAME" >> $Env:GITHUB_ENV
           New-Item -Path dist -ItemType Directory -Force
           cd build
-          Rename-Item "exe.$NAME" MultworldGG
-          7z a -mx=9 -mhe=on -ms "../dist/$ZIP_NAME" MultworldGG
-          Rename-Item MultworldGG "exe.$NAME"  # inno_setup.iss expects the original name
+          Rename-Item "exe.$NAME" MultiworldGG
+          7z a -mx=9 -mhe=on -ms "../dist/$ZIP_NAME" MultiworldGG
+          Rename-Item MultiworldGG "exe.$NAME"  # inno_setup.iss expects the original name
       - name: Build Setup
         run: |
           & "${env:ProgramFiles(x86)}\Inno Setup 6\iscc.exe" inno_setup.iss /DNO_SIGNTOOL
@@ -87,15 +87,15 @@ jobs:
           subject-path: |
             build/exe.*/MultiworldGGLauncher.exe
             build/exe.*/MultiworldGGLauncherDebug.exe
-            build/exe.*/MultworldGGGenerate.exe
-            build/exe.*/MultworldGGServer.exe
+            build/exe.*/MultiworldGGGenerate.exe
+            build/exe.*/MultiworldGGServer.exe
             setups/*
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
         with:
           draft: true  # see above
           prerelease: false
-          name: MultworldGG ${{ env.RELEASE_VERSION }}
+          name: MultiworldGG ${{ env.RELEASE_VERSION }}
           files: |
             setups/*
         env:
@@ -143,7 +143,7 @@ jobs:
           echo -e "setup.py dist output:\n `ls dist`"
           cd dist && export APPIMAGE_NAME="`ls *.AppImage`" && cd ..
           export TAR_NAME="${APPIMAGE_NAME%.AppImage}.tar.gz"
-          (cd build && DIR_NAME="`ls | grep exe`" && mv "$DIR_NAME" MultworldGG && tar -cv MultworldGG | gzip -8 > ../dist/$TAR_NAME && mv MultworldGG "$DIR_NAME")
+          (cd build && DIR_NAME="`ls | grep exe`" && mv "$DIR_NAME" MultiworldGG && tar -cv MultiworldGG | gzip -8 > ../dist/$TAR_NAME && mv MultiworldGG "$DIR_NAME")
           echo "APPIMAGE_NAME=$APPIMAGE_NAME" >> $GITHUB_ENV
           echo "TAR_NAME=$TAR_NAME" >> $GITHUB_ENV
       # - code above copied from build.yml -
@@ -152,15 +152,15 @@ jobs:
         with:
           subject-path: |
             build/exe.*/MultiworldGGLauncher
-            build/exe.*/MultworldGGGenerate
-            build/exe.*/MultworldGGServer
+            build/exe.*/MultiworldGGGenerate
+            build/exe.*/MultiworldGGServer
             dist/*
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
         with:
           draft: true  # see above
           prerelease: false
-          name: MultworldGG ${{ env.RELEASE_VERSION }}
+          name: MultiworldGG ${{ env.RELEASE_VERSION }}
           files: |
             dist/*
         env:

@@ -3,7 +3,7 @@
 ## Required Software
 
 - The FF1Client
-    - Bundled with MultiworldGG: [MultworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
+    - Bundled with MultiworldGG: [MultiworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
 - The BizHawk emulator. Versions 2.3.1 and higher are supported. Version 2.7 is recommended
     - [BizHawk at TASVideos](https://tasvideos.org/BizHawk)
 - Your legally obtained Final Fantasy (USA Edition) ROM file, probably named `Final Fantasy (USA).nes`. Neither
