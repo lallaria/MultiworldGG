@@ -52,10 +52,12 @@ class Z2Web(WebWorld):
 
 
 class Z2World(World):
-    """In the exciting sequel to Legend of Zelda, Link must find the Triforce of Courage in the Great Palace
-       to awaken Zelda, cursed with a sleeping spell. Along the wy, he is being hunted by Ganon's followers,
-       who seek to use his blood to revive their master."""
-    
+    """
+    In the exciting sequel to Legend of Zelda, Link must find the Triforce of Courage in the Great Palace
+    to awaken Zelda, cursed with a sleeping spell. Along the way, he is being hunted by Ganon's followers,
+    who seek to use his blood to revive their master.
+    """
+
     game = "Zelda II: The Adventure of Link"
     author: str = "Pink Switch"
     option_definitions = Z2Options
