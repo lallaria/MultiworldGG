@@ -91,9 +91,10 @@ class OOTSettings(settings.Group):
 
 
 class OOTWeb(WebWorld):
+    display_name = "The Legend of Zelda: Ocarina of Time"
     setup = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago Ocarina of Time software on your computer.",
+        "A guide to setting up the MultiworldGG Ocarina of Time software on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -140,6 +141,7 @@ class OOTWorld(World):
     to rescue the Seven Sages, and then confront Ganondorf to save Hyrule!
     """
     game: str = "Ocarina of Time"
+    author: str = "espeon65536 (currenty unmaintained)"
     options_dataclass = OoTOptions
     options: OoTOptions
     settings: typing.ClassVar[OOTSettings]

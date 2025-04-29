@@ -1,10 +1,15 @@
 from typing import *
 import asyncio
 
+try:
+    from Utils import instance_name as apname
+except ImportError:
+    apname = "Archipelago"
 from NetUtils import JSONMessagePart
 from kvui import GameManager, HoverBehavior, ServerToolTip, KivyJSONtoTextParser
 from kivy.app import App
 from kivy.clock import Clock
+from kivymd.uix.tab import MDTabsItem, MDTabsItemText
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.uix.label import Label
@@ -78,7 +83,7 @@ class SC2Manager(GameManager):
         ("Client", "Archipelago"),
         ("Starcraft2", "Starcraft2"),
     ]
-    base_title = "Archipelago Starcraft 2 Client"
+    base_title = apname + " Starcraft 2 Client"
 
     campaign_panel: Optional[CampaignLayout] = None
     last_checked_locations: Set[int] = set()

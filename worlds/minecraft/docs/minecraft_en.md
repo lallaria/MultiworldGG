@@ -4,14 +4,14 @@
 
 - Minecraft Java Edition from
   the [Minecraft Java Edition Store Page](https://www.minecraft.net/en-us/store/minecraft-java-edition)
-- Archipelago from the [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+- MultiworldGG from the [MultiworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 ## Configuring your YAML file
 
 ### What is a YAML file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a YAML file?
 

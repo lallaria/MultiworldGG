@@ -135,16 +135,20 @@ const saveSettings = () => {
 };
 
 // Load all options from localStorage
-const loadSettings = () => {
+const loadSettings = (importObj=null) => {
   const game = document.getElementById('player-options').getAttribute('data-game');
 
-  const options = JSON.parse(localStorage.getItem(game));
+  let options;
+  if (!importObj)
+    options = JSON.parse(localStorage.getItem(game));
+  else options = importObj;
+  
   if (options) {
-    if (!options.inputs || !options.checkboxes) {
+    if (!importObj && (!options.inputs || !options.checkboxes)) {
       localStorage.removeItem(game);
       return;
     }
-
+    //console.log(options);
     // Restore value-based inputs and selects
     Object.keys(options.inputs).forEach((key) => {
       try{
@@ -160,9 +164,20 @@ const loadSettings = () => {
 
     // Restore checkboxes
     Object.keys(options.checkboxes).forEach((key) => {
+
       try{
-        if (options.checkboxes[key]) {
+        if (options.checkboxes[key] && !key.startsWith("random-")) {
           document.getElementById(key).setAttribute('checked', '1');
+        } else {
+          if (key.startsWith("random-")) {
+            let optionName = key.split("random-")[1];
+            let randomCheckbox = document.querySelector('input[data-option-name="' + optionName + '"]');
+
+            if (randomCheckbox) {
+              randomCheckbox.checked = options.checkboxes[key];
+            }
+            
+          }
         }
       } catch (err) {
         console.error(`Unable to restore value to input with id ${key}`);

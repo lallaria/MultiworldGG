@@ -3,7 +3,7 @@ function mod_is_AP(str)
     -- lua string.match is way more restrictive than regex. Regex would be "^AP-W?\d{20}-P[1-9]\d*-.+$"
 	local result = string.match(str, "^AP%-W?%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%-P[1-9]%d-%-.+$")
 	if result ~= nil then
-		log("Archipelago Mod: " .. result .. " is loaded.")
+		log("MultiworldGG Mod: " .. result .. " is loaded.")
 	end
 	return result ~= nil
 end
@@ -12,7 +12,7 @@ for name, _ in pairs(mods) do
     if mod_is_AP(name) then
         ap_mod_count = ap_mod_count + 1
         if ap_mod_count > 1 then
-            error("More than one Archipelago Factorio mod is loaded.")
+            error("More than one MultiworldGG Factorio mod is loaded.")
         end
     end
 end

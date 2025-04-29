@@ -33,6 +33,7 @@ class RLWorld(World):
     But that's OK, because no one is perfect, and you don't have to be to succeed.
     """
     game = "Rogue Legacy"
+    author: str = "Phar"
     options_dataclass = RLOptions
     options: RLOptions
     topology_present = True

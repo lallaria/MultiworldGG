@@ -2,7 +2,7 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases). 
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). 
 - Software capable of loading and playing GBC ROM files
     - [RetroArch](https://retroarch.com?page=platforms) 1.10.3 or newer.
     - [BizHawk](https://tasvideos.org/BizHawk) 2.8 or newer.
@@ -10,7 +10,7 @@
 
 ## Installation Procedures
 
-1. Download and install [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). **The installer 
+1. Download and install [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). **The installer 
    file is located in the assets section at the bottom of the version information.**
 2. The first time you do local generation or patch your game, you will be asked to locate your base ROM file.
    This is your Links Awakening DX ROM file. This only needs to be done once..

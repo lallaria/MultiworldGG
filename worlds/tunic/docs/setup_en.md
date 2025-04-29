@@ -10,7 +10,7 @@
 - [TUNIC Randomizer Map Tracker](https://github.com/SapphireSapphic/TunicTracker/releases/latest) 
   - Requires [PopTracker](https://github.com/black-sliver/PopTracker/releases)
 - [TUNIC Randomizer Item Auto-tracker](https://github.com/radicoon/tunic-rando-tracker/releases/latest)
-- [Archipelago Text Client](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
+- [MultiworldGG Text Client](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
 
 ## Installation
 

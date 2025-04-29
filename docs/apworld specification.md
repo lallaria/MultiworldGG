@@ -1,6 +1,6 @@
 # apworld Specification
 
-Archipelago depends on worlds to provide game-specific details like items, locations and output generation.
+MultiworldGG depends on worlds to provide game-specific details like items, locations and output generation.
 Those are located in the `worlds/` folder (source) or `<install dir>/lib/worlds/` (when installed).
 See [world api.md](world%20api.md) for details.
 

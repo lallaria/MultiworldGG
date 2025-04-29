@@ -87,7 +87,7 @@ plus larges de les traverser sans être coincés dans des endroits étranges.
 
 Par défaut, tous les *items* de *StarCraft 2 Archipelago* (voir la section précédente) peuvent être dans le monde d'un 
 autre joueur.
-Consulter [*Advanced YAML Guide*](/tutorial/Archipelago/advanced_settings/en) pour savoir comment 
+Consulter [*Advanced YAML Guide*](/tutorial/MultiworldGG/advanced_settings/en) pour savoir comment 
 changer ça.
 
 ## Commandes du client qui sont uniques à ce jeu

@@ -16,7 +16,7 @@ from .rules import set_rules
 class SubnauticaWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Subnautica randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the Subnautica randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -35,6 +35,7 @@ class SubnauticaWorld(World):
     You must find a cure for yourself, build an escape rocket, and leave the planet.
     """
     game = "Subnautica"
+    author: str = "Berserker66"
     web = SubnauticaWeb()
 
     item_name_to_id = {data.name: item_id for item_id, data in items.item_table.items()}

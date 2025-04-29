@@ -24,7 +24,7 @@ class DOOM1993Item(Item):
 class DOOM1993Web(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the DOOM 1993 randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the DOOM 1993 randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -41,6 +41,7 @@ class DOOM1993World(World):
     options_dataclass = DOOM1993Options
     options: DOOM1993Options
     game = "DOOM 1993"
+    author: str = "Kaito Sinclaire"
     web = DOOM1993Web()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher
 

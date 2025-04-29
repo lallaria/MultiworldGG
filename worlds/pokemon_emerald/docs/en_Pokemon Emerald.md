@@ -50,7 +50,7 @@ name and the item will be added to your bag while a fanfare plays.
 ## Can I play offline?
 
 Yes, the client and connector are only necessary for sending and receiving items. If you're playing a solo game, you
-don't need to play online unless you want the rest of Archipelago's functionality (like hints and auto-tracking). If
+don't need to play online unless you want the rest of MultiworldGG's functionality (like hints and auto-tracking). If
 you're playing a multiworld game, the client will sync your game with the server the next time you connect.
 
 ## Will battle mechanics be updated?
@@ -63,7 +63,7 @@ them.
 
 No, other mods cannot be applied. It would be impossible to generalize this implementation's changes in a way that is
 compatible with any other mod or romhack. Romhacks could be added as their own games, but they would have to be
-implemented separately. Check out [Archipelago's Discord server](https://discord.gg/8Z65BR2) if you want to make a
+implemented separately. Check out [MultiworldGG's Discord server](https://discord.gg/8Z65BR2) if you want to make a
 suggestion or contribute.
 
 ## Can I use tools like the Universal Pokémon Randomizer?

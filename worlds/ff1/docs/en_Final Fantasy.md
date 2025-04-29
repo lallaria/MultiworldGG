@@ -2,7 +2,7 @@
 
 ## Where is the options page?
 
-Unlike most games on Archipelago.gg, Final Fantasy 1's options are controlled entirely by the original randomzier. You
+Unlike most games on MultiworldGG, Final Fantasy 1's options are controlled entirely by the original randomzier. You
 can find an exhaustive list of documented options on the FFR
 website: [FF1R Website](https://finalfantasyrandomizer.com/)
 

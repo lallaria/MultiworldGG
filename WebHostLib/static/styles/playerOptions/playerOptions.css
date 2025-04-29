@@ -1,6 +1,6 @@
 @import "../markdown.css";
 html {
-  background-image: url("../../static/backgrounds/grass.png");
+  background-image: url("../../static/backgrounds/ocean.png");
   background-repeat: repeat;
   background-size: 650px 650px;
   overflow-x: hidden;
@@ -8,7 +8,7 @@ html {
 
 #player-options {
   box-sizing: border-box;
-  max-width: 1024px;
+  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
   background-color: rgba(0, 0, 0, 0.15);
@@ -103,11 +103,11 @@ html {
 }
 #player-options .game-options .left, #player-options .game-options .right {
   display: grid;
-  grid-template-columns: 12rem auto;
+  grid-template-columns: 18rem auto;
   grid-row-gap: 0.5rem;
   grid-auto-rows: min-content;
   align-items: start;
-  min-width: 480px;
+  min-width: 600px;
   width: 50%;
 }
 #player-options #meta-options {
@@ -292,7 +292,7 @@ html {
   vertical-align: top;
 }
 
-@media all and (max-width: 1024px) {
+@media all and (max-width: 1280px) {
   #player-options {
     border-radius: 0;
   }

@@ -47,11 +47,11 @@ There are some additional types of Bumpers in this game mode:
   - Playing a Bumper which stops on the red warning space will cause that space to move to another random location.
 
 In addition to Paint Cans from Classic mode, two new tools are also available:
-- Turners allow you to change the direction of any bumper. You won't get them from scoring, but you can get them as Archipelago items, and they'll refresh every time you start a new board.
-- Task Advances allow you to skip one step in any task. They can only be obtained as Archipelago items. Make sure you keep them for when you need them most; if you use one, it won't come back!
+- Turners allow you to change the direction of any bumper. You won't get them from scoring, but you can get them as MultiworldGG items, and they'll refresh every time you start a new board.
+- Task Advances allow you to skip one step in any task. They can only be obtained as MultiworldGG items. Make sure you keep them for when you need them most; if you use one, it won't come back!
 - You can also get Starting Paint Cans from the AP server. These refresh when you start a new board.
 
 ## Commands
 
-While playing the multiworld, you can interact with the server using various commands listed in the [commands guide](/tutorial/Archipelago/commands/en). As this game does not have an in-game text client at the moment, you can optionally connect to the multiworld using the text client, which can be found in the [main Archipelago installation](https://github.com/ArchipelagoMW/Archipelago/releases) as Archipelago Text Client to enter these commands.
+While playing the multiworld, you can interact with the server using various commands listed in the [commands guide](/tutorial/MultiworldGG/commands/en). As this game does not have an in-game text client at the moment, you can optionally connect to the multiworld using the text client, which can be found in the [MultiworldGG installation](https://github.com/MultiworldGG/MultiworldGG/releases) as MultiworldGG Text Client to enter these commands.
 

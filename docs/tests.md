@@ -1,6 +1,6 @@
-# Archipelago Unit Testing API
+# MultiworldGG Unit Testing API
 
-This document covers some of the generic tests available using Archipelago's unit testing system, as well as some basic
+This document covers some of the generic tests available using MultiworldGG's unit testing system, as well as some basic
 steps on how to write your own.
 
 ## Generic Tests
@@ -92,7 +92,7 @@ for multiple inputs) the base test. Some important things to consider when attem
   of needing to instantiate multiple tests; however, subtests can not be multithreaded and do not have individual
   timing data, so they are not suitable for slow tests.
 
-* Archipelago's tests are test-runner-agnostic. That means tests are not allowed to use e.g. `@pytest.mark.parametrize`.
+* MultiworldGG's tests are test-runner-agnostic. That means tests are not allowed to use e.g. `@pytest.mark.parametrize`.
   Instead, we define our own parametrization helpers in [test.param](/test/param.py).
 
 * Classes inheriting from `WorldTestBase`, including those created by the helpers in `test.param`, will run all
@@ -102,7 +102,7 @@ for multiple inputs) the base test. Some important things to consider when attem
 
 #### Performance Considerations
 
-Archipelago is big enough that the runtime of unittests can have an impact on productivity.
+MultiworldGG is big enough that the runtime of unittests can have an impact on productivity.
 
 Individual tests should take less than a second, so they can be properly multithreaded.
 
@@ -118,15 +118,15 @@ variable to keep all the benefits of the test framework while not running the ma
 
 #### Using Pycharm
 
-In PyCharm, running all tests can be done by right-clicking the root test directory and selecting Run 'Archipelago Unittests'. 
+In PyCharm, running all tests can be done by right-clicking the root test directory and selecting Run 'MultiworldGG Unittests'. 
 Unless you configured PyCharm to use pytest as a test runner, you may get import failures. To solve this, edit the run configuration, 
-and set the working directory to the Archipelago directory which contains all the project files. 
+and set the working directory to the MultiworldGG directory which contains all the project files. 
 
 If you only want to run your world's defined tests, repeat the steps for the test directory within your world.
 Your working directory should be the directory of your world in the worlds directory and the script should be the 
 tests folder within your world.
 
-You can also find the 'Archipelago Unittests' as an option in the dropdown at the top of the window
+You can also find the 'MultiworldGG Unittests' as an option in the dropdown at the top of the window
 next to the run and debug buttons.
 
 #### Running Tests without Pycharm

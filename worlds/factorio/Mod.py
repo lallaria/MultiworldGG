@@ -1,4 +1,4 @@
-"""Outputs a Factorio Mod to facilitate integration with Archipelago"""
+"""Outputs a Factorio Mod to facilitate integration with MultiworldGG"""
 
 import dataclasses
 import json

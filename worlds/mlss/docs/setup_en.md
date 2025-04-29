@@ -10,7 +10,7 @@ As we are using Bizhawk, this guide is only applicable to Windows and Linux syst
   - Version 2.9.1 is recommended.
   - Detailed installation instructions for Bizhawk can be found at the above link.
   - Windows users must run the prerequisite installer first, which can also be found at the above link.
-- The built-in Bizhawk client, which can be installed [here](https://github.com/ArchipelagoMW/Archipelago/releases)
+- The built-in Bizhawk client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases)
 - A US copy of Mario & Luigi: Superstar Saga
 
 ## Optional Software
@@ -47,7 +47,7 @@ to the emulator as recommended).
 Once both the client and the emulator are started, you must connect them. Within the emulator click on the "Tools"
 menu and select "Lua Console". Click the folder button or press Ctrl+O to open a Lua script.
 
-Navigate to your Archipelago install folder and open `data/lua/connector_bizhawk_generic.lua`.
+Navigate to your MultiworldGG install folder and open `data/lua/connector_bizhawk_generic.lua`.
 
 To connect the client to the multiserver simply put `<address>:<port>` on the textfield on top and press enter (if the
 server uses password, type in the bottom textfield `/connect <address>:<port> [password]`)

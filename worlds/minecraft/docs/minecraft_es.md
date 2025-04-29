@@ -2,7 +2,7 @@
 
 # Instalacion automatica para el huesped de partida
 
-- descarga e instala [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) and activa el
+- descarga e instala [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases) and activa el
   modulo `Minecraft Client`
 
 ## Software Requerido

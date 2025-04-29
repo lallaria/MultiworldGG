@@ -13,6 +13,7 @@ import bsdiff4
 from CommonClient import CommonContext, server_loop, gui_enabled, \
     ClientCommandProcessor, logger, get_base_parser
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from NetUtils import ClientStatus
 from worlds.mmbn3.Items import items_by_id
 from worlds.mmbn3.Rom import get_base_rom_path
@@ -95,7 +96,7 @@ class MMBN3Context(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago MegaMan Battle Network 3 Client"
+            base_title = apname + " MegaMan Battle Network 3 Client"
 
         self.ui = MMBN3Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -243,7 +244,7 @@ async def gba_sync_task(ctx: MMBN3Context):
                         if not ctx.version_warning:
                             logger.warning(f"Your Lua script is version {reported_version}, expected {script_version}."
                                            "Please update to the latest version."
-                                           "Your connection to the Archipelago server will not be accepted.")
+                                           "Your connection to the MultiworldGG server will not be accepted.")
                             ctx.version_warning = True
                 except asyncio.TimeoutError:
                     logger.debug("Read Timed Out, Reconnecting")

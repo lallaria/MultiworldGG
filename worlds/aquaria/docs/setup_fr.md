@@ -7,7 +7,7 @@
 
 ## Logiciels optionnels
 
-- De manière optionnel, pour pouvoir envoyer des [commandes](/tutorial/Archipelago/commands/en) comme `!hint`: utilisez le client texte de [la version la plus récente d'Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
+- De manière optionnel, pour pouvoir envoyer des [commandes](/tutorial/MultiworldGG/commands/en) comme `!hint`: utilisez le client texte de [la version la plus récente d'Archipelago](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
 - [Aquaria AP Tracker](https://github.com/palex00/aquaria-ap-tracker/releases/latest), pour utiliser avec [PopTracker](https://github.com/black-sliver/PopTracker/releases/latest)
 
 ## Procédures d'installation et d'exécution

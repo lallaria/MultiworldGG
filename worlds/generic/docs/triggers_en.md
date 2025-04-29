@@ -1,7 +1,7 @@
-# Archipelago Triggers Guide
+# MultiworldGG Triggers Guide
 
-This guide details the use of the Archipelago YAML trigger system. This guide is intended for a more advanced user with
-more in-depth knowledge of Archipelago YAML options as well as experience editing YAML files. This guide should take
+This guide details the use of the MultiworldGG YAML trigger system. This guide is intended for a more advanced user with
+more in-depth knowledge of MultiworldGG YAML options as well as experience editing YAML files. This guide should take
 about 5 minutes to read.
 
 ## What are triggers?
@@ -12,7 +12,7 @@ can do with triggers is the [custom mercenary mode YAML
 ](https://github.com/alwaysintreble/Archipelago-yaml-dump/blob/main/Snippets/Mercenary%20Mode%20Snippet.yaml) that was
 created using entirely triggers and plando.
 
-For more information on plando, you can reference the [general plando guide](/tutorial/Archipelago/plando/en) or the
+For more information on plando, you can reference the [general plando guide](/tutorial/MultiworldGG/plando/en) or the
 [A Link to the Past plando guide](/tutorial/A%20Link%20to%20the%20Past/plando/en).
 
 ## Trigger use

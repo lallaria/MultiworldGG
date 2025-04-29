@@ -7,14 +7,14 @@
 - BepinEx (utilisé comme un modloader pour DLCQuest. La version du mod ci-dessus inclut BepInEx si vous choisissez la version d'installation complète)
 
 ## Logiciels optionnels
-- [Archipelago] (https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGG] (https://github.com/MultiworldGG/MultiworldGG/releases)
     - (Uniquement pour le TextClient)
 
 ## Créer un fichier de configuration (.yaml)
 
 ### Qu'est-ce qu'un fichier YAML et pourquoi en ai-je besoin ?
 
-Voir le guide d'Archipelago sur la mise en place d'un YAML de base : [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+Voir le guide d'Archipelago sur la mise en place d'un YAML de base : [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Où puis-je obtenir un fichier YAML ?
 
@@ -52,4 +52,4 @@ Vous pouvez personnaliser vos paramètres en visitant la [page des paramètres d
 
 Vous ne pouvez pas envoyer de commandes au serveur ou discuter avec les autres joueurs depuis DLC Quest, car le jeu ne dispose pas d'un moyen approprié pour saisir du texte.
 Vous pouvez suivre l'activité du serveur dans votre console BepInEx, car les messages de chat d'Archipelago y seront affichés.
-Vous devrez utiliser [Archipelago Text Client] (https://github.com/ArchipelagoMW/Archipelago/releases) si vous voulez envoyer des commandes.
+Vous devrez utiliser [MultiworldGG Text Client] (https://github.com/MultiworldGG/MultiworldGG/releases) si vous voulez envoyer des commandes.

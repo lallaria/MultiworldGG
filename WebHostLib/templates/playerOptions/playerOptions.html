@@ -7,6 +7,8 @@
     <script type="application/ecmascript" src="{{ url_for('static', filename="assets/md5.min.js") }}"></script>
     <script type="application/ecmascript" src="{{ url_for('static', filename="assets/js-yaml.min.js") }}"></script>
     <script type="application/ecmascript" src="{{ url_for('static', filename="assets/playerOptions.js") }}"></script>
+    <script type="application/ecmascript" scr="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/yamlImport.js") }}"></script>
 
     <noscript>
         <style>
@@ -42,7 +44,8 @@
             A list of all games you have generated can be found on the <a href="/user-content">User Content Page</a>.
             <br />
             You may also download the
-            <a href="/static/generated/configs/{{ world_name | get_file_safe_name }}.yaml">template file for this game</a>.
+            <a href="/static/generated/configs/{{ world_name | get_file_safe_name }}.yaml">template file for this game</a>
+            or <a onclick="loadFileDialog()" id="yamlImport" href="#">click here</a> to import your own yaml.
         </p>
 
         <form id="options-form" method="post" enctype="application/x-www-form-urlencoded" action="generate-yaml">

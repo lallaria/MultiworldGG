@@ -1,4 +1,4 @@
-# Archipelago Settings API
+# MultiworldGG Settings API
 
 The settings API describes how to use installation-wide config and let the user configure them, like paths, etc. using
 host.yaml. For the player options / player yamls see [options api.md](options api.md).
@@ -13,13 +13,13 @@ For backwards compatibility with APWorlds, some interfaces are kept for now and 
 
 Settings use options.yaml (manual override), if that exists, or host.yaml (the default) otherwise.
 The files are searched for in the current working directory, if different from install directory, and in `user_path`,
-which either points to the installation directory, if writable, or to %home%/Archipelago otherwise.
+which either points to the installation directory, if writable, or to %home%/MultiworldGG otherwise.
 
 **Examples:**
-* C:\Program Data\Archipelago\options.yaml
-* C:\Program Data\Archipelago\host.yaml
+* C:\Program Files\MultiworldGG\options.yaml
+* C:\Program Files\MultiworldGG\host.yaml
 * path\to\code\repository\host.yaml
-* ~/Archipelago/host.yaml
+* ~/MultiworldGG/host.yaml
 
 Using the settings API, AP can update the config file or create a new one with default values and comments, 
 if it does not exist.
@@ -118,12 +118,12 @@ class MySettings(settings.Group):
 ### UserFilePath
 
 Path to a single file. Automatically resolves as user_path:
-Source folder or AP install path on Windows. ~/Archipelago for the AppImage.
+Source folder or AP install path on Windows. ~/MultiworldGG for the AppImage.
 Will open a file browser if the file is missing when in GUI mode.
 
 If the file is used in the world's `generate_output`, make sure to add a `stage_assert_generate` that checks if the
 file is available, otherwise generation may fail at the very end.
-See also [world api.md](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/world%20api.md#generation).
+See also [world api.md](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/world%20api.md#generation).
 
 #### class method validate(cls, path: str)
 
@@ -186,6 +186,4 @@ circular / partial imports. Instead, the code should fetch from settings on dema
 
 ### APWorld Backwards Compatibility
 
-APWorlds that want to be compatible with both stable and dev versions, have two options:
-1. use the old Utils.get_options() API until Archipelago 0.4.2 is out
-2. add some sort of compatibility code to your world that mimics the new API
+APWorlds that want to be compatible with both stable and dev versions, have the option to add some sort of compatibility code to your world that mimics the new API

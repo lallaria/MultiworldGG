@@ -4,7 +4,7 @@
 The [player options page for Bumper Stickers](../player-options) contains all the options you need to configure and export a config file.
 
 ## What does randomization do to this game?
-Playing this in Archipelago is a very different experience from Classic mode. You start with a very small board and a set of tasks. Completing those tasks will give you a larger board and more, harder tasks. In addition, special types of bumpers exist that must be cleared in order to progress.
+Playing this in MultiworldGG is a very different experience from Classic mode. You start with a very small board and a set of tasks. Completing those tasks will give you a larger board and more, harder tasks. In addition, special types of bumpers exist that must be cleared in order to progress.
 
 ## What is the goal of Bumper Stickers when randomized?
 The goal is to complete all of the tasks for all five levels.

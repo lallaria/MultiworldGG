@@ -32,7 +32,7 @@ class AWebInTime(WebWorld):
     option_groups = create_option_groups()
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide for setting up A Hat in Time to be played in Archipelago.",
+        "A guide for setting up A Hat in Time to be played in MultiworldGG.",
         "English",
         "ahit_en.md",
         "setup/en",
@@ -47,6 +47,7 @@ class HatInTimeWorld(World):
     """
 
     game = "A Hat in Time"
+    author: str = "CookieCat45"
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = get_location_names()
     options_dataclass = AHITOptions

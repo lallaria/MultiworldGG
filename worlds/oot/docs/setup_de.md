@@ -11,7 +11,7 @@ Da wir BizHawk benutzen, gilt diese Anleitung nur für Windows und Linux.
   - Detailierte Installtionsanweisungen für BizHawk können über den obrigen Link gefunden werden.
   - Windows-Benutzer müssen die Prerequisiten installiert haben. Diese können ebenfalls über
     den obrigen Link gefunden werden.
-- Der integrierte Archipelago-Client, welcher [hier](https://github.com/ArchipelagoMW/Archipelago/releases) installiert
+- Der integrierte Archipelago-Client, welcher [hier](https://github.com/MultiworldGG/MultiworldGG/releases) installiert
   werden kann.
 - Eine `Ocarina of Time v1.0 US(?) ROM`. (Nicht aus Europa und keine Master-Quest oder Debug-Rom!)
 
@@ -59,7 +59,7 @@ erlaubt jeden Spieler eine personalisierte Erfahrung nach derem Geschmack. Damit
 Multiworld (des gleichen Spiels) völlig unterschiedliche Einstellungen haben.
 
 Für weitere Informationen, besuche die allgemeine Anleitung zum Erstellen einer
-YAML-Datei: [Archipelago Setup Anleitung](/tutorial/Archipelago/setup/en)
+YAML-Datei: [Archipelago Setup Anleitung](/tutorial/MultiworldGG/setup/en)
 
 ### Woher bekomme ich eine YAML-Datei?
 
@@ -103,6 +103,6 @@ Textfeld (für den Chat und Befehle) eingeben.
 Alternativ kannst du auch in dem unterem Textfeld den folgenden Befehl schreiben:
 `/connect <Adresse>:<Port> [Passwort]` (wie die Adresse und der Port lautet steht in dem Raum, oder wird von deinem
 Host an dich weitergegeben.)
-Beispiel: `/connect archipelago.gg:12345 Passw123`
+Beispiel: `/connect multiworld.gg:12345 Passw123`
 
 Du bist nun bereit für dein Zeitreise-Abenteuer in Hyrule.

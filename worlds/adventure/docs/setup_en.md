@@ -1,4 +1,4 @@
-# Setup Guide for Adventure: Archipelago
+# Setup Guide for Adventure: MultiworldGG
 
 ## Important
 
@@ -10,8 +10,8 @@ As we are using BizHawk, this guide is only applicable to Windows and Linux syst
   - Version 2.3.1 and later are supported. Version 2.7 is recommended for stability.
   - Detailed installation instructions for BizHawk can be found at the above link.
   - Windows users must run the prereq installer first, which can also be found at the above link.
-- The built-in Archipelago client, which can be installed [here](https://github.com/ArchipelagoMW/Archipelago/releases).
-- An Adventure NTSC ROM file. The Archipelago community cannot provide these.
+- The built-in MultiworldGG client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases).
+- An Adventure NTSC ROM file. The MultiworldGG community cannot provide these.
 
 ## Configuring BizHawk
 
@@ -29,7 +29,7 @@ EmuHawk is running in the background.
 - At the same time, you can set an option to automatically load the connector_adventure.lua script when launching EmuHawk
 from AdventureClient.
 Default Windows install example:
-```rom_args: "--lua=C:/ProgramData/Archipelago/data/lua/connector_adventure.lua"```
+```rom_args: "--lua=C:/Program Files/MultiworldGG/data/lua/connector_adventure.lua"```
 
 ## Configuring your YAML file
 
@@ -63,7 +63,7 @@ path as recommended).
 ### Connect to the Multiserver
 
 Once both the client and the emulator are started, you must connect them, assuming you didn't set it up to be automatic.
-Navigate to your Archipelago install folder, then to `data/lua`, and drag+drop the `connector_adventure.lua` script onto
+Navigate to your MultiworldGG install folder, then to `data/lua`, and drag+drop the `connector_adventure.lua` script onto
 the main EmuHawk window. (You could instead open the Lua Console manually, click `Script` 〉 `Open Script`, and navigate
 to `connector_adventure.lua` with the file picker.)
 

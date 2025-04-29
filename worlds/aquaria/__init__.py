@@ -61,6 +61,8 @@ class AquariaWorld(World):
     game: str = "Aquaria"
     "The name of the game"
 
+    author: ClassVar[str] = "tioui"
+
     topology_present = True
     "show path to required location checks in spoiler"
 

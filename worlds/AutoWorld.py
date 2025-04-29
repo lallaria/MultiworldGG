@@ -76,8 +76,9 @@ class AutoWorldRegister(type):
         # TODO - remove this once all worlds use options dataclasses
         if "options_dataclass" not in dct and "option_definitions" in dct:
             # TODO - switch to deprecate after a version
-            deprecate(f"{name} Assigned options through option_definitions which is now deprecated. "
-                      "Please use options_dataclass instead.")
+            #if __debug__:
+            #    logging.warning(f"{name} Assigned options through option_definitions which is now deprecated. "
+            #                    "Please use options_dataclass instead.")
             dct["options_dataclass"] = make_dataclass(f"{name}Options", dct["option_definitions"].items(),
                                                       bases=(PerGameCommonOptions,))
 
@@ -215,6 +216,12 @@ def call_stage(multiworld: "MultiWorld", method_name: str, *args: Any) -> None:
 
 class WebWorld(metaclass=WebWorldRegister):
     """Webhost integration"""
+    
+    display_name: ClassVar[str]
+    """Display name for the world in the supported games and guides lists"""
+
+    game_categories: List[str] = ['en']
+    """Categories of games this world can be found under"""
 
     options_page: Union[bool, str] = True
     """display a settings page. Can be a link to a specific page or external tool."""
@@ -271,6 +278,13 @@ class World(metaclass=AutoWorldRegister):
 
     game: ClassVar[str]
     """name the game"""
+
+    author: ClassVar[str]
+    """author of apworld"""
+
+    nsfw: bool = False
+    """indicate if this world is considered NSFW and should be hidden by default from listing"""
+
     topology_present: bool = False
     """indicate if this world has any meaningful layout/pathing"""
 

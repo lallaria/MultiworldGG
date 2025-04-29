@@ -3,7 +3,7 @@
 ## Required Software
 
 - The Zelda1Client
-    - Bundled with Archipelago: [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+    - Bundled with MultiworldGG: [MultiworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
 - The BizHawk emulator. Versions 2.3.1 and higher are supported.
     - [BizHawk at TASVideos](https://tasvideos.org/BizHawk)
 - Your legally acquired US v1.0 PRG0 ROM file, probably named `Legend of Zelda, The (U) (PRG0) [!].nes`
@@ -15,7 +15,7 @@
 
 ## Installation Procedures
 
-1. Download and install the latest version of Archipelago.
+1. Download and install the latest version of MultiworldGG.
     - On Windows, download Setup.Archipelago.<HighestVersion\>.exe and run it.
 2. Assign EmuHawk version 2.3.1 or higher as your default program for launching `.nes` files.
     - Extract your BizHawk folder to your Desktop, or somewhere you will remember. Below are optional additional steps
@@ -34,8 +34,8 @@
 
 ### What is a config file and why do I need one?
 
-See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+See the guide on setting up a basic YAML at the MultiworldGG setup
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -72,19 +72,19 @@ client, and will also create your ROM in the same place as your patch file.
 
 ## Running the Client Program and Connecting to the Server
 
-Once the Archipelago server has been hosted:
+Once the MultiworldGG server has been hosted:
 
-1. Navigate to your Archipelago install folder and run `ArchipelagoZelda1Client.exe`.
-2. Notice the `/connect command` on the server hosting page. (It should look like `/connect archipelago.gg:*****`
+1. Navigate to your MultiworldGG install folder and run `MultiworldGGZelda1Client.exe`.
+2. Notice the `/connect command` on the server hosting page. (It should look like `/connect multiworld.gg:*****`
    where ***** are numbers)
 3. Type the connect command into the client OR add the port to the pre-populated address on the top bar (it should
-   already say `archipelago.gg`) and click `connect`.
+   already say `multiworld.gg`) and click `connect`.
 
 ### Running Your Game and Connecting to the Client Program
 
 1. Open EmuHawk 2.3.1 or higher and load your ROM OR click your ROM file if it is already associated with the
    extension `*.nes`.
-2. Navigate to where you installed Archipelago, then to `data/lua`, and drag+drop the `connector_tloz.lua` script onto
+2. Navigate to where you installed MultiworldGG, then to `data/lua`, and drag+drop the `connector_tloz.lua` script onto
    the main EmuHawk window.
     1. You could instead open the Lua Console manually, click `Script` 〉 `Open Script`, and navigate to
        `connector_tloz.lua` with the file picker.
@@ -100,7 +100,7 @@ NES at any time by running `/nes`.
 
 ### Other Client Commands
 
-All other commands may be found on the [Archipelago Server and Client Commands Guide.](/tutorial/Archipelago/commands/en)
+All other commands may be found on the [MultiworldGG Server and Client Commands Guide.](/tutorial/MultiworldGG/commands/en)
 .
 
 ## Known Issues
@@ -111,6 +111,6 @@ are, will always only be sent once.
 - Obtaining a remote item will move the location of any existing item in that room. Should this make an item 
 inaccessible, simply exit and re-enter the room. This can be used to obtain the Ocean Heart Container item without the
 stepladder; logic does not account for this.
-- Whether you've purchased from a shop is tracked via Archipelago between sessions: if you revisit a single player game,
+- Whether you've purchased from a shop is tracked via MultiworldGG between sessions: if you revisit a single player game,
 none of your shop pruchase statuses will be remembered. If you want them to be, connect to the client and server like 
 you would in a multiplayer game.

@@ -9,7 +9,7 @@ from flask_compress import Compress
 from pony.flask import Pony
 from werkzeug.routing import BaseConverter
 
-from Utils import title_sorted, get_file_safe_name
+from Utils import title_sorted, get_file_safe_name,world_list_sorted
 
 UPLOAD_FOLDER = os.path.relpath('uploads')
 LOGS_FOLDER = os.path.relpath('logs')
@@ -44,9 +44,9 @@ app.config["GENERATOR_MEMORY_LIMIT"] = 4294967296
 app.config['SESSION_PERMANENT'] = True
 
 # waitress uses one thread for I/O, these are for processing of views that then get sent
-# archipelago.gg uses gunicorn + nginx; ignoring this option
+# multiworld.gg uses gunicorn + nginx; ignoring this option
 app.config["WAITRESS_THREADS"] = 10
-# a default that just works. archipelago.gg runs on mariadb
+# a default that just works. multiworld.gg runs on postgresql
 app.config["PONY"] = {
     'provider': 'sqlite',
     'filename': os.path.abspath('ap.db3'),
@@ -74,6 +74,7 @@ class B64UUIDConverter(BaseConverter):
 app.url_map.converters["suuid"] = B64UUIDConverter
 app.jinja_env.filters['suuid'] = lambda value: base64.urlsafe_b64encode(value.bytes).rstrip(b'=').decode('ascii')
 app.jinja_env.filters["title_sorted"] = title_sorted
+app.jinja_env.filters["world_list_sorted"] = world_list_sorted
 
 
 def register():

@@ -1,6 +1,6 @@
 # StarCraft 2 Randomizer Setup Guide
 
-This guide contains instructions on how to install and troubleshoot the StarCraft 2 Archipelago client, as well as 
+This guide contains instructions on how to install and troubleshoot the StarCraft 2 MultiworldGG client, as well as 
 where to obtain a config file for StarCraft 2.
 
 ## Required Software
@@ -8,15 +8,15 @@ where to obtain a config file for StarCraft 2.
 - [StarCraft 2](https://starcraft2.com/en-us/)
    - While StarCraft 2 Archipelago supports all four campaigns, they are not mandatory to play the randomizer. 
    If you do not own certain campaigns, you only need to exclude them in the configuration file of your world.
-- [The most recent Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [The most recent MultiworldGG release](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 ## How do I install this randomizer?
 
-1. Install StarCraft 2 and Archipelago using the links above. The StarCraft 2 Archipelago client is downloaded by the 
-Archipelago installer.
+1. Install StarCraft 2 and MultiworldGG using the links above. The StarCraft 2 MultiworldGG client is downloaded by the 
+MultiworldGG installer.
    - Linux users should also follow the instructions found at the bottom of this page 
      (["Running in Linux"](#running-in-linux)).
-2. Run ArchipelagoStarcraft2Client.exe.
+2. Run MultiworldGGStarcraft2Client.exe.
    - macOS users should instead follow the instructions found at ["Running in macOS"](#running-in-macos) for this step 
    only.
 3. Type the command `/download_data`. 
@@ -24,7 +24,7 @@ This will automatically install the Maps and Data files needed to play StarCraft
 
 ## Where do I get a config file (aka "YAML") for this game?
 
-Yaml files are configuration files that tell Archipelago how you'd like your game to be randomized, even if you're only 
+Yaml files are configuration files that tell MultiworldGG how you'd like your game to be randomized, even if you're only 
 using default options.
 When you're setting up a multiworld, every world needs its own yaml file.
 
@@ -32,13 +32,13 @@ There are three basic ways to get a yaml:
 * You can go to the [Player Options](/games/Starcraft%202/player-options) page, set your options in the GUI, and export 
 the yaml.
 * You can generate a template, either by downloading it from the [Player Options](/games/Starcraft%202/player-options) 
-page or by generating it from the Launcher (`ArchipelagoLauncher.exe`). 
+page or by generating it from the Launcher (`MultiworldGGLauncher.exe`). 
 The template includes descriptions of each option, you just have to edit it in your text editor of choice.
 * You can ask someone else to share their yaml to use it for yourself or adjust it as you wish.
 
 Remember the name you enter in the options page or in the yaml file, you'll need it to connect later!
 
-Check out [Creating a YAML](/tutorial/Archipelago/setup/en#creating-a-yaml) for more game-agnostic information.
+Check out [Creating a YAML](/tutorial/MultiworldGG/setup/en#creating-a-yaml) for more game-agnostic information.
 
 ### Common yaml questions
 
@@ -47,10 +47,10 @@ Check out [Creating a YAML](/tutorial/Archipelago/setup/en#creating-a-yaml) for 
 The simplest way to check is to use the website [validator](/check). 
 
 You can also test it by attempting to generate a multiworld with your yaml. Save your yaml to the `Players/` folder 
-within your Archipelago installation and run `ArchipelagoGenerate.exe`. 
-You should see a new `.zip` file within the `output/` folder of your Archipelago installation if things worked 
+within your MultiworldGG installation and run `MultiworldGGGenerate.exe`. 
+You should see a new `.zip` file within the `output/` folder of your MultiworldGG installation if things worked 
 correctly. 
-It's advisable to run `ArchipelagoGenerate.exe` through a terminal so that you can see the printout, which will include 
+It's advisable to run `MultiworldGGGenerate.exe` through a terminal so that you can see the printout, which will include 
 any errors and the precise output file name if it's successful. 
 If you don't like terminals, you can also check the log file in the `logs/` folder.
 
@@ -97,13 +97,13 @@ That's the default value in the template, which should let you know to use this 
 
 #### How do I know the exact names of items and locations?
 
-The [*datapackage*](/datapackage) page of the Archipelago website provides a complete list of the items and locations 
+The [*datapackage*](/datapackage) page of the MultiworldGG website provides a complete list of the items and locations 
 for each game that it currently supports, including StarCraft 2.
 
 You can also look up a complete list of the item names in the 
 [Icon Repository](https://matthewmarinets.github.io/ap_sc2_icons/) page.
 This page also contains supplementary information of each item.
-However, the items shown in that page might differ from those shown in the datapackage page of Archipelago since the 
+However, the items shown in that page might differ from those shown in the datapackage page of MultiworldGG since the 
 former is generated, most of the time, from beta versions of StarCraft 2 Archipelago undergoing development.
 
 As for the locations, you can see all the locations associated to a mission in your world by placing your cursor over 
@@ -111,7 +111,7 @@ the mission in the 'StarCraft 2 Launcher' tab in the client.
 
 ## How do I join a MultiWorld game?
 
-1. Run ArchipelagoStarcraft2Client.exe.
+1. Run MultiworldGGStarcraft2Client.exe.
    - macOS users should instead follow the instructions found at ["Running in macOS"](#running-in-macos) for this step 
    only.
 2. Type `/connect [server ip]`.
@@ -124,14 +124,14 @@ Unreachable missions will have greyed-out text. Just click on an available missi
 
 ## The game isn't launching when I try to start a mission.
 
-First, check the log file for issues (stored at `[Archipelago Directory]/logs/SC2Client.txt`). 
+First, check the log file for issues (stored at `[MultiworldGG Directory]/logs/SC2Client.txt`). 
 If you can't figure out the log file, visit our [Discord's](https://discord.com/invite/8Z65BR2) tech-support channel 
 for help. 
 Please include a specific description of what's going wrong and attach your log file to your message.
 
 ## My keyboard shortcuts profile is not available when I play *StarCraft 2 Archipelago*.
 
-For your keyboard shortcuts profile to work in Archipelago, you need to copy your shortcuts file from 
+For your keyboard shortcuts profile to work in MultiworldGG, you need to copy your shortcuts file from 
 `Documents/StarCraft II/Accounts/######/Hotkeys` to `Documents/StarCraft II/Hotkeys`. 
 If the folder doesn't exist, create it.
 
@@ -144,14 +144,14 @@ You will only need to do this once.
 
 ## Running in macOS
 
-To run StarCraft 2 through Archipelago in macOS, you will need to run the client via source as seen here: 
-[macOS Guide](/tutorial/Archipelago/mac/en). 
+To run StarCraft 2 through MultiworldGG in macOS, you will need to run the client via source as seen here: 
+[macOS Guide](/tutorial/MultiworldGG/mac/en). 
 Note: to launch the client, you will need to run the command `python3 Starcraft2Client.py`.
 
 ## Running in Linux
 
-To run StarCraft 2 through Archipelago in Linux, you will need to install the game using Wine, then run the Linux build
-of the Archipelago client.
+To run StarCraft 2 through MultiworldGG in Linux, you will need to install the game using Wine, then run the Linux build
+of the MultiworldGG client.
 
 Make sure you have StarCraft 2 installed using Wine, and that you have followed the
 [installation procedures](#how-do-i-install-this-randomizer?) to add the Archipelago maps to the correct location. 
@@ -176,12 +176,12 @@ export SC2PATH="/home/user/Games/starcraft-ii/drive_c/Program Files (x86)/StarCr
 # FIXME Set to directory which contains Archipelago AppImage file
 PATH_TO_ARCHIPELAGO=
 
-# Gets the latest version of Archipelago AppImage in PATH_TO_ARCHIPELAGO.
+# Gets the latest version of MultiworldGG AppImage in PATH_TO_ARCHIPELAGO.
 # If PATH_TO_ARCHIPELAGO is not set, this defaults to the directory containing
 # this script file.
 ARCHIPELAGO="$(ls ${PATH_TO_ARCHIPELAGO:-$(dirname $0)}/Archipelago_*.AppImage | sort -r | head -1)"
 
-# Start the Archipelago client
+# Start the MultiworldGG client
 $ARCHIPELAGO Starcraft2Client
 ```
 

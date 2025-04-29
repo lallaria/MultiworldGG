@@ -17,7 +17,7 @@ class MuseDashWebWorld(WebWorld):
     bug_report_page = "https://github.com/DeamonHunter/ArchipelagoMuseDash/issues"
     setup_en = Tutorial(
         "Mod Setup and Use Guide",
-        "A guide to setting up the Muse Dash Archipelago Mod on your computer.",
+        "A guide to setting up the Muse Dash MultiworldGG Mod on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -50,6 +50,7 @@ class MuseDashWorld(World):
 
     # World Options
     game = "Muse Dash"
+    author: str = "DeamonHunter"
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = MuseDashOptions
     options: MuseDashOptions
 

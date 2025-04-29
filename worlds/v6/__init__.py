@@ -28,6 +28,7 @@ class V6World(World):
     """ #Lifted from Store Page
 
     game: str = "VVVVVV"
+    author: str = "N00byKing"
     topology_present = False
     web = V6Web()
 

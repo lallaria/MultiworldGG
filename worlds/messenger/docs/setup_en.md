@@ -13,8 +13,8 @@ Read changes to the base game on the [Game Info Page](/games/The%20Messenger/inf
 
 ### Automated Installation
 
-1. Download and install the latest [Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
-2. Launch the Archipelago Launcher (ArchipelagoLauncher.exe)
+1. Download and install the latest [MultiworldGG release](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
+2. Launch the MultiworldGG Launcher (MultiworldGGLauncher.exe)
 3. Click on "The Messenger"
 4. Follow the prompts
 
@@ -41,7 +41,7 @@ These steps can also be followed to launch the game and check for mod updates af
 
 ## Joining a MultiWorld Game
 
-### Automatic Connection on archipelago.gg
+### Automatic Connection on multiworld.gg
 
 1. Go to the room page of the MultiWorld you are going to join.
 2. Click on your slot name on the left side.

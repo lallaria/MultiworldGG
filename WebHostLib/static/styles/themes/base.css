@@ -44,8 +44,8 @@ html{
     margin-top: 4px;
 }
 
-#base-header a, #base-header-mobile-menu a, #base-header-popover-text{
-    color: #2f6b83;
+#base-header a, #base-header-mobile-menu a, #base-header-popover-text, #base-header-popover-text-2{
+    color: #ea166c;;
     text-decoration: none;
     cursor: pointer;
     margin-right: 1.2rem;
@@ -84,7 +84,7 @@ html{
     border-top: 1px solid #d3d3d3;
 }
 
-#base-header-mobile-menu :first-child, #base-header-popover-menu :first-child{
+#base-header-mobile-menu :first-child, #base-header-popover-menu :first-child, #base-header-popover-menu-2 :first-child{
     border-top: none;
 }
 
@@ -92,12 +92,12 @@ html{
     height: 3rem;
 }
 
-#base-header-popover-menu{
+#base-header-popover-menu, #base-header-popover-menu-2{
     display: none;
     flex-direction: column;
     position: absolute;
-    background-color: #fff;
-    margin-left: -108px;
+    background-color: #40155d;
+    margin-left: -98px;
     margin-top: 2.25rem;
     border-radius: 10px;
     border-left: 2px solid #d0ebe6;
@@ -106,8 +106,12 @@ html{
     filter: drop-shadow(-6px 6px 2px #2e3e83);
 }
 
-#base-header-popover-menu a{
-    color: #699ca8;
+#base-header-popover-menu-2 {
+    margin-left: -40px !important;
+}
+
+#base-header-popover-menu a, #base-header-popover-menu-2 a{
+    color: #ea166c;
     border-top: 1px solid #d3d3d3;
     text-align: center;
     font-size: 1.5rem;
@@ -152,10 +156,10 @@ html{
     }
 
     #base-header-mobile-menu a{
-        font-size: 1.5rem;
-        line-height: 3rem;
+        font-size: 1rem;
+        line-height: 2rem;
         margin: 0;
-        padding: 0.25rem 1rem;
+        padding: 0.25rem .5rem;
     }
 }
 

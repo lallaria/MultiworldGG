@@ -16,7 +16,7 @@ from typing import List, Dict, Any
 class RiskOfWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Risk of Rain 2 integration for Archipelago multiworld games.",
+        "A guide to setting up the Risk of Rain 2 integration for MultiworldGG Multiworld games.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -33,6 +33,7 @@ class RiskOfRainWorld(World):
      first crash landing.
     """
     game = "Risk of Rain 2"
+    author: str = "Sneaki"
     options_dataclass = ROR2Options
     options: ROR2Options
     topology_present = False

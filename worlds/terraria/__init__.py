@@ -34,7 +34,7 @@ class TerrariaWeb(WebWorld):
     tutorials = [
         Tutorial(
             "Multiworld Setup Guide",
-            "A guide to setting up the Terraria randomizer connected to an Archipelago Multiworld.",
+            "A guide to setting up the Terraria randomizer connected to an MultiworldGG Multiworld.",
             "English",
             "setup_en.md",
             "setup/en",
@@ -50,10 +50,13 @@ class TerrariaWorld(World):
     """
 
     game = "Terraria"
-    web = TerrariaWeb()
+    author: str = "Seldom-SE"
+
     options_dataclass = TerrariaOptions
     options: TerrariaOptions
 
+    web = TerrariaWeb()
+    
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
 

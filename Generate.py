@@ -316,7 +316,7 @@ def handle_name(name: str, player: int, name_counter: Counter):
     # Could cause issues for some clients that cannot handle the additional whitespace.
     new_name = new_name.strip()[:16].strip()
 
-    if new_name == "Archipelago":
+    if new_name == "Archipelago" or new_name == "MultiworldGG":
         raise Exception(f"You cannot name yourself \"{new_name}\"")
     return new_name
 

@@ -1,30 +1,30 @@
-# Archipelago API
+# MultiworldGG API
 
-This document tries to explain some aspects of the Archipelago World API used when implementing the generation logic of
+This document tries to explain some aspects of the MultiworldGG World API used when implementing the generation logic of
 a game.
 
 Client implementation is out of scope of this document. Please refer to an existing game that provides a similar API to
 yours, and the following documents:
 
-* [network protocol.md](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/network%20protocol.md)
-* [adding games.md](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/adding%20games.md)
+* [network protocol.md](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/network%20protocol.md)
+* [adding games.md](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/adding%20games.md)
 
-Archipelago will be abbreviated as "AP" from now on.
+MultiworldGG will be abbreviated as "MWGG" from now on.
 
 ## Language
 
-AP worlds are written in python3.
+MWGG worlds are written in python3.
 Clients that connect to the server to sync items can be in any language that allows using WebSockets.
 
 ## Coding style
 
-AP follows a [style guide](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/style.md).
+MWGG follows a [style guide](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/style.md).
 When in doubt, use an IDE with a code-style linter, for example PyCharm Community Edition.
 
 ## Docstrings
 
 Docstrings are strings attached to an object in Python that describe what the object is supposed to be. Certain
-docstrings will be picked up and used by AP. They are assigned by writing a string without any assignment right below a
+docstrings will be picked up and used by MWGG. They are assigned by writing a string without any assignment right below a
 definition. The string must be a triple-quoted string, and should
 follow [reST style](https://peps.python.org/pep-0287/).
 
@@ -35,14 +35,14 @@ from worlds.AutoWorld import World
 
 
 class MyGameWorld(World):
-    """This is the description of My Game that will be displayed on the AP website."""
+    """This is the description of My Game that will be displayed on the MWGG website."""
 ```
 
 ## Definitions
 
 This section covers various classes and objects you can use for your world. While some of the attributes and methods
 are mentioned here, not all of them are, but you can find them in
-[`BaseClasses.py`](https://github.com/ArchipelagoMW/Archipelago/blob/main/BaseClasses.py).
+[`BaseClasses.py`](https://github.com/MultiworldGG/MultiworldGG/blob/main/BaseClasses.py).
 
 ### World Class
 
@@ -54,7 +54,7 @@ for each player of the game for any given generated multiworld.
 A `WebWorld` class contains specific attributes and methods that can be modified for your world specifically on the
 webhost:
 
-* `options_page` can be changed to a link instead of an AP-generated options page.
+* `options_page` can be changed to a link instead of an MWGG-generated options page.
 
 * `rich_text_options_doc` controls whether [Option documentation] uses plain text (`False`) or rich text (`True`). It
   defaults to `False`, but world authors are encouraged to set it to `True` for nicer-looking documentation that looks
@@ -62,11 +62,7 @@ webhost:
 
   [Option documentation]: /docs/options%20api.md#option-documentation
 
-* `theme` to be used for your game-specific AP pages. Available themes:
-
-  | dirt                                       | grass (default)                             | grassFlowers                                       | ice                                       | jungle                                       | ocean                                       | partyTime                                       | stone                                       |
-  |--------------------------------------------|---------------------------------------------|----------------------------------------------------|-------------------------------------------|----------------------------------------------|---------------------------------------------|-------------------------------------------------|---------------------------------------------|
-  | <img src="img/theme_dirt.JPG" width="100"> | <img src="img/theme_grass.JPG" width="100"> | <img src="img/theme_grassFlowers.JPG" width="100"> | <img src="img/theme_ice.JPG" width="100"> | <img src="img/theme_jungle.JPG" width="100"> | <img src="img/theme_ocean.JPG" width="100"> | <img src="img/theme_partyTime.JPG" width="100"> | <img src="img/theme_stone.JPG" width="100"> |
+* `theme` to be used for your game-specific MWGG pages. Right now, MWGG themes look all identical.
 
 * `bug_report_page` (optional) can be a link to a bug reporting page, most likely a GitHub issue page, that will be
   placed by the site to help users report bugs.
@@ -181,7 +177,7 @@ through `self.multiworld` from your `World` object.
 
 ### Player
 
-The player is just an `int` in AP and is accessible through `self.player` from your `World` object.
+The player is just an `int` in MWGG and is accessible through `self.player` from your `World` object.
 
 ### Player Options
 
@@ -213,7 +209,7 @@ These settings are accessible through `self.settings.<setting_name>` or `cls.set
 
 Users can set these in their `host.yaml` file. Some settings may automatically open a file browser if a file is missing.
 
-Refer to [settings api.md](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/settings%20api.md) for details.
+Refer to [settings api.md](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/settings%20api.md) for details.
 
 ### Locations
 
@@ -291,8 +287,8 @@ like entrance randomization in logic.
 
 Regions have a list called `exits`, containing `Entrance` objects representing transitions to other regions.
 
-There must be one special region (Called "Menu" by default, but configurable using [origin_region_name](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L298-L299)),
-from which the logic unfolds. AP assumes that a player will always be able to return to this starting region by resetting the game ("Save and quit").
+There must be one special region (Called "Menu" by default, but configurable using [origin_region_name](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L298-L299)),
+from which the logic unfolds. MWGG assumes that a player will always be able to return to this starting region by resetting the game ("Save and quit").
 
 ### Entrances
 
@@ -306,7 +302,7 @@ generation (entrance randomization).
 An access rule is a function that returns `True` or `False` for a `Location` or `Entrance` based on the current `state`
 (items that have been collected).
 
-The two possible ways to make a [CollectionRule](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/generic/Rules.py#L10) are:
+The two possible ways to make a [CollectionRule](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/generic/Rules.py#L10) are:
 - `def rule(state: CollectionState) -> bool:`
 - `lambda state: ... boolean expression ...`
 
@@ -331,7 +327,7 @@ Even doing `state.can_reach_location` or `state.can_reach_entrance` is problemat
 You can use `multiworld.register_indirect_condition(region, entrance)` to explicitly tell the generator that, when a given region becomes accessible, it is necessary to re-check a specific entrance.
 You **must** use `multiworld.register_indirect_condition` if you perform this kind of `can_reach` from an entrance access rule, unless you have a **very** good technical understanding of the relevant code and can reason why it will never lead to problems in your case.
 
-Alternatively, you can set [world.explicit_indirect_conditions = False](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L301-L304),
+Alternatively, you can set [world.explicit_indirect_conditions = False](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L301-L304),
 avoiding the need for indirect conditions at the expense of performance.
 
 ### Item Rules
@@ -349,7 +345,7 @@ point for the package is `__init__.py`. Conventionally, your `World` class is pl
 World classes must inherit from the `World` class in `/worlds/AutoWorld.py`, which can be imported as
 `from worlds.AutoWorld import World` from your package.
 
-AP will pick up your world automatically due to the `AutoWorld` implementation.
+MWGG will pick up your world automatically due to the `AutoWorld` implementation.
 
 ### Requirements
 
@@ -360,7 +356,7 @@ See [pip documentation](https://pip.pypa.io/en/stable/cli/pip_install/#requireme
 
 ### Relative Imports
 
-AP will only import the `__init__.py`. Depending on code size, it may make sense to use multiple files and use relative
+MWGG will only import the `__init__.py`. Depending on code size, it may make sense to use multiple files and use relative
 imports to access them.
 
 e.g. `from .options import MyGameOptions` from your `__init__.py` will load `world/[world_name]/options.py` and make
@@ -390,7 +386,7 @@ class MyGameItem(Item):
 
 By convention, this class definition will either be placed in your `__init__.py` or your `items.py`. For a more
 elaborate example see
-[`worlds/oot/Items.py`](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/oot/Items.py).
+[`worlds/oot/Items.py`](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/oot/Items.py).
 
 ### Your Location Type
 
@@ -561,7 +557,7 @@ from .items import is_progression  # this is just a dummy
 
 
 def create_item(self, item: str) -> MyGameItem:
-    # this is called when AP wants to create an item by name (for plando, start inventory, item links) or when you call it from your own code
+    # this is called when MWGG wants to create an item by name (for plando, start inventory, item links) or when you call it from your own code
     classification = ItemClassification.progression if is_progression(item) else ItemClassification.filler
     return MyGameItem(item, classification, self.item_name_to_id[item], self.player)
 
@@ -660,7 +656,7 @@ def set_rules(self) -> None:
 
 Custom methods can be defined for your logic rules. The access rule that ultimately gets assigned to the Location or
 Entrance should be
-a [`CollectionRule`](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/generic/Rules.py#L10).
+a [`CollectionRule`](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/generic/Rules.py#L10).
 Typically, this is done by defining a lambda expression on demand at the relevant bit, typically calling other
 functions, but this can also be achieved by defining a method with the appropriate format and assigning it directly.
 For an example, see [The Messenger](/worlds/messenger/rules.py).
@@ -844,7 +840,7 @@ absolutely necessary. Slot data is sent to your client once it has successfully
 
 If you need to know information about locations in your world, instead of propagating the slot data, it is preferable
 to use [LocationScouts](network%20protocol.md#locationscouts), since that data already exists on the server. Adding 
-item/location pairs is unnecessary since the AP server already retains and freely gives that information to clients 
+item/location pairs is unnecessary since the MWGG server already retains and freely gives that information to clients 
 that request it. The most common usage of slot data is sending option results that the client needs to be aware of.
 
 ```python
@@ -864,7 +860,7 @@ the `.md` files in your world's `/docs` directory.
 
 #### Game Info
 
-The game info page is for a short breakdown of what your game is and how it works in Archipelago. Any additional
+The game info page is for a short breakdown of what your game is and how it works in MultiworldGG. Any additional
 information that may be useful to the player when learning your randomizer should also go here. The file name format
 is `<language key>_<game name>.md`. While you can write these docs for multiple languages, currently only the english
 version is displayed on the website.

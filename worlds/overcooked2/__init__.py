@@ -45,7 +45,8 @@ class Overcooked2World(World):
     # Autoworld API
 
     game = "Overcooked! 2"
-    web = Overcooked2Web()
+    author: str = "toasterparty"
+
     required_client_version = (0, 3, 8)
     topology_present: bool = False
 
@@ -58,6 +59,7 @@ class Overcooked2World(World):
     options_dataclass = OC2Options
     options: OC2Options
     itempool: List[Overcooked2Item]
+    web = Overcooked2Web()
 
     # Helper Functions
 

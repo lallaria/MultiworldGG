@@ -22,7 +22,7 @@ class MLSSWebWorld(WebWorld):
     tutorials = [
         Tutorial(
             tutorial_name="Setup Guide",
-            description="A guide to setting up Mario & Luigi: Superstar Saga for Archipelago.",
+            description="A guide to setting up Mario & Luigi: Superstar Saga for MultiworldGG.",
             language="English",
             file_name="setup_en.md",
             link="setup/en",
@@ -50,10 +50,11 @@ class MLSSWorld(World):
     """
 
     game = "Mario & Luigi Superstar Saga"
-    web = MLSSWebWorld()
+    author: str = "jamesbrq"
     options_dataclass = MLSSOptions
     options: MLSSOptions
     settings: typing.ClassVar[MLSSSettings]
+    web = MLSSWebWorld()
     item_name_groups = mlss_item_name_groups
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = {loc_data.name: loc_data.id for loc_data in all_locations}

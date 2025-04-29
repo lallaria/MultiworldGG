@@ -10,7 +10,7 @@ Comme nous utilisons Bizhawk, ce guide ne s'applique qu'aux systèmes Windows et
    - Les versions 2.3.1 et ultérieures sont prises en charge. La version 2.7 est recommandée pour la stabilité.
    - Des instructions d'installation détaillées pour Bizhawk peuvent être trouvées sur le lien ci-dessus.
    - Les utilisateurs Windows doivent d'abord exécuter le programme d'installation prereq, qui peut également être trouvé sur le lien ci-dessus.
-- Le client Archipelago intégré, qui peut être installé [ici](https://github.com/ArchipelagoMW/Archipelago/releases)
+- Le client Archipelago intégré, qui peut être installé [ici](https://github.com/MultiworldGG/MultiworldGG/releases)
    (sélectionnez `Adventure Client` lors de l'installation).
 - Un fichier ROM Adventure NTSC. La communauté Archipelago ne peut pas les fournir.
 
@@ -30,7 +30,7 @@ BizHawk s'exécute en arrière-plan.
 - En même temps, vous pouvez définir une option pour charger automatiquement le script connector_adventure.lua lors du lancement de BizHawk
 d'AdventureClient.
 Exemple d'installation Windows par défaut :
-```rom_args: "--lua=C:/ProgramData/Archipelago/data/lua/connector_adventure.lua"```
+```rom_args: "--lua=C:/Program Files/MultiworldGG/data/lua/connector_adventure.lua"```
 
 ## Configuration de votre fichier YAML
 

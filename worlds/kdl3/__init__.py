@@ -45,7 +45,7 @@ class KDL3WebWorld(WebWorld):
 
         Tutorial(
             "Multiworld Setup Guide",
-            "A guide to setting up the Kirby's Dream Land 3 randomizer connected to an Archipelago Multiworld.",
+            "A guide to setting up the Kirby's Dream Land 3 randomizer connected to an MultiworldGG Multiworld.",
             "English",
             "setup_en.md",
             "setup/en",
@@ -62,6 +62,7 @@ class KDL3World(World):
     """
 
     game = "Kirby's Dream Land 3"
+    author: str = "Silvris"
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = KDL3Options
     options: KDL3Options
     item_name_to_id = lookup_item_to_id

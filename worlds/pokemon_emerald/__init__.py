@@ -1,5 +1,5 @@
 """
-Archipelago World definition for Pokemon Emerald Version
+MultiworldGG World definition for Pokemon Emerald Version
 """
 from collections import Counter
 import copy
@@ -38,7 +38,7 @@ class PokemonEmeraldWebWorld(WebWorld):
 
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to playing Pokémon Emerald with Archipelago.",
+        "A guide to playing Pokémon Emerald with MultiworldGG.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -47,7 +47,7 @@ class PokemonEmeraldWebWorld(WebWorld):
 
     setup_es = Tutorial(
         "Guía de configuración para Multiworld",
-        "Una guía para jugar Pokémon Emerald en Archipelago",
+        "Una guía para jugar Pokémon Emerald en MultiworldGG",
         "Español",
         "setup_es.md",
         "setup/es",
@@ -56,7 +56,7 @@ class PokemonEmeraldWebWorld(WebWorld):
     
     setup_sv = Tutorial(
         "Multivärld Installations Guide",
-        "En guide för att kunna spela Pokémon Emerald med Archipelago.",
+        "En guide för att kunna spela Pokémon Emerald med MultiworldGG.",
         "Svenska",
         "setup_sv.md",
         "setup/sv",
@@ -84,6 +84,7 @@ class PokemonEmeraldWorld(World):
     of Team Magma and Team Aqua, challenge gyms, and become the Pokémon champion!
     """
     game = "Pokemon Emerald"
+    author: str = "Zunawe"
     web = PokemonEmeraldWebWorld()
     topology_present = True
 

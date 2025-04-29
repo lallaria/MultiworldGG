@@ -25,6 +25,7 @@ class ChecksFinderWorld(World):
     You win when you get all your items and beat the last board!
     """
     game = "ChecksFinder"
+    author: str = "SunCatMC"
     options_dataclass = PerGameCommonOptions
     web = ChecksFinderWeb()
 

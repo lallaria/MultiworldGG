@@ -166,7 +166,7 @@ actual abbreviation corresponds to whatever BizHawk returns from `emu.getsystemi
 `patch_suffix` is an optional `ClassVar` meant to specify the file extensions you want to register. It can be a string
 or tuple of strings. When a player clicks "Open Patch" in a launcher, the suffix(es) will be whitelisted in the file
 select dialog and they will be associated with BizHawkClient. This does not affect whether the user's computer will
-associate the file extension with Archipelago.
+associate the file extension with MultiworldGG.
 
 `validate_rom` is called to figure out whether a given ROM belongs to your client. It will only be called when a ROM is
 running on a system you specified in your `system` class variable. Take extra care here, because your code will run

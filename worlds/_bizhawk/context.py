@@ -11,6 +11,7 @@ from typing import Any
 from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser, server_loop, logger, gui_enabled
 import Patch
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 from . import BizHawkContext, ConnectionStatus, NotConnectedError, RequestFailedError, connect, disconnect, get_hash, \
     get_script_version, get_system, ping
@@ -62,7 +63,7 @@ class BizHawkClientContext(CommonContext):
 
     def make_gui(self):
         ui = super().make_gui()
-        ui.base_title = "Archipelago BizHawk Client"
+        ui.base_title = apname + " BizHawk Client"
         return ui
 
     def on_package(self, cmd, args):
@@ -249,7 +250,7 @@ def _patch_and_run_game(patch_file: str):
 def launch(*launch_args: str) -> None:
     async def main():
         parser = get_base_parser()
-        parser.add_argument("patch_file", default="", type=str, nargs="?", help="Path to an Archipelago patch file")
+        parser.add_argument("patch_file", default="", type=str, nargs="?", help="Path to a MultiworldGG patch file")
         args = parser.parse_args(launch_args)
 
         if args.patch_file != "":

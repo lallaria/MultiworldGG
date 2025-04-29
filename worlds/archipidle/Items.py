@@ -306,7 +306,7 @@ item_table = (
     '1,793 Crossbows',
     'Holographic First Edition Charizard (Gen 1)',
     'VR Headset',
-    'Archipelago 1.0 Release Date',
+    'Half-Life 3 Release Date',
     'Strand of Galadriel\'s Hair',
     'Can of Meow-Mix',
     'Shake-Weight',

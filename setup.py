@@ -55,7 +55,7 @@ if __name__ == "__main__":
     ModuleUpdate.update(yes="--yes" in sys.argv or "-y" in sys.argv)
 
 from worlds.LauncherComponents import components, icon_paths
-from Utils import version_tuple, is_windows, is_linux
+from Utils import version_tuple, instance_name, archipelago_guid, is_windows, is_linux
 from Cython.Build import cythonize
 
 
@@ -64,14 +64,15 @@ non_apworlds: Set[str] = {
     "A Link to the Past",
     "Adventure",
     "ArchipIDLE",
-    "Archipelago",
     "Clique",
     "Final Fantasy",
     "Lufia II Ancient Cave",
     "Meritous",
+    "MultiworldGG",
     "Ocarina of Time",
     "Overcooked! 2",
     "Raft",
+    "Slay the Spire",
     "Sudoku",
     "Super Mario 64",
     "VVVVVV",
@@ -195,7 +196,7 @@ if is_windows:
         icon=resolve_icon(c.icon),
     ))
 
-extra_data = ["LICENSE", "data", "EnemizerCLI", "SNI"]
+extra_data = ["LICENSE", "LICENSE-original.md", "data", "EnemizerCLI", "SNI", "application.yaml"]
 extra_libs = ["libssl.so", "libcrypto.so"] if is_linux else []
 
 
@@ -619,11 +620,19 @@ def find_libs(*args: str) -> Sequence[Tuple[str, str]]:
                 file = os.path.join(dirname, file)
     return res
 
+inno_lines = "" # Need to save unmodified inno to revert after build
+with open("inno_setup.iss", "r") as f:
+    inno_lines = f.read()
+inno_replace_lines = inno_lines
+inno_replace_lines = inno_replace_lines.replace("MultiworldGG", instance_name)
+inno_replace_lines = inno_replace_lines.replace("{{918BA46A-FAB8-460C-9DFF-AE691E1C865B}}",archipelago_guid)
+with open("inno_setup.iss", "w") as f:
+    f.write(inno_replace_lines)
 
 cx_Freeze.setup(
-    name="Archipelago",
+    name=instance_name,
     version=f"{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}",
-    description="Archipelago",
+    description=instance_name,
     executables=exes,
     ext_modules=cythonize("_speedups.pyx"),
     options={
@@ -655,3 +664,5 @@ cx_Freeze.setup(
         "bdist_appimage": AppImageCommand,
     },
 )
+with open("inno_setup.iss", "w") as f: # revert inno_setup.iss
+    f.write(inno_lines)

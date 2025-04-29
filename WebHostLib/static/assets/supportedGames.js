@@ -17,7 +17,7 @@ window.addEventListener('load', () => {
     // Loop over all the games
     toggleButtons.forEach((header) => {
       // If the game name includes the search string, display the game. If not, hide it
-      if (header.getAttribute('data-game').toLowerCase().includes(evt.target.value.toLowerCase())) {
+      if (header.getAttribute('data-game').toLowerCase().includes(evt.target.value.toLowerCase()) || header.getAttribute('data-display-name').toLowerCase().includes(evt.target.value.toLowerCase())) {
         header.style.display = null;
         header.setAttribute('open', '1');
       } else {

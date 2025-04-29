@@ -212,20 +212,20 @@ def launch(*args: str) -> Any:
     server: str = ""
     if args:
         parser = argparse.ArgumentParser(description=f"{GAME_NAME} Client Launcher")
-        parser.add_argument("url", type=str, nargs="?", help="Archipelago Webhost uri to auto connect to.")
+        parser.add_argument("url", type=str, nargs="?", help="MultiworldGG Webhost uri to auto connect to.")
         args = parser.parse_args(args)
 
-        # handle if text client is launched using the "archipelago://name:pass@host:port" url from webhost
+        # handle if text client is launched using the "archipelago/mwgg://name:pass@host:port" url from webhost
         if args.url:
             url = urllib.parse.urlparse(args.url)
-            if url.scheme == "archipelago":
+            if url.scheme == "archipelago" or url.scheme == "mwgg":
                 server = f'--server="{url.hostname}:{url.port}"'
                 if url.username:
                     name = f'--name="{urllib.parse.unquote(url.username)}"'
                 if url.password:
                     password = f'--password="{urllib.parse.unquote(url.password)}"'
             else:
-                parser.error(f"bad url, found {args.url}, expected url in form of archipelago://archipelago.gg:38281")
+                parser.error(f"bad url, found {args.url}, expected url in form of archipelago/mwgg://multiworld.gg:38281")
 
     Utils.init_logging(CLIENT_NAME, exception_logger="Client")
 

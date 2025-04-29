@@ -11,6 +11,7 @@ from typing import List
 
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from NetUtils import ClientStatus
 from Utils import async_start
 from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, \
@@ -140,7 +141,7 @@ class AdventureContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Adventure Client"
+            base_title = apname + " Adventure Client"
 
         self.ui = AdventureManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -303,7 +304,7 @@ async def atari_sync_task(ctx: AdventureContext):
                         data_decoded = json.loads(data.decode())
                         if 'scriptVersion' not in data_decoded or data_decoded['scriptVersion'] != SCRIPT_VERSION:
                             msg = "You are connecting with an incompatible Lua script version. Ensure your connector " \
-                                  "Lua and AdventureClient are from the same Archipelago installation."
+                                  "Lua and AdventureClient are from the same MultiworldGG installation."
                             logger.info(msg, extra={'compact_gui': True})
                             ctx.gui_error('Error', msg)
                             error_status = CONNECTION_RESET_STATUS

@@ -3,11 +3,11 @@
 ### Required Software
 
 - Undertale from the [Steam page](https://store.steampowered.com/app/391540)
-- Archipelago from the [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+- MultiworldGG from the [MultiworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 ### First time setup
 
-Start the Undertale client from your Archipelago folder and input `/auto_patch <Your Undertale Install Directory>` at the bottom. 
+Start the Undertale client from your MultiworldGG folder and input `/auto_patch <Your Undertale Install Directory>` at the bottom. 
 
 This directory is usually located at `C:\Program Files\Steam\steamapps\Undertale`, but it can be different depending on 
 your installation. You can easily find the directory by opening the Undertale directory through Steam by right-clicking 
@@ -26,11 +26,11 @@ Steam, be sure to go to `Settings -> Compatibility` and toggle `Enable Steam Pla
 
 ### Connect to the MultiServer
 
-Make sure both Undertale **from the Archipelago folder** and its client are running. (Undertale will ask for a save slot
+Make sure both Undertale **from the MultiworldGG folder** and its client are running. (Undertale will ask for a save slot
 to play on. Archipelago Undertale does not overwrite vanilla saves, but you may want to back up your save as a precaution.)
 
 In the top text box of the client, type the `IP Address` (or `Hostname`) and `Port` separated with a `:` symbol. 
-(Ex. `archipelago.gg:38281`)
+(Ex. `multiworld.gg:38281`)
 
 The client will then ask for the slot name, input your slot name chosen during YAML creation in the text box at the 
 bottom of the client.

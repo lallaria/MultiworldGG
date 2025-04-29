@@ -116,7 +116,7 @@ class ZillionSlotInfo(TypedDict):
     start_char: Chars
     rescues: dict[str, ClientRescue]
     loc_mem_to_id: dict[int, int]
-    """ memory location of canister to Archipelago location id number """
+    """ memory location of canister to MultiworldGG location id number """
 
 
 def get_slot_info(regions: Iterable[RegionData],

@@ -2,8 +2,8 @@
 
 ## Software requerido
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases).
-- [SNI](https://github.com/alttpo/sni/releases). Esto está incluido automáticamente en la instalación de Archipelago.
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
+- [SNI](https://github.com/alttpo/sni/releases). Esto está incluido automáticamente en la instalación de MultiworldGG.
 - SNI no es compatible con (Q)Usb2Snes.
 - Hardware o software capaz de cargar y ejecutar archivos de ROM de SNES, por ejemplo:
     - Un emulador capaz de conectarse a SNI
@@ -18,7 +18,7 @@ pero no tiene soporte.**
 
 ## Procedimiento de instalación
 
-1. Descarga e instala [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest).
+1. Descarga e instala [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases/latest).
    **El archivo del instalador se encuentra en la sección de assets al final de la información de version**.
 2. La primera vez que realices una generación local o parchees tu juego, se te pedirá que ubiques tu archivo ROM base.
    Este es tu archivo ROM de Link to the Past japonés. Esto sólo debe hacerse una vez.
@@ -60,7 +60,7 @@ primera vez que se ejecuta, tal vez se te pida permitir que se comunique a trav�
 3. Haz click en **New Lua Script Window...**
 4. En la nueva ventana, haz click en **Browse...**
 5. Selecciona el archivo lua conector incluido con tu cliente
-      - Busca en la carpeta de Archipelago `/SNI/lua/`.
+      - Busca en la carpeta de MultiworldGG `/SNI/lua/`.
 6. Si ves un error mientras carga el script que dice `socket.dll missing` o algo similar, ve a la carpeta de
 el lua que estas usando en tu gestor de archivos y copia el `socket.dll` a la raíz de tu instalación de snes9x.
 
@@ -77,7 +77,7 @@ el lua que estas usando en tu gestor de archivos y copia el `socket.dll` a la ra
 2. Carga tu fichero de ROM, si no lo has hecho ya.
    Si has cambiado tu preferencia de núcleo tras haber cargado la ROM, no te olvides de volverlo a cargar (atajo por defecto: Ctrl+R).
 3. Arrastra el archivo `Connector.lua` que has descargado a la ventana principal de EmuHawk.
-   - Busca en la carpeta de Archipelago `/SNI/lua/`.
+   - Busca en la carpeta de MultiworldGG `/SNI/lua/`.
    - También podrías abrir la consola de Lua manualmente, hacer click en `Script` 〉 `Open Script`, e ir a `Connector.lua`
       con el selector de archivos.
 
@@ -107,7 +107,7 @@ usuarios de SD2SNES y FXPak Pro pueden descargar el firmware apropiado
 1. Cierra tu emulador, el cual debe haberse autoejecutado.
 2. Enciende tu dispositivo y carga la ROM.
 
-### Conecta al Servidor Archipelago
+### Conecta al Servidor MultiworldGG
 
 El fichero de parche que ha lanzado el cliente debería de haberte conectado automaticamente al MultiServer. Sin embargo hay algunas
 razones por las que puede que esto no suceda, como que la partida este hospedada en la página web pero generada en otra parte. Si la

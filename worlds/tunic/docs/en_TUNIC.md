@@ -48,7 +48,7 @@ There is also a [standalone item tracker](https://github.com/radicoon/tunic-rand
 
 There is an [entrance tracker](https://scipiowright.gitlab.io/tunic-tracker/) for the entrance randomizer. This is a manual tracker that runs in your browser. This tracker was created by ScipioWright, and is a fork of the Pokémon Tracker by [Sergi "Sekii" Santana](https://gitlab.com/Sekii/pokemon-tracker).
 
-You can also use the Universal Tracker (by Faris and qwint) to find a complete list of what checks are in logic with your current items. You can find it on the Archipelago Discord, in its post in the future-game-design channel. This tracker is an extension of the regular Archipelago Text Client.
+You can also use the Universal Tracker (by Faris and qwint) to find a complete list of what checks are in logic with your current items. You can find it on the Archipelago Discord, in its post in the future-game-design channel. This tracker is an extension of the regular MultiworldGG Text Client.
 
 ## What should I know regarding logic?
 In general:
@@ -67,7 +67,7 @@ For the Entrance Randomizer:
 - The elevator in Cathedral is immediately usable without activating the fuse. Activating the fuse does nothing.
 
 ## Does this game have item and location groups?
-Yes! To find what they are, open up the Archipelago Text Client while connected to a TUNIC session and type in `/item_groups` or `/location_groups`.
+Yes! To find what they are, open up the MultiworldGG Text Client while connected to a TUNIC session and type in `/item_groups` or `/location_groups`.
 
 ## Is Connection Plando supported?
 Yes. The host needs to enable it in their `host.yaml`, and the player's yaml needs to contain a plando_connections block.
@@ -83,9 +83,9 @@ Notes:
 - The Entrance Randomizer option must be enabled for it to work.
 - The `direction` field is not supported. Connections are always coupled.
 - For a list of entrance names, check `er_data.py` in the TUNIC world folder or generate a game with the Entrance Randomizer option enabled and check the spoiler log.
-- There is no limit to the number of Shops you can plando.
+- You can plando up to 500 additional shops in Decoupled. You should not do this.
 
-See the [Archipelago Plando Guide](../../../tutorial/Archipelago/plando/en) for more information on Plando and Connection Plando.
+See the [Archipelago Plando Guide](../../../tutorial/MultiworldGG/plando/en) for more information on Plando and Connection Plando.
 
 ## Is there anything else I should know?
 - You can go to [The TUNIC Randomizer Website](https://rando.tunic.run/) for a list of randomizer features as well as some helpful tips.

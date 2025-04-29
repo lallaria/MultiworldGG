@@ -41,6 +41,7 @@ class KH1World(World):
     through many worlds to find Riku and Kairi.
     """
     game = "Kingdom Hearts"
+    author: str = "gaithern"
     options_dataclass = KH1Options
     options: KH1Options
     topology_present = True

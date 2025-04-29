@@ -10,7 +10,7 @@ class Hylics2Web(WebWorld):
     theme = "ocean"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to settings up the Hylics 2 randomizer connected to an Archipelago Multiworld",
+        "A guide to settings up the Hylics 2 randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -24,6 +24,7 @@ class Hylics2World(World):
     travel the world, and gather your allies to defeat the nefarious Gibby in his Hylemxylem!
     """
     game: str = "Hylics 2"
+    author: str = "TRPG"
     web = Hylics2Web()
 
     all_items = {**Items.item_table, **Items.gesture_item_table, **Items.party_item_table,

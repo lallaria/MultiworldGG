@@ -22,18 +22,19 @@ os.environ["KIVY_NO_ARGS"] = "1"
 os.environ["KIVY_LOG_ENABLE"] = "0"
 
 import Utils
-
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 if Utils.is_frozen():
     os.environ["KIVY_DATA_DIR"] = Utils.local_path("data")
 
 import platformdirs
-os.environ["KIVY_HOME"] = os.path.join(platformdirs.user_config_dir("Archipelago", False), "kivy")
+os.environ["KIVY_HOME"] = os.path.join(platformdirs.user_config_dir(apname, False), "kivy")
 os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
 
 from kivy.config import Config
 
 Config.set("input", "mouse", "mouse,disable_multitouch")
 Config.set("kivy", "exit_on_escape", "0")
+#Config.set("kivy", "default_font", "TODO") #I want to put dyslexia safe fonts in
 Config.set("graphics", "multisamples", "0")  # multisamples crash old intel drivers
 from kivymd.uix.divider import MDDivider
 from kivy.core.window import Window
@@ -85,7 +86,13 @@ else:
     context_type = object
 
 remove_between_brackets = re.compile(r"\[.*?]")
+Window.clearcolor = (0, 0, 0.169, 1)
 
+kivycolors = {"basecolor": [0.031, 0.024, 0.102, 1], #darker
+              "secondarycolor": [0, 0, 0.169, 1], #lighter
+              "buttoncolor": [0.839, 0.078, 0.078, 1], #this is an overlay
+              "accentcolor": [0.439, 0.078, 0.078, 1]
+              }
 
 class ThemedApp(MDApp):
     def set_colors(self):
@@ -352,7 +359,7 @@ class ServerLabel(HoverBehavior, MDTooltip, MDBoxLayout):
             return text
 
         else:
-            return "No current server connection. \nPlease connect to an Archipelago server."
+            return f"No current server connection. \nPlease connect to a {apname} server."
 
 
 class MainLayout(MDGridLayout):
@@ -797,7 +804,7 @@ class GameManager(ThemedApp):
     logging_pairs = [
         ("Client", "Archipelago"),
     ]
-    base_title: str = "Archipelago Client"
+    base_title: str = apname + " Client"
     last_autofillable_command: str
 
     main_area_container: MDGridLayout
@@ -852,7 +859,7 @@ class GameManager(ThemedApp):
         # top part
         server_label = ServerLabel(width=dp(75))
         self.connect_layout.add_widget(server_label)
-        self.server_connect_bar = ConnectBarTextInput(text=self.ctx.suggested_address or "archipelago.gg:",
+        self.server_connect_bar = ConnectBarTextInput(text=self.ctx.suggested_address or "multiworld.gg:",
                                                       pos_hint={"center_x": 0.5, "center_y": 0.5})
 
         def connect_bar_validate(sender):
@@ -873,7 +880,7 @@ class GameManager(ThemedApp):
 
         # middle part
         self.tabs = ClientTabs(pos_hint={"center_x": 0.5, "center_y": 0.5})
-        self.tabs.add_widget(MDTabsItem(MDTabsItemText(text="All" if len(self.logging_pairs) > 1 else "Archipelago")))
+        self.tabs.add_widget(MDTabsItem(MDTabsItemText(text="All" if len(self.logging_pairs) > 1 else "MultiworldGG")))
         self.log_panels["All"] = self.tabs.default_tab_content = UILog(*(logging.getLogger(logger_name)
                                                                              for logger_name, name in
                                                                              self.logging_pairs))
@@ -885,12 +892,13 @@ class GameManager(ThemedApp):
             if len(self.logging_pairs) > 1:
                 panel = MDTabsItem(MDTabsItemText(text=display_name))
                 panel.content = self.log_panels[display_name]
-                # show Archipelago tab if other logging is present
+                # show MultiworldGG tab if other logging is present
                 self.tabs.carousel.add_widget(panel.content)
                 self.tabs.add_widget(panel)
 
         hint_panel = self.add_client_tab("Hints", HintLayout())
         self.hint_log = HintLog(self.json_to_kivy_parser)
+
         self.log_panels["Hints"] = hint_panel.content
         hint_panel.content.add_widget(self.hint_log)
 
@@ -1008,7 +1016,7 @@ class GameManager(ThemedApp):
 
     def print_json(self, data: typing.List[JSONMessagePart]):
         text = self.json_to_kivy_parser(data)
-        self.log_panels["Archipelago"].on_message_markup(text)
+        self.log_panels["MultiworldGG"].on_message_markup(text)
         self.log_panels["All"].on_message_markup(text)
 
     def focus_textinput(self):
@@ -1106,7 +1114,6 @@ class HintLayout(MDBoxLayout):
             if fix_func:
                 fix_func()
 
-
 status_names: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "Found",
     HintStatus.HINT_UNSPECIFIED: "Unspecified",
@@ -1117,9 +1124,9 @@ status_names: typing.Dict[HintStatus, str] = {
 status_colors: typing.Dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "green",
     HintStatus.HINT_UNSPECIFIED: "white",
-    HintStatus.HINT_NO_PRIORITY: "cyan",
+    HintStatus.HINT_NO_PRIORITY: "lightgray",
     HintStatus.HINT_AVOID: "salmon",
-    HintStatus.HINT_PRIORITY: "plum",
+    HintStatus.HINT_PRIORITY: "gold",
 }
 status_sort_weights: dict[HintStatus, int] = {
     HintStatus.HINT_FOUND: 0,
@@ -1177,7 +1184,7 @@ class HintLog(MDRecycleView):
                     "player": hint["finding_player"],
                 })},
                 "entrance": {"text": self.parser.handle_node({"type": "color" if hint["entrance"] else "text",
-                                                              "color": "blue", "text": hint["entrance"]
+                                                              "color": 'entrancecolor', "text": hint["entrance"]
                                                               if hint["entrance"] else "Vanilla"})},
                 "status": {
                     "text": hint_status_node,

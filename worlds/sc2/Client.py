@@ -442,7 +442,7 @@ class StarcraftClientProcessor(ClientCommandProcessor):
 
     def _cmd_download_data(self) -> bool:
         """Download the most recent release of the necessary files for playing SC2 with
-        Archipelago. Will overwrite existing files."""
+        MultiworldGG. Will overwrite existing files."""
         pool.submit(self._download_data)
         return True
 
@@ -709,7 +709,7 @@ class SC2Context(CommonContext):
                     sc2_logger.warning("Starcraft 2 Client is still running!")
                 self.sc2_run_task.cancel()  # doesn't actually close the game, just stops the python task
             if self.slot is None:
-                sc2_logger.warning("Launching Mission without Archipelago authentication, "
+                sc2_logger.warning("Launching Mission without MultiworldGG authentication, "
                                    "checks will not be registered to server.")
             self.sc2_run_task = asyncio.create_task(starcraft_launch(self, mission_id),
                                                     name="Starcraft 2 Launch")
@@ -1078,7 +1078,7 @@ class ArchipelagoBot(bot.bot_ai.BotAI):
             game_state = controller1_state + (controller2_state << 15)
 
             if iteration == 160 and not game_state & 1:
-                await self.chat_send("?SendMessage Warning: Archipelago unable to connect or has lost connection to " +
+                await self.chat_send("?SendMessage Warning: MultiworldGG unable to connect or has lost connection to " +
                                      "Starcraft 2 (This is likely a map issue)")
 
             if self.last_received_update < len(self.ctx.items_received):
@@ -1496,7 +1496,7 @@ def is_mod_installed_correctly() -> bool:
         if os.path.isfile(modfile) or os.path.isdir(modfile):
             sc2_logger.info(f"Archipelago mod found at {modfile}.")
         else:
-            sc2_logger.warning(f"Archipelago mod could not be found at {modfile}.")
+            sc2_logger.warning(f"MultiworldGG mod could not be found at {modfile}.")
             needs_files = True
 
     # Final verdict.

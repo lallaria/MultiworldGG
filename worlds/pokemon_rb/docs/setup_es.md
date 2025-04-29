@@ -11,7 +11,7 @@ Al usar BizHawk, esta guía solo es aplicable en los sistemas de Windows y Linux
   - Instrucciones de instalación detalladas para BizHawk se pueden encontrar en el enlace de arriba.
   - Los usuarios de Windows deben ejecutar el instalador de prerrequisitos (prereq installer) primero, que también se 
     encuentra en el enlace de arriba.
-- El cliente incorporado de Archipelago, que se puede encontrar [aquí](https://github.com/ArchipelagoMW/Archipelago/releases).
+- El cliente incorporado de Archipelago, que se puede encontrar [aquí](https://github.com/MultiworldGG/MultiworldGG/releases).
 - Los ROMs originales de Pokémon Red y/o Blue. La comunidad de Archipelago no puede proveerlos.
 
 ## Software Opcional
@@ -79,7 +79,7 @@ Y los siguientes caracteres especiales (cada uno ocupa un carácter):
 1. Crea tu archivo de opciones (YAML).
 2. Sigue las instrucciones generales de Archipelago para [generar un juego](../../Archipelago/setup/en#generating-a-game).
 Haciendo esto se generará un archivo de salida. Tu parche tendrá la extensión de archivo `.apred` o `.apblue`.
-3. Abre `ArchipelagoLauncher.exe`
+3. Abre `MultiworldGGLauncher.exe`
 4. Selecciona "Open Patch" en el lado izquierdo y selecciona tu parche.
 5. Si es tu primera vez parchando, se te pedirá que selecciones tu ROM original.
 6. Un archivo `.gb` parchado será creado en el mismo lugar donde está el parche.
@@ -103,7 +103,7 @@ puedes volverlo a abrir desde el Launcher.
 5. Navegar a tu carpeta de instalación de Archipelago y abrir `data/lua/connector_bizhawk_generic.lua`.
 6. El emulador se puede congelar por unos segundos hasta que logre conectarse al cliente. Esto es normal. La ventana del
 BizHawk Client debería indicar que se logro conectar y reconocer Pokémon Red/Blue.
-7. Para conectar el cliente al servidor, ingresa la dirección y el puerto (por ejemplo, `archipelago.gg:38281`) en el
+7. Para conectar el cliente al servidor, ingresa la dirección y el puerto (por ejemplo, `multiworld.gg:38281`) en el
 campo de texto superior del cliente y y haz clic en Connect.
 
 Para conectar el cliente al multiserver simplemente escribe `<dirección>:<puerto>` en el campo de texto superior y

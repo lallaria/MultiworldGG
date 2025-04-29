@@ -2,9 +2,9 @@
 
 ## Required Files
 
-- Wargroove with the Double Trouble DLC installed through Steam on Windows
-  - Only the Steam Windows version is supported. MAC, Switch, Xbox, and Playstation are not supported.
-- [The most recent Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases)
+- Wargroove with the Double Trouble DLC installed through Steam on Windows and Linux
+  - Only the Steam version on Windows and Linux is supported. MAC, Switch, Xbox, and Playstation are not supported.
+- [The most recent MultiworldGG release](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 ## Backup playerProgress files
 `playerProgress` and `playerProgress.bak` contain save data for all of your Wargroove campaigns. Backing up these files
@@ -14,7 +14,7 @@ is strongly recommended in case they become corrupted.
 
 ## Update host.yaml to include the Wargroove root directory
 
-1. Look for your Archipelago install files. By default, the installer puts them in `C:\ProgramData\Archipelago`.
+1. Look for your MultiworldGG install files. By default, the installer puts them in `C:\Program Files\MultiworldGG`.
 2. Open the `host.yaml` file in your favorite text editor (Notepad will work).
 3. Put your Wargroove root directory in the `root_directory:` under the `wargroove_options:` section.
    - The Wargroove root directory can be found by going to 
@@ -23,10 +23,20 @@ is strongly recommended in case they become corrupted.
    - You may have to replace all single \\ with \\\\.
 4. Start the Wargroove client.
 
+## Linux Only: Select AppData equivalent when starting the client
+1. Shut down Wargroove if it is open.
+2. Start the MultiworldGGWargrooveClient.exe from the MultiworldGG installation.
+3. A file select dialogue will appear, claiming it cannot detect a path to the AppData folder.
+4. Navigate to your Steam install directory and select .
+`/steamapps/compatdata/607050/pfx/drive_c/users/steamuser/AppData/Roaming` as the save directory.
+5. Using a default Steam install path, the full AppData path is
+`~/.steam/steam/steamapps/compatdata/607050/pfx/drive_c/users/steamuser/AppData/Roaming`.
+6. The client should start.
+
 ## Installing the Archipelago Wargroove Mod and Campaign files
 
 1. Shut down Wargroove if it is open.
-2. Start the ArchipelagoWargrooveClient.exe from the Archipelago installation. 
+2. Start the MultiworldGGWargrooveClient.exe from the MultiworldGG installation. 
 This should install the mod and campaign for you.
 3. Start Wargroove.
 

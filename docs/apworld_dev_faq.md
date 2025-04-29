@@ -1,7 +1,7 @@
 # APWorld Dev FAQ
 
 This document is meant as a reference tool to show solutions to common problems when developing an apworld.
-It is not intended to answer every question about Archipelago and it assumes you have read the other docs, 
+It is not intended to answer every question about MultiworldGG and it assumes you have read the other docs,
 including [Contributing](contributing.md), [Adding Games](<adding games.md>), and [World API](<world api.md>).
 
 ---
@@ -26,7 +26,7 @@ Some alternative ways to try to fix this problem are:
 
 In an ideal situation your system for producing locations and items wouldn't leave any opportunity for them to be unbalanced. But in real, complex situations, that might be unfeasible.
 
-If that's the case, you can create extra filler based on the difference between your unfilled locations and your itempool by comparing [get_unfilled_locations](https://github.com/ArchipelagoMW/Archipelago/blob/main/BaseClasses.py#:~:text=get_unfilled_locations) to your list of items to submit
+If that's the case, you can create extra filler based on the difference between your unfilled locations and your itempool by comparing [get_unfilled_locations](https://github.com/MultiworldGG/MultiworldGG/blob/main/BaseClasses.py#:~:text=get_unfilled_locations) to your list of items to submit
 
 Note: to use self.create_filler(), self.get_filler_item_name() should be defined to only return valid filler item names
 ```py
@@ -64,7 +64,7 @@ This keeps most of the performance upsides. Even in a game making heavy use of i
 The reason entrance access rules using `location.can_reach` and `entrance.can_reach` are also affected is because they call `region.can_reach` on their respective parent/source region.
 
 We recognize it can feel like a trap since it will not alert you when you are missing an indirect condition, and that some games have very complex access rules.
-As of [PR #3682 (Core: Region handling customization)](https://github.com/ArchipelagoMW/Archipelago/pull/3682) being merged, it is possible for a world to opt out of indirect conditions entirely, instead using the system of checking each entrance whenever a region has been reached, although this does come with a performance cost.
+It is possible for a world to opt out of indirect conditions entirely, instead using the system of checking each entrance whenever a region has been reached, although this does come with a performance cost.
 Opting out of using indirect conditions should only be used by games that *really* need it. For most games, it should be reasonable to know all entrance &rarr; region dependencies, making indirect conditions preferred because they are much faster.
 
 ---

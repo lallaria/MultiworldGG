@@ -2,7 +2,7 @@
 
 ## Logiciels requis
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases)
 - Une solution logicielle ou matérielle capable de charger et de lancer des fichiers ROM de SNES
     - Un émulateur capable d'éxécuter des scripts Lua
       - snes9x-rr de: [snes9x rr](https://github.com/gocha/snes9x-rr/releases),
@@ -11,19 +11,19 @@
     - Un SD2SNES, [FXPak Pro](https://krikzz.com/store/home/54-fxpak-pro.html), ou une autre solution matérielle
       compatible
 - Le fichier ROM de la v1.0 ou v1.1 NA de Final Fantasy Mystic Quest obtenu légalement, sûrement nommé `Final Fantasy - Mystic Quest (U) (V1.0).sfc` ou `Final Fantasy - Mystic Quest (U) (V1.1).sfc`
-La communauté d'Archipelago ne peut vous fournir avec ce fichier.
+La communauté d'MultiworldGG ne peut vous fournir avec ce fichier.
 
 ## Procédure d'installation
 
 ### Installation sur Linux
 
-1. Téléchargez et installez [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). 
+1. Téléchargez et installez [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). 
 ** Le fichier d'installation est situé dans la section "assets" dans le bas de la fenêtre d'information de la version. Vous voulez probablement le `.AppImage`**
 2. L'utilisation de RetroArch ou BizHawk est recommandé pour les utilisateurs linux, puisque snes9x-rr n'est pas compatible.
 
 ### Installation sur Windows
 
-1. Téléchargez et installez [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). 
+1. Téléchargez et installez [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). 
 ** Le fichier d'installation est situé dans la section "assets" dans le bas de la fenêtre d'information de la version.**
 2. Si vous utilisez un émulateur, il est recommandé d'assigner votre émulateur capable d'éxécuter des scripts Lua comme
    programme par défaut pour ouvrir vos ROMs.
@@ -43,13 +43,13 @@ Votre fichier de configuration contient un ensemble d'options de configuration p
 comment il devrait générer votre seed. Chaque joueur d'un multiworld devra fournir son propre fichier de configuration. Cela permet
 à chaque joueur d'apprécier une expérience personalisée. Les différents joueurs d'un même multiworld
 pouront avoir des options de génération différentes.
-Vous pouvez lire le [guide pour créer un YAML de base](/tutorial/Archipelago/setup/en) en anglais.
+Vous pouvez lire le [guide pour créer un YAML de base](/tutorial/MultiworldGG/setup/en) en anglais.
 
 ### Où est-ce que j'obtiens un fichier de configuration ?
 
 La [page d'options sur le site](/games/Final%20Fantasy%20Mystic%20Quest/player-options) vous permet de choisir vos
 options de génération et de les exporter vers un fichier de configuration.
-Il vous est aussi possible de trouver le fichier de configuration modèle de Mystic Quest dans votre répertoire d'installation d'Archipelago, 
+Il vous est aussi possible de trouver le fichier de configuration modèle de Mystic Quest dans votre répertoire d'installation d'MultiworldGG, 
 dans le dossier Players/Templates.
 
 ### Vérifier son fichier de configuration
@@ -67,7 +67,7 @@ Si vous voulez valider votre fichier de configuration pour être sûr qu'il fonc
 5. Rendez-vous sur le [site FFMQR](https://ffmqrando.net/Archipelago).
 Sur cette page, sélectionnez votre ROM Final Fantasy Mystic Quest original dans le boîte "ROM", puis votre ficher patch `.apmq` dans la boîte "Load Archipelago Config File".
 Cliquez sur "Generate". Un téléchargement avec votre ROM aléatoire devrait s'amorcer.
-6. Puisque cette partie est à un seul joueur, vous n'avez plus besoin du client Archipelago ni du serveur, sentez-vous libre de les fermer.
+6. Puisque cette partie est à un seul joueur, vous n'avez plus besoin du client MultiworldGG ni du serveur, sentez-vous libre de les fermer.
 
 ## Rejoindre un MultiWorld
 
@@ -80,7 +80,7 @@ fichier `.zip` contenant les patchs de tous les joueurs. Votre patch devrait avo
 Allez au [site FFMQR](https://ffmqrando.net/Archipelago) et sélectionnez votre ROM Final Fantasy Mystic Quest original dans le boîte "ROM", puis votre ficher patch `.apmq` dans la boîte "Load Archipelago Config File".
 Cliquez sur "Generate". Un téléchargement avec votre ROM aléatoire devrait s'amorcer.
 
-Ouvrez le client SNI (sur Windows ArchipelagoSNIClient.exe, sur Linux ouvrez le `.appImage` puis cliquez sur SNI Client), puis ouvrez le ROM téléchargé avec votre émulateur choisi.
+Ouvrez le client SNI (sur Windows MultiworldGGSNIClient.exe, sur Linux ouvrez le `.appImage` puis cliquez sur SNI Client), puis ouvrez le ROM téléchargé avec votre émulateur choisi.
 
 ### Se connecter au client
 
@@ -97,7 +97,7 @@ Windows.
 3. Cliquez alors sur **New Lua Script Window...**
 4. Dans la nouvelle fenêtre, sélectionnez **Browse...**
 5. Sélectionnez le fichier connecteur lua fourni avec votre client
-    - Regardez dans le dossier Archipelago et cherchez `/SNI/lua/x64` ou `/SNI/lua/x86`, dépendemment de si votre emulateur 
+    - Regardez dans le dossier MultiworldGG et cherchez `/SNI/lua/x64` ou `/SNI/lua/x86`, dépendemment de si votre emulateur 
       est 64-bit ou 32-bit.
 6. Si vous obtenez une erreur `socket.dll missing` ou une erreur similaire lorsque vous chargez le script lua, vous devez naviguer dans le dossier 
 contenant le script lua, puis copier le fichier `socket.dll` dans le dossier d'installation de votre emulateur snes9x.
@@ -113,7 +113,7 @@ contenant le script lua, puis copier le fichier `socket.dll` dans le dossier d'i
 4. Cliquez sur le bouton pour ouvrir un nouveau script Lua, soit par le bouton avec un icône "Ouvrir un dossier", 
     en cliquant `Open Script...` dans le menu Script ou en appuyant sur `ctrl-O`.
 5. Sélectionnez le fichier `Connector.lua` inclus avec le client
-    - Regardez dans le dossier Archipelago et cherchez `/SNI/lua/x64` ou `/SNI/lua/x86`, dépendemment de si votre emulateur 
+    - Regardez dans le dossier MultiworldGG et cherchez `/SNI/lua/x64` ou `/SNI/lua/x86`, dépendemment de si votre emulateur 
       est 64-bit ou 32-bit. Notez que les versions les plus récentes de BizHawk ne sont que 64-bit.
 
 ##### RetroArch 1.10.1 ou plus récent
@@ -130,7 +130,7 @@ Vous ne devez faire ces étapes qu'une fois. À noter que RetroArch 1.9.x ne fon
 4. Allez dans le Menu Principal --> Online Updater --> Core Downloader. Trouvez et sélectionnez "Nintendo - SNES / SFC (bsnes-mercury
    Performance)".
 
-Lorsque vous chargez un ROM pour Archipelago, assurez vous de toujours sélectionner le coeur **bsnes-mercury**. 
+Lorsque vous chargez un ROM pour MultiworldGG, assurez vous de toujours sélectionner le coeur **bsnes-mercury**. 
 Ce sont les seuls coeurs qui permettent à des outils extérieurs de lire les données du ROM.
 
 #### Avec une solution matérielle
@@ -146,9 +146,9 @@ le maintenant. Les utilisateurs de SD2SNES et de FXPak Pro peuvent télécharger
 ### Se connecter au MultiServer
 
 Puisque vous avez lancé SNI manuellement, vous devrez probablement lui indiquer l'adresse à laquelle il doit se connecter.
-Si le serveur est hébergé sur le site d'Archipelago, vous verrez l'adresse à laquelle vous connecter dans le haut de la page, dernière ligne avant la liste des mondes.
-Tapez `/connect adresse` (ou le "adresse" est remplacé par l'adresse archipelago, par exemple `/connect archipelago.gg:12345`) dans la boîte de commande au bas de votre client SNI, ou encore écrivez l'adresse dans la boîte "server" dans le haut du client, puis cliquez `Connect`.
-Si le serveur n'est pas hébergé sur le site d'Archipelago, demandez à l'hôte l'adresse du serveur, puis tapez `/connect adresse` (ou "adresse" est remplacé par l'adresse fourni par l'hôte) ou copiez/collez cette adresse dans le champ "Server" puis appuyez sur "Connect".
+Si le serveur est hébergé sur le site d'MultiworldGG, vous verrez l'adresse à laquelle vous connecter dans le haut de la page, dernière ligne avant la liste des mondes.
+Tapez `/connect adresse` (ou le "adresse" est remplacé par l'adresse archipelago, par exemple `/connect multiworld.gg:12345`) dans la boîte de commande au bas de votre client SNI, ou encore écrivez l'adresse dans la boîte "server" dans le haut du client, puis cliquez `Connect`.
+Si le serveur n'est pas hébergé sur le site d'MultiworldGG, demandez à l'hôte l'adresse du serveur, puis tapez `/connect adresse` (ou "adresse" est remplacé par l'adresse fourni par l'hôte) ou copiez/collez cette adresse dans le champ "Server" puis appuyez sur "Connect".
 
 Le client essaiera de vous reconnecter à la nouvelle adresse du serveur, et devrait mentionner "Server Status:
 Connected". Si le client ne se connecte pas après quelques instants, il faudra peut-être rafraîchir la page de
@@ -162,7 +162,7 @@ pour avoir rejoint un multiworld !
 ## Héberger un MultiWorld
 
 La méthode recommandée pour héberger une partie est d'utiliser le service d'hébergement fourni par
-Archipelago. Le processus est relativement simple :
+MultiworldGG. Le processus est relativement simple :
 
 1. Récupérez les fichiers de configuration (.yaml) des joueurs.
 2. Créez une archive zip contenant ces fichiers de configuration.

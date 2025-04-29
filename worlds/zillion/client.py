@@ -9,6 +9,10 @@ from CommonClient import CommonContext, server_loop, gui_enabled, \
     ClientCommandProcessor, logger, get_base_parser
 from NetUtils import ClientStatus
 from Utils import async_start
+try:
+    from Utils import instance_name as apname
+except ImportError:
+    apname = "Archipelago"
 
 import colorama
 from typing_extensions import override
@@ -149,7 +153,7 @@ class ZillionContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago"),
             ]
-            base_title = "Archipelago Zillion Client"
+            base_title = apname + " Zillion Client"
 
             class MapPanel(Widget):
                 MAP_WIDTH: ClassVar[int] = 281
@@ -232,7 +236,7 @@ class ZillionContext(CommonContext):
     def on_package(self, cmd: str, args: dict[str, Any]) -> None:
         self.room_item_numbers_to_ui()
         if cmd == "Connected":
-            logger.info("logged in to Archipelago server")
+            logger.info("logged in to MultiworldGG server")
             if "slot_data" not in args:
                 logger.warning("`Connected` packet missing `slot_data`")
                 return
@@ -483,7 +487,7 @@ async def zillion_sync_task(ctx: ZillionContext) -> None:
 async def main() -> None:
     parser = get_base_parser()
     parser.add_argument("diff_file", default="", type=str, nargs="?",
-                        help="Path to a .apzl Archipelago Binary Patch file")
+                        help="Path to a .apzl MultiworldGG Binary Patch file")
     # SNI parser.add_argument('--loglevel', default='info', choices=['debug', 'info', 'warning', 'error', 'critical'])
     args = parser.parse_args()
     print(args)

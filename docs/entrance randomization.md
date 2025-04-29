@@ -4,7 +4,7 @@ This document discusses the API and underlying implementation of the generic ent
 exposed in [entrance_rando.py](/entrance_rando.py). Throughout the doc, entrance randomization is frequently abbreviated
 as "ER."
 
-This doc assumes familiarity with Archipelago's graph logic model. If you don't have a solid understanding of how
+This doc assumes familiarity with MultiworldGG's graph logic model. If you don't have a solid understanding of how
 regions work, you should start there.
 
 ## Entrance randomization concepts
@@ -15,7 +15,7 @@ Some important terminology to understand when reading this doc and working with 
 
 * Entrance rando - sometimes called "room rando," "transition rando," "door rando," or similar,
   this is a game mode in which the game map itself is randomized.
-  In Archipelago, these things are often represented as `Entrance`s in the region graph, so we call it Entrance rando.
+  In MultiworldGG, these things are often represented as `Entrance`s in the region graph, so we call it Entrance rando.
 * Entrances and exits - entrances are ways into your region, exits are ways out of the region. In code, they are both
   represented as `Entrance` objects. In this doc, the terms "entrances" and "exits" will be used in this sense; the
   `Entrance` class will always be referenced in a code block with an uppercase E.
@@ -31,7 +31,7 @@ Some important terminology to understand when reading this doc and working with 
 
 The Generic ER algorithm works by using the logic structures you are already familiar with. To give a basic example,
 let's assume a toy world is defined with the vanilla region graph modeled below. In this diagram, the smaller boxes
-represent regions while the larger boxes represent scenes. Scenes are not an Archipelago concept, the grouping is
+represent regions while the larger boxes represent scenes. Scenes are not an MultiworldGG concept, the grouping is
 purely illustrative.
 
 ```mermaid
@@ -121,7 +121,7 @@ graph LR
     classDef hidden display:none;
 ```
 
-From here, you can call the `randomize_entrances` function and Archipelago takes over. Starting from the Menu region,
+From here, you can call the `randomize_entrances` function and MultiworldGG takes over. Starting from the Menu region,
 the algorithm will sweep out to find eligible region exits to randomize. It will then select an eligible target entrance
 and connect them, prioritizing giving access to unvisited regions first until all regions are placed. Once the exit has
 been connected to the new region, placeholder entrances are deleted. This process is visualized in the diagram below

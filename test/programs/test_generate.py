@@ -1,4 +1,4 @@
-# Tests for Generate.py (ArchipelagoGenerate.exe)
+# Tests for Generate.py (MultiworldGGGenerate.exe)
 
 import unittest
 import os
@@ -13,7 +13,7 @@ import Main
 
 
 class TestGenerateMain(unittest.TestCase):
-    """This tests Generate.py (ArchipelagoGenerate.exe) main"""
+    """This tests Generate.py (MultiworldGGGenerate.exe) main"""
 
     generate_dir = Path(Generate.__file__).parent
     run_dir = generate_dir / "test"  # reproducible cwd that's neither __file__ nor Generate.__file__

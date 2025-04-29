@@ -32,7 +32,7 @@
 2. Open the Debug Console by pressing F10.
 
 3. Type */connect {serverAddress} {username} {password}* into the console and hit Enter.
-    - Example: */connect archipelago.gg:12345 SunnyBat*
+    - Example: */connect multiworld.gg:12345 SunnyBat*
     - If there is no password, the password argument may be omitted (as is the case in the above example).
     - serverAddress must not contain spaces.
     - If your username or password contains spaces, surround that value with quotation marks ("). Adding quotation marks even when not necessary (eg "SunnyBat") is fine.

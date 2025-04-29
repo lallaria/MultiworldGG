@@ -6,7 +6,7 @@
 - Either of
     - [SM64AP-Launcher](https://github.com/N00byKing/SM64AP-Launcher/releases) or
     - Cloning and building [sm64ex](https://github.com/N00byKing/sm64ex) manually
-- Optional, for sending [commands](/tutorial/Archipelago/commands/en) like `!hint`: the TextClient from [the most recent Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases)
+- Optional, for sending [commands](/tutorial/MultiworldGG/commands/en) like `!hint`: the TextClient from [the most recent MultiworldGG release](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 NOTE: The above linked launcher is a special version designed to work with the Archipelago build of sm64ex.
 You can use other sm64-port based builds with it, but you can't use a different launcher with the Archipelago build of sm64ex.
@@ -36,7 +36,7 @@ Then continue to `Using the Launcher`
     - Windows: If you did not use the default install directory for MSYS, close this window, check `Show advanced options` and reopen using `Re-check Requirements`. You can then set the path manually.
 5. When finished, use `Compile default SM64AP build` to continue.
     - **Advanced configuration:** If you want to use additional build options such as Better Camera, No Drawing Distance, etc or apply game patches such as 60FPS, Enhanced Moveset, etc, then use the `Compile custom build` option:
-      - Set a name for your build, e.g. "archipelago" or whatever you like.
+      - Set a name for your build, e.g. "multiworldgg" or whatever you like.
       - Press the `Download Files` button.
       - Set Make Flags, e.g. `-j8 BETTERCAMERA=1 NODRAWINGDISTANCE=1` to enable Better Camera and No Drawing Distance.
       - Press `Apply Patches` to select patches to apply. Example patches include:
@@ -82,7 +82,7 @@ After the compliation was successful, there will be a binary in your `sm64ex/bui
 ### Joining a MultiWorld Game
 
 To join, set the following launch options: `--sm64ap_name YourName --sm64ap_ip ServerIP:Port`.
-For example, if you are hosting a game using the website, `YourName` will be the name from the Options Page, `ServerIP` is `archipelago.gg` and `Port` the port given on the Archipelago room page.
+For example, if you are hosting a game using the website, `YourName` will be the name from the Options Page, `ServerIP` is `multiworld.gg` and `Port` the port given on the MultiworldGG room page.
 Optionally, add `--sm64ap_passwd "YourPassword"` if the room you are using requires a password.
 Should your name or password have spaces, enclose it in quotes: `"YourPassword"` and `"YourName"`.
 
@@ -127,7 +127,7 @@ Use the same steps as before to open Notepad and paste in the following:
 
 `set /p slot="Enter slot name - "`
 
-`start sm64.us.f3dex2e.exe --sm64ap_name "%slot%" --sm64ap_ip archipelago.gg:%port%`
+`start sm64.us.f3dex2e.exe --sm64ap_name "%slot%" --sm64ap_ip multiworld.gg:%port%`
 
 Save this file as `"online.bat"`, then create a shortcut by following the same steps as before. 
 

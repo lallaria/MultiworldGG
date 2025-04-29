@@ -129,7 +129,7 @@ In Castlevania 64, every location that is specific to a stage is part of a locat
 So if you want to exclude all of, say, Duel Tower, you can do so by just excluding "Duel Tower" as a whole.
 
 ## I'm stuck and/or I can't find this hinted location...is there a map tracker?
-At the moment, no map tracker exists. [Here](https://github.com/ArchipelagoMW/Archipelago/tree/main/worlds/cv64/docs/obscure_checks.md)
+At the moment, no map tracker exists. [Here](https://github.com/MultiworldGG/MultiworldGG/tree/main/worlds/cv64/docs/obscure_checks.md)
 is a list of many checks that someone could very likely miss, with instructions on how to find them. See if the check you
 are missing is on there and if it isn't, or you still can't find it, reach out in the [Archipelago Discord server](https://discord.gg/archipelago)
 to inquire about having the list updated if you think it should be.

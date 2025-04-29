@@ -31,6 +31,7 @@ class LandstalkerWorld(World):
     hidden palace and claim the treasure.
     """
     game = "Landstalker - The Treasures of King Nole"
+    author: str = "Dinopony"
     options_dataclass = LandstalkerOptions
     options: LandstalkerOptions
     required_client_version = (0, 4, 4)

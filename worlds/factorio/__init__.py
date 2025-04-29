@@ -27,7 +27,7 @@ def launch_client():
     launch_component(launch, name="FactorioClient")
 
 
-components.append(Component("Factorio Client", "FactorioClient", func=launch_client, component_type=Type.CLIENT))
+components.append(Component("Factorio Client", func=launch_client, component_type=Type.CLIENT))
 
 
 class FactorioSettings(settings.Group):
@@ -45,7 +45,7 @@ If this file does exist, then it will be used.
         """Whether to filter item send messages displayed in-game to only those that involve you."""
 
     class BridgeChatOut(settings.Bool):
-        """Whether to send chat messages from players on the Factorio server to Archipelago."""
+        """Whether to send chat messages from players on the Factorio server to MultiworldGG."""
 
     executable: Executable = Executable("factorio/bin/x64/factorio")
     server_settings: typing.Optional[FactorioSettings.ServerSettings] = None
@@ -56,7 +56,7 @@ If this file does exist, then it will be used.
 class FactorioWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago Factorio software on your computer.",
+        "A guide to setting up the MultiworldGG Factorio software on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -88,6 +88,7 @@ class Factorio(World):
     research new technologies, and become more efficient in your quest to build a rocket and return home.
     """
     game = "Factorio"
+    author: str = "Berserker66"
     special_nodes = {"automation", "logistics", "rocket-silo"}
     custom_recipes: typing.Dict[str, Recipe]
     location_pool: typing.List[FactorioScienceLocation]
@@ -252,6 +253,7 @@ class Factorio(World):
             else:
                 location.access_rule = lambda state, ingredient=ingredient: \
                     all(state.has(technology.name, player) for technology in required_technologies[ingredient])
+            assert self.multiworld.get_all_state(True).can_reach(location), f"Can never reach {location}."
 
         for location in self.science_locations:
             Rules.set_rule(location, lambda state, ingredients=frozenset(location.ingredients):

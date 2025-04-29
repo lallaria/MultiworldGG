@@ -65,6 +65,7 @@ class MessengerWorld(World):
     adventure full of thrills, surprises, and humor.
     """
     game = "The Messenger"
+    author: str = "alwaysintreble"
     options_dataclass = MessengerOptions
     options: MessengerOptions
     settings_key = "messenger_settings"

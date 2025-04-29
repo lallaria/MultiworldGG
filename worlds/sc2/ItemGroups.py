@@ -3,7 +3,7 @@ from . import Items, ItemNames
 from .MissionTables import campaign_mission_table, SC2Campaign, SC2Mission
 
 """
-Item name groups, given to Archipelago and used in YAMLs and /received filtering.
+Item name groups, given to MultiworldGG and used in YAMLs and /received filtering.
 For non-developers the following will be useful:
 * Items with a bracket get groups named after the unbracketed part
   * eg. "Advanced Healing AI (Medivac)" is accessible as "Advanced Healing AI"

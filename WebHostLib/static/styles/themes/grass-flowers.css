@@ -1,7 +1,7 @@
 html{
-    background-image: url("../../static/backgrounds/grass-flowers.png");
+    background-image: url("../../static/backgrounds/ocean.png");
     background-repeat: repeat;
-    background-size: 400px 400px;
+    background-size: 126px 126px;
 }
 
 body{
@@ -9,7 +9,7 @@ body{
 }
 
 #base-header {
-    background: url('../../static/backgrounds/header/grass-header.png') repeat-x;
+    background: url('../../static/backgrounds/header/ocean-header.png') repeat-x;
 }
 
 .markdown {
@@ -21,7 +21,7 @@ h1{
 }
 
 h2{
-    color: #5aff6a;
+    color: #ffdd5a;
 }
 
 h3, h4, h5,h6{
@@ -44,8 +44,8 @@ a{
 pre{
     margin-top: 0;
     padding: 0.5rem 0.25rem;
-    background-color: #b5e9a4;
-    border: 1px solid #2a6c2f;
+    background-color: lightblue;
+    border: 1px solid #0e2a4b;
     border-radius: 6px;
     color: #000000;
 }
@@ -56,9 +56,9 @@ pre code{
 }
 
 code{
-    background-color: #b5e9a4;
+    background-color: lightblue;
     border-radius: 4px;
-    border: 1px solid #2a6c2f;
+    border: 1px solid #0e2a4b;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
     color: #000000;

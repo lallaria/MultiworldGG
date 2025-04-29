@@ -324,7 +324,7 @@ class VariaRandomizer:
 
         logger.debug("preset: {}".format(preset))
 
-        # Archipelago provides a seed for the multiworld.
+        # MultiworldGG provides a seed for the multiworld.
         self.seed = seed
         # # if no seed given, choose one
         # if args.seed == 0:

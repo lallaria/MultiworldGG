@@ -20,6 +20,7 @@ from .id_maps import ZillionSlotInfo, get_slot_info, item_name_to_id as _item_na
     zz_reg_name_to_reg_name, base_id
 from .item import ZillionItem, get_classification
 from .patch import ZillionPatch
+from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, launch_subprocess
 
 from zilliandomizer.system import System
 from zilliandomizer.logic_components.items import RESCUE, items as zz_items, Item as ZzItem
@@ -29,6 +30,19 @@ from zilliandomizer.options import Chars
 
 from worlds.AutoWorld import World, WebWorld
 
+def run_client(*args: Any):
+    from .client import launch
+
+    launch_subprocess(launch, name="ZillionClient")
+
+components.append(
+    Component(
+        "Zillion Client",
+        func=run_client,
+        component_type=Type.CLIENT,
+        file_identifier=SuffixIdentifier(".apzl"),
+    )
+)
 
 class ZillionSettings(settings.Group):
     class RomFile(settings.UserFilePath):
@@ -72,6 +86,7 @@ class ZillionWorld(World):
     It's based on the anime Zillion (赤い光弾ジリオン, Akai Koudan Zillion).
     """
     game = "Zillion"
+    author: str = "beauxq"
     web = ZillionWebWorld()
 
     options_dataclass = ZillionOptions

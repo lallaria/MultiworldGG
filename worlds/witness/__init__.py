@@ -29,7 +29,7 @@ class WitnessWebWorld(WebWorld):
     theme = "jungle"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to playing The Witness with Archipelago.",
+        "A guide to playing The Witness with MultiworldGG.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -47,6 +47,7 @@ class WitnessWorld(World):
     by sigma144, with an added layer of progression randomization!
     """
     game = "The Witness"
+    author: str = "NewSoupVi & blastron"
     topology_present = False
     web = WitnessWebWorld()
 

@@ -207,7 +207,7 @@ class Cropsanity(Choice):
     """
     Pierre now sells a random amount of seasonal seeds and Joja sells them without season requirements, but only in huge packs.
     Disabled: All the seeds are unlocked from the start, there are no location checks for growing and harvesting crops
-    Enabled: Seeds are unlocked as archipelago items, for each seed there is a location check for growing and harvesting that crop
+    Enabled: Seeds are unlocked as MultiworldGG items, for each seed there is a location check for growing and harvesting that crop
     """
     internal_name = "cropsanity"
     display_name = "Cropsanity"
@@ -336,7 +336,7 @@ class ArcadeMachineLocations(Choice):
 
 class SpecialOrderLocations(Choice):
     """Shuffle Special Orders?
-    Vanilla: The special orders are not included in the Archipelago shuffling. You may need to complete some of them anyway for their vanilla rewards
+    Vanilla: The special orders are not included in the MultiworldGG shuffling. You may need to complete some of them anyway for their vanilla rewards
     Board Only: The Special Orders on the board in town are location checks
     Board and Qi: The Special Orders from Mr Qi's walnut room are checks, in addition to the board in town
     Short: All Special Order requirements are reduced by 40%
@@ -532,7 +532,7 @@ class Chefsanity(NamedRange):
 class Craftsanity(Choice):
     """Checks for crafting items?
     If enabled, all recipes purchased in shops will be checks as well.
-    Recipes obtained from other sources will depend on their respective archipelago settings
+    Recipes obtained from other sources will depend on their respective MultiworldGG settings
     """
     internal_name = "craftsanity"
     display_name = "Craftsanity"
@@ -765,7 +765,7 @@ class QuickStart(Toggle):
 
 
 class Gifting(Toggle):
-    """Do you want to enable gifting items to and from other Archipelago slots?
+    """Do you want to enable gifting items to and from other MultiworldGG slots?
     Items can only be sent to games that also support gifting"""
     internal_name = "gifting"
     display_name = "Gifting"

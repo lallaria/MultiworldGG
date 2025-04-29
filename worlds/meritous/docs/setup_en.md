@@ -23,7 +23,7 @@ The format of `meritous-ap.json` should be as follows:
 ```json
 {
     "ap-enable": true,
-    "server": "archipelago.gg",
+    "server": "multiworld.gg",
     "port": 38281,
     "password": null,
     "slotname": "YourName"
@@ -31,7 +31,7 @@ The format of `meritous-ap.json` should be as follows:
 ```
 
 - `ap-enable`: Enables the game to connect to the Archipelago server. If this is `false` or missing, it will generate a local item randomizer.
-- `server`: The server to which to connect. This can be a domain name (such as archipelago.gg) or an IP address (such as 127.0.0.1). If this is missing, the game will assume archipelago.gg.
+- `server`: The server to which to connect. This can be a domain name (such as multiworld.gg) or an IP address (such as 127.0.0.1). If this is missing, the game will assume multiworld.gg.
 - `port`: The port number to which to connect. By default, Archipelago will use port 38281 to host, unless the game is hosted on the Archipelago webhost. If this is missing, the game will assume 38281.
 - `password`: The password to use for this game, if any. This can be omitted or set to `null` if there is no password.
 - `slotname`: The slot name to use for this game. This is required, and must match the name provided on your YAML file.
@@ -54,9 +54,9 @@ More in-depth information about the game can be found in the game's help file, a
 
 ## Commands
 While playing the multiworld you can interact with the server using various commands listed in the 
-[commands guide](/tutorial/Archipelago/commands/en). As this game does not have an in-game text client at the moment,
+[commands guide](/tutorial/MultiworldGG/commands/en). As this game does not have an in-game text client at the moment,
 You can optionally connect to the multiworld using the text client, which can be found in the 
-[main Archipelago installation](https://github.com/ArchipelagoMW/Archipelago/releases) as Archipelago Text Client to
+[MultiworldGG installation](https://github.com/MultiworldGG/MultiworldGG/releases) as MultiworldGG Text Client to
 enter these commands.
 
 ## Game Troubleshooting

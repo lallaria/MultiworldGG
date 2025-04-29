@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import os.path
 import typing
 import logging
-from Options import Choice, Toggle, DefaultOnToggle, Range, FreeText, PerGameCommonOptions, OptionGroup, Removed
+from Options import Choice, Toggle, DefaultOnToggle, Range, FreeText, PerGameCommonOptions, OptionGroup, Removed, DeathLink, StartInventoryPool
 from collections import defaultdict
 import Utils
 
@@ -224,12 +224,14 @@ class Goal(Choice, LADXROption):
     [Instruments] The Wind Fish's Egg will only open if you have the required number of Instruments of the Sirens, and play the Ballad of the Wind Fish.
     [Seashells] The Egg will open when you bring 20 seashells. The Ballad and Ocarina are not needed.
     [Open] The Egg will start pre-opened.
+    [Specific] The Wind Fish's Egg will open with specific instruments, check the sign at the egg to see which. Minimum of 2 instruments, maximum of 6. Anything outside that will be reset to 4.
     """
     display_name = "Goal"
     ladxr_name = "goal"
     option_instruments = 1
     option_seashells = 2
     option_open = 3
+    option_specific = 4
 
     default = option_instruments
 
@@ -294,12 +296,18 @@ class HardMode(Choice, LADXROption):
     default = option_none
 
 
-#             Setting('steal', 'Gameplay', 't', 'Stealing from the shop',
-#                 options=[('always', 'a', 'Always'), ('never', 'n', 'Never'), ('default', '', 'Normal')], default='default',
-#                 description="""Effects when you can steal from the shop. Stealing is bad and never in logic.
-# [Normal] requires the sword before you can steal.
-# [Always] you can always steal from the shop
-# [Never] you can never steal from the shop."""),
+class Stealing(Choice, LADXROption):
+    """
+    Puts stealing from the shop in logic if the player has a sword.
+    """
+    display_name = "Stealing"
+    ladxr_name = "steal"
+    option_in_logic = 1
+    option_out_of_logic = 2
+    option_disabled = 3
+    default = option_out_of_logic
+
+
 class Bowwow(Choice):
     """Allows BowWow to be taken into any area.  Certain enemies and bosses are given a new weakness to BowWow.
     [Normal] BowWow is in the item pool, but can be logically expected as a damage source.
@@ -425,46 +433,13 @@ class TrendyGame(Choice):
     default = option_normal
 
 
-class GfxMod(FreeText, LADXROption):
+class GfxMod(DefaultOffToggle):
     """
-    Sets the sprite for link, among other things
-    The option should be the same name as a with sprite (and optional name) file in data/sprites/ladx
+    If enabled, the patcher will prompt the user for a modification file to change sprites in the game and optionally some text.
+    Grab one from upstream or make your own.
+    https://github.com/daid/LADXR/tree/master/gfx
     """
     display_name = "GFX Modification"
-    ladxr_name = "gfxmod"
-    normal = ''
-    default = 'Link'
-
-    __spriteDir: str = Utils.local_path(os.path.join('data', 'sprites', 'ladx'))
-    __spriteFiles: typing.DefaultDict[str, typing.List[str]] = defaultdict(list)
-
-    extensions = [".bin", ".bdiff", ".png", ".bmp"]
-
-    for file in os.listdir(__spriteDir):
-        name, extension = os.path.splitext(file)
-        if extension in extensions:
-            __spriteFiles[name].append(file)
-
-    def __init__(self, value: str):
-        super().__init__(value)
-
-    def verify(self, world, player_name: str, plando_options) -> None:
-        if self.value == "Link" or self.value in GfxMod.__spriteFiles:
-            return
-        raise Exception(
-            f"LADX Sprite '{self.value}' not found. Possible sprites are: {['Link'] + list(GfxMod.__spriteFiles.keys())}")
-
-    def to_ladxr_option(self, all_options):
-        if self.value == -1 or self.value == "Link":
-            return None, None
-
-        assert self.value in GfxMod.__spriteFiles
-
-        if len(GfxMod.__spriteFiles[self.value]) > 1:
-            logger.warning(
-                f"{self.value} does not uniquely identify a file. Possible matches: {GfxMod.__spriteFiles[self.value]}. Using {GfxMod.__spriteFiles[self.value][0]}")
-
-        return self.ladxr_name, self.__spriteDir + "/" + GfxMod.__spriteFiles[self.value][0]
 
 
 class Palette(Choice):
@@ -561,49 +536,44 @@ class ForeignItemIcons(Choice):
 
 
 ladx_option_groups = [
-    OptionGroup("Goal Options", [
-        Goal,
-        InstrumentCount,
+    OptionGroup("Gameplay Adjustments", [
+        TarinsGift,
+        Stealing,
+        HardMode,
+        TrendyGame,
+        InGameHints,
     ]),
-    OptionGroup("Shuffles", [
+    OptionGroup("World Layout", [
+        Warps,
+        Overworld,
+        DungeonShuffle,
+        EntranceShuffle,
+    ]),
+    OptionGroup("Item Pool", [
+        TradeQuest,
+        Rooster,
         ShuffleInstruments,
         ShuffleNightmareKeys,
         ShuffleSmallKeys,
         ShuffleMaps,
         ShuffleCompasses,
-        ShuffleStoneBeaks
-    ]),
-    OptionGroup("Warp Points", [
-        Warps,
-    ]),
-    OptionGroup("Miscellaneous", [
-        TradeQuest,
-        Rooster,
-        TarinsGift,
-        Overworld,
-        TrendyGame,
-        InGameHints,
-        NagMessages,
+        ShuffleStoneBeaks,
         StabilizeItemPool,
+    ]),
+    OptionGroup("Quality of Life & Aesthetic", [
+        NagMessages,
         Quickswap,
-        HardMode,
-        BootsControls
-    ]),
-    OptionGroup("Experimental", [
-        DungeonShuffle,
-        EntranceShuffle
-    ]),
-    OptionGroup("Visuals & Sound", [
-        LinkPalette,
-        Palette,
-        TextShuffle,
+        BootsControls,
         ForeignItemIcons,
         APTitleScreen,
         GfxMod,
+        LinkPalette,
+        Palette,
+        TextShuffle,
+        TextMode,
         Music,
         MusicChangeCondition,
         LowHpBeep,
-        TextMode,
         NoFlash,
     ])
 ]
@@ -647,15 +617,18 @@ class LinksAwakeningOptions(PerGameCommonOptions):
     nag_messages: NagMessages
     ap_title_screen: APTitleScreen
     boots_controls: BootsControls
+    tarins_gift: TarinsGift
+    overworld: Overworld
+    stabilize_item_pool: StabilizeItemPool
+    stealing: Stealing
+    death_link: DeathLink
+    in_game_hints: InGameHints
     quickswap: Quickswap
     hard_mode: HardMode
     low_hp_beep: LowHpBeep
     text_mode: TextMode
     no_flash: NoFlash
-    in_game_hints: InGameHints
-    tarins_gift: TarinsGift
-    overworld: Overworld
-    stabilize_item_pool: StabilizeItemPool
+    start_inventory_from_pool: StartInventoryPool
 
     warp_improvements: Removed
     additional_warp_points: Removed

@@ -13,7 +13,7 @@ class InscrypWeb(WebWorld):
 
     guide_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Inscryption Archipelago Multiworld",
+        "A guide to setting up the Inscryption MultiworldGG world",
         "English",
         "setup_en.md",
         "setup/en",
@@ -22,7 +22,7 @@ class InscrypWeb(WebWorld):
 
     guide_fr = Tutorial(
         "Multiworld Setup Guide",
-        "Un guide pour configurer Inscryption Archipelago Multiworld",
+        "Un guide pour configurer Inscryption MultiworldGG world",
         "Français",
         "setup_fr.md",
         "setup/fr",
@@ -41,6 +41,7 @@ class InscryptionWorld(World):
     Darker still are the secrets inscrybed upon the cards...
     """
     game = "Inscryption"
+    author: str = "DrBibop"
     web = InscrypWeb()
     options_dataclass = InscryptionOptions
     options: InscryptionOptions

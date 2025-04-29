@@ -8,7 +8,7 @@ from .options import NoitaOptions
 class NoitaWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Noita integration for Archipelago multiworld games.",
+        "A guide to setting up the Noita integration for MultiworldGG Multiworld games.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -26,6 +26,7 @@ class NoitaWorld(World):
     """
 
     game = "Noita"
+    author: str = "ScipioWright & heinermann"
     options: NoitaOptions
     options_dataclass = NoitaOptions
 

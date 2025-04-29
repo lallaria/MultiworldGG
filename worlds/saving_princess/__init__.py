@@ -29,7 +29,7 @@ class SavingPrincessSettings(Group):
 
     class InstallFolder(LocalFolderPath):
         """Path to the mod installation folder"""
-        description = "the folder to install Saving Princess Archipelago to"
+        description = "the folder to install Saving Princess MultiworldGG to"
 
     class LaunchGame(Bool):
         """Set this to false to never autostart the game"""
@@ -52,7 +52,7 @@ class SavingPrincessWeb(WebWorld):
     bug_report_page = "https://github.com/LeonarthCG/saving-princess-archipelago/issues"
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Saving Princess for Archipelago multiworld.",
+        "A guide to setting up Saving Princess for MultiworldGG multiworld.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -71,7 +71,7 @@ class SavingPrincessWorld(World):
     Expand your arsenal as you collect upgrades to your trusty arm cannon and armor!
     """  # Excerpt from itch
     game = GAME_NAME
-    web = SavingPrincessWeb()
+    author: str = "LeonarthCG"
     required_client_version = (0, 5, 0)
 
     topology_present = False
@@ -95,6 +95,8 @@ class SavingPrincessWorld(World):
     options: Options.SavingPrincessOptions
     settings_key = "saving_princess_settings"
     settings: ClassVar[SavingPrincessSettings]
+    
+    web = SavingPrincessWeb()
 
     is_pool_expanded: bool = False
     music_table: List[int] = list(range(16))

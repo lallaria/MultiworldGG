@@ -38,7 +38,7 @@ class MinecraftWebWorld(WebWorld):
 
     setup = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago Minecraft software on your computer. This guide covers"
+        "A guide to setting up the MultiworldGG Minecraft software on your computer. This guide covers"
         "single-player, multiworld, and related software.",
         "English",
         "minecraft_en.md",
@@ -84,6 +84,7 @@ class MinecraftWorld(World):
     victory!
     """
     game = "Minecraft"
+    author: str = "KonoTyran & espeon"
     options_dataclass = MinecraftOptions
     options: MinecraftOptions
     settings: typing.ClassVar[MinecraftSettings]

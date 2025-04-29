@@ -70,7 +70,7 @@ class MM2WebWorld(WebWorld):
 
         Tutorial(
            "Multiworld Setup Guide",
-           "A guide to setting up the Mega Man 2 randomizer connected to an Archipelago Multiworld.",
+           "A guide to setting up the Mega Man 2 randomizer connected to an MultiworldGG world.",
            "English",
            "setup_en.md",
            "setup/en",
@@ -90,6 +90,7 @@ class MM2World(World):
     settings: ClassVar[MM2Settings]
     options_dataclass = MM2Options
     options: MM2Options
+    author: str = "Silvris"
     item_name_to_id = lookup_item_to_id
     location_name_to_id = lookup_location_to_id
     item_name_groups = item_names

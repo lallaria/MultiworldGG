@@ -108,10 +108,10 @@ class TWWLocation(Location):
     @staticmethod
     def get_apid(code: int) -> int:
         """
-        Compute the Archipelago ID for the given location code.
+        Compute the MultiworldGG ID for the given location code.
 
         :param code: The unique code for the location.
-        :return: The computed Archipelago ID.
+        :return: The computed MultiworldGG ID.
         """
         base_id: int = 2326528
         return base_id + code

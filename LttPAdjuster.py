@@ -26,10 +26,13 @@ ModuleUpdate.update()
 from worlds.alttp.Rom import Sprite, LocalRom, apply_rom_settings, get_base_rom_bytes
 from Utils import output_path, local_path, user_path, open_file, get_cert_none_ssl_context, persistent_store, \
     get_adjuster_settings, get_adjuster_settings_no_defaults, tkinter_center_window, init_logging
-
+try:
+    from Utils import instance_name as apname
+except ImportError:
+    apname = "Archipelago"
 
 GAME_ALTTP = "A Link to the Past"
-WINDOW_MIN_HEIGHT = 525
+WINDOW_MIN_HEIGHT = 545
 WINDOW_MIN_WIDTH = 425
 
 class AdjusterWorld(object):
@@ -97,6 +100,8 @@ def get_argparser() -> argparse.ArgumentParser:
     parser.add_argument('rom', nargs="?", default='AP_LttP.sfc', help='Path to an ALttP rom to adjust.')
     parser.add_argument('--baserom', default='Zelda no Densetsu - Kamigami no Triforce (Japan).sfc',
                         help='Path to an ALttP Japan(1.0) rom to use as a base.')
+    parser.add_argument('--output', default=local_path('output'),
+                        help='Output directory where the patched ROM will be saved (default: ./output)')
     parser.add_argument('--loglevel', default='info', const='info', nargs='?',
                         choices=['error', 'info', 'warning', 'debug'], help='Select level of logging for output.')
     parser.add_argument('--auto_apply', default='ask',
@@ -233,7 +238,9 @@ def adjust(args):
     apply_rom_settings(rom, args.heartbeep, args.heartcolor, args.quickswap, args.menuspeed, args.music,
                        args.sprite, args.oof, palettes_options, reduceflashing=args.reduceflashing or racerom, world=world,
                        deathlink=args.deathlink, allowcollect=args.allowcollect)
-    path = output_path(f'{os.path.basename(args.rom)[:-4]}_adjusted.sfc')
+    os.makedirs(args.output, exist_ok=True)
+    output_filename = f'{os.path.basename(args.rom)[:-4]}_adjusted.sfc'
+    path = os.path.join(args.output, output_filename)
     rom.write_to_file(path)
 
     logger.info('Done. Enjoy.')
@@ -249,7 +256,7 @@ def adjustGUI():
     from Utils import __version__ as MWVersion
     adjustWindow = Tk()
     adjustWindow.minsize(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT)
-    adjustWindow.wm_title("Archipelago %s LttP Adjuster" % MWVersion)
+    adjustWindow.wm_title(apname + " %s LttP Adjuster" % MWVersion)
     set_icon(adjustWindow)
 
     rom_options_frame, rom_vars, set_sprite = get_rom_options_frame(adjustWindow)
@@ -259,7 +266,7 @@ def adjustGUI():
     romFrame, romVar = get_rom_frame(adjustWindow)
 
     romDialogFrame = Frame(adjustWindow, padx=8, pady=2)
-    baseRomLabel2 = Label(romDialogFrame, text='Rom to adjust')
+    baseRomLabel2 = Label(romDialogFrame, text='Rom to adjust:')
     romVar2 = StringVar()
     romEntry2 = Entry(romDialogFrame, textvariable=romVar2)
 
@@ -272,6 +279,24 @@ def adjustGUI():
     baseRomLabel2.pack(side=LEFT, expand=False, fill=X, padx=(0, 8))
     romEntry2.pack(side=LEFT, expand=True, fill=BOTH, pady=1)
     romSelectButton2.pack(side=LEFT)
+
+    # --- Output Directory Frame ---
+    outputDialogFrame = Frame(adjustWindow, padx=8, pady=2)
+    outputLabel = Label(outputDialogFrame, text='Output Directory:')
+    outputDirVar = StringVar(value=local_path('output'))  # default value
+    outputEntry = Entry(outputDialogFrame, textvariable=outputDirVar)
+
+    def OutputSelect():
+        directory = filedialog.askdirectory()
+        if directory:
+            outputDirVar.set(directory)
+
+    outputSelectButton = Button(outputDialogFrame, text='Select Directory', command=OutputSelect)
+
+    outputDialogFrame.pack(side=TOP, expand=False, fill=X)
+    outputLabel.pack(side=LEFT, padx=(0, 8))
+    outputEntry.pack(side=LEFT, expand=True, fill=BOTH, pady=1)
+    outputSelectButton.pack(side=LEFT)
 
     def adjustRom():
         guiargs = Namespace()
@@ -291,6 +316,7 @@ def adjustGUI():
         guiargs.allowcollect = bool(rom_vars.AllowCollectVar.get())
         guiargs.rom = romVar2.get()
         guiargs.baserom = romVar.get()
+        guiargs.output = outputDirVar.get()
         guiargs.sprite = rom_vars.sprite
         if rom_vars.sprite_pool:
             guiargs.world = AdjusterWorld(rom_vars.sprite_pool)
@@ -328,6 +354,7 @@ def adjustGUI():
         guiargs.deathlink = bool(rom_vars.DeathLinkVar.get())
         guiargs.allowcollect = bool(rom_vars.AllowCollectVar.get())
         guiargs.baserom = romVar.get()
+        guiargs.output = outputDirVar.get()
         if isinstance(rom_vars.sprite, Sprite):
             guiargs.sprite = rom_vars.sprite.name
         else:

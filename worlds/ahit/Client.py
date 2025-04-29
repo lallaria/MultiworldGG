@@ -9,7 +9,7 @@ from MultiServer import Endpoint
 from CommonClient import CommonContext, gui_enabled, ClientCommandProcessor, logger, get_base_parser
 
 DEBUG = False
-
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 class AHITJSONToTextParser(JSONtoTextParser):
     def _handle_color(self, node: JSONMessagePart):
@@ -154,7 +154,7 @@ class AHITContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago A Hat in Time Client"
+            base_title = apname + " A Hat in Time Client"
 
         self.ui = AHITManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

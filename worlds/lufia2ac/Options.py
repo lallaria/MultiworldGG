@@ -321,7 +321,7 @@ class CustomItemPool(ItemDict, Mapping[str, int]):
 
     Using this option you can place any cave item in your multiworld item pool. (By default, the pool is filled with
     blue chest items.) Here you can add any valid item from the Lufia II Ancient Cave section of the datapackage
-    (see https://archipelago.gg/datapackage). The value of this option has to be a mapping of item name to count,
+    (see https://multiworld.gg/datapackage). The value of this option has to be a mapping of item name to count,
     e.g., to add two Deadly rods and one Dekar Blade: {Deadly rod: 2, Dekar blade: 1}
     The maximum total amount of custom items you can place is limited by the chosen blue_chest_count; any remaining,
     non-customized space in the pool will be occupied by random blue chest items.

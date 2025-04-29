@@ -1,5 +1,5 @@
 """
-Archipelago Launcher
+MultiworldGG Launcher for bundled app.
 
 * If run with a patch file as argument, launch corresponding client with the patch file as an argument.
 * If run with component name as argument, run it passing argv[2:] as arguments.
@@ -10,6 +10,7 @@ Additional components can be added to worlds.LauncherComponents.components.
 
 import argparse
 import logging
+import logging.handlers
 import multiprocessing
 import shlex
 import subprocess
@@ -27,10 +28,12 @@ if __name__ == "__main__":
 
 import settings
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from Utils import (init_logging, is_frozen, is_linux, is_macos, is_windows, local_path, messagebox, open_filename,
                    user_path)
 from worlds.LauncherComponents import Component, components, icon_paths, SuffixIdentifier, Type
 
+apname = "Archipelago" if not Utils.instance_name else Utils.instance_name
 
 def open_host_yaml():
     s = settings.get_settings()
@@ -102,10 +105,8 @@ components.extend([
     Component("Open host.yaml", func=open_host_yaml),
     Component("Open Patch", func=open_patch),
     Component("Generate Template Options", func=generate_yamls),
-    Component("Archipelago Website", func=lambda: webbrowser.open("https://archipelago.gg/")),
-    Component("Discord Server", icon="discord", func=lambda: webbrowser.open("https://discord.gg/8Z65BR2")),
-    Component("Unrated/18+ Discord Server", icon="discord",
-              func=lambda: webbrowser.open("https://discord.gg/fqvNCCRsu4")),
+    Component("MultiworldGG Website", func=lambda: webbrowser.open("https://multiworld.gg/")),
+    Component("ZSR Discord", icon="discord", func=lambda: webbrowser.open("https://discord.gg/zsr")),
     Component("Browse Files", func=browse_files),
 ])
 
@@ -119,7 +120,7 @@ def handle_uri(path: str, launch_args: Tuple[str, ...]) -> None:
     if "game" in queries:
         game = queries["game"][0]
     else:  # TODO around 0.6.0 - this is for pre this change webhost uri's
-        game = "Archipelago"
+        game = "MultiworldGG"
     for component in components:
         if component.supports_uri and component.game_name == game:
             client_component.append(component)
@@ -173,8 +174,8 @@ def get_exe(component: Union[str, Component]) -> Optional[Sequence[str]]:
     if isinstance(component, str):
         name = component
         component = None
-        if name.startswith("Archipelago"):
-            name = name[11:]
+        if name.startswith(apname):
+            name = name[len(apname):]
         if name.endswith(".exe"):
             name = name[:-4]
         if name.endswith(".py"):
@@ -182,7 +183,7 @@ def get_exe(component: Union[str, Component]) -> Optional[Sequence[str]]:
         if not name:
             return None
         for c in components:
-            if c.script_name == name or c.frozen_name == f"Archipelago{name}":
+            if c.script_name == name or c.frozen_name == apname + name:
                 component = c
                 break
         if not component:
@@ -197,7 +198,10 @@ def get_exe(component: Union[str, Component]) -> Optional[Sequence[str]]:
 def launch(exe, in_terminal=False):
     if in_terminal:
         if is_windows:
-            subprocess.Popen(['start', *exe], shell=True)
+            try:
+                subprocess.Popen(["wt","-w","0",*exe], shell=True)
+            except FileNotFoundError:
+                subprocess.Popen(['start', *exe], shell=True)
             return
         elif is_linux:
             terminal = which('x-terminal-emulator') or which('gnome-terminal') or which('xterm')
@@ -217,7 +221,7 @@ def create_shortcut(button: Any, component: Component) -> None:
     wkdir = Utils.local_path()
 
     script = f"{script} \"{component.display_name}\""
-    make_shortcut(script, name=f"Archipelago {component.display_name}", icon=local_path("data", "icon.ico"),
+    make_shortcut(script, name=f"MultiworldGG {component.display_name}", icon=local_path("data", "icon.ico"),
                   startmenu=False, terminal=False, working_dir=wkdir)
     button.menu.dismiss()
 
@@ -249,7 +253,7 @@ def run_gui(path: str, args: Any) -> None:
             super().__init__(args, kwargs)
 
     class Launcher(ThemedApp):
-        base_title: str = "Archipelago Launcher"
+        base_title: str = apname + " Launcher"
         top_screen: MDFloatLayout = ObjectProperty(None)
         navigation: MDGridLayout = ObjectProperty(None)
         grid: MDGridLayout = ObjectProperty(None)
@@ -368,7 +372,7 @@ def run_gui(path: str, args: Any) -> None:
 
             global refresh_components
             refresh_components = self._refresh_components
-
+            Window.size = (1100, 920)
             Window.bind(on_drop_file=self._on_drop_file)
             Window.bind(on_keyboard=self._on_keyboard)
 
@@ -455,7 +459,7 @@ def main(args: Optional[Union[argparse.Namespace, dict]] = None):
 
     path = args.get("Patch|Game|Component|url", None)
     if path is not None:
-        if not path.startswith("archipelago://"):
+        if not path.startswith("archipelago://") or path.startswith("mwgg://"):
             file, component = identify(path)
             if file:
                 args['file'] = file
@@ -479,7 +483,7 @@ if __name__ == '__main__':
     Utils.freeze_support()
     multiprocessing.set_start_method("spawn")  # if launched process uses kivy, fork won't work
     parser = argparse.ArgumentParser(
-        description='Archipelago Launcher',
+        description=f'{apname} Launcher',
         usage="[-h] [--update_settings] [Patch|Game|Component] [-- component args here]"
     )
     run_group = parser.add_argument_group("Run")

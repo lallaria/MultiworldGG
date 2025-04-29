@@ -2,8 +2,8 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) (optional, but recommended).
-- [SNI](https://github.com/alttpo/sni/releases). This is automatically included with your Archipelago installation above.
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases) (optional, but recommended).
+- [SNI](https://github.com/alttpo/sni/releases). This is automatically included with your MultiworldGG installation above.
 - SNI is not compatible with (Q)Usb2Snes.
 - Hardware or software capable of loading and playing SNES ROM files, including:
     - An emulator capable of connecting to SNI
@@ -22,7 +22,7 @@
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -61,7 +61,7 @@ page: [Evermizer apbpatch Page](https://evermizer.com/apbpatch)
 
 ### Connect to SNI
 
-Start SNI either from the Archipelago install folder or the stand-alone version. If this is its first time launching,
+Start SNI either from the MultiworldGG install folder or the stand-alone version. If this is its first time launching,
 you may be prompted to allow it to communicate through the Windows Firewall.
 
 #### With an emulator
@@ -150,4 +150,4 @@ change to green. Congratulations on successfully joining a multiworld game!
 ## Hosting a MultiWorld game
 
 The recommended way to host a game is to use our hosting service on the [seed generation page](/generate). Or check out
-the Archipelago website guide for more information: [Archipelago Setup Guide](/tutorial/Archipelago/setup/en)
+the MultiworldGG website guide for more information: [MultiworldGG Setup Guide](/tutorial/MultiworldGG/setup/en)

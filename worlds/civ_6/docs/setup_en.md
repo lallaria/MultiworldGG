@@ -8,7 +8,7 @@ The following are required in order to play Civ VI in Archipelago:
 
 - Windows OS (Firaxis does not support the necessary tooling for Mac, or Linux)
 
-- Installed [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) v0.4.5 or higher.
+- Installed [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases) v0.4.5 or higher.
 
 - The latest version of the [Civ VI AP Mod](https://github.com/hesto2/civilization_archipelago_mod/releases/latest).
 

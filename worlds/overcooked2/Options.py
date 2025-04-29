@@ -117,7 +117,7 @@ class FixBugs(OC2OnToggle):
 
 class ShorterLevelDuration(OC2OnToggle):
     """Modifies level duration to be about 1/3rd shorter than in the original game, thus bringing the item discovery
-    pace in line with other popular Archipelago games.
+    pace in line with other popular MultiworldGG games.
     
     Points required to earn stars are scaled accordingly. ("Boss Levels" which change scenery mid-game are not
     affected.)"""

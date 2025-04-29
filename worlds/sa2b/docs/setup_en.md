@@ -60,7 +60,7 @@ Note: Ensure that you launch Sonic Adventure 2 from Steam directly on Linux, rat
 
 1. Before launching the game, run the `SAModManager.exe`, select the SA2B_Archipelago mod, and hit the `Configure Mod` button.
 
-2. For the `Server IP` field under `AP Settings`, enter the address of the server, such as archipelago.gg:38281, your server host should be able to tell you this.
+2. For the `Server IP` field under `AP Settings`, enter the address of the server, such as multiworld.gg:38281, your server host should be able to tell you this.
 
 3. For the `PlayerName` field under `AP Settings`, enter your "name" field from the yaml, or website config.
 
@@ -76,7 +76,7 @@ Some additional settings related to the Archipelago messages in game can be adju
 
 - Message Display Count: This is the maximum number of Archipelago messages that can be displayed on screen at any given time.
 - Message Display Duration: This dictates how long Archipelago messages are displayed on screen (in seconds).
-- Message Font Size: The is the size of the font used to display the messages from Archipelago.
+- Message Font Size: The is the size of the font used to display the messages from MultiworldGG.
 
 If you wish to use the `SADX Music` option of the Randomizer, you must own a copy of `Sonic Adventure DX` on Steam, and follow these steps:
 

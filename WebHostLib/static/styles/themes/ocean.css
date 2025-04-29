@@ -1,7 +1,7 @@
 html{
     background-image: url('../../static/backgrounds/ocean.png');
     background-repeat: repeat;
-    background-size: 400px 400px;
+    background-size: 126px 126px;
 }
 
 body{
@@ -13,7 +13,7 @@ body{
 }
 
 .markdown {
-    background-color: rgba(17, 35, 62, 0.55) !important;
+    background-color:rgba(0, 0, 0, 0.30) !important;
 }
 
 h1{
@@ -21,7 +21,7 @@ h1{
 }
 
 h2{
-    color: #93dcff;
+    color: #b44ad9;
 }
 
 h3, h4, h5,h6{
@@ -38,7 +38,7 @@ table td{
 }
 
 a{
-    color: #fffc95;
+    color: #ea166c;
 }
 
 pre{

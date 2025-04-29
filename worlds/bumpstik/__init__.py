@@ -15,7 +15,7 @@ from worlds.generic.Rules import forbid_item
 class BumpStikWeb(WebWorld):
     tutorials = [Tutorial(
         "Bumper Stickers Setup Guide",
-        "A guide to setting up the Archipelago Bumper Stickers software on your computer.",
+        "A guide to setting up the MultiworldGG Bumper Stickers software on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -33,6 +33,7 @@ class BumpStikWorld(World):
     """
 
     game = "Bumper Stickers"
+    author: str = "FelicitusNeko"
     web = BumpStikWeb()
 
     item_name_to_id = item_table

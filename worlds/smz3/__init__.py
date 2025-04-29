@@ -50,9 +50,10 @@ class SMZ3CollectionState(metaclass=AutoLogicRegister):
         return ret
 
 class SMZ3Web(WebWorld):
+    display_name = "Super Metroid / ALttP Crossover"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago Super Metroid and A Link to the Past Crossover randomizer on your computer. This guide covers single-player, multiworld, and related software.",
+        "A guide to setting up the MultiworldGG Super Metroid and A Link to the Past Crossover randomizer on your computer. This guide covers single-player, multiworld, and related software.",
         "English",
         "multiworld_en.md",
         "multiworld/en",
@@ -66,6 +67,7 @@ class SMZ3World(World):
      This is allowed as long as we keep features and logic as close as possible as the original.    
     """
     game: str = "SMZ3"
+    author: str = "lordlou"
     topology_present = False
     options_dataclass = SMZ3Options
     options: SMZ3Options

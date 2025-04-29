@@ -2,7 +2,7 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases).
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
 - Hardware or software capable of loading and playing SNES ROM files
     - An emulator capable of connecting to SNI with ROM access. Any one of the following will work:
         - snes9x-emunwa from: [snes9x-emunwa Releases Page](https://github.com/Skarsnik/snes9x-emunwa/releases)
@@ -16,7 +16,7 @@
 
 ## Installation Procedures
 
-1. Download and install Archipelago from the link above, making sure to install the most recent version.
+1. Download and install MultiworldGG from the link above, making sure to install the most recent version.
    **The installer file is located in the assets section at the bottom of the version information**.
     - During generation/patching, you will be asked to locate your base ROM file. This is your Kirby's Dream Land 3 ROM file.
 
@@ -39,7 +39,7 @@ to enjoy an experience customized for their taste, and different players in the 
 options.
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -86,7 +86,7 @@ first time launching, you may be prompted to allow it to communicate through the
 3. Click on **New Lua Script Window...**
 4. In the new window, click **Browse...**
 5. Select the connector lua file included with your client
-    - Look in the Archipelago folder for `/SNI/lua/Connector.lua`
+    - Look in the MultiworldGG folder for `/SNI/lua/Connector.lua`
 6. If you see an error while loading the script that states `socket.dll missing` or similar, navigate to the folder of 
 the lua you are using in your file explorer and copy the `socket.dll` to the base folder of your snes9x install.
 
@@ -100,7 +100,7 @@ the lua you are using in your file explorer and copy the `socket.dll` to the bas
 3. Click on the Tools menu and click on **Lua Console**
 4. Click Script -> Open Script...
 5. Select the `Connector.lua` file you downloaded above
-    - Look in the Archipelago folder for `/SNI/lua/Connector.lua`
+    - Look in the MultiworldGG folder for `/SNI/lua/Connector.lua`
 
 ##### bsnes-plus-nwa and snes9x-nwa
 

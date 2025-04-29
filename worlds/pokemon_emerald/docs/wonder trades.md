@@ -1,6 +1,6 @@
 # Wonder Trades
 
-Pokemon Emerald uses Archipelago's data storage to reproduce what the Pokemon series calls wonder trading. Wonder
+Pokemon Emerald uses MultiworldGG's data storage to reproduce what the Pokemon series calls wonder trading. Wonder
 trading is meant as a sort of gacha game surprise trade where you give up one of your pokemon and at some point in the
 future you'll receive one in return from another player who decided to participate. In practice, small groups will be
 able to use it as a means of simple trading as well by coordinating when they participate.

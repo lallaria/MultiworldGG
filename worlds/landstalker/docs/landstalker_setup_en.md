@@ -2,7 +2,7 @@
 
 ## Required Software
 
-- [Landstalker Archipelago Client](https://github.com/Dinopony/randstalker-archipelago/releases) (only available on Windows)
+- [Landstalker MultiworldGG client](https://github.com/Dinopony/randstalker-archipelago/releases) (only available on Windows)
 - A compatible emulator to run the game
   - [RetroArch](https://retroarch.com?page=platforms) with the Genesis Plus GX core
   - [Bizhawk 2.9.1 (x64)](https://tasvideos.org/BizHawk/ReleaseHistory) with the Genesis Plus GX core
@@ -10,7 +10,7 @@
 
 ## Installation Instructions
 
-- Unzip the Landstalker Archipelago Client archive into its own folder
+- Unzip the Landstalker MultiworldGG client archive into its own folder
 - Put your Landstalker ROM (`LandStalker_USA.SGD` on the Steam release) inside this folder
 - To launch the client, launch `randstalker_archipelago.exe` inside that folder
 
@@ -26,7 +26,7 @@ or test it on a service like Virustotal.
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -39,16 +39,16 @@ you to easily configure your personal options.
 
 ### Connecting to the Archipelago Server
 
-Once the game has been created, you need to connect to the server using the Landstalker Archipelago Client.
+Once the game has been created, you need to connect to the server using the Landstalker MultiworldGG client.
 
 To do so, run `randstalker_archipelago.exe` inside the folder you created while installing the software.
 
 A window will open with a few settings to enter:
-- **Host**: Put the server address and port in this field (e.g. `archipelago.gg:12345`)
+- **Host**: Put the server address and port in this field (e.g. `multiworld.gg:12345`)
 - **Slot name**: Put the player name you specified in your YAML config file in this field.
 - **Password**: If the server has a password, put it there.
 
-![Landstalker Archipelago Client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_ap.png)
+![Landstalker MultiworldGG client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_ap.png)
 
 Once all those fields were filled appropriately, click on the `Connect to Archipelago` button below to try connecting to
 the Archipelago server.
@@ -67,7 +67,7 @@ You should see a window with settings to fill:
 - **Output ROM directory**: This is where the randomized ROMs will be put. No need to change this unless you want them 
   to be created in a very specific folder.
 
-![Landstalker Archipelago Client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_rom.png)
+![Landstalker MultiworldGG client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_rom.png)
 
 There also a few cosmetic options you can fill before clicking the `Build ROM` button which should create your 
 randomized seed if everything went right.
@@ -83,7 +83,7 @@ the items you have received from other players.
 
 You should see the following window:
 
-![Landstalker Archipelago Client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_emu.png)
+![Landstalker MultiworldGG client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_emu.png)
 
 As written, you have to open the newly generated ROM inside either Retroarch or Bizhawk using the Genesis Plus GX core. 
 Be careful to select that core, because any other core (e.g. BlastEm) won't work.
@@ -116,6 +116,6 @@ The client is packaged with both an **automatic item tracker** and an **automati
 If you don't know all checks in the game, don't be afraid: you can click the `Where is it?` button that will show 
 you a screenshot of where the location actually is.
 
-![Landstalker Archipelago Client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_client.png)
+![Landstalker MultiworldGG client user interface](/static/generated/docs/Landstalker%20-%20The%20Treasures%20of%20King%20Nole/ls_guide_client.png)
 
 Have fun!

@@ -23,7 +23,7 @@ class OSRSWeb(WebWorld):
 
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Old School Runescape Randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the Old School Runescape Randomizer connected to an MultiworldGG world",
         "English",
         "docs/setup_en.md",
         "setup/en",
@@ -40,6 +40,7 @@ class OSRSWorld(World):
     """
 
     game = "Old School Runescape"
+    author: str = "digiholic"
     options_dataclass = OSRSOptions
     options: OSRSOptions
     topology_present = True

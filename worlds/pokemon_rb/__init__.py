@@ -47,7 +47,7 @@ class PokemonSettings(settings.Group):
 class PokemonWebWorld(WebWorld):
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to playing Pokémon Red and Blue with Archipelago.",
+        "A guide to playing Pokémon Red and Blue with MultiworldGG.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -72,6 +72,7 @@ class PokemonRedBlueWorld(World):
     Elite Four to become the champion!"""
     # -MuffinJets#4559
     game = "Pokemon Red and Blue"
+    author: str = "Alchav"
 
     options_dataclass = PokemonRBOptions
     options: PokemonRBOptions

@@ -18,7 +18,7 @@ All three keys, the chalice, the sword, the magnet, and the bridge can be found 
 options, dragon slowdowns, difficulty switch unlocks, and freeincarnates may also be found.
 
 ## What is considered a location check in Adventure?
-Most areas in Adventure have one or more locations which can contain an Adventure item or an Archipelago item.
+Most areas in Adventure have one or more locations which can contain an Adventure item or an MultiworldGG item.
 A few rooms have two potential locaions.  If the location contains a 'nothing' Adventure item, it will send a check when
 that is seen.  If it contains an item from another Adventure or other game, it will show a rough approximation of the
 Archipelago logo that can be touched for a check.  Touching a local Adventure item also 'checks' it, allowing it to be
@@ -26,7 +26,7 @@ retrieved after a select-reset or hard reset.
 
 ## Why isn't my item where the spoiler says it should be?
 If something isn't where the spoiler says, most likely the bat carried it somewhere else.  The bat's ability to shuffle
-items around makes it somewhat unique in Archipelago.  Touching the item, wherever it is, will award the location check
+items around makes it somewhat unique in MultiworldGG.  Touching the item, wherever it is, will award the location check
 for wherever the item was originally placed.
 
 ## Which notable items are not randomized?

@@ -120,7 +120,7 @@ class CivVIContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Civilization VI Client"
+            base_title = "MultiworldGG Civilization VI Client"
 
         self.ui = CivVIManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

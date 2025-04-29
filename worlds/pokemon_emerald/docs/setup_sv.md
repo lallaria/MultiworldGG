@@ -2,7 +2,7 @@
 
 ## Programvara som behövs
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases)
 - Ett engelskt Pokémon Emerald ROM, Archipelago kan inte hjälpa dig med detta.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 eller senare
 
@@ -32,7 +32,7 @@ används tillsammans med
 2. Följ de allmänna Archipelago instruktionerna för att
 [Generera ett spel](../../Archipelago/setup/en#generating-a-game).
 Detta kommer generera en fil för dig. Din patchfil kommer ha `.apemerald` som sitt filnamnstillägg.
-3. Öppna `ArchipelagoLauncher.exe`
+3. Öppna `MultiworldGGLauncher.exe`
 4. Välj "Open Patch" på vänstra sidan, och välj din patchfil.
 5. Om detta är första gången du patchar, så kommer du behöva välja var ditt ursprungliga ROM är.
 6. En patchad `.gba` fil kommer skapas på samma plats som patchfilen.
@@ -57,7 +57,7 @@ så kan du bara öppna den igen från launchern.
 6. Emulatorn och klienten kommer så småningom ansluta till varandra. I BizHawk-klienten kommer du kunna see om allt är
 anslutet och att Pokemon Emerald är igenkänt.
 7. För att ansluta klienten till en server, skriv in din lobbyadress och port i textfältet t.ex.
-`archipelago.gg:38281`
+`multiworld.gg:38281`
 längst upp i din klient och tryck sen på "Connect".
 
 Du borde nu kunna ta emot och skicka föremål. Du behöver göra dom här stegen varje gång du vill ansluta igen. Det är

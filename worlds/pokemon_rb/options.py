@@ -13,7 +13,7 @@ class GameVersion(Choice):
 
 class TrainerName(TextChoice):
     """Your trainer name. If not set to choose_in_game, must be a name not exceeding 7 characters, and the prompt to
-    name your character in-game will be skipped. See the setup guide on archipelago.gg for a list of allowed characters."""
+    name your character in-game will be skipped. See the setup guide on Multiworld.gg for a list of allowed characters."""
     display_name = "Trainer Name"
     option_choose_in_game = -1
     default = -1
@@ -21,7 +21,7 @@ class TrainerName(TextChoice):
 
 class RivalName(TextChoice):
     """Your rival's name. If not set to choose_in_game, must be a name not exceeding 7 characters, and the prompt to
-    name your rival in-game will be skipped. See the setup guide on archipelago.gg for a list of allowed characters."""
+    name your rival in-game will be skipped. See the setup guide on Multiworld.gg for a list of allowed characters."""
     display_name = "Rival's Name"
     option_choose_in_game = -1
     default = -1
@@ -47,7 +47,7 @@ class EliteFourBadgesCondition(Range):
 
 class EliteFourKeyItemsCondition(Range):
     """Percentage of available key items (not counting items you can lose) required to challenge the Elite Four. Does
-    not count HMs. Evolution stones and Exp. All are key items in Archipelago."""
+    not count HMs. Evolution stones and Exp. All are key items in MultiworldGG."""
     display_name = "Elite Four Key Items Condition"
     range_start = 0
     range_end = 100
@@ -100,7 +100,7 @@ class CeruleanCaveBadgesCondition(Range):
 class CeruleanCaveKeyItemsCondition(Range):
     """Percentage of available key items (not counting items you can lose) required to access the Cerulean Cave
     entrance in addition to the required badges. Does not count HMs.
-    Evolution stones and Exp. All are key items in Archipelago."""
+    Evolution stones and Exp. All are key items in MultiworldGG."""
     display_name = "Cerulean Cave Key Items Condition"
     range_start = 0
     range_end = 100

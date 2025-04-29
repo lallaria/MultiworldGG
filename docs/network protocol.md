@@ -1,8 +1,8 @@
-# Archipelago General Client
-## Archipelago Connection Handshake
-These steps should be followed in order to establish a gameplay connection with an Archipelago session.
+# MultiworldGG General Client
+## MultiworldGG Connection Handshake
+These steps should be followed in order to establish a gameplay connection with an MultiworldGG session.
 
-1. Client establishes WebSocket connection to Archipelago server.
+1. Client establishes WebSocket connection to MultiworldGG server.
 2. Server accepts connection and responds with a [RoomInfo](#RoomInfo) packet.
 3. Client may send a [GetDataPackage](#GetDataPackage) packet.
 4. Server sends a [DataPackage](#DataPackage) packet in return. (If the client sent GetDataPackage.)
@@ -13,13 +13,13 @@ These steps should be followed in order to establish a gameplay connection with 
 
 In the case that the client does not authenticate properly and receives a [ConnectionRefused](#ConnectionRefused) then the server will maintain the connection and allow for follow-up [Connect](#Connect) packet.
 
-There are also a number of community-supported libraries available that implement this network protocol to make integrating with Archipelago easier.
+There are also a number of community-supported libraries available that implement this network protocol to make integrating with MultiworldGG easier.
 
 | Language/Runtime              | Project                                                                                            | Remarks                                                                         |
 |-------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| Python                        | [Archipelago CommonClient](https://github.com/ArchipelagoMW/Archipelago/blob/main/CommonClient.py) |                                                                                 |
-|                               | [Archipelago SNIClient](https://github.com/ArchipelagoMW/Archipelago/blob/main/SNIClient.py)       | For Super Nintendo Game Support; Utilizes [SNI](https://github.com/alttpo/sni). |
-| JVM (Java / Kotlin)           | [Archipelago.MultiClient.Java](https://github.com/ArchipelagoMW/Archipelago.MultiClient.Java)      |                                                                                 |
+| Python                        | [MultiworldGG CommonClient](https://github.com/MultiworldGG/MultiworldGG/blob/main/CommonClient.py) |                                                                                 |
+|                               | [MultiworldGG SNIClient](https://github.com/MultiworldGG/MultiworldGG/blob/main/SNIClient.py)       | For Super Nintendo Game Support; Utilizes [SNI](https://github.com/alttpo/sni). |
+| JVM (Java / Kotlin)           | [Archipelago.MultiClient.Java](https://github.com/MultiworldGG/MultiworldGG.MultiClient.Java)      |                                                                                 |
 | .NET (C# / F# / VB.NET)       | [Archipelago.MultiClient.Net](https://www.nuget.org/packages/Archipelago.MultiClient.Net)          |                                                                                 |
 | C++                           | [apclientpp](https://github.com/black-sliver/apclientpp)                                           | header-only                                                                     |
 |                               | [APCpp](https://github.com/N00byKing/APCpp)                                                        | CMake                                                                           |
@@ -40,7 +40,7 @@ Even if the client detects a desync, it can still accept the items provided in t
 
 When the client receives a [ReceivedItems](#ReceivedItems) packet and the `index` arg is `0` (zero) then the client should accept the provided `items` list as its full inventory. (Abandon previous inventory.)
 
-# Archipelago Protocol Packets
+# MultiworldGG Protocol Packets
 Packets are sent between the multiworld server and client in order to sync information between them. Below is a directory of each packet.
 
 Packets are simple JSON lists in which any number of ordered network commands can be sent, which are objects. Each command has a "cmd" key, indicating its purpose. All packet argument types documented here refer to JSON types, unless otherwise specified.
@@ -71,12 +71,12 @@ These packets are sent from the multiworld server to the client. They are not me
 * [SetReply](#SetReply)
 
 ### RoomInfo
-Sent to clients when they connect to an Archipelago server.
+Sent to clients when they connect to an MultiworldGG server.
 #### Arguments
 | Name                  | Type                                          | Notes                                                                                                                                                                                                                                 |
 |-----------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| version               | [NetworkVersion](#NetworkVersion)             | Object denoting the version of Archipelago which the server is running.                                                                                                                                                               |
-| generator_version     | [NetworkVersion](#NetworkVersion)             | Object denoting the version of Archipelago which generated the multiworld.                                                                                                                                                            |
+| version               | [NetworkVersion](#NetworkVersion)             | Object denoting the version of MultiworldGG which the server is running.                                                                                                                                                               |
+| generator_version     | [NetworkVersion](#NetworkVersion)             | Object denoting the version of MultiworldGG which generated the multiworld.                                                                                                                                                            |
 | tags                  | list\[str\]                                   | Denotes special features or capabilities that the sender is capable of. Example: `WebHost`                                                                                                                                            |
 | password              | bool                                          | Denoted whether a password is required to join this room.                                                                                                                                                                             |
 | permissions           | dict\[str, [Permission](#Permission)\[int\]\] | Mapping of permission name to [Permission](#Permission), keys are: "release", "collect" and "remaining".                                                                                                                              |
@@ -209,7 +209,7 @@ Currently defined types are:
 | Countdown | The current server countdown has progressed. |
 
 ### DataPackage
-Sent to clients to provide what is known as a 'data package' which contains information to enable a client to most easily communicate with the Archipelago server. Contents include things like location id to name mappings, among others; see [Data Package Contents](#Data-Package-Contents) for more info.
+Sent to clients to provide what is known as a 'data package' which contains information to enable a client to most easily communicate with the MultiworldGG server. Contents include things like location id to name mappings, among others; see [Data Package Contents](#Data-Package-Contents) for more info.
 
 #### Arguments
 | Name | Type | Notes |
@@ -286,7 +286,7 @@ These packets are sent purely from client to server. They are not accepted by cl
 * [SetNotify](#SetNotify)
 
 ### Connect
-Sent by the client to initiate a connection to an Archipelago game session.
+Sent by the client to initiate a connection to an MultiworldGG game session.
 
 #### Arguments
 | Name           | Type                              | Notes                                                                                        |
@@ -295,7 +295,7 @@ Sent by the client to initiate a connection to an Archipelago game session.
 | game           | str                               | The name of the game the client is playing. Example: `A Link to the Past`                    |
 | name           | str                               | The player name for this client.                                                             |
 | uuid           | str                               | Unique identifier for player client.                                                         |
-| version        | [NetworkVersion](#NetworkVersion) | An object representing the Archipelago version this client supports.                         |
+| version        | [NetworkVersion](#NetworkVersion) | An object representing the MultiworldGG version this client supports.                         |
 | items_handling | int                               | Flags configuring which items should be sent by the server. Read below for individual flags. |
 | tags           | list\[str\]                       | Denotes special features or capabilities that the sender is capable of. [Tags](#Tags)        |
 | slot_data      | bool                              | If true, the Connect answer will contain slot_data                                           |
@@ -310,7 +310,7 @@ Sent by the client to initiate a connection to an Archipelago game session.
 | null  | Null or undefined loads settings from world definition for backwards compatibility. This is deprecated. |
 
 #### Authentication
-Many, if not all, other packets require a successfully authenticated client. This is described in more detail in [Archipelago Connection Handshake](#Archipelago-Connection-Handshake).
+Many, if not all, other packets require a successfully authenticated client. This is described in more detail in [MultiworldGG Connection Handshake](#MultiworldGG-Connection-Handshake).
 
 ### ConnectUpdate
 Update arguments from the Connect package, currently only updating tags and items_handling is supported.
@@ -331,8 +331,8 @@ Sent to server to inform it of locations that the client has checked. Used to in
 
 #### Arguments
 | Name | Type | Notes |
-| ---- | ---- | ----- |
-| locations | list\[int\] | The ids of the locations checked by the client. May contain any number of checks, even ones sent before; duplicates do not cause issues with the Archipelago server. |
+| ---- | ---- | ----- |MultiworldGG
+| locations | list\[int\] | The ids of the locations checked by the client. May contain any number of checks, even ones sent before; duplicates do not cause issues with the MultiworldGG server. |
 
 ### LocationScouts
 Sent to the server to retrieve the items that are on a specified list of locations. The server will respond with a [LocationInfo](#LocationInfo) packet containing the items located in the scouted locations.
@@ -344,7 +344,7 @@ This is useful in cases where an item appears in the game world, such as 'ledge 
 #### Arguments
 | Name | Type | Notes |
 | ---- | ---- | ----- |
-| locations | list\[int\] | The ids of the locations seen by the client. May contain any number of locations, even ones sent before; duplicates do not cause issues with the Archipelago server. |
+| locations | list\[int\] | The ids of the locations seen by the client. May contain any number of locations, even ones sent before; duplicates do not cause issues with the MultiworldGG server. |
 | create_as_hint | int | If non-zero, the scouted locations get created and broadcasted as a player-visible hint. <br/>If 2 only new hints are broadcast, however this does not remove them from the LocationInfo reply. |
 
 ### UpdateHint
@@ -482,7 +482,7 @@ Used to register your current session for receiving all [SetReply](#SetReply) pa
 ## Appendix
 
 ### Coop
-Coop in Archipelago is automatically facilitated by the server, however some of the default behaviour may not be what you desire.
+Coop in MultiworldGG is automatically facilitated by the server, however some of the default behaviour may not be what you desire.
 
 If the game in question is a remote-items game (attribute on AutoWorld), then all items will always be sent and received.
 If the game in question is not a remote-items game, then any items that are placed within the same world will not be send by the server.
@@ -492,7 +492,7 @@ To manually react to others in the same player slot doing checks, listen to [Roo
 ### NetworkPlayer
 A list of objects. Each object denotes one player. Each object has four fields about the player, in this order: `team`, `slot`, `alias`, and `name`. `team` and `slot` are ints, `alias` and `name` are strs.
 
-Each player belongs to a `team` and has a `slot`. Team numbers start at `0`. Slot numbers are unique per team and start at `1`. Slot number `0` refers to the Archipelago server; this may appear in instances where the server grants the player an item.
+Each player belongs to a `team` and has a `slot`. Team numbers start at `0`. Slot numbers are unique per team and start at `1`. Slot number `0` refers to the MultiworldGG server; this may appear in instances where the server grants the player an item.
 
 `alias` represents the player's name in current time. `name` is the original name used when the session was generated. This is typically distinct in games which require baking names into ROMs or for async games.
 
@@ -533,9 +533,9 @@ In JSON this may look like:
     {"item": 3, "location": 3, "player": 3, "flags": 0}
 ]
 ```
-`item` is the item id of the item. Item ids are only supported in the range of [-2<sup>53</sup> + 1, 2<sup>53</sup> - 1], with anything ≤ 0 reserved for Archipelago use.
+`item` is the item id of the item. Item ids are only supported in the range of [-2<sup>53</sup> + 1, 2<sup>53</sup> - 1], with anything ≤ 0 reserved for MultiworldGG use.
 
-`location` is the location id of the item inside the world. Location ids are only supported in the range of [-2<sup>53</sup> + 1, 2<sup>53</sup> - 1], with anything ≤ 0 reserved for Archipelago use.
+`location` is the location id of the item inside the world. Location ids are only supported in the range of [-2<sup>53</sup> + 1, 2<sup>53</sup> - 1], with anything ≤ 0 reserved for MultiworldGG use.
 
 `player` is the player slot of the world the item is located in, except when inside an [LocationInfo](#LocationInfo) Packet then it will be the slot of the player to receive the item
 
@@ -561,7 +561,7 @@ class JSONMessagePart(TypedDict):
     hint_status: Optional[HintStatus] # only available if type is hint_status
 ```
 
-`type` is used to denote the intent of the message part. This can be used to indicate special information which may be rendered differently depending on client. How these types are displayed in Archipelago's ALttP client is not the end-all be-all. Other clients may choose to interpret and display these messages differently.
+`type` is used to denote the intent of the message part. This can be used to indicate special information which may be rendered differently depending on client. How these types are displayed in MultiworldGG's ALttP client is not the end-all be-all. Other clients may choose to interpret and display these messages differently.
 Possible values for `type` include:
 
 | Name | Notes |
@@ -621,7 +621,7 @@ class ClientStatus(enum.IntEnum):
 ```
 
 ### NetworkVersion
-An object representing software versioning. Used in the [Connect](#Connect) packet to allow the client to inform the server of the Archipelago version it supports.
+An object representing software versioning. Used in the [Connect](#Connect) packet to allow the client to inform the server of the MultiworldGG version it supports.
 ```python
 from typing import NamedTuple
 class Version(NamedTuple):
@@ -682,7 +682,7 @@ class Hint(typing.NamedTuple):
 ```
 
 ### Data Package Contents
-A data package is a JSON object which may contain arbitrary metadata to enable a client to interact with the Archipelago
+A data package is a JSON object which may contain arbitrary metadata to enable a client to interact with the MultiworldGG
 server most easily and not maintain their own mappings. Some contents include:
 
    - Name to ID mappings for items and locations.
@@ -694,8 +694,8 @@ than any locally cached ones.
 
 **Important Notes about IDs and Names**: 
 
-* IDs ≤ 0 are reserved for "Archipelago" and should not be used by other world implementations.
-* The IDs from the game "Archipelago" (in `worlds/generic`) may be used in any world.
+* IDs ≤ 0 are reserved for "MultiworldGG" and should not be used by other world implementations.
+* The IDs from the game "MultiworldGG" (in `worlds/generic`) may be used in any world.
   * Especially Location ID `-1`: `Cheat Console` and `-2`: `Server` (typically Remote Start Inventory)
 * Any names and IDs are only unique in its own world data package, but different games may reuse these names or IDs.
   * At runtime, you will need to look up the game of the player to know which item or location ID/Name to lookup in the

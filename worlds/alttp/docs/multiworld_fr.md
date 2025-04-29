@@ -2,8 +2,8 @@
 
 ## Logiciels requis
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases).
-- [SNI](https://github.com/alttpo/sni/releases). Inclus avec l'installation d'Archipelago ci-dessus.
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
+- [SNI](https://github.com/alttpo/sni/releases). Inclus avec l'installation d'MultiworldGG ci-dessus.
    - SNI n'est pas compatible avec (Q)Usb2Snes.
 - Une solution logicielle ou matérielle capable de charger et de lancer des fichiers ROM de SNES
     - Un émulateur capable de se connecter à SNI
@@ -18,7 +18,7 @@
 
 ## Procédure d'installation
 
-1. Téléchargez et installez [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases). **L'installateur se situe dans la section "assets" en bas des informations de version**.
+1. Téléchargez et installez [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). **L'installateur se situe dans la section "assets" en bas des informations de version**.
    
 2. Si c'est la première fois que vous faites une génération locale ou un patch, il vous sera demandé votre fichier ROM de base. Il s'agit de votre fichier ROM Link to the Past japonais. Cet étape n'a besoin d'être faite qu'une seule fois.
 
@@ -60,7 +60,7 @@ Windows.
 3. Cliquez alors sur **New Lua Script Window...**
 4. Dans la nouvelle fenêtre, sélectionnez **Browse...**
 5. Sélectionnez le fichier lua connecteur inclus avec votre client
-    - Recherchez `/SNI/lua/` dans votre fichier Archipelago. 
+    - Recherchez `/SNI/lua/` dans votre fichier MultiworldGG. 
 6. Si vous avez une erreur en chargeant le script indiquant `socket.dll missing` ou similaire, naviguez vers le fichier du
 lua que vous utilisez dans votre explorateur de fichiers et copiez le `socket.dll` à la base de votre installation snes9x.
 
@@ -78,7 +78,7 @@ lua que vous utilisez dans votre explorateur de fichiers et copiez le `socket.dl
    Une fois le cœur changé, rechargez le avec Ctrl+R (par défaut).
 2. Chargez votre ROM si ce n'est pas déjà fait.
 3. Glissez et déposez le fichier `Connector.lua` que vous avez téléchargé ci-dessus sur la fenêtre principale EmuHawk.
-    - Recherchez `/SNI/lua/` dans votre fichier Archipelago. 
+    - Recherchez `/SNI/lua/` dans votre fichier ArcMultiworldGGhipelago. 
     - Vous pouvez aussi ouvrir la console Lua manuellement, cliquez sur `Script` 〉 `Open Script`, et naviguez sur `Connecteur.lua`
       avec le sélecteur de fichiers.
 

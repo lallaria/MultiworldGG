@@ -24,7 +24,7 @@ class HereticItem(Item):
 class HereticWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Heretic randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the Heretic randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -40,6 +40,7 @@ class HereticWorld(World):
     options_dataclass = HereticOptions
     options: HereticOptions
     game = "Heretic"
+    author: str = "Kaito Sinclaire"
     web = HereticWeb()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher
 

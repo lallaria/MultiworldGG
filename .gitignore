@@ -12,8 +12,8 @@
 *.aptloz
 *.aptww
 *.apemerald
+*.aplm
 *.pyc
-*.pyd
 *.sfc
 *.z64
 *.n64
@@ -29,9 +29,11 @@
 *multidata
 *multisave
 *.archipelago
+*.mwgg
 *.apsave
 *.BIN
 *.puml
+*.iso
 
 setups
 build
@@ -41,7 +43,8 @@ dist
 README.html
 .vs/
 EnemizerCLI/
-/Players/
+/Players/*
+!/Players/.gitkeep
 /SNI/
 /sni-*/
 /appimagetool*
@@ -60,6 +63,7 @@ Output Logs/
 /WebHostLib/static/generated
 /freeze_requirements.txt
 /Archipelago.zip
+/MultiworldGG.zip
 /setup.ini
 /installdelete.iss
 /data/user.kv
@@ -68,11 +72,9 @@ Output Logs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
 *$py.class
 
 # C extensions
-*.so
 *.dll
 
 # Distribution / packaging
@@ -83,7 +85,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -202,3 +203,12 @@ minecraft_versions.json
 .LSOverride
 Thumbs.db
 [Dd]esktop.ini
+
+VC_redist.x64.exe
+
+certs/*.pem
+certs/README
+
+gunicorn.conf.py
+selflaunch.yaml
+local_build_win.ps1

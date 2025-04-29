@@ -16,7 +16,7 @@ class RaftWeb(WebWorld):
     theme = "ocean"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Raft integration for Archipelago multiworld games.",
+        "A guide to setting up Raft integration for MultiworldGG Multiworld games.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -31,7 +31,7 @@ class RaftWorld(World):
     islands that you come across.
     """
     game: str = "Raft"
-    web = RaftWeb()
+    author: str = "SunnyBat"
 
     item_name_to_id = items_lookup_name_to_id.copy()
     lastItemId = max(filter(lambda val: val is not None, item_name_to_id.values()))
@@ -39,6 +39,8 @@ class RaftWorld(World):
     location_name_to_id = locations_lookup_name_to_id
     options_dataclass = RaftOptions
     options: RaftOptions
+
+    web = RaftWeb()
 
     required_client_version = (0, 3, 4)
 

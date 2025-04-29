@@ -7,7 +7,7 @@
 
 ## Optional Software
  
-- For sending [commands](/tutorial/Archipelago/commands/en) like `!hint`: the TextClient from [the most recent Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
+- For sending [commands](/tutorial/MultiworldGG/commands/en) like `!hint`: the TextClient from [the most recent MultiworldGG release](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
 - [Aquaria AP Tracker](https://github.com/palex00/aquaria-ap-tracker/releases/latest), for use with
 [PopTracker](https://github.com/black-sliver/PopTracker/releases/latest)
 

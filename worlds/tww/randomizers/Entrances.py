@@ -316,7 +316,7 @@ class EntranceRandomizer:
     """
     This class handles the logic for The Wind Waker entrance randomizer.
 
-    We reference the logic from the base randomizer with some modifications to suit it for Archipelago.
+    We reference the logic from the base randomizer with some modifications to suit it for MultiworldGG.
     Reference: https://github.com/LagoLunatic/wwrando/blob/master/randomizers/entrances.py
 
     :param world: The Wind Waker game world.

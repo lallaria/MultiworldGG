@@ -1,4 +1,4 @@
-# Archipelago Plando Guide
+# MultiworldGG Plando Guide
 
 ## What is Plando?
 
@@ -6,7 +6,7 @@ The purpose of randomizers is to randomize the items in a game to give a new exp
 changes it up by allowing you to plan out certain aspects of the game by placing certain items in certain locations,
 certain bosses in certain rooms, edit text for certain NPCs/signs, or even force certain region connections. Each of
 these options are going to be detailed separately as `item plando`, `boss plando`, `text plando`,
-and `connection plando`. Every game in Archipelago supports item plando but the other plando options are only supported
+and `connection plando`. Every game in MultiworldGG supports item plando but the other plando options are only supported
 by certain games. Currently, only A Link to the Past supports text and boss plando. Support for connection plando may
 vary.
 
@@ -15,7 +15,7 @@ vary.
 On the website, plando will already be enabled. If you will be generating the game locally, plando features must be
 enabled (opt-in).
 
-* To opt-in go to the Archipelago installation (default: `C:\ProgramData\Archipelago`), open `host.yaml` with a text
+* To opt-in go to the MultiworldGG installation (default: `C:\Program Files\MultiworldGG`), open `host.yaml` with a text
   editor and find the `plando_options` key. The available plando modules can be enabled by adding them after this such
   as
   `plando_options: bosses, items, texts, connections`.
@@ -104,7 +104,15 @@ A list of all available items and locations can be found in the [website's datap
         - Spirit Temple Silver Gauntlets Chest
       world: false
   
-    # example block 3 - Factorio
+    # example block 3 - Slay the Spire
+    - items:
+        Boss Relic: 3
+      locations:
+        - Boss Relic 1
+        - Boss Relic 2
+        - Boss Relic 3
+  
+    # example block 4 - Factorio
     - items:
         progressive-electric-energy-distribution: 2
         electric-energy-accumulators: 1
@@ -117,7 +125,7 @@ A list of all available items and locations can be found in the [website's datap
       percentage: 80
       force: true
   
-  # example block 4 - Secret of Evermore
+  # example block 5 - Secret of Evermore
     - items:
         Levitate: 1
         Revealer: 1
@@ -128,7 +136,7 @@ A list of all available items and locations can be found in the [website's datap
       world: true
       count: 2
   
-  # example block 5 - A Link to the Past
+  # example block 6 - A Link to the Past
     - items:
         Progressive Sword: 4
       world:
@@ -142,11 +150,12 @@ A list of all available items and locations can be found in the [website's datap
 player's Starter Chest 1 and removes the chosen item from the item pool.
 2. This block will always trigger and will place the player's swords, bow, magic meter, strength upgrades, and hookshots
 in their own dungeon major item chests.
-3. This block has an 80% chance of occurring, and when it does, it will place all but 1 of the items randomly among the
+3. This block will always trigger and will lock boss relics on the bosses.
+4. This block has an 80% chance of occurring, and when it does, it will place all but 1 of the items randomly among the
 four locations chosen here.
-4. This block will always trigger and will attempt to place a random 2 of Levitate, Revealer and Energize into
+5. This block will always trigger and will attempt to place a random 2 of Levitate, Revealer and Energize into
 other players' Master Sword Pedestals or Boss Relic 1 locations.
-5. This block will always trigger and will attempt to place a random number, between 1 and 4, of progressive swords
+6. This block will always trigger and will attempt to place a random number, between 1 and 4, of progressive swords
 into any locations within the game slots named BobsSlaytheSpire and BobsRogueLegacy.
 
 
@@ -205,9 +214,9 @@ its [plando guide](/tutorial/A%20Link%20to%20the%20Past/plando/en#connections).
   shuffle.
 * `direction` can be `both`, `entrance`, or `exit` and determines in which direction this connection will operate. `direction` defaults to `both`.
 
-[A Link to the Past connections](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/EntranceShuffle.py#L3852)
+[A Link to the Past connections](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/EntranceShuffle.py#L3852)
 
-[Minecraft connections](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/minecraft/data/regions.json#L18****)
+[Minecraft connections](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/minecraft/data/regions.json#L18****)
 
 ### Examples
 

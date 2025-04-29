@@ -18,7 +18,7 @@ client_version = 1
 class MeritousWeb(WebWorld):
     tutorials = [Tutorial(
         "Meritous Setup Guide",
-        "A guide to setting up the Archipelago Meritous software on your computer.",
+        "A guide to setting up the MultiworldGG Meritous software on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -36,6 +36,7 @@ class MeritousWorld(World):
     """
 
     game: str = "Meritous"
+    author: str = "FelicitusNeko"
     topology_present: False
 
     web = MeritousWeb()

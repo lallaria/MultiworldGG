@@ -50,7 +50,7 @@ class EarlySeaglide(DefaultOnToggle):
 
 class FreeSamples(Toggle):
     """Get free items with your blueprints.
-    Items that can go into your inventory are awarded when you unlock their blueprint through Archipelago."""
+    Items that can go into your inventory are awarded when you unlock their blueprint through MultiworldGG."""
     display_name = "Free Samples"
 
 

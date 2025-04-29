@@ -140,7 +140,7 @@ Check out the [item guide], which explains the named groups available for items.
 
 ## What's new from 2.x.x?
 
-Version 3.0.0 of the Dark Souls III Archipelago client has a number of
+Version 3.0.0 of the Dark Souls III MultiworldGG client has a number of
 substantial differences with the older 2.x.x versions. Improvements include:
 
 * Support for randomizing all item locations, not just unique items.

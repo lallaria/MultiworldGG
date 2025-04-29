@@ -8,7 +8,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import Utils
-
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 if __name__ == "__main__":
     Utils.init_logging("ChecksFinderClient", exception_logger="Client")
 
@@ -112,7 +112,7 @@ class ChecksFinderContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago ChecksFinder Client"
+            base_title = apname + " ChecksFinder Client"
 
         self.ui = ChecksFinderManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

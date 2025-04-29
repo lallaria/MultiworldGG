@@ -21,7 +21,7 @@ class FaxanaduItem(Item):
 class FaxanaduWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Faxanadu randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the Faxanadu randomizer connected to an MultiworldGG world",
         "English",
         "setup_en.md",
         "setup/en",
@@ -37,6 +37,7 @@ class FaxanaduWorld(World):
     options_dataclass = FaxanaduOptions
     options: FaxanaduOptions
     game = "Faxanadu"
+    author: str = "Daivuk"
     web = FaxanaduWeb()
 
     item_name_to_id = {item.name: item.id for item in Items.items if item.id is not None}

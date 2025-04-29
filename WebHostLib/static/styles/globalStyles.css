@@ -46,7 +46,7 @@ main {
 }
 
 a{
-    color: #ffef00;
+    color: #ea166c;
     text-decoration: none;
     font-family: LexendDeca-Regular, sans-serif;
 }
@@ -84,7 +84,7 @@ button.button-dirt, input[type=submit].button-dirt{
 h1, h2, h3, h4, h5, h6{
     font-weight: normal;
     margin: 0;
-    color: #032605;
+    color: #618d63;
 }
 
 h1{ font-size: 3rem; }
@@ -117,5 +117,157 @@ h5, h6{
 }
 
 .interactive{
-    color: #ffef00;
+    color: #b44ad9;
 }
+
+#generate-game-button, #host-game-button, input[name="intent-export"], input[name="intent-generate"] {
+  align-items: center;
+  background-color: #652895;
+  border-radius: 42px;
+  border-width: 0;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 16px;
+  margin: 0;
+  padding: 8px 8px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px,rgba(255, 255, 255, 0.2) 0 0 12px,rgba(57, 31, 91, 0.6) 1px 1px 4px,rgba(57, 31, 91, 0.32) 4px 4px 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+
+#generate-game-button:hover, #host-game-button:hover, input[name="intent-export"]:hover, input[name="intent-generate"]:hover {
+  background-image: linear-gradient(#652895, #b44ad9 50%);
+}
+
+@media (min-width: 768px) {
+  #generate-game-button, #host-game-button, input[name="intent-export"], input[name="intent-generate"] {
+    font-size: 21px;
+    padding: 18px 34px;
+  }
+}
+
+input[type="checkbox"] {
+    accent-color: #b44ad9;
+}
+
+input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 65%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+  }
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+    width: 65%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent; 
+    border-color: transparent;
+    color: transparent;
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 1px solid #000000;
+    height: 22px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+    margin-top: -8px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+  }
+  
+  /* All the same stuff for Firefox */
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 22px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  
+  /* All the same stuff for IE */
+  input[type=range]::-ms-thumb {
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 22px;
+    width: 16px;
+    border-radius: 3px;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 65%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #b44ad9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #b44ad9;
+  }
+  
+  input[type=range]::-moz-range-track {
+    width: 90%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #b44ad9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+  
+  input[type=range]::-ms-track {
+    width: 65%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #b44ad9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #b44ad9;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #b44ad9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #b44ad9;
+  }
+  .author_credit {
+    font-size: smaller;
+    font-style: italic;
+    margin-bottom: 8px;
+  }

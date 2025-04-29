@@ -15,8 +15,8 @@ Once everything is set up, it is recommended to continue launching the game thro
 This is also the method used by the Automatic Connection described further below.
 
 1. Purchase and download [Saving Princess](https://brainos.itch.io/savingprincess)
-2. Download and install the latest [Archipelago release](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
-3. Launch `ArchipelagoLauncher` and click on "Saving Princess Client"
+2. Download and install the latest [MultiworldGG release](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
+3. Launch `MultiworldGGLauncher` and click on "Saving Princess Client"
    * You will probably need to scroll down on the Clients column to see it
 4. Follow the prompts
    * On Linux, you will need one of either Wine or 7z for the automated installation
@@ -64,7 +64,7 @@ bspatch original_data.win data.win saving_princess_basepatch.bsdiff4
 ### What is a YAML file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en).
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en).
 
 ### Where do I get a YAML file?
 
@@ -77,7 +77,7 @@ validator page: [YAML Validation page](/check).
 
 ## Joining a MultiWorld Game
 
-### Automatic Connection on archipelago.gg
+### Automatic Connection on multiworld.gg
 
 1. Go to the room page of the MultiWorld you are going to join.
 2. Click on your slot name on the left side.
@@ -91,7 +91,7 @@ Note that this updates your Saving Princess saved connection details, which are 
 
 After launching the game, enter the Archipelago options menu through the in-game button with the Archipelago icon.
 From here, enter the different menus and type in the following details in their respective fields:
-- **server:port** (e.g. `archipelago.gg:38281`)
+- **server:port** (e.g. `multiworld.gg:38281`)
    * If hosting on the website, this detail will be shown in your created room.
 - **slot name** (e.g. `Player`)
    * This is your player name, which you chose along with your player options.
@@ -135,7 +135,7 @@ Additionally, if you get an item while already having the max for that item (for
 It is likely that you do not have release or collect permissions, or that there is nothing to release or collect.
 Another option is that your connection was interrupted.
 
-If you would still like to use release or collect, refer to [this section of the server commands page](https://archipelago.gg/tutorial/Archipelago/commands/en#collect/release).
+If you would still like to use release or collect, refer to [this section of the server commands page](https://multiworld.gg/tutorial/MultiworldGG/commands/en#collect/release).
 
 You may use the in-game console to execute the commands, if your slot has permissions to do so.
 

@@ -28,10 +28,11 @@ class ShiversWorld(World):
     """
 
     game = "Shivers"
+    author: str = "GodlFire & korydondzila"
     topology_present = False
-    web = ShiversWeb()
     options_dataclass = ShiversOptions
     options: ShiversOptions
+    web = ShiversWeb()
     set_rules = set_rules
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = Constants.location_name_to_id

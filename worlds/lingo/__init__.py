@@ -1,5 +1,5 @@
 """
-Archipelago init file for Lingo
+MultiworldGG init file for Lingo
 """
 from logging import warning
 
@@ -20,7 +20,7 @@ class LingoWebWorld(WebWorld):
     theme = "grass"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to playing Lingo with Archipelago.",
+        "A guide to playing Lingo with MultiworldGG.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -34,6 +34,7 @@ class LingoWorld(World):
     world filled with 800 word puzzles that use a variety of different mechanics.
     """
     game = "Lingo"
+    author: str = "hatkirby"
     web = LingoWebWorld()
 
     base_id = 444400

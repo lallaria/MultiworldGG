@@ -3,15 +3,15 @@
 ## Required Software
 
 - The FF1Client
-    - Bundled with Archipelago: [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+    - Bundled with MultiworldGG: [MultworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
 - The BizHawk emulator. Versions 2.3.1 and higher are supported. Version 2.7 is recommended
     - [BizHawk at TASVideos](https://tasvideos.org/BizHawk)
 - Your legally obtained Final Fantasy (USA Edition) ROM file, probably named `Final Fantasy (USA).nes`. Neither
-  Archipelago.gg nor the Final Fantasy Randomizer Community can supply you with this.
+  Multiworld.gg nor the Final Fantasy Randomizer Community can supply you with this.
 
 ## Installation Procedures
 
-1. Download and install the latest version of Archipelago.
+1. Download and install the latest version of MultiworldGG.
     1. On Windows, download Setup.Archipelago.<HighestVersion\>.exe and run it
 2. Assign EmuHawk version 2.3.1 or higher as your default program for launching `.nes` files.
     1. Extract your BizHawk folder to your Desktop, or somewhere you will remember. Below are optional additional steps
@@ -21,9 +21,9 @@
         3. Scroll to the bottom of the list and click the grey text **Look for another App on this PC**
         4. Browse for `EmuHawk.exe` located inside your BizHawk folder (from step 1) and click **Open**.
 
-## Obtaining your Archipelago yaml file and randomized ROM
+## Obtaining your MultiworldGG yaml file and randomized ROM
 
-Unlike most other Archipelago.gg games Final Fantasy 1 is randomized by the main randomizer at
+Unlike most other Multiworld.gg games Final Fantasy 1 is randomized by the main randomizer at
 the [Final Fantasy Randomizer Homepage](https://finalfantasyrandomizer.com/).
 
 Generate a game by going to the site and performing the following steps:
@@ -37,26 +37,26 @@ Generate a game by going to the site and performing the following steps:
 5. Click `GENERATE ROM`
 
 It should download two files. One is the `*.nes` file which your emulator will run, and the other is the yaml file
-required by Archipelago.gg
+required by MultiworldGG
 
 At this point, you are ready to join the multiworld. If you are uncertain on how to generate, host, or join a multiworld,
-please refer to the [game agnostic setup guide](/tutorial/Archipelago/setup/en).
+please refer to the [game agnostic setup guide](/tutorial/MultiworldGG/setup/en).
 
 ## Running the Client Program and Connecting to the Server
 
-Once the Archipelago server has been hosted:
+Once the MultiworldGG server has been hosted:
 
-1. Navigate to your Archipelago install folder and run `ArchipelagoFF1Client.exe`
-2. Notice the `/connect command` on the server hosting page (It should look like `/connect archipelago.gg:*****`
+1. Navigate to your MultiworldGG install folder and run `MultiworldGGFF1Client.exe`
+2. Notice the `/connect command` on the server hosting page (It should look like `/connect multiworld.gg:*****`
    where ***** are numbers)
 3. Type the connect command into the client OR add the port to the pre-populated address on the top bar (it should
-   already say `archipelago.gg`) and click `connect`
+   already say `multiworld.gg`) and click `connect`
 
 ### Running Your Game and Connecting to the Client Program
 
 1. Open EmuHawk 2.3.1 or higher and load your ROM OR click your ROM file if it is already associated with the
    extension `*.nes`
-2. Navigate to where you installed Archipelago, then to `data/lua`, and drag+drop the `connector_ff1.lua` script onto
+2. Navigate to where you installed MultiworldGG, then to `data/lua`, and drag+drop the `connector_ff1.lua` script onto
    the main EmuHawk window.
     1. You could instead open the Lua Console manually, click `Script` 〉 `Open Script`, and navigate to
        `connector_ff1.lua` with the file picker.
@@ -72,5 +72,5 @@ NES at any time by running `/nes`
 
 ### Other Client Commands
 
-All other commands may be found on the [Archipelago Server and Client Commands Guide](/tutorial/Archipelago/commands/en)
+All other commands may be found on the [MultiworldGG Server and Client Commands Guide](/tutorial/MultiworldGG/commands/en)
 .

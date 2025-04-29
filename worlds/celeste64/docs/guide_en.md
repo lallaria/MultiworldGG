@@ -22,7 +22,7 @@
 
 1. Before launching the game, edit the `AP.json` file in the root of the Celeste 64 install.
 
-2. For the `Url` field, enter the address of the server, such as `archipelago.gg:38281`. Your server host should be able to tell you this.
+2. For the `Url` field, enter the address of the server, such as `multiworld.gg:38281`. Your server host should be able to tell you this.
 
 3. For the `SlotName` field, enter your "name" field from the yaml or website config.
 
@@ -34,7 +34,7 @@ An Example `AP.json` file:
 
 ```
 {
-	"Url": "archipelago.gg:12345",
+	"Url": "multiworld.gg:12345",
 	"SlotName": "Maddy",
 	"Password": ""
 }

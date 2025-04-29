@@ -172,6 +172,7 @@ class SoEWorld(World):
     space station where the final boss must be defeated.
     """
     game: typing.ClassVar[str] = "Secret of Evermore"
+    author: str = "black-silver"
     options_dataclass = SoEOptions
     options: SoEOptions
     settings: typing.ClassVar[SoESettings]

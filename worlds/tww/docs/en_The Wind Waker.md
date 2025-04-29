@@ -91,7 +91,7 @@ A few presets are available on the [player options page](../player-options) for 
 
 - Dynamic CTMC based on enabled options
 - Hint implementation from base randomizer (hint placement options and hint types)
-- Integration with Archipelago's hint system (e.g., auction hints)
+- Integration with MultiworldGG's hint system (e.g., auction hints)
 - EnergyLink support
 - Swift Sail logic as an option
 - Continued bugfixes

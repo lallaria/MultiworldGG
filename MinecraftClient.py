@@ -103,7 +103,7 @@ def update_mod(forge_dir, url: str):
                     logging.info(f"Removed old mod file from {old_ap_mod}")
             else:
                 logging.error(f"Error retrieving the randomizer mod (status code {apmod_resp.status_code}).")
-                logging.error(f"Please report this issue on the Archipelago Discord server.")
+                logging.error(f"Please report this issue on the MultiworldGG Discord server.")
                 sys.exit(1)
 
 
@@ -173,7 +173,7 @@ def download_java(java: str):
             zf.extractall()
     else:
         print(f"Error downloading Java (status code {resp.status_code}).")
-        print(f"If this was not expected, please report this issue on the Archipelago Discord server.")
+        print(f"If this was not expected, please report this issue on the MultiworldGG Discord server.")
         if not prompt_yes_no("Continue anyways?"):
             sys.exit(0)
 
@@ -267,7 +267,7 @@ def is_correct_forge(forge_dir) -> bool:
 if __name__ == '__main__':
     Utils.init_logging("MinecraftClient")
     parser = argparse.ArgumentParser()
-    parser.add_argument("apmc_file", default=None, nargs='?', help="Path to an Archipelago Minecraft data file (.apmc)")
+    parser.add_argument("apmc_file", default=None, nargs='?', help="Path to an MultiworldGG Minecraft data file (.apmc)")
     parser.add_argument('--install', '-i', dest='install', default=False, action='store_true',
                         help="Download and install Java and the Forge server. Does not launch the client afterwards.")
     parser.add_argument('--release_channel', '-r', dest="channel", type=str, action='store',

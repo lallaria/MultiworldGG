@@ -1,0 +1,3144 @@
+from typing import TYPE_CHECKING
+
+from BaseClasses import Region, Item, ItemClassification, CollectionState
+from .Items import ApeEscapeItem
+from .Locations import ApeEscapeLocation
+from .Regions import connect_regions, ApeEscapeLevel
+from .Strings import AEItem, AEDoor, AELocation
+
+if TYPE_CHECKING:
+    from . import ApeEscapeWorld
+
+
+# Creates an event item in a specified region. Thanks Aquaria for having a good template!
+# Example call: __add_event_location(self, self.get_region(AEDoor.DR_OUTSIDE_OBELISK_TOP.value), "Dark Ruins - Floor Broken", "DR-Block")
+def __add_event_location(self, region: Region, name: str, event_name: str) -> None:
+    location: ApeEscapeLocation = ApeEscapeLocation(self.player, name, None, region)
+    region.locations.append(location)
+    location.place_locked_item(ApeEscapeItem(event_name, ItemClassification.progression, None, self.player))
+    
+
+def set_rules(world: "ApeEscapeWorld"):
+    world.levellist = initialize_level_list()
+    # If entrances aren't shuffled, then we don't need to shuffle the entrances.
+    if (world.options.entrance != 0x00):
+        world.random.shuffle(world.levellist)
+        # Some levels need to be kept at a specific entrance - put those back.
+        world.levellist = fixed_levels(world.levellist, world.options.entrance, world.options.coin)
+    world.levellist = set_calculated_level_data(world.levellist, world.options.unlocksperkey, world.options.goal, world.options.coin)
+    # Make a copy of the list for passing to the client for entrance shuffle purposes. We know this list has the levels sorted in the order they'd be presented in-game (so whatever is at the Fossil Field entrance first, etc.)
+    world.entranceorder = list(world.levellist)
+    # If entrances weren't shuffled, then this list is already sorted. We sort the list for ease of setting up access rules in the logic files.
+    if (world.options.entrance != 0x00):
+        world.levellist.sort()
+
+    create_event_items(world)
+    set_entrances(world)
+    set_doors(world)
+    set_transitions(world)
+    set_locations(world)
+
+
+# Create all needed event items for checking access.
+def create_event_items(self):
+    # Buttons and state changes.
+    __add_event_location(self, self.get_region(AEDoor.DR_OUTSIDE_OBELISK_TOP.value), "Dark Ruins - Floor Broken", "DR-Block")
+    __add_event_location(self, self.get_region(AEDoor.DI_SLIDE_ROOM_GALLERY.value), "Dexter's Island - Button Reached", "DI-Button")
+    __add_event_location(self, self.get_region(AEDoor.CC_BASEMENT_BUTTON_DOWN.value), "Crumbling Castle - Button Reached", "CC-Button")
+    __add_event_location(self, self.get_region(AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value), "Monkey Madness - Spawn UFOs", "MM-UFOs")
+    __add_event_location(self, self.get_region(AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value), "Monkey Madness - Monkey Head Room", "MM-Button")
+    __add_event_location(self, self.get_region(AEDoor.MM_OUTSIDE_CLIMB_CASTLE_MAIN.value), "Monkey Madness - Specter 1 Open", "MM-Painting")
+    # Monkey Madness UFO monkeys - specifically for the door.
+    __add_event_location(self, self.get_region(AELocation.W9L1Donovan.value), "Monkey Madness UFO Monkey 1", "MM UFO Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Laura.value), "Monkey Madness UFO Monkey 2", "MM UFO Monkey")
+
+# ''' Event items for monkeys - mostly useful for debugging. NOTE: Add "# " to the beginning to uncomment.
+    # Monkeys by level, for lamps and Specter 2 vanilla condition.
+    # Fossil Field
+    __add_event_location(self, self.get_region(AELocation.W1L1Noonan.value), "Fossil Field Monkey 1", "FF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L1Jorjy.value), "Fossil Field Monkey 2", "FF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L1Nati.value), "Fossil Field Monkey 3", "FF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L1TrayC.value), "Fossil Field Monkey 4", "FF Monkey")
+    # Primordial Ooze
+    __add_event_location(self, self.get_region(AELocation.W1L2Shay.value), "Primordial Ooze Monkey 1", "PO Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L2DrMonk.value), "Primordial Ooze Monkey 2", "PO Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L2Grunt.value), "Primordial Ooze Monkey 3", "PO Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L2Ahchoo.value), "Primordial Ooze Monkey 4", "PO Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L2Gornif.value), "Primordial Ooze Monkey 5", "PO Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L2Tyrone.value), "Primordial Ooze Monkey 6", "PO Monkey")
+    # Molten Lava
+    __add_event_location(self, self.get_region(AELocation.W1L3Scotty.value), "Molten Lava Monkey 1", "ML Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L3Coco.value), "Molten Lava Monkey 2", "ML Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L3JThomas.value), "Molten Lava Monkey 3", "ML Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L3Mattie.value), "Molten Lava Monkey 4", "ML Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L3Barney.value), "Molten Lava Monkey 5", "ML Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L3Rocky.value), "Molten Lava Monkey 6", "ML Monkey")
+    __add_event_location(self, self.get_region(AELocation.W1L3Moggan.value), "Molten Lava Monkey 7", "ML Monkey")
+    # Thick Jungle
+    __add_event_location(self, self.get_region(AELocation.W2L1Marquez.value), "Thick Jungle Monkey 1", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Livinston.value), "Thick Jungle Monkey 2", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1George.value), "Thick Jungle Monkey 3", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Maki.value), "Thick Jungle Monkey 4", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Herb.value), "Thick Jungle Monkey 5", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Dilweed.value), "Thick Jungle Monkey 6", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Mitong.value), "Thick Jungle Monkey 7", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Stoddy.value), "Thick Jungle Monkey 8", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Nasus.value), "Thick Jungle Monkey 9", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Selur.value), "Thick Jungle Monkey 10", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Elehcim.value), "Thick Jungle Monkey 11", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Gonzo.value), "Thick Jungle Monkey 12", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Alphonse.value), "Thick Jungle Monkey 13", "TJ Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L1Zanzibar.value), "Thick Jungle Monkey 14", "TJ Monkey")
+    # Dark Ruins
+    __add_event_location(self, self.get_region(AELocation.W2L2Mooshy.value), "Dark Ruins Monkey 1", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Kyle.value), "Dark Ruins Monkey 2", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Cratman.value), "Dark Ruins Monkey 3", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Nuzzy.value), "Dark Ruins Monkey 4", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Mav.value), "Dark Ruins Monkey 5", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Stan.value), "Dark Ruins Monkey 6", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Bernt.value), "Dark Ruins Monkey 7", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Runt.value), "Dark Ruins Monkey 8", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Hoolah.value), "Dark Ruins Monkey 9", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Papou.value), "Dark Ruins Monkey 10", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Kenny.value), "Dark Ruins Monkey 11", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Trance.value), "Dark Ruins Monkey 12", "DR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L2Chino.value), "Dark Ruins Monkey 13", "DR Monkey")
+    # Cryptic Relics
+    __add_event_location(self, self.get_region(AELocation.W2L3Troopa.value), "Cryptic Relics Monkey 1", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Spanky.value), "Cryptic Relics Monkey 2", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Stymie.value), "Cryptic Relics Monkey 3", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Pally.value), "Cryptic Relics Monkey 4", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Freeto.value), "Cryptic Relics Monkey 5", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Jesta.value), "Cryptic Relics Monkey 6", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Bazzle.value), "Cryptic Relics Monkey 7", "CR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W2L3Crash.value), "Cryptic Relics Monkey 8", "CR Monkey")
+    # Crabby Beach
+    __add_event_location(self, self.get_region(AELocation.W4L1CoolBlue.value), "Crabby Beach Monkey 1", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1Sandy.value), "Crabby Beach Monkey 2", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1ShellE.value), "Crabby Beach Monkey 3", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1Gidget.value), "Crabby Beach Monkey 4", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1Shaka.value), "Crabby Beach Monkey 5", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1MaxMahalo.value), "Crabby Beach Monkey 6", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1Moko.value), "Crabby Beach Monkey 7", "CB Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L1Puka.value), "Crabby Beach Monkey 8", "CB Monkey")
+    # Coral Cave
+    __add_event_location(self, self.get_region(AELocation.W4L2Chip.value), "Coral Cave Monkey 1", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2Oreo.value), "Coral Cave Monkey 2", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2Puddles.value), "Coral Cave Monkey 3", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2Kalama.value), "Coral Cave Monkey 4", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2Iz.value), "Coral Cave Monkey 5", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2Jux.value), "Coral Cave Monkey 6", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2BongBong.value), "Coral Cave Monkey 7", "CoC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L2Pickles.value), "Coral Cave Monkey 8", "CoC Monkey")
+    # Dexter's Island
+    __add_event_location(self, self.get_region(AELocation.W4L3Stuw.value), "Dexter's Island Monkey 1", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3TonTon.value), "Dexter's Island Monkey 2", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Murky.value), "Dexter's Island Monkey 3", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Howeerd.value), "Dexter's Island Monkey 4", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Robbin.value), "Dexter's Island Monkey 5", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Jakkee.value), "Dexter's Island Monkey 6", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Frederic.value), "Dexter's Island Monkey 7", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Baba.value), "Dexter's Island Monkey 8", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Mars.value), "Dexter's Island Monkey 9", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Horke.value), "Dexter's Island Monkey 10", "DI Monkey")
+    __add_event_location(self, self.get_region(AELocation.W4L3Quirck.value), "Dexter's Island Monkey 11", "DI Monkey")
+    # Snowy Mammoth
+    __add_event_location(self, self.get_region(AELocation.W5L1Popcicle.value), "Snowy Mammoth Monkey 1", "SM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L1Iced.value), "Snowy Mammoth Monkey 2", "SM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L1Denggoy.value), "Snowy Mammoth Monkey 3", "SM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L1Skeens.value), "Snowy Mammoth Monkey 4", "SM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L1Rickets.value), "Snowy Mammoth Monkey 5", "SM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L1Chilly.value), "Snowy Mammoth Monkey 6", "SM Monkey")
+    # Frosty Retreat
+    __add_event_location(self, self.get_region(AELocation.W5L2Storm.value), "Frosty Retreat Monkey 1", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Qube.value), "Frosty Retreat Monkey 2", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Gash.value), "Frosty Retreat Monkey 3", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Kundra.value), "Frosty Retreat Monkey 4", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Shadow.value), "Frosty Retreat Monkey 5", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Ranix.value), "Frosty Retreat Monkey 6", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Sticky.value), "Frosty Retreat Monkey 7", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Sharpe.value), "Frosty Retreat Monkey 8", "FR Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L2Droog.value), "Frosty Retreat Monkey 9", "FR Monkey")
+    # Hot Springs
+    __add_event_location(self, self.get_region(AELocation.W5L3Punky.value), "Hot Springs Monkey 1", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Ameego.value), "Hot Springs Monkey 2", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Roti.value), "Hot Springs Monkey 3", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Dissa.value), "Hot Springs Monkey 4", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Yoky.value), "Hot Springs Monkey 5", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Jory.value), "Hot Springs Monkey 6", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Crank.value), "Hot Springs Monkey 7", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Claxter.value), "Hot Springs Monkey 8", "HS Monkey")
+    __add_event_location(self, self.get_region(AELocation.W5L3Looza.value), "Hot Springs Monkey 9", "HS Monkey")
+    # Sushi Temple
+    __add_event_location(self, self.get_region(AELocation.W7L1Taku.value), "Sushi Temple Monkey 1", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Rocka.value), "Sushi Temple Monkey 2", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Maralea.value), "Sushi Temple Monkey 3", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Wog.value), "Sushi Temple Monkey 4", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Long.value), "Sushi Temple Monkey 5", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Mayi.value), "Sushi Temple Monkey 6", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Owyang.value), "Sushi Temple Monkey 7", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1QuelTin.value), "Sushi Temple Monkey 8", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Phaldo.value), "Sushi Temple Monkey 9", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Voti.value), "Sushi Temple Monkey 10", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Elly.value), "Sushi Temple Monkey 11", "ST Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L1Chunky.value), "Sushi Temple Monkey 12", "ST Monkey")
+    # Wabi Sabi Wall
+    __add_event_location(self, self.get_region(AELocation.W7L2Minky.value), "Wabi Sabi Wall Monkey 1", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Zobbro.value), "Wabi Sabi Wall Monkey 2", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Xeeto.value), "Wabi Sabi Wall Monkey 3", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Moops.value), "Wabi Sabi Wall Monkey 4", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Zanabi.value), "Wabi Sabi Wall Monkey 5", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Buddha.value), "Wabi Sabi Wall Monkey 6", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Fooey.value), "Wabi Sabi Wall Monkey 7", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Doxs.value), "Wabi Sabi Wall Monkey 8", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Kong.value), "Wabi Sabi Wall Monkey 9", "WSW Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L2Phool.value), "Wabi Sabi Wall Monkey 10", "WSW Monkey")
+    # Crumbling Castle
+    __add_event_location(self, self.get_region(AELocation.W7L3Naners.value), "Crumbling Castle Monkey 1", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Robart.value), "Crumbling Castle Monkey 2", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Neeners.value), "Crumbling Castle Monkey 3", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Gustav.value), "Crumbling Castle Monkey 4", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Wilhelm.value), "Crumbling Castle Monkey 5", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Emmanuel.value), "Crumbling Castle Monkey 6", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3SirCutty.value), "Crumbling Castle Monkey 7", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Calligan.value), "Crumbling Castle Monkey 8", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Castalist.value), "Crumbling Castle Monkey 9", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Deveneom.value), "Crumbling Castle Monkey 10", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Igor.value), "Crumbling Castle Monkey 11", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Charles.value), "Crumbling Castle Monkey 12", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Astur.value), "Crumbling Castle Monkey 13", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Kilserack.value), "Crumbling Castle Monkey 14", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Ringo.value), "Crumbling Castle Monkey 15", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Densil.value), "Crumbling Castle Monkey 16", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Figero.value), "Crumbling Castle Monkey 17", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Fej.value), "Crumbling Castle Monkey 18", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Joey.value), "Crumbling Castle Monkey 19", "CrC Monkey")
+    __add_event_location(self, self.get_region(AELocation.W7L3Donqui.value), "Crumbling Castle Monkey 20", "CrC Monkey")
+    # City Park
+    __add_event_location(self, self.get_region(AELocation.W8L1Kaine.value), "City Park Monkey 1", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Jaxx.value), "City Park Monkey 2", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Gehry.value), "City Park Monkey 3", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Alcatraz.value), "City Park Monkey 4", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Tino.value), "City Park Monkey 5", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1QBee.value), "City Park Monkey 6", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1McManic.value), "City Park Monkey 7", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Dywan.value), "City Park Monkey 8", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1CKHutch.value), "City Park Monkey 9", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Winky.value), "City Park Monkey 10", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1BLuv.value), "City Park Monkey 11", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Camper.value), "City Park Monkey 12", "CP Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L1Huener.value), "City Park Monkey 13", "CP Monkey")
+    # Specter's Factory
+    __add_event_location(self, self.get_region(AELocation.W8L2BigShow.value), "Specter's Factory Monkey 1", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Dreos.value), "Specter's Factory Monkey 2", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Reznor.value), "Specter's Factory Monkey 3", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Urkel.value), "Specter's Factory Monkey 4", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2VanillaS.value), "Specter's Factory Monkey 5", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Radd.value), "Specter's Factory Monkey 6", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Shimbo.value), "Specter's Factory Monkey 7", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Hurt.value), "Specter's Factory Monkey 8", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2String.value), "Specter's Factory Monkey 9", "SF Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L2Khamo.value), "Specter's Factory Monkey 10", "SF Monkey")
+    # TV Tower
+    __add_event_location(self, self.get_region(AELocation.W8L3Fredo.value), "TV Tower Monkey 1", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Charlee.value), "TV Tower Monkey 2", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Mach3.value), "TV Tower Monkey 3", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Tortuss.value), "TV Tower Monkey 4", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Manic.value), "TV Tower Monkey 5", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Ruptdis.value), "TV Tower Monkey 6", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Eighty7.value), "TV Tower Monkey 7", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Danio.value), "TV Tower Monkey 8", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Roosta.value), "TV Tower Monkey 9", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Tellis.value), "TV Tower Monkey 10", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Whack.value), "TV Tower Monkey 11", "TVT Monkey")
+    __add_event_location(self, self.get_region(AELocation.W8L3Frostee.value), "TV Tower Monkey 12", "TVT Monkey")
+    # Monkey Madness
+    __add_event_location(self, self.get_region(AELocation.W9L1Goopo.value), "Monkey Madness Monkey 1", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Porto.value), "Monkey Madness Monkey 2", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Slam.value), "Monkey Madness Monkey 3", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Junk.value), "Monkey Madness Monkey 4", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Crib.value), "Monkey Madness Monkey 5", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Nak.value), "Monkey Madness Monkey 6", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Cloy.value), "Monkey Madness Monkey 7", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Shaw.value), "Monkey Madness Monkey 8", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Flea.value), "Monkey Madness Monkey 9", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Schafette.value), "Monkey Madness Monkey 10", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Donovan.value), "Monkey Madness Monkey 11", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Laura.value), "Monkey Madness Monkey 12", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Uribe.value), "Monkey Madness Monkey 13", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Gordo.value), "Monkey Madness Monkey 14", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Raeski.value), "Monkey Madness Monkey 15", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Poopie.value), "Monkey Madness Monkey 16", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Teacup.value), "Monkey Madness Monkey 17", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Shine.value), "Monkey Madness Monkey 18", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Wrench.value), "Monkey Madness Monkey 19", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Bronson.value), "Monkey Madness Monkey 20", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Bungee.value), "Monkey Madness Monkey 21", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Carro.value), "Monkey Madness Monkey 22", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1Carlito.value), "Monkey Madness Monkey 23", "MM Monkey")
+    __add_event_location(self, self.get_region(AELocation.W9L1BG.value), "Monkey Madness Monkey 24", "MM Monkey")
+'''
+# I love this trick :) '''
+
+
+# Entrances are specifically connections between the Time Station (level select) and a level.
+# If we ever want to change the starting room of a level, this is where we would set that room.
+def set_entrances(self):
+    connect_regions(self, "Menu", AEDoor.TIME_ENTRY.value, lambda state: True)
+    connect_regions(self, "Menu", AEDoor.FF_ENTRY.value, lambda state: Keys(state, self, self.levellist[0].keys))
+    connect_regions(self, "Menu", AEDoor.PO_ENTRY.value, lambda state: Keys(state, self, self.levellist[1].keys))
+    connect_regions(self, "Menu", AEDoor.ML_ENTRY.value, lambda state: Keys(state, self, self.levellist[2].keys))
+    connect_regions(self, "Menu", AEDoor.TJ_ENTRY.value, lambda state: Keys(state, self, self.levellist[3].keys))
+    connect_regions(self, "Menu", AEDoor.DR_ENTRY.value, lambda state: Keys(state, self, self.levellist[4].keys))
+    connect_regions(self, "Menu", AEDoor.CR_ENTRY.value, lambda state: Keys(state, self, self.levellist[5].keys))
+    connect_regions(self, "Menu", AEDoor.SA_ENTRY.value, lambda state: Keys(state, self, self.levellist[6].keys))
+    connect_regions(self, "Menu", AEDoor.CB_ENTRY.value, lambda state: Keys(state, self, self.levellist[7].keys))
+    connect_regions(self, "Menu", AEDoor.CCAVE_ENTRY.value, lambda state: Keys(state, self, self.levellist[8].keys))
+    connect_regions(self, "Menu", AEDoor.DI_ENTRY.value, lambda state: Keys(state, self, self.levellist[9].keys))
+    connect_regions(self, "Menu", AEDoor.SM_ENTRY.value, lambda state: Keys(state, self, self.levellist[10].keys))
+    connect_regions(self, "Menu", AEDoor.FR_ENTRY.value, lambda state: Keys(state, self, self.levellist[11].keys))
+    connect_regions(self, "Menu", AEDoor.HS_ENTRY.value, lambda state: Keys(state, self, self.levellist[12].keys))
+    connect_regions(self, "Menu", AEDoor.GA_ENTRY.value, lambda state: Keys(state, self, self.levellist[13].keys))
+    connect_regions(self, "Menu", AEDoor.ST_ENTRY.value, lambda state: Keys(state, self, self.levellist[14].keys))
+    connect_regions(self, "Menu", AEDoor.WSW_ENTRY.value, lambda state: Keys(state, self, self.levellist[15].keys))
+    connect_regions(self, "Menu", AEDoor.CC_ENTRY.value, lambda state: Keys(state, self, self.levellist[16].keys))
+    connect_regions(self, "Menu", AEDoor.CP_ENTRY.value, lambda state: Keys(state, self, self.levellist[17].keys))
+    connect_regions(self, "Menu", AEDoor.SF_ENTRY.value, lambda state: Keys(state, self, self.levellist[18].keys))
+    connect_regions(self, "Menu", AEDoor.TVT_ENTRY.value, lambda state: Keys(state, self, self.levellist[19].keys))
+    connect_regions(self, "Menu", AEDoor.MM_SL_HUB.value, lambda state: Keys(state, self, self.levellist[20].keys))
+
+    if self.options.goal == "ppm": # If Specter 2 is the goal, require enough keys and all monkeys.
+        connect_regions(self, "Menu", AEDoor.PPM_ENTRY.value, lambda state: Keys(state, self, self.levellist[21].keys) and HasAllMonkeys(state, self))
+    elif self.options.goal == "ppmtoken": # If Specter 2 token is the goal, require enough keys and tokens.
+        connect_regions(self, "Menu", AEDoor.PPM_ENTRY.value, lambda state: Keys(state, self, self.levellist[21].keys) and Tokens(state, self, min(self.options.requiredtokens, self.options.totaltokens)))
+    elif self.options.goal == "tokenhunt" or self.options.goal == "mmtoken": # If other token goal, just require keys.
+        connect_regions(self, "Menu", AEDoor.PPM_ENTRY.value, lambda state: Keys(state, self, self.levellist[21].keys))
+
+    # TODO: Test this.
+    # If the goal is not token hunt, then there is a victory item on the worlds' final boss.
+    if self.options.goal != "tokenhunt":
+        self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player, 1)
+    else:
+        self.multiworld.completion_condition[self.player] = lambda state: Tokens(state, self, min(self.options.requiredtokens, self.options.totaltokens))
+
+
+# A door is defined as a connection between rooms, typically bi-directional.
+# For the logic behind door shuffle, this is the section to change.
+def set_doors(self):
+    # I'm not sure if these have to be manually connected in both directions? There are a few one-ways in here, so probably better to be explicit?
+    # Time Station
+    connect_regions(self, AEDoor.TIME_MAIN_TRAINING.value, AEDoor.TIME_TRAINING_MAIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TIME_MAIN_MINIGAME.value, AEDoor.TIME_MINIGAME_MAIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TIME_TRAINING_MAIN.value, AEDoor.TIME_MAIN_TRAINING.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TIME_MINIGAME_MAIN.value, AEDoor.TIME_MAIN_MINIGAME.value,
+                        lambda state: True)
+    # Fossil Field (level contains no doors)
+    # Primordial Ooze (level contains no doors)
+    # Molten Lava
+    connect_regions(self, AEDoor.ML_ENTRY_VOLCANO.value, AEDoor.ML_VOLCANO_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ML_ENTRY_TRICERATOPS.value, AEDoor.ML_TRICERATOPS_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ML_VOLCANO_ENTRY.value, AEDoor.ML_ENTRY_VOLCANO.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ML_TRICERATOPS_ENTRY.value, AEDoor.ML_ENTRY_TRICERATOPS.value,
+                        lambda state: True)
+    # Thick Jungle
+    connect_regions(self, AEDoor.TJ_ENTRY_MUSHROOM.value, AEDoor.TJ_MUSHROOM_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_ENTRY_FISH.value, AEDoor.TJ_FISH_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_ENTRY_BOULDER.value, AEDoor.TJ_BOULDER_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AEDoor.TJ_ENTRY_MUSHROOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_FISH_ENTRY.value, AEDoor.TJ_ENTRY_FISH.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_FISH_TENT.value, AEDoor.TJ_TENT_FISH.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_TENT_FISH.value, AEDoor.TJ_FISH_TENT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AEDoor.TJ_BOULDER_TENT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_ENTRY_BOULDER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_TENT_BOULDER.value,
+                        lambda state: True)
+    # Dark Ruins
+    connect_regions(self, AEDoor.DR_OUTSIDE_FENCE.value, AEDoor.DR_FAN_OUTSIDE_FENCE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_HOLE.value, AEDoor.DR_FAN_OUTSIDE_HOLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_OBELISK_BOTTOM.value, AEDoor.DR_OBELISK_BOTTOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_OBELISK_TOP.value, AEDoor.DR_OBELISK_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_WATER_BUTTON.value, AEDoor.DR_WATER_SIDE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_WATER_LEDGE.value, AEDoor.DR_WATER_LEDGE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_FAN_OUTSIDE_FENCE.value, AEDoor.DR_OUTSIDE_FENCE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AEDoor.DR_OUTSIDE_HOLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AEDoor.DR_OUTSIDE_OBELISK_BOTTOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OBELISK_TOP.value, AEDoor.DR_OUTSIDE_OBELISK_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_WATER_SIDE.value, AEDoor.DR_OUTSIDE_WATER_BUTTON.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_WATER_LEDGE.value, AEDoor.DR_OUTSIDE_WATER_LEDGE.value,
+                        lambda state: True)
+    # Cryptic Relics
+    connect_regions(self, AEDoor.CR_ENTRY_SIDE_ROOM.value, AEDoor.CR_SIDE_ROOM_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_ENTRY_MAIN_RUINS.value, AEDoor.CR_MAIN_RUINS_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_SIDE_ROOM_ENTRY.value, AEDoor.CR_ENTRY_SIDE_ROOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_MAIN_RUINS_ENTRY.value, AEDoor.CR_ENTRY_MAIN_RUINS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value,
+                        lambda state: True)
+    # Stadium Attack (level contains no doors)
+    # Crabby Beach
+    connect_regions(self, AEDoor.CB_ENTRY_SECOND_ROOM.value, AEDoor.CB_SECOND_ROOM_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AEDoor.CB_ENTRY_SECOND_ROOM.value,
+                        lambda state: True)
+    # Coral Cave
+    connect_regions(self, AEDoor.CCAVE_ENTRY_SECOND_ROOM.value, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AEDoor.CCAVE_ENTRY_SECOND_ROOM.value,
+                        lambda state: True)
+    # Dexter's Island
+    connect_regions(self, AEDoor.DI_ENTRY_STOMACH.value, AEDoor.DI_STOMACH_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AEDoor.DI_ENTRY_STOMACH.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_STOMACH_SLIDE_ROOM.value, AEDoor.DI_SLIDE_ROOM_STOMACH.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AEDoor.DI_STOMACH_SLIDE_ROOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_SLIDE_ROOM_GALLERY.value, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, AEDoor.DI_GALLERY_SLIDE_ELEVATOR.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AEDoor.DI_SLIDE_ROOM_GALLERY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ELEVATOR.value, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_GALLERY_TENTACLE.value, AEDoor.DI_TENTACLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_TENTACLE.value, AEDoor.DI_GALLERY_TENTACLE.value,
+                        lambda state: True)
+    # Snowy Mammoth (level contains no doors)
+    # Frosty Retreat
+    connect_regions(self, AEDoor.FR_ENTRY_CAVERNS.value, AEDoor.FR_CAVERNS_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AEDoor.FR_ENTRY_CAVERNS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.FR_CAVERNS_WATER.value, AEDoor.FR_WATER_CAVERNS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AEDoor.FR_CAVERNS_WATER.value,
+                        lambda state: True)
+    # Hot Springs
+    connect_regions(self, AEDoor.HS_ENTRY_HOT_SPRING.value, AEDoor.HS_HOT_SPRING.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.HS_ENTRY_POLAR_BEAR_CAVE.value, AEDoor.HS_POLAR_BEAR_CAVE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.HS_HOT_SPRING.value, AEDoor.HS_ENTRY_HOT_SPRING.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AEDoor.HS_ENTRY_POLAR_BEAR_CAVE.value,
+                        lambda state: True)
+    # Gladiator Attack (level contains no doors)
+    # Sushi Temple
+    connect_regions(self, AEDoor.ST_ENTRY_TEMPLE.value, AEDoor.ST_TEMPLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ST_ENTRY_WELL.value, AEDoor.ST_WELL.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ST_TEMPLE.value, AEDoor.ST_ENTRY_TEMPLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ST_WELL.value, AEDoor.ST_ENTRY_WELL.value,
+                        lambda state: True)
+    # Wabi Sabi Wall
+    connect_regions(self, AEDoor.WSW_ENTRY_GONG.value, AEDoor.WSW_GONG_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AEDoor.WSW_ENTRY_GONG.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_GONG_MIDDLE.value, AEDoor.WSW_MIDDLE_GONG.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_MIDDLE_GONG.value, AEDoor.WSW_GONG_MIDDLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_MIDDLE_OBSTACLE.value, AEDoor.WSW_OBSTACLE_MIDDLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AEDoor.WSW_MIDDLE_OBSTACLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_OBSTACLE_BARREL.value, AEDoor.WSW_BARREL_OBSTACLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AEDoor.WSW_OBSTACLE_BARREL.value,
+                        lambda state: True)
+    # Crumbling Castle
+    connect_regions(self, AEDoor.CC_ENTRY_CASTLE.value, AEDoor.CC_CASTLEMAIN_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_ENTRY_BELL.value, AEDoor.CC_BELL_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_ENTRY_BASEMENT.value, AEDoor.CC_BASEMENT_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_ENTRY_BOSS.value, AEDoor.CC_BOSS_ROOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_CASTLEMAIN_ENTRY.value, AEDoor.CC_ENTRY_CASTLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_CASTLEMAIN_BELL.value, AEDoor.CC_BELL_CASTLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, AEDoor.CC_ELEVATOR_CASTLEMAIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BELL_ENTRY.value, AEDoor.CC_ENTRY_BELL.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BELL_CASTLE.value, AEDoor.CC_CASTLEMAIN_BELL.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AEDoor.CC_CASTLEMAIN_ELEVATOR.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_ELEVATOR_BASEMENT.value, AEDoor.CC_BASEMENT_ELEVATOR.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BASEMENT_ENTRY.value, AEDoor.CC_ENTRY_BASEMENT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_ELEVATOR_BASEMENT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, AEDoor.CC_BUTTON_BASEMENT_WATER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_UP.value, AEDoor.CC_BUTTON_BASEMENT_LEDGE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_WATER.value, AEDoor.CC_BASEMENT_BUTTON_DOWN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_LEDGE.value, AEDoor.CC_BASEMENT_BUTTON_UP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BOSS_ROOM.value, AEDoor.CC_ENTRY_BOSS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_OUTSIDE_SEWERS_FRONT.value, AEDoor.CP_SEWERSFRONT_OUTSIDE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_OUTSIDE_BARREL.value, AEDoor.CP_BARREL_OUTSIDE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AEDoor.CP_OUTSIDE_SEWERS_FRONT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AEDoor.CP_BARREL_SEWERS_FRONT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_BARREL_OUTSIDE.value, AEDoor.CP_OUTSIDE_BARREL.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_BARREL_SEWERS_FRONT.value, AEDoor.CP_SEWERSFRONT_BARREL.value,
+                        lambda state: True)
+    # Specter's Factory
+    connect_regions(self, AEDoor.SF_OUTSIDE_FACTORY.value, AEDoor.SF_FACTORY_OUTSIDE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_OUTSIDE.value, AEDoor.SF_OUTSIDE_FACTORY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_RC_CAR.value, AEDoor.SF_RC_CAR_FACTORY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_WHEEL_BOTTOM.value, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_WHEEL_TOP.value, AEDoor.SF_WHEEL_FACTORY_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_MECH.value, AEDoor.SF_MECH_FACTORY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_RC_CAR_FACTORY.value, AEDoor.SF_FACTORY_RC_CAR.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value, AEDoor.SF_FACTORY_WHEEL_BOTTOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_WHEEL_FACTORY_TOP.value, AEDoor.SF_FACTORY_WHEEL_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_MECH_FACTORY.value, AEDoor.SF_FACTORY_MECH.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_MECH_LAVA.value, AEDoor.SF_LAVA_MECH.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_LAVA_MECH.value, AEDoor.SF_MECH_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_LAVA_CONVEYOR.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_LAVA_CONVEYOR.value,
+                        lambda state: True)
+    # Specter's Factory Conveyor Room
+    connect_regions(self, AEDoor.SF_CONVEYOR1_ENTRY.value, AEDoor.SF_CONVEYOR1_EXIT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR2_ENTRY.value, AEDoor.SF_CONVEYOR1_EXIT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR3_ENTRY.value, AEDoor.SF_CONVEYOR2_EXIT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR4_ENTRY.value, AEDoor.SF_CONVEYOR3_EXIT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR5_ENTRY.value, AEDoor.SF_CONVEYOR4_EXIT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR6_ENTRY.value, AEDoor.SF_CONVEYOR5_EXIT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR7_ENTRY.value, AEDoor.SF_CONVEYOR6_EXIT.value,
+                        lambda state: True)
+    # TV Tower
+    connect_regions(self, AEDoor.TVT_OUTSIDE_LOBBY.value, AEDoor.TVT_LOBBY_OUTSIDE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AEDoor.TVT_OUTSIDE_LOBBY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_LOBBY_WATER.value, AEDoor.TVT_WATER_LOBBY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_LOBBY_TANK.value, AEDoor.TVT_TANK_LOBBY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AEDoor.TVT_LOBBY_WATER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AEDoor.TVT_LOBBY_TANK.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_TANK_FAN.value, AEDoor.TVT_FAN_TANK.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_TANK_BOSS.value, AEDoor.TVT_BOSS_TANK.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_FAN_TANK.value, AEDoor.TVT_TANK_FAN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_BOSS_TANK.value, AEDoor.TVT_TANK_BOSS.value,
+                        lambda state: True)
+    # Monkey Madness
+    connect_regions(self, AEDoor.MM_SL_HUB_WESTERN.value, AEDoor.MM_WESTERN_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_COASTER.value, AEDoor.MM_COASTER_ENTRY_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_CIRCUS.value, AEDoor.MM_CIRCUS_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_GO_KARZ.value, AEDoor.MM_GO_KARZ_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_CRATER.value, AEDoor.MM_CRATER_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AEDoor.MM_SL_HUB_WESTERN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COASTER_ENTRY_SL_HUB.value, AEDoor.MM_SL_HUB_COASTER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COASTER_ENTRY_COASTER1.value, AEDoor.MM_COASTER1_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CIRCUS_SL_HUB.value, AEDoor.MM_SL_HUB_CIRCUS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_GO_KARZ_SL_HUB.value, AEDoor.MM_SL_HUB_GO_KARZ.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COASTER1_COASTER2.value, AEDoor.MM_COASTER2_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COASTER2_HAUNTED_HOUSE.value, AEDoor.MM_HAUNTED_HOUSE_DISEMBARK.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_HAUNTED_HOUSE_COFFIN.value, AEDoor.MM_COFFIN_HAUNTED_HOUSE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COFFIN_COASTER_ENTRY.value, AEDoor.MM_COASTER_ENTRY_DISEMBARK.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COFFIN_HAUNTED_HOUSE.value, AEDoor.MM_HAUNTED_HOUSE_COFFIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CRATER_SL_HUB.value, AEDoor.MM_SL_HUB_CRATER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CRATER_OUTSIDE_CASTLE.value, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AEDoor.MM_CRATER_OUTSIDE_CASTLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_SIDE_ENTRY.value, AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CASTLE_MAIN.value, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value, AEDoor.MM_OUTSIDE_CASTLE_SIDE_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AEDoor.MM_OUTSIDE_CASTLE_CASTLE_MAIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_INSIDE_CLIMB.value, AEDoor.MM_INSIDE_CLIMB_CASTLE_MAIN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_SPECTER1.value, AEDoor.MM_SPECTER1_ROOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_INSIDE_CLIMB_CASTLE_MAIN.value, AEDoor.MM_CASTLE_MAIN_INSIDE_CLIMB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_INSIDE_CLIMB_OUTSIDE_CLIMB.value, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AEDoor.MM_INSIDE_CLIMB_OUTSIDE_CLIMB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_CASTLE_MAIN.value, AEDoor.MM_CASTLE_MAIN_FROM_OUTSIDE.value,
+                        lambda state: True)
+
+
+# A transition is defined as navigating between two doors in the same room.
+def set_transitions(self):
+    # I'm not sure if these have to be manually connected in both directions? I think they do because connections are asymmetric.
+    # Time Station
+    connect_regions(self, AEDoor.TIME_ENTRY.value, AEDoor.TIME_MAIN_TRAINING.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TIME_ENTRY.value, AEDoor.TIME_MAIN_MINIGAME.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TIME_MAIN_TRAINING.value, AEDoor.TIME_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TIME_MAIN_MINIGAME.value, AEDoor.TIME_ENTRY.value,
+                        lambda state: True)
+
+    # Fossil Field (level contains a single room)
+    # Primordial Ooze (level contains a single room)
+    # Molten Lava
+    connect_regions(self, AEDoor.ML_ENTRY.value, AEDoor.ML_ENTRY_VOLCANO.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ML_ENTRY.value, AEDoor.ML_ENTRY_TRICERATOPS.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ML_ENTRY_VOLCANO.value, AEDoor.ML_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ML_ENTRY_TRICERATOPS.value, AEDoor.ML_ENTRY.value,
+                        lambda state: True)
+
+    # Thick Jungle
+    # Entry Room
+    connect_regions(self, AEDoor.TJ_ENTRY.value, AEDoor.TJ_ENTRY_MUSHROOM.value,
+                        lambda state: True)
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AEDoor.TJ_ENTRY_FISH.value, 
+                        lambda state: CanSwim(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AEDoor.TJ_ENTRY_FISH.value, 
+                        lambda state: CanSwim(state, self) or ((IJ(state, self) or HasHoop(state, self)) and HasFlyer(state, self)))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AEDoor.TJ_ENTRY_BOULDER.value, 
+                        lambda state: CanSwim(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AEDoor.TJ_ENTRY_BOULDER.value, 
+                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.TJ_ENTRY_MUSHROOM.value, AEDoor.TJ_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TJ_ENTRY_FISH.value, AEDoor.TJ_ENTRY.value, 
+                        lambda state: CanDive(state, self))
+    connect_regions(self, AEDoor.TJ_ENTRY_BOULDER.value, AEDoor.TJ_ENTRY.value, 
+                        lambda state: CanSwim(state, self))
+    # Mushroom Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AEDoor.TJ_MUSHROOMMAIN.value, 
+                        lambda state: HasFlyer(state, self) and CanHitWheel(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AEDoor.TJ_MUSHROOMMAIN.value, 
+                        lambda state: (IJ(state, self) or HasHoop(state, self) or (HasFlyer(state, self) and CanHitWheel(state, self))))
+    else:
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AEDoor.TJ_MUSHROOMMAIN.value, 
+                        lambda state: IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+    # Fish Room
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_FISH_ENTRY.value, AEDoor.TJ_FISHBOAT.value, 
+                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_FISH_ENTRY.value, AEDoor.TJ_FISHBOAT.value, 
+                        lambda state: CanSwim(state, self) or IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_FISH_TENT.value, AEDoor.TJ_FISHBOAT.value, 
+                        lambda state: CanHitWheel(state, self) and CanSwim(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_FISH_TENT.value, AEDoor.TJ_FISHBOAT.value, 
+                        lambda state: (CanHitWheel(state, self) or SuperFlyer(state, self, AEDoor.TJ_FISH_TENT.value)) and CanSwim(state, self))
+    connect_regions(self, AEDoor.TJ_FISHBOAT.value, AEDoor.TJ_FISH_ENTRY.value,
+                        lambda state: True)
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AEDoor.TJ_FISH_TENT.value, 
+                        lambda state: HasSling(state, self) or HasPunch(state, self) or (CanSwim(state, self) and CanHitMultiple(state, self)))
+    else:
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AEDoor.TJ_FISH_TENT.value, 
+                        lambda state: HasSling(state, self) or HasPunch(state, self) or (CanSwim(state, self) and CanHitMultiple(state, self)) or SuperFlyer(state, self, AEDoor.TJ_FISHBOAT.value))
+    # Tent/Vine Room
+    connect_regions(self, AEDoor.TJ_TENT_FISH.value, AEDoor.TJ_TENT_BOULDER.value,
+                        lambda state: True)
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AEDoor.TJ_TENT_FISH.value, 
+                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AEDoor.TJ_TENT_FISH.value, 
+                        lambda state: CanSwim(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AEDoor.TJ_TENT_FISH.value, 
+                        lambda state: CanSwim(state, self) or IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+    # Boulder Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
+                        lambda state: CanSwim(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
+                        lambda state: CanSwim(state, self) or ((IJ(state, self) or HasHoop(state, self)) and HasFlyer(state, self)))
+    else:
+        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
+                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_BOULDER_ENTRY.value, 
+                        lambda state: CanSwim(state, self) and (HasFlyer(state, self) or IJ(state, self)))
+    else:
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_BOULDER_ENTRY.value, 
+                        lambda state: CanSwim(state, self))
+
+    # Dark Ruins
+    # Outside
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_FENCE.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_FENCE.value, 
+                        lambda state: HasFlyer(state, self) or HasHoop(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_FENCE.value, 
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_HOLE.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_OBELISK_BOTTOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_OBELISK_TOP.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_WATER_BUTTON.value, 
+                        lambda state: CanHitOnce(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_WATER_LEDGE.value, 
+                        lambda state: HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_ENTRY.value, AEDoor.DR_OUTSIDE_WATER_LEDGE.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.DR_OUTSIDE_FENCE.value, AEDoor.DR_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_HOLE.value, AEDoor.DR_ENTRY.value, 
+                        lambda state: state.has("DR-Block", self.player, 1))
+    connect_regions(self, AEDoor.DR_OUTSIDE_OBELISK_BOTTOM.value, AEDoor.DR_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_OBELISK_TOP.value, AEDoor.DR_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_WATER_BUTTON.value, AEDoor.DR_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OUTSIDE_WATER_LEDGE.value, AEDoor.DR_ENTRY.value,
+                        lambda state: True)
+    # Fan Basement
+    connect_regions(self, AEDoor.DR_FAN_OUTSIDE_FENCE.value, AEDoor.DR_FAN_OUTSIDE_HOLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AEDoor.DR_FAN_OUTSIDE_FENCE.value,
+                        lambda state: True)
+    # Obelisk
+    connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AEDoor.DR_OBELISK_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_OBELISK_TOP.value, AEDoor.DR_OBELISK_BOTTOM.value,
+                        lambda state: True)
+    # Water Basement
+    connect_regions(self, AEDoor.DR_WATER_SIDE.value, AEDoor.DR_WATER_LEDGE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DR_WATER_LEDGE.value, AEDoor.DR_WATER_SIDE.value,
+                        lambda state: True)
+
+    # Cryptic Relics
+    # Entry Area
+    connect_regions(self, AEDoor.CR_ENTRY.value, AEDoor.CR_ENTRYOBA.value, 
+                        lambda state: CanHitOnce(state, self))
+    connect_regions(self, AEDoor.CR_ENTRY_SIDE_ROOM.value, AEDoor.CR_ENTRYOBA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_ENTRY_MAIN_RUINS.value, AEDoor.CR_ENTRYOBA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CR_ENTRYOBA.value, AEDoor.CR_ENTRY_SIDE_ROOM.value, 
+                        lambda state: CanHitOnce(state, self))
+    connect_regions(self, AEDoor.CR_ENTRYOBA.value, AEDoor.CR_ENTRY_MAIN_RUINS.value, 
+                        lambda state: CanHitOnce(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CR_ENTRYOBA.value, AEDoor.CR_ENTRY.value, 
+                        lambda state: HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.CR_ENTRYOBA.value, AEDoor.CR_ENTRY.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    # Relics
+    connect_regions(self, AEDoor.CR_MAIN_RUINS_ENTRY.value, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, 
+                        lambda state: HasSling(state, self) or HasPunch(state, self))
+    connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AEDoor.CR_MAIN_RUINS_ENTRY.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Stadium Attack (level contains a single room)
+    # Crabby Beach
+    connect_regions(self, AEDoor.CB_ENTRY.value, AEDoor.CB_ENTRY_SECOND_ROOM.value, 
+                        lambda state: CB_Lamp(state, self))
+    connect_regions(self, AEDoor.CB_ENTRY_SECOND_ROOM.value, AEDoor.CB_ENTRY.value,
+                        lambda state: True)
+
+    # Coral Cave
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AEDoor.CCAVE_ENTRY_SECOND_ROOM.value, 
+                        lambda state: CanSwim(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AEDoor.CCAVE_ENTRY_SECOND_ROOM.value, 
+                        lambda state: CanSwim(state, self) or IJ(state, self) or (HasHoop(state, self) and SuperFlyer(state, self, AEDoor.CCAVE_ENTRY.value)))
+    connect_regions(self, AEDoor.CCAVE_ENTRY_SECOND_ROOM.value, AEDoor.CCAVE_ENTRY.value, 
+                        lambda state: CanSwim(state, self))
+
+    # Dexter's Island
+    # Outside
+    connect_regions(self, AEDoor.DI_ENTRY.value, AEDoor.DI_ENTRY_STOMACH.value, 
+                        lambda state: CanHitOnce(state, self))
+    connect_regions(self, AEDoor.DI_ENTRY_STOMACH.value, AEDoor.DI_ENTRY.value,
+                        lambda state: True)
+    # Stomach
+    connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AEDoor.DI_STOMACH_SLIDE_ROOM.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_STOMACH_SLIDE_ROOM.value, AEDoor.DI_STOMACH_ENTRY.value,
+                        lambda state: True)
+    # Slide
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, 
+                        lambda state: CanSwim(state, self) and CanHitMultiple(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, 
+                        lambda state: CanHitMultiple(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, 
+                        lambda state: CanHitOnce(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AEDoor.DI_SLIDE_ROOM_GALLERY.value, 
+                        lambda state: state.has("DI-Button", self.player, 1) and CanHitOnce(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AEDoor.DI_SLIDE_ROOM_GALLERY.value, 
+                        lambda state: (state.has("DI-Button", self.player, 1) and CanHitOnce(state, self)) or IJ(state, self))
+    if self.options.logic == "expert": # This connection is only valid on expert difficulty.
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, AEDoor.DI_SLIDE_ROOM_STOMACH.value, 
+                        lambda state: IJ(state, self))
+    connect_regions(self, AEDoor.DI_SLIDE_ROOM_GALLERY.value, AEDoor.DI_SLIDE_ROOM_STOMACH.value, 
+                        lambda state: CanHitOnce(state, self))
+    # Gallery
+    connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ELEVATOR.value, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, 
+                        lambda state: CanDive(state, self))
+    connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AEDoor.DI_GALLERY_SLIDE_ELEVATOR.value, 
+                        lambda state: CanDive(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AEDoor.DI_GALLERYBOULDER.value, 
+                        lambda state: HasHoop(state, self) or HasRC(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AEDoor.DI_GALLERYBOULDER.value, 
+                        lambda state: HasHoop(state, self) or HasRC(state, self) or IJ(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.DI_GALLERYBOULDER.value, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.DI_GALLERYBOULDER.value, AEDoor.DI_GALLERY_TENTACLE.value, 
+                        lambda state: DI_Lamp(state, self))
+    connect_regions(self, AEDoor.DI_GALLERY_TENTACLE.value, AEDoor.DI_GALLERYBOULDER.value, 
+                        lambda state: DI_Lamp(state, self))
+
+    # Snowy Mammoth (level contains a single room)
+    # Frosty Retreat
+    # Outside
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.FR_ENTRY.value, AEDoor.FR_ENTRY_CAVERNS.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.FR_ENTRY.value, AEDoor.FR_ENTRY_CAVERNS.value, 
+                        lambda state: True)
+    # Caverns
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AEDoor.FR_CAVERNS_WATER.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AEDoor.FR_CAVERNS_WATER.value, 
+                        lambda state: True)
+    connect_regions(self, AEDoor.FR_CAVERNS_WATER.value, AEDoor.FR_CAVERNS_ENTRY.value,
+                        lambda state: True)
+
+    # Hot Springs
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.HS_ENTRY.value, AEDoor.HS_ENTRY_HOT_SPRING.value, 
+                        lambda state: HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.HS_ENTRY.value, AEDoor.HS_ENTRY_HOT_SPRING.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.HS_ENTRY.value, AEDoor.HS_ENTRY_POLAR_BEAR_CAVE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.HS_ENTRY_HOT_SPRING.value, AEDoor.HS_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.HS_ENTRY_POLAR_BEAR_CAVE.value, AEDoor.HS_ENTRY.value,
+                        lambda state: True)
+
+    # Gladiator Attack (level contains a single room)
+    # Sushi Temple
+    connect_regions(self, AEDoor.ST_ENTRY.value, AEDoor.ST_ENTRY_TEMPLE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ST_ENTRY.value, AEDoor.ST_ENTRY_WELL.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ST_ENTRY_TEMPLE.value, AEDoor.ST_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.ST_ENTRY_WELL.value, AEDoor.ST_ENTRY.value,
+                        lambda state: True)
+
+    # Wabi Sabi Wall
+    # Entry
+    connect_regions(self, AEDoor.WSW_ENTRY.value, AEDoor.WSW_ENTRY_GONG.value,
+                        lambda state: True)
+    # Gong Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AEDoor.WSW_GONG_MIDDLE.value, 
+                        lambda state: HasNet(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AEDoor.WSW_GONG_MIDDLE.value, 
+                        lambda state: HasNet(state, self) or IJ(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.WSW_GONG_MIDDLE.value, AEDoor.WSW_GONG_ENTRY.value,
+                        lambda state: True)
+    # Middle
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.WSW_MIDDLE_GONG.value, AEDoor.WSW_MIDDLE_OBSTACLE.value, 
+                        lambda state: HasSling(state, self) or HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.WSW_MIDDLE_GONG.value, AEDoor.WSW_MIDDLE_OBSTACLE.value, 
+                        lambda state: HasSling(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.WSW_MIDDLE_OBSTACLE.value, AEDoor.WSW_MIDDLE_GONG.value,
+                        lambda state: True)
+    # Obstacle Course
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AEDoor.WSW_OBSTACLE_BARREL.value, 
+                        lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AEDoor.WSW_OBSTACLE_BARREL.value, 
+                        lambda state: CanHitWheel(state, self) or HasFlyer(state, self) or HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AEDoor.WSW_OBSTACLE_BARREL.value, 
+                        lambda state: True)
+    connect_regions(self, AEDoor.WSW_OBSTACLE_BARREL.value, AEDoor.WSW_OBSTACLE_MIDDLE.value,
+                        lambda state: True)
+
+    # Crumbling Castle
+    # Outside
+    connect_regions(self, AEDoor.CC_ENTRY.value, AEDoor.CC_ENTRY_CASTLE.value,
+                        lambda state: True)
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_ENTRY.value, AEDoor.CC_ENTRY_BASEMENT.value, 
+                        lambda state: CanSwim(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_ENTRY.value, AEDoor.CC_ENTRY_BASEMENT.value, 
+                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY.value, AEDoor.CC_ENTRY_BELL.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY_CASTLE.value, AEDoor.CC_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_ENTRY_BASEMENT.value, AEDoor.CC_ENTRY.value, 
+                        lambda state: CanSwim(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY_BELL.value, AEDoor.CC_ENTRY.value,
+                        lambda state: True)
+    # Boss Door - must be able to reach and hit the button in another room.
+    connect_regions(self, AEDoor.CC_ENTRY_BELL.value, AEDoor.CC_ENTRY_BOSS.value,
+                        lambda state: state.has("CC-Button", self.player, 1) and CanHitOnce(state, self)) 
+    # Castle
+    connect_regions(self, AEDoor.CC_CASTLEMAIN_ENTRY.value, AEDoor.CC_CASTLEMAIN_BELL.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_CASTLEMAIN_BELL.value, AEDoor.CC_CASTLEMAIN_ENTRY.value,
+                        lambda state: True)
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ENTRY.value, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, 
+                        lambda state: CRC_Lamp(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ENTRY.value, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, 
+                        lambda state: CRC_Lamp(state, self) or SuperFlyer(state, self, AEDoor.CC_CASTLEMAIN_ENTRY.value) or IJ(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, AEDoor.CC_CASTLEMAIN_ENTRY.value, 
+                        lambda state: HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, AEDoor.CC_CASTLEMAIN_ENTRY.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ENTRY.value, AEDoor.CC_CASTLEMAINTHRONEROOM.value, 
+                        lambda state: CRC_Lamp(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ENTRY.value, AEDoor.CC_CASTLEMAINTHRONEROOM.value, 
+                        lambda state: CRC_Lamp(state, self) or IJ(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, AEDoor.CC_CASTLEMAINTHRONEROOM.value, 
+                        lambda state: HasFlyer(state, self) and CRC_Lamp(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_CASTLEMAIN_ELEVATOR.value, AEDoor.CC_CASTLEMAINTHRONEROOM.value, 
+                        lambda state: (HasFlyer(state, self) and CRC_Lamp(state, self)) or IJ(state, self) or SuperFlyer(state, self, AEDoor.CC_CASTLEMAIN_ELEVATOR.value))
+    # Bell Tower
+    connect_regions(self, AEDoor.CC_BELL_CASTLE.value, AEDoor.CC_BELL_ENTRY.value, 
+                        lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.CC_BELL_ENTRY.value, AEDoor.CC_BELL_CASTLE.value,
+                        lambda state: True)
+    # Elevator Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AEDoor.CC_ELEVATOR_BASEMENT.value, 
+                        lambda state: HasClub(state, self) or HasSling(state, self) or HasPunch(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AEDoor.CC_ELEVATOR_BASEMENT.value, 
+                        lambda state: CanHitOnce(state, self))
+    connect_regions(self, AEDoor.CC_ELEVATOR_BASEMENT.value, AEDoor.CC_ELEVATOR_CASTLEMAIN.value,
+                        lambda state: True)
+    # Waterway
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BASEMENT_ENTRY.value, AEDoor.CC_BASEMENT_ELEVATOR.value, 
+                        lambda state: CanSwim(state, self) and HasPunch(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_BASEMENT_ENTRY.value, AEDoor.CC_BASEMENT_ELEVATOR.value, 
+                        lambda state: CanSwim(state, self) and (HasPunch(state, self) or IJ(state, self) or HasFlyer(state, self)))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, AEDoor.CC_BASEMENT_ELEVATOR.value, 
+                        lambda state: CanSwim(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, AEDoor.CC_BASEMENT_ELEVATOR.value, 
+                        lambda state: CanSwim(state, self) or SuperFlyer(state, self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value))
+    else:
+        connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, AEDoor.CC_BASEMENT_ELEVATOR.value, 
+                        lambda state: CanSwim(state, self) or SuperFlyer(state, self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value) or IJ(state, self))
+    connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_UP.value, AEDoor.CC_BASEMENT_ELEVATOR.value,
+                        lambda state: True)
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_ENTRY.value, 
+                        lambda state: CanHitOnce(state, self) and (CanSwim(state, self) or HasFlyer(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_ENTRY.value, 
+                        lambda state: CanHitOnce(state, self) and (CanSwim(state, self) or IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self)))
+    else:
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_ENTRY.value, 
+                        lambda state: CanHitOnce(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, 
+                        lambda state: CanSwim(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, 
+                        lambda state: CanSwim(state, self) or IJ(state, self) or HasFlyer(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_BUTTON_UP.value, 
+                        lambda state: IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AEDoor.CC_BASEMENT_BUTTON_UP.value, 
+                        lambda state: IJ(state, self) or HasFlyer(state, self))
+    # Button Room
+    connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_WATER.value, AEDoor.CC_BUTTON_BASEMENT_LEDGE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_LEDGE.value, AEDoor.CC_BUTTON_BASEMENT_WATER.value,
+                        lambda state: True)
+    
+    # City Park
+    # Outside
+    connect_regions(self, AEDoor.CP_ENTRY.value, AEDoor.CP_OUTSIDE_SEWERS_FRONT.value, 
+                        lambda state: CP_Lamp(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_ENTRY.value, AEDoor.CP_OUTSIDE_BARREL.value, 
+                        lambda state: IJ(state, self) and CanDive(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_ENTRY.value, AEDoor.CP_OUTSIDE_BARREL.value, 
+                        lambda state: (IJ(state, self) or HasFlyer(state, self)) and CanDive(state, self))
+    connect_regions(self, AEDoor.CP_OUTSIDE_SEWERS_FRONT.value, AEDoor.CP_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_OUTSIDE_BARREL.value, AEDoor.CP_ENTRY.value, 
+                        lambda state: CanDive(state, self))
+    # Front Sewer
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AEDoor.CP_SEWERSFRONT_BARREL.value, 
+                        lambda state: HasRC(state, self) and (CanSwim(state, self) or HasFlyer(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AEDoor.CP_SEWERSFRONT_BARREL.value, 
+                        lambda state: (HasRC(state, self) or IJ(state, self)) and (CanSwim(state, self) or HasFlyer(state, self) or HasHoop(state, self)))
+    else:
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AEDoor.CP_SEWERSFRONT_BARREL.value, 
+                        lambda state: (HasRC(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value)) and (CanSwim(state, self) or HasFlyer(state, self) or HasHoop(state, self)))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, 
+                        lambda state: HasRC(state, self) and (CanSwim(state, self) or HasFlyer(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, 
+                        lambda state: HasRC(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, 
+                        lambda state: HasRC(state, self) or IJ(state, self) or (HasHoop(state, self) and HasFlyer(state, self)))
+    # Back Sewer
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_BARREL_SEWERS_FRONT.value, AEDoor.CP_BARRELSEWERMIDDLE.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_BARREL_SEWERS_FRONT.value, AEDoor.CP_BARRELSEWERMIDDLE.value, 
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_BARREL_OUTSIDE.value, AEDoor.CP_BARRELSEWERMIDDLE.value, 
+                        lambda state: CanDive(state, self))
+    connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AEDoor.CP_BARREL_SEWERS_FRONT.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AEDoor.CP_BARREL_OUTSIDE.value, 
+                        lambda state: CanDive(state, self))
+
+    # Specter's Factory
+    # Outside
+    connect_regions(self, AEDoor.SF_ENTRY.value, AEDoor.SF_OUTSIDE_FACTORY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_OUTSIDE_FACTORY.value, AEDoor.SF_ENTRY.value, 
+                        lambda state: HasFlyer(state, self) or HasPunch(state, self))
+    # Main Factory
+    connect_regions(self, AEDoor.SF_FACTORY_OUTSIDE.value, AEDoor.SF_FACTORY_RC_CAR.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_WHEEL_BOTTOM.value, AEDoor.SF_FACTORY_RC_CAR.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_RC_CAR.value, AEDoor.SF_FACTORY_OUTSIDE.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_FACTORY_RC_CAR.value, AEDoor.SF_FACTORY_WHEEL_BOTTOM.value, 
+                        lambda state: SF_Lamp(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_FACTORY_RC_CAR.value, AEDoor.SF_FACTORY_WHEEL_TOP.value, 
+                        lambda state: IJ(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.SF_FACTORY_RC_CAR.value, AEDoor.SF_FACTORY_WHEEL_TOP.value, 
+                        lambda state: (HasHoop(state, self) and HasFlyer(state, self)) or SuperFlyer(state, self, AEDoor.SF_FACTORY_RC_CAR.value) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.SF_FACTORY_RC_CAR.value, AEDoor.SF_FACTORY_WHEEL_TOP.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.SF_FACTORY_WHEEL_TOP.value, AEDoor.SF_FACTORY_RC_CAR.value,
+                        lambda state: True)
+    if self.options.logic == "normal" or self.options.logic == "expert":
+        connect_regions(self, AEDoor.SF_FACTORY_WHEEL_TOP.value, AEDoor.SF_FACTORY_MECH.value, 
+                        lambda state: CanHitWheel(state, self))
+    else: # This is correct as CanHitWheel includes Flyer only on expert, making hard the unique.
+        connect_regions(self, AEDoor.SF_FACTORY_WHEEL_TOP.value, AEDoor.SF_FACTORY_MECH.value, 
+                        lambda state: CanHitWheel(state, self) or SuperFlyer(state, self, AEDoor.SF_FACTORY_WHEEL_TOP.value))
+    connect_regions(self, AEDoor.SF_FACTORY_MECH.value, AEDoor.SF_FACTORY_WHEEL_TOP.value, 
+                        lambda state: CanHitWheel(state, self))
+    # Triple Wheel
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value, AEDoor.SF_WHEEL_FACTORY_TOP.value, 
+                        lambda state: HasClub(state, self) or ((HasSling(state, self) or HasPunch(state, self)) and HasFlyer(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value, AEDoor.SF_WHEEL_FACTORY_TOP.value, 
+                        lambda state: HasClub(state, self) or ((HasSling(state, self) or HasPunch(state, self) or HasHoop(state, self)) and HasFlyer(state, self)) or SuperFlyer(state, self, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value))
+    else:
+        connect_regions(self, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value, AEDoor.SF_WHEEL_FACTORY_TOP.value, 
+                        lambda state: HasClub(state, self) or HasHoop(state, self) or HasFlyer(state, self) or IJ(state, self) or (HasPunch(state, self) and (HasRadar(state, self) or HasSling(state, self) or HasRC(state, self) or HasNet(state, self))))
+    connect_regions(self, AEDoor.SF_WHEEL_FACTORY_TOP.value, AEDoor.SF_WHEEL_FACTORY_BOTTOM.value,
+                        lambda state: True)
+    # Mech Room
+    connect_regions(self, AEDoor.SF_MECH_FACTORY.value, AEDoor.SF_MECH_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_MECH_LAVA.value, AEDoor.SF_MECH_FACTORY.value,
+                        lambda state: True)
+    # Lava Room
+    if self.options.logic == "normal" or self.options.logic == "expert":
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AEDoor.SF_LAVA_CONVEYOR.value, 
+                        lambda state: CanHitWheel(state, self))
+    else: # This is correct as CanHitWheel includes Flyer only on expert, making hard the unique.
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AEDoor.SF_LAVA_CONVEYOR.value, 
+                        lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
+    connect_regions(self, AEDoor.SF_LAVA_CONVEYOR.value, AEDoor.SF_LAVA_MECH.value,
+                        lambda state: True)
+    # Conveyor Room (at least it's all True...)
+    connect_regions(self, AEDoor.SF_CONVEYOR1_EXIT.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR2_EXIT.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR3_EXIT.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR4_EXIT.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR5_EXIT.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR6_EXIT.value, AEDoor.SF_CONVEYOR_LAVA.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR1_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR2_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR3_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR4_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR5_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR6_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AEDoor.SF_CONVEYOR7_ENTRY.value,
+                        lambda state: True)
+
+    # TV Tower
+    # Outside
+    connect_regions(self, AEDoor.TVT_ENTRY.value, AEDoor.TVT_OUTSIDE_LOBBY.value,
+                        lambda state: True)
+    # Lobby
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AEDoor.TVT_LOBBY_WATER.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    else:
+        connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AEDoor.TVT_LOBBY_WATER.value, 
+                        lambda state: HasFlyer(state, self) or HasSling(state, self) or HasHoop(state, self) or HasClub(state, self))
+    connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AEDoor.TVT_LOBBY_TANK.value, 
+                        lambda state: TVT_Lobby_Lamp(state, self))
+    connect_regions(self, AEDoor.TVT_LOBBY_WATER.value, AEDoor.TVT_LOBBY_OUTSIDE.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    connect_regions(self, AEDoor.TVT_LOBBY_TANK.value, AEDoor.TVT_LOBBY_OUTSIDE.value,
+                        lambda state: True)
+    # Tank Room
+    connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AEDoor.TVT_TANK_FAN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AEDoor.TVT_TANK_BOSS.value, 
+                        lambda state: TVT_Tank_Lamp(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TVT_TANK_FAN.value, AEDoor.TVT_TANK_LOBBY.value, 
+                        lambda state: HasPunch(state, self))
+    else:
+        connect_regions(self, AEDoor.TVT_TANK_FAN.value, AEDoor.TVT_TANK_LOBBY.value, 
+                        lambda state: HasPunch(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.TVT_TANK_FAN.value))
+    connect_regions(self, AEDoor.TVT_TANK_BOSS.value, AEDoor.TVT_TANK_LOBBY.value,
+                        lambda state: True)
+
+    # Monkey Madness
+    # Specter Land
+    connect_regions(self, AEDoor.MM_SL_HUB.value, AEDoor.MM_SL_HUB_WESTERN.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB.value, AEDoor.MM_SL_HUB_COASTER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB.value, AEDoor.MM_SL_HUB_CIRCUS.value,
+                        lambda state: True)
+    # This is not a mistake because the apworld pre-opens the Jake arena as part of handling the Lobby door.
+    connect_regions(self, AEDoor.MM_SL_HUB.value, AEDoor.MM_SL_HUB_GO_KARZ.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB.value, AEDoor.MM_SL_HUB_CRATER.value, 
+                        lambda state: MM_DoubleDoor(state, self))
+    connect_regions(self, AEDoor.MM_SL_HUB_WESTERN.value, AEDoor.MM_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_COASTER.value, AEDoor.MM_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_CIRCUS.value, AEDoor.MM_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_GO_KARZ.value, AEDoor.MM_SL_HUB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_SL_HUB_CRATER.value, AEDoor.MM_SL_HUB.value,
+                        lambda state: True)
+    # Coaster (several one-way connections here)
+    connect_regions(self, AEDoor.MM_COASTER_ENTRY_SL_HUB.value, AEDoor.MM_COASTER_ENTRY_COASTER1.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COASTER1_ENTRY.value, AEDoor.MM_COASTER1_COASTER2.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_COASTER2_ENTRY.value, AEDoor.MM_COASTER2_HAUNTED_HOUSE.value,
+                        lambda state: True)
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_HAUNTED_HOUSE_DISEMBARK.value, AEDoor.MM_HAUNTED_HOUSE_COFFIN.value, 
+                        lambda state: CanHitMultiple(state, self) or HasHoop(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_HAUNTED_HOUSE_DISEMBARK.value, AEDoor.MM_HAUNTED_HOUSE_COFFIN.value, 
+                        lambda state: CanHitOnce(state, self))
+    connect_regions(self, AEDoor.MM_COFFIN_HAUNTED_HOUSE.value, AEDoor.MM_COFFIN_COASTER_ENTRY.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.MM_COASTER_ENTRY_DISEMBARK.value, AEDoor.MM_COASTER_ENTRY_SL_HUB.value,
+                        lambda state: True)
+    # Crater
+    connect_regions(self, AEDoor.MM_CRATER_SL_HUB.value, AEDoor.MM_CRATER_OUTSIDE_CASTLE.value,
+                        lambda state: True)
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_CRATER_OUTSIDE_CASTLE.value, AEDoor.MM_CRATER_SL_HUB.value, 
+                        lambda state: HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_CRATER_OUTSIDE_CASTLE.value, AEDoor.MM_CRATER_SL_HUB.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+    # Castle Outside
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AEDoor.MM_OUTSIDE_CASTLE_SIDE_ENTRY.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AEDoor.MM_OUTSIDE_CASTLE_CASTLE_MAIN.value,
+                        lambda state: MM_Lamp(state, self))
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_SIDE_ENTRY.value, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CASTLE_MAIN.value, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value,
+                        lambda state: True)
+    # Castle Foyer
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value, 
+                        lambda state: HasHoop(state, self) and HasRC(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value, 
+                        lambda state: HasRC(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AEDoor.MM_CASTLE_MAIN_SPECTER1.value, 
+                        lambda state: state.has("MM-Painting", self.player, 1))
+    else:
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AEDoor.MM_CASTLE_MAIN_SPECTER1.value, 
+                        lambda state: state.has("MM-Painting", self.player, 1) or IJ(state, self) or SuperFlyer(state, self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value))
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, 
+                        lambda state: HasHoop(state, self) or HasRC(state, self))
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value, AEDoor.MM_CASTLE_MAIN_INSIDE_CLIMB.value, 
+                        lambda state: state.has("MM-Button", self.player, 1) and (CanHitWheel(state, self) or HasFlyer(state, self)))
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_INSIDE_CLIMB.value, AEDoor.MM_CASTLE_MAIN_MONKEY_HEAD.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_FROM_OUTSIDE.value, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value,
+                        lambda state: True)
+    # Monkey Head + Inside Climb + Outside Climb
+    connect_regions(self, AEDoor.MM_INSIDE_CLIMB_CASTLE_MAIN.value, AEDoor.MM_INSIDE_CLIMB_OUTSIDE_CLIMB.value,
+                        lambda state: True)
+    connect_regions(self, AEDoor.MM_INSIDE_CLIMB_OUTSIDE_CLIMB.value, AEDoor.MM_INSIDE_CLIMB_CASTLE_MAIN.value,
+                        lambda state: True)
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AEDoor.MM_OUTSIDE_CLIMB_CASTLE_MAIN.value, 
+                        lambda state: HasFlyer(state, self) and HasRC(state, self) and HasSling(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AEDoor.MM_OUTSIDE_CLIMB_CASTLE_MAIN.value, 
+                        lambda state: (HasFlyer(state, self) and HasRC(state, self) and HasSling(state, self)) or IJ(state, self))
+
+
+# A location is always accessed from a transition. The level entrance is a special case of a transition.
+def set_locations(self):
+    # Time Station
+    if self.options.mailbox == "true" or (self.options.shufflenet == "true" and self.options.coin == "true"):
+        connect_regions(self, AEDoor.TIME_ENTRY.value, AELocation.Mailbox60.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.TIME_ENTRY.value, AELocation.Mailbox61.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.TIME_MINIGAME_MAIN.value, AELocation.Mailbox62.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.TIME_TRAINING_MAIN.value, AELocation.Mailbox63.value,
+                        lambda state: True)
+
+    # Fossil Field
+    connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.W1L1Noonan.value,
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.W1L1Jorjy.value,
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.W1L1Nati.value,
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+       connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.W1L1TrayC.value,
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+       connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.W1L1TrayC.value,
+                        lambda state: HasNet(state, self))
+
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.Coin1.value,
+                        lambda state: True)
+    
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.Mailbox1.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.Mailbox2.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.FF_ENTRY.value, AELocation.Mailbox3.value,
+                        lambda state: CanHitOnce(state, self))
+    
+    # Primordial Ooze
+    connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Shay.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2DrMonk.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Ahchoo.value, 
+                        lambda state: HasNet(state, self) or HasWaterNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Grunt.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Grunt.value, 
+                        lambda state: (CanSwim(state, self) or HasHoop(state, self) or HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Grunt.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Tyrone.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Gornif.value, 
+                        lambda state: CanSwim(state, self) and (HasNet(state, self) or HasWaterNet(state, self)))
+    else:
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.W1L2Gornif.value, 
+                        lambda state: HasNet(state, self) or HasWaterNet(state, self))
+
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.Coin2.value,
+                        lambda state: CanDive(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.Mailbox4.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.Mailbox5.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.Mailbox6.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.PO_ENTRY.value, AELocation.Mailbox7.value,
+                        lambda state: True)
+    
+    # Molten Lava
+    # Outside
+    connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.W1L3Scotty.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.W1L3Coco.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.W1L3JThomas.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.W1L3JThomas.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.W1L3Moggan.value, 
+                        lambda state: HasNet(state, self))
+    # Volcano
+    connect_regions(self, AEDoor.ML_VOLCANO_ENTRY.value, AELocation.W1L3Barney.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ML_VOLCANO_ENTRY.value, AELocation.W1L3Mattie.value, 
+                        lambda state: HasNet(state, self))
+    # Triceratops
+    if self.options.logic == "normal":
+         connect_regions(self, AEDoor.ML_TRICERATOPS_ENTRY.value, AELocation.W1L3Rocky.value, 
+                        lambda state: HasSling(state, self) and (HasClub(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+         connect_regions(self, AEDoor.ML_TRICERATOPS_ENTRY.value, AELocation.W1L3Rocky.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.Coin3.value,
+                        lambda state: True)
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.Mailbox8.value,
+                        lambda state: True)
+        connect_regions(self, AEDoor.ML_ENTRY.value, AELocation.Mailbox9.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.ML_VOLCANO_ENTRY.value, AELocation.Mailbox10.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.ML_TRICERATOPS_ENTRY.value, AELocation.Mailbox11.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.ML_TRICERATOPS_ENTRY.value, AELocation.Mailbox12.value, 
+                        lambda state: HasSling(state, self))
+
+    # Thick Jungle
+    # Entry
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.W2L1Marquez.value, 
+                        lambda state: CanHitMultiple(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.W2L1Marquez.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.W2L1Livinston.value, 
+                        lambda state: CanHitMultiple(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.W2L1Livinston.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.W2L1George.value, 
+                        lambda state: HasNet(state, self))
+    # Mushroom
+    connect_regions(self, AEDoor.TJ_MUSHROOMMAIN.value, AELocation.W2L1Gonzo.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.TJ_MUSHROOMMAIN.value, AELocation.W2L1Zanzibar.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AELocation.W2L1Alphonse.value, 
+                        lambda state: HasFlyer(state, self) and CanHitWheel(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AELocation.W2L1Alphonse.value, 
+                        lambda state: (IJ(state, self) or HasHoop(state, self) or (HasFlyer(state, self) and CanHitWheel(state, self))) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AELocation.W2L1Alphonse.value, 
+                        lambda state: (IJ(state, self) or HasHoop(state, self) or (HasFlyer(state, self) and (CanHitMultiple(state, self) or HasRC(state, self))) or SuperFlyer(state, self, AEDoor.TJ_MUSHROOM_ENTRY.value)) and HasNet(state, self))
+    # Fish
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.W2L1Maki.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.W2L1Maki.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.W2L1Herb.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.TJ_FISH_TENT.value, AELocation.W2L1Dilweed.value, 
+                        lambda state: HasNet(state, self))
+    # Tent
+    connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AELocation.W2L1Stoddy.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AELocation.W2L1Mitong.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AELocation.W2L1Nasus.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AELocation.W2L1Nasus.value, 
+                        lambda state: CanHitMultiple(state, self) and HasNet(state, self))
+    # Boulder
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AELocation.W2L1Elehcim.value, 
+                        lambda state: CanSwim(state, self) and HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AELocation.W2L1Elehcim.value, 
+                        lambda state: CanSwim(state, self) and HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AELocation.W2L1Elehcim.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AELocation.W2L1Elehcim.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AELocation.W2L1Selur.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AELocation.W2L1Selur.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+
+    if self.options.coin == "true":
+        if self.options.logic == "normal" or self.options.logic == "hard":
+            connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.Coin6.value, 
+                            lambda state: HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.Coin6.value, 
+                            lambda state: IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+        connect_regions(self, AEDoor.TJ_MUSHROOMMAIN.value, AELocation.Coin7.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.Coin8.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AELocation.Coin9.value, 
+                        lambda state: True)
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.Mailbox13.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.TJ_ENTRY.value, AELocation.Mailbox14.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AELocation.Mailbox15.value, 
+                        lambda state: CanHitOnce(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AELocation.Mailbox16.value, 
+                            lambda state: HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.TJ_MUSHROOM_ENTRY.value, AELocation.Mailbox16.value, 
+                            lambda state: IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self))
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.Mailbox17.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.Mailbox18.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.TJ_FISHBOAT.value, AELocation.Mailbox19.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.TJ_TENT_BOULDER.value, AELocation.Mailbox20.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AELocation.Mailbox21.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Dark Ruins
+    # Outside
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Kyle.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Kyle.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.DR_OUTSIDE_WATER_LEDGE.value, AELocation.W2L2Kyle.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Stan.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Stan.value, 
+                        lambda state: (HasFlyer(state, self) or HasHoop(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Stan.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_OUTSIDE_FENCE.value, AELocation.W2L2Stan.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Kenny.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.DR_OUTSIDE_OBELISK_TOP.value, AELocation.W2L2Kenny.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Cratman.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.W2L2Mooshy.value, 
+                        lambda state: HasNet(state, self))
+    # Fan
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AELocation.W2L2Nuzzy.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AELocation.W2L2Nuzzy.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AELocation.W2L2Mav.value, 
+                        lambda state: HasNet(state, self))
+    # Obelisk
+    connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AELocation.W2L2Papou.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AELocation.W2L2Trance.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AELocation.W2L2Bernt.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    # Water
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Runt.value, 
+                        lambda state: (HasSling(state, self) or HasRC(state, self) or CanSwim(state, self)) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Runt.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasRC(state, self) or CanSwim(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Runt.value, 
+                        lambda state: HasNet(state, self) or ((HasRC(state, self) or CanDive(state, self)) and HasWaterNet(state, self)))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Hoolah.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Hoolah.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Chino.value, 
+                        lambda state: (HasSling(state, self) or HasRC(state, self) or CanSwim(state, self)) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Chino.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasRC(state, self) or CanSwim(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.W2L2Chino.value, 
+                        lambda state: HasNet(state, self) or ((HasRC(state, self) or CanDive(state, self)) and HasWaterNet(state, self)))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Coin11.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+        elif self.options.logic == "hard":
+            connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Coin11.value, 
+                            lambda state: HasFlyer(state, self) or HasHoop(state, self) or IJ(state, self))
+        else:
+            connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Coin11.value, 
+                            lambda state: True)
+        connect_regions(self, AEDoor.DR_OUTSIDE_FENCE.value, AELocation.Coin11.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AELocation.Coin12.value, 
+                        lambda state: True)
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AELocation.Coin13.value, 
+                            lambda state: HasRC(state, self) or HasPunch(state, self))
+        else:
+            connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AELocation.Coin13.value, 
+                            lambda state: HasFlyer(state, self) or HasRC(state, self) or HasPunch(state, self))
+        connect_regions(self, AEDoor.DR_WATER_SIDE.value, AELocation.Coin14.value, 
+                        lambda state: CanDive(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Mailbox22.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Mailbox23.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Mailbox24.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.DR_ENTRY.value, AELocation.Mailbox25.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AELocation.Mailbox26.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.DR_FAN_OUTSIDE_HOLE.value, AELocation.Mailbox27.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.DR_OBELISK_BOTTOM.value, AELocation.Mailbox28.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Cryptic Relics
+    # Entry
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CR_ENTRY.value, AELocation.W2L3Bazzle.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CR_ENTRY.value, AELocation.W2L3Bazzle.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CR_ENTRY.value, AELocation.W2L3Freeto.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CR_ENTRYOBA.value, AELocation.W2L3Freeto.value, 
+                        lambda state: IJ(state, self) and HasPunch(state, self) and HasNet(state, self))
+    # Side Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CR_SIDE_ROOM_ENTRY.value, AELocation.W2L3Troopa.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CR_SIDE_ROOM_ENTRY.value, AELocation.W2L3Troopa.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    # Main Ruins
+    connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.W2L3Stymie.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.W2L3Spanky.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and CanSwim(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.W2L3Spanky.value, 
+                        lambda state: ((CanHitWheel(state, self) and CanSwim(state, self)) or IJ(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.W2L3Spanky.value, 
+                        lambda state: ((CanHitWheel(state, self) and CanSwim(state, self)) or IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.W2L3Jesta.value, 
+                        lambda state: ((CanHitWheel(state, self) or (HasFlyer(state, self) and CanSwim(state, self))) and HasNet(state, self)))
+    # Pillar
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value, AELocation.W2L3Pally.value, 
+                        lambda state: (CanHitMultiple(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value, AELocation.W2L3Pally.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value, AELocation.W2L3Crash.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value, AELocation.W2L3Crash.value, 
+                        lambda state: (HasRC(state, self) or HasSling(state, self) or SuperFlyer(state, self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value)) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal" or self.options.logic == "hard":
+            connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.Coin17.value, 
+                            lambda state: (CanHitWheel(state, self) and CanSwim(state, self)) or IJ(state, self) or HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.Coin17.value, 
+                            lambda state: (CanHitWheel(state, self) and CanSwim(state, self)) or IJ(state, self) or HasFlyer(state, self) or HasHoop(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.CR_ENTRY.value, AELocation.Mailbox29.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.CR_ENTRY.value, AELocation.Mailbox30.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.Mailbox31.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.CR_MAIN_RUINS_PILLAR_ROOM.value, AELocation.Mailbox32.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and CanSwim(state, self))
+        connect_regions(self, AEDoor.CR_PILLAR_ROOM_MAIN_RUINS.value, AELocation.Mailbox33.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Stadium Attack
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.SA_ENTRY.value, AEDoor.SA_COMPLETE.value, 
+                        lambda state: CanSwim(state, self))
+
+    # Crabby Beach
+    # First
+    connect_regions(self, AEDoor.CB_ENTRY.value, AELocation.W4L1CoolBlue.value, 
+                        lambda state: HasNet(state, self) or HasWaterNet(state, self))
+    connect_regions(self, AEDoor.CB_ENTRY.value, AELocation.W4L1Sandy.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CB_ENTRY.value, AELocation.W4L1ShellE.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CB_ENTRY.value, AELocation.W4L1Gidget.value, 
+                        lambda state: HasNet(state, self))
+    # Second
+    connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.W4L1Shaka.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.W4L1Puka.value, 
+                        lambda state: (HasFlyer(state, self) or CanHitMultiple(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.W4L1MaxMahalo.value, 
+                        lambda state: HasFlyer(state, self) and HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.W4L1MaxMahalo.value, 
+                        lambda state: (IJ(state, self) or HasHoop(state, self) or HasFlyer(state, self)) and (HasSling(state, self) or HasClub(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.W4L1Moko.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.Coin21.value, 
+                        lambda state: True)
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.CB_ENTRY.value, AELocation.Mailbox34.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.CB_ENTRY.value, AELocation.Mailbox35.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.CB_SECOND_ROOM_ENTRY.value, AELocation.Mailbox36.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Coral Cave
+    # First
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Chip.value, 
+                        lambda state: CanSwim(state, self) and HasWaterNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Chip.value, 
+                        lambda state: CanSwim(state, self) and (HasNet(state, self) or HasWaterNet(state, self)))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Oreo.value, 
+                        lambda state: ((((HasHoop(state, self) and CanHitMultiple(state, self)) or HasSling(state, self)) and CanSwim(state, self)) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Oreo.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self) or HasHoop(state, self) or IJ(state, self)) and (CanHitWheel(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Puddles.value, 
+                        lambda state: CanDive(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Puddles.value, 
+                        lambda state: (CanDive(state, self) or (CanSwim(state, self) and IJ(state, self)) or SuperFlyer(state, self, AEDoor.CCAVE_ENTRY.value)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Puddles.value, 
+                        lambda state: (CanDive(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.CCAVE_ENTRY.value) or (HasHoop(state, self) and HasFlyer(state, self))) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Kalama.value, 
+                        lambda state: (((((HasHoop(state, self) and CanHitMultiple(state, self)) or HasSling(state, self)) and CanSwim(state, self)) or HasFlyer(state, self)) and HasNet(state, self)) or HasWaterNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_ENTRY.value, AELocation.W4L2Kalama.value, 
+                        lambda state: ((HasHoop(state, self) or HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self)) or HasWaterNet(state, self))
+    # Second
+    connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.W4L2Iz.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.W4L2BongBong.value, 
+                        lambda state: (CanHitMultiple(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.W4L2BongBong.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.W4L2Jux.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.W4L2Pickles.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.W4L2Pickles.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasRC(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.Coin23.value, 
+                            lambda state: CanDive(state, self))
+        else:
+            connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.Coin23.value, 
+                            lambda state: CanDive(state, self) or HasRC(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.Mailbox37.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.CCAVE_SECOND_ROOM_ENTRY.value, AELocation.Mailbox38.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Dexter's Island
+    # Outside
+    connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.W4L3TonTon.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.W4L3Stuw.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.W4L3Stuw.value, 
+                        lambda state: (CanHitOnce(state, self) or CanSwim(state, self)) and HasNet(state, self))
+    # Stomach
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.W4L3Mars.value, 
+                        lambda state: HasRC(state, self) and (HasNet(state, self) or (CanDive(state, self) and HasWaterNet(state, self))))
+    else:
+        connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.W4L3Mars.value, 
+                        lambda state: HasRC(state, self) and (HasNet(state, self) or HasWaterNet(state, self)))
+    connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.W4L3Murky.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.W4L3Horke.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self)) and CanHitMultiple(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.W4L3Horke.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.W4L3Horke.value, 
+                        lambda state: (CanSwim(state, self) or IJ(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    # Slide
+    # Gallery
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AELocation.W4L3Howeerd.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AELocation.W4L3Howeerd.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AELocation.W4L3Robbin.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ROOM_TOP.value, AELocation.W4L3Robbin.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.DI_GALLERYBOULDER.value, AELocation.W4L3Jakkee.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DI_GALLERYBOULDER.value, AELocation.W4L3Frederic.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.DI_GALLERYBOULDER.value, AELocation.W4L3Baba.value, 
+                        lambda state: HasNet(state, self))
+    # Tentacle
+    connect_regions(self, AEDoor.DI_TENTACLE.value, AELocation.W4L3Quirck.value, 
+                        lambda state: CanHitMultiple(state, self) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.Coin24.value, 
+                            lambda state: CanHitOnce(state, self))
+        else:
+            connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.Coin24.value, 
+                            lambda state: CanHitOnce(state, self) or CanSwim(state, self))
+        connect_regions(self, AEDoor.DI_STOMACH_ENTRY.value, AELocation.Coin25.value, 
+                        lambda state: CanDive(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AELocation.Coin28.value, 
+                            lambda state: CanSwim(state, self) and (HasPunch(state, self) or HasNet(state, self)))
+        else:
+            connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AELocation.Coin28.value, 
+                            lambda state: HasPunch(state, self) or HasNet(state, self))
+        if self.options.logic == "hard": # This connection does not exist on normal difficulty!
+            connect_regions(self, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, AELocation.Coin28.value, 
+                            lambda state: (HasClub(state, self) or HasPunch(state, self) or IJ(state, self)) and (HasPunch(state, self) or HasNet(state, self)))
+        elif self.options.logic == "expert":
+            connect_regions(self, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value, AELocation.Coin28.value, 
+                            lambda state: (HasClub(state, self) or HasPunch(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.DI_SLIDE_ROOM_GALLERY_WATER.value)) and (HasPunch(state, self) or HasNet(state, self)))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.Mailbox39.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.DI_ENTRY.value, AELocation.Mailbox40.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.DI_SLIDE_ROOM_STOMACH.value, AELocation.Mailbox41.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.DI_GALLERY_SLIDE_ELEVATOR.value, AELocation.Mailbox42.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Snowy Mammoth
+    connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Popcicle.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Iced.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Rickets.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Rickets.value, 
+                        lambda state: (HasSling(state, self) or (HasClub(state, self) and HasFlyer(state, self)) and HasNet(state, self)))
+    else:
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Rickets.value, 
+                        lambda state: (HasSling(state, self) or HasPunch(state, self) or (HasClub(state, self) and HasFlyer(state, self))) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Skeens.value, 
+                        lambda state: (CanHitMultiple(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Skeens.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Denggoy.value, 
+                        lambda state: (CanHitMultiple(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Denggoy.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Chilly.value, 
+                        lambda state: (CanHitMultiple(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.W5L1Chilly.value, 
+                        lambda state: HasNet(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.Coin29.value, 
+                        lambda state: True)
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.Mailbox43.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.Mailbox44.value, 
+                        lambda state: CanHitOnce(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.Mailbox45.value, 
+                            lambda state: CanHitMultiple(state, self) or HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.SM_ENTRY.value, AELocation.Mailbox45.value, 
+                            lambda state: True)
+
+    # Frosty Retreat
+    # Entry
+    connect_regions(self, AEDoor.FR_ENTRY_CAVERNS.value, AELocation.W5L2Storm.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.FR_ENTRY_CAVERNS.value, AELocation.W5L2Qube.value, 
+                        lambda state: HasNet(state, self))
+    # Water
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Ranix.value, 
+                        lambda state: (CanSwim(state, self) and HasNet(state, self)) or (HasSling(state, self) and CanDive(state, self) and HasWaterNet(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Ranix.value, 
+                        lambda state: (CanSwim(state, self) and HasNet(state, self)) or ((HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and CanDive(state, self) and HasWaterNet(state, self)))
+    else:
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Ranix.value, 
+                        lambda state: ((CanSwim(state, self) or IJ(state, self) or (HasSling(state, self) and HasHoop(state, self) and HasFlyer(state, self))) and HasNet(state, self)) or ((HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and (HasNet(state, self) or (CanDive(state, self) and HasWaterNet(state, self)))))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Sharpe.value, 
+                        lambda state: (CanSwim(state, self) or HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Sharpe.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Sticky.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Droog.value, 
+                        lambda state: CanDive(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.W5L2Droog.value, 
+                        lambda state: (CanDive(state, self) or HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    # Caverns
+    connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AELocation.W5L2Gash.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.FR_CAVERNS_WATER.value, AELocation.W5L2Kundra.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.FR_CAVERNS_WATER.value, AELocation.W5L2Shadow.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.FR_CAVERNS_WATER.value, AELocation.W5L2Shadow.value, 
+                        lambda state: HasNet(state, self))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.FR_ENTRY_CAVERNS.value, AELocation.Coin30.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+        else:
+            connect_regions(self, AEDoor.FR_ENTRY_CAVERNS.value, AELocation.Coin30.value, 
+                            lambda state: True)
+        connect_regions(self, AEDoor.FR_WATER_CAVERNS.value, AELocation.Coin31.value, 
+                        lambda state: CanDive(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AELocation.Coin32.value, 
+                            lambda state: CanSwim(state, self) or HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AELocation.Coin32.value, 
+                            lambda state: True)
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.FR_CAVERNS_ENTRY.value, AELocation.Mailbox46.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Hot Springs
+    # Entry
+    connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.W5L3Punky.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.W5L3Ameego.value, 
+                        lambda state: CanDive(state, self) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.W5L3Yoky.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.W5L3Yoky.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.W5L3Jory.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.W5L3Jory.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.HS_ENTRY_HOT_SPRING.value, AELocation.W5L3Yoky.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.HS_ENTRY_HOT_SPRING.value, AELocation.W5L3Jory.value, 
+                        lambda state: HasNet(state, self))
+    # Onsen
+    connect_regions(self, AEDoor.HS_HOT_SPRING.value, AELocation.W5L3Crank.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.HS_HOT_SPRING.value, AELocation.W5L3Claxter.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.HS_HOT_SPRING.value, AELocation.W5L3Looza.value, 
+                        lambda state: HasNet(state, self))
+    # Polar Bear
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.W5L3Roti.value, 
+                        lambda state: CanHitMultiple(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.W5L3Roti.value, 
+                        lambda state: (CanHitMultiple(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.HS_POLAR_BEAR_CAVE.value)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.W5L3Dissa.value, 
+                        lambda state: CanHitMultiple(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.W5L3Dissa.value, 
+                        lambda state: (CanHitMultiple(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.HS_POLAR_BEAR_CAVE.value)) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.HS_HOT_SPRING.value, AELocation.Coin34.value, 
+                        lambda state: True)
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.Coin35.value, 
+                            lambda state: CanHitMultiple(state, self))
+        else:
+            connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.Coin35.value, 
+                            lambda state: CanHitMultiple(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.HS_POLAR_BEAR_CAVE.value))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.HS_ENTRY.value, AELocation.Mailbox47.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and CanHitOnce(state, self))
+        connect_regions(self, AEDoor.HS_HOT_SPRING.value, AELocation.Mailbox48.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.HS_POLAR_BEAR_CAVE.value, AELocation.Mailbox49.value, 
+                        lambda state: True)
+
+    # Gladiator Attack
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.GA_ENTRY.value, AEDoor.GA_COMPLETE.value, 
+                        lambda state: HasFlyer(state, self))
+
+    # Sushi Temple
+    # Entry
+    connect_regions(self, AEDoor.ST_ENTRY.value, AELocation.W7L1Taku.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ST_ENTRY.value, AELocation.W7L1Rocka.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ST_ENTRY.value, AELocation.W7L1Maralea.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.ST_ENTRY.value, AELocation.W7L1Wog.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.ST_ENTRY.value, AELocation.W7L1Wog.value, 
+                        lambda state: (HasSling(state, self) or HasClub(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    # Temple
+    connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Mayi.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Owyang.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Long.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Elly.value, 
+                        lambda state: HasFlyer(state, self) and (HasHoop(state, self) or HasSling(state, self) or HasRC(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Elly.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Chunky.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.W7L1Chunky.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    # Well
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.ST_WELL.value, AELocation.W7L1Voti.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.ST_WELL.value, AELocation.W7L1Voti.value, 
+                        lambda state: (HasSling(state, self) or (HasHoop(state, self) and HasFlyer(state, self)) or SuperFlyer(state, self, AEDoor.ST_WELL.value)) and HasNet(state, self))
+    connect_regions(self, AEDoor.ST_WELL.value, AELocation.W7L1QuelTin.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.ST_WELL.value, AELocation.W7L1Phaldo.value, 
+                        lambda state: HasNet(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.ST_ENTRY.value, AELocation.Coin37.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.Coin38.value, 
+                        lambda state: True)
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.ST_WELL.value, AELocation.Coin39.value, 
+                            lambda state: HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.ST_WELL.value, AELocation.Coin39.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.Mailbox50.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.ST_TEMPLE.value, AELocation.Mailbox51.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.ST_WELL.value, AELocation.Mailbox52.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # Wabi Sabi Wall
+    # Entry
+    connect_regions(self, AEDoor.WSW_ENTRY_GONG.value, AELocation.W7L2Minky.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.WSW_ENTRY_GONG.value, AELocation.W7L2Zobbro.value, 
+                        lambda state: HasNet(state, self))
+    # Gong
+    connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AELocation.W7L2Xeeto.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AELocation.W7L2Moops.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AELocation.W7L2Zanabi.value, 
+                        lambda state: HasNet(state, self))
+    # Middle
+    connect_regions(self, AEDoor.WSW_MIDDLE_OBSTACLE.value, AELocation.W7L2Doxs.value, 
+                        lambda state: HasNet(state, self))
+    # Obstacle Course
+    connect_regions(self, AEDoor.WSW_OBSTACLE_BARREL.value, AELocation.W7L2Buddha.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AELocation.W7L2Fooey.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AELocation.W7L2Fooey.value, 
+                        lambda state: (HasSling(state, self) or HasRC(state, self)) and HasNet(state, self))
+    # Barrel
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AELocation.W7L2Kong.value, 
+                        lambda state: (HasFlyer(state, self) or HasSling(state, self) or (HasHoop(state, self) and (HasClub(state, self) or HasPunch(state, self)))) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AELocation.W7L2Kong.value, 
+                        lambda state: (HasFlyer(state, self) or HasSling(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AELocation.W7L2Phool.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AELocation.W7L2Phool.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.WSW_ENTRY_GONG.value, AELocation.Coin40.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AELocation.Coin41.value, 
+                        lambda state: HasNet(state, self))
+        if self.options.logic == "normal" or self.options.logic == "hard":
+            connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AELocation.Coin44.value, 
+                            lambda state: HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.WSW_BARREL_OBSTACLE.value, AELocation.Coin44.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.WSW_GONG_ENTRY.value, AELocation.Mailbox53.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.WSW_MIDDLE_GONG.value, AELocation.Mailbox54.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.WSW_MIDDLE_OBSTACLE.value, AELocation.Mailbox55.value, 
+                        lambda state: CanHitOnce(state, self))
+        connect_regions(self, AEDoor.WSW_OBSTACLE_MIDDLE.value, AELocation.Mailbox56.value, 
+                        lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
+
+    # Crumbling Castle
+    # Outside
+    connect_regions(self, AEDoor.CC_ENTRY.value, AELocation.W7L3Robart.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY.value, AELocation.W7L3Igor.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY.value, AELocation.W7L3Naners.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY_BELL.value, AELocation.W7L3Neeners.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_ENTRY_BELL.value, AELocation.W7L3Charles.value, 
+                        lambda state: HasPunch(state, self) and HasNet(state, self))
+    # Castle
+    connect_regions(self, AEDoor.CC_CASTLEMAINTHRONEROOM.value, AELocation.W7L3Gustav.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_CASTLEMAINTHRONEROOM.value, AELocation.W7L3Wilhelm.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_CASTLEMAINTHRONEROOM.value, AELocation.W7L3Emmanuel.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_CASTLEMAINTHRONEROOM.value, AELocation.W7L3SirCutty.value, 
+                        lambda state: HasNet(state, self))
+    # Waterway
+    connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AELocation.W7L3Calligan.value, 
+                        lambda state: (HasPunch(state, self) or CanDive(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AELocation.W7L3Castalist.value, 
+                        lambda state: CanDive(state, self) and HasWaterNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AELocation.W7L3Deveneom.value, 
+                        lambda state: HasWaterNet(state, self) or (HasNet(state, self) and CanSwim(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AELocation.W7L3Deveneom.value, 
+                        lambda state: HasWaterNet(state, self) or (HasNet(state, self) and (HasFlyer(state, self) or CanSwim(state, self))))
+    else:
+        connect_regions(self, AEDoor.CC_BASEMENT_ELEVATOR.value, AELocation.W7L3Deveneom.value, 
+                        lambda state: HasWaterNet(state, self) or (HasNet(state, self) and (HasFlyer(state, self) or IJ(state, self) or CanSwim(state, self))))
+    connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_DOWN.value, AELocation.W7L3Deveneom.value,
+                        lambda state: (HasNet(state, self) or HasWaterNet(state, self)))
+    # Button Room
+    connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_WATER.value, AELocation.W7L3Astur.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_WATER.value, AELocation.W7L3Kilserack.value, 
+                        lambda state: HasNet(state, self) or (HasWaterNet(state, self) and CanDive(state, self)))
+    # Elevator
+    connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AELocation.W7L3Ringo.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AELocation.W7L3Densil.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AELocation.W7L3Figero.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AELocation.W7L3Figero.value, 
+                        lambda state: HasNet(state, self))
+    # Bell Tower
+    connect_regions(self, AEDoor.CC_BELL_ENTRY.value, AELocation.W7L3Fej.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CC_BELL_ENTRY.value, AELocation.W7L3Joey.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CC_BELL_ENTRY.value, AELocation.W7L3Joey.value, 
+                        lambda state: (HasHoop(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CC_BELL_ENTRY.value, AELocation.W7L3Joey.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CC_BELL_CASTLE.value, AELocation.W7L3Donqui.value, 
+                        lambda state: HasNet(state, self))
+    # Boss Room
+    connect_regions(self, AEDoor.CC_BOSS_ROOM.value, AELocation.Boss73.value, 
+                        lambda state: CanHitMultiple(state, self))
+    
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.CC_ENTRY_BELL.value, AELocation.Coin45.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.CC_CASTLEMAINTHRONEROOM.value, AELocation.Coin46.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.CC_BUTTON_BASEMENT_WATER.value, AELocation.Coin49.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.CC_ELEVATOR_CASTLEMAIN.value, AELocation.Coin50.value, 
+                        lambda state: True)
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.CC_ENTRY.value, AELocation.Mailbox57.value, 
+                        lambda state: CanHitOnce(state, self))
+
+    # City Park
+    # Outside
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.W8L1Kaine.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.W8L1Kaine.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.W8L1Jaxx.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.W8L1Gehry.value, 
+                        lambda state: IJ(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.W8L1Gehry.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.W8L1Alcatraz.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CP_OUTSIDE_BARREL.value, AELocation.W8L1Gehry.value, 
+                        lambda state: CanDive(state, self) and HasNet(state, self))
+    # Front Sewer
+    connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.W8L1Tino.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.W8L1QBee.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.W8L1QBee.value, 
+                        lambda state: (HasRC(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value)) and HasNet(state, self))
+    connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.W8L1McManic.value, 
+                        lambda state: (HasRC(state, self) or HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.W8L1QBee.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.W8L1QBee.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.W8L1McManic.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self)) and HasRC(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.W8L1McManic.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.W8L1McManic.value, 
+                        lambda state: (HasRC(state, self) or IJ(state, self) or (HasHoop(state, self) and HasFlyer(state, self))) and HasNet(state, self))
+    # Back Sewer
+    connect_regions(self, AEDoor.CP_BARREL_SEWERS_FRONT.value, AELocation.W8L1Dywan.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1CKHutch.value, 
+                        lambda state: CanDive(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1Winky.value, 
+                        lambda state: HasNet(state, self) or (CanDive(state, self) and HasWaterNet(state, self)))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1BLuv.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1BLuv.value, 
+                        lambda state: (CanSwim(state, self) or HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1Camper.value, 
+                        lambda state: CanDive(state, self) and (HasWaterNet(state, self) or HasNet(state, self)))
+    else:
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1Camper.value, 
+                        lambda state: (CanDive(state, self) and (HasWaterNet(state, self) or HasNet(state, self))) or ((IJ(state, self) or SuperFlyer(state, self, AEDoor.CP_BARRELSEWERMIDDLE.value)) and HasRC(state, self) and HasNet(state, self)))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1Huener.value, 
+                        lambda state: CanSwim(state, self) and HasFlyer(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1Huener.value, 
+                        lambda state: (CanSwim(state, self) or HasHoop(state, self)) and HasFlyer(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.W8L1Huener.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.Coin53.value, 
+                            lambda state: IJ(state, self))
+        else:
+            connect_regions(self, AEDoor.CP_ENTRY.value, AELocation.Coin53.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+        connect_regions(self, AEDoor.CP_OUTSIDE_BARREL.value, AELocation.Coin53.value, 
+                        lambda state: CanDive(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.Coin54.value, 
+                            lambda state: HasRC(state, self))
+        elif self.options.logic == "hard":
+            connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.Coin54.value, 
+                            lambda state: HasRC(state, self) or IJ(state, self))
+        else:
+            connect_regions(self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value, AELocation.Coin54.value, 
+                            lambda state: HasRC(state, self) or IJ(state, self) or (SuperFlyer(state, self, AEDoor.CP_SEWERSFRONT_OUTSIDE.value)))
+        if self.options.logic == "normal" or self.options.logic == "hard":
+            connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.Coin54.value, 
+                            lambda state: HasRC(state, self))
+        else:
+            connect_regions(self, AEDoor.CP_SEWERSFRONT_BARREL.value, AELocation.Coin54.value, 
+                            lambda state: (HasRC(state, self) or IJ(state, self) or (HasHoop(state, self) and HasFlyer(state, self))))
+        connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.Coin55.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+
+    # Specter's Factory
+    # Outside
+    connect_regions(self, AEDoor.SF_ENTRY.value, AELocation.W8L2BigShow.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.SF_OUTSIDE_FACTORY.value, AELocation.W8L2Dreos.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_OUTSIDE_FACTORY.value, AELocation.W8L2BigShow.value, 
+                        lambda state: (HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SF_OUTSIDE_FACTORY.value, AELocation.W8L2BigShow.value, 
+                        lambda state: HasNet(state, self))
+    # Factory
+    connect_regions(self, AEDoor.SF_FACTORY_WHEEL_TOP.value, AELocation.W8L2Reznor.value, 
+                        lambda state: HasNet(state, self))
+    # Car Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_RC_CAR_FACTORY.value, AELocation.W8L2Urkel.value, 
+                        lambda state: (HasRC(state, self) or HasPunch(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SF_RC_CAR_FACTORY.value, AELocation.W8L2Urkel.value, 
+                        lambda state: (HasRC(state, self) or HasPunch(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.SF_RC_CAR_FACTORY.value) or (HasHoop(state, self) and HasFlyer(state, self))) and HasNet(state, self))
+    # Lava Room
+    connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.W8L2VanillaS.value, 
+                        lambda state: HasPunch(state, self) and HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "expert":
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.W8L2Radd.value, 
+                        lambda state: CanHitWheel(state, self) and HasNet(state, self))
+    else: # This is correct as CanHitWheel includes Flyer only on expert, making hard the unique.
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.W8L2Radd.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.W8L2Shimbo.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.W8L2Shimbo.value, 
+                        lambda state: (HasRC(state, self) or HasSling(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.W8L2Shimbo.value, 
+                        lambda state: HasNet(state, self))
+    # Conveyor Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AELocation.W8L2Hurt.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AELocation.W8L2Hurt.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self) or HasSling(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AELocation.W8L2Hurt.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self) or HasSling(state, self) or HasHoop(state, self) or HasRC(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.SF_CONVEYOR_LAVA.value, AELocation.W8L2String.value, 
+                        lambda state: HasNet(state, self))
+    # Mech Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.SF_MECH_FACTORY.value, AELocation.W8L2Khamo.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.SF_MECH_FACTORY.value, AELocation.W8L2Khamo.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self) or HasSling(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.SF_MECH_FACTORY.value, AELocation.W8L2Khamo.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self) or HasSling(state, self) or HasHoop(state, self) or HasRC(state, self)) and HasNet(state, self))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.SF_RC_CAR_FACTORY.value, AELocation.Coin58.value, 
+                            lambda state: HasRC(state, self) or HasPunch(state, self) or IJ(state, self))
+        else:
+            connect_regions(self, AEDoor.SF_RC_CAR_FACTORY.value, AELocation.Coin58.value, 
+                            lambda state: HasRC(state, self) or HasPunch(state, self) or IJ(state, self) or SuperFlyer(state, self, AEDoor.SF_RC_CAR_FACTORY.value) or (HasHoop(state, self) and HasFlyer(state, self)))
+        if self.options.logic == "normal" or self.options.logic == "expert": # CanHitWheel includes Flyer on expert.
+            connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.Coin59.value, 
+                            lambda state: CanHitWheel(state, self))
+        else:
+            connect_regions(self, AEDoor.SF_LAVA_MECH.value, AELocation.Coin59.value, 
+                            lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.SF_ENTRY.value, AELocation.Mailbox58.value, 
+                        lambda state: True)
+
+    # TV Tower
+    # Outside
+    connect_regions(self, AEDoor.TVT_ENTRY.value, AELocation.W8L3Fredo.value, 
+                        lambda state: HasPunch(state, self) and HasNet(state, self))
+    # Basement
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.W8L3Charlee.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.W8L3Charlee.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.W8L3Mach3.value, 
+                        lambda state: HasNet(state, self))
+    # Lobby
+    connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AELocation.W8L3Tortuss.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AELocation.W8L3Manic.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AELocation.W8L3Manic.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self) or HasHoop(state, self) and HasNet(state, self)))
+    # Tank
+    connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AELocation.W8L3Ruptdis.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AELocation.W8L3Eighty7.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.TVT_TANK_FAN.value, AELocation.W8L3Danio.value, 
+                        lambda state: HasNet(state, self))
+    # Fan
+    connect_regions(self, AEDoor.TVT_FAN_TANK.value, AELocation.W8L3Roosta.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.TVT_FAN_TANK.value, AELocation.W8L3Tellis.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.TVT_FAN_TANK.value, AELocation.W8L3Whack.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    connect_regions(self, AEDoor.TVT_FAN_TANK.value, AELocation.W8L3Frostee.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    # Boss
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.TVT_BOSS_TANK.value, AELocation.Boss83.value, 
+                        lambda state: HasSling(state, self))
+    else:
+        connect_regions(self, AEDoor.TVT_BOSS_TANK.value, AELocation.Boss83.value, 
+                        lambda state: HasSling(state, self) or (HasFlyer(state, self) and HasRC(state, self)))
+    
+    if self.options.coin == "true":
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.Coin64.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+        else:
+            connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.Coin64.value, 
+                            lambda state: HasFlyer(state, self) or HasHoop(state, self) or IJ(state, self))
+        connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AELocation.Coin66.value, 
+                        lambda state: True)
+
+    # Monkey Madness
+    # Coaster (multiple rooms)
+    connect_regions(self, AEDoor.MM_COASTER_ENTRY_SL_HUB.value, AELocation.W9L1Goopo.value, 
+                        lambda state: HasNet(state, self))
+    # Haunted House
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_HAUNTED_HOUSE_DISEMBARK.value, AELocation.W9L1Porto.value, 
+                        lambda state: (CanHitMultiple(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_HAUNTED_HOUSE_DISEMBARK.value, AELocation.W9L1Porto.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    # Coffin Room
+    connect_regions(self, AEDoor.MM_COFFIN_HAUNTED_HOUSE.value, AELocation.W9L1Slam.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.MM_COFFIN_HAUNTED_HOUSE.value, AELocation.W9L1Junk.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.MM_COFFIN_HAUNTED_HOUSE.value, AELocation.W9L1Crib.value, 
+                        lambda state: HasNet(state, self))
+    # Circus
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_CIRCUS_SL_HUB.value, AELocation.W9L1Professor.value, 
+                        lambda state: HasFlyer(state, self) and (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_CIRCUS_SL_HUB.value, AELocation.W9L1Professor.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)))
+    else:
+        connect_regions(self, AEDoor.MM_CIRCUS_SL_HUB.value, AELocation.W9L1Professor.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and (CanHitMultiple(state, self) or HasRC(state, self)))
+    # Go Karz
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_GO_KARZ_SL_HUB.value, AELocation.W9L1Jake.value, 
+                        lambda state: HasClub(state, self) or HasPunch(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_GO_KARZ_SL_HUB.value, AELocation.W9L1Jake.value, 
+                        lambda state: CanHitMultiple(state, self))
+    # Western Land
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Nak.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Nak.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Nak.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Cloy.value, 
+                        lambda state: HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Shaw.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Shaw.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Shaw.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Flea.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Flea.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.W9L1Flea.value, 
+                        lambda state: (HasSling(state, self) or HasHoop(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    # Crater
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_CRATER_SL_HUB.value, AELocation.W9L1Schafette.value, 
+                        lambda state: HasFlyer(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_CRATER_SL_HUB.value, AELocation.W9L1Schafette.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_CRATER_SL_HUB.value, AELocation.W9L1Schafette.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self) or HasHoop(state, self)) and HasNet(state, self))
+    # Castle Outside
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AELocation.W9L1Donovan.value, 
+                        lambda state: state.has("MM-UFOs", self.player, 1) and HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AELocation.W9L1Donovan.value, 
+                        lambda state: state.has("MM-UFOs", self.player, 1) and (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AELocation.W9L1Laura.value, 
+                        lambda state: state.has("MM-UFOs", self.player, 1) and HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AELocation.W9L1Laura.value, 
+                        lambda state: state.has("MM-UFOs", self.player, 1) and (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and HasNet(state, self))
+    # Castle Foyer
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AELocation.W9L1Uribe.value, 
+                        lambda state: HasPunch(state, self) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AELocation.W9L1Gordo.value, 
+                        lambda state: HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AELocation.W9L1Gordo.value, 
+                        lambda state: (HasRC(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AELocation.W9L1Raeski.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AELocation.W9L1Poopie.value, 
+                        lambda state: CanHitOnce(state, self) and HasNet(state, self))
+    # Inside Climb
+    connect_regions(self, AEDoor.MM_INSIDE_CLIMB_CASTLE_MAIN.value, AELocation.W9L1Teacup.value, 
+                        lambda state: HasNet(state, self))
+    connect_regions(self, AEDoor.MM_INSIDE_CLIMB_CASTLE_MAIN.value, AELocation.W9L1Shine.value, 
+                        lambda state: HasNet(state, self))
+    # Space Climb
+    connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AELocation.W9L1Wrench.value, 
+                        lambda state: (HasFlyer(state, self) or IJ(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AELocation.W9L1Bronson.value, 
+                        lambda state: HasFlyer(state, self) and HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AELocation.W9L1Bronson.value, 
+                        lambda state: ((HasFlyer(state, self) and HasRC(state, self)) or IJ(state, self)) and HasNet(state, self))
+    # Monkey Head Room
+    connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Bungee.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carro.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and HasRC(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carro.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and (HasRC(state, self) or HasSling(state, self)) and HasNet(state, self))
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carlito.value, 
+                        lambda state: HasSling(state, self) and HasFlyer(state, self) and HasNet(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carlito.value, 
+                        lambda state: HasClub(state, self) or HasSling(state, self) or HasPunch(state, self) or HasFlyer(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carlito.value, 
+                        lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    # "Warning" Side Room
+    if self.options.logic == "normal":
+        connect_regions(self, AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value, AELocation.W9L1BG.value, 
+                        lambda state: HasSling(state, self) and HasNet(state, self))
+    else:
+        connect_regions(self, AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value, AELocation.W9L1BG.value, 
+                        lambda state: (HasSling(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+    # Specter 1
+    if self.options.logic == "normal" or self.options.logic == "hard":
+        connect_regions(self, AEDoor.MM_SPECTER1_ROOM.value, AELocation.Specter.value, 
+                        lambda state: (HasClub(state, self) or HasPunch(state, self)) and ((self.options.goal != "mmtoken") or Tokens(state, self, min(self.options.requiredtokens, self.options.totaltokens))))
+    else:
+        connect_regions(self, AEDoor.MM_SPECTER1_ROOM.value, AELocation.Specter.value, 
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self)) and ((self.options.goal != "mmtoken") or Tokens(state, self, min(self.options.requiredtokens, self.options.totaltokens))))
+
+    if self.options.coin == "true":
+        connect_regions(self, AEDoor.MM_COASTER1_ENTRY.value, AELocation.Coin73.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.MM_COASTER2_ENTRY.value, AELocation.Coin74.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.MM_HAUNTED_HOUSE_DISEMBARK.value, AELocation.Coin75.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+        connect_regions(self, AEDoor.MM_WESTERN_SL_HUB.value, AELocation.Coin77.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.MM_CRATER_OUTSIDE_CASTLE.value, AELocation.Coin78.value, 
+                        lambda state: HasFlyer(state, self) or IJ(state, self))
+        connect_regions(self, AEDoor.MM_OUTSIDE_CASTLE_CRATER.value, AELocation.Coin79.value, 
+                        lambda state: True)
+        connect_regions(self, AEDoor.MM_CASTLE_MAIN_OUTSIDE_CASTLE.value, AELocation.Coin80.value, 
+                        lambda state: CanHitOnce(state, self))
+        if self.options.logic == "normal" or self.options.logic == "hard":
+            connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AELocation.Coin82.value, 
+                            lambda state: HasFlyer(state, self) and HasRC(state, self))
+        else:
+            connect_regions(self, AEDoor.MM_OUTSIDE_CLIMB_INSIDE_CLIMB.value, AELocation.Coin82.value, 
+                            lambda state: (HasFlyer(state, self) and HasRC(state, self)) or IJ(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.Coin84.value, 
+                            lambda state: HasSling(state, self) and HasFlyer(state, self))
+        elif self.options.logic == "hard":
+            connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.Coin84.value, 
+                            lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+        else:
+            connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.Coin84.value, 
+                            lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
+        if self.options.logic == "normal":
+            connect_regions(self, AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value, AELocation.Coin85.value, 
+                            lambda state: HasFlyer(state, self))
+        else:
+            connect_regions(self, AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value, AELocation.Coin85.value, 
+                            lambda state: HasFlyer(state, self) or IJ(state, self))
+    if self.options.mailbox == "true":
+        connect_regions(self, AEDoor.MM_COASTER_ENTRY_SL_HUB.value, AELocation.Mailbox59.value, 
+                        lambda state: True)
+
+    # Peak Point Matrix
+    if self.options.goal != "mm":
+        connect_regions(self, AEDoor.PPM_ENTRY.value, AELocation.Specter2.value, 
+                        lambda state: HasSling(state, self) and (HasClub(state, self) or HasHoop(state, self) or HasPunch(state, self)) and HasNet(state, self))
+
+
+# Item Checking Helper Functions
+def Keys(state, world, count):
+    return state.has(AEItem.Key.value, world.player, count)
+
+
+def Tokens(state, world, count):
+    # Check to see if the settings would create tokens at all.
+    if world.options.goal == "mm" or world.options.goal == "ppm":
+        return True
+
+    return state.has(AEItem.Token.value, world.player, count)
+
+
+def HasClub(state, world):
+    return state.has(AEItem.Club.value, world.player, 1)
+
+
+def HasNet(state, world):
+    return state.has(AEItem.Net.value, world.player, 1)
+
+
+def HasRadar(state, world):
+    return state.has(AEItem.Radar.value, world.player, 1)
+
+
+def HasSling(state, world):
+    return state.has(AEItem.Sling.value, world.player, 1)
+
+
+def HasHoop(state, world):
+    return state.has(AEItem.Hoop.value, world.player, 1)
+
+
+def HasFlyer(state, world):
+    return state.has(AEItem.Flyer.value, world.player, 1)
+
+
+def HasRC(state, world):
+    return state.has(AEItem.Car.value, world.player, 1)
+
+
+def HasPunch(state, world):
+    return state.has(AEItem.Punch.value, world.player, 1)
+
+
+def CanSwim(state, world):
+    return (state.has(AEItem.WaterNet.value, world.player, 1) or state.has(AEItem.ProgWaterNet.value, world.player, 1))
+
+
+def CanDive(state, world):
+    return (state.has(AEItem.WaterNet.value, world.player, 1) or state.has(AEItem.ProgWaterNet.value, world.player, 2))
+
+
+# Logic Helper Functions
+def HasWaterNet(state, world): # CanSwim + CanWaterCatch together
+    return (state.has(AEItem.WaterNet.value, world.player, 1) or (state.has(AEItem.WaterCatch.value, world.player, 1) and state.has(AEItem.ProgWaterNet.value, world.player, 1)))
+
+
+def CanHitOnce(state, world):
+    return HasClub(state, world) or HasRadar(state, world) or HasSling(state, world) or HasHoop(state, world) or HasFlyer(state, world) or HasRC(state, world) or HasPunch(state, world)
+
+
+def CanHitMultiple(state, world):
+    if world.options.logic == "normal":
+        return HasClub(state, world) or HasSling(state, world) or HasPunch(state, world)
+    else:
+        return HasClub(state, world) or HasSling(state, world) or HasHoop(state, world) or HasPunch(state, world)
+
+
+def CanHitWheel(state, world):
+    if world.options.logic == "normal" or world.options.logic == "hard":
+        return CanHitMultiple(state, world)
+    else:
+        return CanHitMultiple(state, world) or HasFlyer(state, world) or HasRC(state, world)
+
+
+def SuperFlyer(state, world, region):
+    # If the option is off, Super Flyer is not in logic.
+    if world.options.superflyer == "false":
+        return False
+
+    # If the difficulty is normal, Super Flyer is never in logic.
+    if world.options.logic == "normal":
+        return False
+
+    # If the player does not have the required gadgets, Super Flyer is unavailable.
+    if (HasFlyer(state, world) and (HasNet(state, world) or HasClub(state, world) or HasSling(state, world) or HasPunch(state, world))) == False:
+        return False
+
+    # If the player can reach this location without activating the Flyer, Super Flyer is available. To check for this, we check for the ability to access this region on a modified CollectionState. The Radar conveniently has the same ground pound properties as the Flyer while introducing no new access, and so replacing the Flyer with the Radar in this state serves as a valid check.
+    teststate = CollectionState(world.multiworld)
+    teststate.remove(world.create_item(AEItem.Flyer.value))
+    teststate.collect(world.create_item(AEItem.Radar.value), prevent_sweep = True)
+    return world.get_region(region).can_reach(teststate)
+
+
+def IJ(state, world):
+    return HasSling(state, world) and world.options.infinitejump == "true"
+
+
+# Lamp and Door Functions
+def MM_DoubleDoor(state, world):
+    return state.has(AEItem.MM_DoubleDoorKey.value, world.player, 1)
+
+
+def CB_Lamp(state, world):
+    if state.has(AEItem.CB_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("CB Monkey", world.player, 3) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W4L1CoolBlue.value, AELocation.W4L1Sandy.value, AELocation.W4L1ShellE.value, AELocation.W4L1Gidget.value, AELocation.W4L1Shaka.value, AELocation.W4L1MaxMahalo.value, AELocation.W4L1Moko.value, AELocation.W4L1Puka.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 3
+
+
+def DI_Lamp(state, world):
+    if state.has(AEItem.DI_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("DI Monkey", world.player, 5) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W4L3Stuw.value, AELocation.W4L3TonTon.value, AELocation.W4L3Murky.value, AELocation.W4L3Howeerd.value, AELocation.W4L3Robbin.value, AELocation.W4L3Jakkee.value, AELocation.W4L3Frederic.value, AELocation.W4L3Baba.value, AELocation.W4L3Mars.value, AELocation.W4L3Horke.value, AELocation.W4L3Quirck.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 5
+
+
+def CRC_Lamp(state, world):
+    if state.has(AEItem.CrC_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("CrC Monkey", world.player, 5) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W7L3Naners.value, AELocation.W7L3Robart.value, AELocation.W7L3Neeners.value, AELocation.W7L3Gustav.value, AELocation.W7L3Wilhelm.value, AELocation.W7L3Emmanuel.value, AELocation.W7L3SirCutty.value, AELocation.W7L3Calligan.value, AELocation.W7L3Castalist.value, AELocation.W7L3Deveneom.value, AELocation.W7L3Igor.value, AELocation.W7L3Charles.value, AELocation.W7L3Astur.value, AELocation.W7L3Kilserack.value, AELocation.W7L3Ringo.value, AELocation.W7L3Densil.value, AELocation.W7L3Figero.value, AELocation.W7L3Fej.value, AELocation.W7L3Joey.value, AELocation.W7L3Donqui.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 5
+
+
+def CP_Lamp(state, world):
+    if state.has(AEItem.CP_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("CP Monkey", world.player, 3) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W8L1Kaine.value, AELocation.W8L1Jaxx.value, AELocation.W8L1Gehry.value, AELocation.W8L1Alcatraz.value, AELocation.W8L1Tino.value, AELocation.W8L1QBee.value, AELocation.W8L1McManic.value, AELocation.W8L1Dywan.value, AELocation.W8L1CKHutch.value, AELocation.W8L1Winky.value, AELocation.W8L1BLuv.value, AELocation.W8L1Camper.value, AELocation.W8L1Huener.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 3
+
+
+def SF_Lamp(state, world):
+    if state.has(AEItem.SF_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("SF Monkey", world.player, 3) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W8L2BigShow.value, AELocation.W8L2Dreos.value, AELocation.W8L2Reznor.value, AELocation.W8L2Urkel.value, AELocation.W8L2VanillaS.value, AELocation.W8L2Radd.value, AELocation.W8L2Shimbo.value, AELocation.W8L2Hurt.value, AELocation.W8L2String.value, AELocation.W8L2Khamo.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 3
+
+
+def TVT_Lobby_Lamp(state, world):
+    if state.has(AEItem.TVT_Lobby_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("TVT Monkey", world.player, 3) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W8L3Fredo.value, AELocation.W8L3Charlee.value, AELocation.W8L3Mach3.value, AELocation.W8L3Tortuss.value, AELocation.W8L3Manic.value, AELocation.W8L3Ruptdis.value, AELocation.W8L3Eighty7.value, AELocation.W8L3Danio.value, AELocation.W8L3Roosta.value, AELocation.W8L3Tellis.value, AELocation.W8L3Whack.value, AELocation.W8L3Frostee.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 3
+
+
+def TVT_Tank_Lamp(state, world):
+    if state.has(AEItem.TVT_Tank_Lamp.value, world.player, 1):
+        return True
+
+    return state.has("TVT Monkey", world.player, 6) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W8L3Fredo.value, AELocation.W8L3Charlee.value, AELocation.W8L3Mach3.value, AELocation.W8L3Tortuss.value, AELocation.W8L3Manic.value, AELocation.W8L3Ruptdis.value, AELocation.W8L3Eighty7.value, AELocation.W8L3Danio.value, AELocation.W8L3Roosta.value, AELocation.W8L3Tellis.value, AELocation.W8L3Whack.value, AELocation.W8L3Frostee.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 6
+
+
+def MM_Lamp(state, world):
+    if state.has(AEItem.MM_Lamp.value, world.player, 1):
+        return True
+
+    # TODO: check exactly which monkeys apply to this lamp.
+    return state.has("MM UFO Monkey", world.player, 2) and world.options.lamp == "false"
+
+#    locs_to_check = [AELocation.W9L1Donovan.value, AELocation.W9L1Laura.value]
+#    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+#    return locs_accessible >= 2
+
+
+def HasAllMonkeys(state, world):
+# ''' Event item checking - floods spoiler logs. NOTE: Add "# " to the beginning to uncomment.
+    return (state.has("FF Monkey", world.player, 4) and state.has("PO Monkey", world.player, 4)
+        and state.has("ML Monkey", world.player, 7) and state.has("TJ Monkey", world.player, 14)
+        and state.has("DR Monkey", world.player, 13) and state.has("CR Monkey", world.player, 8)
+        and state.has("CB Monkey", world.player, 8) and state.has("CoC Monkey", world.player, 8)
+        and state.has("DI Monkey", world.player, 11) and state.has("SM Monkey", world.player, 6)
+        and state.has("FR Monkey", world.player, 9) and state.has("HS Monkey", world.player, 9)
+        and state.has("ST Monkey", world.player, 12) and state.has("WSW Monkey", world.player, 10)
+        and state.has("CrC Monkey", world.player, 20) and state.has("CP Monkey", world.player, 13)
+        and state.has("SF Monkey", world.player, 10) and state.has("TVT Monkey", world.player, 12)
+        and state.has("MM Monkey", world.player, 24))
+'''
+# '''
+
+''' can_reach checking - seems to error out sometimes. NOTE: Add "# " to the beginning to uncomment.
+    locs_to_check = [
+    AELocation.W1L1Noonan.value, AELocation.W1L1Jorjy.value, AELocation.W1L1Nati.value,
+    AELocation.W1L1TrayC.value, AELocation.W1L2Shay.value, AELocation.W1L2DrMonk.value,
+    AELocation.W1L2Grunt.value, AELocation.W1L2Ahchoo.value, AELocation.W1L2Gornif.value,
+    AELocation.W1L2Tyrone.value, AELocation.W1L3Scotty.value, AELocation.W1L3Coco.value,
+    AELocation.W1L3JThomas.value, AELocation.W1L3Mattie.value, AELocation.W1L3Barney.value,
+    AELocation.W1L3Rocky.value, AELocation.W1L3Moggan.value, AELocation.W2L1Marquez.value,
+    AELocation.W2L1Livinston.value, AELocation.W2L1George.value, AELocation.W2L1Maki.value,
+    AELocation.W2L1Herb.value, AELocation.W2L1Dilweed.value, AELocation.W2L1Mitong.value,
+    AELocation.W2L1Stoddy.value, AELocation.W2L1Nasus.value, AELocation.W2L1Selur.value,
+    AELocation.W2L1Elehcim.value, AELocation.W2L1Gonzo.value, AELocation.W2L1Alphonse.value,
+    AELocation.W2L1Zanzibar.value, AELocation.W2L2Mooshy.value, AELocation.W2L2Kyle.value,
+    AELocation.W2L2Cratman.value, AELocation.W2L2Nuzzy.value, AELocation.W2L2Mav.value,
+    AELocation.W2L2Stan.value, AELocation.W2L2Bernt.value, AELocation.W2L2Runt.value,
+    AELocation.W2L2Hoolah.value, AELocation.W2L2Papou.value, AELocation.W2L2Kenny.value,
+    AELocation.W2L2Trance.value, AELocation.W2L2Chino.value, AELocation.W2L3Troopa.value,
+    AELocation.W2L3Spanky.value, AELocation.W2L3Stymie.value, AELocation.W2L3Pally.value,
+    AELocation.W2L3Freeto.value, AELocation.W2L3Jesta.value, AELocation.W2L3Bazzle.value,
+    AELocation.W2L3Crash.value, AELocation.W4L1CoolBlue.value, AELocation.W4L1Sandy.value,
+    AELocation.W4L1ShellE.value, AELocation.W4L1Gidget.value, AELocation.W4L1Shaka.value,
+    AELocation.W4L1MaxMahalo.value, AELocation.W4L1Moko.value, AELocation.W4L1Puka.value,
+    AELocation.W4L2Chip.value, AELocation.W4L2Oreo.value, AELocation.W4L2Puddles.value,
+    AELocation.W4L2Kalama.value, AELocation.W4L2Iz.value, AELocation.W4L2Jux.value,
+    AELocation.W4L2BongBong.value, AELocation.W4L2Pickles.value, AELocation.W4L3Stuw.value,
+    AELocation.W4L3TonTon.value, AELocation.W4L3Murky.value, AELocation.W4L3Howeerd.value,
+    AELocation.W4L3Robbin.value, AELocation.W4L3Jakkee.value, AELocation.W4L3Frederic.value,
+    AELocation.W4L3Baba.value, AELocation.W4L3Mars.value, AELocation.W4L3Horke.value,
+    AELocation.W4L3Quirck.value, AELocation.W5L1Popcicle.value, AELocation.W5L1Iced.value,
+    AELocation.W5L1Denggoy.value, AELocation.W5L1Skeens.value, AELocation.W5L1Rickets.value,
+    AELocation.W5L1Chilly.value, AELocation.W5L2Storm.value, AELocation.W5L2Qube.value,
+    AELocation.W5L2Gash.value, AELocation.W5L2Kundra.value, AELocation.W5L2Shadow.value,
+    AELocation.W5L2Ranix.value, AELocation.W5L2Sticky.value, AELocation.W5L2Sharpe.value,
+    AELocation.W5L2Droog.value, AELocation.W5L3Punky.value, AELocation.W5L3Ameego.value,
+    AELocation.W5L3Roti.value, AELocation.W5L3Dissa.value, AELocation.W5L3Yoky.value,
+    AELocation.W5L3Jory.value, AELocation.W5L3Crank.value, AELocation.W5L3Claxter.value,
+    AELocation.W5L3Looza.value, AELocation.W7L1Taku.value, AELocation.W7L1Rocka.value,
+    AELocation.W7L1Maralea.value, AELocation.W7L1Wog.value, AELocation.W7L1Long.value,
+    AELocation.W7L1Mayi.value, AELocation.W7L1Owyang.value, AELocation.W7L1QuelTin.value,
+    AELocation.W7L1Phaldo.value, AELocation.W7L1Voti.value, AELocation.W7L1Elly.value,
+    AELocation.W7L1Chunky.value, AELocation.W7L2Minky.value, AELocation.W7L2Zobbro.value,
+    AELocation.W7L2Xeeto.value, AELocation.W7L2Moops.value, AELocation.W7L2Zanabi.value,
+    AELocation.W7L2Buddha.value, AELocation.W7L2Fooey.value, AELocation.W7L2Doxs.value,
+    AELocation.W7L2Kong.value, AELocation.W7L2Phool.value, AELocation.W7L3Naners.value,
+    AELocation.W7L3Robart.value, AELocation.W7L3Neeners.value, AELocation.W7L3Gustav.value,
+    AELocation.W7L3Wilhelm.value, AELocation.W7L3Emmanuel.value, AELocation.W7L3SirCutty.value,
+    AELocation.W7L3Calligan.value, AELocation.W7L3Castalist.value, AELocation.W7L3Deveneom.value,
+    AELocation.W7L3Igor.value, AELocation.W7L3Charles.value, AELocation.W7L3Astur.value,
+    AELocation.W7L3Kilserack.value, AELocation.W7L3Ringo.value, AELocation.W7L3Densil.value,
+    AELocation.W7L3Figero.value, AELocation.W7L3Fej.value, AELocation.W7L3Joey.value,
+    AELocation.W7L3Donqui.value, AELocation.W8L1Kaine.value, AELocation.W8L1Jaxx.value,
+    AELocation.W8L1Gehry.value, AELocation.W8L1Alcatraz.value, AELocation.W8L1Tino.value,
+    AELocation.W8L1QBee.value, AELocation.W8L1McManic.value, AELocation.W8L1Dywan.value,
+    AELocation.W8L1CKHutch.value, AELocation.W8L1Winky.value, AELocation.W8L1BLuv.value,
+    AELocation.W8L1Camper.value, AELocation.W8L1Huener.value, AELocation.W8L2BigShow.value,
+    AELocation.W8L2Dreos.value, AELocation.W8L2Reznor.value, AELocation.W8L2Urkel.value,
+    AELocation.W8L2VanillaS.value, AELocation.W8L2Radd.value, AELocation.W8L2Shimbo.value,
+    AELocation.W8L2Hurt.value, AELocation.W8L2String.value, AELocation.W8L2Khamo.value, 
+    AELocation.W8L3Fredo.value, AELocation.W8L3Charlee.value, AELocation.W8L3Mach3.value,
+    AELocation.W8L3Tortuss.value, AELocation.W8L3Manic.value, AELocation.W8L3Ruptdis.value,
+    AELocation.W8L3Eighty7.value, AELocation.W8L3Danio.value, AELocation.W8L3Roosta.value,
+    AELocation.W8L3Tellis.value, AELocation.W8L3Whack.value, AELocation.W8L3Frostee.value,
+    AELocation.W9L1Goopo.value, AELocation.W9L1Porto.value, AELocation.W9L1Slam.value,
+    AELocation.W9L1Junk.value, AELocation.W9L1Crib.value, AELocation.W9L1Nak.value,
+    AELocation.W9L1Cloy.value, AELocation.W9L1Shaw.value, AELocation.W9L1Flea.value,
+    AELocation.W9L1Schafette.value, AELocation.W9L1Donovan.value, AELocation.W9L1Laura.value,
+    AELocation.W9L1Uribe.value, AELocation.W9L1Gordo.value, AELocation.W9L1Raeski.value,
+    AELocation.W9L1Poopie.value, AELocation.W9L1Teacup.value, AELocation.W9L1Shine.value,
+    AELocation.W9L1Wrench.value, AELocation.W9L1Bronson.value, AELocation.W9L1Bungee.value,
+    AELocation.W9L1Carro.value, AELocation.W9L1Carlito.value, AELocation.W9L1BG.value
+    ]
+    locs_accessible = CountAccessibleLocations(state, world, locs_to_check)
+
+    return locs_accessible >= 204
+'''
+# '''
+
+
+# Using this method seems to cause race condition errors in playthrough calculation?
+def CountAccessibleLocations(state, world, locs_to_check):
+    locs_accessible = 0
+    for x in range(len(locs_to_check)):
+        if state.can_reach(world.get_region(locs_to_check[x]), "Region", world.player):
+            locs_accessible = locs_accessible + 1
+    return locs_accessible
+
+
+# Entrance Shuffle Helper Functions
+def initialize_level_list():
+    levelnames = ["Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"]
+    levelids = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x14, 0x15, 0x16, 0x18, 0x1E]
+    levellist = []
+    for x in range (0, 22):
+        levellist.append(ApeEscapeLevel(levelnames[x], levelids[x], x))
+    return levellist
+
+
+def level_to_bytes(name):
+    bytelist = []
+    for x in name:
+        bytelist.append(character_lookup(x))
+    return bytelist
+
+
+def character_lookup(byte):
+    if byte.isspace():  # Space
+        return 255
+    if byte.isalpha():
+        return ord(byte) - 49  # Both uppercase and lowercase letters
+    if byte.isdecimal():
+        if int(byte) < 6:
+            return ord(byte) + 58  # 0-5
+        else:
+            return ord(byte) + 68  # 6-9
+    if ord(byte) == 39:  # Single apostrophe
+        return 187
+    if ord(byte) == 46:  # Period
+        return 172
+    if ord(byte) == 47:  # Slash
+        return 141
+    if ord(byte) == 58:  # Colon
+        return 174
+
+
+def fixed_levels(levellist, entoption, coinoption):
+    # Always reset position of Peak Point Matrix
+    for x in range (0, 22):
+        if levellist[x].entrance == 0x1E:
+            levellist[x], levellist[21] = levellist[21], levellist[x]
+    # Reset position of Monkey Madness if the option requires it
+    if entoption == 0x02:
+        for x in range (0, 22):
+            if levellist[x].entrance == 0x18:
+                levellist[x], levellist[20] = levellist[20], levellist[x]
+    # Reset position of races if coin shuffle isn't on
+    if coinoption == 0x00:
+        for x in range (0, 22):
+            if levellist[x].entrance == 0x07: # Stadium Attack
+                levellist[x], levellist[6] = levellist[6], levellist[x]
+        for x in range (0, 22):
+            if levellist[x].entrance == 0x0E: # Gladiator Attack
+                levellist[x], levellist[13] = levellist[13], levellist[x]
+    return levellist
+
+
+def set_calculated_level_data(levellist, keyoption, goaloption, coinoption):
+    reqkeys = get_required_keys(keyoption, goaloption, coinoption)
+    for x in range (0, 22):
+        levellist[x].bytes = level_to_bytes(levellist[x].name)
+        levellist[x].keys = reqkeys[x]
+        levellist[x].newpos = x
+    return levellist
+
+
+def get_required_keys(key, goal, coin):
+    reqkeys = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    if key == 0x03:  # none
+        return reqkeys
+
+    if key == 0x00:  # world
+        reqkeys = [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6]
+    if key == 0x01:  # level
+        reqkeys = [0, 0, 0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 10, 11, 12, 13, 14, 15, 16, 16]
+    if key == 0x02:  # two
+        reqkeys = [0, 0, 0, 1, 1, 2, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 8]
+
+    if goal == 0x02 or goal == 0x03 or goal == 0x04: # If PPM unlocks only by keys, make it unlock later than MM.
+        reqkeys[21] = reqkeys[21] + 1
+
+    if coin == 0x01: # If the races have locations, make everything after them require an extra key for each.
+        for x in range (7, 22):
+            reqkeys[x] = reqkeys[x] + 1
+        for x in range (14, 22):
+            reqkeys[x] = reqkeys[x] + 1
+
+    return reqkeys

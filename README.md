@@ -1,95 +1,196 @@
-# [Archipelago](https://archipelago.gg) ![Discord Shield](https://discordapp.com/api/guilds/731205301247803413/widget.png?style=shield) | [Install](https://github.com/ArchipelagoMW/Archipelago/releases)
+# [MultiworldGG](https://multiworld.gg) ![Discord Shield](https://discordapp.com/api/guilds/244939773121265664/widget.png?style=shield) | [Install](https://github.com/MultiworldGG/MultiworldGG/releases)
 
-Archipelago provides a generic framework for developing multiworld capability for game randomizers. In all cases,
-presently, Archipelago is also the randomizer itself.
+MultiworldGG is a cross-game modification system which randomizes different games, then uses the result to build a single unified multi-player game, or, simpler,
+a **Multi-Game Multiworld Randomizer**.
+
+It is a project forked from the 'Archipelago' project.
+
+## Licensing
+
+* This project is a fork of Archipelago, licensed under MIT (see LICENSE-original).
+* This fork includes additional GPLv3-licensed modules under `/worlds`.
+* The entire combined distribution is licensed under GPLv3 (see LICENSE), but original MIT-licensed modules in `/worlds` and `/lib` remain available individually under MIT terms, visible by a dedicated LICENSE file in the respective folder.
+
+## Description 
 
 Currently, the following games are supported:
 
-* The Legend of Zelda: A Link to the Past
-* Factorio
-* Minecraft
-* Subnautica
-* Risk of Rain 2
-* The Legend of Zelda: Ocarina of Time
-* Timespinner
-* Super Metroid
-* Secret of Evermore
-* Final Fantasy
-* Rogue Legacy
-* VVVVVV
-* Raft
-* Super Mario 64
-* Meritous
-* Super Metroid/Link to the Past combo randomizer (SMZ3)
-* ChecksFinder
-* ArchipIDLE
-* Hollow Knight
-* The Witness
-* Sonic Adventure 2: Battle
-* Starcraft 2
-* Donkey Kong Country 3
-* Dark Souls 3
-* Super Mario World
-* Pokémon Red and Blue
-* Hylics 2
-* Overcooked! 2
-* Zillion
-* Lufia II Ancient Cave
-* Blasphemous
-* Wargroove
-* Stardew Valley
-* The Legend of Zelda
-* The Messenger
-* Kingdom Hearts 2
-* The Legend of Zelda: Link's Awakening DX
-* Clique
 * Adventure
-* DLC Quest
-* Noita
-* Undertale
-* Bumper Stickers
-* Mega Man Battle Network 3: Blue Version
-* Muse Dash
-* DOOM 1993
-* Terraria
-* Lingo
-* Pokémon Emerald
-* DOOM II
-* Shivers
-* Heretic
-* Landstalker: The Treasures of King Nole
-* Final Fantasy Mystic Quest
-* TUNIC
-* Kirby's Dream Land 3
-* Celeste 64
-* Castlevania 64
-* A Short Hike
-* Yoshi's Island
-* Mario & Luigi: Superstar Saga
-* Bomb Rush Cyberfunk
-* Aquaria
-* Yu-Gi-Oh! Ultimate Masters: World Championship Tournament 2006
+* Against the Storm
 * A Hat in Time
-* Old School Runescape
-* Kingdom Hearts 1
-* Mega Man 2
-* Yacht Dice
-* Faxanadu
-* Saving Princess
-* Castlevania: Circle of the Moon
-* Inscryption
+* Animal Well
+* Ape Escape
+* A Short Hike
+* Aquaria
+* Archipidle
+* Balatro
+* Banjo-Tooie
+* Blasphemous
+* Bomb Rush Cyberfunk
+* Brotato
+* Bumper Stickers
+* Cat Quest
+* Celeste
+* Celeste 64
+* Chained Echoes
+* Chatipelago
+* Checks Finder
+* Chrono Trigger: Jets of Time
 * Civilization VI
+* Clique
+* CrossCode
+* Cuphead
+* Castlevania 64
+* Castlevania: Curse of the Moon
+* Castlevania: Sympfony of the Night
+* Dark Souls II
+* Dark Souls III
+* Dark Souls Remastered
+* Diddy Kong Racing
+* Digimon World
+* Donkey Kong Country 2
+* Donkey Kong Country 3
+* DLC Quest
+* Don't Starve Together
+* Doom (1993)
+* Doom II
+* Doronko Wanko
+* Dungeon Crawler
+* EarthBound
+* Ender Lilies
+* Factorio (+SAWS)
+* Faxanadu
+* Final Fantasy
+* Final Fantasy IV: Free Enterprise
+* Final Fantasy Mystic Quest
+* Final Fantasy Tactics Advance
+* Getting Over It
+* Golden Sun: The Lost Age
+* Hades
+* Hatsune Miku: Project Diva Mega Mix+
+* Heretic
+* Hollow Knight
+* HuniePop
+* HuniePop 2
+* Hylics 2
+* Inscryption
+* Jak and Daxter
+* Jigsaw Puzzles
+* Kingdom Hearts
+* Kingdom Hearts II
+* Kirby's Dream Land 3
+* Kirby 64
+* Landstalker
+* Lethal Company
+* Lingo
+* Lufia II Ancient Cave
+* Luigi's Mansion
+* Mario Kart 64
+* Mario & Luigi Superstar Saga
+* Mega Man 2
+* Mega Man Battle Network 3
+* Meritous
+* Metroid Prime
+* Metroid Zero Mission
+* Minecraft
+* Momodora: Moonlit Farewell
+* Monster Sanctuary
+* Muse Dash
+* Noita
+* Old School RuneScape
+* Open Rollercoaster Tycoon 2
+* Ori and the Blind Forest
+* Osu!
+* Outer Wilds
+* Overcooked 2
+* Paper Mario
+* Paper Mario: The Thousand-Year Door
+* Peaks of Yore
+* Pokémon Crystal
+* Pokémon Emerald
+* Pokémon FireRed/LeafGreen
+* Pokémon Mystery Dungeon: Explorers of Sky
+* Pokémon Red/Blue
+* Pseudoregalia
+* Raft
+* Ratchet & Clank 2
+* Resident Evil 2 Remake
+* Resident Evil 3 Remake
+* Risk of Rain
+* Risk of Rain 2
+* Rogue Legacy
+* Satisfactory
+* Saving Princess
+* Secret of Evermore
+* Sea of Thieves
+* Shapez
+* Shivers
+* Slay the Spire
+* Sonic Adventure 2: Battle
+* Sonic Adventure DX
+* Sonic Heroes
+* Spyro 3: Year of the Dragon
+* StarCraft II
+* Stardew Valley
+* Starfox 64
+* Star Wars Episode I Racer
+* Subnautica
+* Sudoku
+* Super Mario Bros.
+* Super Mario 64 EX
+* Super Mario 64 Hacks
+* Super Mario Odyssey
+* Super Mario Sunshine
+* Super Mario World
+* Super Metroid
+* Super Metroid/A Link to the Past Combo
+* The Binding of Isaac: Rebirth
+* Terraria
+* Tetris Attack
+* Timespinner
+* The Legend of Zelda
+* The Legend of Zelda: A Link Between Worlds
+* The Legend of Zelda: A Link to the Past
+* The Legend of Zelda: Link's Awakening DX
+* The Legend of Zelda: Majora's Mask
+* The Legend of Zelda: Ocarina of Time
+* The Legend of Zelda: Oracle of Ages
+* The Legend of Zelda: Oracle of Seasons
+* The Legend of Zelda: Skyward Sword
 * The Legend of Zelda: The Wind Waker
+* The Legend of Zelda: Twilight Princess
+* The Messenger
+* The Witness
+* Toontown
+* Tunic
+* Ultrakill
+* Undertale
+* VVVVVV
+* Wargroove
+* Wargroove 2
+* Wario Land
+* Wario Land 4
+* Wordipelago
+* Xenoblade X
+* Yacht Dice
+* Yoshi's Island
+* Yu-Gi-Oh! Dungeon Dice Monsters
+* Yu-Gi-Oh! Forbidden Memories
+* Yu-Gi-Oh! Ultimate Masters: World Championship Tournament 2006
+* Zelda II: The Adventure of Link
+* Zillion
+* Zork: Grand Inquisitor
 
-For setup and instructions check out our [tutorials page](https://archipelago.gg/tutorial/).
-Downloads can be found at [Releases](https://github.com/ArchipelagoMW/Archipelago/releases), including compiled
+For setup and instructions check out our [tutorials page](https://multiworld.gg/tutorial/).
+Downloads can be found at [Releases](https://github.com/MultiworldGG/MultiworldGG/releases), including compiled
 windows binaries.
 
 ## History
 
-Archipelago is built upon a strong legacy of brilliant hobbyists. We want to honor that legacy by showing it here.
-The repositories which Archipelago is built upon, inspired by, or otherwise owes its gratitude to are:
+MultiworldGG is built upon the initial work of the core team of the Archipelago project and the amazing contributions of dozens of world developers and skilled community emembers. 
+The repositories which MultiworldGG is built upon, inspired by, or otherwise owes its gratitude to are:
 
+* [Archipelago](https://github.com/ArchipelagoMW/Archipelago)
 * [bonta0's MultiWorld](https://github.com/Bonta0/ALttPEntranceRandomizer/tree/multiworld_31)
 * [AmazingAmpharos' Entrance Randomizer](https://github.com/AmazingAmpharos/ALttPEntranceRandomizer)
 * [VT Web Randomizer](https://github.com/sporchia/alttp_vt_randomizer)
@@ -100,44 +201,41 @@ The repositories which Archipelago is built upon, inspired by, or otherwise owes
 
 We recognize that there is a strong community of incredibly smart people that have come before us and helped pave the
 path. Just because one person's name may be in a repository title does not mean that only one person made that project
-happen. We can't hope to perfectly cover every single contribution that lead up to Archipelago, but we hope to honor
+happen. We can't hope to perfectly cover every single contribution that lead up to MultiworldGG, but we hope to honor
 them fairly.
 
-### Path to the Archipelago
+### Path to the MultiworldGG
 
-Archipelago was directly forked from bonta0's `multiworld_31` branch of ALttPEntranceRandomizer (this project has a
-long legacy of its own, please check it out linked above) on January 12, 2020. The repository was then named to
-_MultiWorld-Utilities_ to better encompass its intended function. As Archipelago matured, then known as
-"Berserker's MultiWorld" by some, we found it necessary to transform our repository into a root level repository
-(as opposed to a 'forked repo') and change the name (which came later) to better reflect our project.
+MultiworldGG was directly forked from Archipelago in 2024. 
+Originally, it was just used as a quick and easy access solution for a small group of friends. Some members who were less tech savvy wanted to jump in and needed easier setup and access, so we started doing our own thing with custom APWorlds.
 
-## Running Archipelago
+Over time, the repository grew significantly, and we started making changes to the core, especially in regards to the webhost and the local client.
+At some point, we felt independent enough to provide our solution to the public, hoping that other people will profit from the simplicity this fork can provide.
+
+## Running MultiworldGG
 
 For most people, all you need to do is head over to
-the [releases page](https://github.com/ArchipelagoMW/Archipelago/releases), then download and run the appropriate
+the [releases page](https://github.com/MultiworldGG/MultiworldGG/releases), then download and run the appropriate
 installer, or AppImage for Linux-based systems.
 
 If you are a developer or are running on a platform with no compiled releases available, please see our doc on
-[running Archipelago from source](docs/running%20from%20source.md).
+[running MultiworldGG from source](docs/running%20from%20source.md).
 
 ## Related Repositories
 
 This project makes use of multiple other projects. We wouldn't be here without these other repositories and the
 contributions of their developers, past and present.
 
+* [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG)
 * [z3randomizer](https://github.com/ArchipelagoMW/z3randomizer)
 * [Enemizer](https://github.com/Ijwu/Enemizer)
-* [Ocarina of Time Randomizer](https://github.com/TestRunnerSRL/OoT-Randomizer)
+* [Ocarina of Time Randomizer](https://github.com/OoT-Randomizer/OoT-Randomizer)
 
 ## Contributing
 
-To contribute to Archipelago, including the WebHost, core program, or by adding a new game, see our
+To contribute to MultiworldGG, including the WebHost, core program, or by adding a new game, see our
 [Contributing guidelines](/docs/contributing.md).
 
 ## FAQ
 
-For Frequently asked questions, please see the website's [FAQ Page](https://archipelago.gg/faq/en/).
-
-## Code of Conduct
-
-Please refer to our [code of conduct](/docs/code_of_conduct.md).
+For Frequently asked questions, please see the website's [FAQ Page](https://multiworld.gg/faq/en/).

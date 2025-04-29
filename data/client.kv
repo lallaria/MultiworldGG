@@ -2,7 +2,24 @@
     # Hex-format RGB colors used in clients. Resets after an update/install.
     # To avoid, you can copy the TextColors section into a new "user.kv" next to this file
     # and it will read from there instead.
+    # Added better delination so that setting colors is easier. Left old ones in there in case they are called elsewhere.
     black: "000000"
+    notfoundcolor: "EE0000" #red
+    foundcolor: "00C51B" #green
+    friendcolor: "5FAFFF" #ltblue
+    lightblue: "5FAFFF"
+    entrancecolor: "6495ED" #blue
+    playercolor: "FF87D7" #atzpink
+    junkcolor: "B2B2B2" #gray
+    lightgray: "B2B2B2"
+    lightgrey: "B2B2B2"
+    usefulcolor: "AFD75F" #lime
+    limegreen: "AFD75F"
+    wothcolor: "FFC500" #gold
+    gold: "FFC500"
+    trapcolor: "D75F5F" #reddish
+    default: "FFFFFF" #white
+    bcastcolor: "FF7700" #orange
     red: "EE0000"
     green: "00FF7F"  # typically a location
     yellow: "FAFAD2"  # typically other slots/players
@@ -10,7 +27,7 @@
     magenta: "EE00EE"  # typically your slot/player
     cyan: "00EEEE"  # typically regular item
     slateblue: "6D8BE8"  # typically useful item
-    plum: "AF99EF"  # typically progression item
+    plum: "FFC500"  # typically progression item
     salmon: "FA8072"  # typically trap item
     white: "FFFFFF"  # not used, if you want to change the generic text color change color in Label
     orange: "FF7700"  # Used for command echo
@@ -82,7 +99,6 @@
         size_hint_y: None
         height: self.minimum_height
         orientation: 'vertical'
-        spacing: dp(3)
 <HintLabel>:
     canvas.before:
         Color:
@@ -146,13 +162,13 @@
     scroll_type: ["content", "bars"]
     bar_width: dp(12)
     effect_cls: "ScrollEffect"
+    background_color: 0.031, 0.024, 0.102, 1
     SelectableRecycleBoxLayout:
         default_size: None, dp(20)
         default_size_hint: 1, None
         size_hint_y: None
         height: self.minimum_height
         orientation: 'vertical'
-        spacing: dp(3)
 <ServerLabel>:
     text: "Server:"
     size_hint_x: None
@@ -170,18 +186,18 @@
     theme_text_color: "Custom"
     text_color: (1, 1, 1, 1)
     canvas.before:
-        Color:
-            rgba: 0.2, 0.2, 0.2, 1
+        Color:#tooltip bgcolor
+            rgba: 0, 0, 0.169, 1
         Rectangle:
             size: self.size
             pos: self.pos
-        Color:
-            rgba: 0.098, 0.337, 0.431, 1
+        Color:#bigger line in stripe border of tooltip (red)
+            rgba: 0.439, 0.078, 0.078, 1
         Line:
             width: 3
             rectangle: self.x-2, self.y-2, self.width+4, self.height+4
-        Color:
-            rgba: 0.235, 0.678, 0.843, 1
+        Color:#teeny line in stripe border of tooltip (yellow)
+            rgba: 0.839, 0.761, 0, 1
         Line:
             width: 1
             rectangle: self.x-2, self.y-2, self.width+4, self.height+4

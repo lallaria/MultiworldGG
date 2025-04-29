@@ -15,6 +15,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 import json
 import logging
 
@@ -247,7 +248,7 @@ class WargrooveContext(CommonContext):
                 ("Client", "Archipelago"),
                 ("WG", "WG Console"),
             ]
-            base_title = "Archipelago Wargroove Client"
+            base_title = apname + " Wargroove Client"
             ctx: WargrooveContext
             unit_tracker: ItemTracker
             trigger_tracker: BoxLayout

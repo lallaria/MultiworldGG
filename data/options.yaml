@@ -17,8 +17,8 @@
 # A. This is a .yaml file. You are allowed to use most characters.
 #    To test if your yaml is valid or not, you can use this website:
 #        http://www.yamllint.com/
-#    You can also verify that your Archipelago options are valid at this site:
-#        https://archipelago.gg/check
+#    You can also verify that your MultiworldGG options are valid at this site:
+#        https://multiworld.gg/check
 
 # Your name in-game, limited to 16 characters.
 #     {player} will be replaced with the player's slot number.
@@ -32,7 +32,7 @@ description: {{ yaml_dump("Default %s Template" % game) }}
 
 game: {{ yaml_dump(game) }}
 requires:
-  version: {{ __version__ }} # Version of Archipelago required for this yaml to work as expected.
+  version: {{ __version__ }} # Version of MultiworldGG required for this yaml to work as expected.
 
 {%- macro range_option(option) %}
     # You can define additional values between the minimum and maximum values.

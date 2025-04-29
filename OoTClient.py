@@ -10,6 +10,7 @@ from asyncio import StreamReader, StreamWriter
 from CommonClient import CommonContext, server_loop, gui_enabled, \
     ClientCommandProcessor, logger, get_base_parser
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from Utils import async_start
 from worlds import network_data_package
 from worlds.oot.Rom import Rom, compress_rom_file
@@ -116,7 +117,7 @@ class OoTContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Ocarina of Time Client"
+            base_title = apname + " Ocarina of Time Client"
 
         self.ui = OoTManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -233,7 +234,7 @@ async def n64_sync_task(ctx: OoTContext):
                         if not ctx.version_warning:
                             logger.warning(f"Your Lua script is version {reported_version}, expected {script_version}. "
                                 "Please update to the latest version. "
-                                "Your connection to the Archipelago server will not be accepted.")
+                                "Your connection to the MultiworldGG server will not be accepted.")
                             ctx.version_warning = True
                 except asyncio.TimeoutError:
                     logger.debug("Read Timed Out, Reconnecting")

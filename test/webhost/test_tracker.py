@@ -18,7 +18,7 @@ class TestTracker(TestBase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        with (Path(__file__).parent / "data" / "One_Archipelago.archipelago").open("rb") as f:
+        with (Path(__file__).parent / "data" / "One_MultiworldGG.multiworldgg").open("rb") as f:
             cls.data = f.read()
 
     def setUp(self) -> None:

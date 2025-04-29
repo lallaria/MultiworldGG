@@ -10,7 +10,7 @@ As we are using BizHawk, this guide is only applicable to Windows and Linux syst
   - Version 2.3.1 and later are supported. Version 2.7 is recommended for stability.
   - Detailed installation instructions for BizHawk can be found at the above link.
   - Windows users must run the prereq installer first, which can also be found at the above link.
-- The built-in Archipelago client, which can be installed [here](https://github.com/ArchipelagoMW/Archipelago/releases).
+- The built-in MultiworldGG client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases).
 - An Ocarina of Time v1.0 ROM.
 
 ## Configuring BizHawk
@@ -46,7 +46,7 @@ An alternative BizHawk setup guide as well as various pieces of troubleshooting 
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -72,7 +72,7 @@ to the emulator as recommended).
 
 ### Connect to the Multiserver
 
-Once both the client and the emulator are started, you must connect them. Navigate to your Archipelago install folder,
+Once both the client and the emulator are started, you must connect them. Navigate to your MultiworldGG install folder,
 then to `data/lua`, and drag+drop the `connector_oot.lua` script onto the main EmuHawk window. (You could instead open
 the Lua Console manually, click `Script` 〉 `Open Script`, and navigate to `connector_oot.lua` with the file picker.)
 

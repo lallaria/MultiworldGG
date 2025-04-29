@@ -10,7 +10,7 @@ Comme nous utilisons BizHawk, ce guide s'applique uniquement aux systèmes Windo
    - Les versions 2.3.1 et ultérieures sont prises en charge. La version 2.7 est recommandée pour des raisons de stabilité.
    - Des instructions d'installation détaillées pour BizHawk peuvent être trouvées sur le lien ci-dessus.
    - Les utilisateurs Windows doivent d'abord exécuter le programme d'installation des prérequis, qui peut également être trouvé sur le lien ci-dessus.
-- Le client Archipelago intégré, qui peut être installé [ici](https://github.com/ArchipelagoMW/Archipelago/releases)
+- Le client Archipelago intégré, qui peut être installé [ici](https://github.com/MultiworldGG/MultiworldGG/releases)
    (sélectionnez « Ocarina of Time Client » lors de l'installation).
 - Une ROM Ocarina of Time v1.0.
 
@@ -42,7 +42,7 @@ Un guide de configuration BizHawk alternatif ainsi que divers conseils de dépan
 ### Qu'est-ce qu'un fichier de configuration et pourquoi en ai-je besoin ?
 
 Consultez le guide sur la configuration d'un YAML de base lors de la configuration de l'archipel.
-guide : [Guide de configuration de base de Multiworld](/tutorial/Archipelago/setup/en)
+guide : [Guide de configuration de base de Multiworld](/tutorial/MultiworldGG/setup/en)
 
 ### Où puis-je obtenir un fichier de configuration (.yaml) ?
 

@@ -52,11 +52,12 @@ class L2ACWorld(World):
     Jelly in the end. Can you beat it?
     """
     game: ClassVar[str] = "Lufia II Ancient Cave"
-    web: ClassVar[WebWorld] = L2ACWeb()
+    author: str = "el-u & word_fcuk"
 
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = L2ACOptions
     options: L2ACOptions
     settings: ClassVar[L2ACSettings]
+    web: ClassVar[WebWorld] = L2ACWeb()
     item_name_to_id: ClassVar[Dict[str, int]] = l2ac_item_name_to_id
     location_name_to_id: ClassVar[Dict[str, int]] = l2ac_location_name_to_id
     item_name_groups: ClassVar[Dict[str, Set[str]]] = {

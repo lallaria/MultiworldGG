@@ -7,7 +7,7 @@
 
 ## Optional Software
 
-- [ArchipelagoTextClient](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGGTextClient](https://github.com/MultiworldGG/MultiworldGG/releases)
 - [The Witness Map- and Auto-Tracker](https://github.com/NewSoupVi/witness_archipelago_tracker/releases), for use with [PopTracker](https://github.com/black-sliver/PopTracker/releases)
 
 ## Joining a MultiWorld Game
@@ -27,9 +27,9 @@ To continue an earlier game:
 4. Press "Load Credentials" (or type them in manually)
 5. Press "Connect"
 
-## Archipelago Text Client
+## MultiworldGG Text Client
 
-It is recommended to have Archipelago's Text Client open on the side to keep track of what items you receive and send.
+It is recommended to have MultiworldGG's Text Client open on the side to keep track of what items you receive and send.
 <br/>The Witness does display received and sent items in-game, but only for a short time, and the messages are easy to miss while playing.
 
 <br/><br/>Of course, you can also use the Auto-Tracker!

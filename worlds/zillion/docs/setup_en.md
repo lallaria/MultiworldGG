@@ -2,7 +2,7 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases).
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
 
 - RetroArch 1.10.3 or newer from: [RetroArch Website](https://retroarch.com?page=platforms).
 
@@ -30,7 +30,7 @@ Put your Zillion ROM file in the Archipelago directory in your home directory.
 
 ### Windows Setup
 
-1. Download and install [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). **The installer 
+1. Download and install [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). **The installer 
    file is located in the assets section at the bottom of the version information.**
 2. The first time you do local generation or patch your game, you will be asked to locate your base ROM file.
    This is the Zillion ROM file mentioned above in Required Software. This only needs to be done once.
@@ -43,7 +43,7 @@ Put your Zillion ROM file in the Archipelago directory in your home directory.
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -77,7 +77,7 @@ If you would like to validate your config file to make sure it works, you may do
        - If you activate the "room generation" option in your config (yaml), you might want to tell your host that the generation will take longer than normal. It takes approximately 20 seconds longer for each Zillion player that enables this option.
 2. Create your ROM.
     - Linux
-       - In the Archipelago Launcher, choose "Open Patch" and select your `.apzl` patch file.
+       - In the MultiworldGG Launcher, choose "Open Patch" and select your `.apzl` patch file.
     - Windows
        - Put your patch file on your desktop or somewhere convenient, and double click it.
     - This should automatically launch the client, and will also create your ROM in the same place as your patch file.

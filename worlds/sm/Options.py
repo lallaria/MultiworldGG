@@ -320,7 +320,7 @@ class CustomObjectiveList(OptionSet):
     
     Format as a comma-separated list of objective names: ["kill three G4", "collect 75% items"] or ["random"] to specify the whole list except
     "collect 100% items" and "nothing". The default is ["random"]. A full list of supported objectives can be found at:
-    https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/sm/variaRandomizer/utils/objectives.py
+    https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/sm/variaRandomizer/utils/objectives.py
     """
     display_name = "Custom objective list"
     default = ["random"]
@@ -338,7 +338,7 @@ class Objective(OptionSet):
     
     Format as a comma-separated list of objective names: ["kill three G4", "collect 75% items"]. The default is ["kill all G4"].
     A full list of supported objectives can be found at:
-    https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/sm/variaRandomizer/utils/objectives.py
+    https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/sm/variaRandomizer/utils/objectives.py
     """
     display_name = "Objectives"
     default = ["kill all G4"]

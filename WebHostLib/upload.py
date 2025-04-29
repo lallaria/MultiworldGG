@@ -24,7 +24,7 @@ from .models import Seed, Room, Slot, GameDataPackage
 
 banned_extensions = (".sfc", ".z64", ".n64", ".nes", ".smc", ".sms", ".gb", ".gbc", ".gba")
 allowed_options_extensions = (".yaml", ".json", ".yml", ".txt", ".zip")
-allowed_generation_extensions = (".archipelago", ".zip")
+allowed_generation_extensions = (".archipelago", ".mwgg", ".zip")
 
 games_package_schema = schema.Schema({
     "item_name_groups": {str: [str]},
@@ -128,7 +128,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
             spoiler = zfile.open(file, "r").read().decode("utf-8-sig")
 
         # Multi-data
-        elif file.filename.endswith(".archipelago"):
+        elif file.filename.endswith(".archipelago") or file.filename.endswith(".mwgg"):
             try:
                 multidata = zfile.open(file).read()
             except:
@@ -213,7 +213,7 @@ def uploads():
                         flush()  # place into DB and generate ids
                         return redirect(url_for("view_seed", seed=seed.id))
             else:
-                flash("Not recognized file format. Awaiting a .archipelago file or .zip containing one.")
+                flash("Not recognized file format. Awaiting a .archipelago/.mwgg file or .zip containing one.")
     return render_template("hostGame.html", version=__version__)
 
 

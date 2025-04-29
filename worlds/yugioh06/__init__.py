@@ -54,7 +54,7 @@ class Yugioh06Web(WebWorld):
     setup = Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up Yu-Gi-Oh! - Ultimate Masters Edition - World Championship Tournament 2006 "
-        "for Archipelago on your computer.",
+        "for MultiworldGG on your computer.",
         "English",
         "docs/setup_en.md",
         "setup/en",
@@ -81,6 +81,7 @@ class Yugioh06World(World):
     """
 
     game = "Yu-Gi-Oh! 2006"
+    author: str = "Rensen3"
     web = Yugioh06Web()
     options: Yugioh06Options
     options_dataclass = Yugioh06Options

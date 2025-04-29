@@ -7,7 +7,7 @@
 
 ## Optional Software
 
-- [ArchipelagoTextClient](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGGTextClient](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 ## Installing Daxanadu
 1. Download [Daxanadu.zip](https://github.com/Daivuk/Daxanadu/releases/) and extract it.
@@ -22,9 +22,9 @@
 To continue a game, follow the same connection steps.
 Connecting with a different seed won't erase your progress in other seeds.
 
-## Archipelago Text Client
+## MultiworldGG Text Client
 
-We recommend having Archipelago's Text Client open on the side to keep track of what items you receive and send.
+We recommend having MultiworldGG's Text Client open on the side to keep track of what items you receive and send.
 Daxanadu doesn't display messages. You'll only get popups when picking them up.
 
 ## Auto-Tracking

@@ -30,9 +30,8 @@ class SM64World(World):
     """
 
     game: str = "Super Mario 64"
+    author: str = "N00byKing"
     topology_present = False
-
-    web = SM64Web()
 
     item_name_to_id = item_table
     location_name_to_id = location_table
@@ -42,6 +41,8 @@ class SM64World(World):
     area_connections: typing.Dict[int, int]
 
     options_dataclass = SM64Options
+
+    web = SM64Web()
 
     number_of_stars: int
     move_rando_bitvec: int

@@ -8,7 +8,7 @@ game you intend to play.
 The options page can be found on the supported games page, just click the "Options Page" link under the name of the
 game you would like.
 
-* Supported games page: [Archipelago Games List](/games)
+* Supported games page: [MultiworldGG Games List](/games)
 
 Clicking on the "Export Options" button at the bottom-left will provide you with a pre-filled YAML with your options.
 The player options page also has a link to download a full template file for that game which will have every option
@@ -16,7 +16,7 @@ possible for the game including some that don't display correctly on the site.
 
 ## YAML Overview
 
-The Archipelago system generates games using player configuration files as input. These are going to be YAML files and
+The MultiworldGG system generates games using player configuration files as input. These are going to be YAML files and
 each world will have one of these containing their custom options for the game that world will play.
 
 ## YAML Formatting
@@ -45,7 +45,7 @@ root_option:
     option_two_setting_two: 43
 ```
 
-In Archipelago, YAML options are always written out in full lowercase with underscores separating any words. The numbers
+In MultiworldGG, YAML options are always written out in full lowercase with underscores separating any words. The numbers
 following the colons here are weights. The generator will read the weight of every option, then roll that option that
 many times, the next option as many times as its numbered and so forth.
 
@@ -79,7 +79,7 @@ are `description`, `name`, `game`, `requires`, and the name of the games you wan
   different weights.
 
 * `requires` details different requirements from the generator for the YAML to work as you expect it to. Generally this
-  is good for detailing the version of Archipelago this YAML was prepared for. If it is rolled on an older version,
+  is good for detailing the version of MultiworldGG this YAML was prepared for. If it is rolled on an older version,
   options may be missing and as such it will not work as expected. If any plando is used in the file then requiring it
   here to ensure it will be used is good practice.
 
@@ -92,14 +92,14 @@ settings. If a game can be rolled it **must** have an options section even if it
 
 ### Universal Game Options
 
-Some options in Archipelago can be used by every game but must still be placed within the relevant game's section.
+Some options in MultiworldGG can be used by every game but must still be placed within the relevant game's section.
 
 Currently, these options are `accessibility`, `progression_balancing`, `triggers`, `local_items`, `non_local_items`,
 `start_inventory`, `start_hints`, `start_location_hints`, `exclude_locations`, `priority_locations`, `item_links`, and
 various plando options.
 
 See the plando guide for more info on plando options. Plando
-guide: [Archipelago Plando Guide](/tutorial/Archipelago/plando/en)
+guide: [MultiworldGG Plando Guide](/tutorial/MultiworldGG/plando/en)
 
 * `accessibility` determines the level of access to the game the generation will expect you to have in order to reach
   your completion goal. This supports `full`, `items`, and `minimal` and is set to `full` by default.
@@ -109,7 +109,7 @@ guide: [Archipelago Plando Guide](/tutorial/Archipelago/plando/en)
     * `minimal` will only guarantee that the seed is beatable. You will be guaranteed able to finish the seed logically
       but may not be able to access all locations or acquire all items. A good example of this is having a big key in
       the big chest in a dungeon in ALTTP making it impossible to get and finish the dungeon.
-* `progression_balancing` is a system the Archipelago generator uses to try and reduce
+* `progression_balancing` is a system the MultiworldGG generator uses to try and reduce
   ["BK mode"](/glossary/en/#burger-king-/-bk-mode)
   as much as possible.
   This primarily involves moving necessary progression items into earlier logic spheres to make the games more
@@ -120,7 +120,7 @@ guide: [Archipelago Plando Guide](/tutorial/Archipelago/plando/en)
     * Note that it is not always guaranteed that it will be able to bring you up to this threshold.
 * `triggers` is one of the more advanced options that allows you to create conditional adjustments. You can read
   more triggers in the triggers guide. Triggers
-  guide: [Archipelago Triggers Guide](/tutorial/Archipelago/triggers/en)
+  guide: [MultiworldGG Triggers Guide](/tutorial/MultiworldGG/triggers/en)
 * `local_items` will force any items you want to be in your world instead of being in another world.
 * `non_local_items` is the inverse of `local_items`, forcing any items you want to be in another world instead of
   your own.
@@ -266,7 +266,7 @@ Timespinner:
 * `triggers` allows us to define a trigger such that if our `smallkey_shuffle` option happens to roll the `any_world`
   result it will also ensure that `bigkey_shuffle`, `map_shuffle`, and `compass_shuffle` are also forced to the
   `any_world` result. More information on triggers can be found in the
-  [triggers guide](/tutorial/Archipelago/triggers/en).
+  [triggers guide](/tutorial/MultiworldGG/triggers/en).
 
 
 ## Generating Multiple Worlds
@@ -278,7 +278,7 @@ one file, removing the need to manage separate files if one chooses to do so.
 As a precautionary measure, before submitting a multi-game yaml like this one in a synchronous/sync multiworld, please
 confirm that the other players in the multi are OK with what you are submitting, and please be fairly reasonable about
 the submission. (i.e. Multiple long games (SMZ3, OoT, HK, etc.) for a game intended to be <2 hrs is not likely considered
-reasonable, but submitting a ChecksFinder alongside another game is likely
+reasonable, but submitting a ChecksFinder alongside another game OR submitting multiple Slay the Spire runs is likely
 OK)
 
 To configure your file to generate multiple worlds, use 3 dashes `---` on an empty line to separate the ending of one
@@ -335,7 +335,7 @@ Minecraft:
 
 ---
 
-description: Example of generating multiple worlds. World 2 of 2
+description: Example of generating multiple worlds. World 3 of 3
 name: ExampleFinder
 game: ChecksFinder
 

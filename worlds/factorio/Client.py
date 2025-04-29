@@ -18,6 +18,7 @@ from queue import Queue
 import factorio_rcon
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from CommonClient import ClientCommandProcessor, CommonContext, logger, server_loop, gui_enabled, get_base_parser
 from MultiServer import mark_raw
 from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart
@@ -209,7 +210,7 @@ class FactorioContext(CommonContext):
                 ("FactorioServer", "Factorio Server Log"),
                 ("FactorioWatcher", "Bridge Data Log"),
             ]
-            base_title = "Archipelago Factorio Client"
+            base_title = apname + " Factorio Client"
 
         self.ui = FactorioManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

@@ -17,7 +17,7 @@ zz_empty = items[4]
 
 def set_randomizer_locs(cs: CollectionState, p: int, zz_r: Randomizer) -> int:
     """
-    sync up zilliandomizer locations with archipelago locations
+    sync up zilliandomizer locations with MultiworldGG locations
 
     returns a hash of the player and of the set locations with their items
     """
@@ -63,7 +63,7 @@ class ZillionLogicCache:
 
     def cs_to_zz_locs(self, cs: CollectionState) -> frozenset[Location]:
         """
-        given an Archipelago `CollectionState`,
+        given an MultiworldGG `CollectionState`,
         returns frozenset of accessible zilliandomizer locations
         """
         # caching this function because it would be slow

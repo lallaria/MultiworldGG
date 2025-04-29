@@ -1,19 +1,19 @@
 html{
-    background-image: url("../../static/backgrounds/dirt.png");
+    background-image: url("../../static/backgrounds/ocean.png");
     background-repeat: repeat;
-    background-size: 400px 400px;
+    background-size: 126px 126px;
 }
 
 body{
     color: #ffffff;
 }
 
-#base-header{
-    background: url('../../static/backgrounds/header/dirt-header.png') repeat-x;
+#base-header {
+    background: url('../../static/backgrounds/header/ocean-header.png') repeat-x;
 }
 
 .markdown {
-    background-color: rgba(0, 0, 0, 0.25) !important;
+    background-color: rgba(26, 5, 48, 0.8) !important;
 }
 
 h1{
@@ -21,7 +21,7 @@ h1{
 }
 
 h2{
-    color: #c8e79f;
+    color: #ff5884;
 }
 
 h3, h4, h5,h6{
@@ -38,14 +38,14 @@ table td{
 }
 
 a{
-    color: #ffd891;
+    color: #b1fd5e;
 }
 
 pre{
     margin-top: 0;
     padding: 0.5rem 0.25rem;
-    background-color: #d1c3ab;
-    border: 1px solid #2a6c2f;
+    background-color: #b08ed5;
+    border: 1px solid #6d5687;
     border-radius: 6px;
     color: #000000;
 }
@@ -56,9 +56,9 @@ pre code{
 }
 
 code{
-    background-color: #d1c3ab;
+    background-color: #b08ed5;
     border-radius: 4px;
-    border: 1px solid #5c4c31;
+    border: 1px solid #6d5687;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
     color: #000000;

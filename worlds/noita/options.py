@@ -109,8 +109,8 @@ class ExtraOrbs(Range):
 
 class ShopPrice(Choice):
     """
-    Reduce the costs of Archipelago items in shops.
-    By default, the price of Archipelago items matches the price of wands at that shop.
+    Reduce the costs of MultiworldGG items in shops.
+    By default, the price of MultiworldGG items matches the price of wands at that shop.
     """
     display_name = "Shop Price Reduction"
     option_full_price = 100

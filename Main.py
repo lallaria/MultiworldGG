@@ -14,7 +14,7 @@ from BaseClasses import CollectionState, Item, Location, LocationProgressType, M
 from Fill import FillError, balance_multiworld_progression, distribute_items_restrictive, distribute_planned, \
     flood_items
 from Options import StartInventoryPool
-from Utils import __version__, output_path, version_tuple, get_settings
+from Utils import __version__, instance_name, output_path, version_tuple, get_settings
 from settings import get_settings
 from worlds import AutoWorld
 from worlds.generic.Rules import exclusion_rules, locality_rules
@@ -51,7 +51,7 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
         dump_player_options(multiworld)
     multiworld.set_item_links()
     multiworld.state = CollectionState(multiworld)
-    logger.info('Archipelago Version %s  -  Seed: %s\n', __version__, multiworld.seed)
+    logger.info('%s Version %s  -  Seed: %s\n', instance_name, __version__, multiworld.seed)
 
     logger.info(f"Found {len(AutoWorld.AutoWorldRegister.world_types)} World Types:")
     longest_name = max(len(text) for text in AutoWorld.AutoWorldRegister.world_types)

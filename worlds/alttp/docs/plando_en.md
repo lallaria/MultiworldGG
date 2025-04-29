@@ -3,7 +3,7 @@
 ## Configuration
 
 1. All plando options are enabled by default, except for "items plando" which has to be enabled before it can be used (opt-in).
-2. To enable it, go to your installation directory (Windows default: `C:\ProgramData\Archipelago`), then open the host.yaml
+2. To enable it, go to your installation directory (Windows default: `C:\Program Files\MultiworldGG`), then open the host.yaml
    file with a text editor.
 3. In it, you're looking for the option key `plando_options`. To enable all plando modules you can set the value
    to `bosses, items, texts, connections`
@@ -12,7 +12,7 @@
 
 ### Bosses
 
-- This module is enabled by default and available to be used on [https://archipelago.gg/generate](/generate)
+- This module is enabled by default and available to be used on [https://multiworld.gg/generate](/generate)
 - Plando versions of boss shuffles can be added like any other boss shuffle option in a yaml and weighted.
 - Boss Plando works as a list of instructions from left to right, if any arenas are empty at the end, it defaults to
   vanilla.
@@ -34,8 +34,8 @@
             - Supports `random` which will choose a random option from the normal choices.
             - If one is not supplied any remaining locations will be unshuffled unless a single specific boss is
               supplied in which case it will use singularity as noted above.
-- [Available Bosses](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/Bosses.py#L135)
-- [Available Arenas](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/Bosses.py#L150)
+- [Available Bosses](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/Bosses.py#L135)
+- [Available Arenas](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/Bosses.py#L150)
 
 #### Examples
 
@@ -85,8 +85,8 @@ boss_shuffle:
     - placements are picked randomly, not sorted in any way
 - Warning: Placing non-Dungeon Prizes on Prize locations and Prizes on non-Prize locations will break the game in
   various ways.
-- [Available Items](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/Items.py#L52)
-- [Available Locations](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/Regions.py#L434)
+- [Available Items](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/Items.py#L52)
+- [Available Locations](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/Regions.py#L434)
 
 #### Examples
 
@@ -140,9 +140,9 @@ plando_items:
     - `\n` is a newline.
     - `@` is the entered player's name.
     - Warning: Text Mapper does not support full unicode.
-    - [Alphabet](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/Text.py#L758)
+    - [Alphabet](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/Text.py#L758)
 - at is the location within the game to attach the text to.
-    - [List of targets](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/Text.py#L1499)
+    - [List of targets](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/Text.py#L1499)
 
 #### Example
 
@@ -169,7 +169,7 @@ and `uncle_dying_sewer`, then places the text "This is a plando. You've been war
 - exit is the underworld exit
 - direction can be `both`, `entrance` or `exit`
 - doors can be found
-  in [this file](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/alttp/EntranceShuffle.py#L3852)
+  in [this file](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/alttp/EntranceShuffle.py#L3852)
 
 #### Example
 

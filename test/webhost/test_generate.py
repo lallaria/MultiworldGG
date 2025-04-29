@@ -14,8 +14,8 @@ class TestGenerate(TestBase):
         with self.app.app_context(), self.app.test_request_context():
             yaml_data = """
             name: Player1
-            game: Archipelago
-            Archipelago: {}
+            game: MultiworldGG
+            MultiworldGG: {}
             """
             response = self.client.post(url_for("generate"),
                                         data={"file": (BytesIO(yaml_data.encode("utf-8")), "test.yaml")},
@@ -58,8 +58,8 @@ class TestGenerate(TestBase):
         with self.app.app_context(), self.app.test_request_context():
             yaml_data = "---\n".join([
                 f"name: Player{n}\n"
-                "game: Archipelago\n"
-                "Archipelago: {}\n"
+                "game: MultiworldGG\n"
+                "MultiworldGG: {}\n"
                 for n in range(1, max_roll + 2)
             ])
             response = self.client.post(url_for("generate"),

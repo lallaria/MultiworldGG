@@ -11,7 +11,7 @@ class ShortHikeWeb(WebWorld):
     theme = "ocean"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the A Short Hike randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the A Short Hike randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -27,7 +27,7 @@ class ShortHikeWorld(World):
     """
 
     game = "A Short Hike"
-    web = ShortHikeWeb()
+    author: str = "chandler05 & BrandenEK"
 
     item_name_to_id = {item["name"]: item["id"] for item in item_table}
     location_name_to_id = {loc["name"]: loc["id"] for loc in location_table}
@@ -37,6 +37,8 @@ class ShortHikeWorld(World):
     
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = ShortHikeOptions
     options: ShortHikeOptions
+    
+    web = ShortHikeWeb()
 
     required_client_version = (0, 4, 4)
 

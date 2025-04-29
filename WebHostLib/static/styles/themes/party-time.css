@@ -1,7 +1,7 @@
 html{
-    background-image: url("../../static/backgrounds/party-time.png");
+    background-image: url("../../static/backgrounds/ocean.png");
     background-repeat: repeat;
-    background-size: 350px 350px;
+    background-size: 126px 126px;
 }
 
 body{
@@ -9,11 +9,11 @@ body{
 }
 
 #base-header {
-    background: url('../../static/backgrounds/header/party-time-header.png') repeat-x;
+    background: url('../../static/backgrounds/header/ocean-header.png') repeat-x;
 }
 
 .markdown {
-    background-color: rgba(26, 5, 48, 0.8) !important;
+    background-color:rgba(0, 0, 0, 0.30) !important;
 }
 
 h1{
@@ -38,7 +38,7 @@ table td{
 }
 
 a{
-    color: #b1fd5e;
+    color: #ea166c;
 }
 
 pre{

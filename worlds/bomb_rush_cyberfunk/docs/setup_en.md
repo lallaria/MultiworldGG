@@ -22,7 +22,7 @@ in `BepInEx\plugins`.
 4. Download the zip archive for the Archipelago plugin from its [releases](https://github.com/TRPG0/BRC-Archipelago/releases) 
 page, and extract the contents into `BepInEx\plugins`.
 
-After installing Archipelago, there are some additional mods that can also be installed for a better experience:
+After installing MultiworldGG, there are some additional mods that can also be installed for a better experience:
 
 - [MoreMap](https://thunderstore.io/c/bomb-rush-cyberfunk/p/TRPG/MoreMap/) by TRPG
     - Adds pins to the map for every type of collectible.
@@ -39,6 +39,6 @@ After installing Archipelago, there are some additional mods that can also be in
 
 ## Connecting
 
-To connect to an Archipelago server, click one of the Archipelago buttons next to the save files. If the save file is 
+To connect to an MultiworldGG server, click one of the MultiworldGG buttons next to the save files. If the save file is 
 blank or already has randomizer save data, it will open a menu where you can enter the server address and port, your 
 name, and a password if necessary. Then click the check mark to connect to the server.

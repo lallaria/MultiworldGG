@@ -65,7 +65,7 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
     worlds = {}
     data = []
     for game, world in AutoWorldRegister.world_types.items():
-        if hasattr(world.web, 'tutorials') and (not world.hidden or game == 'Archipelago'):
+        if hasattr(world.web, 'tutorials') and (not world.hidden or game == 'MultiworldGG'):
             worlds[game] = world
 
     base_target_path = Utils.local_path("WebHostLib", "static", "generated", "docs")
@@ -92,8 +92,13 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
             for file in files:
                 shutil.copyfile(Utils.local_path(source_path, file), Utils.local_path(target_path, file))
 
+        game_title = game
+
+        if hasattr(world.web, 'display_name') and world.web.display_name:
+            game_title = world.web.display_name
+
         # build a json tutorial dict per game
-        game_data = {'gameTitle': game, 'tutorials': []}
+        game_data = {'gameTitle': game_title, 'tutorials': []}
         for tutorial in world.web.tutorials:
             # build dict for the json file
             current_tutorial = {
@@ -119,7 +124,7 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
     with open(Utils.local_path("WebHostLib", "static", "generated", "tutorials.json"), 'w', encoding='utf-8-sig') as json_target:
         generic_data = {}
         for games in data:
-            if 'Archipelago' in games['gameTitle']:
+            if 'MultiworldGG' in games['gameTitle']:
                 generic_data = data.pop(data.index(games))
         sorted_data = [generic_data] + Utils.title_sorted(data, key=lambda entry: entry["gameTitle"])
         json.dump(sorted_data, json_target, indent=2, ensure_ascii=False)

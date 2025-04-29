@@ -7,7 +7,7 @@
 
 ## Optional Software
 
-- [Archipelago Text Client](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGG Text Client](https://github.com/MultiworldGG/MultiworldGG/releases)
 - [Lingo AP Tracker](https://code.fourisland.com/lingo-ap-tracker/about/CHANGELOG.md)
 
 ## Installation

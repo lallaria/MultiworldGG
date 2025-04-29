@@ -1,4 +1,4 @@
-# Setup Guide for A Hat in Time in Archipelago
+# Setup Guide for A Hat in Time in MultiworldGG
 
 ## Required Software
 - [Steam release of A Hat in Time](https://store.steampowered.com/app/253230/A_Hat_in_Time/)
@@ -28,13 +28,13 @@
    In Game Settings, make sure **Enable Developer Console** is checked.
 
 
-5. You should now be good to go. See below for more details on how to use the mod and connect to an Archipelago game.
+5. You should now be good to go. See below for more details on how to use the mod and connect to an MultiworldGG game.
 
 
-## Connecting to the Archipelago server
+## Connecting to the MultiworldGG server
 
-To connect to the multiworld server, simply run the **Archipelago AHIT Client** from the Launcher
-and connect it to the Archipelago server. 
+To connect to the multiworld server, simply run the **MultiworldGG AHIT Client** from the Launcher
+and connect it to the MultiworldGG server. 
 The game will connect to the client automatically when you create a new save file.
 
 

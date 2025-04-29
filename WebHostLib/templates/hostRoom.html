@@ -3,7 +3,7 @@
 {% block head %}
     <title>Multiworld {{ room.id|suuid }}</title>
     {% if should_refresh %}<meta http-equiv="refresh" content="2">{% endif %}
-    <meta name="og:site_name" content="Archipelago">
+    <meta name="og:site_name" content="MultiworldGG">
     <meta property="og:title" content="Multiworld {{ room.id|suuid }}">
     <meta property="og:type" content="website" />
     {% if room.seed.slots|length < 2 %}
@@ -14,35 +14,42 @@
     {% if room.last_port != -1 %}running on {{ config['HOST_ADDRESS'] }} with port {{ room.last_port }}{% endif %}">
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="styles/hostRoom.css") }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="styles/snackbar.css") }}"/>
+    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/copyToClipboard.js") }}"></script>
 {% endblock %}
 
 {% block body %}
     {% include 'header/grassHeader.html' %}
     <div id="host-room">
-        <span id="host-room-info">
-            {% if room.owner == session["_id"] %}
-                Room created from <a href="{{ url_for("view_seed", seed=room.seed.id) }}">Seed #{{ room.seed.id|suuid }}</a>
-                <br />
-            {% endif %}
-            {% if room.tracker %}
-                This room has a <a href="{{ url_for("get_multiworld_tracker", tracker=room.tracker) }}">Multiworld Tracker</a>
-                and a <a href="{{ url_for("get_multiworld_sphere_tracker", tracker=room.tracker) }}">Sphere Tracker</a> enabled.
-                <br />
-            {% endif %}
-            The server for this room will be paused after {{ room.timeout//60//60 }} hours of inactivity.
-            Should you wish to continue later,
-            anyone can simply refresh this page and the server will resume.<br>
-            {% if room.last_port == -1 %}
-                There was an error hosting this Room. Another attempt will be made on refreshing this page.
-                The most likely failure reason is that the multiworld is too old to be loaded now.
-            {% elif room.last_port %}
-                You can connect to this room by using <span class="interactive"
-                data-tooltip="This means address/ip is {{ config['HOST_ADDRESS'] }} and port is {{ room.last_port }}.">
-                '/connect {{ config['HOST_ADDRESS'] }}:{{ room.last_port }}'
-                </span>
-                in the <a href="{{ url_for("tutorial_landing")}}">client</a>.<br>
-            {% endif %}
-        </span>
+      <span id="host-room-info">
+        {% if room.owner == session["_id"] %}
+            Room created from <a href="{{ url_for("view_seed", seed=room.seed.id) }}">Seed #{{ room.seed.id|suuid }}</a>
+            <br />
+        {% endif %}
+        {% if room.tracker %}
+            This room has a <a href="{{ url_for("get_multiworld_tracker", tracker=room.tracker) }}">Multiworld Tracker</a>
+            and a <a href="{{ url_for("get_multiworld_sphere_tracker", tracker=room.tracker) }}">Sphere Tracker</a> enabled.
+            <br />
+            Alternatively, you can use <a href="https://cheesetrackers.multiworld.gg/" target="_blank">Cheese Trackers</a> or the <a href="https://tracker.multiworld.gg/" target="_blank">Checklist tracker</a>.
+            <br />
+        {% endif %}
+        {% if room.last_port == -1 %}
+            There was an error hosting this Room. Another attempt will be made on refreshing this page.
+            The most likely failure reason is that the multiworld is too old to be loaded now.
+        {% elif room.last_port %}
+            You can connect to this room by using <span class="interactive"
+            data-tooltip="This means address/ip is {{ config['HOST_ADDRESS'] }} and port is {{ room.last_port }}.">
+            '/connect {{ config['HOST_ADDRESS'] }}:{{ room.last_port }}'
+            </span>
+            <a onclick='copyRoomToClipboard("{{ config.HOST_ADDRESS }}","{{ room.last_port }}")' href="#">(click here to copy)</a>
+            in the <a href="{{ url_for("tutorial_landing")}}">client</a>.<br>
+            <br />
+        {% endif %}
+
+         The server for this room will be paused after {{ room.timeout//60//60 }} hours of inactivity.
+         Should you wish to continue later,
+         anyone can simply refresh this page and the server will resume.
+      </span>
         {{ macros.list_patches_room(room) }}
         {% if room.owner == session["_id"] %}
             <div style="display: flex; align-items: center;">
@@ -201,4 +208,5 @@
           }
         </script>
     </div>
+    <div id="snackbar">Copied to clipboard!</div>
 {% endblock %}

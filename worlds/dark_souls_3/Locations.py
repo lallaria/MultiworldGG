@@ -48,7 +48,7 @@ class DS3LocationData:
     """The next location ID to use when creating location data."""
 
     name: str
-    """The name of this location according to Archipelago.
+    """The name of this location according to MultiworldGG.
 
     This needs to be unique within this world."""
 
@@ -62,7 +62,7 @@ class DS3LocationData:
     """
 
     ap_code: Optional[int] = None
-    """Archipelago's internal ID for this location (also known as its "address")."""
+    """MultiworldGG's internal ID for this location (also known as its "address")."""
 
     region_value: int = 0
     """The relative value of items in this location's region.
@@ -76,9 +76,9 @@ class DS3LocationData:
     By default, the static randomizer chooses its location based on the region and the item name.
     If the item name is unique across the whole game, it can also look it up based on that alone. If
     there are multiple instances of the same item type in the same region, it will assume its order
-    (in annotations.txt) matches Archipelago's order.
+    (in annotations.txt) matches MultiworldGG's order.
 
-    In cases where this heuristic doesn't work, such as when Archipelago's region categorization or
+    In cases where this heuristic doesn't work, such as when MultiworldGG's region categorization or
     item name disagrees with the static randomizer's, this field is used to provide an explicit
     association instead.
     """

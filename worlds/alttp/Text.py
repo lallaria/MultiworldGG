@@ -2210,7 +2210,7 @@ class TextTable(object):
         text['magic_bat_wake'] = CompressedTextMapper.convert("You bum! I was sleeping! Where's my magic bolts?")
         text['magic_bat_give_half_magic'] = CompressedTextMapper.convert("How you like me now?")
         text['intro_main'] = CompressedTextMapper.convert(
-            "{INTRO}\n Archipelago Randomizer\n{PAUSE3}\n A Link to\n   the Past\n"
+            "{INTRO}\n MultiworldGG Randomizer\n{PAUSE3}\n A Link to\n   the Past\n"
             "{PAUSE3}\n{PAUSE3}\nAfter mostly disregarding what happened in the first two games.\n"
             "{PAUSE3}\nLink awakens to his uncle leaving the house.\n{PAUSE3}\nHe just runs out the door,\n"
             "{PAUSE3}\ninto the rainy night.\n{PAUSE3}\n{CHANGEPIC}\n"

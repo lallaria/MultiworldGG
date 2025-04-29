@@ -24,7 +24,7 @@ class DOOM2Item(Item):
 class DOOM2Web(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the DOOM II randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the DOOM II randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -42,6 +42,7 @@ class DOOM2World(World):
     options_dataclass = DOOM2Options
     options: DOOM2Options
     game = "DOOM II"
+    author: str = "Kaito Sinclaire"
     web = DOOM2Web()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher
 

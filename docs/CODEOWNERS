@@ -1,4 +1,4 @@
-# Archipelago World Code Owners / Maintainers Document
+# MultiworldGG World Code Owners / Maintainers Document
 #
 # This file is used to notate the current "owners" or "maintainers" of any currently merged world folder as well as
 # certain documentation. For any pull requests that modify these worlds/docs, a code owner must approve the PR in
@@ -9,11 +9,23 @@
 # Adventure
 /worlds/adventure/ @JusticePS
 
+# Against the Storm
+/worlds/against_the_storm/ @Ryguy-9999
+
 # A Hat in Time
 /worlds/ahit/ @CookieCat45
 
+# A Link Between Worlds
+/worlds/albw/ @randomsalience
+
 # A Link to the Past
 /worlds/alttp/ @Berserker66
+
+# An Untitled Story
+/worlds/aus/ @ThatOneGuy27
+
+# Ape Escape
+/worlds/apeescape/ @Thedragon005
 
 # Sudoku (APSudoku)
 /worlds/apsudoku/ @EmilyV99
@@ -24,11 +36,20 @@
 # ArchipIDLE
 /worlds/archipidle/ @LegendaryLinux
 
+# Balatro
+/worlds/balatro/ @BurndiL
+
+# Banjo Tooie
+/worlds/banjo_tooie/ @jjjj12212
+
 # Blasphemous
 /worlds/blasphemous/ @TRPG0
 
 # Bomb Rush Cyberfunk
 /worlds/bomb_rush_cyberfunk/ @TRPG0
+
+# Brotato
+/worlds/brotato/ @SpenserHaddad
 
 # Bumper Stickers
 /worlds/bumpstik/ @FelicitusNeko
@@ -39,11 +60,30 @@
 # Castlevania: Circle of the Moon
 /worlds/cvcotm/ @LiquidCat64
 
+# Castlevania: Symphony of the Night
+/worlds/sotn/ @fdelduque
+
+# Cat Quest
+/worlds/cat_quest/ @Nikkilites
+
+# Celeste
+/worlds/celeste/ @doshyw
+/worlds/celeste_open_world @PoryGone
+
 # Celeste 64
 /worlds/celeste64/ @PoryGone
 
+# Chained Echoes
+/worlds/chainedechoes/ @SergioAlonso
+
+# Chatipelago
+/worlds/chatipelago/ @lallaria
+
 # ChecksFinder
 /worlds/checksfinder/ @SunCatMC
+
+# Chrono Trigger
+/worlds/ctjot/ @Anguirel86
 
 # Civilization VI
 /worlds/civ6/ @hesto2
@@ -51,14 +91,35 @@
 # Clique
 /worlds/clique/ @ThePhar
 
+# CrossCode
+/worlds/crosscode/ @CodeTriangle
+
+# Cuphead
+/worlds/cuphead/ @JKLeckr
+
+# Dark Souls Remastered
+/worlds/dsr/ @ArsonAssassin
+
+# Dark Souls II
+/worlds/dark_souls_2/ @WildBunnie
+
 # Dark Souls III
 /worlds/dark_souls_3/ @Marechal-L @nex3
+
+# Diddy Kong Racing
+/worlds/diddy_kong_racing/ @zakwiz
+
+# DLCQuest
+/worlds/dlcquest/ @axe-y @agilbert1412
+
+# Donkey Kong Country 2
+/worlds/dkc2/ @TheLX5
 
 # Donkey Kong Country 3
 /worlds/dkc3/ @PoryGone
 
-# DLCQuest
-/worlds/dlcquest/ @axe-y @agilbert1412
+# Don't starve together
+/worlds/dontstarvetogether/ @DragonWolfLeo
 
 # DOOM 1993
 /worlds/doom_1993/ @Daivuk @KScl
@@ -66,14 +127,42 @@
 # DOOM II
 /worlds/doom_ii/ @Daivuk @KScl
 
+# Doronko Wanko
+/worlds/doronko_wanko/ @Vendily
+
+# Earthbound
+/worlds/earthbound/ @PinkSwitch
+
+# Ender Lilies
+/worlds/enderlilies/ @Trexounay
+
 # Factorio
 /worlds/factorio/ @Berserker66
+/worlds/factorio_saws/ @Alchav
 
 # Faxanadu
 /worlds/faxanadu/ @Daivuk
 
+# Final Fantasy 4: Free Enterprise
+/worlds/ff4fe/ @Rosalie-A
+
 # Final Fantasy Mystic Quest
 /worlds/ffmq/ @Alchav @wildham0
+
+# Final Fantasy Tactics Advance
+/worlds/ffta/ @spicynun
+
+# Getting Over It
+/worlds/getting_over_it/ @BlastSlimey
+
+# Golden Sun: The Lost Age
+/worlds/gstla/ @cjmang
+
+# Hades
+/worlds/hades/ @Naixgames
+
+# Hatsune Miku Project Diva Mega Mix+
+/worlds/megamix/ @Cynichill
 
 # Heretic
 /worlds/heretic/ @Daivuk @KScl
@@ -81,11 +170,26 @@
 # Hollow Knight
 /worlds/hk/ @BadMagic100 @qwint
 
+# HuniePop
+/worlds/huniepop/ @DotsofdarknessArchipelago
+
+# HuniePop 2
+/worlds/huniepop2/ @DotsofdarknessArchipelago
+
 # Hylics 2
 /worlds/hylics2/ @TRPG0
 
 # Inscryption
 /worlds/inscryption/ @DrBibop @Glowbuzz
+
+# Jak & Dexter
+/worlds/jakanddexter/ @massimilianodelliubaldini
+
+# Jigsaw
+/worlds/jigsaw/ @spinerak
+
+# Kirby 64
+/worlds/k64/ @Silvris
 
 # Kirby's Dream Land 3
 /worlds/kdl3/ @Silvris
@@ -99,6 +203,9 @@
 # Landstalker: The Treasures of King Nole
 /worlds/landstalker/ @Dinopony
 
+# Lethal Company
+/worlds/lethal_company/ @T0r1nn
+
 # Lingo
 /worlds/lingo/ @hatkirby
 
@@ -109,11 +216,35 @@
 /worlds/lufia2ac/ @el-u
 /worlds/lufia2ac/docs/ @wordfcuk @el-u
 
+# Luigi's Mansion
+/worlds/luigismansion/ @BootsinSoots
+
+# Majora's Mask (Recompiled)
+/worlds/mm_recomp/ @LittleCube-hax
+
+# Mario Kart 64
+/worlds/mk64/ @Edsploration
+
 # Mario & Luigi: Superstar Saga
 /worlds/mlss/ @jamesbrq
 
+# Mega Man 2
+/worlds/mm2/ @Silvris
+
+# MegaMan Battle Network 3
+/worlds/mmbn3/ @digiholic
+
 # Meritous
 /worlds/meritous/ @FelicitusNeko
+
+# Metroid Prime
+/worlds/metroidprime/ @Electro1512
+
+# Metroid Zero Mission
+/worlds/mzm/ @NoiseCrush
+
+# Momodora Moonlit Farewell
+/worlds/momodoramoonlitfarewell/ @alditoOt 
 
 # The Messenger
 /worlds/messenger/ @alwaysintreble
@@ -121,11 +252,8 @@
 # Minecraft
 /worlds/minecraft/ @KonoTyran @espeon65536
 
-# Mega Man 2
-/worlds/mm2/ @Silvris
-
-# MegaMan Battle Network 3
-/worlds/mmbn3/ @digiholic
+# Monster Sanctuary
+/worlds/monster_sanctuary/ @Gtaray
 
 # Muse Dash
 /worlds/musedash/ @DeamonHunter
@@ -134,28 +262,91 @@
 /worlds/noita/ @ScipioWright @heinermann
 
 # Old School Runescape
-/worlds/osrs @digiholic
+/worlds/osrs/ @digiholic
+
+# OpenRCT 2
+/worlds/openrct2/ @Crazycolbster
+
+# Oracle of Ages
+/worlds/tloz_ooa/ @Dinopony
+
+# Oracle of Seasons
+/worlds/tloz_oos/ @SenPierre
+
+# Ori and the Blind Forest
+/worlds/oribf/ @c-ostic
+
+# osu!
+/worlds/osu/ @lilymnky-F
+
+# Outer Wilds
+/worlds/outer_wilds/ @Ixrec
 
 # Overcooked! 2
 /worlds/overcooked2/ @toasterparty
 
+# Paint (JSPaint)
+/worlds/paint/ @MarioManTAW
+
+# Paper Mario
+/worlds/papermario/ @JKBSunshine
+
+# Paper Mario: TTYD
+/worlds/ttyd/ @jamesbrq
+
+# Peaks of Yore
+/worlds/peaks_of_yore/ @c0der23
+
+# Pokemon Crystal
+/worlds/pokemon_crystal/ @gerbiljames
+
 # Pokemon Emerald
 /worlds/pokemon_emerald/ @Zunawe
+
+# Pokemon Firered and Leafgreen
+/worlds/pokemon_frlg/ @vyneras
+
+# Pokemon Mystery Dungeon: Explorers of Sky
+/worlds/pmd_eos/ @CrypticMonkey33
 
 # Pokemon Red and Blue
 /worlds/pokemon_rb/ @Alchav
 
+# Pseudoregalia 
+/worlds/pseudoregalia/ @qwint
+
 # Raft
 /worlds/raft/ @SunnyBat
+
+# Ratchet & Clank 2
+/worlds/rac2/ @evilwb
+
+# Resident Evil 2 Remake
+/worlds/residentevil2remake/ @FuzzyGamesOn
+
+# Resident Evil 3 Remake
+/worlds/residentevil3remake/ @therealsolidussnake
 
 # Rogue Legacy
 /worlds/rogue_legacy/ @ThePhar
 
+# Risk of Rain
+/worlds/ror1/ @studkid
+
 # Risk of Rain 2
 /worlds/ror2/ @kindasneaki
 
+# Satisfactory
+/worlds/satisfactory/ @Jarno458
+
 # Saving Princess
 /worlds/saving_princess/ @LeonarthCG
+
+# Sea of Thieves
+/worlds/seaofthieves/ @EthanSteidl
+
+# Shapez
+/worlds/shapez/ @BlastSlimey
 
 # Shivers
 /worlds/shivers/ @GodlFire @korydondzila
@@ -163,17 +354,42 @@
 # A Short Hike
 /worlds/shorthike/ @chandler05 @BrandenEK
 
+# Skyward Sword
+/worlds/ss/ @Battlecats59
+
+# Sonic Adventure DX
+/worlds/sadx/ @ClassicSpeed
+
 # Sonic Adventure 2 Battle
 /worlds/sa2b/ @PoryGone @RaspberrySpace
+
+# Sonic Heroes
+/worlds/sonic_heroes/ @xMcacutt
+
+# Spyro 3
+/worlds/spyro3/ @ArsonAssassin
 
 # Starcraft 2
 /worlds/sc2/ @Ziktofel
 
+# Star Fox 64
+/worlds/star_fox_64/ @Auztin
+
+# Star Wars Episode 1 Racer
+/worlds/swr/ @wcolding
+
 # Super Metroid
 /worlds/sm/ @lordlou
+/worlds/sm_map_rando/ @lordlou
 
 # Super Mario 64
 /worlds/sm64ex/ @N00byKing
+
+# Super Mario Odyssey
+/worlds/smo/ @Kgamer77
+
+# Super Mario Sunshine
+/worlds/sms/ @Joshark
 
 # Super Mario World
 /worlds/smw/ @PoryGone
@@ -184,6 +400,9 @@
 # Secret of Evermore
 /worlds/soe/ @black-sliver
 
+# Slay the Spire
+/worlds/spire/ @KonoTyran
+
 # Stardew Valley
 /worlds/stardew_valley/ @agilbert1412
 
@@ -193,14 +412,23 @@
 # Terraria
 /worlds/terraria/ @Seldom-SE
 
+# Tetris Attack
+/worlds/tetrisattack/ @AgStarRay
+
 # Timespinner
 /worlds/timespinner/ @Jarno458
+
+# The Binding of Isaac Repentance
+/worlds/tboir/ @Cyb3RGER
 
 # The Legend of Zelda (1)
 /worlds/tloz/ @Rosalie-A @t3hf1gm3nt
 
 # TUNIC
 /worlds/tunic/ @silent-destroyer @ScipioWright
+
+# Twilight Princess
+/worlds/tp/ @WritingHusky
 
 # Undertale
 /worlds/undertale/ @jonloveslegos
@@ -211,11 +439,17 @@
 # Wargroove
 /worlds/wargroove/ @FlySniper
 
+# Wargroove 2
+/worlds/wargroove2/ @FlySniper
+
 # The Wind Waker
 /worlds/tww/ @tanjo3
 
 # The Witness
 /worlds/witness/ @NewSoupVi @blastron
+
+# ULTRAKILL
+/worlds/ultrakill/ @TPRG0
 
 # Yacht Dice
 /worlds/yachtdice/ @spinerak
@@ -223,11 +457,36 @@
 # Yoshi's Island
 /worlds/yoshisisland/ @PinkSwitch
 
-#Yu-Gi-Oh! Ultimate Masters: World Championship Tournament 2006
+# Yu-Gi-Oh! Dungeon Dice Monsters
+/worlds/yugiohddm/ @JustinMarshall98
+
+# Yu-Gi-Oh! Forbidden Memories
+/worlds/fm/ @sg4e
+
+# Yu-Gi-Oh! Ultimate Masters: World Championship Tournament 2006
 /worlds/yugioh06/ @Rensen3
+
+# Wario Land
+/worlds/wl/ @randomcodegen
+
+# Wario Land 4
+/worlds/wl4/ @lilDavid
+
+# Wordipelago
+/worlds/wordipelago/ @ProfDeCube
+
+# Xenoblade Chronicles X
+/worlds/xenobladex/ @MaragonMH
+
+# Zelda II
+/worlds/zelda2/ @PinkSwitch
 
 # Zillion
 /worlds/zillion/ @beauxq
+
+# Zork Grand Inquisitor
+/worlds/zork_grand_inquisitor/ @nbrochu
+
 
 ## Active Unmaintained Worlds
 

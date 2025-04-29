@@ -30,7 +30,7 @@ def data_path(file_name: str):
 class UndertaleWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago Undertale software on your computer. This guide covers "
+        "A guide to setting up the MultiworldGG Undertale software on your computer. This guide covers "
         "single-player, multiworld, and related software.",
         "English",
         "setup_en.md",
@@ -46,6 +46,7 @@ class UndertaleWorld(World):
     from their underground prison.
     """
     game = "Undertale"
+    author: str = "jonloveslegos"
     options_dataclass = UndertaleOptions
     options: UndertaleOptions
     web = UndertaleWeb()

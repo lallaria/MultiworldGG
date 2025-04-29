@@ -15,7 +15,7 @@
 
 # Joining a MultiWorld Game
 
-To join an Archipelago MultiWorld game, you must set the game's launch options. The two mandatory launch options are:  
+To join an MultiworldGG Multiworld game, you must set the game's launch options. The two mandatory launch options are:  
   `-v6ap_name slotName`  
   `-v6ap_ip server:port`
 

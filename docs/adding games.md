@@ -1,20 +1,20 @@
 # Adding Games
 
-Like all contributions to Archipelago, New Game implementations should follow the [Contributing](/docs/contributing.md)
+Like all contributions to MultiworldGG, New Game implementations should follow the [Contributing](/docs/contributing.md)
 guide.
+MultiworldGG
+Adding a new game to MultiworldGG has two major parts:
 
-Adding a new game to Archipelago has two major parts:
-
-* Game Modification to communicate with Archipelago server (hereafter referred to as "client")
-* Archipelago Generation and Server integration plugin (hereafter referred to as "world")
+* Game Modification to communicate with MultiworldGG server (hereafter referred to as "client")
+* MultiworldGG Generation and Server integration plugin (hereafter referred to as "world")
 
 This document will attempt to illustrate the bare minimum requirements and expectations of both parts of a new world
-integration. As game modification wildly varies by system and engine, and has no bearing on the Archipelago protocol,
+integration. As game modification wildly varies by system and engine, and has no bearing on the MultiworldGG protocol,
 it will not be detailed here.
 
 ## Client
 
-The client is an intermediary program between the game and the Archipelago server. This can either be a direct
+The client is an intermediary program between the game and the MultiworldGG server. This can either be a direct
 modification to the game, an external program, or both. This can be implemented in nearly any modern language, but it
 must fulfill a few requirements in order to function as expected. Libraries for most modern languages and the spec for 
 various packets can be found in the [network protocol](/docs/network%20protocol.md) API reference document.
@@ -59,15 +59,15 @@ Receive and parse network packets from the server when the player receives an it
 These are "nice to have" features for a client, but they are not strictly required. It is encouraged to add them 
 if possible.
 
-* If your client appears in the Archipelago Launcher, you may define an icon for it that differentiates it from
+* If your client appears in the MultiworldGG Launcher, you may define an icon for it that differentiates it from
   other clients. The icon size is 48x48 pixels, but smaller or larger images will scale to that size.
 
 ## World
 
-The world is your game integration for the Archipelago generator, webhost, and multiworld server. It contains all the
+The world is your game integration for the MultiworldGG generator, webhost, and multiworld server. It contains all the
 information necessary for creating the items and locations to be randomized, the logic for item placement, the 
 datapackage information so other game clients can recognize your game data, and documentation. Your world must be
-written as a Python package to be loaded by Archipelago. This is currently done by creating a fork of the Archipelago
+written as a Python package to be loaded by MultiworldGG. This is currently done by creating a fork of the MultiworldGG
 repository and creating a new world package in `/worlds/`. 
 
 The base World class can be found in [AutoWorld](/worlds/AutoWorld.py). Methods available for your world to call 
@@ -90,27 +90,27 @@ A bare minimum world implementation must satisfy the following requirements:
 
 Within the `World` subclass you should also have:
 
-* A [unique game name](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L260)
-* An [instance](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L295) of a `WebWorld` 
+* A [unique game name](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L260)
+* An [instance](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L295) of a `WebWorld` 
 subclass for webhost documentation and behaviors
   * In your `WebWorld`, if you wrote a game_info doc in more than one language, override the list of 
-    [game info languages](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L210) with the 
+    [game info languages](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L210) with the 
     ones you include.
   * In your `WebWorld`, override the list of 
-    [tutorials](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L213) with each tutorial
+    [tutorials](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L213) with each tutorial
     or setup doc you included in the game folder.
 * A mapping for items and locations defining their names and ids for clients to be able to identify them. These are 
   `item_name_to_id` and `location_name_to_id`, respectively.
 * An implementation of `create_item` that can create an item when called by either your code or by another process 
-  within Archipelago
+  within MultiworldGG
 * At least one `Region` for your player to start from (i.e. the Origin Region)
   * The default name of this region is "Menu" but you may configure a different name with 
-    [origin_region_name](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L298-L299)
+    [origin_region_name](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L298-L299)
 * A non-zero number of locations, added to your regions
 * A non-zero number of items **equal** to the number of locations, added to the multiworld itempool
   * In rare cases, there may be 0-location-0-item games, but this is extremely atypical.
 * A set 
-  [completion condition](https://github.com/ArchipelagoMW/Archipelago/blob/main/BaseClasses.py#L77) (aka "goal") for
+  [completion condition](https://github.com/MultiworldGG/MultiworldGG/blob/main/BaseClasses.py#L77) (aka "goal") for
   the player.
   * Use your player as the index (`multiworld.completion_condition[player]`) for your world's completion goal.
 
@@ -120,20 +120,20 @@ These are "nice to have" features for a world, but they are not strictly require
 if possible.
 
 * An implementation of
-  [get_filler_item_name](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L473)
+  [get_filler_item_name](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L473)
   * By default, this function chooses any item name from `item_name_to_id`, so you want to limit it to only the true
     filler items.
 * An `options_dataclass` defining the options players have available to them
   * This should be accompanied by a type hint for `options` with the same class name
-* A [bug report page](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L220)
-* A list of [option groups](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L226) 
+* A [bug report page](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L220)
+* A list of [option groups](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L226) 
   for better organization on the webhost
-* A dictionary of [options presets](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L223)
+* A dictionary of [options presets](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L223)
   for player convenience
-* A dictionary of [item name groups](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L273)
+* A dictionary of [item name groups](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L273)
   for player convenience
 * A dictionary of 
-  [location name groups](https://github.com/ArchipelagoMW/Archipelago/blob/main/worlds/AutoWorld.py#L276)
+  [location name groups](https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/AutoWorld.py#L276)
   for player convenience
   * Other games may also benefit from your name group dictionaries for hints, features, etc.
 

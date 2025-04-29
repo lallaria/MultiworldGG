@@ -14,9 +14,9 @@ class TestAPIGenerate(TestBase):
         options = {
             "Tester1":
                 {
-                    "game": "Archipelago",
+                    "game": "MultiworldGG",
                     "name": "Tester",
-                    "Archipelago": {}
+                    "MultiworldGG": {}
                 }
         }
         response = self.client.post(
@@ -30,9 +30,9 @@ class TestAPIGenerate(TestBase):
 
     def test_generation_queued_file(self) -> None:
         options = {
-            "game": "Archipelago",
+            "game": "MultiworldGG",
             "name": "Tester",
-            "Archipelago": {}
+            "MultiworldGG": {}
         }
         response = self.client.post(
             "/api/generate",

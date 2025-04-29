@@ -138,7 +138,7 @@ class HKWeb(WebWorld):
 
     setup_en = Tutorial(
         "Mod Setup and Use Guide",
-        "A guide to playing Hollow Knight with Archipelago.",
+        "A guide to playing Hollow Knight with MultiworldGG.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -166,6 +166,7 @@ class HKWorld(World):
     As the enigmatic Knight, you’ll traverse the depths, unravel its mysteries and conquer its evils.
     """  # from https://www.hollowknight.com
     game: str = "Hollow Knight"
+    author: str = "BadMagic"
     options_dataclass = HKOptions
     options: HKOptions
     settings: typing.ClassVar[HollowKnightSettings]

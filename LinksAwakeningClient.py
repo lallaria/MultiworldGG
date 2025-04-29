@@ -2,6 +2,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 if __name__ == "__main__":
     Utils.init_logging("LinksAwakeningContext", exception_logger="Client")
@@ -446,7 +447,7 @@ class LinksAwakeningClient():
         while not await self.gameboy.check_safe_gameplay(throw=False):
             if self.should_reset_auth:
                 self.should_reset_auth = False
-                raise GameboyException("Resetting due to wrong archipelago server")
+                raise GameboyException("Resetting due to wrong MultiworldGG server")
         logger.info("Game connection ready!")
 
     async def is_victory(self):
@@ -537,7 +538,7 @@ class LinksAwakeningContext(CommonContext):
                 ("Client", "Archipelago"),
                 ("Tracker", "Tracker"),
             ]
-            base_title = "Archipelago Links Awakening DX Client"
+            base_title = apname + " Links Awakening DX Client"
 
             def build(self):
                 b = super().build()
@@ -737,7 +738,7 @@ class LinksAwakeningContext(CommonContext):
                             pass
                     if self.client.should_reset_auth:
                         self.client.should_reset_auth = False
-                        raise GameboyException("Resetting due to wrong archipelago server")
+                        raise GameboyException("Resetting due to wrong MultiworldGG server")
             except (GameboyException, asyncio.TimeoutError, TimeoutError, ConnectionResetError):
                 await asyncio.sleep(1.0)
 
@@ -766,10 +767,10 @@ def run_game(romfile: str) -> None:
 
 async def main():
     parser = get_base_parser(description="Link's Awakening Client.")
-    parser.add_argument("--url", help="Archipelago connection url")
+    parser.add_argument("--url", help="MultiworldGG connection url")
     parser.add_argument("--no-magpie", dest='magpie', default=True, action='store_false', help="Disable magpie bridge")
     parser.add_argument('diff_file', default="", type=str, nargs="?",
-                        help='Path to a .apladx Archipelago Binary Patch file')
+                        help='Path to a .apladx MultiworldGG Binary Patch file')
 
     args = parser.parse_args()
 

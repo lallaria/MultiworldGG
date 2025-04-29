@@ -36,7 +36,7 @@ experiencia personalizada a su gusto y diferentes jugadores dentro del mismo mul
 
 Un fichero basico yaml para OOT tendra este aspecto. (Hay muchas opciones cosméticas que se han ignorado para este
 tutorial, si quieres ver una lista completa, descarga (
-Archipelago)[https://github.com/ArchipelagoMW/Archipelago/releases] y buscar el fichero de ejemplo en el directorio "
+Archipelago)[https://github.com/MultiworldGG/MultiworldGG/releases] y buscar el fichero de ejemplo en el directorio "
 Players"))
 
 ```yaml

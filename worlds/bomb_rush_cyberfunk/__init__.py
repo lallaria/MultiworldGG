@@ -12,7 +12,7 @@ class BombRushCyberfunkWeb(WebWorld):
     theme = "ocean"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Bomb Rush Cyberfunk randomizer and connecting to an Archipelago Multiworld",
+        "A guide to setting up Bomb Rush Cyberfunk randomizer and connecting to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -25,6 +25,7 @@ class BombRushCyberfunkWorld(World):
     police to conquer the five boroughs of New Amsterdam. Become All City."""
 
     game = "Bomb Rush Cyberfunk"
+    author: str = "CookieCat45"
     web = BombRushCyberfunkWeb()
 
     item_name_to_id = {item["name"]: (base_id + index) for index, item in enumerate(item_table)}

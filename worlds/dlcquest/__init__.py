@@ -19,7 +19,7 @@ class DLCqwebworld(WebWorld):
     option_groups = dlcq_option_groups
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago DLCQuest game on your computer.",
+        "A guide to setting up the MultiworldGG DLCQuest game on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -42,6 +42,7 @@ class DLCqworld(World):
     DLCQuest is a metroid ish game where everything is an in-game dlc.
     """
     game = "DLCQuest"
+    author: str = "axe-y & Kaito Kid"
     topology_present = False
     web = DLCqwebworld()
 

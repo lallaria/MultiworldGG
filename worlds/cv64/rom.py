@@ -865,7 +865,7 @@ class CV64PatchExtensions(APPatchExtension):
         # Update the items' decompressed file size tables with the new file's decompressed file size.
         rom_data.write_int16(0x95706, 0x7BF0)
         rom_data.write_int16(0x104CCE, 0x7BF0)
-        # Update the Wooden Stake and Roses' item appearance settings table to point to the Archipelago item graphics.
+        # Update the Wooden Stake and Roses' item appearance settings table to point to the MultiworldGG item graphics.
         rom_data.write_int16(0xEE5BA, 0x7B38)
         rom_data.write_int16(0xEE5CA, 0x7280)
         # Change the items' sizes. The progression one will be larger than the non-progression one.

@@ -6,6 +6,10 @@ from enum import Enum, auto
 from typing import Optional, Callable, List, Iterable, Tuple
 
 from Utils import local_path, open_filename
+try:
+    from Utils import instance_name as apname
+except ImportError:
+    apname = "Archipelago"
 
 
 class Type(Enum):
@@ -19,9 +23,9 @@ class Type(Enum):
 
 class Component:
     """
-    A Component represents a process launchable by Archipelago Launcher, either by a User action in the GUI,
-    by resolving an archipelago://user:pass@host:port link from the WebHost, by resolving a patch file's metadata,
-    or by using a component name arg while running the Launcher in CLI i.e. `ArchipelagoLauncher.exe "Text Client"`
+    A Component represents a process launchable by MultiworldGG Launcher, either by a User action in the GUI,
+    by resolving an archipelago/mwgg://user:pass@host:port link from the WebHost, by resolving a patch file's metadata,
+    or by using a component name arg while running the Launcher in CLI i.e. `MultiworldGGLauncher.exe "Text Client"`
 
     Expected to be appended to LauncherComponents.component list to be used.
     """
@@ -64,7 +68,7 @@ class Component:
         self.display_name = display_name
         self.description = description
         self.script_name = script_name
-        self.frozen_name = frozen_name or f'Archipelago{script_name}' if script_name else None
+        self.frozen_name = frozen_name or (apname + script_name) if script_name else None
         self.icon = icon
         self.cli = cli
         if component_type == Type.FUNC:
@@ -209,11 +213,11 @@ components: List[Component] = [
     # Launcher
     Component('Launcher', 'Launcher', component_type=Type.HIDDEN),
     # Core
-    Component('Host', 'MultiServer', 'ArchipelagoServer', cli=True,
-              file_identifier=SuffixIdentifier('.archipelago', '.zip')),
+    Component('Host', 'MultiServer', f'{apname}Server', cli=True,
+              file_identifier=SuffixIdentifier('.archipelago', '.mwgg', '.zip')),
     Component('Generate', 'Generate', cli=True),
     Component("Install APWorld", func=install_apworld, file_identifier=SuffixIdentifier(".apworld")),
-    Component('Text Client', 'CommonClient', 'ArchipelagoTextClient', func=launch_textclient),
+    Component('Text Client', 'CommonClient', f'{apname}TextClient', func=launch_textclient),
     Component('Links Awakening DX Client', 'LinksAwakeningClient',
               file_identifier=SuffixIdentifier('.apladx')),
     Component('LttP Adjuster', 'LttPAdjuster'),
@@ -230,16 +234,8 @@ components: List[Component] = [
     Component('Zelda 1 Client', 'Zelda1Client', file_identifier=SuffixIdentifier('.aptloz')),
     # ChecksFinder
     Component('ChecksFinder Client', 'ChecksFinderClient'),
-    # Starcraft 2
-    Component('Starcraft 2 Client', 'Starcraft2Client'),
-    # Wargroove
-    Component('Wargroove Client', 'WargrooveClient'),
-    # Zillion
-    Component('Zillion Client', 'ZillionClient',
-              file_identifier=SuffixIdentifier('.apzl')),
-
-    #MegaMan Battle Network 3
-    Component('MMBN3 Client', 'MMBN3Client', file_identifier=SuffixIdentifier('.apbn3'))
+    # Manual games in Arch
+    Component('Manual Client', 'ManualClient', file_identifier=SuffixIdentifier('.apmanual'))
 ]
 
 

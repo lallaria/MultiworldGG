@@ -79,10 +79,10 @@ class TWWItem(Item):
     @staticmethod
     def get_apid(code: int) -> int:
         """
-        Compute the Archipelago ID for the given item code.
+        Compute the MultiworldGG ID for the given item code.
 
         :param code: The unique code for the item.
-        :return: The computed Archipelago ID.
+        :return: The computed MultiworldGG ID.
         """
         base_id: int = 2322432
         return base_id + code

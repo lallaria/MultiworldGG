@@ -40,11 +40,11 @@ open the program.
 file will be named `TWW AP_YYYYY_P# (<name>).iso`, where `YYYYY` is the seed name, `#` is your player ID, and `<name>`
 is your player (slot) name. Verify that the values are correct for the multiworld.
 5. Open Dolphin and use it to open the randomized ISO.
-6. Start `ArchipelagoLauncher.exe` (without `.exe` on Linux) and choose `The Wind Waker Client`, which will open the
+6. Start `MultiworldGGLauncher.exe` (without `.exe` on Linux) and choose `The Wind Waker Client`, which will open the
 text client. If Dolphin is not already open, or you have yet to start a new file, you will be prompted to do so.
     * Once you've opened the ISO in Dolphin, the client should say "Dolphin connected successfully.".
 7. Connect to the room by entering the server name and port number at the top and pressing `Connect`. For rooms hosted
-on the website, this will be `archipelago.gg:<port>`, where `<port>` is the port number. If a game is hosted from the
+on the website, this will be `multiworld.gg:<port>`, where `<port>` is the port number. If a game is hosted from the
 `ArchipelagoServer.exe` (without `.exe` on Linux), the port number will default to `38281` but may be changed in the
 `host.yaml`.
 8. If you've opened a ROM corresponding to the multiworld to which you are connected, it should authenticate your slot
@@ -52,9 +52,9 @@ name automatically when you start a new save file.
 
 ## Troubleshooting
 
-* Ensure you are running the same version of Archipelago on which the multiworld was generated.
-* Ensure `tww.apworld` is not in your Archipelago installation's `custom_worlds` folder.
-* Ensure you are using the correct randomizer build for the version of Archipelago you are using. The build should
+* Ensure you are running the same version of MultiworldGG on which the multiworld was generated.
+* Ensure `tww.apworld` is not in your MultiworldGG installation's `custom_worlds` folder.
+* Ensure you are using the correct randomizer build for the version of MultiworldGG you are using. The build should
 provide an error message directing you to the correct version. You can also look at the release notes of TWW AP builds
 [here](https://github.com/tanjo3/wwrando/releases) to see which versions of Archipelago each build is compatible with.
 * If you encounter issues with authenticating, ensure that the randomized ROM is open in Dolphin and corresponds to the

@@ -13,7 +13,7 @@ class TimespinnerWebWorld(WebWorld):
     theme = "ice"
     setup = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Timespinner randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the Timespinner randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -39,6 +39,7 @@ class TimespinnerWorld(World):
     options_dataclass = BackwardsCompatiableTimespinnerOptions
     options: BackwardsCompatiableTimespinnerOptions
     game = "Timespinner"
+    author: str = "Jarno458"
     topology_present = True
     web = TimespinnerWebWorld()
     required_client_version = (0, 4, 2)

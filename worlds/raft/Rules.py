@@ -79,7 +79,7 @@ class RaftLogic(LogicMixin):
         return (self.raft_can_craft_netLauncher(player) and self.raft_can_craft_netCanister(player)
             and self.raft_can_craft_grassPlot(player))
 
-    def raft_can_navigate(self, player): # Sail is added by default and not considered in Archipelago
+    def raft_can_navigate(self, player): # Sail is added by default and not considered in MultiworldGG
         return self.raft_can_craft_battery(player) and self.raft_can_craft_reciever(player) and self.raft_can_craft_antenna(player)
 
     def raft_can_drive(self, player): # The player can go wherever they want with the engine

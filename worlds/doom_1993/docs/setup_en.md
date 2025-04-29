@@ -7,7 +7,7 @@
 
 ## Optional Software
 
-- [ArchipelagoTextClient](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [MultiworldGGTextClient](https://github.com/MultiworldGG/MultiworldGG/releases)
 - [PopTracker](https://github.com/black-sliver/PopTracker/)
   - [OZone's APDoom tracker pack](https://github.com/Ozone31/doom-ap-tracker/releases)
 
@@ -32,7 +32,7 @@ Connecting with a different seed won't erase your progress in other seeds.
 
 1. In your command line, navigate to the directory where APDOOM is installed.
 2. Run `crispy-apdoom -game doom -apserver <server> -applayer <slot name>`, where:
-    - `<server>` is the Archipelago server address, e.g. "`archipelago.gg:38281`"
+    - `<server>` is the Archipelago server address, e.g. "`multiworld.gg:38281`"
     - `<slot name>` is your slot name; if it contains spaces, surround it with double quotes
     - If the server has a password, add `-password`, followed by the server password
 3. Enjoy!
@@ -46,9 +46,9 @@ Optionally, you can override some randomization settings from the command line:
 - `-apdeathlinkoff` will force DeathLink off if it's enabled.
 - `-skill <1-5>` changes the game difficulty, from 1 (I'm too young to die) to 5 (Nightmare!)
 
-## Archipelago Text Client
+## MultiworldGG Text Client
 
-We recommend having Archipelago's Text Client open on the side to keep track of what items you receive and send.
+We recommend having MultiworldGG's Text Client open on the side to keep track of what items you receive and send.
 APDOOM has in-game messages,
 but they disappear quickly and there's no reasonable way to check your message history in-game.
 

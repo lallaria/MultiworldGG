@@ -10,16 +10,16 @@ indications pour obtenir un fichier de configuration de *StarCraft 2 Archipelago
    *randomizer*. 
    Si vous ne possédez pas certaines campagnes, il vous suffit de les exclure dans le fichier de configuration de 
    votre monde.
-- [La version la plus récente d'Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
+- [La version la plus récente d'MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases)
 
 ## Comment est-ce que j'installe ce *randomizer*?
 
-1. Installer *StarCraft 2* et Archipelago en suivant les instructions indiquées dans les liens précédents. Le client de 
-*StarCraft 2 Archipelago* est téléchargé par le programme d'installation d'Archipelago.
+1. Installer *StarCraft 2* et MultiworldGG en suivant les instructions indiquées dans les liens précédents. Le client de 
+*StarCraft 2 Archipelago* est téléchargé par le programme d'installation d'MultiworldGG.
    - Les utilisateurs de Linux devraient aussi suivre les instructions qui se retrouvent à la fin de cette page 
 (["Exécuter sous Linux"](#exécuter-sous-linux)).
-   - Notez que votre jeu *StarCraft 2* doit être en anglais pour fonctionner avec Archipelago.
-2. Exécuter `ArchipelagoStarcraft2Client.exe`.
+   - Notez que votre jeu *StarCraft 2* doit être en anglais pour fonctionner avec MultiworldGG.
+2. Exécuter `MultiworldGGStarcraft2Client.exe`.
    - Uniquement pour cette étape, les utilisateurs de macOS devraient plutôt suivre les instructions qui se trouvent à 
 ["Exécuter sous macOS"](#exécuter-sous-macos).
 3. Dans le client de *StarCraft 2 Archipelago*, écrire la commande `/download_data`. Cette commande va lancer 
@@ -27,7 +27,7 @@ l'installation des fichiers qui sont nécessaires pour jouer à *StarCraft 2 Arc
 
 ## Où est-ce que j'obtiens le fichier de configuration (i.e., le *yaml*) pour ce jeu?
 
-Un fichier dans le format *yaml* est utilisé pour communiquer à Archipelago comment vous voulez que votre jeu soit 
+Un fichier dans le format *yaml* est utilisé pour communiquer à MultiworldGG comment vous voulez que votre jeu soit 
 *randomized*. 
 Ce dernier est nécessaire même si vous voulez utiliser les options par défaut. 
 L'approche usuelle pour générer un *multiworld* consiste à avoir un fichier *yaml* par monde.
@@ -37,7 +37,7 @@ Il y a trois approches pour obtenir un fichier *yaml* pour *StarCraft 2 Randomiz
 choix via une interface graphique et ensuite télécharger le *yaml* correspondant à ces choix.
 * Vous pouvez obtenir le modèle de base en le téléchargeant à la page 
 [*Player options*](/games/Starcraft%202/player-options) ou en cliquant sur *Generate template* après avoir exécuté le 
-*Launcher* d'Archipelago (i.e., `ArchipelagoLauncher.exe`). Ce modèle de base inclut une description pour chacune des 
+*Launcher* d'MultiworldGG (i.e., `MultiworldGGLauncher.exe`). Ce modèle de base inclut une description pour chacune des 
 options et vous n'avez qu'à modifier les options dans un éditeur de texte de votre choix.
 * Vous pouvez demander à quelqu'un d'autre de partager un de ces fichiers *yaml* pour l'utiliser ou l'ajuster à vos 
 préférences.
@@ -45,8 +45,8 @@ préférences.
 Prenez soin de vous rappeler du nom de joueur que vous avez inscrit dans la page à options ou dans le fichier *yaml* 
 puisque vous en aurez besoin pour vous connecter à votre monde!
 
-Si vous désirez des informations et/ou instructions générales sur l'utilisation d'un fichier *yaml* pour Archipelago, 
-veuillez consulter [*Creating a YAML*](/tutorial/Archipelago/setup/en#creating-a-yaml).
+Si vous désirez des informations et/ou instructions générales sur l'utilisation d'un fichier *yaml* pour MultiworldGG, 
+veuillez consulter [*Creating a YAML*](/tutorial/MultiworldGG/setup/en#creating-a-yaml).
 
 ### Questions récurrentes à propos du fichier *yaml*
 
@@ -56,11 +56,11 @@ La manière la plus simple de valider votre *yaml* est d'utiliser le
 [système de validation](/check) du site web.
 
 Vous pouvez aussi le tester en tentant de générer un *multiworld* avec votre *yaml*.
-Pour faire ça, sauvegardez votre *yaml* dans le dossier `Players/` de votre installation d'Archipelago et exécutez 
-`ArchipelagoGenerate.exe`. 
+Pour faire ça, sauvegardez votre *yaml* dans le dossier `Players/` de votre installation d'MultiworldGG et exécutez 
+`MultiworldGGGenerate.exe`. 
 Si votre *yaml* est bien défini, vous devriez voir un nouveau fichier, avec l'extension `.zip`, apparaître dans le 
-dossier `output/` de votre installation d'Archipelago.
-Il est recommandé de lancer `ArchipelagoGenerate.exe` via un terminal afin que vous puissiez voir les messages générés 
+dossier `output/` de votre installation d'MultiworldGG.
+Il est recommandé de lancer `MultiworldGGGenerate.exe` via un terminal afin que vous puissiez voir les messages générés 
 par le logiciel, ce qui va inclure toutes erreurs qui ont eu lieu et le nom de fichier généré.
 Si vous n'appréciez pas le fait d'utiliser un terminal, vous pouvez aussi regarder le fichier *log* qui va être produit 
 dans le dossier `logs/`.
@@ -68,7 +68,7 @@ dans le dossier `logs/`.
 #### À quoi sert l'option *Progression Balancing*?
 
 Pour *StarCraft 2*, cette option ne fait pas grand-chose.
-Il s'agit d'une option d'Archipelago permettant d'équilibrer la progression des mondes en interchangeant les *items* 
+Il s'agit d'une option d'MultiworldGG permettant d'équilibrer la progression des mondes en interchangeant les *items* 
 dans les *spheres*. 
 Si le *Progression Balancing* d'un monde est plus grand que ceux des autres, les *items* de progression de ce monde ont 
 plus de chance d'être obtenus tôt et vice-versa si sa valeur est plus petite que celle des autres mondes. 
@@ -113,15 +113,15 @@ syntaxe.
 
 #### Comment est-ce que je fais pour connaître le nom des *items* et des *locations* dans *StarCraft 2 Archipelago*? 
 
-La page [*datapackage*](/datapackage) d'Archipelago liste l'ensemble des *items* et des *locations* de tous les jeux 
+La page [*datapackage*](/datapackage) d'MultiworldGG liste l'ensemble des *items* et des *locations* de tous les jeux 
 que le site web prend en charge actuellement, dont ceux de *StarCraft 2*.
 
 Vous trouverez aussi la liste complète des *items* de *StarCraft 2 Archipelago* à la page 
 [*Icon Repository*](https://matthewmarinets.github.io/ap_sc2_icons/). 
 Notez que cette page contient diverses informations supplémentaires sur chacun des *items*.
-Cependant, l'information présente dans cette dernière peut différer de celle du *datapackage* d'Archipelago 
+Cependant, l'information présente dans cette dernière peut différer de celle du *datapackage* d'MultiworldGG 
 puisqu'elle est générée, habituellement, à partir de la version en développement de *StarCraft 2 Archipelago* qui 
-n'ont peut-être pas encore été inclus dans le site web d'Archipelago.
+n'ont peut-être pas encore été inclus dans le site web d'MultiworldGG.
 
 Pour ce qui concerne les *locations*, vous pouvez consulter tous les *locations* associés à une mission dans votre 
 monde en plaçant votre curseur sur la case correspondante dans l'onglet *StarCraft 2 Launcher* du client.
@@ -129,7 +129,7 @@ monde en plaçant votre curseur sur la case correspondante dans l'onglet *StarCr
 
 ## Comment est-ce que je peux joindre un *MultiWorld*?
 
-1. Exécuter `ArchipelagoStarcraft2Client.exe`.
+1. Exécuter `MultiworldGGStarcraft2Client.exe`.
    - Uniquement pour cette étape, les utilisateurs de macOS devraient plutôt suivre les instructions à la page 
 ["Exécuter sous macOS"](#exécuter-sous-macos).
 2. Entrer la commande `/connect [server ip]`.
@@ -152,7 +152,7 @@ fichier *log*.
 
 ## Mon profil de raccourcis clavier n'est pas disponibles quand je joue à *StarCraft 2 Archipelago*
 
-Pour que votre profil de raccourcis clavier fonctionne dans Archipelago, vous devez copier votre fichier de raccourcis 
+Pour que votre profil de raccourcis clavier fonctionne dans MultiworldGG, vous devez copier votre fichier de raccourcis 
 qui se trouve dans `Documents/StarCraft II/Accounts/######/Hotkeys` vers `Documents/StarCraft II/Hotkeys`.
 Si le dossier n'existe pas, créez-le.
 
@@ -164,14 +164,14 @@ Vous n'aurez besoin de faire ça qu'une seule fois.
 
 ## Exécuter sous macOS
 
-Pour exécuter *StarCraft 2* via Archipelago sous macOS, vous devez exécuter le client à partir de la source  
-comme indiqué ici: [*macOS Guide*](/tutorial/Archipelago/mac/en). 
+Pour exécuter *StarCraft 2* via MultiworldGG sous macOS, vous devez exécuter le client à partir de la source  
+comme indiqué ici: [*macOS Guide*](/tutorial/MultiworldGG/mac/en). 
 Notez que pour lancer le client, vous devez exécuter la commande `python3 Starcraft2Client.py`.
 
 ## Exécuter sous Linux
 
-Pour exécuter *StarCraft 2* via Archipelago sous Linux, vous allez devoir installer le jeu avec *Wine* et ensuite 
-exécuter le client d'Archipelago pour Linux.
+Pour exécuter *StarCraft 2* via MultiworldGG sous Linux, vous allez devoir installer le jeu avec *Wine* et ensuite 
+exécuter le client d'MultiworldGG pour Linux.
 
 Confirmez que vous avez installé *StarCraft 2* via *Wine* et que vous avez suivi les 
 [instructions d'installation](#comment-est-ce-que-j'installe-ce-randomizer?) pour ajouter les *Maps* et les *Data 
@@ -195,14 +195,14 @@ export WINE="/usr/bin/wine"
 # À_CHANGER Remplacer le chemin par celui qui indique où StarCraft II est installé
 export SC2PATH="/home/user/Games/starcraft-ii/drive_c/Program Files (x86)/StarCraft II/"
 
-# À_CHANGER Indiquer le dossier qui contient l'AppImage d'Archipelago
+# À_CHANGER Indiquer le dossier qui contient l'AppImage d'MultiworldGG
 PATH_TO_ARCHIPELAGO=
 
 # Obtiens la dernière version de l'AppImage de Archipelago dans le dossier PATH_TO_ARCHIPELAGO.
 # Si PATH_TO_ARCHIPELAGO n'est pas défini, la valeur par défaut est le dossier qui contient ce script.
 ARCHIPELAGO="$(ls ${PATH_TO_ARCHIPELAGO:-$(dirname $0)}/Archipelago_*.AppImage | sort -r | head -1)"
 
-# Lance le client de Archipelago
+# Lance le client de MultiworldGG
 $ARCHIPELAGO Starcraft2Client
 ```
 

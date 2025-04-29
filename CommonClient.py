@@ -17,6 +17,7 @@ ModuleUpdate.update()
 import websockets
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 if __name__ == "__main__":
     Utils.init_logging("TextClient", exception_logger="Client")
@@ -255,8 +256,8 @@ class CommonContext:
             id_to_name_lookup_table.update({code: name for name, code in name_to_id_lookup_table.items()})
             self._game_store[game] = collections.ChainMap(self._archipelago_lookup, id_to_name_lookup_table)
             self._flat_store.update(id_to_name_lookup_table)  # Only needed for legacy lookup method.
-            if game == "Archipelago":
-                # Keep track of the Archipelago data package separately so if it gets updated in a custom datapackage,
+            if game == "MultiworldGG":
+                # Keep track of the MultiworldGG data package separately so if it gets updated in a custom datapackage,
                 # it updates in all chain maps automatically.
                 self._archipelago_lookup.clear()
                 self._archipelago_lookup.update(id_to_name_lookup_table)
@@ -350,7 +351,7 @@ class CommonContext:
         self.input_requests = 0
 
         # game state
-        self.player_names = {0: "Archipelago"}
+        self.player_names = {0: "MultiworldGG"}
         self.exit_event = asyncio.Event()
         self.watcher_event = asyncio.Event()
 
@@ -424,7 +425,7 @@ class CommonContext:
 
     def consume_players_package(self, package: typing.List[tuple]):
         self.player_names = {slot: name for team, slot, name, orig_name in package if self.team == team}
-        self.player_names[0] = "Archipelago"
+        self.player_names[0] = "MultiworldGG"
 
     def event_invalid_slot(self):
         raise Exception('Invalid Slot; please verify that you have connected to the correct world.')
@@ -575,8 +576,8 @@ class CommonContext:
                                    remote_data_package_checksums: typing.Dict[str, str]):
         """Validate that all data is present for the current multiworld.
         Download, assimilate and cache missing data from the server."""
-        # by documentation any game can use Archipelago locations/items -> always relevant
-        relevant_games.add("Archipelago")
+        # by documentation any game can use MultiworldGG locations/items -> always relevant
+        relevant_games.add("MultiworldGG")
 
         needed_updates: typing.Set[str] = set()
         for game in relevant_games:
@@ -720,7 +721,7 @@ class CommonContext:
         from kvui import GameManager
 
         class TextManager(GameManager):
-            base_title = "Archipelago Text Client"
+            base_title = apname + " Text Client"
 
         return TextManager
 
@@ -767,7 +768,7 @@ async def server_loop(ctx: CommonContext, address: typing.Optional[str] = None) 
 
     # Wait for the user to provide a multiworld server address
     if not address:
-        logger.info('Please connect to an Archipelago server.')
+        logger.info(f'Please connect to a {apname} server.')
         return
 
     ctx.cancel_autoreconnect()
@@ -776,7 +777,7 @@ async def server_loop(ctx: CommonContext, address: typing.Optional[str] = None) 
         ctx._messagebox_connection_loss = None
 
     address = f"ws://{address}" if "://" not in address \
-        else address.replace("archipelago://", "ws://")
+        else address.replace("archipelago://", "ws://").replace("mwgg://", "ws://")
 
     server_url = urllib.parse.urlparse(address)
     if server_url.username:
@@ -787,7 +788,7 @@ async def server_loop(ctx: CommonContext, address: typing.Optional[str] = None) 
     def reconnect_hint() -> str:
         return ", type /connect to reconnect" if ctx.server_address else ""
 
-    logger.info(f'Connecting to Archipelago server at {address}')
+    logger.info(f'Connecting to {apname} server at {address}')
     try:
         port = server_url.port or 38281  # raises ValueError if invalid
         socket = await websockets.connect(address, port=port, ping_timeout=None, ping_interval=None,
@@ -814,7 +815,7 @@ async def server_loop(ctx: CommonContext, address: typing.Optional[str] = None) 
                                        f"{reconnect_hint()}")
     except ConnectionRefusedError:
         ctx.handle_connection_loss("Connection refused by the server. "
-                                   "May not be running Archipelago on that address or port.")
+                                   f"May not be running {apname} on that address or port.")
     except websockets.InvalidURI:
         ctx.handle_connection_loss("Failed to connect to the multiworld server (invalid URI)")
     except OSError:
@@ -1059,17 +1060,17 @@ def get_base_parser(description: typing.Optional[str] = None):
 def handle_url_arg(args: "argparse.Namespace",
                    parser: "typing.Optional[argparse.ArgumentParser]" = None) -> "argparse.Namespace":
     """
-    Parse the url arg "archipelago://name:pass@host:port" from launcher into correct launch args for CommonClient
+    Parse the url arg "archipelago://name:pass@host:port" or "mwgg://name:pass@host:port" from launcher into correct launch args for CommonClient
     If alternate data is required the urlparse response is saved back to args.url if valid
     """
     if not args.url:
         return args
         
     url = urllib.parse.urlparse(args.url)
-    if url.scheme != "archipelago":
+    if url.scheme != "archipelago" and url.scheme != "mwgg":
         if not parser:
             parser = get_base_parser()
-        parser.error(f"bad url, found {args.url}, expected url in form of archipelago://archipelago.gg:38281")
+        parser.error(f"bad url, found {args.url}, expected url in form of archipelago://multiworld.gg:38281 or mwgg://multiworld.gg:38281")
         return args
 
     args.url = url
@@ -1118,9 +1119,9 @@ def run_as_textclient(*args):
 
     import colorama
 
-    parser = get_base_parser(description="Gameless Archipelago Client, for text interfacing.")
+    parser = get_base_parser(description=f"Gameless {apname} Client, for text interfacing.")
     parser.add_argument('--name', default=None, help="Slot Name to connect as.")
-    parser.add_argument("url", nargs="?", help="Archipelago connection url")
+    parser.add_argument("url", nargs="?", help=f"{apname} connection url")
     args = parser.parse_args(args)
 
     args = handle_url_arg(args, parser=parser)

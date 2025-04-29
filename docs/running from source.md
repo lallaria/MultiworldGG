@@ -1,7 +1,7 @@
 # Running From Source
 
 If you just want to play and there is a compiled version available on the
-[Archipelago releases page](https://github.com/ArchipelagoMW/Archipelago/releases),
+[MultiworldGG releases page](https://github.com/MultiworldGG/MultiworldGG/releases),
 use that version. These steps are for developers or platforms without compiled releases available.
 
 ## General
@@ -50,7 +50,7 @@ Recommended steps
 
 ## macOS
 
-Refer to [Guide to Run Archipelago from Source Code on macOS](../worlds/generic/docs/mac_en.md).
+Refer to [Guide to Run MultiworldGG from Source Code on macOS](../worlds/generic/docs/mac_en.md).
 
 
 ## Optional: A Link to the Past Enemizer
@@ -74,8 +74,8 @@ host.yaml at your SNI folder.
 
 ## Optional: Git
 
-[Git](https://git-scm.com) is required to install some of the packages that Archipelago depends on.
-It may be possible to run Archipelago from source without it, at your own risk.
+[Git](https://git-scm.com) is required to install some of the packages that MultiworldGG depends on.
+It may be possible to run MultiworldGG from source without it, at your own risk.
 
 It is also generally recommended to have Git installed and understand how to use it, especially if you're thinking about contributing.
 
@@ -87,4 +87,4 @@ PyCharm has a built-in version control integration that supports Git.
 
 ## Running tests
 
-Information about running tests can be found in [tests.md](https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/tests.md#running-tests)
+Information about running tests can be found in [tests.md](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/tests.md#running-tests)

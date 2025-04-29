@@ -12,24 +12,24 @@ class GenericWeb(WebWorld):
                                  'A guide to reading YAML files and editing them to fully customize your game.',
                                  'English', 'advanced_settings_en.md', 'advanced_settings/en',
                                  ['alwaysintreble', 'Alchav'])
-    commands = Tutorial('Archipelago Server and Client Commands',
-                        'A guide detailing the commands available to the user when participating in an Archipelago session.',
+    commands = Tutorial('MultiworldGG Server and Client Commands',
+                        'A guide detailing the commands available to the user when participating in an MultiworldGG session.',
                         'English', 'commands_en.md', 'commands/en', ['jat2980', 'Ijwu'])
-    mac = Tutorial('Archipelago Setup Guide for Mac', 'A guide detailing how to run Archipelago clients on macOS.', 
+    mac = Tutorial('MultiworldGG Setup Guide for Mac', 'A guide detailing how to run MultiworldGG clients on macOS.', 
                    'English', 'mac_en.md','mac/en', ['Bicoloursnake'])
-    plando = Tutorial('Archipelago Plando Guide', 'A guide to understanding and using plando for your game.',
+    plando = Tutorial('MultiworldGG Plando Guide', 'A guide to understanding and using plando for your game.',
                       'English', 'plando_en.md', 'plando/en', ['alwaysintreble', 'Alchav'])
     setup = Tutorial('Getting Started',
-                     'A guide to setting up the Archipelago software, and generating, hosting, and connecting to '
+                     'A guide to setting up the MultiworldGG software, and generating, hosting, and connecting to '
                      'multiworld games.',
                      'English', 'setup_en.md', 'setup/en', ['alwaysintreble'])
-    triggers = Tutorial('Archipelago Triggers Guide', 'A guide to setting up and using triggers in your game settings.',
+    triggers = Tutorial('MultiworldGG Triggers Guide', 'A guide to setting up and using triggers in your game settings.',
                         'English', 'triggers_en.md', 'triggers/en', ['alwaysintreble'])
     tutorials = [setup, mac, commands, advanced_settings, triggers, plando]
 
 
 class GenericWorld(World):
-    game = "Archipelago"
+    game = "MultiworldGG"
     topology_present = False
     item_name_to_id = {
         "Nothing": -1

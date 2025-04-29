@@ -16,9 +16,9 @@
 
 ## Connecting
 
-Use the connect form in Subnautica's main menu to enter your connection information to connect to an Archipelago multiworld.
+Use the connect form in Subnautica's main menu to enter your connection information to connect to an MultiworldGG Multiworld.
 Connection information consists of:
- - Host: the full url that you're trying to connect to, such as `archipelago.gg:38281`.
+ - Host: the full url that you're trying to connect to, such as `multiworld.gg:38281`.
  - PlayerName: your name in the multiworld. Can also be called "slot name" and is the name you entered when creating your options.
  - Password: optional password, leave blank if no password was set.
 
@@ -36,7 +36,7 @@ Warning: Currently it is not checked whether a loaded savegame belongs to the mu
 
 The mod adds the following console commands:
  - `say` sends the text following it to Archipelago as a chat message.
-   - For example, to use the [`!hint` command](/tutorial/Archipelago/commands/en#remote-commands), type `say !hint`.
+   - For example, to use the [`!hint` command](/tutorial/MultiworldGG/commands/en#remote-commands), type `say !hint`.
  - `silent` toggles Archipelago messages appearing.
  - `tracker` rotates through the possible settings for the in-game tracker that displays the closest uncollected location.
  - `deathlink` toggles death link.

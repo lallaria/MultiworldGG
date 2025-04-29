@@ -192,7 +192,7 @@ class TimePieceBalancePercent(Range):
 
 
 class StartWithCompassBadge(DefaultOnToggle):
-    """If enabled, start with the Compass Badge. In Archipelago, the Compass Badge will track all items in the world
+    """If enabled, start with the Compass Badge. In MultiworldGG, the Compass Badge will track all items in the world
     (instead of just Relics). Recommended if you're not familiar with where item locations are."""
     display_name = "Start with Compass Badge"
 

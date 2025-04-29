@@ -38,7 +38,7 @@ highly recommended to use utility mods and features to speed up gameplay, such a
 
 ### What is a YAML and why do I need one?
 
-The [basic multiworld setup guide](/tutorial/Archipelago/setup/en) can be found on Archipelago's website. Among other things, it explains what .yaml 
+The [basic multiworld setup guide](/tutorial/MultiworldGG/setup/en) can be found on MultiworldGG's website. Among other things, it explains what .yaml 
 files are, and how they are used.
 
 ### Where do I get a YAML?
@@ -62,5 +62,5 @@ play on.
 ## Commands
 
 While playing Archipelago, you can interact with the server using the commands listed in the
-[commands guide](/tutorial/Archipelago/commands/en). To send a command, open chat, and enter `/ap`,
+[commands guide](/tutorial/MultiworldGG/commands/en). To send a command, open chat, and enter `/ap`,
 followed by the command you want to send. For example, `/ap !help`.

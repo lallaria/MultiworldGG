@@ -2,8 +2,8 @@
 
 ## Benötigte Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
-- [SNI](https://github.com/alttpo/sni/releases) (Integriert in Archipelago)
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases)
+- [SNI](https://github.com/alttpo/sni/releases) (Integriert in MultiworldGG)
 - Hardware oder Software zum Laden und Abspielen von SNES Rom-Dateien fähig zu einer Internetverbindung
     - Ein Emulator, der mit SNI verbinden kann
       ([snes9x rr](https://github.com/gocha/snes9x-rr/releases),
@@ -17,7 +17,7 @@
 
 1. Lade die Multiworld Utilities herunter und führe die Installation aus. Sei sicher, dass du immer die aktuellste
    Version installiert hast.**Die Datei befindet sich im "assets"-Kasten unter der jeweiligen Versionsinfo!**. Für
-   normale Multiworld-Spiele lädst du die `Setup.Archipelago.exe` herunter.
+   normale Multiworld-Spiele lädst du die `Setup.MultiworldGG.exe` herunter.
     - Für den Doorrandomizer muss die alternative doors-Variante geladen werden.
     - Während der Installation fragt dich das Programm nach der japanischen 1.0 ROM-Datei. Wenn du die Software bereits
       installiert hast und einfach nur updaten willst, wirst du nicht nochmal danach gefragt.
@@ -99,7 +99,7 @@ kommunizieren darf.
 2. Klicke auf den Reiter "File" oben im Menü und wähle **Lua Scripting**
 3. Klicke auf **New Lua Script Window...**
 4. Im sich neu öffnenden Fenster, klicke auf **Browse...**
-5. Navigiere zum Verzeichnis, wo du Archipelago installiert hast und dort in den Unterordner `SNI`.
+5. Navigiere zum Verzeichnis, wo du MultiworldGG installiert hast und dort in den Unterordner `SNI`.
 6. Wähle dort die `Connector.lua` und klicke auf Öffnen.
 7. Schaue im Lua-Fenster nach einem Namen, der dir zugeteilt wird und schaue im Client (WebUI im Browser), ob dort
    "Snes Device: Connected" mit demselben Namen dort steht (in der oberen linken Ecke).
@@ -112,7 +112,7 @@ kommunizieren darf.
 2. Lade die entsprechende ROM-Datei, wenn sie nicht schon automatisch geladen wurde.
 3. Klicke auf das Tools-Menü und klicke auf **Lua Console**
 4. Klicke auf den Button um ein neues Lua-Script zu öffnen.
-5. Navigiere zum Verzeichnis, wo du Archipelago installiert hast und dort in den Unterordner `SNI`.
+5. Navigiere zum Verzeichnis, wo du MultiworldGG installiert hast und dort in den Unterordner `SNI`.
 6. Wähle dort die `Connector.lua` und klicke auf Öffnen.
 7. Schaue im Lua-Fenster nach einem Namen, der dir zugeteilt wird und schaue im Client (WebUI im Browser), ob dort
    "Snes Device: Connected" mit demselben Namen dort steht (in der oberen linken Ecke)

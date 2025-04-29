@@ -431,7 +431,7 @@ class ExtraShopSlots(Range):
 
 
 class Goal(Choice):
-    """The goal required of you in order to complete your run in Archipelago."""
+    """The goal required of you in order to complete your run in MultiworldGG."""
     display_name = "Goal"
     option_any = 0
     option_hollowknight = 1

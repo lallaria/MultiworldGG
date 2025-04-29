@@ -203,7 +203,7 @@ def launch_game(*args) -> None:
             return
 
     parser = argparse.ArgumentParser(description="Messenger Client Launcher")
-    parser.add_argument("url", type=str, nargs="?", help="Archipelago Webhost uri to auto connect to.")
+    parser.add_argument("url", type=str, nargs="?", help="MultiworldGG Webhost uri to auto connect to.")
     args = parser.parse_args(args)
 
     if not is_windows:

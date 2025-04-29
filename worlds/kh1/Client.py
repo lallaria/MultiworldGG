@@ -13,6 +13,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 death_link = False
 item_num = 1
 
@@ -221,7 +222,7 @@ class KH1Context(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago KH1 Client"
+            base_title = apname + " KH1 Client"
 
         self.ui = KH1Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

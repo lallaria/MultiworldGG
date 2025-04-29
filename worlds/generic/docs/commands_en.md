@@ -1,8 +1,8 @@
 # Helpful Commands
 
 Commands are split into two types: client commands and server commands. Client commands are commands which are executed
-by the client and do not affect the Archipelago remote session. Server commands are commands which are executed by the
-Archipelago server and affect the Archipelago session or otherwise provide feedback from the server.
+by the client and do not affect the MultiworldGG remote session. Server commands are commands which are executed by the
+MultiworldGG server and affect the MultiworldGG session or otherwise provide feedback from the server.
 
 In clients which have their own commands the commands are typically prepended by a forward slash: `/`. 
 
@@ -10,9 +10,9 @@ Server commands are always submitted to the server prepended with an exclamation
 
 # Server Commands
 
-Server commands may be executed by any client which allows for sending text chat to the Archipelago server. If your
+Server commands may be executed by any client which allows for sending text chat to the MultiworldGG server. If your
 client does not allow for sending chat then you may connect to your game slot with the TextClient which comes with the
-Archipelago installation. In order to execute the command you need to merely send a text message with the command,
+MultiworldGG installation. In order to execute the command you need to merely send a text message with the command,
 including the exclamation point.
 
 ### General
@@ -51,7 +51,7 @@ including the exclamation point.
 - `!getitem <item>` Cheats an item to the currently connected slot, if it is enabled in the server.
 
 
-## Host only (on Archipelago.gg or in your server console)
+## Host only (on multiworld.gg or in your server console)
 
 ### General
 - `/help` Returns a list of commands available in the console.
@@ -85,7 +85,7 @@ including the exclamation point.
 
 # Local Commands
 
-This a list of client commands which may be available to you through your Archipelago client. You can
+This a list of client commands which may be available to you through your MultiworldGG client. You can
 execute these commands in your client window.
 
 The following commands are available in the clients that use the CommonClient, for example: TextClient, SNIClient, etc.

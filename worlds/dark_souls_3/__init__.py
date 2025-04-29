@@ -21,7 +21,7 @@ class DarkSouls3Web(WebWorld):
     theme = "stone"
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Archipelago Dark Souls III randomizer on your computer.",
+        "A guide to setting up the MultiworldGG Dark Souls III randomizer on your computer.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -42,6 +42,7 @@ class DarkSouls3World(World):
     """
 
     game = "Dark Souls III"
+    author: str = "Marech & nex3"
     options: DarkSouls3Options
     options_dataclass = DarkSouls3Options
     web = DarkSouls3Web()
@@ -1203,7 +1204,7 @@ class DarkSouls3World(World):
     def _add_allow_useful_location_rules(self) -> None:
         """Adds rules for locations that can contain useful but not necessary items.
 
-        If we allow useful items in the excluded locations, we don't want Archipelago's fill
+        If we allow useful items in the excluded locations, we don't want MultiworldGG's fill
         algorithm to consider them excluded because it never allows useful items there. Instead, we
         manually add item rules to exclude important items.
         """
@@ -1535,7 +1536,7 @@ class DarkSouls3World(World):
             if item.ds3_code: ap_ids_to_ds3_ids[str(item.ap_code)] = item.ds3_code
             if item.count != 1: item_counts[str(item.ap_code)] = item.count
 
-        # A map from Archipelago's location IDs to the keys the static randomizer uses to identify
+        # A map from MultiworldGG's location IDs to the keys the static randomizer uses to identify
         # locations.
         location_ids_to_keys: Dict[int, str] = {}
         for location in cast(List[DarkSouls3Location], self.multiworld.get_filled_locations(self.player)):

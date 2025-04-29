@@ -44,8 +44,8 @@ class TestCommonContext(unittest.IsolatedAsyncioTestCase):
         })
 
     async def test_archipelago_datapackage_lookups_exist(self):
-        assert "Archipelago" in self.ctx.item_names, "Archipelago item names entry does not exist"
-        assert "Archipelago" in self.ctx.location_names, "Archipelago location names entry does not exist"
+        assert "MultiworldGG" in self.ctx.item_names, "MultiworldGG item names entry does not exist"
+        assert "MultiworldGG" in self.ctx.location_names, "MultiworldGG location names entry does not exist"
 
     async def test_implicit_name_lookups(self):
         # Items
@@ -99,7 +99,7 @@ class TestCommonContext(unittest.IsolatedAsyncioTestCase):
         assert self.ctx.item_names.lookup_in_game(2 ** 54 + 1, "__TestGame2") == f"Unknown item (ID: {2 ** 54 + 1})"
         assert self.ctx.item_names.lookup_in_game(2 ** 54 + 2, "__TestGame2") == "Test Item 3 - Duplicate"
 
-        # Checking with Archipelago ids are valid in any game package.
+        # Checking with MultiworldGG ids are valid in any game package.
         assert self.ctx.item_names.lookup_in_slot(-1, 2) == "Nothing"
         assert self.ctx.item_names.lookup_in_slot(-1, 3) == "Nothing"
         assert self.ctx.item_names.lookup_in_game(-1, "__TestGame1") == "Nothing"

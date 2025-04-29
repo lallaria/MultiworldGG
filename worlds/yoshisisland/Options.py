@@ -71,7 +71,7 @@ class ItemLogic(Toggle):
 
 
 class MinigameChecks(Choice):
-    """This will set minigame victories to give Archipelago checks.
+    """This will set minigame victories to give MultiworldGG checks.
     This will not randomize minigames amongst themselves, and is compatible with item logic.
     Bonus games will be expected to be cleared from the Overworld, not the end of levels.
     Additionally, 1-Up bonus games will accept any profit as a victory."""

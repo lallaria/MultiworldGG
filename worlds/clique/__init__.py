@@ -38,6 +38,7 @@ class CliqueWorld(World):
     """The greatest game of all time."""
 
     game = "Clique"
+    author: str = "Phar"
     web = CliqueWebWorld()
     options: CliqueOptions
     options_dataclass = CliqueOptions

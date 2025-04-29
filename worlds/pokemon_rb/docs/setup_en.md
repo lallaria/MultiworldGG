@@ -10,7 +10,7 @@ As we are using BizHawk, this guide is only applicable to Windows and Linux syst
   - Version 2.3.1 and later are supported. Version 2.9.1 is recommended.
   - Detailed installation instructions for BizHawk can be found at the above link.
   - Windows users must run the prereq installer first, which can also be found at the above link.
-- The built-in Archipelago client, which can be installed [here](https://github.com/ArchipelagoMW/Archipelago/releases)
+- The built-in MultiworldGG client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases)
 - Pokémon Red and/or Blue ROM files. The Archipelago community cannot provide these.
 
 ## Optional Software
@@ -75,7 +75,7 @@ And the following special characters (these each count as one character):
 1. Create your options file (YAML).
 2. Follow the general Archipelago instructions for [generating a game](../../Archipelago/setup/en#generating-a-game).
 This will generate an output file for you. Your patch file will have a `.apred` or `.apblue` file extension.
-3. Open `ArchipelagoLauncher.exe`
+3. Open `MultiworldGGLauncher.exe`
 4. Select "Open Patch" on the left side and select your patch file.
 5. If this is your first time patching, you will be prompted to locate your vanilla ROM.
 6. A patched `.gb` file will be created in the same place as the patch file.
@@ -91,15 +91,15 @@ below using BizHawk as your emulator.
 By default, opening a patch file will do steps 1-5 below for you automatically. Even so, keep them in your memory just
 in case you have to close and reopen a window mid-game for some reason.
 
-1. Pokémon Red and Blue use Archipelago's BizHawk Client. If the client isn't still open from when you patched your
+1. Pokémon Red and Blue use MultiworldGG's BizHawk Client. If the client isn't still open from when you patched your
 game, you can re-open it from the launcher.
 2. Ensure EmuHawk is running the patched ROM.
 3. In EmuHawk, go to `Tools > Lua Console`. This window must stay open while playing.
 4. In the Lua Console window, go to `Script > Open Script…`.
-5. Navigate to your Archipelago install folder and open `data/lua/connector_bizhawk_generic.lua`.
+5. Navigate to your MultiworldGG install folder and open `data/lua/connector_bizhawk_generic.lua`.
 6. The emulator may freeze every few seconds until it manages to connect to the client. This is expected. The BizHawk
 Client window should indicate that it connected and recognized Pokémon Red/Blue.
-7. To connect the client to the server, enter your room's address and port (e.g. `archipelago.gg:38281`) into the
+7. To connect the client to the server, enter your room's address and port (e.g. `multiworld.gg:38281`) into the
 top text field of the client and click Connect.
 
 To connect the client to the multiserver simply put `<address>:<port>` on the textfield on top and press enter (if the

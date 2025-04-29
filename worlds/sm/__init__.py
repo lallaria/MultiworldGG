@@ -97,6 +97,7 @@ class SMWorld(World):
      between the main Areas!
     """
     game: str = "Super Metroid"
+    author: str = "lordlou"
     topology_present = True
     options_dataclass = SMOptions
     options: SMOptions
@@ -522,7 +523,7 @@ class SMWorld(World):
                                               "data", "SMBasepatch_prebuilt", "sm-basepatch-symbols.json")))
 
         # gather all player ids and names relevant to this rom, then write player name and player id data tables
-        playerIdSet: Set[int] = {0}  # 0 is for "Archipelago" server
+        playerIdSet: Set[int] = {0}  # 0 is for "MultiworldGG" server
         for itemLoc in self.multiworld.get_locations():
             assert itemLoc.item, f"World of player '{self.multiworld.player_name[itemLoc.player]}' has a loc.item " + \
                                  f"that is {itemLoc.item} during generate_output"
@@ -546,11 +547,11 @@ class SMWorld(World):
         # sort all player data by player id so that the game can look up a player's data reasonably quickly when
         # the client sends an ap playerid to the game
         for i, playerid in enumerate(sorted(playerIdSet)):
-            playername = self.multiworld.player_name[playerid] if playerid != 0 else "Archipelago"
+            playername = self.multiworld.player_name[playerid] if playerid != 0 else "MultiworldGG"
             playerIdForRom = playerid
             if playerid > SM_ROM_MAX_PLAYERID:
                 # note, playerIdForRom = 0 is not unique so the game cannot look it up.
-                # instead it will display the player received-from as "Archipelago"
+                # instead it will display the player received-from as "MultiworldGG"
                 playerIdForRom = 0
                 if playerid == self.player:
                     raise Exception(f"SM rom cannot fit enough bits to represent self player id {playerid}")
@@ -676,7 +677,7 @@ class SMWorld(World):
         self.romName = bytearray(f'SM{__version__.replace(".", "")[0:3]}_{self.player}_{self.multiworld.seed:11}', 'utf8')[:21]
         self.romName.extend([0] * (21 - len(self.romName)))
         # clients should read from 0x7FC0, the location of the rom title in the SNES header.
-        # duplicative ROM name at 0x1C4F00 is still written here for now, since people with archipelago pre-0.3.0 client installed will still be depending on this location for connecting to SM
+        # duplicative ROM name at 0x1C4F00 is still written here for now, since people with MultiworldGG pre-0.3.0 client installed will still be depending on this location for connecting to SM
         romPatcher.applyIPSPatch('ROMName', { 'ROMName':  {0x1C4F00 : self.romName, 0x007FC0 : self.romName} })
 
 

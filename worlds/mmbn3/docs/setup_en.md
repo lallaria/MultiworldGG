@@ -10,7 +10,7 @@ As we are using Bizhawk, this guide is only applicable to Windows and Linux syst
   - Version 2.7.0 and later are supported.
   - Detailed installation instructions for Bizhawk can be found at the above link.
   - Windows users must run the prereq installer first, which can also be found at the above link.
-- The built-in Archipelago client, which can be installed [here](https://github.com/ArchipelagoMW/Archipelago/releases).
+- The built-in MultiworldGG client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases).
 - A US MegaMan Battle Network 3 Blue Rom. If you have the [MegaMan Battle Network Legacy Collection Vol. 1](https://store.steampowered.com/app/1798010/Mega_Man_Battle_Network_Legacy_Collection_Vol_1/)
 on Steam, you can obtain a copy of this ROM from the game's files, see instructions below.
 
@@ -74,7 +74,7 @@ to the emulator as recommended).
 Once both the client and the emulator are started, you must connect them. Within the emulator click on the "Tools"
 menu and select "Lua Console". Click the folder button or press Ctrl+O to open a Lua script.
 
-Navigate to your Archipelago install folder and open `data/lua/connector_mmbn3.lua`.  
+Navigate to your MultiworldGG install folder and open `data/lua/connector_mmbn3.lua`.  
 **NOTE:** The MMBN3 Lua file depends on other shared Lua files inside of the `data` directory in the Archipelago
 installation. Do not move this Lua file from its default location or you may run into issues connecting.
 

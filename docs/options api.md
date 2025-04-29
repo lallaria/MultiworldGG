@@ -1,14 +1,14 @@
-# Archipelago Options API
+# MultiworldGG Options API
 
-This document covers some of the generic options available using Archipelago's options handling system.
+This document covers some of the generic options available using MultiworldGG's options handling system.
 
 For more information on where these options go in your world please refer to:
  - [world api.md](/docs/world%20api.md)
 
-Archipelago will be abbreviated as "AP" from now on.
+MultiworldGG will be abbreviated as "MWGG" from now on.
 
 ## Option Definitions
-Option parsing in AP is done using different Option classes. For each option you would like to have in your game, you
+Option parsing in MWGG is done using different Option classes. For each option you would like to have in your game, you
 need to create:
 - A new option class, with a docstring detailing what the option does, to be exposed to the user.
 - A new entry in the `options_dataclass` definition for your World.
@@ -25,7 +25,7 @@ files, and both will resolve as `value1`. This should be used when changing opti
 Choice, and defining `alias_true = option_full`.
 - All options with a fixed set of possible values (i.e. those which inherit from `Toggle`, `(Text)Choice` or
 `(Named)Range`) support `random` as a generic option. `random` chooses from any of the available values for that
-option, and is reserved by AP. You can set this as your default value, but you cannot define your own `option_random`.
+option, and is reserved by MWGG. You can set this as your default value, but you cannot define your own `option_random`.
 However, you can override `from_text` and handle `text == "random"` to customize its behavior or
 implement it for additional option types.
 

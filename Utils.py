@@ -50,6 +50,41 @@ class Version(typing.NamedTuple):
 __version__ = "0.6.2"
 version_tuple = tuplize_version(__version__)
 
+instance_name = "MultiworldGG"
+archipelago_guid = "{{918BA46A-FAB8-460C-9DFF-AE691E1C865D}}"
+
+def get_config_file_path() -> str:
+    if getattr(sys, 'frozen', False):
+        # When frozen, the executable's directory is the base path.
+        base_path = os.path.dirname(sys.executable)
+    else:
+        # In a normal run, use the directory of this file.
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, "application.yaml")
+
+# Now use this function to load the config:
+config_file = get_config_file_path()
+
+if os.path.exists(config_file):
+    try:
+        with open(config_file, "r", encoding="utf-8") as f:
+            config_data = load(f, Loader=SafeLoader)
+        if isinstance(config_data, dict):
+            app_options = config_data.get("application_options", {})
+            if isinstance(app_options, dict):
+                new_name = app_options.get("app_name")
+                if new_name is not None:
+                    instance_name = new_name
+                new_guid = app_options.get("app_guid")
+                if new_guid is not None:
+                    archipelago_guid = new_guid
+                new_version = app_options.get("app_version")
+                if new_version is not None:
+                    __version__ = new_version
+                    version_tuple = tuplize_version(__version__)
+    except Exception as e:
+        logging.warning("Failed to load configuration from %s: %s", config_file, e)
+
 is_linux = sys.platform.startswith("linux")
 is_macos = sys.platform == "darwin"
 is_windows = sys.platform in ("win32", "cygwin", "msys")
@@ -125,7 +160,7 @@ def is_frozen() -> bool:
 
 def local_path(*path: str) -> str:
     """
-    Returns path to a file in the local Archipelago installation or source.
+    Returns path to a file in the local MultiworldGG installation or source.
     This might be read-only and user_path should be used instead for ROMs, configuration, etc.
     """
     if hasattr(local_path, 'cached_path'):
@@ -150,14 +185,14 @@ def local_path(*path: str) -> str:
 
 
 def home_path(*path: str) -> str:
-    """Returns path to a file in the user home's Archipelago directory."""
+    """Returns path to a file in the user home's MultiworldGG directory."""
     if hasattr(home_path, 'cached_path'):
         pass
     elif sys.platform.startswith('linux'):
         xdg_data_home = os.getenv('XDG_DATA_HOME', os.path.expanduser('~/.local/share'))
-        home_path.cached_path = xdg_data_home + '/Archipelago'
+        home_path.cached_path = f'{xdg_data_home}/{instance_name}'
         if not os.path.isdir(home_path.cached_path):
-            legacy_home_path = os.path.expanduser('~/Archipelago')
+            legacy_home_path = os.path.expanduser(f'~/{instance_name}')
             if os.path.isdir(legacy_home_path):
                 os.renames(legacy_home_path, home_path.cached_path)
                 os.symlink(home_path.cached_path, legacy_home_path)
@@ -197,12 +232,12 @@ def user_path(*path: str) -> str:
 
 
 def cache_path(*path: str) -> str:
-    """Returns path to a file in the user's Archipelago cache directory."""
+    """Returns path to a file in the user's MultiworldGG cache directory."""
     if hasattr(cache_path, "cached_path"):
         pass
     else:
         import platformdirs
-        cache_path.cached_path = platformdirs.user_cache_dir("Archipelago", False)
+        cache_path.cached_path = platformdirs.user_cache_dir(instance_name, False)
 
     return os.path.join(cache_path.cached_path, *path)
 
@@ -570,7 +605,7 @@ def init_logging(name: str, loglevel: typing.Union[str, int] = logging.INFO,
     threading.Thread(target=_cleanup, name="LogCleaner").start()
     import platform
     logging.info(
-        f"Archipelago ({__version__}) logging initialized"
+        f"{instance_name} ({__version__}) logging initialized"
         f" on {platform.platform()} process {os.getpid()}"
         f" running Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
         f"{' (frozen)' if is_frozen() else ''}"
@@ -837,12 +872,20 @@ def title_sorted(data: typing.Iterable, key=None, ignore: typing.AbstractSet[str
             element = element["title"]
 
         parts = element.split(maxsplit=1)
-        if parts[0].lower() in ignore:
-            return parts[1].lower()
-        else:
-            return element.lower()
+        
+        return element.lower()
     return sorted(data, key=lambda i: sorter(key(i)) if key else sorter(i))
 
+def world_list_sorted(data: typing.Iterable, worlds: Dict[str, Any]):
+    def sorter(key_or_name):
+        name = key_or_name
+        world = worlds[name]
+
+        raw = getattr(world.web, "display_name", None) or world.game or name
+
+        return raw.lower()
+
+    return sorted(data, key=lambda k: sorter(k))
 
 def read_snes_rom(stream: BinaryIO, strip_header: bool = True) -> bytearray:
     """Reads rom into bytearray and optionally strips off any smc header"""

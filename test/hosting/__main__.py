@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
             host: ServeGame
             for n, (multidata, room, game, multi_games) in enumerate(zip(data_paths, rooms, p1_games, multis), 1):
-                involved_games = {"Archipelago"} | set(multi_games)
+                involved_games = {"MultiworldGG"} | set(multi_games)
                 for collected_items in range(3):
                     print(f"\nTesting [{n}] {game} in {multidata} on MultiServer with {collected_items} items collected")
                     with LocalServeGame(multidata) as host:

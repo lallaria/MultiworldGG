@@ -135,7 +135,8 @@ Note, some entrances can lead into water, use the warp-to-home from the save&qui
                                                          ('open', 'O', 'Egg already open'), ('random', 'R', 'Random instrument count'),
                                                          ('open-4', '<', 'Random short game (0-4)'), ('5-8', '>', 'Random long game (5-8)'),
                                                          ('seashells', 'S', 'Seashell hunt (20)'), ('bingo', 'b', 'Bingo!'),
-                                                         ('bingo-full', 'B', 'Bingo-25!')], default='8',
+                                                         ('bingo-full', 'B', 'Bingo-25!'),
+                                                         ('specific', 's', '4 specific instruments')], default='8',
                 description="""Changes the goal of the game.
 [1-8 instruments], number of instruments required to open the egg.
 [No instruments] open the egg without instruments, still requires the ocarina with the balled of the windfish
@@ -162,8 +163,8 @@ Note, some entrances can lead into water, use the warp-to-home from the save&qui
 [Hero] Switch version hero mode, double damage, no heart/fairy drops.
 [One hit KO] You die on a single hit, always."""),
             Setting('steal', 'Gameplay', 't', 'Stealing from the shop',
-                options=[('always', 'a', 'Always'), ('never', 'n', 'Never'), ('default', '', 'Normal')], default='default',
-                description="""Effects when you can steal from the shop. Stealing is bad and never in logic.
+                options=[('inlogic', 'a', 'In logic'), ('disabled', 'n', 'Disabled'), ('outoflogic', '', 'Out of logic')], default='outoflogic',
+                description="""Effects when you can steal from the shop and if it is in logic.
 [Normal] requires the sword before you can steal.
 [Always] you can always steal from the shop
 [Never] you can never steal from the shop."""),
@@ -286,7 +287,7 @@ Note, some entrances can lead into water, use the warp-to-home from the save&qui
         if self.goal in ("bingo", "bingo-full"):
             req("overworld", "normal", "Bingo goal does not work with dungeondive")
             req("accessibility", "all", "Bingo goal needs 'all' accessibility")
-            dis("steal", "never", "default", "With bingo goal, stealing should be allowed")
+            dis("steal", "disabled", "default", "With bingo goal, stealing should be allowed")
             dis("boss", "random", "shuffle", "With bingo goal, bosses need to be on normal or shuffle")
             dis("miniboss", "random", "shuffle", "With bingo goal, minibosses need to be on normal or shuffle")
         if self.overworld == "dungeondive":

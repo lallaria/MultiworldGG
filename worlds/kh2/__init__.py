@@ -2,8 +2,9 @@ import logging
 from typing import List
 
 from BaseClasses import Tutorial, ItemClassification
+from Utils import local_path
 from Fill import fast_fill
-from worlds.LauncherComponents import Component, components, Type, launch as launch_component
+from worlds.LauncherComponents import Component, components, Type, icon_paths, launch as launch_component
 from worlds.AutoWorld import World, WebWorld
 from .Items import *
 from .Locations import *
@@ -15,18 +16,20 @@ from .Rules import *
 from .Subclasses import KH2Item
 
 
+
 def launch_client():
     from .Client import launch
     launch_component(launch, name="KH2Client")
 
 
-components.append(Component("KH2 Client", "KH2Client", func=launch_client, component_type=Type.CLIENT))
+components.append(Component("KH2Client", "KH2Client", func=launch_client, component_type=Type.CLIENT, icon='khapicon'))
+icon_paths['khapicon'] = local_path('data', 'khapicon.png')
 
 
 class KingdomHearts2Web(WebWorld):
     tutorials = [Tutorial(
             "Multiworld Setup Guide",
-            "A guide to playing Kingdom Hearts 2 Final Mix with Archipelago.",
+            "A guide to playing Kingdom Hearts 2 Final Mix with MultiworldGG.",
             "English",
             "setup_en.md",
             "setup/en",
@@ -41,6 +44,7 @@ class KH2World(World):
     focuses on Sora and his friends' continued battle against the Darkness.
     """
     game = "Kingdom Hearts 2"
+    author: str = "JaredWeakStrike & Shananas"
     web = KingdomHearts2Web()
 
     required_client_version = (0, 4, 4)

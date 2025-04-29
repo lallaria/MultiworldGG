@@ -37,7 +37,7 @@ class YachtDiceWeb(WebWorld):
 
 class YachtDiceWorld(World):
     """
-    Yacht Dice is a straightforward game, custom-made for Archipelago,
+    Yacht Dice is a straightforward game, custom-made for MultiworldGG,
     where you cast your dice to chart a course for high scores,
     unlocking valuable treasures along the way.
     Discover more dice, extra rolls, multipliers,
@@ -46,6 +46,7 @@ class YachtDiceWorld(World):
     """
 
     game: str = "Yacht Dice"
+    author: str = "spinerak"
     options_dataclass = YachtDiceOptions
 
     web = YachtDiceWeb()

@@ -8,6 +8,7 @@ from typing import List
 
 import Utils
 from Utils import async_start
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, \
     get_base_parser
 
@@ -106,7 +107,7 @@ class FF1Context(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Final Fantasy 1 Client"
+            base_title = apname + " Final Fantasy 1 Client"
 
         self.ui = FF1Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

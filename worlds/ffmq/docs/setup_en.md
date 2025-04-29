@@ -2,7 +2,7 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases).
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
 
 - Hardware or software capable of loading and playing SNES ROM files
     - An emulator capable of connecting to SNI such as:
@@ -19,13 +19,13 @@ The Archipelago community cannot supply you with this.
 
 ### Linux Setup
 
-1. Download and install [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). **The installer 
+1. Download and install [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). **The installer 
    file is located in the assets section at the bottom of the version information. You'll likely be looking for the `.AppImage`.**
 2. It is recommended to use either RetroArch or BizHawk if you run on linux, as snes9x-rr isn't compatible.
 
 ### Windows Setup
 
-1. Download and install [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). **The installer 
+1. Download and install [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). **The installer 
    file is located in the assets section at the bottom of the version information.**
 2. If you are using an emulator, you should assign your Lua capable emulator as your default program for launching ROM
    files.
@@ -41,7 +41,7 @@ The Archipelago community cannot supply you with this.
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
 
 ### Where do I get a config file?
 
@@ -90,7 +90,7 @@ If this is the first time SNI launches, you may be prompted to allow it to commu
 3. Click on **New Lua Script Window...**
 4. In the new window, click **Browse...**
 5. Select the connector lua file included with your client
-    - Look in the Archipelago folder for `/SNI/lua/x64` or `/SNI/lua/x86` depending on if the
+    - Look in the MultiworldGG folder for `/SNI/lua/x64` or `/SNI/lua/x86` depending on if the
       emulator is 64-bit or 32-bit.
 6. If you see an error while loading the script that states `socket.dll missing` or similar, navigate to the folder of 
 the lua you are using in your file explorer and copy the `socket.dll` to the base folder of your snes9x install.
@@ -105,7 +105,7 @@ the lua you are using in your file explorer and copy the `socket.dll` to the bas
 3. Click on the Tools menu and click on **Lua Console**
 4. Click the Open Folder icon that says `Open Script` via the tooltip on mouse hover, or click the Script Menu then `Open Script...`, or press `Ctrl-O`.
 5. Select the `Connector.lua` file included with your client
-    - Look in the Archipelago folder for `/SNI/lua/x64` or `/SNI/lua/x86` depending on if the
+    - Look in the MultiworldGG folder for `/SNI/lua/x64` or `/SNI/lua/x86` depending on if the
       emulator is 64-bit or 32-bit. Please note the most recent versions of BizHawk are 64-bit only.
 
 ##### RetroArch 1.10.1 or newer
@@ -139,8 +139,8 @@ page: [usb2snes Supported Platforms Page](http://usb2snes.com/#supported-platfor
 ### Connect to the Archipelago Server
 
 SNI serves as the interface between your emulator and the server. Since you launched it manually, you need to tell it what server to connect to. 
-If the server is hosted on Archipelago.gg, get the port the server hosts your game on at the top of the game room (last line before the worlds are listed).
-In the SNI client, either type `/connect address` (where `address` is the address of the server, for example `/connect archipelago.gg:12345`), or type the address and port on the "Server" input field, then press `Connect`.
+If the server is hosted on multiworld.gg, get the port the server hosts your game on at the top of the game room (last line before the worlds are listed).
+In the SNI client, either type `/connect address` (where `address` is the address of the server, for example `/connect multiworld.gg:12345`), or type the address and port on the "Server" input field, then press `Connect`.
 If the server is hosted locally, simply ask the host for the address of the server, and copy/paste it into the "Server" input field then press `Connect`.
 
 The client will attempt to reconnect to the new server address, and should momentarily show "Server Status: Connected".

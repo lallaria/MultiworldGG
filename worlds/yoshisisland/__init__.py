@@ -32,7 +32,7 @@ class YoshisIslandWeb(WebWorld):
 
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Yoshi's Island randomizer and connecting to an Archipelago server.",
+        "A guide to setting up the Yoshi's Island randomizer and connecting to an MultiworldGG server.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -49,6 +49,7 @@ class YoshisIslandWorld(World):
     As Yoshi, you must run, jump, and throw eggs to escort the baby Mario across the island to defeat Bowser and reunite the two brothers with their parents.
     """
     game = "Yoshi's Island"
+    author: str = "Pink Switch"
     option_definitions = YoshisIslandOptions
     required_client_version = (0, 4, 4)
 

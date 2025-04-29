@@ -107,7 +107,7 @@ def generate_new_items(world: 'CivVIWorld') -> str:
             civic in civics])}
   </Types>
   <Technologies>
-      <Row TechnologyType="TECH_BLOCKER" Name="TECH_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="Archipelago Tech created to prevent players from researching their own tech. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
+      <Row TechnologyType="TECH_BLOCKER" Name="TECH_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="MultiworldGG Tech created to prevent players from researching their own tech. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
 {"".join([f'{tab}<Row TechnologyType="{location.name}" '
                 f'Name="{get_formatted_player_name(world, location.item.player)} '
                 f'{sanitize_value(location.item.name)}" '
@@ -123,7 +123,7 @@ def generate_new_items(world: 'CivVIWorld') -> str:
   {"".join([f'{tab}<Row Technology="{location.name}" PrereqTech="TECH_BLOCKER" />{nl}' for location in boost_techs])}
   </TechnologyPrereqs>
   <Civics>
-      <Row CivicType="CIVIC_BLOCKER" Name="CIVIC_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="Archipelago Civic created to prevent players from researching their own civics. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
+      <Row CivicType="CIVIC_BLOCKER" Name="CIVIC_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="MultiworldGG Civic created to prevent players from researching their own civics. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
 {"".join([f'{tab}<Row CivicType="{location.name}" '
                     f'Name="{get_formatted_player_name(world, location.item.player)} '
                     f'{sanitize_value(location.item.name)}" '

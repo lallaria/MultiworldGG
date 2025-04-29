@@ -32,8 +32,8 @@ class ArchipIDLEWorld(World):
     An idle game which sends a check every thirty to sixty seconds, up to two hundred checks.
     """
     game = "ArchipIDLE"
+    author: str = "LegendaryLinux"
     topology_present = False
-    hidden = (datetime.now().month != 4)  # ArchipIDLE is only visible during April
     web = ArchipIDLEWebWorld()
 
     item_name_to_id = {}

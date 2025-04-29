@@ -323,7 +323,7 @@ class SFXShuffle(Choice):
     """
     Shuffles almost every instance of sound effect playback
 
-    Archipelago elements that play sound effects aren't randomized
+    MultiworldGG elements that play sound effects aren't randomized
 
     None: No SFX are shuffled
 
@@ -398,6 +398,20 @@ class StartingLifeCount(Range):
     default = 5
 
 
+class RingLink(Toggle):
+    """
+    Whether your in-level coin gain/loss is linked to other players
+    """
+    display_name = "Ring Link"
+
+
+class TrapLink(Toggle):
+    """
+    Whether your received traps are linked to other players
+    """
+    display_name = "Trap Link"
+
+
 smw_option_groups = [
     OptionGroup("Goal Options", [
         Goal,
@@ -447,6 +461,8 @@ smw_option_groups = [
 @dataclass
 class SMWOptions(PerGameCommonOptions):
     death_link: DeathLink
+    ring_link: RingLink
+    trap_link: TrapLink
     goal: Goal
     bosses_required: BossesRequired
     max_yoshi_egg_cap: NumberOfYoshiEggs

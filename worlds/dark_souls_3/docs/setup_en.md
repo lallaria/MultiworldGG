@@ -30,7 +30,7 @@ randomized item and (optionally) enemy locations. You only need to do this once 
 
 1. Before you first connect to a multiworld, run `randomizer\DS3Randomizer.exe`.
 
-2. Put in your Archipelago room address (usually something like `archipelago.gg:12345`), your player
+2. Put in your MultiworldGG room address (usually something like `multiworld.gg:12345`), your player
    name (also known as your "slot name"), and your password if you have one.
 
 3. Click "Load" and wait a minute or two.
@@ -44,10 +44,10 @@ To run _Dark Souls III_ in Archipelago mode:
    screen.
 
 2. Run `launchmod_darksouls3.bat`. This will start _Dark Souls III_ as well as a command prompt that
-   you can use to interact with the Archipelago server.
+   you can use to interact with the MultiworldGG server.
 
 3. Type `/connect {SERVER_IP}:{SERVER_PORT} {SLOT_NAME}` into the command prompt, with the
-   appropriate values filled in. For example: `/connect archipelago.gg:24242 PlayerName`.
+   appropriate values filled in. For example: `/connect multiworld.gg:24242 PlayerName`.
 
 4. Start playing as normal. An "Archipelago connected" message will appear onscreen once you have
    control of your character and the connection is established.
@@ -85,7 +85,7 @@ essentially unchanged. Unfortunately, this randomizer has a few known issues,
 including enemy AI not working, enemies spawning in places they can't be killed,
 and, in a few rare cases, enemies spawning in ways that crash the game when they
 load. These bugs should be [reported upstream], but unfortunately the
-Archipelago devs can't help much with them.
+MultiworldGG devs can't help much with them.
 
 [thefifthmatt's DS3 enemy randomizer]: https://www.nexusmods.com/darksouls3/mods/484
 [reported upstream]: https://github.com/thefifthmatt/SoulsRandomizers/issues
@@ -134,6 +134,6 @@ it's no longer maintained and its successor, ModEngine3, isn't usable yet.
 
 This is almost always caused by using a version of the randomizer client that's
 not compatible with the version used to generate the multiworld. If you're
-generating your multiworld on archipelago.gg, you *must* use the latest [Dark
+generating your multiworld on multiworld.gg, you *must* use the latest [Dark
 Souls III AP Client]. If you want to use a different client version, you *must*
 generate the multiworld locally using the apworld bundled with the client.

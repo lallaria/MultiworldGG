@@ -47,7 +47,7 @@ class AdventureSettings(settings.Group):
         For example, this can be used to autoload the connector script in BizHawk
         (see BizHawk --lua= option)
         Windows example:
-        rom_args: "--lua=C:/ProgramData/Archipelago/data/lua/connector_adventure.lua"
+        rom_args: "--lua=C:/Program Files/MultiworldGG/data/lua/connector_adventure.lua"
         """
 
     class DisplayMsgs(settings.Bool):
@@ -97,6 +97,7 @@ class AdventureWorld(World):
     who likes to steal your equipment!
     """
     game: ClassVar[str] = "Adventure"
+    author: ClassVar[str] = "JusticePS"
     web: ClassVar[WebWorld] = AdventureWeb()
 
     options_dataclass = AdventureOptions

@@ -4,6 +4,7 @@ from dataclasses import fields
 from typing import List, Set, Iterable, Sequence, Dict, Callable, Union
 from math import floor, ceil
 from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification
+from worlds.LauncherComponents import Component, components, Type, launch as launch_component
 from worlds.AutoWorld import WebWorld, World
 from . import ItemNames
 from .Items import StarcraftItem, filler_items, get_item_table, get_full_item_list, \
@@ -20,11 +21,17 @@ from .PoolFilter import filter_items, get_item_upgrades, UPGRADABLE_ITEMS, missi
 from .MissionTables import MissionInfo, SC2Campaign, lookup_name_to_mission, SC2Mission, \
     SC2Race
 
+def launch_client():
+    from .Client import launch
+    launch_component(launch, name="Starcraft2Client")
+
+
+components.append(Component("Starcraft 2 Client", func=launch_client, component_type=Type.CLIENT))
 
 class Starcraft2WebWorld(WebWorld):
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Starcraft 2 randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the Starcraft 2 randomizer connected to an MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -51,12 +58,14 @@ class SC2World(World):
     """
 
     game = "Starcraft 2"
-    web = Starcraft2WebWorld()
+    author: str = "Ziktofel"
 
     item_name_to_id = {name: data.code for name, data in get_full_item_list().items()}
     location_name_to_id = {location.name: location.code for location in get_locations(None)}
     options_dataclass = Starcraft2Options
     options: Starcraft2Options
+    
+    web = Starcraft2WebWorld()
 
     item_name_groups = item_name_groups
     locked_locations: typing.List[str]

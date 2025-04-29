@@ -19,7 +19,7 @@
 
 ## Overview
 
-*OC2-Modding* is a general purpose modding framework which doubles as an Archipelago MultiWorld Client. It works by using Harmony to inject custom code into the game at runtime, so none of the original game files need to be modified in any way.
+*OC2-Modding* is a general purpose modding framework which doubles as an MultiworldGG Multiworld Client. It works by using Harmony to inject custom code into the game at runtime, so none of the original game files need to be modified in any way.
 
 When connecting to an Archipelago session using the in-game login screen, a mod file containing all relevant game modifications is automatically downloaded and applied.
 
@@ -33,7 +33,7 @@ From this point, the game will communicate with the Archipelago service directly
 
 2. Double-Click **oc2-modding-install.bat** follow the instructions.
 
-Once *OC2-Modding* is installed, you have successfully installed everything you need to play/participate in Archipelago MultiWorld games.
+Once *OC2-Modding* is installed, you have successfully installed everything you need to play/participate in MultiworldGG Multiworld games.
 
 ### Disable
 
@@ -53,7 +53,7 @@ To completely remove *OC2-Modding*, navigate to your game's installation folder 
 
 2. Export your yaml file and use it to generate a new randomized game
 
-*For instructions on how to generate an Archipelago game, refer to the [Archipelago Setup Guide](../../../../tutorial/Archipelago/setup/en)*
+*For instructions on how to generate an Archipelago game, refer to the [Archipelago Setup Guide](../../../../tutorial/MultiworldGG/setup/en)*
 
 ## Joining a MultiWorld Game
 

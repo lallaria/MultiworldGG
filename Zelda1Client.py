@@ -12,6 +12,7 @@ from asyncio import StreamReader, StreamWriter
 from typing import List
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from Utils import async_start
 from CommonClient import CommonContext, server_loop, gui_enabled, console_loop, ClientCommandProcessor, logger, \
     get_base_parser
@@ -127,7 +128,7 @@ class ZeldaContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Zelda 1 Client"
+            base_title = apname + " Zelda 1 Client"
 
         self.ui = ZeldaManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -384,7 +385,7 @@ if __name__ == '__main__':
 
     parser = get_base_parser()
     parser.add_argument('diff_file', default="", type=str, nargs="?",
-                        help='Path to a Archipelago Binary Patch file')
+                        help='Path to a MultiworldGG Binary Patch file')
     args = parser.parse_args()
     colorama.just_fix_windows_console()
 

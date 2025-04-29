@@ -17,6 +17,7 @@ from typing_extensions import NotRequired, TypedDict
 import NetUtils
 import Options
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 if TYPE_CHECKING:
     from entrance_rando import ERPlacementState
@@ -167,7 +168,7 @@ class MultiWorld():
             set_player_attr('plando_items', [])
             set_player_attr('plando_texts', {})
             set_player_attr('plando_connections', [])
-            set_player_attr('game', "Archipelago")
+            set_player_attr('game', "MultiworldGG")
             set_player_attr('completion_condition', lambda state: True)
         self.worlds = {}
         self.per_slot_randoms = Utils.DeprecateDict("Using per_slot_randoms is now deprecated. Please use the "
@@ -1678,8 +1679,8 @@ class Spoiler:
 
         with open(filename, 'w', encoding="utf-8-sig") as outfile:
             outfile.write(
-                'Archipelago Version %s  -  Seed: %s\n\n' % (
-                    Utils.__version__, self.multiworld.seed))
+                '%s Version %s  -  Seed: %s\n\n' % (
+                    apname, Utils.__version__, self.multiworld.seed))
             outfile.write('Filling Algorithm:               %s\n' % self.multiworld.algorithm)
             outfile.write('Players:                         %d\n' % self.multiworld.players)
             outfile.write(f'Plando Options:                  {self.multiworld.plando_options}\n')

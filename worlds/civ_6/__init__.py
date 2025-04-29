@@ -84,6 +84,7 @@ class CivVIWorld(World):
     """
 
     game = "Civilization VI"
+    author: str = "hesto2"
     topology_present = False
     options_dataclass = CivVIOptions
     options: CivVIOptions  # type: ignore

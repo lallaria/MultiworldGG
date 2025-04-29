@@ -23,7 +23,7 @@ You find items by making progress in these categories:
 * Reaching milestones in the mission, such as completing part of a main objective
 * Completing challenges based on achievements in the base game, such as clearing all Zerg on Devil's Playground
 
-In Archipelago's nomenclature, these are the locations where items can be found.
+In MultiworldGG's nomenclature, these are the locations where items can be found.
 Each location, including mission completion, has a set of rules that specify the items required to access it.
 These rules were designed assuming that StarCraft 2 is played on the Brutal difficulty.
 Since each location has its own rule, it's possible that an item required for progression is in a mission where you 
@@ -35,7 +35,7 @@ For instance, you can disable getting items for reaching required milestones.
 
 When you receive items, they will immediately become available, even during a mission, and you will be
 notified via a text box in the top-right corner of the game screen. 
-Item unlocks are also logged in the Archipelago client.
+Item unlocks are also logged in the MultiworldGG client.
 
 ### Mission order
 
@@ -45,7 +45,7 @@ Note that the evolution missions from Heart of the Swarm are not included in the
 The default mission order follows the structure of the selected campaigns but several other options are available, 
 e.g., blitz, grid, etc.
 
-Missions are launched through the StarCraft 2 Archipelago client, through the StarCraft 2 Launcher tab. 
+Missions are launched through the StarCraft 2 MultiworldGG client, through the StarCraft 2 Launcher tab. 
 The between mission segments on the Hyperion, the Leviathan, and the Spear of Adun are not included. 
 Additionally, metaprogression currencies such as credits and Solarite are not used.
 Available missions are in blue; missions where all locations were collected are in white.
@@ -77,7 +77,7 @@ without getting stuck in odd places.
 ## Which of my items can be in another player's world?
 
 By default, any of StarCraft 2's items (specified above) can be in another player's world. 
-See the [Advanced YAML Guide](/tutorial/Archipelago/advanced_settings/en) for more information on how to change this.
+See the [Advanced YAML Guide](/tutorial/MultiworldGG/advanced_settings/en) for more information on how to change this.
 
 ## Unique Local Commands
 
