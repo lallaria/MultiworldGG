@@ -44,8 +44,8 @@ if install_cx_freeze:
     import pkg_resources
 
 import cx_Freeze
-from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac
-from cx_Freeze.command.bdist_dmg import bdist_dmg as OSXDMGCommand
+from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac_app
+from cx_Freeze.command.bdist_dmg import bdist_dmg as _bdist_mac_dmg
 
 # .build only exists if cx-Freeze is the right version, so we have to update/install that first before this line
 import setuptools.command.build
@@ -558,16 +558,18 @@ $APPDIR/$exe "$@"
         print(f'{self.app_dir} -> {self.dist_file}')
         subprocess.call(f'ARCH={build_arch} ./appimagetool -n "{self.app_dir}" "{self.dist_file}"', shell=True)
 
-class OSXAppCommand(_bdist_mac):
+class OSXAppCommand(_bdist_mac_app):
     description = "macOS .app bundle with extra_data symlinked into Contents/MacOS"
-
+    user_options = _bdist_mac_app.user_options + [
+            ("yes", "y", "Answer 'yes' to all questions"),
+    ]
     def initialize_options(self):
         super().initialize_options()
+        self.yes = False
         self.extra_data = None
 
     def finalize_options(self):
         super().finalize_options()
-        # grab build_exe.extra_data
         build_exe = self.get_finalized_command("build_exe")
         self.extra_data = getattr(build_exe, "extra_data", [])
 
@@ -587,6 +589,20 @@ class OSXAppCommand(_bdist_mac):
                 os.remove(link_path)
 
             os.symlink(target, link_path)
+
+class OSXDMGCommand(_bdist_mac_dmg):
+    description = "macOS .dmg bundle"
+    user_options = _bdist_mac_dmg.user_options + [
+        ("yes", "y", "Answer 'yes' to all questions"),
+    ]
+    def initialize_options(self):
+        super().initialize_options()
+        self.yes = False
+    def finalize_options(self):
+        super().finalize_options()
+
+    def run(self):
+        super().run()
 
 
 def find_libs(*args: str) -> Sequence[Tuple[str, str]]:
