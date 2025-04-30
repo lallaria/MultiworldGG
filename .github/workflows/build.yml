@@ -207,9 +207,8 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  build-release-macos:
+  build-macos:
     runs-on: macos-latest
-    needs: create-release
     steps:
       - uses: actions/checkout@v4
       - name: Install Homebrew dependencies
