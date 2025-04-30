@@ -205,7 +205,9 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-            build/MultiworldGG*.app
+            build/${{ env.APP_BINARY }}/Contents/MacOS/MultiworldGGLauncher
+            build/${{ env.APP_BINARY }}/Contents/MacOS/MultiworldGGGenerate
+            build/${{ env.APP_BINARY }}/Contents/MacOS/MultiworldGGServer
 
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
