@@ -6,6 +6,7 @@ on:
   push:
     tags:
       - '*.*.*'
+    workflow_dispatch:
 
 env:
   ENEMIZER_VERSION: 7.1
@@ -199,15 +200,16 @@ jobs:
           python setup.py bdist_mac --yes
 
           APP_BINARY=$(ls build/ | grep ".app" | head -n 1 || echo "")
+          echo "release: $APP_BINARY"
           echo "MACOS_APP=$APP_BINARY" >> $GITHUB_ENV
 
       - name: Attest Build
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-            build/${{ env.APP_BINARY }}/Contents/MacOS/MultiworldGGLauncher
-            build/${{ env.APP_BINARY }}/Contents/MacOS/MultiworldGGGenerate
-            build/${{ env.APP_BINARY }}/Contents/MacOS/MultiworldGGServer
+            build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGLauncher
+            build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGGenerate
+            build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGServer
 
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
@@ -216,6 +218,6 @@ jobs:
           prerelease: false
           name: v${{ env.RELEASE_VERSION }}
           files: |
-            build/${{ env.APP_BINARY }}
+            build/${{ env.MACOS_APP }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
