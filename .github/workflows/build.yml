@@ -36,7 +36,7 @@ jobs:
       - name: Install python
         uses: actions/setup-python@v5
         with:
-          python-version: '~3.12.9'
+          python-version: '~3.12.10'
           check-latest: true
       - name: Download run-time dependencies
         run: |
@@ -129,7 +129,7 @@ jobs:
       - name: Get a recent python
         uses: actions/setup-python@v5
         with:
-          python-version: '~3.12.7'
+          python-version: '~3.12.10'
           check-latest: true
       - name: Install build-time dependencies
         run: |
@@ -204,5 +204,87 @@ jobs:
           name: ${{ env.TAR_NAME }}
           path: dist/${{ env.TAR_NAME }}
           compression-level: 0  # .gz is incompressible by zip
+          if-no-files-found: error
+          retention-days: 7
+
+  build-release-macos:
+    runs-on: macos-latest
+    needs: create-release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Homebrew dependencies
+        run: |
+          brew update
+          brew install p7zip wget gtk+3 glib gobject-introspection yq
+
+      - name: Read `app_version` from application.yaml
+        run: |
+          VERSION=$(yq e '.application_options.app_version' application.yaml)
+          echo "APP_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Get a recent Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.10'
+          check-latest: true
+
+      - name: Install build-time dependencies
+        run: |
+          # set your python command;
+          echo "PYTHON=python3" >> $GITHUB_ENV
+          python3 -m pip install --upgrade pip
+          python3 -m pip install "PyGObject<3.51.0" charset-normalizer
+
+      - name: Build
+        run: |
+          "${{ env.PYTHON }}" -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip PyGObject charset-normalizer
+          python setup.py bdist_mac_app --yes bdist_dmg --yes
+
+          APP_DMG=$(ls build/*.dmg || echo "")
+          echo "MACOS_DMG=$APP_DMG" >> $GITHUB_ENV
+
+      - name: Attest Build
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            build/MultiworldGG*.dmg
+            build/MultiworldGG ${{ env.APP_VERSION }}.app
+            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGLauncher
+            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGGenerate
+            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGServer
+
+      - name: Build Again with build_exe
+        run: |
+          source venv/bin/activate
+          python setup.py build_exe --yes
+
+      - name: Check build loads expected worlds
+        shell: bash
+        run: |
+          cd build/exe*
+          mv Players/Templates/meta.yaml .
+          ls -1 Players/Templates | sort > setup-player-templates.txt
+          rm -R Players/Templates
+          timeout 30 ./MultiworldGGLauncher "Generate Template Options" || true
+          ls -1 Players/Templates | sort > generated-player-templates.txt
+          cmp setup-player-templates.txt generated-player-templates.txt \
+            || diff setup-player-templates.txt generated-player-templates.txt
+          mv meta.yaml Players/Templates/
+
+      - name: Test Generate
+        shell: bash
+        run: |
+          cd build/exe*
+          cp Players/Templates/Clique.yaml Players/
+          timeout 30 ./MultiworldGGGenerate
+
+      - name: Store .dmg
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.MACOS_DMG }}
+          path: dist/${{ env.MACOS_DMG }}
+          compression-level: 0
           if-no-files-found: error
           retention-days: 7

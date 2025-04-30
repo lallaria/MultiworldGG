@@ -44,6 +44,8 @@ if install_cx_freeze:
     import pkg_resources
 
 import cx_Freeze
+from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac
+from cx_Freeze.command.bdist_dmg import bdist_dmg as OSXDMGCommand
 
 # .build only exists if cx-Freeze is the right version, so we have to update/install that first before this line
 import setuptools.command.build
@@ -556,6 +558,36 @@ $APPDIR/$exe "$@"
         print(f'{self.app_dir} -> {self.dist_file}')
         subprocess.call(f'ARCH={build_arch} ./appimagetool -n "{self.app_dir}" "{self.dist_file}"', shell=True)
 
+class OSXAppCommand(_bdist_mac):
+    description = "macOS .app bundle with extra_data symlinked into Contents/MacOS"
+
+    def initialize_options(self):
+        super().initialize_options()
+        self.extra_data = None
+
+    def finalize_options(self):
+        super().finalize_options()
+        # grab build_exe.extra_data
+        build_exe = self.get_finalized_command("build_exe")
+        self.extra_data = getattr(build_exe, "extra_data", [])
+
+    def run(self):
+        super().run()
+
+        bundle = self.bundle_dir
+        macos_dir = os.path.join(bundle, "Contents", "MacOS")
+        os.makedirs(macos_dir, exist_ok=True)
+
+        for item in self.extra_data:
+            name = os.path.basename(item)
+            link_path = os.path.join(macos_dir, name)
+            target = os.path.join("..", "Resources", name)
+
+            if os.path.lexists(link_path):
+                os.remove(link_path)
+
+            os.symlink(target, link_path)
+
 
 def find_libs(*args: str) -> Sequence[Tuple[str, str]]:
     """Try to find system libraries to be included."""
@@ -656,12 +688,23 @@ cx_Freeze.setup(
         "bdist_appimage": {
            "build_folder": buildfolder,
         },
+        "bdist_mac": {
+            "bundle_name": f"{instance_name} {version_tuple.major}.{version_tuple.minor}.{version_tuple.build}"
+        },
+        "bdist_dmg": {
+            # the volume name when you mount the .dmg
+            "volume_label": f"{instance_name}_{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}_MacOS_universal",
+            "applications_shortcut": True,
+            "show_icon_preview": True
+        }
     },
     # override commands to get custom stuff in
     cmdclass={
         "build": BuildCommand,
         "build_exe": BuildExeCommand,
         "bdist_appimage": AppImageCommand,
+        "bdist_mac_app": OSXAppCommand,
+        "bdist_dmg": OSXDMGCommand,
     },
 )
 with open("inno_setup.iss", "w") as f: # revert inno_setup.iss
