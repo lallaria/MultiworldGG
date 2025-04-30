@@ -4,9 +4,9 @@ from dataclasses import dataclass
 from typing import Protocol, ClassVar
 
 from Options import Range, NamedRange, Toggle, Choice, OptionSet, PerGameCommonOptions, DeathLink, OptionList, Visibility
-from ..mods.mod_data import ModNames
-from ..strings.ap_names.ap_option_names import BuffOptionName, WalnutsanityOptionName
-from ..strings.bundle_names import all_cc_bundle_names
+from .mods.mod_data import ModNames
+from .strings.ap_names.ap_option_names import OptionName
+from .strings.bundle_names import all_cc_bundle_names
 
 
 class StardewValleyOption(Protocol):
@@ -66,8 +66,7 @@ class Goal(Choice):
 
 
 class FarmType(Choice):
-    """What farm to play on?
-    Custom farms are not supported"""
+    """What farm to play on?"""
     internal_name = "farm_type"
     display_name = "Farm Type"
     default = "random"
@@ -204,10 +203,10 @@ class SeasonRandomization(Choice):
 
 
 class Cropsanity(Choice):
-    """
+    """Formerly named "Seed Shuffle"
     Pierre now sells a random amount of seasonal seeds and Joja sells them without season requirements, but only in huge packs.
     Disabled: All the seeds are unlocked from the start, there are no location checks for growing and harvesting crops
-    Enabled: Seeds are unlocked as MultiworldGG items, for each seed there is a location check for growing and harvesting that crop
+    Enabled: Seeds are unlocked as archipelago items, for each seed there is a location check for growing and harvesting that crop
     """
     internal_name = "cropsanity"
     display_name = "Cropsanity"
@@ -234,9 +233,9 @@ class BackpackProgression(Choice):
 class ToolProgression(Choice):
     """Shuffle the tool upgrades?
     Vanilla: Clint will upgrade your tools with metal bars.
-    Progressive: Your tools upgrades are randomized.
-    Cheap: Tool Upgrades have a 60% discount
-    Very Cheap: Tool Upgrades have an 80% discount"""
+    Progressive: You will randomly find Progressive Tool upgrades.
+    Cheap: Tool Upgrades will cost 2/5th as much
+    Very Cheap: Tool Upgrades will cost 1/5th as much"""
     internal_name = "tool_progression"
     display_name = "Tool Progression"
     default = 1
@@ -246,14 +245,6 @@ class ToolProgression(Choice):
     option_vanilla_very_cheap = 0b100  # 4
     option_progressive_cheap = 0b011  # 3
     option_progressive_very_cheap = 0b101  # 5
-
-    @property
-    def is_vanilla(self):
-        return not self.is_progressive
-
-    @property
-    def is_progressive(self):
-        return bool(self.value & self.option_progressive)
 
 
 class ElevatorProgression(Choice):
@@ -288,8 +279,8 @@ class BuildingProgression(Choice):
     Vanilla: You can buy each building normally.
     Progressive: You will receive the buildings and will be able to build the first one of each type for free,
         once it is received. If you want more of the same building, it will cost the vanilla price.
-    Cheap: Buildings will have a 50% discount
-    Very Cheap: Buildings will have an 80% discount
+    Cheap: Buildings will cost half as much
+    Very Cheap: Buildings will cost 1/5th as much
     """
     internal_name = "building_progression"
     display_name = "Building Progression"
@@ -336,7 +327,7 @@ class ArcadeMachineLocations(Choice):
 
 class SpecialOrderLocations(Choice):
     """Shuffle Special Orders?
-    Vanilla: The special orders are not included in the MultiworldGG shuffling. You may need to complete some of them anyway for their vanilla rewards
+    Disabled: The special orders are not included in the Archipelago shuffling.
     Board Only: The Special Orders on the board in town are location checks
     Board and Qi: The Special Orders from Mr Qi's walnut room are checks, in addition to the board in town
     Short: All Special Order requirements are reduced by 40%
@@ -384,20 +375,14 @@ class QuestLocations(NamedRange):
         "maximum": 56,
     }
 
-    def has_story_quests(self) -> bool:
-        return self.value >= 0
-
-    def has_no_story_quests(self) -> bool:
-        return not self.has_story_quests()
-
 
 class Fishsanity(Choice):
-    """Locations for catching each fish the first time?
+    """Locations for catching a fish the first time?
     None: There are no locations for catching fish
     Legendaries: Each of the 5 legendary fish are checks, plus the extended family if qi board is turned on
     Special: A curated selection of strong fish are checks
     Randomized: A random selection of fish are checks
-    All: Every single fish in the game is a location that contains an item.
+    All: Every single fish in the game is a location that contains an item. Pairs well with the Master Angler Goal
     Exclude Legendaries: Every fish except legendaries
     Exclude Hard Fish: Every fish under difficulty 80
     Only Easy Fish: Every fish under difficulty 50
@@ -435,7 +420,7 @@ class Museumsanity(Choice):
 class Monstersanity(Choice):
     """Locations for slaying monsters?
     None: There are no checks for slaying monsters
-    One per Category: Every category visible at the adventure guild gives one check
+    One per category: Every category visible at the adventure guild gives one check
     One per Monster: Every unique monster gives one check
     Monster Eradication Goals: The Monster Eradication Goals each contain one check
     Short Monster Eradication Goals: The Monster Eradication Goals each contain one check, but are reduced by 60%
@@ -498,7 +483,7 @@ class Cooksanity(Choice):
 class Chefsanity(NamedRange):
     """Locations for learning cooking recipes?
     Vanilla: All cooking recipes are learned normally
-    Queen of Sauce: Every Queen of Sauce episode is a check, all Queen of Sauce recipes are items
+    Queen of Sauce: Every Queen of sauce episode is a check, all queen of sauce recipes are items
     Purchases: Every purchasable recipe is a check
     Friendship: Recipes obtained from friendship are checks
     Skills: Recipes obtained from skills are checks
@@ -532,7 +517,7 @@ class Chefsanity(NamedRange):
 class Craftsanity(Choice):
     """Checks for crafting items?
     If enabled, all recipes purchased in shops will be checks as well.
-    Recipes obtained from other sources will depend on their respective MultiworldGG settings
+    Recipes obtained from other sources will depend on related archipelago settings
     """
     internal_name = "craftsanity"
     display_name = "Craftsanity"
@@ -545,9 +530,9 @@ class Friendsanity(Choice):
     """Shuffle Friendships?
     None: Friendship hearts are earned normally
     Bachelors: Hearts with bachelors are shuffled
-    Starting NPCs: Hearts for NPCs available immediately are shuffled
-    All: Hearts for all npcs are shuffled, including Leo, Kent, Sandy, etc
-    All With Marriage: All hearts for all npcs are shuffled, including romance hearts up to 14 when applicable
+    Starting NPCs: Hearts for NPCs available immediately are checks
+    All: Hearts for all npcs are checks, including Leo, Kent, Sandy, etc
+    All With Marriage: Hearts for all npcs are checks, including romance hearts up to 14 when applicable
     """
     internal_name = "friendsanity"
     display_name = "Friendsanity"
@@ -589,18 +574,16 @@ class Booksanity(Choice):
 
 
 class Walnutsanity(OptionSet):
-    """Shuffle Walnuts?
+    """Shuffle walnuts?
     Puzzles: Walnuts obtained from solving a special puzzle or winning a minigame
     Bushes: Walnuts that are in a bush and can be collected by clicking it
-    Dig Spots: Walnuts that are underground and must be digged up. Includes Journal scrap walnuts
+    Dig spots: Walnuts that are underground and must be digged up. Includes Journal scrap walnuts
     Repeatables: Random chance walnuts from normal actions (fishing, farming, combat, etc)
     """
     internal_name = "walnutsanity"
     display_name = "Walnutsanity"
-    valid_keys = frozenset({
-        WalnutsanityOptionName.puzzles, WalnutsanityOptionName.bushes, WalnutsanityOptionName.dig_spots,
-        WalnutsanityOptionName.repeatables,
-    })
+    valid_keys = frozenset({OptionName.walnutsanity_puzzles, OptionName.walnutsanity_bushes, OptionName.walnutsanity_dig_spots,
+                            OptionName.walnutsanity_repeatables, })
     preset_none = frozenset()
     preset_all = valid_keys
     default = preset_none
@@ -627,7 +610,7 @@ class NumberOfMovementBuffs(Range):
 
 class EnabledFillerBuffs(OptionSet):
     """Enable various permanent player buffs to roll as filler items
-    Luck: Increased daily luck
+    Luck: Increase daily luck
     Damage: Increased Damage %
     Defense: Increased Defense
     Immunity: Increased Immunity
@@ -639,20 +622,18 @@ class EnabledFillerBuffs(OptionSet):
     """
     internal_name = "enabled_filler_buffs"
     display_name = "Enabled Filler Buffs"
-    valid_keys = frozenset({
-        BuffOptionName.luck, BuffOptionName.damage, BuffOptionName.defense, BuffOptionName.immunity, BuffOptionName.health,
-        BuffOptionName.energy, BuffOptionName.bite, BuffOptionName.fish_trap, BuffOptionName.fishing_bar,
-    })
-    # OptionName.buff_quality, OptionName.buff_glow}) # Disabled these two buffs because they are too hard to make on the mod side
+    valid_keys = frozenset({OptionName.buff_luck, OptionName.buff_damage, OptionName.buff_defense, OptionName.buff_immunity, OptionName.buff_health,
+                            OptionName.buff_energy, OptionName.buff_bite, OptionName.buff_fish_trap, OptionName.buff_fishing_bar})
+                            # OptionName.buff_quality, OptionName.buff_glow}) # Disabled these two buffs because they are too hard to make on the mod side
     preset_none = frozenset()
     preset_all = valid_keys
-    default = frozenset({BuffOptionName.luck, BuffOptionName.defense, BuffOptionName.bite})
+    default = frozenset({OptionName.buff_luck, OptionName.buff_defense, OptionName.buff_bite})
 
 
 class ExcludeGingerIsland(Toggle):
     """Exclude Ginger Island?
     This option will forcefully exclude everything related to Ginger Island from the slot.
-    If you pick a goal that requires Ginger Island, this option will get forced to 'false'"""
+    If you pick a goal that requires Ginger Island, you cannot exclude it and it will get included anyway"""
     internal_name = "exclude_ginger_island"
     display_name = "Exclude Ginger Island"
     default = 0
@@ -765,20 +746,12 @@ class QuickStart(Toggle):
 
 
 class Gifting(Toggle):
-    """Do you want to enable gifting items to and from other MultiworldGG slots?
+    """Do you want to enable gifting items to and from other Archipelago slots?
     Items can only be sent to games that also support gifting"""
     internal_name = "gifting"
     display_name = "Gifting"
     default = 1
 
-
-all_mods = {ModNames.deepwoods, ModNames.tractor, ModNames.big_backpack,
-            ModNames.luck_skill, ModNames.magic, ModNames.socializing_skill, ModNames.archaeology,
-            ModNames.cooking_skill, ModNames.binning_skill, ModNames.juna,
-            ModNames.jasper, ModNames.alec, ModNames.yoba, ModNames.eugene,
-            ModNames.wellwick, ModNames.ginger, ModNames.shiko, ModNames.delores,
-            ModNames.ayeisha, ModNames.riley, ModNames.skull_cavern_elevator, ModNames.sve, ModNames.distant_lands,
-            ModNames.alecto, ModNames.lacey, ModNames.boarding_house}
 
 # These mods have been disabled because either they are not updated for the current supported version of Stardew Valley,
 # or we didn't find the time to validate that they work or fix compatibility issues if they do.
@@ -789,19 +762,22 @@ disabled_mods = {ModNames.deepwoods, ModNames.magic,
                  ModNames.wellwick, ModNames.shiko, ModNames.delores, ModNames.riley,
                  ModNames.boarding_house}
 
-enabled_mods = all_mods.difference(disabled_mods)
+
+if 'unittest' in sys.modules.keys() or 'pytest' in sys.modules.keys():
+    disabled_mods = {}
 
 
 class Mods(OptionSet):
     """List of mods that will be included in the shuffling."""
-    visibility = Visibility.all & ~Visibility.simple_ui
     internal_name = "mods"
     display_name = "Mods"
-    valid_keys = enabled_mods
-    # In tests, we keep even the disabled mods active, because we expect some of them to eventually get updated for SV 1.6
-    # In that case, we want to maintain content and logic for them, and therefore keep testing them
-    if 'unittest' in sys.modules.keys() or 'pytest' in sys.modules.keys():
-        valid_keys = all_mods
+    valid_keys = {ModNames.deepwoods, ModNames.tractor, ModNames.big_backpack,
+                  ModNames.luck_skill, ModNames.magic, ModNames.socializing_skill, ModNames.archaeology,
+                  ModNames.cooking_skill, ModNames.binning_skill, ModNames.juna,
+                  ModNames.jasper, ModNames.alec, ModNames.yoba, ModNames.eugene,
+                  ModNames.wellwick, ModNames.ginger, ModNames.shiko, ModNames.delores,
+                  ModNames.ayeisha, ModNames.riley, ModNames.skull_cavern_elevator, ModNames.sve, ModNames.distant_lands,
+                  ModNames.alecto, ModNames.lacey, ModNames.boarding_house}.difference(disabled_mods)
 
 
 class BundlePlando(OptionSet):

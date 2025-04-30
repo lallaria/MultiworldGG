@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from itertools import chain
 from threading import Lock
-from typing import Iterable, Dict, List, Union, Sized, Hashable, Callable, Tuple, Set, Optional, cast
+from typing import Iterable, Dict, List, Union, Sized, Hashable, Callable, Tuple, Set, Optional
 
 from BaseClasses import CollectionState
 from .literal import true_, false_, LiteralStardewRule
@@ -318,7 +318,6 @@ class Or(AggregatingStardewRule):
             return Or(_combinable_rules=other.add_into(self.combinable_rules, self.combine), _simplification_state=self.simplification_state)
 
         if type(other) is Or:
-            other = cast(Or, other)
             return Or(_combinable_rules=self.merge(self.combinable_rules, other.combinable_rules),
                       _simplification_state=self.simplification_state.merge(other.simplification_state))
 
@@ -345,7 +344,6 @@ class And(AggregatingStardewRule):
             return And(_combinable_rules=other.add_into(self.combinable_rules, self.combine), _simplification_state=self.simplification_state)
 
         if type(other) is And:
-            other = cast(And, other)
             return And(_combinable_rules=self.merge(self.combinable_rules, other.combinable_rules),
                        _simplification_state=self.simplification_state.merge(other.simplification_state))
 
@@ -432,8 +430,17 @@ class Count(BaseStardewRule):
     def rules_count(self):
         return len(self.rules)
 
+    def __str__(self):
+        if all(value == 1 for value in self.counter.values()):
+            return f"Has {self.count} of [{', '.join(str(rule) for rule in self.counter.keys())}]"
+
+        return f"Has {self.count} of [{', '.join(f'{value}x {str(rule)}' for rule, value in self.counter.items())}]"
+
     def __repr__(self):
-        return f"Received {self.count} [{', '.join(f'{value}x {repr(rule)}' for rule, value in self.counter.items())}]"
+        if all(value == 1 for value in self.counter.values()):
+            return f"Has {self.count} of [{', '.join(repr(rule) for rule in self.counter.keys())}]"
+
+        return f"Has {self.count} of [{', '.join(f'{value}x {repr(rule)}' for rule, value in self.counter.items())}]"
 
 
 @dataclass(frozen=True)
