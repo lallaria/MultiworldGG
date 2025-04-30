@@ -248,9 +248,9 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGLauncher
-            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGGenerate
-            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGServer
+            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.app/Contents/MacOS/MultiworldGGLauncher
+            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.app/Contents/MacOS/MultiworldGGGenerate
+            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.app/Contents/MacOS/MultiworldGGServer
 
       - name: Build Again with build_exe
         run: |
