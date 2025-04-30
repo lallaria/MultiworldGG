@@ -44,6 +44,7 @@ if install_cx_freeze:
     import pkg_resources
 
 import cx_Freeze
+from cx_Freeze.command.bdist_mac import bdist_mac
 
 # .build only exists if cx-Freeze is the right version, so we have to update/install that first before this line
 import setuptools.command.build
@@ -78,10 +79,6 @@ non_apworlds: Set[str] = {
     "VVVVVV",
     "Wargroove",
 }
-
-# LogicMixin is broken before 3.10 import revamp
-if sys.version_info < (3,10):
-    non_apworlds.add("Hollow Knight")
 
 def download_SNI() -> None:
     print("Updating SNI")
@@ -556,6 +553,36 @@ $APPDIR/$exe "$@"
         print(f'{self.app_dir} -> {self.dist_file}')
         subprocess.call(f'ARCH={build_arch} ./appimagetool -n "{self.app_dir}" "{self.dist_file}"', shell=True)
 
+class OSXAppCommand(bdist_mac):
+    description = "macOS .app bundle with extra_data symlinked into Contents/MacOS"
+    user_options = bdist_mac.user_options + [
+            ("yes", "y", "Answer 'yes' to all questions"),
+    ]
+    def initialize_options(self):
+        super().initialize_options()
+        self.yes = False
+        self.extra_data = None
+
+    def finalize_options(self):
+        super().finalize_options()
+        build_exe = self.get_finalized_command("build_exe")
+        self.extra_data = getattr(build_exe, "extra_data", [])
+
+    def run(self):
+        super().run()
+        bundle = self.bundle_dir
+        macos_dir = os.path.join(bundle, "Contents", "MacOS")
+        os.makedirs(macos_dir, exist_ok=True)
+
+        for item in self.extra_data:
+            name = os.path.basename(item)
+            link_path = os.path.join(macos_dir, name)
+            target = os.path.join("..", "Resources", name)
+
+            if os.path.lexists(link_path):
+                os.remove(link_path)
+
+            os.symlink(target, link_path)
 
 def find_libs(*args: str) -> Sequence[Tuple[str, str]]:
     """Try to find system libraries to be included."""
@@ -629,6 +656,15 @@ inno_replace_lines = inno_replace_lines.replace("{{918BA46A-FAB8-460C-9DFF-AE691
 with open("inno_setup.iss", "w") as f:
     f.write(inno_replace_lines)
 
+cmdclass={
+        "build": BuildCommand,
+        "build_exe": BuildExeCommand,
+        "bdist_appimage": AppImageCommand
+}
+
+if sys.platform == "darwin":
+    cmdclass["bdist_mac"] = OSXAppCommand
+
 cx_Freeze.setup(
     name=instance_name,
     version=f"{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}",
@@ -656,13 +692,11 @@ cx_Freeze.setup(
         "bdist_appimage": {
            "build_folder": buildfolder,
         },
+        "bdist_mac": {
+            "bundle_name": f"{instance_name}_{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}_MacOS_universal"
+        }
     },
-    # override commands to get custom stuff in
-    cmdclass={
-        "build": BuildCommand,
-        "build_exe": BuildExeCommand,
-        "bdist_appimage": AppImageCommand,
-    },
+    cmdclass=cmdclass,
 )
 with open("inno_setup.iss", "w") as f: # revert inno_setup.iss
     f.write(inno_lines)
