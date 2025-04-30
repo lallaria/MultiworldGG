@@ -214,7 +214,7 @@ jobs:
       - name: Install Homebrew dependencies
         run: |
           brew update
-          brew install p7zip wget gtk+3 glib gobject-introspection yq
+          brew install gtk+3 gobject-introspection
 
       - name: Read `app_version` from application.yaml
         run: |
@@ -248,11 +248,10 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-            build/MultiworldGG*.dmg
-            build/MultiworldGG ${{ env.APP_VERSION }}.app
-            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGLauncher
-            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGGenerate
-            build/MultiworldGG ${{ env.APP_VERSION }}.app/Contents/MacOS/MultiworldGGServer
+            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.dmg
+            build/'MultiworldGG ${{ env.APP_VERSION }}.app'/Contents/MacOS/MultiworldGGLauncher
+            build/'MultiworldGG ${{ env.APP_VERSION }}.app'/Contents/MacOS/MultiworldGGGenerate
+            build/'MultiworldGG ${{ env.APP_VERSION }}.app'/Contents/MacOS/MultiworldGGServer
 
       - name: Build Again with build_exe
         run: |

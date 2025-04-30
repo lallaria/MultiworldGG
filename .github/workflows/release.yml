@@ -176,7 +176,7 @@ jobs:
       - name: Install Homebrew dependencies
         run: |
           brew update
-          brew install p7zip wget gtk+3 glib gobject-introspection
+          brew install gtk+3 gobject-introspection
 
       - name: Get a recent Python
         uses: actions/setup-python@v5

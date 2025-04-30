@@ -44,8 +44,9 @@ if install_cx_freeze:
     import pkg_resources
 
 import cx_Freeze
-from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac_app
-from cx_Freeze.command.bdist_dmg import bdist_dmg as _bdist_mac_dmg
+if platform.system().lower() == "darwin":
+    from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac_app
+    from cx_Freeze.command.bdist_dmg import bdist_dmg as _bdist_mac_dmg
 
 # .build only exists if cx-Freeze is the right version, so we have to update/install that first before this line
 import setuptools.command.build
@@ -80,10 +81,6 @@ non_apworlds: Set[str] = {
     "VVVVVV",
     "Wargroove",
 }
-
-# LogicMixin is broken before 3.10 import revamp
-if sys.version_info < (3,10):
-    non_apworlds.add("Hollow Knight")
 
 def download_SNI() -> None:
     print("Updating SNI")
