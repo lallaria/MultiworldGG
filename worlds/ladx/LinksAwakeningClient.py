@@ -543,7 +543,7 @@ class LinksAwakeningClient():
         while not await self.gameboy.check_safe_gameplay(throw=False):
             if self.should_reset_auth:
                 self.should_reset_auth = False
-                raise GameboyException("Resetting due to wrong MultiworldGG server")
+                raise GameboyException("Resetting due to wrong archipelago server")
         logger.info("Game connection ready!")
 
     async def is_victory(self):
@@ -686,7 +686,7 @@ class LinksAwakeningContext(CommonContext):
                 ("Client", "Archipelago"),
                 ("Tracker", "Tracker"),
             ]
-            base_title = f"MultiworldGG {Common.LINKS_AWAKENING} Client"
+            base_title = f"Archipelago {Common.LINKS_AWAKENING} Client"
 
             def build(self):
                 b = super().build()
@@ -911,7 +911,7 @@ class LinksAwakeningContext(CommonContext):
                             pass
                     if self.client.should_reset_auth:
                         self.client.should_reset_auth = False
-                        raise GameboyException("Resetting due to wrong MultiworldGG server")
+                        raise GameboyException("Resetting due to wrong archipelago server")
             except (GameboyException, asyncio.TimeoutError, TimeoutError, ConnectionResetError):
                 await asyncio.sleep(1.0)
 
@@ -941,10 +941,10 @@ def run_game(romfile: str) -> None:
 def launch(*launch_args):
     async def main():
         parser = get_base_parser(description="Link's Awakening Client.")
-        parser.add_argument("--url", help="MultiworldGG connection url")
+        parser.add_argument("--url", help="Archipelago connection url")
         parser.add_argument("--no-magpie", dest='magpie', default=True, action='store_false', help="Disable magpie bridge")
         parser.add_argument('diff_file', default="", type=str, nargs="?",
-                            help='Path to a .apladx MultiworldGG Binary Patch file')
+                            help='Path to a .apladx Archipelago Binary Patch file')
 
         args = parser.parse_args(launch_args)
 

@@ -3,7 +3,7 @@
 -- SPDX-License-Identifier: MIT
 
 -- This script attempts to implement the basic functionality needed in order for
--- the LADXR MultiworldGG client to be able to talk to EmuHawk instead of RetroArch
+-- the LADXR Archipelago client to be able to talk to EmuHawk instead of RetroArch
 -- by reproducing the RetroArch API with EmuHawk's Lua interface.
 --
 -- RetroArch UDP API: https://github.com/libretro/RetroArch/blob/master/command.c
@@ -55,7 +55,7 @@ function on_vblank()
     -- We could try to make use of client.get_approx_framerate() here, but the values returned
     -- seemed more or less arbitrary as well.
     --
-    -- NOTE: Never mind the above, the LADXR MultiworldGG client appears to run into problems with
+    -- NOTE: Never mind the above, the LADXR Archipelago client appears to run into problems with
     --       interwoven GET_STATUS calls, leading to stopped communication.
     --       For GB(C), polling the socket on every frame is OK-ish, so we just do that.
     --

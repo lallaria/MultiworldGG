@@ -109,7 +109,7 @@ class LinksAwakeningWorld(World):
     Gather the 8 Instruments of the Sirens to wake the Wind Fish, so that Link can go home!
     """
     game = LINKS_AWAKENING  # name of the game/world
-    author: str = "threeandthree"
+    author = AUTHOR
     web = LinksAwakeningWebWorld()
 
     options_dataclass = LinksAwakeningOptions
@@ -461,7 +461,7 @@ class LinksAwakeningWorld(World):
                             loc.ladxr_item.item = 'PIECE_OF_POWER'
                         else:
                             loc.ladxr_item.item = 'GUARDIAN_ACORN'
-                        loc.ladxr_item.setCustomItemName = loc.item.name
+                        loc.ladxr_item.setCustomItemName(loc.item.name)
 
                     if loc.item:
                         loc.ladxr_item.item_owner = loc.item.player
