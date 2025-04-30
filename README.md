@@ -226,7 +226,7 @@ If you are a developer or are running on a platform with no compiled releases av
 This project makes use of multiple other projects. We wouldn't be here without these other repositories and the
 contributions of their developers, past and present.
 
-* [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG)
+* [Archipelago](https://github.com/ArchipelagoMW/Archipelago)
 * [z3randomizer](https://github.com/ArchipelagoMW/z3randomizer)
 * [Enemizer](https://github.com/Ijwu/Enemizer)
 * [Ocarina of Time Randomizer](https://github.com/OoT-Randomizer/OoT-Randomizer)
