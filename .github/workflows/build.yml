@@ -261,6 +261,7 @@ jobs:
         shell: bash
         run: |
           cd build/exe*
+          ls -1 Players
           mv Players/Templates/meta.yaml .
           ls -1 Players/Templates | sort > setup-player-templates.txt
           rm -R Players/Templates
@@ -277,7 +278,7 @@ jobs:
           cp Players/Templates/Clique.yaml Players/
           timeout 30 ./MultiworldGGGenerate
 
-      - name: Store .dmg
+      - name: Store .app file
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.MACOS_APP }}
