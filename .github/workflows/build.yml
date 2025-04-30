@@ -239,7 +239,7 @@ jobs:
           "${{ env.PYTHON }}" -m venv venv
           source venv/bin/activate
           pip install --upgrade pip PyGObject charset-normalizer
-          python setup.py bdist_mac_app --yes bdist_dmg --yes
+          python setup.py bdist_mac_app bdist_dmg
 
           APP_DMG=$(ls build/*.dmg || echo "")
           echo "MACOS_DMG=$APP_DMG" >> $GITHUB_ENV
