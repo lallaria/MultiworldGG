@@ -196,16 +196,16 @@ jobs:
           "${{ env.PYTHON }}" -m venv venv
           source venv/bin/activate
           pip install --upgrade pip PyGObject charset-normalizer
-          python setup.py bdist_mac_app --yes bdist_dmg --yes
+          python setup.py bdist_mac --yes
 
-          APP_DMG=$(ls build/*.dmg || echo "")
-          echo "MACOS_DMG=$APP_DMG" >> $GITHUB_ENV
+          APP_BINARY=$(ls build/*.app || echo "")
+          echo "MACOS_APP=$APP_BINARY" >> $GITHUB_ENV
 
       - name: Attest Build
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-            build/MultiworldGG*.dmg
+            build/MultiworldGG*.app
 
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
@@ -214,6 +214,6 @@ jobs:
           prerelease: false
           name: v${{ env.RELEASE_VERSION }}
           files: |
-            ${{ env.MACOS_DMG }}
+            ${{ env.APP_BINARY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

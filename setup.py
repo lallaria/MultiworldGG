@@ -46,7 +46,6 @@ if install_cx_freeze:
 import cx_Freeze
 if platform.system().lower() == "darwin":
     from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac_app
-    from cx_Freeze.command.bdist_dmg import bdist_dmg as _bdist_mac_dmg
 
 # .build only exists if cx-Freeze is the right version, so we have to update/install that first before this line
 import setuptools.command.build
@@ -572,7 +571,6 @@ class OSXAppCommand(_bdist_mac_app):
 
     def run(self):
         super().run()
-
         bundle = self.bundle_dir
         macos_dir = os.path.join(bundle, "Contents", "MacOS")
         os.makedirs(macos_dir, exist_ok=True)
@@ -586,21 +584,6 @@ class OSXAppCommand(_bdist_mac_app):
                 os.remove(link_path)
 
             os.symlink(target, link_path)
-
-class OSXDMGCommand(_bdist_mac_dmg):
-    description = "macOS .dmg bundle"
-    user_options = _bdist_mac_dmg.user_options + [
-        ("yes", "y", "Answer 'yes' to all questions"),
-    ]
-    def initialize_options(self):
-        super().initialize_options()
-        self.yes = False
-    def finalize_options(self):
-        super().finalize_options()
-
-    def run(self):
-        super().run()
-
 
 def find_libs(*args: str) -> Sequence[Tuple[str, str]]:
     """Try to find system libraries to be included."""
@@ -674,6 +657,15 @@ inno_replace_lines = inno_replace_lines.replace("{{918BA46A-FAB8-460C-9DFF-AE691
 with open("inno_setup.iss", "w") as f:
     f.write(inno_replace_lines)
 
+cmdclass={
+        "build": BuildCommand,
+        "build_exe": BuildExeCommand,
+        "bdist_appimage": AppImageCommand
+}
+
+if sys.platform == "darwin":
+    cmdclass["bdist_mac"] = OSXAppCommand
+
 cx_Freeze.setup(
     name=instance_name,
     version=f"{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}",
@@ -703,22 +695,9 @@ cx_Freeze.setup(
         },
         "bdist_mac": {
             "bundle_name": f"{instance_name} {version_tuple.major}.{version_tuple.minor}.{version_tuple.build}"
-        },
-        "bdist_dmg": {
-            # the volume name when you mount the .dmg
-            "volume_label": f"{instance_name}_{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}_MacOS_universal",
-            "applications_shortcut": True,
-            "show_icon_preview": True
         }
     },
-    # override commands to get custom stuff in
-    cmdclass={
-        "build": BuildCommand,
-        "build_exe": BuildExeCommand,
-        "bdist_appimage": AppImageCommand,
-        "bdist_mac_app": OSXAppCommand,
-        "bdist_dmg": OSXDMGCommand,
-    },
+    cmdclass=cmdclass,
 )
 with open("inno_setup.iss", "w") as f: # revert inno_setup.iss
     f.write(inno_lines)
