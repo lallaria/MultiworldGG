@@ -2,6 +2,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 import asyncio
 import base64
@@ -677,30 +678,32 @@ class LinksAwakeningContext(CommonContext):
 
     def run_gui(self) -> None:
         import webbrowser
-        import kvui
-        from kvui import Button, GameManager
-        from kivy.uix.image import Image
+        from kvui import GameManager, ImageButton
+        from kivy.clock import Clock,mainthread
 
         class LADXManager(GameManager):
             logging_pairs = [
                 ("Client", "Archipelago"),
                 ("Tracker", "Tracker"),
             ]
-            base_title = f"Archipelago {Common.LINKS_AWAKENING} Client"
+            base_title = f"{apname} {Common.LINKS_AWAKENING} Client"
+
+            @mainthread
+            def open_magpie(self, *args):
+                try:
+                    webbrowser.open('https://magpietracker.us/?enable_autotracker=1')
+                except Exception as e:
+                    logging.exception("Failed to open browser: %s", e)
 
             def build(self):
                 b = super().build()
 
                 if self.ctx.magpie_enabled:
-                    button = Button(text="", size=(30, 30), size_hint_x=None,
-                                    on_press=lambda _: webbrowser.open('https://magpietracker.us/?enable_autotracker=1'))
-                    image = Image(size=(16, 16), texture=magpie_logo())
-                    button.add_widget(image)
+                    button = ImageButton(texture=magpie_logo(), fit_mode="cover", size=(30,30), image_size=(30, 30), size_hint_x=None)
 
-                    def set_center(_, center):
-                        image.center = center
-                    button.bind(center=set_center)
-
+                    button.pos_hint = {'center_y': 0.5}
+                    
+                    button.bind(on_press=lambda _: Clock.schedule_once(self.open_magpie, 0))
                     self.connect_layout.add_widget(button)
                 return b
 
