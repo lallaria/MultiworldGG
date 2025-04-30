@@ -1,5 +1,6 @@
 import logging
 import time
+from typing import Any
 
 from NetUtils import ClientStatus, NetworkItem, color
 from worlds.AutoSNIClient import SNIClient
@@ -80,6 +81,7 @@ SMW_UNCOLLECTABLE_DRAGON_COINS = [0x24]
 class SMWSNIClient(SNIClient):
     game = "Super Mario World"
     patch_suffix = ".apsmw"
+    slot_data: dict[str, Any] | None
 
     async def deathlink_kill_player(self, ctx):
         from SNIClient import DeathState, snes_buffered_write, snes_flush_writes, snes_read
@@ -115,7 +117,12 @@ class SMWSNIClient(SNIClient):
         ctx.last_death_link = time.time()
 
 
-    def on_package(self, ctx: SNIClient, cmd: str, args: dict) -> None:
+    def on_package(self, ctx: SNIClient, cmd: str, args: dict[str, Any]) -> None:
+        super().on_package(ctx, cmd, args)
+
+        if cmd == "Connected":
+            self.slot_data = args.get("slot_data", None)
+
         if cmd != "Bounced":
             return
         if "tags" not in args:
@@ -131,7 +138,19 @@ class SMWSNIClient(SNIClient):
                 # We don't know how to handle this trap, ignore it
                 return
 
-            self.priority_trap = NetworkItem(trap_name_to_value[trap_name], None, None)
+            trap_id: int = trap_name_to_value[trap_name]
+
+            if "trap_weights" not in self.slot_data:
+                return
+
+            if f"{trap_id}" not in self.slot_data["trap_weights"]:
+                return
+
+            if self.slot_data["trap_weights"][f"{trap_id}"] == 0:
+                # The player disabled this trap type
+                return
+
+            self.priority_trap = NetworkItem(trap_id, None, None)
             self.priority_trap_message = generate_received_trap_link_text(trap_name, source_name)
             self.priority_trap_message_str = f"Received linked {trap_name} from {source_name}"
         elif "RingLink" in ctx.tags and "RingLink" in args["tags"] and source_name != self.instance_id:
@@ -200,13 +219,12 @@ class SMWSNIClient(SNIClient):
         if death_link:
             await ctx.update_death_link(bool(death_link[0] & 0b1))
 
-        trap_link = await snes_read(ctx, SMW_TRAP_LINK_ACTIVE_ADDR, 1)
-        if trap_link and bool(trap_link[0] & 0b1):
+        if trap_link and bool(trap_link[0] & 0b1) and "TrapLink" not in ctx.tags:
             ctx.tags.add("TrapLink")
             await ctx.send_msgs([{"cmd": "ConnectUpdate", "tags": ctx.tags}])
 
         ring_link = await snes_read(ctx, SMW_RING_LINK_ACTIVE_ADDR, 1)
-        if ring_link and bool(ring_link[0] & 0b1):
+        if ring_link and bool(ring_link[0] & 0b1) and "RingLink" not in ctx.tags:
             ctx.tags.add("RingLink")
             await ctx.send_msgs([{"cmd": "ConnectUpdate", "tags": ctx.tags}])
 
@@ -310,7 +328,6 @@ class SMWSNIClient(SNIClient):
         message_str = ""
         from_queue = False
 
-        # TODO: Check Priority Trap, send "Received Linked Trap" message to SNI output instead of game?
         if getattr(self, "priority_trap", None) and self.priority_trap.item != 0:
             next_trap = self.priority_trap
             message = self.priority_trap_message
