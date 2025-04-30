@@ -214,7 +214,7 @@ jobs:
       - name: Install Homebrew dependencies
         run: |
           brew update
-          brew install gtk+3 gobject-introspection
+          brew install gtk+3 gobject-introspection coreutils
 
       - name: Read `app_version` from application.yaml
         run: |
@@ -261,11 +261,11 @@ jobs:
         shell: bash
         run: |
           cd build/exe*
-          ls -1 Players
+          ls -1 Players/Templates
           mv Players/Templates/meta.yaml .
           ls -1 Players/Templates | sort > setup-player-templates.txt
           rm -R Players/Templates
-          timeout 30 ./MultiworldGGLauncher "Generate Template Options" || true
+          gtimeout 30 ./MultiworldGGLauncher "Generate Template Options" || true
           ls -1 Players/Templates | sort > generated-player-templates.txt
           cmp setup-player-templates.txt generated-player-templates.txt \
             || diff setup-player-templates.txt generated-player-templates.txt
@@ -276,7 +276,7 @@ jobs:
         run: |
           cd build/exe*
           cp Players/Templates/Clique.yaml Players/
-          timeout 30 ./MultiworldGGGenerate
+          gtimeout 30 ./MultiworldGGGenerate
 
       - name: Store .app file
         uses: actions/upload-artifact@v4
