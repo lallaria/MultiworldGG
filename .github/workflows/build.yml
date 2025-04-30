@@ -248,9 +248,9 @@ jobs:
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: |
-            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.app/Contents/MacOS/MultiworldGGLauncher
-            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.app/Contents/MacOS/MultiworldGGGenerate
-            build/MultiworldGG_${{ env.APP_VERSION }}_MacOS_universal.app/Contents/MacOS/MultiworldGGServer
+            build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGLauncher
+            build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGGenerate
+            build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGServer
 
       - name: Build Again with build_exe
         run: |
@@ -282,6 +282,6 @@ jobs:
         with:
           name: ${{ env.MACOS_APP }}
           path: build/${{ env.MACOS_APP }}
-          compression-level: 0
+          compression-level: 1
           if-no-files-found: error
           retention-days: 7

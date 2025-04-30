@@ -693,7 +693,7 @@ cx_Freeze.setup(
            "build_folder": buildfolder,
         },
         "bdist_mac": {
-            "bundle_name": f"{instance_name}_{version_tuple.major}.{version_tuple.minor}.{version_tuple.build}_MacOS_universal"
+            "bundle_name": f"{instance_name} {version_tuple.major}.{version_tuple.minor}.{version_tuple.build}"
         }
     },
     cmdclass=cmdclass,
