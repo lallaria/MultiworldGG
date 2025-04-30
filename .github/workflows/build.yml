@@ -261,7 +261,6 @@ jobs:
         shell: bash
         run: |
           cd build/exe*
-          ls -1 Players/Templates
           mv Players/Templates/meta.yaml .
           ls -1 Players/Templates | sort > setup-player-templates.txt
           rm -R Players/Templates
@@ -282,7 +281,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.MACOS_APP }}
-          path: dist/${{ env.MACOS_APP }}
+          path: build/${{ env.MACOS_APP }}
           compression-level: 0
           if-no-files-found: error
           retention-days: 7

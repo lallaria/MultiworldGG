@@ -214,6 +214,6 @@ jobs:
           prerelease: false
           name: v${{ env.RELEASE_VERSION }}
           files: |
-            ${{ env.APP_BINARY }}
+            build/${{ env.APP_BINARY }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
