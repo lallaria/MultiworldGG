@@ -241,7 +241,7 @@ jobs:
           pip install --upgrade pip PyGObject charset-normalizer
           python setup.py bdist_mac --yes
 
-          APP_BINARY=$(ls build/*.app || echo "")
+          APP_BINARY=$(ls build/ | grep ".app" | head -n 1 || echo "")
           echo "MACOS_APP=$APP_BINARY" >> $GITHUB_ENV
 
       - name: Attest Build
