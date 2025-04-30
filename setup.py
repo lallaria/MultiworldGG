@@ -44,8 +44,7 @@ if install_cx_freeze:
     import pkg_resources
 
 import cx_Freeze
-if platform.system().lower() == "darwin":
-    from cx_Freeze.command.bdist_mac import bdist_mac as _bdist_mac_app
+from cx_Freeze.command.bdist_mac import bdist_mac
 
 # .build only exists if cx-Freeze is the right version, so we have to update/install that first before this line
 import setuptools.command.build
@@ -554,9 +553,9 @@ $APPDIR/$exe "$@"
         print(f'{self.app_dir} -> {self.dist_file}')
         subprocess.call(f'ARCH={build_arch} ./appimagetool -n "{self.app_dir}" "{self.dist_file}"', shell=True)
 
-class OSXAppCommand(_bdist_mac_app):
+class OSXAppCommand(bdist_mac):
     description = "macOS .app bundle with extra_data symlinked into Contents/MacOS"
-    user_options = _bdist_mac_app.user_options + [
+    user_options = bdist_mac.user_options + [
             ("yes", "y", "Answer 'yes' to all questions"),
     ]
     def initialize_options(self):
