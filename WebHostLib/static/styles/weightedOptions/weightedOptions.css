@@ -176,7 +176,7 @@ html {
 #weighted-options .set-container .divider, #weighted-options .dict-container .divider, #weighted-options .list-container .divider {
   width: 100%;
   height: 2px;
-  background-color: rgba(20, 20, 20, 0.25);
+  background-color: rgba(255,255,255, 0.25);
   margin-top: 0.125rem;
   margin-bottom: 0.125rem;
 }
@@ -190,7 +190,7 @@ html {
   line-height: 1rem;
 }
 #weighted-options .set-container .set-entry:hover, #weighted-options .set-container .dict-entry:hover, #weighted-options .set-container .list-entry:hover, #weighted-options .dict-container .set-entry:hover, #weighted-options .dict-container .dict-entry:hover, #weighted-options .dict-container .list-entry:hover, #weighted-options .list-container .set-entry:hover, #weighted-options .list-container .dict-entry:hover, #weighted-options .list-container .list-entry:hover {
-  background-color: rgba(20, 20, 20, 0.25);
+  background-color: rgba(255,255,255, 0.25);
 }
 #weighted-options .set-container .set-entry input[type=checkbox], #weighted-options .set-container .dict-entry input[type=checkbox], #weighted-options .set-container .list-entry input[type=checkbox], #weighted-options .dict-container .set-entry input[type=checkbox], #weighted-options .dict-container .dict-entry input[type=checkbox], #weighted-options .dict-container .list-entry input[type=checkbox], #weighted-options .list-container .set-entry input[type=checkbox], #weighted-options .list-container .dict-entry input[type=checkbox], #weighted-options .list-container .list-entry input[type=checkbox] {
   margin-right: 0.25rem;

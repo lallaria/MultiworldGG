@@ -4,11 +4,13 @@
 {% block head %}
     <title>{{ world_name }} Options</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="styles/playerOptions/playerOptions.css") }}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" />
     <script type="application/ecmascript" src="{{ url_for('static', filename="assets/md5.min.js") }}"></script>
     <script type="application/ecmascript" src="{{ url_for('static', filename="assets/js-yaml.min.js") }}"></script>
-    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/playerOptions.js") }}"></script>
-    <script type="application/ecmascript" scr="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/playerOptions/general.js") }}"></script>
+    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/playerOptions/massSettingHandler.js") }}"></script>
     <script type="application/ecmascript" src="{{ url_for('static', filename="assets/yamlImport.js") }}"></script>
+    <script type="application/ecmascript" src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
     <noscript>
         <style>
@@ -72,93 +74,65 @@
 
             <div id="option-groups">
                 {% for group_name, group_options in option_groups.items() %}
-                    <details class="group-container" {% if not start_collapsed[group_name] %}open{% endif %}>
+                    <details class="group-container" data-group="{{ group_name }}" {% if not start_collapsed[group_name] %}open{% endif %}>
                         <summary class="h2">{{ group_name }}</summary>
                         <div class="game-options">
+                        {% if group_name == "Item & Location Options" %}
+                            {# ─── Left half ─── #}
                             <div class="left">
-                                {% for option_name, option in group_options.items() %}
-                                    {% if loop.index <= (loop.length / 2)|round(0,"ceil") %}
-                                        {% if issubclass(option, Options.Toggle) %}
-                                            {{ inputs.Toggle(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.TextChoice) %}
-                                            {{ inputs.TextChoice(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.Choice) %}
-                                            {{ inputs.Choice(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.NamedRange) %}
-                                            {{ inputs.NamedRange(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.Range) %}
-                                            {{ inputs.Range(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.FreeText) %}
-                                            {{ inputs.FreeText(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.OptionCounter) and (
-                                            option.valid_keys or option.verify_item_name or option.verify_location_name
-                                        ) %}
-                                            {{ inputs.OptionCounter(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.OptionList) and option.valid_keys %}
-                                            {{ inputs.OptionList(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.LocationSet) and option.verify_location_name %}
-                                            {{ inputs.LocationSet(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.ItemSet) and option.verify_item_name %}
-                                            {{ inputs.ItemSet(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.OptionSet) and option.valid_keys %}
-                                            {{ inputs.OptionSet(option_name, option) }}
-
-                                        {% endif %}
+                            {% for option_name, option in group_options.items() %}
+                                {% if loop.index <= (loop.length/2)|round(0, "ceil") %}
+                                    {% if issubclass(option, Options.ItemSet) %}
+                                        {% set mass = world.item_names|length > 500 %}
+                                    {% elif issubclass(option, Options.LocationSet) %}
+                                        {% set mass = world.location_names|length > 500 %}
+                                    {% elif issubclass(option, Options.OptionCounter) %}
+                                        {% set mass = option.verify_item_name and (world.item_names|length > 500) or (not option.verify_item_name and (world.location_names|length > 500)) %}
+                                    {% else %}
+                                        {% set mass = false %}
                                     {% endif %}
-                                {% endfor %}
+
+                                    {{ inputs.OptionInputDecisionEngine(option_name, option, mass) }}
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+
+                            {# ─── Right half ─── #}
+                            <div class="right">
+                            {% for option_name, option in group_options.items() %}
+                                {% if loop.index > (loop.length/2)|round(0, "ceil") %}
+                                    {% if issubclass(option, Options.ItemSet) %}
+                                        {% set mass = world.item_names|length > 500 %}
+                                    {% elif issubclass(option, Options.LocationSet) %}
+                                        {% set mass = world.location_names|length > 500 %}
+                                    {% elif issubclass(option, Options.OptionCounter) %}
+                                        {% set mass = option.verify_item_name and (world.item_names|length > 500) or (not option.verify_item_name and (world.location_names|length > 500)) %}
+                                    {% else %}
+                                        {% set mass = false %}
+                                    {% endif %}
+
+                                    {{ inputs.OptionInputDecisionEngine(option_name, option, mass) }}
+                                {% endif %}
+                            {% endfor %}
+                            </div>
+
+                        {% else %}
+                            <div class="left">
+                            {% for option_name, option in group_options.items() %}
+                                {% if loop.index <= (loop.length/2)|round(0, "ceil") %}
+                                {{ inputs.OptionInputDecisionEngine(option_name, option) }}
+                                {% endif %}
+                            {% endfor %}
                             </div>
                             <div class="right">
-                                {% for option_name, option in group_options.items() %}
-                                    {% if loop.index > (loop.length / 2)|round(0,"ceil") %}
-                                        {% if issubclass(option, Options.Toggle) %}
-                                            {{ inputs.Toggle(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.TextChoice) %}
-                                            {{ inputs.TextChoice(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.Choice) %}
-                                            {{ inputs.Choice(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.NamedRange) %}
-                                            {{ inputs.NamedRange(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.Range) %}
-                                            {{ inputs.Range(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.FreeText) %}
-                                            {{ inputs.FreeText(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.OptionCounter) and (
-                                            option.valid_keys or option.verify_item_name or option.verify_location_name
-                                        ) %}
-                                            {{ inputs.OptionCounter(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.OptionList) and option.valid_keys %}
-                                            {{ inputs.OptionList(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.LocationSet) and option.verify_location_name %}
-                                            {{ inputs.LocationSet(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.ItemSet) and option.verify_item_name %}
-                                            {{ inputs.ItemSet(option_name, option) }}
-
-                                        {% elif issubclass(option, Options.OptionSet) and option.valid_keys %}
-                                            {{ inputs.OptionSet(option_name, option) }}
-
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+                            {% for option_name, option in group_options.items() %}
+                                {% if loop.index > (loop.length/2)|round(0, "ceil") %}
+                                {{ inputs.OptionInputDecisionEngine(option_name, option) }}
+                                {% endif %}
+                            {% endfor %}
                             </div>
+                        {% endif %}
+
                         </div>
                     </details>
                 {% endfor %}
@@ -170,4 +144,5 @@
             </div>
         </form>
     </div>
+    
 {% endblock %}

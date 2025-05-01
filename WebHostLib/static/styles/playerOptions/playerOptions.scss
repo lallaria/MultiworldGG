@@ -9,7 +9,7 @@ html{
 
 #player-options{
     box-sizing: border-box;
-    max-width: 1280px;;
+    max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
     background-color: rgba(0, 0, 0, 0.15);
@@ -229,18 +229,19 @@ html{
         border: 1px solid rgba(20, 20, 20, 0.25);
         border-radius: 3px;
         color: #ffffff;
-        max-height: 10rem;
+        max-height: 15rem;
         min-width: 14.5rem;
         overflow-y: auto;
         padding-right: 0.25rem;
         padding-left: 0.25rem;
+        margin-bottom: 0.5rem;
 
         .option-divider{
             width: 100%;
             height: 2px;
-            background-color: rgba(20, 20, 20, 0.25);
-            margin-top: 0.125rem;
-            margin-bottom: 0.125rem;
+            background-color: rgba(255, 255, 255, 0.25);
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
         }
 
         .option-entry{
@@ -252,7 +253,7 @@ html{
             user-select: none;
 
             &:hover{
-                background-color: rgba(20, 20, 20, 0.25);
+                background-color: rgba(255,255,255, 0.25);
             }
 
             input[type=checkbox]{
@@ -279,6 +280,21 @@ html{
                 min-width: unset;
                 display: unset;
             }
+        }
+
+        .multi-selector {
+            position: relative;
+        }
+
+        .multi-search {
+            width: 100%; 
+            box-sizing: border-box; 
+            margin-bottom: 0.5em;
+        }
+
+        .multi-list {
+            height: 14rem; 
+            overflow-y: auto;
         }
     }
 
