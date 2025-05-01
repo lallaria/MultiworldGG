@@ -192,6 +192,11 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install "PyGObject<3.51.0" charset-normalizer
 
+      - name: Install run-time dependencies
+        run: |
+          wget -nv https://github.com/Ijwu/Enemizer/releases/download/$ENEMIZER_VERSION/osx.10.12-x64.zip
+          unzip -d EnemizerCLI osx.10.12-x64.zip
+
       - name: Build
         run: |
           "${{ env.PYTHON }}" -m venv venv
