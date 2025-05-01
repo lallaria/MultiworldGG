@@ -9,13 +9,13 @@
     return divider;
   }
 
-  function appendLoadMore() {
+  function createAppendElement() {
     const moreDiv = document.createElement("div");
     moreDiv.className = "option-more";
     moreDiv.innerHTML = `<a href="#" class="load-more">
                        Show ${CHUNK_SIZE} more…
                      </a>`;
-    listContainer.appendChild(moreDiv);
+    return moreDiv;
   }
 
   // Multi‐Selector for ItemSet & LocationSet
@@ -127,7 +127,9 @@
             listContainer.appendChild(createEntry(elem, false, false))
           );
 
-        if (uncheckedItems.length > currentLimit) appendLoadMore();
+        if (uncheckedItems.length > currentLimit) {
+            listContainer.appendChild(createAppendElement());
+        }
       }
 
       render();
@@ -196,7 +198,7 @@
 
         const selected = allNames.filter((n) => current[n] > 0).sort((a, b) => a.localeCompare(b));
 
-        const unselected = allNamesfilter((name) => current[name] === 0 && name.toLowerCase().includes(searchInputValue))
+        const unselected = allNames.filter((name) => current[name] === 0 && name.toLowerCase().includes(searchInputValue))
           .sort((a, b) => a.localeCompare(b));
 
         selected.forEach((n) => listContainer.appendChild(createEntry(n)));
@@ -208,7 +210,7 @@
         unselected.slice(0, currentLimit).forEach((n) => listContainer.appendChild(createEntry(n)));
 
         if (unselected.length > currentLimit) {
-          appendLoadMore();
+            listContainer.appendChild(createAppendElement());
         }
       }
       render();
