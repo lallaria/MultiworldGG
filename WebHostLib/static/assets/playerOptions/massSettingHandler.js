@@ -44,16 +44,22 @@
       function createEntry(name, isChecked, isGroup) {
         const div = document.createElement("div");
         div.className = "option-entry" + (isGroup ? " group-entry" : "");
-        div.innerHTML = `
-            <input
-              type="checkbox"
-              id="${optionName}-${name}"
-              name="${optionName}"
-              value="${name}"
-              ${isChecked ? "checked" : ""}
-            />
-            <label for="${optionName}-${name}">${name}</label>
-          `;
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = `${optionName}-${name}`;
+        input.name = optionName;
+        input.value = name;
+        if (isChecked) {
+          input.checked = true;
+        }
+
+        const label = document.createElement("label");
+        label.htmlFor = `${optionName}-${name}`;
+        label.textContent = name;
+
+        div.appendChild(input);
+        div.appendChild(label);
         return div;
       }
 
@@ -155,18 +161,24 @@
         const val = current[name] || 0;
         const div = document.createElement("div");
         div.className = "option-entry" + (val > 0 ? " selected-entry" : "");
-        div.innerHTML = `
-            <label for="${container.dataset.optionName}-${name}-qty">
-              ${name}
-            </label>
-            <input
-              type="number"
-              id="${container.dataset.optionName}-${name}-qty"
-              name="${container.dataset.optionName}||${name}||qty"
-              value="${val}"
-              data-name="${name}"
-            />
-          `;
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.id = `${container.dataset.optionName}-${name}-qty`;
+        input.name = `${container.dataset.optionName}||${name}||qty`;
+        input.value = val;
+        input.setAttribute("data-name", name);
+
+        if (isChecked) {
+          input.checked = true;
+        }
+
+        const label = document.createElement("label");
+        label.htmlFor = `${container.dataset.optionName}-${name}-qty`;
+        label.textContent = name;
+
+        div.appendChild(input);
+        div.appendChild(label);
         return div;
       }
 
