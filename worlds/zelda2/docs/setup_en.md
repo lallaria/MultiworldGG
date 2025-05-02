@@ -1,4 +1,4 @@
-# Zelda II Archipelago Randomizer Setup Guide
+# Zelda II MultiworldGG Randomizer Setup Guide
 
 ## Required Software
 
