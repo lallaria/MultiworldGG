@@ -164,6 +164,7 @@ Currently, the following games are supported:
 * The Witness
 * Toontown
 * Tunic
+* UFO 50
 * Ultrakill
 * Undertale
 * VVVVVV
