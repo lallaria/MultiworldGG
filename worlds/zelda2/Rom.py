@@ -42,7 +42,7 @@ def patch_rom(world, rom, player: int):
         shield_color = world.random.randint(0x10, 0x3E)
         tunic_color = world.random.randint(0x10, 0x3E)
 
-        rom.write_bytes(0x00E8E, bytearray([shield_color])) #Shield palette
+        rom.write_bytes(0x00E9E, bytearray([shield_color])) #Shield palette
         rom.write_bytes(0x040B1, bytearray([tunic_color])) # Normal palette
         rom.write_bytes(0x040C1, bytearray([tunic_color])) # Normal palette
         rom.write_bytes(0x040D1, bytearray([tunic_color])) # Normal palette
