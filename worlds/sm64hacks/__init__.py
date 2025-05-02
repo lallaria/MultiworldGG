@@ -35,7 +35,7 @@ class SM64HackWorld(World):
     """
     The first Super Mario game to feature 3D gameplay, but heavily modded - with support for a lot of popular rom hacks.
     """
-    game = "SM64 Romhacks"
+    game = "SM64 Romhack"
     author: str = "DNVIC"
     options_dataclass = SM64HackOptions
     options: SM64HackOptions

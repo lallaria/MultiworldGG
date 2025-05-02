@@ -1,6 +1,6 @@
 from typing import List
 import json
-
+import os
 
 sm64hack_items: List[str] = [
     "Key 1", 
@@ -120,10 +120,11 @@ class Data:
     }
 
     def import_json(self, file):
-        with open("data/sm64hacks/" + file) as infile:
-            self.locations = json.load(infile)
-
-
-
-
+        primary = os.path.join("data", "sm64hacks", file)
+        try:
+            with open(primary, 'r') as infile:
+                self.locations = json.load(infile)
+        except FileNotFoundError: # fallback for compatibility reasons with original apworld
+            with open(file, 'r') as infile:
+                self.locations = json.load(infile)
 
