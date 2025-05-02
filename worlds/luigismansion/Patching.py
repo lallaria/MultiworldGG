@@ -3,7 +3,7 @@ from math import ceil
 from random import choice, randint
 
 from .Regions import spawn_locations
-from .Items import filler_items
+from .Items import ALL_ITEMS_TABLE, filler_items
 
 #TODO remove this in favor of JMP entries?
 speedy_observer_index: [int] = [183, 182, 179, 178, 177, 101, 100, 99, 98, 97, 21, 19]
@@ -90,20 +90,6 @@ def update_event_info(event_info, boo_checks: bool, output_data):
             info_entry["pos_x"] == 0)), event_info.info_file_field_entries))
 
     for x in event_info.info_file_field_entries:
-        # Enables a text box to appear when the user receives a key
-        #if x["EventNo"] == 1:
-        #    x["CharacterName"] = "(null)"
-        #    x["pos_x"] = -1293.728000
-        #    x["pos_y"] = 812.320000
-        #    x["pos_z"] = -513.154700
-        #    x["EventFlag"] = 10
-        #    x["EventArea"] = 0
-        #    x["EventLoad"] = 0
-        #    x["EventLock"] = 1
-        #    x["disappear_flag"] = 0
-        #    x["EventIf"] = 0
-        #    x["PlayerStop"] = 0
-
         # Move Telephone rings to third phone, make an A press and make always on
         if x["EventNo"] == 92:
             x["EventFlag"] = 0
@@ -174,10 +160,14 @@ def update_event_info(event_info, boo_checks: bool, output_data):
             x["EventFlag"] = 0
             x["disappear_flag"] = 74
 
+        # Turn off Event 74 (Warp to King Boo Fight) in blackout by disabling event if King Boo isn't present
+        if x["EventNo"] == 74:
+            x["CharacterName"] = "dltelesa"
+
         # Make event38 load more than once
         if x["EventNo"] == 38:
             x["EventLoad"] = 0
-            x["disappear_flag"] = 34
+            x["disappear_flag"] = 10
             x["EventIf"] = 2
 
         # Update the Washroom event trigger to be area entry based
@@ -197,7 +187,6 @@ def update_event_info(event_info, boo_checks: bool, output_data):
 
         # Update the King Boo event trigger to be area entry based
         if boo_checks and x["EventNo"] == 16:
-            x["CharacterName"] = "(null)"
             x["pos_x"] = 2260.000000
             x["pos_y"] = -450.000000
             x["pos_z"] = -5300.000000
@@ -995,7 +984,7 @@ def update_observer_info(observer_info):
         "invisible": 1,
         "(Undocumented)": 0,
     })
-    # Turn on flag 34 to stop event38 from reloading
+    # Turn on flag 3 to stop event38 from reloading
     observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
@@ -1012,7 +1001,7 @@ def update_observer_info(observer_info):
         "scale_z": 1.000000,
         "room_no": 57,
         "cond_arg0": 0,
-        "arg0": 34,
+        "arg0": 10,
         "arg1": 0,
         "arg2": 0,
         "arg3": 0,
@@ -1076,7 +1065,7 @@ def update_obj_info(obj_info):
 
 # Indicates the chest size that will be loaded in game based on item provided. 0 = small, 1 = medium, 2 = large
 def __get_chest_size_from_item(item_name, chest_option, classification, trap_option, slot, iplayer):
-    if chest_option == 0 or chest_option == 2:
+    if chest_option == 1 or chest_option == 3:
         if "Boo" in item_name and slot == iplayer:
             return 0
         if any(iname in item_name for iname in money_item_names):
@@ -1101,7 +1090,7 @@ def __get_chest_size_from_item(item_name, chest_option, classification, trap_opt
 
         return 0
 
-    elif chest_option == 3:
+    elif chest_option == 4:
         if "progression" in classification:
             return 2
         elif "useful" in classification:
@@ -1116,10 +1105,10 @@ def __get_chest_size_from_item(item_name, chest_option, classification, trap_opt
             else:
                 return choice([0,1,2])
 
-    elif chest_option == 1:
+    elif chest_option == 2:
         return choice([0,1,2])
 
-    elif chest_option == 4:
+    elif chest_option == 5:
         if "Boo" in item_name and slot == iplayer:
             return 0
         if any(iname in item_name for iname in money_item_names) and slot == iplayer:
@@ -1243,104 +1232,94 @@ def __add_appear_item(item_appear_table_entry, item_name):
     item_appear_table_entry.info_file_field_entries.append(new_item)
 
 
-def update_treasure_table(treasure_info, character_info, output_data, teiden: bool = False):
-    # Clear out the vanilla treasuretable from everything.
-    if not teiden:
-        treasure_info.info_file_field_entries.clear()
+def update_treasure_table(treasure_info, character_info, output_data):
+    chest_option: int = int(output_data["Options"]["chest_types"])
+    trap_option: int = int(output_data["Options"]["trap_chests"])
+    slot_num: int = int(output_data["Slot"])
 
-    for x in character_info.info_file_field_entries:
-        # Move the Laundry room chest back from Butler door
-        if x["room_no"] == 5:
-            x["pos_z"] = -1100.000000
+    for item_name, item_data in output_data["Locations"].items():
+        # Ignore output data not related to checks that are not chests.
+        if not item_data["type"] == "Chest":
+            continue
 
-        # Move 2F Bathroom chest back from wall
-        if x["room_no"] == 45 and "takara" in x["name"]:
-            x["pos_x"] = -1900.000000
-            x["pos_z"] = -4830.000000
+        for char_entry in list([charinfo for charinfo in character_info.info_file_field_entries if
+            int(charinfo["room_no"]) == int(item_data["room_no"]) and "takara" in charinfo["name"]]):
 
-        for item_name, item_data in output_data["Locations"].items():
-            # Ignore output data not related to checks that are not chests.
-            if not item_data["type"] == "Chest":
-                continue
+            # Special Case: Move the Laundry room chest back from Butler door
+            if char_entry["room_no"] == 5:
+                char_entry["pos_z"] = -1100.000000
 
+            # Special Case: Move 2F Bathroom chest back from wall
+            elif char_entry["room_no"] == 45:
+                char_entry["pos_x"] = -1900.000000
+                char_entry["pos_z"] = -4830.000000
 
-            # Find the proper chest in the proper room by looking comparing the Room ID.
-            if (x["name"].find("takara") != -1 and x["room_no"] == item_data["room_no"]) or item_data["room_no"] == 11:
-                chest_size = 0
-                if item_data["room_no"] != 11:
-                    # Replace the Chest visuals with something that matches the item name in "characterinfo".
-                    if output_data["Options"]["chest_types"] == 0:
-                        x["name"] = __get_item_chest_visual(item_data["name"], 0, item_data["classification"], output_data["Options"]["trap_chests"], output_data["Slot"], item_data["player"])
-                        if item_data["door_id"] == 0:
-                            chest_size = __get_chest_size_from_item(item_data["name"], 0, item_data["classification"], output_data["Options"]["trap_chests"], output_data["Slot"], item_data["player"])
+            chest_size = int(treasure_info.info_file_field_entries[item_data["loc_enum"]]["size"])
+            if item_data["room_no"] != 11 and chest_option > 0:
+                char_entry["name"] = __get_item_chest_visual(item_data["name"], chest_option,
+                    item_data["classification"], trap_option, slot_num, item_data["player"])
+                if item_data["door_id"] == 0:
+                    chest_size = __get_chest_size_from_item(item_data["name"], chest_option,
+                        item_data["classification"], trap_option, slot_num, item_data["player"])
+                else:
+                    chest_size = __get_chest_size_from_key(item_data["door_id"])
+
+            treasure_item_name = ""
+            coin_amount = 0
+            bill_amount = 0
+            gold_bar_amount = 0
+            sapphire_amount = 0
+            emerald_amount = 0
+            ruby_amount = 0
+            diamond_amount = 0
+            rdiamond_amount = 0
+
+            # Define the actor name to use from the Location in the generation output. Act differently if it's a key.
+            if item_data["name"] in ALL_ITEMS_TABLE.keys():
+                lm_item_data = ALL_ITEMS_TABLE[item_data["name"]]
+                treasure_item_name = __get_item_name(item_data, slot_num)
+                if lm_item_data.update_ram_addr and any(update_addr.item_count for update_addr in
+                        lm_item_data.update_ram_addr if update_addr.item_count and update_addr.item_count > 0):
+                    item_amt = next(update_addr.item_count for update_addr in lm_item_data.update_ram_addr if
+                       update_addr.item_count and update_addr.item_count > 0)
+
+                    if "Coins" in item_data["name"]:
+                        if "Bills" in item_data["name"]:
+                            coin_amount = item_amt
+                            bill_amount = item_amt
                         else:
-                            chest_size = __get_chest_size_from_key(item_data["door_id"])
-                    else:
-                        x["name"] = __get_item_chest_visual(item_data["name"], output_data["Options"]["chest_types"], item_data["classification"],
-                                                            output_data["Options"]["trap_chests"], output_data["Slot"], item_data["player"])
-                        chest_size = __get_chest_size_from_item(item_data["name"], output_data["Options"]["chest_types"], item_data["classification"],
-                                                                output_data["Options"]["trap_chests"], output_data["Slot"], item_data["player"])
+                            coin_amount = item_amt
+                    elif "Bills" in item_data["name"]:
+                        bill_amount = item_amt
+                    elif "Gold Bar" in item_data["name"]:
+                        gold_bar_amount = item_amt
+                    elif "Sapphire" in item_data["name"]:
+                        sapphire_amount = item_amt
+                    elif "Emerald" in item_data["name"]:
+                        emerald_amount = item_amt
+                    elif "Ruby" in item_data["name"]:
+                        ruby_amount = item_amt
+                    elif "Diamond" in item_data["name"]:
+                        diamond_amount = item_amt
+                    elif "Gold Diamond" in item_data["name"]:
+                        rdiamond_amount = item_amt
 
-                # Define the actor name to use from the Location in the generation output.
-                # Act differently if it's a key.
-                # Also define the size of the chest from the item name.
-                treasure_item_name = __get_item_name(item_data, int(output_data["Slot"]))
-
-                coin_amount = 0
-                bill_amount = 0
-                gold_bar_amount = 0
-                sapphire_amount = 0
-                emerald_amount = 0
-                ruby_amount = 0
-                diamond_amount = 0
-                rdiamond_amount = 0
-                # Generate a random amount of money if the item is supposed to be a money bundle.
-                if treasure_item_name in ["money", "emerald", "sapphire", "ruby", "diamond", "rdiamond"]:
-                    if any((key, val) for (key, val) in filler_items.items() if
-                           key == item_data["name"] and val.type == "Money"):
-                        int_money_amt = 1
-                        if re.search(r"^\d+", item_data["name"]):
-                            int_money_amt = int(re.search(r"^\d+", item_data["name"]).group())
-                        if "Coins" in item_data["name"]:
-                            if "Bills" in item_data["name"]:
-                                coin_amount = int_money_amt
-                                bill_amount = int_money_amt
-                            else:
-                                coin_amount = int_money_amt
-                        elif "Bills" in item_data["name"]:
-                            bill_amount = int_money_amt
-                        elif "Gold Bar" in item_data["name"]:
-                            gold_bar_amount = int_money_amt
-                        elif "Sapphire" in item_data["name"]:
-                            sapphire_amount = int_money_amt
-                        elif "Emerald" in item_data["name"]:
-                            emerald_amount = int_money_amt
-                        elif "Ruby" in item_data["name"]:
-                            ruby_amount = int_money_amt
-                        elif "Diamond" in item_data["name"]:
-                            diamond_amount = int_money_amt
-                        elif "Gold Diamond" in item_data["name"]:
-                            rdiamond_amount = int_money_amt
-                # Add the entry for the chest in "treasuretable". Also includes the chest size.
-                treasure_info.info_file_field_entries.append({
-                    "other": treasure_item_name if not "rdiamond" else "",
-                    "room": item_data["room_no"],
-                    "size": chest_size,
-                    "coin": coin_amount,
-                    "bill": bill_amount,
-                    "gold": gold_bar_amount,
-                    "spearl": 0,
-                    "mpearl": 0,
-                    "lpearl": 0,
-                    "sapphire": sapphire_amount,
-                    "emerald": emerald_amount,
-                    "ruby": ruby_amount,
-                    "diamond": diamond_amount,
-                    "cdiamond": 0,
-                    "rdiamond": rdiamond_amount,
-                    "effect": 0,
-                    "camera": 0
-                })
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["other"] = treasure_item_name
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["size"] = chest_size
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["coin"] = coin_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["bill"] = bill_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["gold"] = gold_bar_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["spearl"] = 0
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["mpearl"] = 0
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["lpearl"] = 0
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["sapphire"] = sapphire_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["emerald"] = emerald_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["ruby"] = ruby_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["diamond"] = diamond_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["cdiamond"] = 0
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["rdiamond"] = rdiamond_amount
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["effect"] = 0
+            treasure_info.info_file_field_entries[item_data["loc_enum"]]["camera"] = 0
 
 
 # Indicates the chest size that will be loaded in game based on key type. 0 = small, 1 = medium, 2 = large
@@ -1354,7 +1333,7 @@ def __get_chest_size_from_key(key_id):
 
 # Changes the type of chest loaded in game based on the type of item that is hidden inside
 def __get_item_chest_visual(item_name, chest_option, classification, trap_option, slot, iplayer):
-    if chest_option == 0:
+    if chest_option == 1:
         if "Boo" in item_name and slot == iplayer:
             return "wtakara1"
         if any(iname in item_name for iname in money_item_names):
@@ -1388,7 +1367,7 @@ def __get_item_chest_visual(item_name, chest_option, classification, trap_option
                 return "gtakara1"
 
         return "btakara1"
-    elif chest_option == 2 or chest_option == 3:
+    elif chest_option == 3 or chest_option == 4:
         if "progression" in classification:
             return "ytakara1"
         elif "useful" in classification:
@@ -1403,10 +1382,10 @@ def __get_item_chest_visual(item_name, chest_option, classification, trap_option
             else:
                 return choice(["ytakara1", "rtakara1", "btakara1", "wtakara1", "gtakara1"])
 
-    elif chest_option == 1:
+    elif chest_option == 2:
         return choice(["ytakara1", "rtakara1", "btakara1", "wtakara1", "gtakara1"])
 
-    elif chest_option == 4:
+    elif chest_option == 5:
         if "Boo" in item_name and slot == iplayer:
             return "wtakara1"
         if any(iname in item_name for iname in money_item_names) and slot == iplayer:
@@ -1496,7 +1475,7 @@ def update_furniture_info(furniture_info, item_appear_info, output_data):
     medium_height_furniture_list = [0, 1, 104, 112, 113, 114, 124, 125, 135, 136, 204, 206, 210, 232, 234, 235, 264, 265,
                                     270, 315, 343, 344, 345, 346, 347, 353, 361, 362, 363, 368, 369, 370, 376, 388, 397, 398,
                                     411, 418, 431, 438, 444, 520,
-                                    526, 544, 552, 553, 554, 555, 602, 603, 634, 635]
+                                    526, 544, 552, 553, 554, 555, 557, 602, 603, 634, 635]
     for furniture_jmp_id in (ceiling_furniture_list + medium_height_furniture_list):
         current_y_offset = furniture_info.info_file_field_entries[furniture_jmp_id]["item_offset_y"]
         adjust_y_offset = 125.0
@@ -1543,6 +1522,7 @@ def update_furniture_info(furniture_info, item_appear_info, output_data):
         furniture_info.info_file_field_entries[item_data["loc_enum"]]["item_table"] = (
             item_appear_info.info_file_field_entries.index(item_appear_entry_idx))
 
+        # TODO update using ALL items table instead
         if any((key, val) for (key, val) in filler_items.items() if
                key == item_data["name"] and key != "Diamond" and val.type == "Money") \
                 and item_data["player"] == output_data["Slot"]:

@@ -155,7 +155,7 @@ class LuigisMansionRandomizer:
         update_item_info_table(self.jmp_item_info_table, self.output_data)
         update_item_appear_table(self.jmp_item_appear_table, self.output_data)
         update_treasure_table(self.jmp_treasure_table, self.jmp_character_info_table, self.output_data)
-        update_treasure_table(self.jmp_treasure_table, self.jmp_teiden_character_info_table, self.output_data, True)
+        update_treasure_table(self.jmp_treasure_table, self.jmp_teiden_character_info_table, self.output_data)
         update_furniture_info(self.jmp_furniture_info_table, self.jmp_item_appear_table, self.output_data)
         update_event_info(self.jmp_event_info_table, bool_boo_checks, self.output_data)
         update_observer_info(self.jmp_observer_info_table)
@@ -204,6 +204,7 @@ class LuigisMansionRandomizer:
         player_name: str = str(self.output_data["Name"])
         king_boo_health: int = int(self.output_data["Options"]["king_boo_health"])
         random_spawn: str = str(self.output_data["Options"]["spawn"])
+        door_model_rando_on: bool = True if int(self.output_data["Options"]["door_model_rando"]) == 1 else False
 
         # Boo related options
         bool_boo_checks: bool = True if self.output_data["Options"]["boo_gates"] == 1 else False
@@ -217,11 +218,13 @@ class LuigisMansionRandomizer:
         madam_hint_dict: dict[str, str] = hint_list["Madame Clairvoya"] if "Madame Clairvoya" in hint_list else None
         bool_portrait_hints: bool = True if self.output_data["Options"]["portrait_hints"] == 1 else False
 
-        self.gcm, self.dol = update_dol_offsets(self.gcm, self.dol, start_inv_list, walk_speed, player_name,
-            random_spawn, king_boo_health, bool_fear_anim_disabled, bool_pickup_anim_enabled, bool_boo_rando_enabled)
+        self.gcm, self.dol = update_dol_offsets(self.gcm, self.dol, self.seed, start_inv_list, walk_speed, player_name,
+            random_spawn, king_boo_health, bool_fear_anim_disabled, bool_pickup_anim_enabled, bool_boo_rando_enabled,
+            door_model_rando_on)
 
         self.gcm = update_common_events(self.gcm, bool_randomize_mice)
-        self.gcm = update_intro_and_lab_events(self.gcm, bool_hidden_mansion, max_health, start_inv_list, door_to_close_list)
+        self.gcm = update_intro_and_lab_events(self.gcm, bool_hidden_mansion, max_health, start_inv_list,
+            door_to_close_list)
 
         if bool_boo_checks:
             boo_list_events = ["16", "47", "96"]
@@ -242,7 +245,7 @@ class LuigisMansionRandomizer:
         self.gcm = update_blackout_event(self.gcm)
 
         self.gcm = randomize_clairvoya(self.gcm, req_mario_count, hint_dist, madam_hint_dict, self.seed)
-        self.gcm = write_in_game_hints(self.gcm, hint_dist, hint_list, self.seed)
+        self.gcm = write_in_game_hints(self.gcm, hint_dist, hint_list, max_health, self.seed)
 
         if bool_portrait_hints:
             self.gcm = write_portrait_hints(self.gcm, hint_dist, hint_list, self.seed)

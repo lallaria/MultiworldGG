@@ -2,7 +2,6 @@ import asyncio
 import os
 import time
 import traceback
-import struct
 
 import NetUtils
 import Utils
@@ -10,15 +9,23 @@ from typing import Any
 
 import dolphin_memory_engine as dme
 
-from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, gui_enabled, logger, server_loop
+from CommonClient import get_base_parser, gui_enabled, logger, server_loop
 from settings import get_settings, Settings
 
 from . import CLIENT_VERSION
 from .LMGenerator import LuigisMansionRandomizer
 from .Items import *
 from .Locations import ALL_LOCATION_TABLE, SELF_LOCATIONS_TO_RECV, BOOLOSSUS_AP_ID_LIST
-from .Regions import spawn_locations
 from .Helper_Functions import StringByteFunction as sbf
+
+# Load Universal Tracker modules with aliases
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import (TrackerCommandProcessor as ClientCommandProcessor,
+                                              TrackerGameContext as CommonContext, UT_VERSION)
+    tracker_loaded = True
+except ImportError:
+    from CommonClient import ClientCommandProcessor, CommonContext
 
 CONNECTION_REFUSED_GAME_STATUS = (
     "Dolphin failed to connect. Please load a randomized ROM for LM. Trying again in 5 seconds..."
@@ -68,9 +75,9 @@ LAST_RECV_ITEM_ADDR = 0x803CDEBA
 RECV_DEFAULT_TIMER_IN_HEX = "5A" # 3 Seconds
 RECV_ITEM_DISPLAY_TIMER_ADDR = 0x804DD958
 RECV_ITEM_DISPLAY_VIZ_ADDR = 0x804DD95C
-RECV_ITEM_NAME_ADDR = 0x804DE05C
-RECV_ITEM_LOC_ADDR = 0x804DE080
-RECV_ITEM_SENDER_ADDR = 0x804DE0A0
+RECV_ITEM_NAME_ADDR = 0x804DE08C
+RECV_ITEM_LOC_ADDR = 0x804DE0B0
+RECV_ITEM_SENDER_ADDR = 0x804DE0D0
 RECV_MAX_STRING_LENGTH = 24
 RECV_LINE_STRING_LENGTH = 27
 FRAME_AVG_COUNT = 30
@@ -184,7 +191,7 @@ class LMCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, LMContext):
             Utils.async_start(self.ctx.get_debug_info(), name="Get Luigi's Mansion Debug info")
 
-class LMContext(CommonContext):
+class LMContext(CommonContext if not tracker_loaded else TrackerGameContext):
     command_processor = LMCommandProcessor
     game = "Luigi's Mansion"
     items_handling = 0b111
@@ -194,7 +201,7 @@ class LMContext(CommonContext):
         """
         Initialize the LM context.
 
-        :param server_address: Address of the MultiworldGG server.
+        :param server_address: Address of the Archipelago server.
         :param password: Password for server authentication.
         """
         super().__init__(server_address, password)
@@ -254,7 +261,7 @@ class LMContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         """
-        Authenticate with the MultiworldGG server.
+        Authenticate with the Archipelago server.
 
         :param password_requested: Whether the server requires a password. Defaults to `False`.
         """
@@ -347,17 +354,36 @@ class LMContext(CommonContext):
         from kvui import GameManager
 
         class LMManager(GameManager):
+            source = ""
             logging_pairs = [("Client", "Archipelago")]
-            base_title = "Luigi's Mansion Client v" + CLIENT_VERSION + " MultiworldGG v"
+            base_title = "Luigi's Mansion Client v" + CLIENT_VERSION
+            if tracker_loaded:
+                base_title += f" | Universal Tracker v{UT_VERSION}"
+            base_title +=  " | Archipelago v"
+
+            def build(self):
+                container = super().build()
+                if tracker_loaded:
+                    self.ctx.build_gui(self)
+                else:
+                    logger.info("To enable a tracker, install Universal Tracker")
+
+                return container
 
         self.ui = LMManager(self)
+        if tracker_loaded:
+            self.load_kv()
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
     async def update_boo_count_label(self):
         if not self.check_ingame():
             return
 
-        from kvui import Label
+        # KivyMD support, also keeps support with regular Kivy (hopefully)
+        try:
+            from kvui import MDLabel as Label
+        except ImportError:
+            from kvui import Label
 
         if not self.boo_count:
             self.boo_count = Label(text=f"")
@@ -582,12 +608,6 @@ class LMContext(CommonContext):
         if not (self.check_ingame() and self.check_alive()):
             return
 
-        if not self.spawn == "Foyer":
-            spawn_info: dict = spawn_locations[self.spawn]
-            #dme.write_bytes(0x804DE034, struct.pack("f", spawn_info["pos_x"]))
-            #dme.write_bytes(0x804DE038, struct.pack("f", spawn_info["pos_y"]))
-            #dme.write_bytes(0x804DE03C, struct.pack("f", spawn_info["pos_z"]))
-
         # Always adjust the Vacuum speed as saving and quitting or going to E. Gadds lab could reset it back to normal.
         if any([netItem.item for netItem in self.items_received if netItem.item == 8064]):
             vac_speed = "3800000F"
@@ -597,18 +617,21 @@ class LMContext(CommonContext):
             for addr_to_update in lm_item.update_ram_addr:
                 dme.write_bytes(addr_to_update.ram_addr, bytes.fromhex(vac_speed))
 
+        # TODO review this for king boo stuff in DOL_Updater instead.
         # Always adjust Pickup animation issues if the user turned pick up animations off.
-        if self.pickup_anim_off:
-            crown_helper_val = "01"
-            dme.write_bytes(0x804DDFF8, bytes.fromhex(crown_helper_val))
-
-        #dme.write_bytes(0x804ddf90, bytes.fromhex("00000001"))
+        #if self.pickup_anim_off:
+        #    crown_helper_val = "01"
+        #    dme.write_bytes(0x804DDFF8, bytes.fromhex(crown_helper_val))
 
         # Make it so the displayed Boo counter always appears even if you dont have boo radar or if you haven't caught
         # a boo in-game yet.
         if self.boosanity:
             # This allows the in-game display to work correctly.
             dme.write_bytes(0x803D5E0B, bytes.fromhex("01"))
+
+            # This allows the player to finish the game as expected in King Boo's fight.
+            if self.pickup_anim_off:
+                dme.write_bytes(0x804DE028, bytes.fromhex("00000001"))
 
             # Update the in-game counter to reflect how many boos you got.
             boo_received_list = [item.item for item in self.items_received if item.item in BOO_AP_ID_LIST]
@@ -803,6 +826,14 @@ def main(output_data: Optional[str] = None, connect=None, password=None):
     async def _main(connect, password):
         ctx = LMContext(connect, password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
+
+        # Runs Universal Tracker's internal generator
+        if tracker_loaded:
+            ctx.run_generator()
+            ctx.tags.remove("Tracker")
+        else:
+            logger.warning("Could not find Universal Tracker.")
+
         if gui_enabled:
             ctx.run_gui()
         ctx.run_cli()

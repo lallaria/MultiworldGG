@@ -203,7 +203,7 @@ class Walksanity(Toggle):
 
 class Furnisanity(OptionSet):
     """
-    Adds interactable objects, such a dressers, paintings, candles, and light fixtures, to the location pool.
+    Adds interactable objects, such as dressers, paintings, candles, and light fixtures, to the location pool.
 
     Different sets of locations can be added within the list. Valid strings are:
     "Hangables" includes items on walls such as paintings and other decor
@@ -235,7 +235,7 @@ class Furnisanity(OptionSet):
 
 class EarlyFirstKey(Toggle):
     """
-    If enabled, this will attempt to find a key that lets you out of your starting room nad place it early in your own world.
+    If enabled, this will attempt to find a key that lets you out of your starting room and place it early in your own world.
     """
     display_name = "Early First Key"
     internal_name = "early_first_key"
@@ -343,6 +343,8 @@ class ChestTypes(Choice):
     """
     Determines how chest colors and size are chosen,
 
+    vanilla: Chests are their original size and color
+
     default: Size and color are determined by attempting to match the item type to a representative color similar to the vanilla game
 
     full_random: Size and color are chosen completely at random.
@@ -355,11 +357,12 @@ class ChestTypes(Choice):
     """
     display_name = "Chest Cosmetics"
     internal_name = "chest_types"
-    option_default = 0
-    option_full_random = 1
-    option_color = 2
-    option_size_and_color = 3
-    option_no_fuzzy_matching = 4
+    option_vanilla = 0
+    option_default = 1
+    option_full_random = 2
+    option_color = 3
+    option_size_and_color = 4
+    option_no_fuzzy_matching = 5
     default = 0
 
 
@@ -538,6 +541,13 @@ class GhostTrapWeight(Range):
     range_end = 100
     default = 15
 
+class DoorModelRando(Toggle):
+    """
+    Randomly choose models for every door in the mansion except the double doors.
+    """
+    display_name = "Randomized Door Model"
+    internal_name = "door_model_rando"
+
 @dataclass
 class LMOptions(DeathLinkMixin, PerGameCommonOptions):
     rank_requirement: RankRequirement
@@ -549,6 +559,7 @@ class LMOptions(DeathLinkMixin, PerGameCommonOptions):
     pickup_animation: PickupAnim
     luigi_max_health: LuigiMaxHealth
     random_music: RandomMusic
+    door_model_rando: DoorModelRando
     early_first_key: EarlyFirstKey
     door_rando: DoorRando
     enemizer: Enemizer

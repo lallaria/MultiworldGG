@@ -2,20 +2,9 @@
 
 ## Required Software
 
-- [Archipelago Multiworld Suite](https://github.com/MultiworldGG/MultiworldGG/releases). 
+- [MultiworldGG Multiworld Suite](https://github.com/MultiworldGG/MultiworldGG/releases). 
 - [Dolphin Gamecube/Wii Emulator](https://dolphin-emu.org/)
 - Your American ISO file, probably named `Luigi's Mansion (NTSC-U).iso`. Support for the PAL version is planned in the distant future
-
-## Installation Procedures
-
-1. Download and install the Archipelago Multiworld Suite from the link above, making sure to install the most recent version.
-
-2. Download and install the Dolphin Gamecube/Wii Emulator from the link above, making sure to install the most recent version.
-Run the emulator at least once to make sure it is working.
-
-3. Unzip the APworld from the downloads. Place the luigismansion.apworld in the custom_worlds folder of your Archipelago install
-
-4. Place the contents of the /lib folder from what you unzipped into the /lib folder of your Archipelago install. 
 
 ## Create a Config (.yaml) File
 
@@ -28,8 +17,8 @@ options.
 
 ### Where do I get a config file?
 
-Run the MultiworldGGLauncher.exe from your Archipelago install and click `Generate Template Options`.
-This will produce a `/Players/Templates` folder in your Archipelago install, which contains default config files for 
+Run the MultiworldGGLauncher.exe from your MultiworldGG install and click `Generate Template Options`.
+This will produce a `/Players/Templates` folder in your MultiworldGG install, which contains default config files for 
 every game in your `custom_worlds` folder. You can manually edit the config file using a text editor of your choice.
 
 Alternately, the [Player Settings](../player-settings) page on the website allows you to configure
@@ -42,19 +31,19 @@ If you would like to validate your config file to make sure it works, you may do
 
 ## Generating a Single-Player Game
 
-1. After modifying your yaml, place it into your Archipelago/player folder
+1. After modifying your yaml, place it into your MultiworldGG/player folder
    - Alternately, navigate to the [Player Settings](../player-settings) page, configure your options,
       and click the "Generate Game" button.
-2. Open the Archipelago Launcher and click "Generate". This will create a zip file in MultiworldGG/output
+2. Open the MultiworldGG Launcher and click "Generate". This will create a zip file in MultiworldGG/output
    - You will need to open this .zip to get your .aplm patch file
-3. Navigate to the Archipelago website and go to the Host Game page
+3. Navigate to the MultiworldGG website and go to the Host Game page
 4. Click upload file and pass it the .zip created in your output folder
 5. Click the "Create New Room" link.
 6. Run the MultiworldGGLauncher.exe and click `Open Patch`. Select your `.aplm` patch file.
 You will be prompted to locate your Luigi's Mansion ISO the first time you do this.
    - This action will automatically run the Luigi's Mansion Client.
    - The patch will be placed in the same folder as your patch file by default.
-   - You will ***not*** need to patch the game every time, and can simply run the `LMClient` from the list on the right of the Archipelago Launcher
+   - You will ***not*** need to patch the game every time, and can simply run the `LMClient` from the list on the right of the MultiworldGG Launcher
 to continue later.
 7. Open Dolphin and from Dolphin, open your newly patched Luigi's Mansion ISO. Load all the way into a brand new save file, and pause.
    - Ensure that "Enable GPU Overclock" and "Emulated Memory Size Override" are both off in your Dolphin settings

@@ -38,7 +38,7 @@ components.append(
 
 icon_paths["archiboolego"] = f"ap:{__name__}/data/archiboolego.png"
 
-CLIENT_VERSION = "0.3.0"
+CLIENT_VERSION = "0.4.0"
 
 class LuigisMansionSettings(settings.Group):
     class ISOFile(settings.UserFilePath):
@@ -88,7 +88,6 @@ class LMWeb(WebWorld):
             LuigiOptions.KingBooHealth,
             LuigiOptions.StartWithBooRadar,
             LuigiOptions.StartHiddenMansion,
-            LuigiOptions.RandomMusic,
             LuigiOptions.HintDistribution,
             LuigiOptions.PortraitHints,
             LuigiOptions.BooHealthOption,
@@ -97,8 +96,6 @@ class LMWeb(WebWorld):
             LuigiOptions.BooEscapeTime,
             LuigiOptions.BooAnger,
             LuigiOptions.ExtraBooSpots,
-            LuigiOptions.ChestTypes,
-            LuigiOptions.TrapChestType,
         ]),
         OptionGroup("Filler Weights", [
             LuigiOptions.BundleWeight,
@@ -116,6 +113,12 @@ class LMWeb(WebWorld):
             LuigiOptions.NothingWeight,
             LuigiOptions.HeartWeight,
         ]),
+        OptionGroup("Cosmetics", [
+            LuigiOptions.RandomMusic,
+            LuigiOptions.DoorModelRando,
+            LuigiOptions.ChestTypes,
+            LuigiOptions.TrapChestType,
+        ])
     ]
 
     tutorials = [
@@ -294,6 +297,8 @@ class LMWorld(World):
             for location, data in PORTRAIT_LOCATION_TABLE.items():
                 region = self.get_region(data.region)
                 entry = LMLocation(self.player, location, region, data)
+                if entry.code == 624 and self.open_doors.get(28) == 0:
+                    add_rule(entry, lambda state: state.has("Twins Bedroom Key", self.player), "and")
                 if entry.code == 627:
                     add_rule(entry,
                              lambda state: state.has_group("Mario Item", self.player, self.options.mario_items.value),
@@ -308,7 +313,7 @@ class LMWorld(World):
                             add_rule(entry, lambda state: Rules.can_fst_ice(state, self.player), "and")
                         else:
                             add_rule(entry, lambda state, i=item: state.has(i, self.player), "and")
-                if region.name in GHOST_TO_ROOM.keys():
+                if region.name in GHOST_TO_ROOM.keys() and location != "Uncle Grimmly, Hermit of the Darkness":
                     # if fire, require water
                     if self.ghost_affected_regions[region.name] == "Fire":
                         add_rule(entry, lambda state: Rules.can_fst_water(state, self.player), "and")
@@ -325,6 +330,8 @@ class LMWorld(World):
             for location, data in LIGHT_LOCATION_TABLE.items():
                 region = self.get_region(data.region)
                 entry = LMLocation(self.player, location, region, data)
+                if entry.code == 741 and self.open_doors.get(28) == 0:
+                    add_rule(entry, lambda state: state.has("Twins Bedroom Key", self.player), "and")
                 if entry.code == 745:
                     add_rule(entry,
                              lambda state: state.has_group("Mario Item", self.player, self.options.mario_items.value),
@@ -381,6 +388,10 @@ class LMWorld(World):
                 entry = LMLocation(self.player, location, region, data)
                 if self.options.boo_gates == 1 and self.options.boo_radar != 2:
                     add_rule(entry, lambda state: state.has("Boo Radar", self.player), "and")
+                if entry.code == 675 and self.open_doors.get(28) == 0:
+                    add_rule(entry, lambda state: state.has("Twins Bedroom Key", self.player), "and")
+                if data.code == 674 and self.open_doors.get(27) == 0:
+                    add_rule(entry, lambda state: state.has("Nursery Key", self.player), "and")
                 if entry.code == 679:
                     add_rule(entry,
                              lambda state: state.has_group("Mario Item", self.player, self.options.mario_items.value),
@@ -421,7 +432,11 @@ class LMWorld(World):
                 entry.place_locked_item(Item("Boo", ItemClassification.progression, None, self.player))
                 if self.options.boo_gates == 1 and self.options.boo_radar != 2:
                     add_rule(entry, lambda state: state.has("Boo Radar", self.player), "and")
-                if entry.code == 679:
+                if data.code == 675 and self.open_doors.get(28) == 0:
+                    add_rule(entry, lambda state: state.has("Twins Bedroom Key", self.player), "and")
+                if data.code == 674 and self.open_doors.get(27) == 0:
+                    add_rule(entry, lambda state: state.has("Nursery Key", self.player), "and")
+                if data.code == 679:
                     add_rule(entry,
                              lambda state: state.has_group("Mario Item", self.player, self.options.mario_items.value),
                              "and")
@@ -624,6 +639,8 @@ class LMWorld(World):
             if entry.code == 5:
                 add_rule(entry,
                          lambda state: state.has_group("Mario Item", self.player, self.options.mario_items.value))
+            if entry.code == 25 and self.open_doors.get(28) == 0:
+                add_rule(entry, lambda state: state.has("Twins Bedroom Key", self.player), "and")
             if len(entry.access) != 0:
                 for item in entry.access:
                     if item == "Fire Element Medal":
@@ -672,7 +689,7 @@ class LMWorld(World):
                 copies_to_place = 1
             copies_to_place = 0 if copies_to_place - exclude.count(item) <= 0 else copies_to_place - exclude.count(item)
             for _ in range(copies_to_place):
-                item_list += item
+                item_list.append(item)
                 self.itempool.append(self.create_item(item))
         if self.options.early_first_key.value == 1:
             early_key = ""
