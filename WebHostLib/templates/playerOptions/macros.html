@@ -122,7 +122,7 @@
     {% endif %}
 
     {{ OptionTitle(option_name, option) }}
-    <div class="option-container">
+    <div class="option-container" name="OptionCounter">
         {% for item_name in (relevant_keys if relevant_keys is ordered else relevant_keys|sort) %}
             <div class="option-entry">
                 <label for="{{ option_name }}-{{ item_name }}-qty">{{ item_name }}</label>
@@ -134,7 +134,7 @@
 
 {% macro OptionList(option_name, option) %}
     {{ OptionTitle(option_name, option) }}
-    <div class="option-container">
+    <div class="option-container" name="OptionList">
         {% for key in (option.valid_keys if option.valid_keys is ordered else option.valid_keys|sort) %}
             <div class="option-entry">
                 <input type="checkbox" id="{{ option_name }}-{{ key }}" name="{{ option_name }}" value="{{ key }}" {{ "checked" if key in option.default }} />
@@ -146,7 +146,7 @@
 
 {% macro LocationSet(option_name, option) %}
     {{ OptionTitle(option_name, option) }}
-    <div class="option-container">
+    <div class="option-container" name="LocationSet">
         {% for group_name in world.location_name_groups.keys()|sort %}
             {% if group_name != "Everywhere" %}
                 <div class="option-entry">
@@ -169,7 +169,7 @@
 
 {% macro ItemSet(option_name, option) %}
     {{ OptionTitle(option_name, option) }}
-    <div class="option-container">
+    <div class="option-container" name="ItemSet">
         {% for group_name in world.item_name_groups.keys()|sort %}
             {% if group_name != "Everything" %}
                 <div class="option-entry">
@@ -192,7 +192,7 @@
 
 {% macro OptionSet(option_name, option) %}
     {{ OptionTitle(option_name, option) }}
-    <div class="option-container">
+    <div class="option-container" name="OptionSet">
         {% for key in (option.valid_keys if option.valid_keys is ordered else option.valid_keys|sort) %}
             <div class="option-entry">
                 <input type="checkbox" id="{{ option_name }}-{{ key }}" name="{{ option_name }}" value="{{ key }}" {{ "checked" if key in option.default }} />
@@ -219,6 +219,123 @@
           {% endif %}
         </span>
     </label>
+{% endmacro %}
+
+{%- macro MassLocationSet(option_name, option) -%}
+  {{ OptionTitle(option_name, option) }}
+
+  {% set relevant_list = (option.valid_keys|sort if option.valid_keys|length > 0 else world.location_names|sort) %}
+
+  <div class="option-container multi-selector"
+       data-option-name="{{ option_name }}"
+       data-defaults='{{ option.default|list|tojson }}'
+       data-names='{{ relevant_list|tojson }}'
+       data-groups='{
+         {%- for g,members in world.location_name_groups.items()|sort(attribute="0") %}
+           {%- if g!="Everywhere" -%}
+             "{{ g }}": {{ members|list|sort|tojson }}{{ "," if not loop.last }}
+           {%- endif %}
+         {%- endfor %}
+       }'>
+
+    <input type="text" class="multi-search" placeholder="Search locations…" />
+    <div class="multi-list"></div>
+  </div>
+{%- endmacro -%}
+
+
+{%- macro MassItemSet(option_name, option) -%}
+  {{ OptionTitle(option_name, option) }}
+
+  {% set relevant_list = (option.valid_keys|sort if option.valid_keys|length > 0 else world.item_names|sort) %}
+
+  <div class="option-container multi-selector item-selector"
+       data-option-name="{{ option_name }}"
+       data-defaults='{{ option.default|list|tojson }}'
+       data-names='{{ relevant_list|tojson }}'
+       data-groups='{
+         {%- for g,members in world.item_name_groups.items()|sort(attribute="0") %}
+           {%- if g!="Everything" -%}
+             "{{ g }}": {{ members|list|sort|tojson }}{{ "," if not loop.last }}
+           {%- endif %}
+         {%- endfor %}
+       }'>
+
+    <input type="text" class="multi-search" placeholder="Search items…" />
+    <div class="multi-list"></div>
+  </div>
+{%- endmacro -%}
+
+{% macro MassOptionCounter(option_name, option) %}
+        {{ OptionTitle(option_name, option) }}
+
+        {% set relevant_keys = option.valid_keys %}
+        {% if not relevant_keys %}
+            {% if option.verify_item_name %}
+                {% set relevant_keys = world.item_names %}
+            {% elif option.verify_location_name %}
+                {% set relevant_keys = world.location_names %}
+            {% endif %}
+        {% endif %}
+
+        <div class="option-container multi-counter"
+            data-option-name="{{ option_name }}"
+            data-names='{{ relevant_keys|list|tojson }}'
+            data-defaults='{{ option.default|list|tojson }}'>
+
+        <input type="text"
+                class="multi-search"
+                placeholder="Search…" />
+
+        <div class="multi-list"></div>
+        </div>
+{% endmacro %}
+
+{% macro OptionInputDecisionEngine(option_name, option, mass=False) %}
+    {% if issubclass(option, Options.Toggle) %}
+        {{ Toggle(option_name, option) }}
+
+    {% elif issubclass(option, Options.TextChoice) %}
+        {{ TextChoice(option_name, option) }}
+
+    {% elif issubclass(option, Options.Choice) %}
+        {{ Choice(option_name, option) }}
+
+    {% elif issubclass(option, Options.NamedRange) %}
+        {{ NamedRange(option_name, option) }}
+
+    {% elif issubclass(option, Options.Range) %}
+        {{ Range(option_name, option) }}
+
+        {% elif issubclass(option, Options.FreeText) %}
+        {{ FreeText(option_name, option) }}
+
+    {% elif issubclass(option, Options.OptionCounter) and (option.valid_keys or option.verify_item_name or option.verify_location_name) %}
+        {% if mass %}
+            {{ MassOptionCounter(option_name, option) }}
+        {% else %}
+            {{ OptionCounter(option_name, option) }}
+        {% endif %}
+    {% elif issubclass(option, Options.OptionList) and option.valid_keys %}
+        {{ OptionList(option_name, option) }}
+
+    {% elif issubclass(option, Options.LocationSet) and option.verify_location_name %}
+        {% if mass %}
+            {{ MassLocationSet(option_name, option) }}
+        {% else %}
+            {{ LocationSet(option_name, option) }}
+        {% endif %}
+
+    {% elif issubclass(option, Options.ItemSet) and option.verify_item_name %}
+        {% if mass %}
+            {{ MassItemSet(option_name, option) }}
+        {% else %}
+            {{ ItemSet(option_name, option) }}
+        {% endif %}
+        
+    {% elif issubclass(option, Options.OptionSet) and option.valid_keys %}
+        {{ OptionSet(option_name, option) }}
+    {% endif %}
 {% endmacro %}
 
 {% macro RandomizeButton(option_name, option) %}
