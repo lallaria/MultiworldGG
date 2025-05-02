@@ -148,6 +148,8 @@ PalaceScenes:
 GetAPItem:
 LDA $0C9C
 BNE ItemHandler_Return
+LDA $074C
+BNE ItemHandler_Return
 LDA $7A10
 BNE HandleItem
 ItemHandler_Return:

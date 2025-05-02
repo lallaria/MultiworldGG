@@ -116,6 +116,10 @@ class BetterBoots(Toggle):
     """If enabled, the water near Saria Town will be changed so that it can be walked on using the Boots."""
     display_name = "Better Boots"
 
+class RemoveMagicKey(Toggle):
+    """Removes the Magical Key from the item pool. If enabled, 4 more Three-Eye Rock Palace Keys are placed."""
+    display_name = "Remove Magical Key"
+
 @dataclass
 class Z2Options(PerGameCommonOptions):
     required_crystals: RequiredCrystals
@@ -124,6 +128,7 @@ class Z2Options(PerGameCommonOptions):
     early_candle: EarlyCandle
     candle_required: RequireCandle
     cross_required: RequireCross
+    remove_magical_key: RemoveMagicKey
     remove_early_boulder: RemoveEarlyBoulder
     better_boots: BetterBoots
     palace_respawn: PalaceRespawn
@@ -146,7 +151,8 @@ z2_option_groups = [
     OptionGroup("Item Settings", [
         EarlyCandle,
         KeyShuffle,
-        SpellLocations
+        SpellLocations,
+        RemoveMagicKey
     ]),
 
     OptionGroup("Logic Settings", [
