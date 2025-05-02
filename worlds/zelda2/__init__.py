@@ -88,6 +88,13 @@ class Z2World(World):
                              "1-Up Doll", "Blue Magic Jar", "Red Magic Jar"]
 
     def generate_early(self):  # Todo: place locked items in generate_early
+        if self.options.key_shuffle < 2:
+            self.options.local_items.value.add("Parapa Palace Key")
+            self.options.local_items.value.add("Midoro Palace Key")
+            self.options.local_items.value.add("Island Palace Key")
+            self.options.local_items.value.add("Maze Palace Key")
+            self.options.local_items.value.add("Sea Palace Key")
+            self.options.local_items.value.add("Three-Eye Rock Palace Key")
 
         if self.options.remove_magical_key and not self.options.key_shuffle:
             warning(f"Warning: {self.multiworld.get_player_name(self.player)} attempted to have Vanilla keys with no Magic Key. Magic Key will be added.")
