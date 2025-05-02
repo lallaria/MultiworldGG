@@ -74,7 +74,7 @@ class AnimalWellWorld(World):
     helpful and ominous as you discover unconventional upgrades and unravel the well’s secrets.
     """
     game = "Animal Well"
-    author: str = "RoobyRoo"
+    author: str = "ScipioWright, RoobyRoo, Franklesby & Dicene"
     version_string: str = "v0.6.0 RC1"
 
     options: AnimalWellOptions

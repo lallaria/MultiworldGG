@@ -41,7 +41,7 @@ class DOOM1993World(World):
     options_dataclass = DOOM1993Options
     options: DOOM1993Options
     game = "DOOM 1993"
-    author: str = "Kaito Sinclaire"
+    author: str = "Daivuk & Kaito Sinclaire"
     web = DOOM1993Web()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher
 
