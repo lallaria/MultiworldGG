@@ -12,4 +12,4 @@ Open the Yacht Dice website. There are two options:
 Press Archipelago, and after logging in, you are good to go. The website has a built-in client, where you can chat and send commands.    
 Both options also have a "Solo play" mode to try out the game without having to generate a game first.
 
-For more information on generating Archipelago games and connecting to servers, please see the [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en).
+For more information on generating MultiworldGG games and connecting to servers, please see the [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en).
