@@ -48,7 +48,7 @@ class DKC2Web(WebWorld):
         ["lx5"]
     )
 
-    tutorials = [setup_en]
+    tutorials = [setup_en, setup_es]
 
     option_groups = dkc2_option_groups
 
