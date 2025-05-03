@@ -1,7 +1,18 @@
+# 0.9.3
+## Updates
++ New option `remote_items`
+  + All randomized items are sent from the server instead of being patched into your game
++ New option `death_link`
+
+## Bug Fixes
++ Fixed an issue where sometimes `dexsanity` locations were removed even if they were accessible in the seed
++ Prevent blacklisted moves from showing up as a Pokémon's guaranteed damaging move (I thought I already fixed this)
++ Fixed an issue where the damage type for moves shown on the Pokémon move summary screen always assumed the physical/special split was enabled
+
 # 0.9.2
 ## Bug Fixes
 + A logic issue involving the `Modify Route 16` setting has been fixed
-+ The leader of the Saffron Dojo and the second Team Rocker Admin in the Rocket Warehouse will now trigger their battles when you walk past them even if `Blind Trainers` is on
++ The leader of the Saffron Dojo and the second Team Rocket Admin in the Rocket Warehouse will now trigger their battles when you walk past them even if `Blind Trainers` is on
 
 # 0.9.1
 ## Updates

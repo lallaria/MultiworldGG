@@ -438,6 +438,7 @@ class PokemonFRLGWorld(World):
                     self.itempool.append(self.create_item(get_random_item(self, ItemClassification.filler)))
                     removed_items_count -= 1
 
+        verify_hm_accessibility(self)
         state = self.get_world_collection_state()
 
         # Delete evolutions that are not in logic in an all state so that the accessibility check doesn't fail
@@ -494,7 +495,6 @@ class PokemonFRLGWorld(World):
         self.multiworld.itempool += self.itempool
 
     def connect_entrances(self) -> None:
-        verify_hm_accessibility(self)
         set_free_fly(self)
         if not self.options.shuffle_badges:
             self.shuffle_badges()
@@ -748,7 +748,8 @@ class PokemonFRLGWorld(World):
             "elite_four_rematch_count",
             "cerulean_cave_requirement",
             "cerulean_cave_count",
-            "provide_hints"
+            "provide_hints",
+            "death_link"
         )
         slot_data["trainersanity"] = 1 if self.options.trainersanity != Trainersanity.special_range_names["none"] else 0
         slot_data["elite_four_rematch_requirement"] = self.options.elite_four_requirement.value
