@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Range, PerGameCommonOptions, Toggle, Choice
+from Options import Range, PerGameCommonOptions, Toggle, Choice, Visibility
 
 
 class LogicPercent(Range):
@@ -11,7 +11,6 @@ class LogicPercent(Range):
     range_end = 95
     default = 80
 
-
 class GoalPercent(Range):
     """Sets the percent similarity required to achieve your goal.
     If this number is higher than the value for logic percent,
@@ -21,6 +20,22 @@ class GoalPercent(Range):
     range_end = 95
     default = 80
 
+class HalfPercentChecks(Range):
+    """Sets the lowest percent at which locations will be created for each 0.5% of similarity.
+    Below this number, there will be a check every 1%.
+    Above this number, there will be a check every 0.5%."""
+    display_name = "Half Percent Checks"
+    range_start = 0
+    range_end = 95
+    default = 50
+
+class QuarterPercentChecks(Range):
+    """Sets the lowest percent at which locations will be created for each 0.25% of similarity.
+    This number will override Half Percent Checks if it is lower."""
+    display_name = "Quarter Percent Checks"
+    range_start = 0
+    range_end = 95
+    default = 70
 
 class GoalImage(Range):
     """Sets the numbered image you will be required to match.
@@ -31,6 +46,7 @@ class GoalImage(Range):
     range_start = 1
     range_end = 1
     default = "random"
+    visibility = Visibility.none
 
 class StartingTool(Choice):
     """Sets which tool (other than Magnifier) you will be able to use from the start."""
@@ -45,10 +61,10 @@ class StartingTool(Choice):
     default = 0
 
 class TrapCount(Range):
-    """Sets the number of filler items to be replaced by random traps."""
-    display_name = "Trap Count"
+    """Sets the percentage of filler items to be replaced by random traps."""
+    display_name = "Trap Fill Percent"
     range_start = 0
-    range_end = 50
+    range_end = 100
     default = 0
 
 class DeathLink(Toggle):
@@ -61,6 +77,8 @@ class DeathLink(Toggle):
 class PaintOptions(PerGameCommonOptions):
     logic_percent: LogicPercent
     goal_percent: GoalPercent
+    half_percent_checks: HalfPercentChecks
+    quarter_percent_checks: QuarterPercentChecks
     goal_image: GoalImage
     starting_tool: StartingTool
     trap_count: TrapCount

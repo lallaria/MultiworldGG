@@ -51,13 +51,14 @@ class PaintWorld(World):
         items_to_create += ["Progressive Color Depth (Red)"] * 7
         items_to_create += ["Progressive Color Depth (Green)"] * 7
         items_to_create += ["Progressive Color Depth (Blue)"] * 7
-        for i in range(self.options.trap_count):
-            if len(items_to_create) < self.options.logic_percent:
-                if self.options.death_link: items_to_create += [self.multiworld.random.choice(
-                ["Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])]
-                else: items_to_create += [self.multiworld.random.choice(
-                ["Undo Trap", "Clear Image Trap", "Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])]
-        while len(items_to_create) < self.options.logic_percent:
+        pre_filled = len(items_to_create)
+        to_fill = len(self.multiworld.get_region("Canvas", self.player).locations)
+        while len(items_to_create) < (to_fill - pre_filled) * (self.options.trap_count / 100) + pre_filled:
+            if self.options.death_link: items_to_create += [self.multiworld.random.choice(
+            ["Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])]
+            else: items_to_create += [self.multiworld.random.choice(
+            ["Undo Trap", "Clear Image Trap", "Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])]
+        while len(items_to_create) < to_fill:
             items_to_create += ["Additional Palette Color"]
         self.multiworld.itempool += [self.create_item(item) for item in items_to_create]
 
@@ -66,7 +67,9 @@ class PaintWorld(World):
         canvas = Region("Canvas", self.player, self.multiworld)
         canvas.locations += [PaintLocation(self.player, loc_name, loc_data.address, canvas)
                              for loc_name, loc_data in location_data_table.items()
-                             if loc_data.address <= 198500 + self.options.logic_percent]
+                             if loc_data.address <= 198600 + self.options.logic_percent * 4 and (loc_data.address % 4 == 0 or
+                             (loc_data.address - 198600 > self.options.half_percent_checks * 4 and loc_data.address % 2 == 0) or
+                             loc_data.address - 198600 > self.options.quarter_percent_checks * 4)]
 
         connection = Entrance(self.player, "New Canvas", menu)
         menu.exits.append(connection)
@@ -80,4 +83,4 @@ class PaintWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return dict(self.options.as_dict("logic_percent", "goal_percent", "goal_image", "death_link"),
-                    version = "0.3.0")
+                    version = "0.4.0")

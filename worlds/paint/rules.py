@@ -21,13 +21,14 @@ def paint_percent_available(state: CollectionState, world: PaintWorld, player: i
 
 
 def set_single_rule(world: PaintWorld, player: int, i: int):
-    set_rule(world.multiworld.get_location(f"Similarity: {i}%", player),
-             lambda state: paint_percent_available(state, world, player) >= i)
+    set_rule(world.multiworld.get_location(f"Similarity: {i/4}%", player),
+             lambda state: paint_percent_available(state, world, player) >= i/4)
 
 
 def set_rules(world: PaintWorld, player: int):
-    for i in range(1, world.options.logic_percent + 1):
-        set_single_rule(world, player, i)
+    for i in range(1, world.options.logic_percent * 4 + 1):
+        if (i % 4 == 0 or (i > world.options.half_percent_checks * 4 and i % 2 == 0) or
+            i > world.options.quarter_percent_checks * 4): set_single_rule(world, player, i)
 
 
 def set_completion_rules(world: PaintWorld, player: int):
