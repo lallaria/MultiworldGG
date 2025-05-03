@@ -301,7 +301,9 @@ def main(args, seed=None, baked_server_options: Optional[Dict[str, object]] = No
                     game_world.game: worlds.network_data_package["games"][game_world.game]
                     for game_world in multiworld.worlds.values()
                 }
-
+                data_package["MultiworldGG"] = worlds.network_data_package["games"]["MultiworldGG"]
+                data_package["Archipelago"] = worlds.network_data_package["games"]["MultiworldGG"]
+                
                 checks_in_area: Dict[int, Dict[str, Union[int, List[int]]]] = {}
 
                 # get spheres -> filter address==None -> skip empty
