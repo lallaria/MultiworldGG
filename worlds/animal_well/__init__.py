@@ -53,6 +53,7 @@ icon_paths["Potate"] = f"ap:{__name__}/Potate.png"
 
 
 class AnimalWellWeb(WebWorld):
+    display_name = "Animal Well"
     tutorials = [
         Tutorial(
             tutorial_name="Multiworld Setup Guide",
@@ -73,7 +74,7 @@ class AnimalWellWorld(World):
     action-exploration game rendered in intricate audio and visual detail. Encounter lively creatures small and large,
     helpful and ominous as you discover unconventional upgrades and unravel the well’s secrets.
     """
-    game = "Animal Well"
+    game = "ANIMAL WELL"
     author: str = "ScipioWright, RoobyRoo, Franklesby & Dicene"
     version_string: str = "v0.6.0 RC1"
 

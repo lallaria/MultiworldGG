@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class AWLocation(Location):
-    game: str = "Animal Well"
+    game: str = "ANIMAL WELL"
 
 
 helper_reference: Dict[str, List[str]] = {
