@@ -222,6 +222,11 @@ Root: HKCR; Subkey: "{#MyAppName}apcrystalpatch";                     ValueData:
 Root: HKCR; Subkey: "{#MyAppName}apcrystalpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGBizHawkClient.exe,0";                        ValueType: string; ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}apcrystalpatch\shell\open\command";  ValueData: """{app}\MultiworldGGBizHawkClient.exe"" ""%1""";               ValueType: string; ValueName: "";
 
+Root: HKCR; Subkey: ".apdkc";                                   ValueData: "{#MyAppName}dkcpatch";        Flags: uninsdeletevalue;       ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}dkcpatch";                     ValueData: "MultiworldGG Donkey Kong Country Patch"; Flags: uninsdeletekey;   ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}dkcpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGSNIClient.exe,0";                           ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}dkcpatch\shell\open\command";  ValueData: """{app}\MultiworldGGSNIClient.exe"" ""%1""";                  ValueType: string;  ValueName: "";
+
 Root: HKCR; Subkey: ".apdkc2";                                   ValueData: "{#MyAppName}dkc2patch";        Flags: uninsdeletevalue;       ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}dkc2patch";                     ValueData: "MultiworldGG Donkey Kong Country 2 Patch"; Flags: uninsdeletekey;   ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}dkc2patch\DefaultIcon";         ValueData: "{app}\MultiworldGGSNIClient.exe,0";                           ValueType: string;  ValueName: "";
