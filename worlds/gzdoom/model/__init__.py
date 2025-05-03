@@ -124,8 +124,9 @@ def logic_files(package):
     File extensions, if present, are ignored; the wad name is everything in the
     filename up to the first '.'.
     """
+    internal_data_dir = Path(os.path.join(Utils.local_path("data"), "gzdoom")) if Utils.is_frozen() else resources.files(package)
     internal = [
-        file for file in resources.files(package).joinpath("logic").iterdir()
+        file for file in internal_data_dir.joinpath("logic").iterdir()
     ]
     external = [
         file for file in (Path(Utils.home_path()) / "gzdoom" / "logic").iterdir()
@@ -140,8 +141,10 @@ def tuning_files(package, wad):
     Tuning files are returned in a defined order: sorted by filename, with all
     internal files sorted before all external files.
     """
+
+    internal_data_dir = Path(os.path.join(Utils.local_path("data"), "gzdoom")) if Utils.is_frozen() else resources.files(package)
     internal = [
-        p for p in resources.files(package).joinpath("tuning").iterdir()
+        p for p in internal_data_dir.joinpath("tuning").iterdir()
         if p.is_file() and (p.name == wad or p.name.startswith(f"{wad}."))
     ]
     external = [

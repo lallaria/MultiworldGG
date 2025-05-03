@@ -6,6 +6,9 @@ import os
 import random
 from typing import Dict, FrozenSet, Set
 import zipfile
+from pathlib import Path
+
+import Utils
 
 from BaseClasses import CollectionState, Item, ItemClassification, Location, MultiWorld, Region, Tutorial, LocationProgressType
 from worlds.AutoWorld import WebWorld, World
@@ -320,8 +323,9 @@ class GZDoomWorld(World):
 
         def locations(map):
             return self.pool.locations_in_map(map)
-
-        mod_version = resources.files(__package__).joinpath('VERSION').read_text().strip()
+        
+        internal_data_dir = Path(os.path.join(Utils.local_path("data"), "gzdoom")) if Utils.is_frozen() else resources.files(__package__)
+        mod_version = internal_data_dir.joinpath('VERSION').read_text().strip()
 
         data = {
             "singleplayer": self.multiworld.players == 1,
