@@ -81,7 +81,7 @@ class PaperMarioWorld(World):
     help you take back the Star Rod from Bowser and save Peach. You will have to defeat powerful foes
     and venture through dangerous lands with the help of partners you meet along the way.
     """
-    game = "Paper Mario 64"
+    game = "Paper Mario"
     author: str = "JKB"
     web = PaperMarioWeb()
     topology_present = True
