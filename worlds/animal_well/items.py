@@ -6,7 +6,7 @@ IClass = ItemClassification  # just to make the lines shorter
 
 
 class AWItem(Item):
-    game: str = "Animal Well"
+    game: str = "ANIMAL WELL"
 
 
 class AWItemData(NamedTuple):
