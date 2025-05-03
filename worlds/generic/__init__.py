@@ -1,5 +1,6 @@
 from typing import NamedTuple, Union
 import logging
+from Utils import instance_name
 
 from BaseClasses import Item, Tutorial, ItemClassification
 
@@ -8,6 +9,7 @@ from NetUtils import SlotType
 
 
 class GenericWeb(WebWorld):
+    display_name = instance_name
     advanced_settings = Tutorial('Advanced YAML Guide',
                                  'A guide to reading YAML files and editing them to fully customize your game.',
                                  'English', 'advanced_settings_en.md', 'advanced_settings/en',
@@ -29,7 +31,7 @@ class GenericWeb(WebWorld):
 
 
 class GenericWorld(World):
-    game = "MultiworldGG"
+    game = "Archipelago"
     topology_present = False
     item_name_to_id = {
         "Nothing": -1

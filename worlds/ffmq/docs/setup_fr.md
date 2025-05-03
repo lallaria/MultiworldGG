@@ -43,7 +43,7 @@ Votre fichier de configuration contient un ensemble d'options de configuration p
 comment il devrait générer votre seed. Chaque joueur d'un multiworld devra fournir son propre fichier de configuration. Cela permet
 à chaque joueur d'apprécier une expérience personalisée. Les différents joueurs d'un même multiworld
 pouront avoir des options de génération différentes.
-Vous pouvez lire le [guide pour créer un YAML de base](/tutorial/MultiworldGG/setup/en) en anglais.
+Vous pouvez lire le [guide pour créer un YAML de base](/tutorial/Archipelago/setup/en) en anglais.
 
 ### Où est-ce que j'obtiens un fichier de configuration ?
 

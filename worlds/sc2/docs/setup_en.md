@@ -38,7 +38,7 @@ The template includes descriptions of each option, you just have to edit it in y
 
 Remember the name you enter in the options page or in the yaml file, you'll need it to connect later!
 
-Check out [Creating a YAML](/tutorial/MultiworldGG/setup/en#creating-a-yaml) for more game-agnostic information.
+Check out [Creating a YAML](/tutorial/Archipelago/setup/en#creating-a-yaml) for more game-agnostic information.
 
 ### Common yaml questions
 

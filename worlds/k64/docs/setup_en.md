@@ -23,7 +23,7 @@ clear it.
 
 1. Create your options file (YAML). You can make one on the
 [Kirby 64 - The Crystal Shards options page](../../../games/Kirby%2064%20-%20The%20Crystal%20Shards/player-options).
-2. Follow the general Archipelago instructions for [generating a game](../../MultiworldGG/setup/en#generating-a-game).
+2. Follow the general Archipelago instructions for [generating a game](../../Archipelago/setup/en#generating-a-game).
 This will generate an output file for you. Your patch file will have the `.apk64cs` file extension.
 3. Open `MultiworldGGLauncher.exe`
 4. Select "Open Patch" on the left side and select your patch file.

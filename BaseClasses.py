@@ -168,7 +168,7 @@ class MultiWorld():
             set_player_attr('plando_items', [])
             set_player_attr('plando_texts', {})
             set_player_attr('plando_connections', [])
-            set_player_attr('game', "MultiworldGG")
+            set_player_attr('game', "Archipelago")
             set_player_attr('completion_condition', lambda state: True)
         self.worlds = {}
         self.per_slot_randoms = Utils.DeprecateDict("Using per_slot_randoms is now deprecated. Please use the "

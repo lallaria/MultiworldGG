@@ -33,7 +33,7 @@ play, open the Settings Page, pick your settings, and click Generate Game.
 
 ## How do I get started?
 
-We have a [Getting Started](/tutorial/MultiworldGG/setup/en) guide that will help you get the
+We have a [Getting Started](/tutorial/Archipelago/setup/en) guide that will help you get the
 software set up. You can use that guide to learn how to generate multiworlds. There are also basic instructions for
 including multiple games, and hosting multiworlds on the website for ease and convenience.
 

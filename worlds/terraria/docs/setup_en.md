@@ -38,7 +38,7 @@ highly recommended to use utility mods and features to speed up gameplay, such a
 
 ### What is a YAML and why do I need one?
 
-The [basic multiworld setup guide](/tutorial/MultiworldGG/setup/en) can be found on MultiworldGG's website. Among other things, it explains what .yaml 
+The [basic multiworld setup guide](/tutorial/Archipelago/setup/en) can be found on MultiworldGG's website. Among other things, it explains what .yaml 
 files are, and how they are used.
 
 ### Where do I get a YAML?

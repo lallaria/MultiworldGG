@@ -36,10 +36,10 @@ Note that since some settings are not yet implemented fully, not all of them wil
 to create your YAML.
 
 ## Generating a Game
-Follow [the general Archipelago instructions](https://multiworld.gg/tutorial/MultiworldGG/setup/en#generating-a-game) for generating a game, specifically on your local installation. You cannot generate games using the Paper Mario AP World on the website.
+Follow [the general Archipelago instructions](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game) for generating a game, specifically on your local installation. You cannot generate games using the Paper Mario AP World on the website.
 
 ## Hosting a Game
-Follow [the general Archipelago instructions](https://multiworld.gg/tutorial/MultiworldGG/setup/en#hosting-an-archipelago-server) for hosting an Archipelago server. You _can_ host games that use the Paper Mario AP World on the website, or you can host it locally.
+Follow [the general Archipelago instructions](https://multiworld.gg/tutorial/Archipelago/setup/en#hosting-an-archipelago-server) for hosting an Archipelago server. You _can_ host games that use the Paper Mario AP World on the website, or you can host it locally.
 
 ## Connecting to an Archipelago Server
 1. Obtain your .appm64 file from whoever is hosting the game. These files will not upload to the website even if it is hosted there, so you will have to send/receive them elsewhere.

@@ -71,7 +71,7 @@ generator does not yet support Twilight Princess. Follow these steps to generate
 
 If you're generating the multiworld, follow the instructions in the previous section. Once you have the zip file
 corresponding to your multiworld, follow
-[these steps](https://multiworld.gg/tutorial/MultiworldGG/setup/en#hosting-an-MultiworldGG-server) to host a room. Follow
+[these steps](https://multiworld.gg/tutorial/Archipelago/setup/en#hosting-an-MultiworldGG-server) to host a room. Follow
 the instructions for hosting on the website from a locally generated game or on a local machine.
 
 ## Connecting to a Room

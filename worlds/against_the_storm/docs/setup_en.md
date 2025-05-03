@@ -21,7 +21,7 @@
 3. The next settlement you start, check your Makeshift Post or Field Kitchen for shuffled recipes!
 
 ## Generating and Hosting a Seed
-* If you are unfamiliar with MultiworldGG, I recommend reading through the [MultiworldGG Setup Guide](https://multiworld.gg/tutorial/MultiworldGG/setup/en) to gain an understanding of how MultiworldGG works and to better understand the steps below. This is *not* the kind of randomizer you might be expecting!
+* If you are unfamiliar with MultiworldGG, I recommend reading through the [MultiworldGG Setup Guide](https://multiworld.gg/tutorial/Archipelago/setup/en) to gain an understanding of how MultiworldGG works and to better understand the steps below. This is *not* the kind of randomizer you might be expecting!
 1. Download the `against_the_storm.apworld` and `AgainstTheStorm.yaml` files from the latest [Against The Storm for Archipelago](https://github.com/RyanCirincione/ArchipelagoATS/releases) release.
     - This is not needed for MultiworldGG, as the apworld is bundled.
 2. Put the `against_the_storm.apworld` file in the `/MultiworldGG/lib/worlds` folder where you installed Archipelago.

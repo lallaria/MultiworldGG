@@ -15,7 +15,7 @@ From now on, Archipelago may be referred to as "AP". Skyward Sword may be referr
     - To see all releases and pre-releases, visit the [SS AP release page](https://github.com/Battlecats59/SS_APWorld/releases)
 
 ### Useful Links
-- [Archipelago Setup Guide](https://multiworld.gg/tutorial/MultiworldGG/setup/en)
+- [Archipelago Setup Guide](https://multiworld.gg/tutorial/Archipelago/setup/en)
 - [Archipelago Main Discord](https://discord.gg/8Z65BR2)
 - [Trackers and other useful tools](#trackers)
 
@@ -94,7 +94,7 @@ From now on, Archipelago may be referred to as "AP". Skyward Sword may be referr
 - [BiT Tutorial Playlist](https://www.youtube.com/playlist?list=PLYgB2odQu_OYCJ6EgT-KM-orvbv3Qet2l) by Peppernicus
 
 ### Generating a multiworld
-For information on generating an AP world, visit the [Archipelago Setup Guide](https://multiworld.gg/tutorial/MultiworldGG/setup/en#generating-a-multiplayer-game).
+For information on generating an AP world, visit the [Archipelago Setup Guide](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-multiplayer-game).
 
 ### Running from Source
 Archipelago requires python 3.10.11 or newer (not the Windows Store version) and Git

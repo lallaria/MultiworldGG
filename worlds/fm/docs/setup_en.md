@@ -23,7 +23,7 @@ clear it.
 ## Generating a Game
 
 1. Create your options file (YAML). After installing the `fm.apworld` file, you can generate a template within the Archipelago Launcher by clicking `Generate Template Settings`.
-2. Follow the general Archipelago instructions for [generating a game](https://multiworld.gg/tutorial/MultiworldGG/setup/en#generating-a-game).
+2. Follow the general Archipelago instructions for [generating a game](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game).
 3. Open `MultiworldGGLauncher.exe`
 4. Select "BizHawk Client" in the right-side column. On your first time opening BizHawk Client, you will also be asked to
 locate `EmuHawk.exe` in your BizHawk install.

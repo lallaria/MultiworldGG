@@ -43,7 +43,7 @@ An alternative BizHawk setup guide as well as various pieces of troubleshooting 
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
 
 ### Where do I get a config file?
 

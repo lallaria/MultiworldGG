@@ -42,7 +42,7 @@ Un guide de configuration BizHawk alternatif ainsi que divers conseils de dépan
 ### Qu'est-ce qu'un fichier de configuration et pourquoi en ai-je besoin ?
 
 Consultez le guide sur la configuration d'un YAML de base lors de la configuration de l'archipel.
-guide : [Guide de configuration de base de Multiworld](/tutorial/MultiworldGG/setup/en)
+guide : [Guide de configuration de base de Multiworld](/tutorial/Archipelago/setup/en)
 
 ### Où puis-je obtenir un fichier de configuration (.yaml) ?
 

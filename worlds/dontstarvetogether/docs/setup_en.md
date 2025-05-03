@@ -8,7 +8,7 @@
 
 ## Installation
 - Install Archipelago.
-- Follow MultiworldGG's basic tutorial on how to generate a game. [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
+- Follow MultiworldGG's basic tutorial on how to generate a game. [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
     * Only a single YAML is needed for a Don't Starve Together server regardless of how many players will play on it.
 
 ## Setting up your world

@@ -43,7 +43,7 @@ or any of the expansion packs for either game, you may select the scenario for u
 
 2. Export your yaml file and use it to generate a new randomized game or generate a game on the spot.
 
-*For instructions on how to generate an Archipelago game, refer to the [Archipelago Setup Guide](../../../../tutorial/MultiworldGG/setup/en).*
+*For instructions on how to generate an Archipelago game, refer to the [Archipelago Setup Guide](../../../../tutorial/Archipelago/setup/en).*
 
 ## Joining a MultiWorld Game
 

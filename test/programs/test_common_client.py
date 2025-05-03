@@ -44,8 +44,8 @@ class TestCommonContext(unittest.IsolatedAsyncioTestCase):
         })
 
     async def test_archipelago_datapackage_lookups_exist(self):
-        assert "MultiworldGG" in self.ctx.item_names, "MultiworldGG item names entry does not exist"
-        assert "MultiworldGG" in self.ctx.location_names, "MultiworldGG location names entry does not exist"
+        assert "Archipelago" in self.ctx.item_names, "Archipelago item names entry does not exist"
+        assert "Archipelago" in self.ctx.location_names, "Archipelago location names entry does not exist"
 
     async def test_explicit_name_lookups(self):
         # Items

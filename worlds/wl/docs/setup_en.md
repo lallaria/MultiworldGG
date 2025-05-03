@@ -29,7 +29,7 @@ clear it.
 1. Download the [WarioLand.yaml](https://github.com/randomcodegen/Archipelago_WL/releases/latest) and put it in the C:\Program Files\MultiworldGG\Players folder
 2. Download [wl.apworld](https://github.com/randomcodegen/Archipelago_WL/releases/latest) and put it in C:\Program Files\MultiworldGG\lib\worlds
 3. Download [_bizhawk.apworld](https://github.com/Zunawe/Archipelago/releases/tag/bizhawk_beta-2) and put it in C:\Program Files\MultiworldGG\lib\worlds (This step is not required when using MultiworldGG)
-3. Follow the general Archipelago instructions for [generating a game](../../MultiworldGG/setup/en#generating-a-game).
+3. Follow the general Archipelago instructions for [generating a game](../../Archipelago/setup/en#generating-a-game).
 This will generate an output file for you. Your patch file will have the `.apwl` file extension.
 4. Drag&Drop the *.apwl Patch-File onto MultiworldGGLauncher.exe (or onto MultiworldGGBizHawkClient.exe on AP 0.4.4)
 6. If this is your first time patching, you will be prompted to locate your vanilla ROM.

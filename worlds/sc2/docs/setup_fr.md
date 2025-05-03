@@ -46,7 +46,7 @@ Prenez soin de vous rappeler du nom de joueur que vous avez inscrit dans la page
 puisque vous en aurez besoin pour vous connecter à votre monde!
 
 Si vous désirez des informations et/ou instructions générales sur l'utilisation d'un fichier *yaml* pour MultiworldGG, 
-veuillez consulter [*Creating a YAML*](/tutorial/MultiworldGG/setup/en#creating-a-yaml).
+veuillez consulter [*Creating a YAML*](/tutorial/Archipelago/setup/en#creating-a-yaml).
 
 ### Questions récurrentes à propos du fichier *yaml*
 

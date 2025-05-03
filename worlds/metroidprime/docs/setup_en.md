@@ -45,12 +45,12 @@ A sample YAML file for _Metroid Prime_ is supplied in the Metroid Prime APWorld 
 Once complete, provide the person generating with your YAML file.
 
 ## Generating a Multiworld
-As usual, randomized MultiworldGG games with custom worlds must be generated locally - see [MultiworldGG Setup Guide: Generating a game - On your local installation](https://multiworld.gg/tutorial/MultiworldGG/setup/en#on-your-local-installation)
+As usual, randomized MultiworldGG games with custom worlds must be generated locally - see [MultiworldGG Setup Guide: Generating a game - On your local installation](https://multiworld.gg/tutorial/Archipelago/setup/en#on-your-local-installation)
 
 ## Hosting a Room
 
 If you're generating the multiworld, follow the instructions in the previous section.
-Once you have the zip file corresponding to your multiworld, follow [MultiworldGG Setup Guide: Hosting an MultiworldGG Server](https://multiworld.gg/tutorial/MultiworldGG/setup/en#hosting-an-archipelago-server) to host a room.
+Once you have the zip file corresponding to your multiworld, follow [MultiworldGG Setup Guide: Hosting an MultiworldGG Server](https://multiworld.gg/tutorial/Archipelago/setup/en#hosting-an-archipelago-server) to host a room.
 
 > [!NOTE]
 > When hosting with the MultiworldGG website, the website will *not* host patch files from imported custom worlds, such as Metroid Prime AP.

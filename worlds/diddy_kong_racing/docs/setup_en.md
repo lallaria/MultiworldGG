@@ -33,7 +33,7 @@ Double-click `diddy_kong_racing.apworld`, or manually copy it into the `custom_w
 - Run the `diddy_kong_racing.lua` script (drag and drop it into Bizhawk).
 
 ## Generating Your World
-Familiarize yourself on how Archipelago works. Here is a guide to learn how to generate your world: https://multiworld.gg/tutorial/MultiworldGG/setup/en#generating-a-game
+Familiarize yourself on how Archipelago works. Here is a guide to learn how to generate your world: https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game
 
 ## Connect To The Multiserver
 To connect the client to the multiserver, simply put `<address>:<port>` in the textfield on top and press `connect` (if the server uses password, then it will prompt after connection).

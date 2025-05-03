@@ -11,9 +11,9 @@
 
 ### Generating a Celeste game (online)
 
-1. Follow the instructions in the [MultiworldGG Setup Guide](tutorial/MultiworldGG/setup/en#on-the-website) to generate a
+1. Follow the instructions in the [MultiworldGG Setup Guide](tutorial/Archipelago/setup/en#on-the-website) to generate a
 `.yaml` file using the [Celeste Player Settings Page](/games/celeste/player-settings).
-1. If playing multiplayer, follow the instructions in the [MultiworldGG Setup Guide](tutorial/MultiworldGG/setup/en#generating-a-multiplayer-game) to complete the generation and hosting steps.
+1. If playing multiplayer, follow the instructions in the [MultiworldGG Setup Guide](tutorial/Archipelago/setup/en#generating-a-multiplayer-game) to complete the generation and hosting steps.
 
 ### Generating a Celeste game (offline)
 
@@ -21,7 +21,7 @@
 1. Open your MultiworldGG installation in a file explorer (defaults to `C:\Program Files\MultiworldGG` on Windows).
 1. Download `celeste.apworld` from the [GitHub releases page](https://github.com/doshyw/CelesteArchipelago/releases)
 and add it to the `lib\worlds` folder under your MultiworldGG installation.
-1. Follow the instructions in the [MultiworldGG Setup Guide](tutorial/MultiworldGG/setup/en#on-your-local-installation) to
+1. Follow the instructions in the [MultiworldGG Setup Guide](tutorial/Archipelago/setup/en#on-your-local-installation) to
 generate and host your game.
 
 

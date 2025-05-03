@@ -241,7 +241,7 @@ class CommonContext:
             id_to_name_lookup_table = Utils.KeyedDefaultDict(self._unknown_item)
             id_to_name_lookup_table.update({code: name for name, code in name_to_id_lookup_table.items()})
             self._game_store[game] = collections.ChainMap(self._archipelago_lookup, id_to_name_lookup_table)
-            if game == "MultiworldGG" or game == "Archipelago":
+            if game == "Archipelago":
                 # Keep track of the Archipelago data package separately so if it gets updated in a custom datapackage,
                 # it updates in all chain maps automatically.
                 self._archipelago_lookup.clear()
@@ -336,7 +336,7 @@ class CommonContext:
         self.input_requests = 0
 
         # game state
-        self.player_names = {0: "MultiworldGG"}
+        self.player_names = {0: "Archipelago"}
         self.exit_event = asyncio.Event()
         self.watcher_event = asyncio.Event()
 
@@ -409,7 +409,7 @@ class CommonContext:
 
     def consume_players_package(self, package: typing.List[tuple]):
         self.player_names = {slot: name for team, slot, name, orig_name in package if self.team == team}
-        self.player_names[0] = "MultiworldGG"
+        self.player_names[0] = "Archipelago"
 
     def event_invalid_slot(self):
         raise Exception('Invalid Slot; please verify that you have connected to the correct world.')
@@ -559,8 +559,8 @@ class CommonContext:
                                    remote_data_package_checksums: typing.Dict[str, str]):
         """Validate that all data is present for the current multiworld.
         Download, assimilate and cache missing data from the server."""
-        # by documentation any game can use MultiworldGG locations/items -> always relevant
-        relevant_games.add("MultiworldGG")
+        # by documentation any game can use Archipelago locations/items -> always relevant
+        relevant_games.add("Archipelago")
 
         needed_updates: typing.Set[str] = set()
         for game in relevant_games:
@@ -696,7 +696,7 @@ class CommonContext:
         from kvui import GameManager
 
         class TextManager(GameManager):
-            base_title = apname + " Text Client"
+            base_title = apname + "Archipelago Text Client"
 
         return TextManager
 
@@ -743,7 +743,7 @@ async def server_loop(ctx: CommonContext, address: typing.Optional[str] = None) 
 
     # Wait for the user to provide a multiworld server address
     if not address:
-        logger.info(f'Please connect to a {apname} server.')
+        logger.info(f"Please connect to an {apname} server.")
         return
 
     ctx.cancel_autoreconnect()
@@ -900,7 +900,7 @@ async def process_server_cmd(ctx: CommonContext, args: dict):
         ctx.team = args["team"]
         ctx.slot = args["slot"]
         # int keys get lost in JSON transfer
-        ctx.slot_info = {0: NetworkSlot("MultiworldGG", "MultiworldGG", SlotType.player)}
+        ctx.slot_info = {0: NetworkSlot("Archipelago", "Archipelago", SlotType.player)}
         ctx.slot_info.update({int(pid): data for pid, data in args["slot_info"].items()})
         ctx.hint_points = args.get("hint_points", 0)
         ctx.consume_players_package(args["players"])

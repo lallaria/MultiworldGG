@@ -39,7 +39,7 @@ to enjoy an experience customized for their taste, and different players in the 
 options.
 
 See the guide on setting up a basic YAML at the Archipelago setup
-guide: [Basic Multiworld Setup Guide](/tutorial/MultiworldGG/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
 
 ### Where do I get a config file?
 

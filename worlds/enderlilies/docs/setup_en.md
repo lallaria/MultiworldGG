@@ -28,7 +28,7 @@ Remember the name you type in the `Player Name` box; that's the "slot name" the 
 
 Config files tell Archipelago how you'd like your game to be randomized, even if you're only using default settings.
 When you're setting up a multiworld, every world needs its own config file.
-Check out [Creating a YAML](https://multiworld.gg/tutorial/MultiworldGG/setup/en#creating-a-yaml) for more information.
+Check out [Creating a YAML](https://multiworld.gg/tutorial/Archipelago/setup/en#creating-a-yaml) for more information.
 
 
 ## How do I join a MultiWorld game?

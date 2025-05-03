@@ -59,7 +59,7 @@ erlaubt jeden Spieler eine personalisierte Erfahrung nach derem Geschmack. Damit
 Multiworld (des gleichen Spiels) völlig unterschiedliche Einstellungen haben.
 
 Für weitere Informationen, besuche die allgemeine Anleitung zum Erstellen einer
-YAML-Datei: [Archipelago Setup Anleitung](/tutorial/MultiworldGG/setup/en)
+YAML-Datei: [Archipelago Setup Anleitung](/tutorial/Archipelago/setup/en)
 
 ### Woher bekomme ich eine YAML-Datei?
 

@@ -30,7 +30,7 @@
 ## Configurando seu arquivo YAML
 ### O que é um YAML e por que eu preciso de um?
 Um arquivo YAML é a forma que você informa suas configurações do jogador para o Archipelago.
-Olhe o [guia de configuração básica de um multiworld](/tutorial/MultiworldGG/setup/en) aqui no site do Archipelago para aprender mais.
+Olhe o [guia de configuração básica de um multiworld](/tutorial/Archipelago/setup/en) aqui no site do Archipelago para aprender mais.
 
 ### Onde eu consigo o YAML?
 Você pode usar a [página de configurações do jogador para Hollow Knight](/games/Hollow%20Knight/player-options) aqui no site do Archipelago 

@@ -694,8 +694,8 @@ than any locally cached ones.
 
 **Important Notes about IDs and Names**: 
 
-* IDs ≤ 0 are reserved for "MultiworldGG" and should not be used by other world implementations.
-* The IDs from the game "MultiworldGG" (in `worlds/generic`) may be used in any world.
+* IDs ≤ 0 are reserved for "Archipelago" and should not be used by other world implementations.
+* The IDs from the game "Archipelago" (in `worlds/generic`) may be used in any world.
   * Especially Location ID `-1`: `Cheat Console` and `-2`: `Server` (typically Remote Start Inventory)
 * Any names and IDs are only unique in its own world data package, but different games may reuse these names or IDs.
   * At runtime, you will need to look up the game of the player to know which item or location ID/Name to lookup in the

@@ -314,9 +314,9 @@ class Context:
             self.all_location_and_group_names[game_name] = \
                 set(game_package["location_name_to_id"]) | set(self.location_name_groups.get(game_name, []))
 
-        archipelago_item_names = self.item_names["MultiworldGG"]
-        archipelago_location_names = self.location_names["MultiworldGG"]
-        for game in [game_name for game_name in self.gamespackage if game_name != "MultiworldGG"]:
+        archipelago_item_names = self.item_names["Archipelago"]
+        archipelago_location_names = self.location_names["Archipelago"]
+        for game in [game_name for game_name in self.gamespackage if game_name != "Archipelago"]:
             # Add MultiworldGG items and locations to each data package.
             self.item_names[game].update(archipelago_item_names)
             self.location_names[game].update(archipelago_location_names)
@@ -870,7 +870,7 @@ async def on_client_connected(ctx: Context, client: Client):
                 name = ctx.player_names[team, slot]
                 players.append(NetworkPlayer(team, slot, ctx.name_aliases.get((team, slot), name), name))
     games = {ctx.games[x] for x in range(1, len(ctx.games) + 1)}
-    games.add("MultiworldGG")
+    games.add("Archipelago")
     await ctx.send_msgs(client, [{
         'cmd': 'RoomInfo',
         'password': bool(ctx.password),

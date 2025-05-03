@@ -120,7 +120,7 @@ def handle_uri(path: str, launch_args: Tuple[str, ...]) -> None:
     if "game" in queries:
         game = queries["game"][0]
     else:  # TODO around 0.6.0 - this is for pre this change webhost uri's
-        game = "MultiworldGG"
+        game = "Archipelago"
     for component in components:
         if component.supports_uri and component.game_name == game:
             client_component.append(component)
