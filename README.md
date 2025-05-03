@@ -48,6 +48,7 @@ Currently, the following games are supported:
 * Dark Souls Remastered
 * Diddy Kong Racing
 * Digimon World
+* Donkey Kong Country
 * Donkey Kong Country 2
 * Donkey Kong Country 3
 * DLC Quest
