@@ -22,6 +22,7 @@ import settings
 
 logger = logging.getLogger("Kirby 64: The Crystal Shards")
 
+
 class K64Settings(settings.Group):
     class RomFile(settings.UserFilePath):
         """File name of the K64 EN rom"""
@@ -57,7 +58,6 @@ class K64Settings(settings.Group):
                 except ValueError:
                     raise ValueError(f"File hash does not match for {path}")
 
-
     rom_file: RomFile = RomFile(RomFile.copy_to)
 
 
@@ -67,7 +67,7 @@ class K64WebWorld(WebWorld):
 
         Tutorial(
             "Multiworld Setup Guide",
-            "A guide to setting up the Kirby 64 - The Crystal Shards randomizer connected to an MultiworldGG world.",
+            "A guide to setting up the Kirby 64 - The Crystal Shards randomizer connected to a MultiworldGG world.",
             "English",
             "setup_en.md",
             "setup/en",
@@ -164,12 +164,12 @@ class K64World(World):
             "boss_requirements": self.boss_requirements
         }
 
-    def interpret_slot_data(self, slot_data: Dict[str, Any]):
+    @staticmethod
+    def interpret_slot_data(slot_data: Dict[str, Any]):
         local_levels = {int(key): value for key, value in slot_data["player_levels"].items()}
         return {"player_levels": local_levels}
 
     def generate_output(self, output_directory: str):
-        rom_path = ""
         try:
             rom_path = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}"
                                                       f"{K64ProcedurePatch.patch_file_ending}")
@@ -205,14 +205,6 @@ class K64World(World):
             return value
 
         crystals = state.prog_items[self.player][ItemName.crystal_shard]
-        if not hasattr(state, "k64_level_state"):
-            setattr(state, "k64_level_state", dict())
-        if self.player not in state.k64_level_state:
-            state.k64_level_state[self.player] = []
-        if not hasattr(state, "k64_stale"):
-            setattr(state, "k64_stale", dict())
-        if self.player not in state.k64_stale:
-            state.k64_stale[self.player] = True
         level_state = [crystals >= requirement for requirement in self.boss_requirements]
         if state.k64_level_state[self.player] != level_state:
             state.k64_stale[self.player] = True
@@ -225,14 +217,6 @@ class K64World(World):
             return value
 
         crystals = state.prog_items[self.player][ItemName.crystal_shard]
-        if not hasattr(state, "k64_level_state"):
-            setattr(state, "k64_level_state", dict())
-        if self.player not in state.k64_level_state:
-            state.k64_level_state[self.player] = []
-        if not hasattr(state, "k64_stale"):
-            setattr(state, "k64_stale", dict())
-        if self.player not in state.k64_stale:
-            state.k64_stale[self.player] = True
         level_state = [crystals >= requirement for requirement in self.boss_requirements]
         if state.k64_level_state[self.player] != level_state:
             state.k64_stale[self.player] = True

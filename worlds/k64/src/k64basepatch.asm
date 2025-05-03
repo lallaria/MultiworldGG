@@ -1,4 +1,4 @@
-//; Base Patch for Kirby 64 - The Crystal Shards MultiworldGG
+//; Base Patch for Kirby 64 - The Crystal Shards Archipelago
 .n64
 
 .open "Kirby 64 - The Crystal Shards (USA).z64", "K64Basepatch.z64", 0x0
@@ -239,7 +239,7 @@ AllowFinalBoss:
 lui     at, 0x800D
 lw      s2, 0x6C80 (at)
 li      t5, 0x01010100
-beq     s2, t5, @@SetFalse
+bne     s2, t5, @@SetFalse
 li      s2, 0x0001
 @@Set:
 sw      s2, 0x6B94 (at)
@@ -395,7 +395,7 @@ nop
 @@SetCorrect:
 li      t9, 0x0050
 @@Return:
-sw      t9, 0x000C (v0)
+sb      t9, 0x000C (v0)
 j       0x80222088
 nop
 
