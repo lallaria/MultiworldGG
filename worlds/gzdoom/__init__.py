@@ -28,8 +28,7 @@ init_wads(__package__)
 
 def launch_client(*args) -> None:
     from .client.GZDoomClient import main
-    # TODO: use launch() here once it's in main
-    LauncherComponents.launch_subprocess(main, name="GZDoomClient", args=args)
+    LauncherComponents.launch(main, name="GZDoom Client", args=args)
 
 
 LauncherComponents.components.append(
