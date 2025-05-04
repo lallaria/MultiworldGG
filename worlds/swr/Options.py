@@ -1,8 +1,12 @@
-from Options import Choice, Range, Toggle, DefaultOnToggle, DeathLink, dataclass, PerGameCommonOptions
+from Options import Choice, Range, Toggle, DefaultOnToggle, OptionSet, OptionDict, DeathLink, dataclass, PerGameCommonOptions
 
 class ProgressiveParts(Toggle):
     """Pod racer parts will always be the next level upgrade"""
     display_name = "Progressive Parts"
+
+class NoTractionUpgrades(Toggle):
+    """Removes Traction parts from the item pool"""
+    display_name = "No Traction Upgrades"
 
 class ProgressiveCircuits(Toggle):
     """Access to circuits will be in the regular order
@@ -20,20 +24,31 @@ class CourseUnlockMode(Choice):
     option_circuit_pass_invitational = 1
     option_shuffle = 2
 
-class StartingRacers(Choice):
-    """Change which racers are available to use at the beginning"""
-    display_name = "Starting Racers"
-    option_vanilla = 0
-    option_random_range = 1
+class RandomizeStartingRacers(DefaultOnToggle):
+    """Changes which racers are available to use at the beginning"""
+    display_name = "Randomize Starting Racers"
 
 class StartingRacersCount(Range):
     """How many random racers to start with
-    This option is only used if Starting Racers is set to 'random_range'
+    This option is only used if 'Randomize Starting Racers' is enabled
     """
     display_name = "Number of Starting Racers"
     range_start = 1
     range_end = 23
     default = 6
+
+class StartingRacersPlando(OptionSet):
+    """List of specific racers with which to start
+    This option is only used if 'Randomize Starting Racers' is enabled
+    """
+    display_name = "Starting Racers Plando"
+
+class MaxAdditionalRacers(Range):
+    """How many racers can be added to the pool (excluding the starting racers)"""
+    display_name = "Max Additional Racers"
+    range_start = 0
+    range_end = 22
+    default = 22
 
 class MirroredTracks(Range):
     """How many tracks should be mirrored"""
@@ -44,7 +59,7 @@ class MirroredTracks(Range):
 
 class AIScaling(Choice):
     """Affects AI speed
-    Vanilla: Courses use their default scaling
+    Vanilla: Courses use their default scaling, which may result in tough races early on
     Circuits: AI is scaled according to the current circuit
     Parts: AI is dynamically scaled according to the quality of your parts
     """
@@ -52,6 +67,7 @@ class AIScaling(Choice):
     option_vanilla = 0
     option_circuits = 1 
     option_parts = 2
+    default = 1
 
 class AdditionalAIMultiplier(Range):
     """Applies additional scaling to AI
@@ -68,7 +84,8 @@ class EnableMultiplierControl(DefaultOnToggle):
 
 class DisablePartDamage(DefaultOnToggle):
     """Prevents parts from being damaged and removes pit droids from the item pool
-    Extra money will be added to the pool
+    This does not remove the pit droid shop checks, just the pit droids themselves
+    Extra money will be added to the pool to compensate
     """
     display_name = "Disable Part Damage"
 
@@ -80,13 +97,47 @@ class AutoHintShop(Toggle):
     """Automatically hints shop items as they unlock"""
     display_name = "Auto-Hint Shop"
 
+class DeathLinkAmnesty(Range):
+    """Amount of times you can crash your pod before sending a DeathLink to the server"""
+    display_name = "Death Link Amnesty"
+    range_start = 0
+    range_end = 50
+    default = 0
+
+class ShopCosts(Choice):
+    """Sets the cost of items at Watto's shop
+    Vanilla: Prices are unchanged. Some may require grinding truguts to afford
+    Normalized: Prices are much closer together, with some categories being slightly more expensive than others
+    Tiered: Each tier of any part type is an identical cost to that of other parts. This is the cheapest option
+    """
+    display_name = "Shop Costs"
+    option_vanilla = 0
+    option_normalized = 1
+    option_tiered = 2
+
+class ShopCostMultiplier(Range):
+    """Additional multiplier for shop costs"""
+    display_name = "Shop Cost Multiplier"
+    range_start = 1
+    range_end = 10
+    default = 1
+
+class CoursePlando(OptionDict):
+    """Sets specific courses
+    For mirrored, append ' (Mirrored)' to any course name
+    Repeated courses will cause errors"""
+    display_name = "Course Plando"
+
 @dataclass
 class SWROptions(PerGameCommonOptions):
     progressive_parts: ProgressiveParts
+    no_traction_upgrades: NoTractionUpgrades
     course_unlock_mode: CourseUnlockMode
     progressive_circuits: ProgressiveCircuits
-    starting_racers: StartingRacers
+    randomize_starting_racers: RandomizeStartingRacers
     starting_racers_count: StartingRacersCount
+    starting_racers_plando: StartingRacersPlando
+    max_additional_racers: MaxAdditionalRacers
     mirrored_tracks: MirroredTracks
     disable_part_damage: DisablePartDamage
     ai_scaling: AIScaling
@@ -94,4 +145,8 @@ class SWROptions(PerGameCommonOptions):
     enable_multiplier_control: EnableMultiplierControl
     one_lap_mode: OneLapMode
     auto_hint_shop: AutoHintShop
+    shop_costs: ShopCosts
+    shop_cost_multiplier: ShopCostMultiplier
+    course_plando: CoursePlando
+    deathlink_amnesty: DeathLinkAmnesty
     deathlink: DeathLink

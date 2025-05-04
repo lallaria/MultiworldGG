@@ -38,7 +38,7 @@ components.append(
 
 icon_paths["archiboolego"] = f"ap:{__name__}/data/archiboolego.png"
 
-CLIENT_VERSION = "0.4.0"
+CLIENT_VERSION = "0.4.1"
 
 class LuigisMansionSettings(settings.Group):
     class ISOFile(settings.UserFilePath):
@@ -124,7 +124,7 @@ class LMWeb(WebWorld):
     tutorials = [
         Tutorial(
             "Multiworld Setup Guide",
-            "A guide to setting up the Luigi's Mansion randomizer connected to an MultiworldGG world",
+            "A guide to setting up the Luigi's Mansion randomizer connected to a MultiworldGG world",
             "English",
             "setup_en.md",
             "setup/en",

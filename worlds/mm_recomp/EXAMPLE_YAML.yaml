@@ -17,8 +17,8 @@
 # A. This is a .yaml file. You are allowed to use most characters.
 #    To test if your yaml is valid or not, you can use this website:
 #        http://www.yamllint.com/
-#    You can also verify that your MultiworldGG options are valid at this site:
-#        https://multiworld.gg/check
+#    You can also verify that your Archipelago options are valid at this site:
+#        https://archipelago.gg/check
 
 # Your name in-game, limited to 16 characters.
 #     {player} will be replaced with the player's slot number.
@@ -32,7 +32,7 @@ description: Default Majora's Mask Recompiled Template
 
 game: Majora's Mask Recompiled
 requires:
-  version: 0.5.1 # Version of MultiworldGG required for this yaml to work as expected.
+  version: 0.5.1 # Version of Archipelago required for this yaml to work as expected.
 
 Majora's Mask Recompiled:
   # Game Options
@@ -62,8 +62,22 @@ Majora's Mask Recompiled:
 
   logic_difficulty:
     # Set the logic difficulty used when generating.
-    easy: 50
+    normal: 50
     no_logic: 0
+
+  majora_remains_required:
+    # Set the amount of boss remains required to fight Majora.
+    4: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+  
+  moon_remains_required:
+    # Set the amount of boss remains required to reach the Moon after playing Oath to Order.
+    4: 50
+    random: 0
+    random-low: 0
+    random-high: 0
 
   camc:
     # Set whether chest appearance matches contents.
@@ -114,9 +128,15 @@ Majora's Mask Recompiled:
     # vanilla: Boss Remains are placed in their vanilla locations.
     # anything: Any item can be given by any of the Boss Remains, and Boss Remains can be found anywhere in any world.
     # bosses: Boss Remains are shuffled amongst themselves as the rewards for defeating bosses.
-    vanila: 50
+    vanilla: 50
     anywhere: 0
     bosses: 0
+
+  remains_allow_boss_warps:
+    # Choose whether to retain the vanilla ability to warp the boss of dungeons by having their vanilla remains.
+    # Getting the remains check for a dungeon will open its warp regardless.
+    'false': 0
+    'true': 50
 
   shuffle_spiderhouse_reward:
     # Choose whether to shuffle the Mask of Truth given at the end of the Southern Spider House and the Wallet Upgrade at the end of the Ocean Spider House.
@@ -139,10 +159,25 @@ Majora's Mask Recompiled:
     #
     # vanilla: Shop items are not shuffled.
     # enabled: Every item in shops are shuffled, with alternate shops sharing the same items.
-    # advanced: Every single item in shops are shuffled, including the alternate Night Trading Post and Spring Goron Shop. Also adds an extra Heart Piece to Spring Goron Village.
+    # advanced: Every single item in shops are shuffled, including the alternate Night Trading Post and Spring Goron Shop.
     vanilla: 50
     enabled: 0
     advanced: 0
+
+  shop_prices:
+    # Choose how expensive shop items are.
+    # This has no effect if shopsanity is disabled.
+    #
+    # vanilla: Shop items have their normal prices.
+    # free: All shop items are free and cost 0 Rupees.
+    # cheap: Shop items vary in price but can all be purchased with the starting wallet.
+    # expensive: Shop items vary in price but may require the Adult's Wallet. No shop items will require the Giant's Wallet.
+    # offensive: Shop items vary in price but may require the Adult's Wallet and sometimes even the Giant's Wallet.
+    vanilla: 50
+    free: 0
+    cheap: 0
+    expensive: 0
+    offensive: 0
 
   scrubsanity:
     # Choose whether to shuffle Business Scrub purchases.
@@ -184,6 +219,14 @@ Majora's Mask Recompiled:
     'false': 0
     'true': 50
 
+  magic_is_a_trap:
+    # Set whether to preserve the vanilla bug where you are able to use certain magic items and abilities without magic.
+    # Once you receive magic, those items and abilities will begin to reduce magic normally.
+    # 
+    # (No logical implications)
+    'false': 50
+    'true': 0
+
   damage_multiplier:
     # Adjust the amount of damage taken.
     half: 0
@@ -200,6 +243,7 @@ Majora's Mask Recompiled:
     # moon_crash: Triggers a moon crash and restarts the current cycle.
     vanilla: 50
     fast: 0
+    instant: 0
     moon_crash: 0
 
   link_tunic_color:
