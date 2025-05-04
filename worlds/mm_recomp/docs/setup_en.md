@@ -15,8 +15,6 @@
 
 ## Mod Setup
 
-Once you have installed BizHawk, open `EmuHawk.exe` and change the following settings:
-
 1. Download the latest [Visual Studio C++ Redist](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-microsoft-visual-c-redistributable-version).
 2. Optionally download any additional mods or texture packs you'd like from [Thunderstore](https://thunderstore.io/c/zelda-64-recompiled/).
     1. You only need to drag and drop mod zips from Thunderstore onto the game window to install them.
