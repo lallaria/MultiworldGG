@@ -1,0 +1,352 @@
+import os
+import logging
+import sys
+import typing
+import re
+import io
+import pkgutil
+import asyncio
+import subprocess
+import time
+from collections import deque
+
+# from worlds.alttp.Rom import text_addresses
+
+assert "kivy" not in sys.modules, "gui needs instansiation first"
+sys.path.append(os.path.join(os.path.dirname(__file__), "kivydi"))
+
+if sys.platform == "win32":
+    import ctypes
+
+    # kivy 2.2.0 introduced DPI awareness on Windows, but it makes the UI enter an infinitely recursive re-layout
+    # by setting the application to not DPI Aware, Windows handles scaling the entire window on its own, ignoring kivy's
+    ctypes.windll.shcore.SetProcessDpiAwareness(0)
+
+#os.environ["KCFG_GRAPHICS_WINDOW_STATE"] = "visible"
+os.environ["KIVY_NO_CONSOLELOG"] = "0"
+os.environ["KIVY_NO_FILELOG"] = "0"
+os.environ["KIVY_NO_ARGS"] = "1"
+os.environ["KIVY_LOG_ENABLE"] = "1"
+
+# from CommonClient import console_loop
+# from MultiServer import console
+local_path = os.path.abspath(os.getcwd())
+# apname = "Archipelago" if not Utils.archipelago_name else Utils.archipelago_name
+
+# if Utils.is_frozen():
+os.environ["KIVY_DATA_DIR"] = r'C:\Users\Lindsay\source\repos\trezapalooza\venv\Lib\site-packages\kivy\data'
+os.environ["KIVY_HOME"] = os.path.join(local_path,"data", "kivy_home")
+os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
+
+from kivy.config import Config as MWKVConfig
+
+#####
+##### The config is an ACTUAL FILE THAT CAN SAVE ANY SETTING
+##### THERE IS EVEN A VIEW FOR IT
+##### AND WE CAN ADD OUR OWN SHIT
+#####
+
+MWKVConfig.set("input", "mouse", "mouse,disable_multitouch")
+MWKVConfig.set("kivy", "exit_on_escape", "0")
+MWKVConfig.set("kivy", "default_font", ['Inter', 
+                                    os.path.join("fonts","Inter-Regular.ttf"), 
+                                    os.path.join("fonts","Inter-Italic.ttf"),
+                                    os.path.join("fonts","Inter-Bold.ttf"),
+                                    os.path.join("fonts","Inter-BoldItalic.ttf")])
+MWKVConfig.set("graphics", "width", "1099")
+MWKVConfig.set("graphics", "height", "699")
+MWKVConfig.set("graphics", "custom_titlebar", "1")
+MWKVConfig.set("graphics", "window_icon", os.path.join("data", "icon.png"))
+MWKVConfig.set("graphics", "minimum_height", "700")
+MWKVConfig.set("graphics", "minimum_width", "600")
+MWKVConfig.set("graphics", "shaped", 0)
+MWKVConfig.set("graphics", "focus", "False")
+
+from kivy.core.window import Window
+Window.opacity = 0
+Window.clearcolor = [0,0,0,0]
+
+from kivy.core.clipboard import Clipboard
+from kivy.core.text.markup import MarkupLabel
+from kivy.core.image import Image, ImageLoader, ImageLoaderBase, ImageData
+from kivy.base import ExceptionHandler, ExceptionManager, EventLoop
+from kivy.factory import Factory
+from kivy.clock import Clock
+from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty, DictProperty
+from kivy.metrics import dp
+from kivy.uix.widget import Widget
+from kivy.uix.layout import Layout
+from kivy.utils import escape_markup
+from kivy.lang import Builder
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.behaviors import FocusBehavior, ToggleButtonBehavior
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
+from kivy.uix.recycleview.layout import LayoutSelectionBehavior
+from kivy.uix.image import AsyncImage
+from kivymd.uix.hero import MDHeroFrom, MDHeroTo
+from kivymd.uix.transition import MDFadeSlideTransition
+from kivymd.app import MDApp
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.screenmanager import MDScreenManager
+from kivymd.uix.anchorlayout import MDAnchorLayout
+from kivymd.uix.gridlayout import MDGridLayout
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.tab import MDTabsItem, MDTabsItemIcon
+from kivymd.uix.tab.tab import MDTabsItemText
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.menu.menu import MDDropdownTextItem
+from kivymd.uix.dropdownitem import MDDropDownItem, MDDropDownItemText
+from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon, MDIconButton
+from kivymd.uix.label import MDLabel, MDIcon
+from kivymd.uix.recycleview import MDRecycleView
+from kivymd.uix.textfield.textfield import MDTextField, MDTextFieldHelperText, MDTextFieldHintText, MDTextFieldLeadingIcon, MDTextFieldMaxLengthText, MDTextFieldTrailingIcon
+from kivymd.uix.progressindicator import MDLinearProgressIndicator
+from kivymd.effects.stiffscroll.stiffscroll import StiffScrollEffect
+from kivymd.uix.scrollview import MDScrollView
+from kivymd.uix.tooltip import MDTooltip
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.bottomsheet import MDBottomSheet
+from kivymd.uix.navigationdrawer import MDNavigationLayout, MDNavigationDrawer
+from kivymd.uix.appbar import MDActionBottomAppBarButton, MDBottomAppBar
+from kivymd.uix.fitimage import FitImage
+from kivymd.uix.relativelayout import MDRelativeLayout
+
+#from NetUtils import JSONtoTextParser, JSONMessagePart, SlotType, HintStatus
+# from Utils import async_start, get_input_text_from_response
+from mw_theme import RegisterFonts, DefaultTheme
+
+from bottomsheet import BottomSheetKV, MainBottomSheet, ChipsOptionsKV, BottomChipLayout
+from bottomcontent import BottomBarKV
+from titlebar import Titlebar, TitleBarButton, TitlebarKV
+from console import ConsoleScreen
+from hintscreen import HintScreen
+from settings_screen import SettingsScreen
+from topappbar import TopAppBarLayout, TopAppBar
+
+class BottomAppBar(MDBottomAppBar):
+    def hide_me(self, *args):
+        self.hide_bar()
+    def show_me(self, *args):
+        self.show_bar()
+
+class MainLayout(MDAnchorLayout):
+    pass
+
+class NavLayout(MDNavigationLayout):
+    pass
+
+class MainScreenMgr(MDScreenManager):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.transition = MDFadeSlideTransition()
+
+class GuiContext:
+    def __init__(self):
+        self.loop = asyncio.get_event_loop()
+        self.exit_event = asyncio.Event()
+        self.watcher_event = asyncio.Event()
+        self.splash_process = None
+
+    def run_gui(self):
+        """Import kivy UI system from make_gui() and start running it as self.ui_task."""
+        self.ui = KivyMDGUI(self)
+        # Launch splash screen before starting the UI
+        self.ui.launch_splash_screen()
+        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+
+class KivyMDGUI(MDApp): 
+
+    title = "MultiWorldGG: FoxyDelilah playing TUNIC"
+    title_bar: Titlebar
+    main_layout: MainLayout
+    navigation_layout: NavLayout
+    bottom_sheet: MainBottomSheet
+    bottom_appbar: BottomAppBar
+    bottom_chips: BottomChipLayout
+    screen_manager: MainScreenMgr
+    console_screen: ConsoleScreen
+    hint_screen: HintScreen
+    settings_screen: SettingsScreen
+    theme_mw: DefaultTheme
+    top_appbar_menu: MDDropdownMenu
+    splash_process = None
+    top_appbar_layout: TopAppBarLayout
+
+    def __init__(self, ctx: GuiContext, **kwargs):
+        super().__init__(**kwargs)
+        RegisterFonts(self)
+        self.ctx = ctx
+
+    def launch_splash_screen(self):
+        """Launch the splash screen as a separate process"""
+        try:
+            # Get the directory of the current script
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            splash_path = os.path.join(script_dir, "splashscreen.py")
+            
+            # Launch the splash screen process
+            if sys.platform == "win32":
+                self.splash_process = subprocess.Popen(
+                    [sys.executable, splash_path],
+                    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+                )
+            else:
+                self.splash_process = subprocess.Popen(
+                    [sys.executable, splash_path]
+                )
+            
+            logging.info(f"Splash screen launched with PID: {self.splash_process.pid}")
+            return self.splash_process
+        except Exception as e:
+            logging.error(f"Failed to launch splash screen: {e}")
+            return None
+
+    def terminate_splash_screen(self):
+        """Send termination signal to the splash screen"""
+        try:
+            # Create a termination file
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            flag_path = os.path.join(script_dir, "terminate_splash.flag")
+            
+            with open(flag_path, "w") as f:
+                f.write("terminate")
+            
+            logging.info("Termination signal sent to splash screen")
+            
+            # Clean up the flag file
+            if os.path.exists(flag_path):
+                os.remove(flag_path)
+                
+            # If the process is still running, terminate it
+            if self.splash_process and self.splash_process.poll() is None:
+                self.splash_process.terminate()
+                self.splash_process.wait(timeout=2)
+
+        except Exception as e:
+            logging.error(f"Failed to terminate splash screen: {e}")
+        Clock.schedule_once(self.set_opacity)
+
+    def set_opacity(self, dt):
+        Window.opacity = 1
+        Window.size = (1100, 700)
+        Window.clearcolor = [0,0,0,1]
+
+    def on_start(self):
+        Window.bind(on_restore=self.title_bar.tb_onres)
+        Window.bind(on_maximize=self.title_bar.tb_onmax)
+        self.slides = self.bottom_sheet.bottom_carousel.slides
+
+        def on_start(*args):
+            self.root.md_bg_color = self.theme_cls.backgroundColor
+            self.title_bar.remove_widget(self.title_bar.ids.tbrestore)
+            self.bottom_chips = Builder.load_string(ChipsOptionsKV())
+            self.bottom_sheet.ids.bs_tab_container.add_widget(self.bottom_chips), len(self.bottom_sheet.ids.bs_tab_container.ids)
+            self.bottom_sheet.bind(on_open=self.bottom_appbar.hide_me)
+            self.bottom_sheet.bind(on_close=self.bottom_appbar.show_me)
+            
+        super().on_start()
+        Clock.schedule_once(on_start)
+        # Terminate the splash screen after the UI is fully initialized
+        Clock.schedule_once(lambda dt: self.terminate_splash_screen())
+
+
+    def build(self):
+        '''
+        This is the base app foundation for the entirety of the gui. The class
+        should be imported and called with super().
+        Next in the app structure are the screens.
+        '''
+        Window.borderless = True
+        Window.set_title("MultiWorldGG")
+        self.icon = os.path.join(os.path.curdir, "icon.ico")
+        
+        self.theme_mw = DefaultTheme()
+        self.theme_cls.theme_style = self.theme_mw.theme_style
+        self.theme_cls.primary_palette = self.theme_mw.primary_palette
+        self.theme_cls.dynamic_scheme_name = self.theme_mw.dynamic_scheme_name
+
+        self.main_layout = MainLayout()
+        self.main_layout.anchor_x='left'
+        self.main_layout.anchor_y='top'
+
+        self.title_bar = Builder.load_string(TitlebarKV)
+        Window.set_custom_titlebar(self.title_bar)
+
+        self.navigation_layout = NavLayout()
+        self.screen_manager = MainScreenMgr()
+        self.settings_screen = SettingsScreen()
+        self.console_screen = ConsoleScreen()
+        self.hint_screen = HintScreen()
+        self.top_appbar_layout = TopAppBarLayout()
+        self.top_appbar_menu = None
+
+        # bottom sheet should be client only, but it needs to be added
+        # before the screen_manager
+        # pass & remove the widget from the launcher class
+
+        self.bottom_sheet = Builder.load_string(BottomSheetKV())
+        Builder.load_string(BottomBarKV())
+        self.bottom_chips = BottomChipLayout()
+        #self.top_layer_buttons = Builder.load_string(ConsoleFABKV)
+
+        self.bottom_appbar = BottomAppBar(theme_bg_color = "Custom", md_bg_color = self.theme_cls.secondaryContainerColor)
+        #self.settings_screen.add_widget(self.bottom_appbar)
+        self.console_screen.add_widget(self.bottom_appbar)
+
+        self.navigation_layout.add_widget(self.screen_manager)
+        self.navigation_layout.add_widget(self.bottom_sheet)
+
+        self.main_layout.add_widget(self.navigation_layout)
+        self.main_layout.add_widget(self.top_appbar_layout)
+        self.main_layout.add_widget(self.title_bar)
+        
+        self.screen_manager.add_widget(self.settings_screen)
+        self.screen_manager.add_widget(self.console_screen)
+        self.screen_manager.add_widget(self.hint_screen)
+
+        self.screen_manager.current = 'console'
+        self.screen_manager.current_heroes = ["logo"]
+
+        return self.main_layout
+
+    def on_stop(self):
+        self.ctx.exit_event.set()
+
+    def change_screen(self, item):
+        self.screen_manager.current_heroes = ["logo"]
+        self.screen_manager.current = item.lower()
+
+    def open_top_appbar_menu(self, menu_button):
+        """Open dropdown menu when menu button is pressed"""
+        if not self.top_appbar_menu:
+            menu_items = []
+            for item in self.screen_manager.screen_names:
+                menu_items.append({"text": item.capitalize(), "on_release": lambda x=item: self.change_screen(x)})
+
+            self.top_appbar_menu = MDDropdownMenu(
+                caller=menu_button,
+                items=menu_items,
+                width_mult=3,
+            )
+        self.top_appbar_menu.open()
+
+    
+# KivyMDGUI().run()
+def run_client(*args):
+    class TextContext(GuiContext):
+        tags = {"TextOnly"}
+        game = ""
+        items_handling = 0b111
+        want_slot_data = False
+
+    async def main(args):
+        ctx = TextContext()
+        
+        ctx.run_gui()
+
+        await ctx.exit_event.wait()
+
+    asyncio.run(main(args))
+
+if __name__ == '__main__':
+    run_client(*sys.argv[1:])
