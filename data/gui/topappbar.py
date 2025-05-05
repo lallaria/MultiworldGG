@@ -21,11 +21,9 @@ TopAppBar:
 
     MDTopAppBarTitle:
         text: app.title
-        font_style: "Headline"
+        font_style: "Title"
         bold: True
         theme_font_style: "Custom"
-        role: "small"
-        
         pos_hint: {"center_x": .5}
 
     MDTopAppBarTrailingButtonContainer:

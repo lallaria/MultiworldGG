@@ -20,6 +20,8 @@ logger = logging.getLogger(__name__)
 # Define custom widgets in kv language
 settings_kv = '''
 SettingsNavLayout:
+    size_hint_y: None
+    height: Window.height-103
     settings_hero_to: settings_hero_to
     settings_nav_menu: settings_nav_menu
 
@@ -28,24 +30,24 @@ SettingsNavLayout:
     MDNavigationDrawer:
         id: settings_nav_drawer
         radius: 0, dp(16), dp(16), 0
-        type: "standard"
+        drawer_type: "standard"
         anchor: "left"
         elevation: 10
         
         MDBoxLayout:
             orientation: "vertical"
             spacing: dp(8)
-            padding: [8, 70, 8, 8]
+            padding: [dp(4), dp(4), dp(4), dp(4)]
             
             MDHeroTo:
                 id: settings_hero_to
                 size_hint: None,None
-                size: dp(140), dp(110)
+                size: dp(256), dp(161)
                 pos_hint: {"center_x": 0.5, "top": 1}
                 FitImage:
                     source: "data/logo_bg.png"
                     size_hint: None,None
-                    size: dp(140), dp(110)
+                    size: dp(256), dp(161)
                     pos_hint: {"center_x": 0.5, "top": 1}
             
             NavDrawerMenu:
@@ -54,7 +56,13 @@ SettingsNavLayout:
 
 <NavDrawerMenu>:
     orientation: "vertical"
-    padding: dp(4)
+
+<NavDrawerLabel>:
+    font_style: "Title"
+    bold: True
+    padding: [0, dp(16), 0, 0]
+    theme_text_color: "Custom"
+    text_color: app.theme_cls.primaryColor
 
 <NavDrawerItem>:
     MDNavigationDrawerItemLeadingIcon:
@@ -78,11 +86,19 @@ class SettingsNavLayout(MDNavigationLayout):
 class NavDrawerMenu(MDNavigationDrawerMenu):
     menu_label = StringProperty("")
 
+    def on_start(self):
+        self.ids.menu.size_hint_x = None
+        self.ids.menu.width = self.width - dp(8)
+
+class NavDrawerLabel(MDNavigationDrawerLabel):
+    pass
+
 class NavDrawerItem(MDNavigationDrawerItem):
     screen = ObjectProperty(None)
     icon = StringProperty("")
     text = StringProperty("")
     trailing_text = StringProperty("")
+
 
 class SettingsScreen(MDScreen):
     '''
@@ -129,12 +145,11 @@ class SettingsScreen(MDScreen):
     def setup_navigation_menu(self, *args):
         """Set up the navigation menu with all its items."""
         self.nav_menu = self.nav_layout.settings_nav_menu
+        self.nav_menu.on_start()
         
         # Add Interface section
-        self.nav_menu.add_widget(MDNavigationDrawerLabel(
-            text="Interface",
-            font_style="Title",
-            bold=True,
+        self.nav_menu.add_widget(NavDrawerLabel(
+            text="Interface"
         ))
         
         interface_items = [
@@ -154,10 +169,8 @@ class SettingsScreen(MDScreen):
         self.nav_menu.add_widget(MDNavigationDrawerDivider())
         
         # Add Theming section
-        self.nav_menu.add_widget(MDNavigationDrawerLabel(
-            text="Theming",
-            font_style="Title",
-            bold=True,
+        self.nav_menu.add_widget(NavDrawerLabel(
+            text="Theming"
         ))
         
         theming_items = [
@@ -177,10 +190,8 @@ class SettingsScreen(MDScreen):
         self.nav_menu.add_widget(MDNavigationDrawerDivider())
         
         # Add Connection section
-        self.nav_menu.add_widget(MDNavigationDrawerLabel(
-            text="Connection",
-            font_style="Title",
-            bold=True,
+        self.nav_menu.add_widget(NavDrawerLabel(
+            text="Connection"
         ))
         
         connection_items = [

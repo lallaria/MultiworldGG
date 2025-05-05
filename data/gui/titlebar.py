@@ -3,6 +3,9 @@
 ###     Titlebar class - creates the root widget that will be added to
 ###     the titlebar.  Additionally creates helper functions to bind
 ###     to the mouse and window events to display the appropriate icon
+###     
+###     There is a drop shadow effect applied, which is why the positions
+###     of the labels are at .45 and .47 - it is currently centered and hardcoded.
 ###     WINDOWS ONLY
 ###
 ###############################################################################
@@ -63,13 +66,11 @@ Titlebar:
 
         TitleBlur:
             id: titleblur
-            x: 258
-            y: 696
-            size_hint_x: 1
-            height: 40
+            pos_hint: {{"center_x": .5, "center_y": .45}}
+            size_hint: 1, 1
             opacity: .5
             MDLabel:
-                pos_hint: {{"center_x": .5, "center_y": .5}}
+                pos_hint: {{"center_x": .5, "center_y": .45}}
                 id: tblabel_title
                 text: app.title
                 font_style: "TitleBar"
@@ -77,22 +78,18 @@ Titlebar:
                 text_size: self.width, None
                 outline_width: 2
                 outline_color: app.theme_cls.shadowColor
-                shorten: True
-                shorten_from: "center"
                 theme_text_color: "Custom"
                 text_color: app.theme_cls.shadowColor
                 opacity: .5
 
         MDLabel:
-            x: 256
-            y: 697
+            pos_hint: {{"center_x": .499, "center_y": .47}}
+            size_hint: 1, 1
             id: tblabeltext
             text: app.title
             font_style: "TitleBar"
             text_size: self.width, None
             role: "small"
-            shorten: True
-            shorten_from: "center"
             outline_width: 1
             outline_color: app.theme_cls.inverseOnSurfaceColor
 

@@ -34,7 +34,7 @@ local_path = os.path.abspath(os.getcwd())
 # apname = "Archipelago" if not Utils.archipelago_name else Utils.archipelago_name
 
 # if Utils.is_frozen():
-os.environ["KIVY_DATA_DIR"] = r'C:\Users\Lindsay\source\repos\trezapalooza\venv\Lib\site-packages\kivy\data'
+os.environ["KIVY_DATA_DIR"] = r'C:\Users\Lindsay\source\repos\MultiworldGG\venv\Lib\site-packages\kivy\data'
 os.environ["KIVY_HOME"] = os.path.join(local_path,"data", "kivy_home")
 os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
 

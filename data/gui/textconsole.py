@@ -42,7 +42,7 @@ class TextConsole(MarkupTextField, ThemableBehavior):
         self.line_spacing = self.theme_cls.font_styles.monospace['large']['line-height']
         self.selection_color = self.theme_cls.secondaryColor
         self.selection_color[3] = 0.3
-        with open(r"C:\Users\Lindsay\source\repos\trezapalooza\data\gui\textclientlog.txt") as oldlog:
+        with open(r"C:\Users\Lindsay\source\repos\MultiworldGG\data\gui\textclientlog.txt") as oldlog:
             lines = oldlog.readlines()
             for i in lines:
                 self.text = self.text + i # TODO: add escape_markup
