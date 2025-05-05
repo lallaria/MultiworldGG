@@ -58,7 +58,7 @@ class PokemonCrystalWorld(World):
     defeat the elusive Red at the peak of Mt. Silver!"""
     game = "Pokemon Crystal"
     author: str = "AliceMousie & James"
-    apworld_version = "3.2.0"
+    apworld_version = "3.2.2"
 
     topology_present = True
     web = PokemonCrystalWebWorld()
@@ -411,7 +411,8 @@ class PokemonCrystalWorld(World):
                                                     FreeFlyLocation.option_map_card]:
             slot_data["map_card_fly_location"] = self.map_card_fly_location.id
 
-        slot_data["enable_mischief"] = 1 if MiscOption.SecretSwitch.value in self.generated_misc.selected else 0
+        slot_data["enable_mischief"] = 1 if (self.options.enable_mischief
+                                             and MiscOption.SecretSwitch.value in self.generated_misc.selected) else 0
 
         return slot_data
 
