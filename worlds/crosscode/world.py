@@ -7,7 +7,7 @@ import typing
 import logging
 import itertools
 
-from BaseClasses import ItemClassification, Location, LocationProgressType, Region, Item
+from BaseClasses import ItemClassification, Location, LocationProgressType, Region, Item, Tutorial
 from Fill import fill_restrictive
 
 from worlds.AutoWorld import WebWorld, World
