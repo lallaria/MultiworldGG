@@ -16,6 +16,9 @@
   - [Roller Coaster Tycoon Classic](https://www.humblebundle.com/store/rollercoaster-tycoon-classic) for PC  
 - [OpenRCT2](https://openrct2.io/)
 
+## Optional Software
+- [Archipelago Scenarios](https://github.com/Crazycolbster/rollercoaster-tycoon-randomizer/releases/tag/v0.1.16-beta) that can be selected as scenarios for your seed.
+
 ## Overview
 
 You'll be using OpenRCT2 to run the Archipelago plugin, which will connect to the built-in OpenRCT2 client in \
@@ -33,6 +36,7 @@ Once OpenRCT2 is up and running, you'll need to install the
 [Roller Coaster Tycoon Randomizer plugin](https://openrct2plugins.org/plugin/R_kgDOGmXTVQ/rollercoaster-tycoon-randomizer).\
 On the main menu of OpenRCT2, click the toolbox menu icon and select "Open custom content folder" \
 Save the `.js` file to the "plugin" folder within.
+If you have the "Archipelago Madness" scenarios, copy the .park files to the "scenario" folder.
 
 ## Generate a MultiWorld Game
 
