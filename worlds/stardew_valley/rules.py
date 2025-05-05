@@ -248,7 +248,7 @@ def set_entrance_rules(logic: StardewLogic, multiworld, player, world_options: S
 
     set_entrance_rule(multiworld, player, Entrance.mountain_to_railroad, logic.received("Railroad Boulder Removed"))
     set_entrance_rule(multiworld, player, Entrance.enter_witch_warp_cave, logic.quest.has_dark_talisman() | (logic.mod.magic.can_blink()))
-    set_entrance_rule(multiworld, player, Entrance.enter_witch_hut, (logic.has(ArtisanGood.void_mayonnaise) | logic.mod.magic.can_blink()))
+    set_entrance_rule(multiworld, player, Entrance.enter_witch_hut, (logic.quest.can_complete_quest(Quest.goblin_problem) | logic.mod.magic.can_blink()))
     set_entrance_rule(multiworld, player, Entrance.enter_mutant_bug_lair,
                       (logic.wallet.has_rusty_key() & logic.region.can_reach(Region.railroad) & logic.relationship.can_meet(
                           NPC.krobus)) | logic.mod.magic.can_blink())
@@ -943,49 +943,49 @@ def set_magic_spell_rules(logic: StardewLogic, multiworld: MultiWorld, player: i
                              (logic.tool.has_tool("Watering Can", "Basic") & logic.tool.has_tool("Hoe", "Basic")
                               & (logic.tool.has_tool("Axe", "Basic") | logic.tool.has_tool("Pickaxe", "Basic"))))
     # Do I *want* to add boots into logic when you get them even in vanilla without effort?  idk
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Evac", player),
-                             logic.ability.can_mine_perfectly())
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Haste", player),
-                             logic.has("Coffee"))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Heal", player),
-                             logic.has("Life Elixir"))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze All Life School Locations", player),
-                             (logic.has("Coffee") & logic.has("Life Elixir")
-                              & logic.ability.can_mine_perfectly()))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Descend", player),
-                             logic.region.can_reach(Region.mines))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Fireball", player),
-                             logic.has("Fire Quartz"))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Frostbolt", player),
-                             logic.region.can_reach(Region.mines_floor_60) & logic.skill.can_fish(difficulty=85))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze All Elemental School Locations", player),
-                             logic.has("Fire Quartz") & logic.region.can_reach(Region.mines_floor_60) & logic.skill.can_fish(difficulty=85))
-    # MultiWorldRules.add_rule(multiworld.get_location("Analyze: Lantern", player),)
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Tendrils", player),
-                             logic.region.can_reach(Region.farm))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Shockwave", player),
-                             logic.has("Earth Crystal"))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze All Nature School Locations", player),
-                             (logic.has("Earth Crystal") & logic.region.can_reach("Farm"))),
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Meteor", player),
-                             (logic.region.can_reach(Region.farm) & logic.time.has_lived_months(12))),
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Lucksteal", player),
-                             logic.region.can_reach(Region.witch_hut))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze: Bloodmana", player),
-                             logic.region.can_reach(Region.mines_floor_100))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze All Eldritch School Locations", player),
-                             (logic.region.can_reach(Region.witch_hut) &
-                              logic.region.can_reach(Region.mines_floor_100) &
-                              logic.region.can_reach(Region.farm) & logic.time.has_lived_months(12)))
-    MultiWorldRules.add_rule(multiworld.get_location("Analyze Every Magic School Location", player),
-                             (logic.tool.has_tool("Watering Can", "Basic") & logic.tool.has_tool("Hoe", "Basic")
-                              & (logic.tool.has_tool("Axe", "Basic") | logic.tool.has_tool("Pickaxe", "Basic")) &
-                              logic.has("Coffee") & logic.has("Life Elixir")
-                              & logic.ability.can_mine_perfectly() & logic.has("Earth Crystal") &
-                              logic.has("Fire Quartz") & logic.skill.can_fish(difficulty=85) &
-                              logic.region.can_reach(Region.witch_hut) &
-                              logic.region.can_reach(Region.mines_floor_100) &
-                              logic.region.can_reach(Region.farm) & logic.time.has_lived_months(12)))
+    set_rule(multiworld.get_location("Analyze: Evac", player),
+             logic.ability.can_mine_perfectly())
+    set_rule(multiworld.get_location("Analyze: Haste", player),
+             logic.has("Coffee"))
+    set_rule(multiworld.get_location("Analyze: Heal", player),
+             logic.has("Life Elixir"))
+    set_rule(multiworld.get_location("Analyze All Life School Locations", player),
+             (logic.has("Coffee") & logic.has("Life Elixir")
+              & logic.ability.can_mine_perfectly()))
+    set_rule(multiworld.get_location("Analyze: Descend", player),
+             logic.region.can_reach(Region.mines))
+    set_rule(multiworld.get_location("Analyze: Fireball", player),
+             logic.has("Fire Quartz"))
+    set_rule(multiworld.get_location("Analyze: Frostbolt", player),
+             logic.region.can_reach(Region.mines_floor_60) & logic.fishing.can_fish(85))
+    set_rule(multiworld.get_location("Analyze All Elemental School Locations", player),
+             logic.has("Fire Quartz") & logic.region.can_reach(Region.mines_floor_60) & logic.fishing.can_fish(85))
+    # set_rule(multiworld.get_location("Analyze: Lantern", player),)
+    set_rule(multiworld.get_location("Analyze: Tendrils", player),
+             logic.region.can_reach(Region.farm))
+    set_rule(multiworld.get_location("Analyze: Shockwave", player),
+             logic.has("Earth Crystal"))
+    set_rule(multiworld.get_location("Analyze All Nature School Locations", player),
+             (logic.has("Earth Crystal") & logic.region.can_reach("Farm"))),
+    set_rule(multiworld.get_location("Analyze: Meteor", player),
+             (logic.region.can_reach(Region.farm) & logic.time.has_lived_months(12))),
+    set_rule(multiworld.get_location("Analyze: Lucksteal", player),
+             logic.region.can_reach(Region.witch_hut))
+    set_rule(multiworld.get_location("Analyze: Bloodmana", player),
+             logic.region.can_reach(Region.mines_floor_100))
+    set_rule(multiworld.get_location("Analyze All Eldritch School Locations", player),
+             (logic.region.can_reach(Region.witch_hut) &
+              logic.region.can_reach(Region.mines_floor_100) &
+              logic.region.can_reach(Region.farm) & logic.time.has_lived_months(12)))
+    set_rule(multiworld.get_location("Analyze Every Magic School Location", player),
+             (logic.tool.has_tool("Watering Can", "Basic") & logic.tool.has_tool("Hoe", "Basic")
+              & (logic.tool.has_tool("Axe", "Basic") | logic.tool.has_tool("Pickaxe", "Basic")) &
+              logic.has("Coffee") & logic.has("Life Elixir")
+              & logic.ability.can_mine_perfectly() & logic.has("Earth Crystal") &
+              logic.has("Fire Quartz") & logic.fishing.can_fish(85) &
+              logic.region.can_reach(Region.witch_hut) &
+              logic.region.can_reach(Region.mines_floor_100) &
+              logic.region.can_reach(Region.farm) & logic.time.has_lived_months(12)))
 
 
 def set_sve_rules(logic: StardewLogic, multiworld: MultiWorld, player: int, world_options: StardewValleyOptions):
