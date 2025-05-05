@@ -1,6 +1,7 @@
 from BaseClasses import Item
 import copy
-from .Constants import item_info, Scenario_Items
+from .Constants import Scenario_Items
+from .data.item_info import item_info
 from .Options import *
 
 
@@ -14,9 +15,9 @@ def set_openRCT2_items(world):
     # print("And these items will be randomized:")
     # print(Scenario_Items[scenario])
     if(world.options.all_rides_and_scenery_expansion):
-        openRCT2_items = copy.deepcopy(Scenario_Items[152]) # MultiworldGG Madness has every ride in the game. We can go off that
+        openRCT2_items = copy.deepcopy(Scenario_Items[152]) # Archipelago Madness has every ride in the game. We can go off that
     elif(world.options.all_rides_and_scenery_base):
-        openRCT2_items = copy.deepcopy(Scenario_Items[151]) # MultiworldGG Madness, but without the expansion stuff
+        openRCT2_items = copy.deepcopy(Scenario_Items[151]) # Archipelago Madness, but without the expansion stuff
     else:
         openRCT2_items = copy.deepcopy(Scenario_Items[world.options.scenario.value])
     rules = [world.options.difficult_guest_generation.value,
@@ -58,6 +59,9 @@ def set_openRCT2_items(world):
 
     for each in range(world.options.bathroom_traps.value):
         openRCT2_items.append("Bathroom Trap")
+
+    for each in range(world.options.loan_shark_traps.value):
+        openRCT2_items.append("Loan Shark Trap")
 
     for each in range(world.options.skips.value):
         openRCT2_items.append("Skip")

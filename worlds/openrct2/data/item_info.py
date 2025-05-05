@@ -1,4 +1,4 @@
-{
+item_info = {
 	"all_items": [
         "Spiral Roller Coaster",
         "Stand Up Roller Coaster",
@@ -121,7 +121,8 @@
         "Skip",
         "Bathroom Trap",
         "Furry Convention Trap",
-        "Spam Trap"
+        "Spam Trap",
+        "Loan Shark Trap"
 	],
 	"park_rules": [
 		"Easier Guest Generation",
@@ -178,7 +179,8 @@
 	"trap_items": [
 		"Bathroom Trap",
         "Furry Convention Trap",
-        "Spam Trap"
+        "Spam Trap",
+        "Loan Shark Trap"
 	],
     "Rides": [
         "Spiral Roller Coaster",
@@ -484,6 +486,66 @@
         "Splash Boats",
         "Submarine Ride",
         "River Rafts",
+        "LSM Launched Roller Coaster",
+        "Classic Wooden Twister Roller Coaster"
+    ],
+    "low_throughput": [
+        "Boat Hire",
+        "Reverse Freefall Coaster",
+        "Heartline Twister Coaster",
+        "Car Ride",
+        "Observation Tower",
+        "Spiral Slide",
+        "Space Rings",
+        "Monorail Cycles",
+        "Alpine Roller Coaster",
+        "Mini Golf"
+    ],
+    "high_throughput": [
+        "Roller Coasters",
+        "Maze",
+        "Spiral Roller Coaster",
+        "Stand Up Roller Coaster",
+        "Suspended Swinging Coaster",
+        "Inverted Roller Coaster",
+        "Junior Roller Coaster",
+        "Mini Suspended Roller Coaster",
+        "Wooden Wild Mouse",
+        "Bobsleigh Coaster",
+        "Looping Roller Coaster",
+        "Mine Train Coaster",
+        "Corkscrew Roller Coaster",
+        "Vertical Drop Roller Coaster",
+        "Twister Roller Coaster",
+        "Wooden Roller Coaster",
+        "Side Friction Roller Coaster",
+        "Steel Wild Mouse",
+        "Multidimension Roller Coaster",
+        "Multidimension Roller Coaster (alt)",
+        "Flying Roller Coaster",
+        "Flying Roller Coaster (alt)",
+        "Virginia Reel",
+        "Lay Down Roller Coaster",
+        "Lay Down Roller Coaster (alt)",
+        "Reverser Roller Coaster",
+        "Heartline Twister Coaster",
+        "Giga Coaster",
+        "Compact Inverted Coaster",
+        "Water Coaster",
+        "Air Powered Vertical Coaster",
+        "Inverted Hairpin Coaster",
+        "Inverted Impulse Coaster",
+        "Mini Roller Coaster",
+        "Mine Ride",
+        "LIM Launched Roller Coaster",
+        "Hypercoaster",
+        "Hypertwister",
+        "Spinning Wild Mouse",
+        "Classic Mini Roller Coaster",
+        "Hybrid Coaster",
+        "Single Rail Roller Coaster",
+        "Classic Wooden Roller Coaster",
+        "Classic Stand-up Roller Coaster",
         "LSM Launched Roller Coaster",
         "Classic Wooden Twister Roller Coaster"
     ],
