@@ -81,22 +81,22 @@ async def run_game(romfile):
 async def apply_patch():
     fpath = pathlib.Path(__file__)
     archipelago_root = None
-    for i in range(0, 5,+1) :
+    for i in range(5):
         if fpath.parents[i].stem == "Archipelago":
-            archipelago_root = pathlib.Path(__file__).parents[i]
+            archipelago_root = fpath.parents[i]
             break
     patch_path = None
     if archipelago_root:
-        patch_path = os.path.join(archipelago_root, "Banjo-Tooie-AP"+game_append_version+".z64")
+        patch_path = os.path.join(archipelago_root,f"Banjo-Tooie-AP{game_append_version}.z64")
     if not patch_path or check_rom(patch_path) != patch_md5:
         logger.info("Please open Banjo-Tooie and load banjo_tooie_connector.lua")
         await asyncio.sleep(0.01)
-        rom = Utils.open_filename("Open your Banjo-Tooie US ROM", (("Rom Files", (".z64", ".n64")), ("All Files", "*"),))
+        rom = Utils.open_filename("Open your Banjo-Tooie US ROM", (("Rom Files", (".z64", ".n64")), ("All Files", "*")))
         if not rom:
             logger.info("No ROM selected. Please restart the Banjo-Tooie Client to try again.")
             return
-        if not patch_path:
-            patch_path = os.path.split(rom) + "/Banjo-Tooie-AP"+game_append_version+".z64"
+        base_dir = os.path.dirname(rom)
+        patch_path = os.path.join(base_dir, f"Banjo-Tooie-AP{game_append_version}.z64")
         patch_rom(rom, patch_path, "Banjo-Tooie.patch")
     if patch_path:
         logger.info("Patched Banjo-Tooie is located in " + patch_path)
