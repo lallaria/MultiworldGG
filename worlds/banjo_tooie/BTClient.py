@@ -23,6 +23,7 @@ import Utils
 import settings
 from Utils import async_start
 from worlds import network_data_package
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -82,7 +83,7 @@ async def apply_patch():
     fpath = pathlib.Path(__file__)
     archipelago_root = None
     for i in range(5):
-        if fpath.parents[i].stem == "Archipelago":
+        if fpath.parents[i].stem == apname:
             archipelago_root = fpath.parents[i]
             break
     patch_path = None
@@ -95,8 +96,9 @@ async def apply_patch():
         if not rom:
             logger.info("No ROM selected. Please restart the Banjo-Tooie Client to try again.")
             return
-        base_dir = os.path.dirname(rom)
-        patch_path = os.path.join(base_dir, f"Banjo-Tooie-AP{game_append_version}.z64")
+        if not patch_path:
+            base_dir = os.path.dirname(rom)
+            patch_path = os.path.join(base_dir, f"Banjo-Tooie-AP{game_append_version}.z64")
         patch_rom(rom, patch_path, "Banjo-Tooie.patch")
     if patch_path:
         logger.info("Patched Banjo-Tooie is located in " + patch_path)
