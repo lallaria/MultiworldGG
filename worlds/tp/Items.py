@@ -72,10 +72,10 @@ class TPItem(Item):
     @staticmethod
     def get_apid(code: int) -> int:
         """
-        Compute the MultiworldGG ID for the given item code.
+        Compute the Archipelago ID for the given item code.
 
         :param code: The unique code for the item.
-        :return: The computed MultiworldGG ID.
+        :return: The computed Archipelago ID.
         """
         base_id: int = 2320000
         return base_id + code
@@ -135,13 +135,13 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Piece of Heart": TPItemData("Heart", IC.useful, 23, 45, 0x21),
     "Heart Container": TPItemData("Heart", IC.useful, 24, 8, 0x22),
     "Progressive Master Sword": TPItemData("Item", VERY_USEFUL, 25, 4, 0x29),
-    "Ordon Shield": TPItemData("Item", IC.useful, 26, 1, 0x2A),
-    "Hylian Shield": TPItemData("Item", IC.useful, 27, 1, 0x2C),
-    "Magic Armor": TPItemData("Item", IC.useful, 28, 1, 0x30),
+    "Ordon Shield": TPItemData("Item", IC.progression, 26, 1, 0x2A),
+    "Hylian Shield": TPItemData("Item", IC.progression, 27, 1, 0x2C),
+    "Magic Armor": TPItemData("Item", IC.progression, 28, 1, 0x30),
     "Zora Armor": TPItemData("Item", IC.progression, 29, 1, 0x31),
     "Shadow Crystal": TPItemData("Item", VERY_USEFUL, 30, 1, 0x32),
-    "Progressive Wallet": TPItemData("Item", IC.useful, 31, 2, 0x36),
-    "Hawkeye": TPItemData("Item", IC.useful, 32, 1, 0x3E),
+    "Progressive Wallet": TPItemData("Item", IC.progression, 31, 2, 0x36),
+    "Hawkeye": TPItemData("Item", IC.progression, 32, 1, 0x3E),
     "Gale Boomerang": TPItemData("Item", VERY_USEFUL, 33, 1, 0x40),
     "Spinner": TPItemData("Item", VERY_USEFUL, 34, 1, 0x41),
     "Ball and Chain": TPItemData("Item", VERY_USEFUL, 35, 1, 0x42),
@@ -151,7 +151,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Progressive Dominion Rod": TPItemData("Item", IC.progression, 39, 2, 0x46),
     "Lantern": TPItemData("Item", VERY_USEFUL, 40, 1, 0x48),
     "Progressive Fishing Rod": TPItemData("Item", IC.progression, 41, 2, 0x4A),
-    "Slingshot": TPItemData("Item", IC.useful, 44, 1, 0x4B),
+    "Slingshot": TPItemData("Item", IC.progression, 44, 1, 0x4B),
     "Bomb Bag": TPItemData("Item", IC.progression, 45, 3, 0x51),
     "Empty Bottle (Fishing Hole)": TPItemData("Bottle", IC.progression, 46, 1, 0x60),
     "Milk (half) (Sera Bottle)": TPItemData("Bottle", IC.progression, 47, 1, 0x65),
@@ -248,7 +248,7 @@ ITEM_TABLE: dict[str, TPItemData] = {
     "Ordon Pumpkin": TPItemData("Small Key", IC.progression, 129, 1, 0xF4),
     "Ordon Goat Cheese": TPItemData("Small Key", IC.progression, 130, 1, 0xF5),
     "Ice Trap": TPItemData("Trap", IC.trap, 131, 1, 0x13),
-    "Victory": TPItemData("Event", IC.progression, 132, 1, None),
+    "Victory": TPItemData("Event", IC.progression, None, 1, None),
     "Giant Bomb Bag": TPItemData("Item", IC.useful, 133, 1, 0x4F),
 }
 

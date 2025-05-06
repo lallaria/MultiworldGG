@@ -1,4 +1,5 @@
 import asyncio
+from copy import deepcopy
 import time
 import traceback
 from typing import TYPE_CHECKING, Any, Optional
@@ -157,7 +158,7 @@ class TPContext(CommonContext):
     """
     The context for Twilight Princess client.
 
-    This class manages all interactions with the Dolphin emulator and the MultiworldGG server for Twilight Princess.
+    This class manages all interactions with the Dolphin emulator and the Archipelago server for Twilight Princess.
     """
 
     command_processor = TPCommandProcessor
@@ -168,7 +169,7 @@ class TPContext(CommonContext):
         """
         Initialize the context with the provided server address and password.
 
-        :param server_address: The address of the MultiworldGG server.
+        :param server_address: The address of the Archipelago server.
         :param password: The password for the server.
         """
         super().__init__(server_address, password)
@@ -180,7 +181,7 @@ class TPContext(CommonContext):
         self.has_send_death: bool = False
         self.current_node: int = 0xFF
         self.server_data_copy: dict[str, str | bool] = {}
-        self.server_data = server_data
+        self.server_data = deepcopy(server_data)
         self.server_data_built: bool = False
         self.server_data_sent: bool = False
 
@@ -195,7 +196,7 @@ class TPContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False) -> None:
         """
-        Authenticate with the MultiworldGG server.
+        Authenticate with the Archipelago server.
 
         :param password_requested: Whether the server requires a password. Defaults to `False`.
         """
@@ -236,13 +237,16 @@ class TPContext(CommonContext):
                 not args["slot_data"]["World Version"]
                 or args["slot_data"]["World Version"] != VERSION
             ):
-                logger.warning(
+                logger.info(
                     f"""Error: Client version does not match version of generated seed. 
                             Things may not work as intended,
                             Seed version:{args["slot_data"]["World Version"]} client version:{VERSION}"""
                 )
+            else:
+                logger.info(f"""Connected Using Seed & client version:{VERSION}""")
             self.server_data_built = False
-            self.server_data = server_data
+            self.server_data = deepcopy(server_data)
+
         elif cmd == "ReceivedItems":
             if args["index"] >= self.last_received_index:
                 self.last_received_index = args["index"]
@@ -270,7 +274,7 @@ class TPContext(CommonContext):
         :return: The client's GUI.
         """
         ui = super().make_gui()
-        ui.base_title = "MultiworldGG Twilight Princess Client"
+        ui.base_title = "Archipelago Twilight Princess Client"
         return ui
 
 
@@ -408,7 +412,10 @@ async def _give_item(ctx: TPContext, items: list[str]) -> bool:
     if not await check_ingame(ctx):
         return False
     for item_name in items:
-        assert isinstance(ITEM_TABLE[item_name].item_id, int)
+        assert item_name in ITEM_TABLE, f"{item_name=} not in item table "
+        assert isinstance(
+            ITEM_TABLE[item_name].item_id, int
+        ), f"{item_name=} has no item_id"
 
     # Only add items to the queue if it is empty
     for i in range(0, 8):
@@ -425,6 +432,11 @@ async def _give_item(ctx: TPContext, items: list[str]) -> bool:
 
         if DEBUGGING:
             logger.info(f"Debug: Giving {items[i]} into queue")
+
+        if items[i] == "Victory":
+            if not ctx.finished_game:
+                logger.info("Player got victory but the game is not complete in client")
+            continue
 
         write_byte(item_stack_addr, ITEM_TABLE[items[i]].item_id)
     # Now the queue is full and all items are added
@@ -447,9 +459,19 @@ async def give_items(ctx: TPContext) -> None:
         total_items = len(ctx.items_received_2)
         current_item_count = expected_idx  # First index starts at zero as does counting
         items_difference = total_items - current_item_count
-        assert (
-            items_difference >= 0
-        ), f"{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
+
+        if items_difference < 0:
+            if DEBUGGING:
+                logger.info(
+                    f"Debug: Negative item difference hopefully will sync{len(ctx.items_received_2)=}, {(expected_idx -1)=}"
+                )
+            sync_msg = [{"cmd": "Sync"}]
+            if ctx.locations_checked:
+                sync_msg.append(
+                    {"cmd": "LocationChecks", "locations": list(ctx.locations_checked)}
+                )
+            await ctx.send_msgs(sync_msg)
+            return
 
         # if DEBUGGING and items_difference != 0:
         #     logger.info(
@@ -522,6 +544,7 @@ async def check_locations(ctx: TPContext) -> None:
                     [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]
                 )
                 ctx.finished_game = True
+                # locations_read.add(TPLocation.get_apid(data.code))
             continue
 
         # If there is not a valid apid dont bother checking that location
@@ -846,7 +869,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
     """
     Run the main async loop for the Twilight Princess client.
 
-    :param connect: Address of the MultiworldGG server.
+    :param connect: Address of the Archipelago server.
     :param password: Password for server authentication.
     """
     Utils.init_logging("Twilight Princess Client")

@@ -7,9 +7,8 @@
 - Software capaz de cargar y permitir jugar archivos ROM de SNES:
    - [snes9x-nwa](https://github.com/Skarsnik/snes9x-emunwa/releases)
    - [snes9x-rr](https://github.com/gocha/snes9x-rr/releases)
-   - [BSNES-plus](https://github.com/black-sliver/bsnes-plus). **Nota:** No usen el `Reset` del emulador, causa 
-   corrupción de RAM y puede mandar Checks de manera aleatoria.
-- Una copia de tu Donkey Kong Country v1.0 US proveniente del cartucho original. La comunidad de Archipelago no puede proveer ni uno de estos.
+   - [BSNES-plus](https://github.com/black-sliver/bsnes-plus). **Nota:** No usen el `Reset` del emulador, causa corrupción de RAM y puede mandar Checks de manera aleatoria.
+- Una copia de tu Donkey Kong Country v1.0 US proveniente del cartucho original. La comunidad de MultiworldGG no puede proveer ni uno de estos.
    - SNES v1.0 US MD5: `30c5f292ff4cbbfcc00fd8fa96c2de3b`
 
 ## Software opcional
@@ -25,7 +24,7 @@ método de jugar que el desarollador utiliza. Procede bajo tu propio riesgo.
 
 ## Procedimiento de instalación
 
-1. Descarga e instala [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). **El instalador se 
+1. Descarga e instala [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). **El instalador se 
 encuentra en la sección de `Assets` después de la información de la versión.**
 2. Asocia los archivos `.sfc` con el emulador deseado:
    1. Extrae el emulador y sus archivos en algún lugar de tu computadora que puedas recordar.
@@ -84,7 +83,7 @@ Cada emulador tiene un procedimiento distinto para poder jugar, sigue el que se 
 3. Da click en **New Lua Script Window...**
 4. En la ventana que aparece da click en **Browse..**
 5. Selecciona el archivo conector incluido con el cliente
-   - Busca en la carpeta de Archipelago el directorio de `/SNI/lua/`
+   - Busca en la carpeta de MultiworldGG el directorio de `/SNI/lua/`
 6. Si llega a aparecer un error al cargar el script que diga que no cuentas con `socket.dll` o algo similar, ve a la
 carpeta del lua que estás utilizando y copia el archivo `socket.dll` a la carpeta raíz de tu snes9x
 

@@ -18,18 +18,20 @@ python -u "worlds\twilight_princess_apworld\build\fuzzParser.py"
 # Things to add
 
 Cave of orderals ignore
-dungeon rewards pregression
 
-build out generation logic to handle intergration settings
--If faron woods closed and dungeon items are any_dungeon overide to make forest temple items own_dungeon
--If faron woods closed pre-fill items into world to ensure accessiblity of later locations.
--Boss Rewards
---Search through prority item pool and choose items to place on bosses. Or place shadows / shards
+For v1 change the apworld name to lower case
 
 # Failed Seeds
 
-657286117, 972369101
+Put A\* search back into the fill error lines
+
+657286117, 972369101, 731639586
 Palace of twilight small keys fail to place when Any-Own Dungeon
+
+big_key_settings: any_dungeon
+open_map: false
+dungeons_shuffled: true
+faron_woods_logic: closed
 
 # Setting encode
 

@@ -7,15 +7,14 @@
 - Software capable of loading and playing SNES ROM files:
    - [snes9x-nwa](https://github.com/Skarsnik/snes9x-emunwa/releases)
    - [snes9x-rr](https://github.com/gocha/snes9x-rr/releases)
-   - [BSNES-plus](https://github.com/black-sliver/bsnes-plus). **Note:** Do not reset within the emulator. It will cause 
-   RAM corruption.
+   - [BSNES-plus](https://github.com/black-sliver/bsnes-plus). **Note:** Do not reset within the emulator. It will cause RAM corruption.
 - Your Donkey Kong Country v1.0 US ROM file from the original cartridge. MultiworldGG can't provide these.
    - SNES v1.0 US MD5: `30c5f292ff4cbbfcc00fd8fa96c2de3b`
 
 ## Optional Software
 - [Map & Level tracker for Donkey Kong Country Archipelago](https://github.com/pwkfisher/ap-dkc-tracker/releases/), 
 to be used with [PopTracker](https://github.com/black-sliver/PopTracker/releases)
-- [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases?q="Tracker_"&expanded=true) (bundled with MWGG)
+- [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases?q="Tracker_"&expanded=true)
 
 ### Alternative ways of playing
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) has reports of working fine but it isn't an officially endorsed way to play the game by the developer. Proceed at your own risk.
@@ -23,7 +22,7 @@ to be used with [PopTracker](https://github.com/black-sliver/PopTracker/releases
 
 ## Installation process
 
-1. Download and install [MultiworldGG](<https://github.com/MultiworldGG/MultiworldGG/releases/latest>). **The installer 
+1. Download and install [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases/latest). **The installer 
    file is located in the assets section at the bottom of the version information.**
 2. If you are using an emulator, you should assign your Lua capable emulator as your default program for launching ROM
    files.
