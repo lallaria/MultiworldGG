@@ -21,44 +21,45 @@ window.addEventListener('load', () => {
     try {
       const games = JSON.parse(ajax.responseText);
       games.forEach((game) => {
-        const gameTitle = document.createElement('h2');
-        gameTitle.innerText = game.gameTitle;
-        gameTitle.id = `${encodeURIComponent(game.gameTitle)}`;
-        tutorialDiv.appendChild(gameTitle);
+          if ("tutorials" in game) {
+              const gameTitle = document.createElement('h2');
+              gameTitle.innerText = game.gameTitle;
+              gameTitle.id = `${encodeURIComponent(game.gameTitle)}`;
+              tutorialDiv.appendChild(gameTitle);
+              game.tutorials.forEach((tutorial) => {
+                  const tutorialName = document.createElement('h3');
+                  tutorialName.innerText = tutorial.name;
+                  tutorialDiv.appendChild(tutorialName);
 
-        game.tutorials.forEach((tutorial) => {
-          const tutorialName = document.createElement('h3');
-          tutorialName.innerText = tutorial.name;
-          tutorialDiv.appendChild(tutorialName);
+                  const tutorialDescription = document.createElement('p');
+                  tutorialDescription.innerText = tutorial.description;
+                  tutorialDiv.appendChild(tutorialDescription);
 
-          const tutorialDescription = document.createElement('p');
-          tutorialDescription.innerText = tutorial.description;
-          tutorialDiv.appendChild(tutorialDescription);
+                  const intro = document.createElement('p');
+                  intro.innerText = 'This guide is available in the following languages:';
+                  tutorialDiv.appendChild(intro);
 
-          const intro = document.createElement('p');
-          intro.innerText = 'This guide is available in the following languages:';
-          tutorialDiv.appendChild(intro);
+                  const fileList = document.createElement('ul');
+                  tutorial.files.forEach((file) => {
+                      const listItem = document.createElement('li');
+                      const anchor = document.createElement('a');
+                      anchor.innerText = file.language;
+                      anchor.setAttribute('href', `${window.location.origin}/tutorial/${file.link}`);
+                      listItem.appendChild(anchor);
 
-          const fileList = document.createElement('ul');
-          tutorial.files.forEach((file) => {
-            const listItem = document.createElement('li');
-            const anchor = document.createElement('a');
-            anchor.innerText = file.language;
-            anchor.setAttribute('href', `${window.location.origin}/tutorial/${file.link}`);
-            listItem.appendChild(anchor);
+                      listItem.append(' by ');
+                      for (let author of file.authors) {
+                          listItem.append(author);
+                          if (file.authors.indexOf(author) !== (file.authors.length -1)) {
+                              listItem.append(', ');
+                          }
+                      }
 
-            listItem.append(' by ');
-            for (let author of file.authors) {
-              listItem.append(author);
-              if (file.authors.indexOf(author) !== (file.authors.length -1)) {
-                listItem.append(', ');
-              }
-            }
-
-            fileList.appendChild(listItem);
-          });
-          tutorialDiv.appendChild(fileList);
-        });
+                      fileList.appendChild(listItem);
+                  });
+                  tutorialDiv.appendChild(fileList);
+              });
+          }
       });
 
       tutorialDiv.removeChild(document.getElementById('loading'));

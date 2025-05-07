@@ -31,7 +31,7 @@ def get_world_theme(game_name: str) -> str:
 
 def render_options_page(template: str, world_name: str, is_complex: bool = False) -> Union[Response, str]:
     world = AutoWorldRegister.world_types[world_name]
-    if world.hidden or world.web.options_page is False:
+    if world.hidden or world.web.options_page is False or world_name in app.config["HIDDEN_WEBWORLDS"]:
         return redirect("games")
     visibility_flag = Options.Visibility.complex_ui if is_complex else Options.Visibility.simple_ui
 

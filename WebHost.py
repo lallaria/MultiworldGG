@@ -124,7 +124,7 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
     with open(Utils.local_path("WebHostLib", "static", "generated", "tutorials.json"), 'w', encoding='utf-8-sig') as json_target:
         generic_data = {}
         for games in data:
-            if 'Archipelago' in games['gameTitle']:
+            if Utils.instance_name in games['gameTitle']: # this uses the display name
                 generic_data = data.pop(data.index(games))
         sorted_data = [generic_data] + Utils.title_sorted(data, key=lambda entry: entry["gameTitle"])
         json.dump(sorted_data, json_target, indent=2, ensure_ascii=False)
