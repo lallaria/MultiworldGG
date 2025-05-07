@@ -42,6 +42,7 @@ app.config["JOB_TIME"] = 600
 # memory limit for generator processes in bytes
 app.config["GENERATOR_MEMORY_LIMIT"] = 4294967296
 app.config['SESSION_PERMANENT'] = True
+app.config['HIDDEN_WEBWORLDS'] = []
 
 # waitress uses one thread for I/O, these are for processing of views that then get sent
 # multiworld.gg uses gunicorn + nginx; ignoring this option

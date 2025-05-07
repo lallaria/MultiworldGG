@@ -65,7 +65,7 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
     worlds = {}
     data = []
     for game, world in AutoWorldRegister.world_types.items():
-        if hasattr(world.web, 'tutorials') and (not world.hidden or game == 'Archipelago'):
+        if hasattr(world.web, 'tutorials') and (not world.hidden or game == 'Archipelago') and (not game in app.config["HIDDEN_WEBWORLDS"]):
             worlds[game] = world
 
     base_target_path = Utils.local_path("WebHostLib", "static", "generated", "docs")
@@ -124,7 +124,7 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
     with open(Utils.local_path("WebHostLib", "static", "generated", "tutorials.json"), 'w', encoding='utf-8-sig') as json_target:
         generic_data = {}
         for games in data:
-            if 'MultiworldGG' in games['gameTitle']:
+            if 'Archipelago' in games['gameTitle']:
                 generic_data = data.pop(data.index(games))
         sorted_data = [generic_data] + Utils.title_sorted(data, key=lambda entry: entry["gameTitle"])
         json.dump(sorted_data, json_target, indent=2, ensure_ascii=False)

@@ -184,6 +184,8 @@ Currently, the following games are supported:
 * Zillion
 * Zork: Grand Inquisitor
 
+Note that some worlds mentioned here have been removed from the webhost of MultiworldGG on request of the creator of the respective APWorld.
+
 For setup and instructions check out our [tutorials page](https://multiworld.gg/tutorial/).
 Downloads can be found at [Releases](https://github.com/MultiworldGG/MultiworldGG/releases), including compiled
 windows binaries.
