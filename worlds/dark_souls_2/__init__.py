@@ -32,6 +32,7 @@ class DS2Item(Item):
         )
 
 class DarkSouls2Web(WebWorld):
+    theme = "stone"
     setup_en = Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up the MultiworldGG Dark Souls II randomizer on your computer.",

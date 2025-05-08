@@ -124,7 +124,7 @@ class LMWeb(WebWorld):
     tutorials = [
         Tutorial(
             "Multiworld Setup Guide",
-            "A guide to setting up the Luigi's Mansion randomizer connected to a MultiworldGG world",
+            "A guide to setting up the Luigi's Mansion randomizer connected to a MultiworldGG Multiworld",
             "English",
             "setup_en.md",
             "setup/en",

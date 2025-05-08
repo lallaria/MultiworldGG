@@ -14,7 +14,7 @@ from .Constants import default_shop_prices
 class MMRWebWorld(WebWorld):
     # ~ theme = "partyTime"
     display_name = "The Legend of Zelda: Majora's Mask (Recompiled)"
-    
+
     setup_en = Tutorial(
         tutorial_name="Setup Guide",
         description="A guide to playing Majora's Mask Recompiled in MultiworldGG.",
@@ -23,7 +23,7 @@ class MMRWebWorld(WebWorld):
         link="setup/en",
         authors=["LittleCube"]
     )
-    
+
     tutorials = [setup_en]
 
 
@@ -98,7 +98,7 @@ class MMRWorld(World):
             self.create_and_add_filler_items(27)
 
         if self.options.shopsanity.value == 2:
-            self.create_and_add_filler_items(11)
+            self.create_and_add_filler_items(15)
         
         if self.options.cowsanity.value != 0:
             self.create_and_add_filler_items(8)

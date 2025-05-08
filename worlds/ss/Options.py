@@ -742,10 +742,10 @@ class HintDistribution(Choice):
     **Junk**: 0 Fi hints, and only junk hints on gossip stones.
 
     Note that this distribution is different from the original randomizer's hint distribution option.
-    MultiworldGG hints in game are placed differently than the original randomizer's hints.
+    Archipelago hints in game are placed differently than the original randomizer's hints.
     """
 
-    display_name = "MultiworldGG Hint Distribution"
+    display_name = "Archipelago Hint Distribution"
     option_standard = 0
     option_junk = 1
     default = 0

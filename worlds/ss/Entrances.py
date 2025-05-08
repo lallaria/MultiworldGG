@@ -2507,7 +2507,7 @@ class SSEntranceData(NamedTuple):
     entrance: The game entrance int that the entrance leads to.
     tod: The time of day that the entrance must be forced to.
     type: The type of the entrance. `Entrance`, `Statue`, or `Vanilla`.
-    apregion: The name of the MultiworldGG region that the entrance leads to.
+    apregion: The name of the Archipelago region that the entrance leads to.
     """
 
     name: str

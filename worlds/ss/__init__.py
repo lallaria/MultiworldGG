@@ -28,7 +28,6 @@ from .Options import SSOptions
 from .Rules import set_rules
 from .Names import HASH_NAMES
 from .Entrances import AP_ENTRANCE_TABLE
-
 from .Utils import restricted_safe_dump
 
 from .rando.DungeonRando import DungeonRando
@@ -39,7 +38,7 @@ from .rando.HintPlacement import Hints
 from .logic.LogicParser import parse_expression
 from .logic.Logic import ALL_REQUIREMENTS
 
-AP_VERSION = [0, 5, 1]
+AP_VERSION = [0, 6, 1]
 WORLD_VERSION = [0, 5, 0]
 RANDO_VERSION = [2, 2, 0]
 
@@ -440,7 +439,7 @@ class SSWorld(World):
             self.multiworld.get_player_name(i + 1)
             for i in range(self.multiworld.players)
         ]
-        
+
         # seed_name on web adds an additional 'W', making the seed 21 characters long.
         if 'W' in multiworld.seed_name:
             ap_seed = multiworld.seed_name[1:]

@@ -25,4 +25,4 @@ The DWAP Client is a C# client which reads memory addresses from ePSXe and commu
 
 ## Where do I get a config file?
 
-If you are using the MultiworldGG website to generate, you can create one in the Game Options page. If you are generating locally, you can Generate Templates from the Archipelago launcher to create a default template, and edit it manually.
+If you are using the MultiworldGG website to generate, you can create one in the Game Options page. If you are generating locally, you can Generate Templates from the MultiworldGG launcher to create a default template, and edit it manually.

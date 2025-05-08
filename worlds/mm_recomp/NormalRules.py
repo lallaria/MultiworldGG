@@ -147,8 +147,10 @@ def get_region_rules(player, options):
             lambda state: has_explosives(state, player),
         "Great Bay -> Pirates' Fortress":
             lambda state: state.has("Zora Mask", player),
-        "Pirates' Fortress -> Pirates' Fortress (Interior)":
+        "Pirates' Fortress -> Pirates' Fortress Sewers":
             lambda state: state.has("Goron Mask", player) or state.has("Hookshot", player),
+        "Pirates' Fortress Sewers -> Pirates' Fortress (Interior)":
+            lambda state: True,
         "Zora Cape -> Great Bay Temple":
             lambda state: can_play_song("New Wave Bossa Nova", state, player) and state.has("Hookshot", player) and state.has("Zora Mask", player),
         "Road to Ikana -> Ikana Graveyard":
@@ -373,7 +375,7 @@ def get_location_rules(player, options):
         "Southern Swamp Tour Guide Okay Picture":
             lambda state: state.has("Pictograph Box", player),
         "Southern Swamp Near Swamp Spider House Grotto Chest":
-            lambda state: (state.has("Deku Mask", player) and has_projectiles(state, player)) or state.has("Zora Mask", player),
+            lambda state: state.has("Deku Mask", player),
         "Southern Swamp Song Tablet":
             lambda state: state.has("Deku Mask", player),
         "Southern Swamp Mystery Woods Day 2 Grotto Chest":

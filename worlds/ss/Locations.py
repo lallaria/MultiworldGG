@@ -109,10 +109,10 @@ class SSLocation(Location):
     @staticmethod
     def get_apid(code: int) -> int:
         """
-        Compute the MultiworldGG ID for the given location index.
+        Compute the Archipelago ID for the given location index.
 
         :param code: The index of the location.
-        :return: The computed MultiworldGG ID.
+        :return: The computed Archipelago ID.
         """
         base_id: int = 98000
         return base_id + code
