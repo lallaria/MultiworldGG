@@ -4,12 +4,6 @@ from Options import DefaultOnToggle, Toggle, Choice, PerGameCommonOptions, Start
     DeathLink, OptionSet
 
 
-class DungeonNameRandomizer(DefaultOnToggle):
-    """NOT IMPLEMENTED YET
-    Randomizes the names of the dungeons. IDs and completion requirements stay the same"""
-    display_name = "Dungeon Name Randomization"
-
-
 class Goal(Choice):
     """Change the desired goal to complete the game
     Dialga - Get X relic fragment shards to unlock hidden land. Find Temporal Tower location
@@ -25,7 +19,7 @@ class FragmentShards(NamedRange):
     """ How many Relic Fragment Shards should be in the game (Macguffins)
      that you must get to unlock Hidden Land"""
     range_start = 4
-    range_end = 10
+    range_end = 15
     special_range_names = {
         "easy": 4,
         "normal": 6,
@@ -36,46 +30,16 @@ class FragmentShards(NamedRange):
 
 
 class ExtraShards(NamedRange):
-    """ How many extra Fragment Shards should be in the game?"""
+    """ How many total Fragment Shards should be in the game?"""
     range_start = 0
-    range_end = 10
+    range_end = 20
     special_range_names = {
-        "easy": 6,
-        "normal": 4,
-        "hard": 2,
+        "easy": 16,
+        "normal": 12,
+        "hard": 8,
         "extreme": 0
     }
-    default = 4
-
-
-class AllowedLegendaries(OptionSet):
-    """ Set which Legendaries will be available for the item pool as recruits
-    """
-    display_name = "Allowed Legendary Recruits"
-    valid_keys = [
-        "Regirock",
-        "Regice",
-        "Registeel",
-        "Groudon",
-        "Uxie",
-        "Mespirit",
-        "Azelf",
-        "Dialga",
-        "Palkia",
-        "Regigigas",
-        "Giratina",
-        "Celebi",
-        "Articuno",
-        "Heatran",
-        "Primal Dialga",
-        "Mew",
-        "Phione",
-        "Cresselia",
-        "Rayquaza",
-        "Kyogre",
-        "Shaymin",
-    ]
-    default = valid_keys.copy()
+    default = 12
 
 
 class RequiredInstruments(NamedRange):
@@ -83,7 +47,7 @@ class RequiredInstruments(NamedRange):
      that you must get to unlock Dark Crater if victory condition is Darkrai
      Instruments are not added to the item pool if the goal is Dialga"""
     range_start = 4
-    range_end = 10
+    range_end = 15
     special_range_names = {
         "easy": 4,
         "normal": 6,
@@ -94,28 +58,28 @@ class RequiredInstruments(NamedRange):
 
 
 class ExtraInstruments(NamedRange):
-    """ How many extra Instruments should be in the game?"""
+    """ How many total Instruments should be in the game?"""
     range_start = 0
-    range_end = 10
+    range_end = 20
     special_range_names = {
-        "easy": 6,
-        "normal": 4,
-        "hard": 2,
+        "easy": 16,
+        "normal": 12,
+        "hard": 8,
         "extreme": 0
     }
-    default = 4
+    default = 12
 
 
 class EarlyMissionChecks(NamedRange):
     """ How many Missions per dungeon pre dialga should be checks?
         0 equals missions are not checks"""
     range_start = 0
-    range_end = 50
+    range_end = 31
     special_range_names = {
         "off": 0,
         "some": 4,
         "lots": 10,
-        "insanity": 50
+        "insanity": 31
     }
     default = 4
 
@@ -124,12 +88,12 @@ class LateMissionChecks(NamedRange):
     """ How many Missions per dungeon post-dialga (including Hidden Land
     and Temporal Tower) should be checks? 0 equals missions are not checks"""
     range_start = 0
-    range_end = 50
+    range_end = 31
     special_range_names = {
         "off": 0,
         "some": 4,
         "lots": 10,
-        "insanity": 50
+        "insanity": 31
     }
     default = 4
 
@@ -138,12 +102,12 @@ class EarlyOutlawChecks(NamedRange):
     """ How many outlaws per dungeon pre dialga should be checks?
         0 equals outlaws are not checks"""
     range_start = 0
-    range_end = 50
+    range_end = 31
     special_range_names = {
         "off": 0,
         "some": 2,
         "lots": 10,
-        "insanity": 50
+        "insanity": 31
     }
     default = 2
 
@@ -152,14 +116,49 @@ class LateOutlawChecks(NamedRange):
     """ How many Missions per dungeon post-dialga (including Hidden Land
     and Temporal Tower) should be checks? 0 equals outlaws are not checks"""
     range_start = 0
-    range_end = 50
+    range_end = 31
     special_range_names = {
         "off": 0,
         "some": 2,
         "lots": 10,
-        "insanity": 50
+        "insanity": 31
     }
     default = 2
+
+
+class SpindaDrinkEvents(NamedRange):
+    """How many drink events should be checks?"""
+    default_name = "Spinda Drink Events"
+    range_start = 0
+    range_end = 20
+    special_range_names = {
+        "few": 5,
+        "some": 10,
+        "lots": 15,
+        "all": 20
+    }
+    default = 5
+
+
+class SpindaBasicDrinks(NamedRange):
+    """How many Spinda Drinks should be checks?"""
+    display_name = "Spinda Drinks"
+    range_start = 0
+    range_end = 20
+    special_range_names = {
+        "few": 5,
+        "some": 10,
+        "lots": 15,
+        "all": 20
+    }
+    default = 5
+
+
+class StartWithBag(DefaultOnToggle):
+    """Start with bag? If False all bag upgrades will be randomized in the game.
+    If true, you will get one bag upgrade (16 slots) and the rest will be randomized"""
+
+    display_name = "Start with Bag?"
 
 
 class Recruitment(DefaultOnToggle):
@@ -189,18 +188,20 @@ class FullTeamFormationControl(DefaultOnToggle):
     display_name = "Formation Control Enable"
 
 
-class LevelScaling(DefaultOnToggle):
+class LevelScaling(Choice):
     """Allow for dungeons to scale to the highest level of your party members?
     This will not scale bosses at the end of dungeons"""
     display_name = "Level Scaling"
+    option_off = 0
+    option_easy = 1
+    option_difficult = 2
+    default = 0
 
 
-class TypeSanity(Toggle):
-    """ Allow for your partner to share a type with your main character
-    WARNING: The game is not balanced around this, and we have not done anything to change that.
-    Use at your own risk
-    """
-    display_name = "Type Sanity"
+class GuestScaling(Toggle):
+    """Makes the dungeon guests (Bidoof in Cragy Coast, Grovyle in Hidden Land, etc.) scale to your party level
+        Does nothing if Level scaling is off"""
+    display_name = "Guest Scaling"
 
 
 class StarterOption(Choice):
@@ -220,6 +221,27 @@ class StarterOption(Choice):
     default = 2
 
 
+class TypeSanity(Toggle):
+    """ Allow for your partner to share a type with your main character
+    WARNING: The game is not balanced around this, and we have not done anything to change that.
+    Use at your own risk
+    """
+    display_name = "Type Sanity"
+
+
+class SpecialEpisodeSanity(Toggle):
+    """ Start the game with one of the special episodes and NOT the main game.
+    Unlock the main game through an item
+    Overridden by Excluding Special Episodes"""
+    display_name = "Special Episode Sanity"
+
+
+class ExcludeSpecialEpisodes(Toggle):
+    """ No special episode items will be added to the game
+    Overrides Special Episode Sanity"""
+    display_name = "Exclude Special Episodes"
+
+
 class IqScaling(Range):
     """Do you want to scale IQ to gain IQ faster? What rate? (1x, 2x, 3x, etc.)
     WARNING: 0x WILL NOT GIVE YOU ANY IQ. USE AT YOUR OWN RISK
@@ -234,9 +256,6 @@ class IqScaling(Range):
 class XpScaling(Range):
     """Do you want to scale XP to gain XP faster? What rate? (1x, 2x, 3x, etc.)
     WARNING: 0x WILL NOT GIVE YOU ANY XP. USE AT YOUR OWN RISK
-
-    NOT CURRENTLY IMPLEMENTED
-
     """
 
     display_name = "XP Scaling"
@@ -245,11 +264,16 @@ class XpScaling(Range):
     default = 1
 
 
-class StartWithBag(DefaultOnToggle):
-    """Start with bag? If False all bag upgrades will be randomized in the game.
-    If true, you will get one bag upgrade (16 slots) and the rest will be randomized"""
-
-    display_name = "Start with Bag?"
+class SkyPeakType(Choice):
+    """How do you want sky peak to work?
+    1: Progressive (unlock dungeons sequentially when you pick up a sky peak item)
+    2. All Random (unlock sky peak dungeons completely at random based on which sky peak item you pick up)
+    3: All unlocked from one item (there will be one sky peak item that unlocks all sky peak checks)"""
+    display_name = "Sky Peak Type"
+    option_progressive = 1
+    option_all_random = 2
+    option_unlock_all = 3
+    default = 1
 
 
 class DojoDungeons(Choice):
@@ -274,6 +298,36 @@ class LegendariesInPool(Range):
     default = 3
 
 
+class AllowedLegendaries(OptionSet):
+    """ Set which Legendaries will be available for the item pool as recruits
+    """
+    display_name = "Allowed Legendary Recruits"
+    valid_keys = [
+        "Regirock",
+        "Regice",
+        "Registeel",
+        "Groudon",
+        "Uxie",
+        "Mesprit",
+        "Azelf",
+        "Dialga",
+        "Palkia",
+        "Regigigas",
+        "Giratina",
+        "Celebi",
+        "Articuno",
+        "Heatran",
+        "Primal Dialga",
+        "Mew",
+        "Phione",
+        "Cresselia",
+        "Rayquaza",
+        "Kyogre",
+        "Shaymin",
+    ]
+    default = valid_keys.copy()
+
+
 class DeathlinkType(Toggle):
     """What type of deathlink do you want?
     Currently False is death even if you have revival seeds
@@ -282,10 +336,76 @@ class DeathlinkType(Toggle):
     display_name = "Deathlink Type"
 
 
+class AllowTraps(Choice):
+    """Would you like to allow traps in the filler items of the game?
+    0: No traps allowed
+    1: regular traps allowed, nothing too crazy
+    2: mean traps allowed (possibility of getting two traps at the same time *unown sentry duty*)
+    1 and 2 are currently the same, not yet implemented mean traps"""
+    display_name = "Allow Traps"
+    option_disabled = 0
+    option_regular = 1
+    option_mean = 2
+
+
+class InvisibleTraps(Toggle):
+    """Make all traps invisible so when they come in from the client you don't know what happens until you get the trap
+    activated
+    NOT YET IMPLEMENTED"""
+    display_name = "Invisible Traps"
+
+
+class TrapPercentage(Range):
+    """What percentage of filler items should be traps? Range from 0 to 100 (affected by allowed traps)"""
+    display_name = "Trap Percentage"
+    range_start = 0
+    range_end = 100
+    default = 20
+
+
+class CursedAegisCave(Toggle):
+    """Do you want Aegis cave to logically require you to beat a regi you don't have a seal for?"""
+    display_name = "Cursed Aegis Cave"
+
+
+class LongLocationsInclusion(Toggle):
+    """Include Rule dungeons, master ranks, clearing all dojos, and final dojo in
+    logic"""
+    display_name = "Long Locations"
+
+
+class EarlyMissionFloors(DefaultOnToggle):
+    """Allow missions to start on floor 2 of dungeons instead on (floors/2)"""
+    display_name = "Mission on Early Floors"
+
+
+class MoveShortcutMenu(DefaultOnToggle):
+    """Enable the Move Shortcut Menu by holding (default L button)"""
+    display_name = "Move Shortcut Menu"
+
+
+class MaxRequiredRank(Choice):
+    """What is the maximum required rank you want to be logically necessary"""
+    display_name = "Max Required Rank"
+    option_disabled = 0
+    option_bronze = 1
+    option_silver = 2
+    option_gold = 3
+    option_diamond = 4
+    option_super = 5
+    option_ultra = 6
+    option_hyper = 7
+    option_master = 8
+    option_master_1star = 9
+    option_master_2star = 10
+    option_master_3star = 11
+    option_guildmaster = 12
+
+
 @dataclass
 class EOSOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
-    dungeon_rando: DungeonNameRandomizer
+    sky_peak_type: SkyPeakType
     goal: Goal
     recruit: Recruitment
     recruit_evo: RecruitmentEvolution
@@ -293,8 +413,8 @@ class EOSOptions(PerGameCommonOptions):
     level_scale: LevelScaling
     bag_on_start: StartWithBag
     dojo_dungeons: DojoDungeons
-    shard_fragments: FragmentShards
-    extra_shards: ExtraShards
+    required_fragments: FragmentShards
+    total_shards: ExtraShards
     early_mission_checks: EarlyMissionChecks
     late_mission_checks: LateMissionChecks
     early_outlaw_checks: EarlyOutlawChecks
@@ -304,10 +424,22 @@ class EOSOptions(PerGameCommonOptions):
     iq_scaling: IqScaling
     xp_scaling: XpScaling
     req_instruments: RequiredInstruments
-    extra_instruments: ExtraInstruments
+    total_instruments: ExtraInstruments
     hero_evolution: HeroEvolution
     deathlink: DeathLink
     deathlink_type: DeathlinkType
     legendaries: LegendariesInPool
     allowed_legendaries: AllowedLegendaries
-
+    special_episode_sanity: SpecialEpisodeSanity
+    allow_traps: AllowTraps
+    invisible_traps: InvisibleTraps
+    trap_percent: TrapPercentage
+    long_location: LongLocationsInclusion
+    cursed_aegis_cave: CursedAegisCave
+    drink_events: SpindaDrinkEvents
+    early_mission_floors: EarlyMissionFloors
+    move_shortcuts: MoveShortcutMenu
+    spinda_drinks: SpindaBasicDrinks
+    max_rank: MaxRequiredRank
+    exclude_special: ExcludeSpecialEpisodes
+    guest_scaling: GuestScaling

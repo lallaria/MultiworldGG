@@ -3,7 +3,7 @@ from typing import NamedTuple, Dict, Set, List
 from BaseClasses import ItemClassification, Item
 
 
-# BASE_OFFSET = 100000000 #Need to figure out what to set this to. The offset for MultiworldGG to make it unique
+# BASE_OFFSET = 100000000 #Need to figure out what to set this to. The offset for Archipelago to make it unique
 
 
 class ItemData(NamedTuple):
@@ -89,7 +89,7 @@ EOS_item_table = [
              0x32),
     ItemData("Miracle Sea", 51, ItemClassification.progression, 51, ["Unique", "LateDungeons", "MissionDungeons"],
              0x33),
-    #ItemData("Ice Aegis Cave", 54, ItemClassification.useful, 54, ["Unique", "Dungeons"], 0x36),
+    ItemData("Ice Aegis Cave", 54, ItemClassification.progression, 54, ["Unique", "LateDungeons"], 0x36),
     ItemData("Mt. Travail", 62, ItemClassification.progression, 62, ["Unique", "LateDungeons", "MissionDungeons"],
              0x3E),
     ItemData("The Nightmare", 63, ItemClassification.progression, 63, ["Unique", "LateDungeons", "MissionDungeons"],
@@ -115,17 +115,17 @@ EOS_item_table = [
              0x53),
     ItemData("Mystery Jungle", 85, ItemClassification.progression, 85, ["Unique", "LateDungeons", "MissionDungeons"],
              0x55),
-    ItemData("Serenity River", 87, ItemClassification.progression, 87, ["Unique", "LateDungeons", "MissionDungeons"],
+    ItemData("Serenity River", 87, ItemClassification.progression, 87, ["Unique", "EarlyDungeons", "MissionDungeons"],
              0x57),
-    ItemData("Landslide Cave", 88, ItemClassification.progression, 88, ["Unique", "LateDungeons", "MissionDungeons"],
+    ItemData("Landslide Cave", 88, ItemClassification.progression, 88, ["Unique", "EarlyDungeons", "MissionDungeons"],
              0x58),
-    ItemData("Lush Prairie", 89, ItemClassification.progression, 89, ["Unique", "LateDungeons", "MissionDungeons"],
+    ItemData("Lush Prairie", 89, ItemClassification.progression, 89, ["Unique", "EarlyDungeons", "MissionDungeons"],
              0x59),
-    ItemData("Tiny Meadow", 90, ItemClassification.progression, 90, ["Unique", "LateDungeons", "MissionDungeons"],
+    ItemData("Tiny Meadow", 90, ItemClassification.progression, 90, ["Unique", "EarlyDungeons", "MissionDungeons"],
              0x5A),
-    ItemData("Labyrinth Cave", 91, ItemClassification.progression, 91, ["Unique", "LateDungeons", "MissionDungeons"],
+    ItemData("Labyrinth Cave", 91, ItemClassification.progression, 91, ["Unique", "EarlyDungeons", "MissionDungeons"],
              0x5B),
-    ItemData("Oran Forest", 92, ItemClassification.progression, 92, ["Unique", "LateDungeons", "MissionDungeons"],
+    ItemData("Oran Forest", 92, ItemClassification.progression, 92, ["Unique", "EarlyDungeons", "MissionDungeons"],
              0x5C),
     ItemData("Lake Afar", 93, ItemClassification.progression, 93, ["Unique", "LateDungeons", "MissionDungeons"], 0x5D),
     ItemData("Happy Outlook", 94, ItemClassification.progression, 94, ["Unique", "LateDungeons", "MissionDungeons"],
@@ -149,14 +149,37 @@ EOS_item_table = [
     ItemData("Southeastern Islands", 109, ItemClassification.progression, 109, ["Unique", "RuleDungeons"], 0x6D),
     ItemData("Inferno Cave", 110, ItemClassification.progression, 110, ["Unique", "RuleDungeons"], 0x6E),
     ItemData("1st Station Pass", 111, ItemClassification.progression, 111,
-             ["Unique", "LateDungeons", "MissionDungeons"], 0x6F),
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x6F),
+    ItemData("2nd Station Pass", 112, ItemClassification.progression, 112,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x70),
+    ItemData("3rd Station Pass", 113, ItemClassification.progression, 113,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x71),
+    ItemData("4th Station Pass", 114, ItemClassification.progression, 114,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x72),
+    ItemData("5th Station Pass", 115, ItemClassification.progression, 115,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x73),
+    ItemData("6th Station Pass", 116, ItemClassification.progression, 116,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x74),
+    ItemData("7th Station Pass", 117, ItemClassification.progression, 117,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x75),
+    ItemData("8th Station Pass", 118, ItemClassification.progression, 118,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x76),
+    ItemData("9th Station Pass", 119, ItemClassification.progression, 119,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x77),
+    ItemData("Sky Peak Summit Pass", 120, ItemClassification.progression, 120,
+             ["Unique", "LateDungeons", "SkyPeak", "MissionDungeons"], 0x78),
+    # ItemData("5th Station Clearing", 121, ItemClassification.progression, 121,
+    #        ["Unique", "LateDungeons", "MissionDungeons"], 0x79),
+    # ItemData("Sky Peak Summit", 122, ItemClassification.progression, 122,
+    #        ["Unique", "LateDungeons", "MissionDungeons"], 0x7A),
     ItemData("Bidoof\'s Wish", 123, ItemClassification.progression, 123, ["Unique", "Special Dungeons"], 0x0),
     # ItemData("SE Star Cave", 123, ItemClassification.useful, 123, ["Unique", "Special Dungeons"], 0x7B),
     ItemData("Igglybuff the Prodigy", 128, ItemClassification.progression, 128, ["Unique", "Special Dungeons"], 0x1),
     # ItemData("Murky Forest", 128, ItemClassification.useful, 128, ["Unique", "Special Dungeons"], 0x80),
     # ItemData("Eastern Cave", 129, ItemClassification.useful, 129, ["Unique", "Special Dungeons"], 0x81),
     # ItemData("Fortune Ravine", 130, ItemClassification.useful, 130, ["Unique", "Special Dungeons"], 0x82),
-    ItemData("In the Future of Darkness", 133, ItemClassification.progression, 133, ["Unique", "Special Dungeons"], 0x4),
+    ItemData("In the Future of Darkness", 133, ItemClassification.progression, 133, ["Unique", "Special Dungeons"],
+             0x4),
     # ItemData("Barren Valley", 133, ItemClassification.useful, 133, ["Unique", "Special Dungeons"], 0x85),
     # ItemData("Dark Wasteland", 136, ItemClassification.useful, 136, ["Unique", "Special Dungeons"], 0x88),
     # ItemData("Temporal Tower2", 137, ItemClassification.useful, 137, ["Unique", "Special Dungeons"], 0x89),
@@ -191,9 +214,14 @@ EOS_item_table = [
     ItemData("Dojo Poison/Bug Maze", 187, ItemClassification.progression, 187, ["Unique", "Dojo Dungeons"], 0xBB),
     ItemData("Dojo Dragon Maze", 188, ItemClassification.progression, 188, ["Unique", "Dojo Dungeons"], 0xBC),
     ItemData("Dojo Ghost Maze", 189, ItemClassification.progression, 189, ["Unique", "Dojo Dungeons"], 0xBD),
-    # ItemData("Dojo Final Maze", 191, ItemClassification.useful, 191, ["Unique", "Dojo Dungeons"], 0xBF),  # 7 subareas
+    ItemData("Dojo Final Maze", 191, ItemClassification.progression, 191, ["Unique", "Final Dojo"], 0xBF),  # 7 subareas
     ItemData("Relic Fragment Shard", 200, ItemClassification.progression_skip_balancing, 200, ["Macguffin"], 0x00),
-    #ItemData("Cresselia Feather", 201, ItemClassification.progression, 201, ["Macguffin"], 0x00),
+    ItemData("Progressive Sky Peak", 201, ItemClassification.progression, 0, ["SkyPeak"], 0x00),
+
+    ItemData("Ice Seal", 203, ItemClassification.progression, 0, ["Aegis"], 0x00),
+    ItemData("Rock Seal", 204, ItemClassification.progression, 0, ["Aegis"], 0x00),
+    ItemData("Steel Seal", 205, ItemClassification.progression, 0, ["Aegis"], 0x00),
+    ItemData("Progressive Seal", 206, ItemClassification.progression, 0, ["Aegis"], 0x00),
 
     ItemData("Victory", 300, ItemClassification.progression, 0, [], 0x00),
     ItemData("Bag Upgrade", 370, ItemClassification.progression, 0, ["ProgressiveBag", "Generic"], 0x00),
@@ -209,7 +237,7 @@ EOS_item_table = [
     ItemData("Registeel", 506, ItemClassification.useful, 0, ["Legendary"], 0x2),
     ItemData("Groudon", 507, ItemClassification.useful, 0, ["Legendary"], 0x3),
     ItemData("Uxie", 508, ItemClassification.useful, 0, ["Legendary"], 0x4),
-    ItemData("Mespirit", 509, ItemClassification.useful, 0, ["Legendary"], 0x5),
+    ItemData("Mesprit", 509, ItemClassification.useful, 0, ["Legendary"], 0x5),
     ItemData("Azelf", 510, ItemClassification.useful, 0, ["Legendary"], 0x6),
     ItemData("Dialga", 511, ItemClassification.useful, 0, ["Legendary"], 0x7),
     ItemData("Palkia", 512, ItemClassification.useful, 0, ["Legendary"], 0x8),
@@ -251,24 +279,25 @@ EOS_item_table = [
     ItemData("Hero Evolution", 550, ItemClassification.useful, 0, ["Generic"], 0),
     ItemData("Recruit Evolution", 551, ItemClassification.useful, 0, ["Generic"], 0),
     ItemData("Recruitment", 552, ItemClassification.useful, 0, ["Generic"], 0),
-    ItemData("Formation Control", 553, ItemClassification.useful, 0, ["Generic"], 0),
+    ItemData("Formation Control", 553, ItemClassification.progression, 0, ["Generic"], 0),
     ItemData("Miracle Chest", 464, ItemClassification.useful, 0, ["Item", "Single"], 0x42),  # Boosts Exp
     ItemData("Wonder Chest", 465, ItemClassification.useful, 0, ["Item", "Single"], 0x43),  # Boosts Exp
+    ItemData("Main Game Unlock", 700, ItemClassification.progression, 0, [], 0),
+    ItemData("Inspiration Strikes!", 466, ItemClassification.useful, 0, ["Trap"], 0x0),
 
-    # ItemData("Poke x-1000", 570, ItemClassification.trap, 0, ["Money"], 0),
 ]
 filler_items = [
     ItemData("Heavy Box", 301, ItemClassification.filler, 10, ["Item", "Box"], 0x171),
     ItemData("Shiny Box", 302, ItemClassification.filler, 10, ["Item", "Box"], 0x174),
     ItemData("Nifty Box", 303, ItemClassification.filler, 10, ["Item", "Box"], 0x177),
-    ItemData("Dainty Box", 304, ItemClassification.filler, 10, ["Item", "Box"], 0x17A),
-    ItemData("Glittery Box", 305, ItemClassification.filler, 10, ["Item", "Box"], 0x17D),
+    #ItemData("Dainty Box", 304, ItemClassification.filler, 10, ["Item", "Box"], 0x17A),
+    #ItemData("Glittery Box", 305, ItemClassification.filler, 10, ["Item", "Box"], 0x17D),
     ItemData("Pretty Box", 306, ItemClassification.filler, 10, ["Item", "Box"], 0x180),
-    ItemData("Deluxe Box", 307, ItemClassification.filler, 10, ["Item", "Box"], 0x183),
+    # ItemData("Deluxe Box", 307, ItemClassification.filler, 10, ["Item", "Box"], 0x183),
     ItemData("Light Box", 308, ItemClassification.filler, 10, ["Item", "Box"], 0x186),
     ItemData("Cute Box", 309, ItemClassification.filler, 10, ["Item", "Box"], 0x189),
-    ItemData("Hard Box", 310, ItemClassification.filler, 10, ["Item", "Box"], 0x18C),
-    ItemData("Sinister Box", 311, ItemClassification.filler, 10, ["Item", "Box"], 0x18F),
+    # ItemData("Hard Box", 310, ItemClassification.filler, 10, ["Item", "Box"], 0x18C),
+    # ItemData("Sinister Box", 311, ItemClassification.filler, 10, ["Item", "Box"], 0x18F),
     ItemData("Link Box", 312, ItemClassification.filler, 10, ["Item", "Single"], 0x16A),
     ItemData("Sky Gift", 313, ItemClassification.filler, 10, ["Item", "Single"], 0xB4),
     ItemData("Poké x100", 560, ItemClassification.filler, 20, ["Money"], 100),
@@ -278,6 +307,7 @@ filler_items = [
     ItemData("Poké x200", 564, ItemClassification.filler, 20, ["Money"], 200),
     ItemData("Poké x1", 565, ItemClassification.filler, 50, ["Money"], 1),
     ItemData("Secret of the Waterfall", 405, ItemClassification.filler, 2, ["Generic"], 0x0),
+    ItemData("Mystery of the Quicksand", 299, ItemClassification.filler, 2, ["Generic"], 0x0),
     ItemData("Chatot Repellent", 406, ItemClassification.filler, 2, ["Generic"], 0x0),
     ItemData("Sky Jukebox", 407, ItemClassification.filler, 2, ["Generic"], 0x0),
     ItemData("Recruitment Sensor", 408, ItemClassification.filler, 2, ["Generic"], 0x0),
@@ -289,11 +319,6 @@ filler_items = [
     ItemData("Golden Seed", 393, ItemClassification.filler, 3, ["Item", "Single"], 0x5D),
     ItemData("Ginseng", 394, ItemClassification.filler, 1, ["Item", "Single"], 0x58),
     #ItemData("Gold Ribbon", 395, ItemClassification.filler, 0, ["Item"], 0x20),
-    ItemData("Inspiration Strikes!", 400, ItemClassification.trap, 20, ["Trap"], 0x0),
-    ItemData("Get Unowned!", 401, ItemClassification.trap, 20, ["Trap"], 0x0),
-    ItemData("Nap Time!", 402, ItemClassification.trap, 20, ["Trap"], 0x0),
-    ItemData("Sentry Duty!", 403, ItemClassification.trap, 20, ["Trap"], 0x0),
-    ItemData("Touch Grass", 404, ItemClassification.trap, 20, ["Trap"], 0x0),
     ItemData("Protein", 480, ItemClassification.filler, 10, ["Item", "Single"], 0x64),
     ItemData("Calcium", 481, ItemClassification.filler, 10, ["Item", "Single"], 0x65),
     ItemData("Iron", 482, ItemClassification.filler, 10, ["Item", "Single"], 0x66),
@@ -301,66 +326,198 @@ filler_items = [
     ItemData("Max Elixir", 484, ItemClassification.filler, 10, ["Item", "Single"], 0x63),
     ItemData("Gabite Scale", 485, ItemClassification.filler, 10, ["Item", "Single"], 0x5c),
     ItemData("Zinc", 486, ItemClassification.filler, 10, ["Item", "Single"], 0x6c),
-
+    ItemData("Recycle Count +1", 571, ItemClassification.filler, 10, ["Recycles"], 1),
+    ItemData("Recycle Count +5", 572, ItemClassification.filler, 10, ["Recycles"], 5),
+    ItemData("Recycle Count +10", 573, ItemClassification.filler, 10, ["Recycles"], 10),
+    ItemData("Recycle Count +20", 574, ItemClassification.filler, 10, ["Recycles"], 20),
+    ItemData("Sitrus Berry", 701, ItemClassification.filler, 10, ["Item", "Single"], 0x47),
+    ItemData("Eyedrop Seed", 702, ItemClassification.filler, 10, ["Item", "Single"], 0x48),
+    ItemData("Blinker Seed", 703, ItemClassification.filler, 10, ["Item", "Single"], 0x4A),
+    ItemData("X-Eye Seed", 704, ItemClassification.filler, 10, ["Item", "Single"], 0x4C),
+    ItemData("Life Seed", 705, ItemClassification.filler, 10, ["Item", "Single"], 0x4D),
+    ItemData("Rawst Berry", 706, ItemClassification.filler, 10, ["Item", "Single"], 0x4E),
+    ItemData("Quick Seed", 707, ItemClassification.filler, 10, ["Item", "Single"], 0x50),
+    ItemData("Pecha Berry", 708, ItemClassification.filler, 10, ["Item", "Single"], 0x51),
+    ItemData("Cheri Berry", 709, ItemClassification.filler, 10, ["Item", "Single"], 0x52),
+    ItemData("Totter Seed", 710, ItemClassification.filler, 10, ["Item", "Single"], 0x53),
+    ItemData("Sleep Seed", 711, ItemClassification.filler, 10, ["Item", "Single"], 0x54),
+    ItemData("Warp Seed", 712, ItemClassification.filler, 10, ["Item", "Single"], 0x56),
+    ItemData("Blast Seed", 713, ItemClassification.filler, 10, ["Item", "Single"], 0x57),
+    ItemData("Joy Seed", 714, ItemClassification.filler, 10, ["Item", "Single"], 0x59),
+    ItemData("Chesto Berry", 715, ItemClassification.filler, 10, ["Item", "Single"], 0x5A),
+    ItemData("Stun Seed", 716, ItemClassification.filler, 10, ["Item", "Single"], 0x5B),
+    ItemData("Vile Seed", 717, ItemClassification.filler, 10, ["Item", "Single"], 0x5E),
+    ItemData("Pure Seed", 718, ItemClassification.filler, 10, ["Item", "Single"], 0x5F),
+    ItemData("Violent Seed", 719, ItemClassification.filler, 10, ["Item", "Single"], 0x60),
+    ItemData("Vanish Seed", 720, ItemClassification.filler, 10, ["Item", "Single"], 0x61),
+    ItemData("Big Apple", 721, ItemClassification.filler, 10, ["Item", "Single"], 0x6E),
+    ItemData("Huge Apple", 722, ItemClassification.filler, 10, ["Item", "Single"], 0x70),
+    ItemData("Golden Apple", 723, ItemClassification.filler, 10, ["Item", "Single"], 0x73),
+    ItemData("White Gummi", 724, ItemClassification.filler, 10, ["Item", "Single"], 0x77),
+    ItemData("Red Gummi", 725, ItemClassification.filler, 10, ["Item", "Single"], 0x78),
+    ItemData("Blue Gummi", 726, ItemClassification.filler, 10, ["Item", "Single"], 0x79),
+    ItemData("Grass Gummi", 727, ItemClassification.filler, 10, ["Item", "Single"], 0x7A),
+    ItemData("Yellow Gummi", 728, ItemClassification.filler, 10, ["Item", "Single"], 0x7B),
+    ItemData("Clear Gummi", 729, ItemClassification.filler, 10, ["Item", "Single"], 0x7C),
+    ItemData("Orange Gummi", 730, ItemClassification.filler, 10, ["Item", "Single"], 0x7D),
+    ItemData("Pink Gummi", 731, ItemClassification.filler, 10, ["Item", "Single"], 0x7E),
+    ItemData("Brown Gummi", 732, ItemClassification.filler, 10, ["Item", "Single"], 0x7F),
+    ItemData("Sky Gummi", 733, ItemClassification.filler, 10, ["Item", "Single"], 0x80),
+    ItemData("Gold Gummi", 734, ItemClassification.filler, 10, ["Item", "Single"], 0x81),
+    ItemData("Green Gummi", 735, ItemClassification.filler, 10, ["Item", "Single"], 0x82),
+    ItemData("Gray Gummi", 736, ItemClassification.filler, 10, ["Item", "Single"], 0x83),
+    ItemData("Purple Gummi", 737, ItemClassification.filler, 10, ["Item", "Single"], 0x84),
+    ItemData("Royal Gummi", 738, ItemClassification.filler, 10, ["Item", "Single"], 0x85),
+    ItemData("Black Gummi", 739, ItemClassification.filler, 10, ["Item", "Single"], 0x86),
+    ItemData("Silver Gummi", 740, ItemClassification.filler, 10, ["Item", "Single"], 0x87),
+    ItemData("Wonder Gummi", 741, ItemClassification.filler, 10, ["Item", "Single"], 0x88),
+    ItemData("Key", 742, ItemClassification.filler, 10, ["Item", "Single"], 0xB6),
+    ItemData("Hail Orb", 743, ItemClassification.filler, 10, ["Item", "Single"], 0x12D),
+    ItemData("Sunny Orb", 744, ItemClassification.filler, 10, ["Item", "Single"], 0x12E),
+    ItemData("Rainy Orb", 745, ItemClassification.filler, 10, ["Item", "Single"], 0x12F),
+    ItemData("Evasion Orb", 746, ItemClassification.filler, 10, ["Item", "Single"], 0x130),
+    ItemData("Sandy Orb", 747, ItemClassification.filler, 10, ["Item", "Single"], 0x131),
+    ItemData("Rocky Orb", 748, ItemClassification.filler, 10, ["Item", "Single"], 0x132),
+    ItemData("Snatch Orb", 749, ItemClassification.filler, 10, ["Item", "Single"], 0x133),
+    ItemData("See-Trap Orb", 750, ItemClassification.filler, 10, ["Item", "Single"], 0x134),
+    ItemData("Mug Orb", 751, ItemClassification.filler, 10, ["Item", "Single"], 0x135),
+    ItemData("Rebound Orb", 752, ItemClassification.filler, 10, ["Item", "Single"], 0x136),
+    ItemData("Lob Orb", 753, ItemClassification.filler, 10, ["Item", "Single"], 0x137),
+    ItemData("Switcher Orb", 754, ItemClassification.filler, 10, ["Item", "Single"], 0x138),
+    ItemData("Blowback Orb", 755, ItemClassification.filler, 10, ["Item", "Single"], 0x139),
+    ItemData("Warp Orb", 756, ItemClassification.filler, 10, ["Item", "Single"], 0x13A),
+    ItemData("Transfer Orb", 757, ItemClassification.filler, 10, ["Item", "Single"], 0x13B),
+    ItemData("Slow Orb", 758, ItemClassification.filler, 10, ["Item", "Single"], 0x13C),
+    ItemData("Quick Orb", 759, ItemClassification.filler, 10, ["Item", "Single"], 0x13D),
+    ItemData("Luminous Orb", 760, ItemClassification.filler, 10, ["Item", "Single"], 0x13E),
+    ItemData("Petrify Orb", 761, ItemClassification.filler, 10, ["Item", "Single"], 0x13F),
+    ItemData("Stayaway Orb", 762, ItemClassification.filler, 10, ["Item", "Single"], 0x140),
+    ItemData("Pounce Orb", 763, ItemClassification.filler, 10, ["Item", "Single"], 0x141),
+    ItemData("Trawl Orb", 764, ItemClassification.filler, 10, ["Item", "Single"], 0x142),
+    ItemData("Cleanse Orb", 765, ItemClassification.filler, 10, ["Item", "Single"], 0x143),
+    ItemData("Decoy Orb", 766, ItemClassification.filler, 10, ["Item", "Single"], 0x145),
+    ItemData("Slumber Orb", 767, ItemClassification.filler, 10, ["Item", "Single"], 0x146),
+    ItemData("Totter Orb", 768, ItemClassification.filler, 10, ["Item", "Single"], 0x147),
+    ItemData("Two-Edge Orb", 769, ItemClassification.filler, 10, ["Item", "Single"], 0x148),
+    ItemData("Silence Orb", 770, ItemClassification.filler, 10, ["Item", "Single"], 0x149),
+    ItemData("Escape Orb", 771, ItemClassification.filler, 10, ["Item", "Single"], 0x14A),
+    ItemData("Scanner Orb", 772, ItemClassification.filler, 10, ["Item", "Single"], 0x14B),
+    ItemData("Radar Orb", 773, ItemClassification.filler, 10, ["Item", "Single"], 0x14C),
+    ItemData("Drought Orb", 774, ItemClassification.filler, 10, ["Item", "Single"], 0x14D),
+    ItemData("Trapbust Orb", 775, ItemClassification.filler, 10, ["Item", "Single"], 0x14E),
+    ItemData("Rollcall Orb", 776, ItemClassification.filler, 10, ["Item", "Single"], 0x14F),
+    ItemData("Invisify Orb", 777, ItemClassification.filler, 10, ["Item", "Single"], 0x150),
+    ItemData("One-Shot Orb", 778, ItemClassification.filler, 10, ["Item", "Single"], 0x151),
+    ItemData("Identify Orb", 779, ItemClassification.filler, 10, ["Item", "Single"], 0x152),
+    ItemData("Shocker Orb", 780, ItemClassification.filler, 10, ["Item", "Single"], 0x154),
+    ItemData("Sizebust Orb", 781, ItemClassification.filler, 10, ["Item", "Single"], 0x155),
+    ItemData("One-Room Orb", 782, ItemClassification.filler, 10, ["Item", "Single"], 0x156),
+    ItemData("Fill-In Orb", 783, ItemClassification.filler, 10, ["Item", "Single"], 0x157),
+    ItemData("Trapper Orb", 784, ItemClassification.filler, 10, ["Item", "Single"], 0x158),
+    ItemData("Itemizer Orb", 785, ItemClassification.filler, 10, ["Item", "Single"], 0x15A),
+    ItemData("Hurl Orb", 786, ItemClassification.filler, 10, ["Item", "Single"], 0x15B),
+    ItemData("Mobile Orb", 787, ItemClassification.filler, 10, ["Item", "Single"], 0x15C),
+    ItemData("Stairs Orb", 788, ItemClassification.filler, 10, ["Item", "Single"], 0x15E),
+    ItemData("Longtoss Orb", 789, ItemClassification.filler, 10, ["Item", "Single"], 0x15F),
+    ItemData("Pierce Orb", 790, ItemClassification.filler, 10, ["Item", "Single"], 0x160),
+    ItemData("Spurn Orb", 791, ItemClassification.filler, 10, ["Item", "Single"], 0x162),
+    ItemData("Foe-Hold Orb", 792, ItemClassification.filler, 10, ["Item", "Single"], 0x163),
+    ItemData("All-Mach Orb", 793, ItemClassification.filler, 10, ["Item", "Single"], 0x164),
+    ItemData("Foe-Fear Orb", 794, ItemClassification.filler, 10, ["Item", "Single"], 0x165),
+    ItemData("All-Hit Orb", 795, ItemClassification.filler, 10, ["Item", "Single"], 0x166),
+    ItemData("Foe-Seal Orb", 796, ItemClassification.filler, 10, ["Item", "Single"], 0x167),
+]
+exclusive_filler_items = [
     # specific item Types
-    ItemData("Joy Globe", 487, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1FD),  # Normal
-    ItemData("Fiery Globe", 488, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x201),  # Fire
-    ItemData("Aqua Globe", 489, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x205),  # Water
-    ItemData("Soothe Globe", 415, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x209),  # Grass
-    ItemData("Volt Globe", 416, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x20D),  # Electric
-    ItemData("Icy Globe", 417, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x211),  # Ice
-    ItemData("Power Globe", 418, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x215),  # Fighting
-    ItemData("Poison Globe", 419, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x219),  # Poison
-    ItemData("Terra Globe", 420, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x21D),  # Ground
-    ItemData("Sky Globe", 421, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x221),  # Flying
-    ItemData("Psyche Globe", 422, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x225),  # Psychic
-    ItemData("Defend Globe", 423, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x229),  # Bug
-    ItemData("Rock Globe", 424, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x22D),  # Rock
-    ItemData("Nether Globe", 425, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x231),  # Ghost
-    ItemData("Dragon Globe", 426, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x235),  # Dragon
-    ItemData("Dusk Globe", 427, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x239),  # Dark
-    ItemData("Steel Globe", 428, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x23D),  # Steel
+    ItemData("Joy Globe", 487, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1FD),  # Normal
+    ItemData("Fiery Globe", 488, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x201),  # Fire
+    ItemData("Aqua Globe", 489, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x205),  # Water
+    ItemData("Soothe Globe", 415, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x209),  # Grass
+    ItemData("Volt Globe", 416, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x20D),  # Electric
+    ItemData("Icy Globe", 417, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x211),  # Ice
+    ItemData("Power Globe", 418, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x215),  # Fighting
+    ItemData("Poison Globe", 419, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x219),  # Poison
+    ItemData("Terra Globe", 420, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x21D),  # Ground
+    ItemData("Sky Globe", 421, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x221),  # Flying
+    ItemData("Psyche Globe", 422, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x225),  # Psychic
+    ItemData("Defend Globe", 423, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x229),  # Bug
+    ItemData("Rock Globe", 424, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x22D),  # Rock
+    ItemData("Nether Globe", 425, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x231),  # Ghost
+    ItemData("Dragon Globe", 426, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x235),  # Dragon
+    ItemData("Dusk Globe", 427, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x239),  # Dark
+    ItemData("Steel Globe", 428, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x23D),  # Steel
 
     # Legendary specific items
-    ItemData("Freeze Veil", 429, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1D8),  # Articuno
-    ItemData("Thunder Veil", 430, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1D9),  # Zapdos
-    ItemData("Fire Veil", 431, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1DA),  # Moltres
-    ItemData("Havoc Robe", 432, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1DB),  # Mewtwo
-    ItemData("Life Ring", 433, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1DC),  # Mew
-    ItemData("Bolt Fang", 434, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1DD),  # Raikou
-    ItemData("Flare Fang", 435, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1DE),  # Entei
-    ItemData("Aqua Mantle", 436, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1DF),  # Suicune
-    ItemData("Silver Veil", 437, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E0),  # Lugia
-    ItemData("Rainbow Veil", 438, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E1),  # Ho-oh
-    ItemData("Chrono Veil", 439, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E2),  # Celebi
-    ItemData("Rock Sash", 440, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E3),  # Regirock
-    ItemData("Ice Sash", 441, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E4),  # Regice
-    ItemData("Steel Sash", 442, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E5),  # Registeel
-    ItemData("Heart Brooch", 443, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E6),  # Latias
-    ItemData("Eon Veil", 444, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E7),  # Latios
-    ItemData("Seabed Veil", 445, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E8),  # Kyogre
-    ItemData("Terra Ring", 446, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1E9),  # Groudon
-    ItemData("SkyHigh Veil", 447, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1EA),  # Rayquaza
-    ItemData("Wish Mantle", 448, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1EB),  # Jirachi
-    ItemData("Revive Robe", 449, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1EC),  # Deoxys
-    ItemData("Edify Robe", 450, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1EF),  # Uxie
-    ItemData("Charity Robe", 451, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F0),  # Mesprit
-    ItemData("Hope Robe", 452, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F1),  # Azelf
-    ItemData("Time Shield", 453, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F2),  # Dialga
-    ItemData("Air Blade", 454, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F3),  # Palkia
-    ItemData("Searing Ring", 455, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F4),  # Heatran
-    ItemData("Ancient Ring", 456, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F5),  # Regigigas
-    ItemData("Nether Veil", 457, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F6),  # Giratina
-    ItemData("Lunar Veil", 458, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F7),  # Cresselia
-    ItemData("Ripple Cape", 459, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x3E5),  # Phione
-    ItemData("Marine Cache", 460, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1D7),  # Phione
-    ItemData("Tidal Cape", 461, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F8),  # Manaphy
-    ItemData("Eclipse Robe", 462, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x1F9),  # Darkrai
-    ItemData("Purify Veil", 463, ItemClassification.filler, 3, ["Item", "Exclusive"], 0x547),  # Shaymin
+    ItemData("Freeze Veil", 429, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1D8),  # Articuno
+    #ItemData("Thunder Veil", 430, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1D9),  # Zapdos
+    #ItemData("Fire Veil", 431, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1DA),  # Moltres
+    #ItemData("Havoc Robe", 432, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1DB),  # Mewtwo
+    ItemData("Life Ring", 433, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1DC),  # Mew
+    #ItemData("Bolt Fang", 434, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1DD),  # Raikou
+    #ItemData("Flare Fang", 435, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1DE),  # Entei
+    #ItemData("Aqua Mantle", 436, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1DF),  # Suicune
+    #ItemData("Silver Veil", 437, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E0),  # Lugia
+    #ItemData("Rainbow Veil", 438, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E1),  # Ho-oh
+    ItemData("Chrono Veil", 439, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E2),  # Celebi
+    ItemData("Rock Sash", 440, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E3),  # Regirock
+    ItemData("Ice Sash", 441, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E4),  # Regice
+    ItemData("Steel Sash", 442, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E5),  # Registeel
+    #ItemData("Heart Brooch", 443, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E6),  # Latias
+    #ItemData("Eon Veil", 444, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E7),  # Latios
+    ItemData("Seabed Veil", 445, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E8),  # Kyogre
+    ItemData("Terra Ring", 446, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1E9),  # Groudon
+    ItemData("SkyHigh Veil", 447, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1EA),  # Rayquaza
+    #ItemData("Wish Mantle", 448, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1EB),  # Jirachi
+    #ItemData("Revive Robe", 449, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1EC),  # Deoxys
+    ItemData("Edify Robe", 450, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1EF),  # Uxie
+    ItemData("Charity Robe", 451, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F0),  # Mesprit
+    ItemData("Hope Robe", 452, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F1),  # Azelf
+    ItemData("Time Shield", 453, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F2),  # Dialga
+    ItemData("Air Blade", 454, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F3),  # Palkia
+    ItemData("Searing Ring", 455, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F4),  # Heatran
+    ItemData("Ancient Ring", 456, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F5),  # Regigigas
+    ItemData("Nether Veil", 457, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F6),  # Giratina
+    ItemData("Lunar Veil", 458, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F7),  # Cresselia
+    ItemData("Ripple Cape", 459, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x3E5),  # Phione
+    ItemData("Marine Cache", 460, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1D7),  # Phione
+    ItemData("Tidal Cape", 461, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F8),  # Manaphy
+    #ItemData("Eclipse Robe", 462, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x1F9),  # Darkrai
+    ItemData("Purify Veil", 463, ItemClassification.filler, 1, ["Item", "Exclusive"], 0x547),  # Shaymin
+]
+trap_items = [
+    ItemData("Inspiration Strikes!", 400, ItemClassification.trap, 20, ["Trap"], 0x0),
+    ItemData("Get Unowned!", 401, ItemClassification.trap, 20, ["Trap"], 0x0),
+    ItemData("Nap Time!", 402, ItemClassification.trap, 20, ["Trap"], 0x0),
+    ItemData("Sentry Duty!", 403, ItemClassification.trap, 20, ["Trap"], 0x0),
+    ItemData("Touch Grass", 404, ItemClassification.trap, 20, ["Trap"], 0x0),
+    ItemData("Poke x-1000", 570, ItemClassification.trap, 1000, ["Money"], 0),
+    ItemData("Denched Bluff", 2, ItemClassification.trap, 20, ["Trap", "Early", "Unique", "Dungeon"], 0x2),
+    ItemData("Mt. Brinstar", 5, ItemClassification.trap, 20, ["Trap", "Early", "Unique", "Dungeon"], 0x5),
+    ItemData("Froggy Forest", 15, ItemClassification.trap, 20, ["Trap", "Early", "Unique", "Dungeon"], 0xF),
+    ItemData("Steamy Cave", 16, ItemClassification.trap, 20, ["Trap", "Early", "Unique", "Dungeon"], 0x10),
+    ItemData("Craggy Cost", 18, ItemClassification.trap, 20, ["Trap", "Early", "Unique", "Dungeon"], 0x12),
+    ItemData("Special Rift", 65, ItemClassification.trap, 20, ["Trap", "Late", "Unique", "Dungeon"], 0x41),
+    ItemData("Congealed Ruins", 71, ItemClassification.trap, 20, ["Trap", "Late", "Unique", "Dungeon"], 0x47),
+    ItemData("Labyrinth Cove", 86, ItemClassification.trap, 20, ["Trap", "Early", "Unique", "Dungeon"], 0x56),
+    ItemData("Dojo Ghast Maze", 190, ItemClassification.trap, 20, ["Trap", "Dojo", "Unique", "Dungeon"], 0xBE),
+    ItemData("Dungeon Yawn", 470, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x1),
+    ItemData("Dungeon Whiffer", 471, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x2),
+    ItemData("Dungeon DropItems", 472, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x3),
+    ItemData("Dungeon Weather", 473, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x5),
+    ItemData("Dungeon Warp", 474, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x4),
+    ItemData("Dungeon Pitfall", 475, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x6),
+    ItemData("Dungeon Embargo", 476, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x7),
+    ItemData("Dungeon Maze", 477, ItemClassification.trap, 20, ["Trap", "DungeonTrap"], 0x0),
 
 ]
 filler_item_weights = [item.start_number for item in filler_items]
 filler_item_table: Dict[str, ItemData] = {item.name: item for item in filler_items}
+
+exclusive_filler_item_weights = [item.start_number for item in exclusive_filler_items]
+exclusive_filler_item_table: Dict[str, ItemData] = {item.name: item for item in exclusive_filler_items}
+
+trap_item_weights = [item.start_number for item in trap_items]
+trap_item_table: Dict[str, ItemData] = {item.name: item for item in trap_items}
 
 item_frequencies: Dict[str, int] = {
     "Bag Upgrade": 5
@@ -368,6 +525,8 @@ item_frequencies: Dict[str, int] = {
 
 item_table: Dict[str, ItemData] = {item.name: item for item in EOS_item_table}
 item_table.update(filler_item_table)
+item_table.update(exclusive_filler_item_table)
+item_table.update(trap_item_table)
 item_table_by_id: Dict[int, ItemData] = {item.id: item for item in item_table.values()}
 
 item_table_by_groups = get_item_table_by_groups()
@@ -664,4 +823,29 @@ lootbox_table: Dict[str, Dict[str, int]] = {
         "Grimy Food": 0x6F
     },
 
+}
+
+legendary_pool_dict = {
+    "Regirock": [504, 440],
+    "Regice": [505, 441],
+    "Registeel": [506, 442],
+    "Groudon": [507, 446],
+    "Uxie": [508, 450],
+    "Mesprit": [509, 451],
+    "Azelf": [510, 452],
+    "Dialga": [511, 453],
+    "Palkia": [512, 454],
+    "Regigigas": [513, 456],
+    "Giratina": [514, 457],
+    "Celebi": [515, 439],
+    "Articuno": [516, 429],
+    "Heatran": [517, 455],
+    #"Primal Dialga": [518],
+    "Mew": [519, 433],
+    "Manaphy": [520, 461],
+    "Phione": [521, 459, 460],
+    "Cresselia": [522, 458],
+    "Rayquaza": [523, 447],
+    "Kyogre": [524, 445],
+    "Shaymin": [525, 463],
 }
