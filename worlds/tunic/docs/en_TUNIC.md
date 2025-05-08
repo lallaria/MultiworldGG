@@ -85,7 +85,7 @@ Notes:
 - For a list of entrance names, check `er_data.py` in the TUNIC world folder or generate a game with the Entrance Randomizer option enabled and check the spoiler log.
 - You can plando up to 500 additional shops in Decoupled. You should not do this.
 
-See the [Archipelago Plando Guide](../../../tutorial/MultiworldGG/plando/en) for more information on Plando and Connection Plando.
+See the [MultiworldGG Plando Guide](../../../tutorial/MultiworldGG/plando/en) for more information on Plando and Connection Plando.
 
 ## Is there anything else I should know?
 - You can go to [The TUNIC Randomizer Website](https://rando.tunic.run/) for a list of randomizer features as well as some helpful tips.

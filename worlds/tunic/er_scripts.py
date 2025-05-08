@@ -198,6 +198,7 @@ def pair_portals(world: "TunicWorld", regions: Dict[str, Region]) -> Dict[Portal
     entrance_layout = world.options.entrance_layout
     laurels_location = world.options.laurels_location
     decoupled = world.options.decoupled
+    shuffle_fuses = bool(world.options.shuffle_fuses.value)
     traversal_reqs = deepcopy(traversal_requirements)
     has_laurels = True
     waterfall_plando = False
@@ -513,13 +514,15 @@ def pair_portals(world: "TunicWorld", regions: Dict[str, Region]) -> Dict[Portal
                 dead_end_direction_tracker[portal1.direction] -= 1
             else:
                 two_plus_direction_tracker[portal1.direction] -= 1
+
             if portal2_dead_end:
                 dead_end_direction_tracker[portal2.direction] -= 1
             else:
                 two_plus_direction_tracker[portal2.direction] -= 1
 
         # if we have plando connections, our connected regions may change somewhat
-        connected_regions = update_reachable_regions(connected_regions, traversal_reqs, has_laurels, logic_tricks)
+        connected_regions = update_reachable_regions(connected_regions, traversal_reqs, has_laurels, logic_tricks,
+                                                     shuffle_fuses)
 
     # if there are an odd number of shops after plando, add another one, except in decoupled where it doesn't matter
     if not decoupled and len(world.used_shop_numbers) % 2 == 1:
@@ -635,7 +638,8 @@ def pair_portals(world: "TunicWorld", regions: Dict[str, Region]) -> Dict[Portal
                     if waterfall_plando:
                         cr = connected_regions.copy()
                         cr.add(portal.region)
-                        if "Secret Gathering Place" not in update_reachable_regions(cr, traversal_reqs, has_laurels, logic_tricks):
+                        if "Secret Gathering Place" not in update_reachable_regions(cr, traversal_reqs, has_laurels,
+                                                                                    logic_tricks, shuffle_fuses):
                             continue
                     # if not waterfall_plando, then we just want to pair secret gathering place now
                     elif portal.region != "Secret Gathering Place":
@@ -684,8 +688,8 @@ def pair_portals(world: "TunicWorld", regions: Dict[str, Region]) -> Dict[Portal
         # once we have both portals, connect them and add the new region(s) to connected_regions
         if not has_laurels and "Secret Gathering Place" in connected_regions:
             has_laurels = True
-        connected_regions = update_reachable_regions(connected_regions, traversal_reqs, has_laurels, logic_tricks)
-
+        connected_regions = update_reachable_regions(connected_regions, traversal_reqs, has_laurels, logic_tricks,
+                                                     shuffle_fuses)
         portal_pairs[portal1] = portal2
         two_plus_direction_tracker[portal1.direction] -= 1
         two_plus_direction_tracker[portal2.direction] -= 1

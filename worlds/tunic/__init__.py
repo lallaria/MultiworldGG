@@ -1,4 +1,3 @@
-from dataclasses import fields
 from typing import Dict, List, Any, Tuple, TypedDict, ClassVar, Union, Set, TextIO
 from dataclasses import fields
 from logging import warning
@@ -7,7 +6,7 @@ from .bells import bell_location_groups, bell_location_name_to_id
 from .fuses import fuse_location_name_to_id, fuse_location_groups
 from .items import (item_name_to_id, item_table, item_name_groups, fool_tiers, filler_items, slot_data_item_names,
                     combat_items)
-from .locations import location_table, location_name_groups, standard_location_name_to_id, hexagon_locations
+from .locations import location_table, location_name_groups, standard_location_name_to_id, hexagon_locations, sphere_one
 from .rules import set_location_rules, set_region_rules, randomize_ability_unlocks, gold_hexagon
 from .er_rules import set_er_location_rules
 from .regions import tunic_regions
@@ -16,12 +15,11 @@ from .grass import grass_location_table, grass_location_name_to_id, grass_locati
 from .breakables import breakable_location_name_to_id, breakable_location_groups, breakable_location_table
 from .er_data import portal_mapping, RegionInfo, tunic_er_regions
 from .options import (TunicOptions, EntranceRando, tunic_option_groups, tunic_option_presets, TunicPlandoConnections,
-                      LaurelsLocation, LogicRules, LaurelsZips, IceGrappling, LadderStorage, check_options,
-                      get_hexagons_in_pool, HexagonQuestAbilityUnlockType, EntranceLayout)
-from .breakables import breakable_location_name_to_id, breakable_location_groups, breakable_location_table
+                      LaurelsLocation, LaurelsZips, IceGrappling, LadderStorage, EntranceLayout,
+                      check_options, LocalFill, get_hexagons_in_pool, HexagonQuestAbilityUnlockType)
 from .combat_logic import area_data, CombatState
 from worlds.AutoWorld import WebWorld, World
-from Options import PlandoConnection, OptionError, PerGameCommonOptions, Removed, Range
+from Options import PlandoConnection, OptionError, PerGameCommonOptions, Range, Removed
 from settings import Group, Bool
 
 
@@ -79,11 +77,11 @@ class TunicWorld(World):
     """
     game = "TUNIC"
     author: str = "silent-destroyer & ScipioWright"
+    web = TunicWeb()
 
     options: TunicOptions
     options_dataclass = TunicOptions
     settings: ClassVar[TunicSettings]
-    web = TunicWeb()
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
     for group_name, members in grass_location_name_groups.items():
@@ -132,26 +130,21 @@ class TunicWorld(World):
             raise Exception("You have a TUNIC APWorld in your lib/worlds folder and custom_worlds folder.\n"
                             "This would cause an error at the end of generation.\n"
                             "Please remove one of them, most likely the one in lib/worlds.")
-        
         if self.options.all_random:
             for option_name in (attr.name for attr in fields(TunicOptions)
                                 if attr not in fields(PerGameCommonOptions)):
                 option = getattr(self.options, option_name)
                 if option_name == "all_random":
                     continue
-                if isinstance(option, Removed):
+                if issubclass(option.__class__, Removed):
                     continue
                 if option.supports_weighting:
-                    if isinstance(option, Range):
+                    if issubclass(option.__class__, Range):
                         option.value = self.random.randint(option.range_start, option.range_end)
                     else:
                         option.value = self.random.choice(list(option.name_lookup))
-
         check_options(self)
-
         self.er_regions = tunic_er_regions.copy()
-        if self.options.plando_connections and not self.options.entrance_rando:
-            self.options.plando_connections.value = ()
         if self.options.plando_connections:
             def replace_connection(old_cxn: PlandoConnection, new_cxn: PlandoConnection, index: int) -> None:
                 self.options.plando_connections.value.remove(old_cxn)
@@ -198,15 +191,16 @@ class TunicWorld(World):
                 self.options.hexagon_quest_ability_type.value = self.passthrough.get("hexagon_quest_ability_type", 0)
                 self.options.entrance_rando.value = self.passthrough["entrance_rando"]
                 self.options.shuffle_ladders.value = self.passthrough["shuffle_ladders"]
+                self.options.shuffle_fuses.value = self.passthrough.get("shuffle_fuses", 0)
+                self.options.shuffle_bells.value = self.passthrough.get("shuffle_bells", 0)
+                self.options.grass_randomizer.value = self.passthrough.get("grass_randomizer", 0)
+                self.options.breakable_shuffle.value = self.passthrough.get("breakable_shuffle", 0)
                 self.options.entrance_layout.value = EntranceLayout.option_standard
                 if ("ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].keys()
                         or "ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].values()):
                     self.options.entrance_layout.value = EntranceLayout.option_fixed_shop
                 self.options.decoupled = self.passthrough.get("decoupled", 0)
                 self.options.laurels_location.value = LaurelsLocation.option_anywhere
-                self.options.grass_randomizer.value = self.passthrough.get("grass_randomizer", 0)
-                self.options.breakable_shuffle.value = self.passthrough.get("breakable_shuffle", 0)
-                self.options.laurels_location.value = self.options.laurels_location.option_anywhere
                 self.options.combat_logic.value = self.passthrough.get("combat_logic", 0)
             else:
                 self.using_ut = False
@@ -530,10 +524,9 @@ class TunicWorld(World):
     def pre_fill(self) -> None:
         if self.options.local_fill > 0 and self.multiworld.players > 1:
             # we need to reserve a couple locations so that we don't fill up every sphere 1 location
-            sphere_one_locs = self.multiworld.get_reachable_locations(CollectionState(self.multiworld), self.player)
-            reserved_locations: Set[Location] = set(self.random.sample(sphere_one_locs, 2))
+            reserved_locations: Set[str] = set(self.random.sample(sphere_one, 2))
             viable_locations = [loc for loc in self.multiworld.get_unfilled_locations(self.player)
-                                if loc not in reserved_locations
+                                if loc.name not in reserved_locations
                                 and loc.name not in self.options.priority_locations.value]
 
             if len(viable_locations) < self.amount_to_local_fill:
@@ -565,10 +558,10 @@ class TunicWorld(World):
             multiworld.random.shuffle(non_grass_fill_locations)
 
             for filler_item in grass_fill:
-                grass_fill_locations.pop().place_locked_item(filler_item)
+                multiworld.push_item(grass_fill_locations.pop(), filler_item, collect=False)
 
             for filler_item in non_grass_fill:
-                non_grass_fill_locations.pop().place_locked_item(filler_item)
+                multiworld.push_item(non_grass_fill_locations.pop(), filler_item, collect=False)
 
     def create_regions(self) -> None:
         self.tunic_portal_pairs = {}
@@ -762,6 +755,18 @@ class TunicWorld(World):
                     slot_data[start_item] = []
                 for _ in range(self.options.start_inventory_from_pool[start_item]):
                     slot_data[start_item].extend(["Your Pocket", self.player])
+
+        for plando_item in self.multiworld.plando_items[self.player]:
+            if plando_item["from_pool"]:
+                items_to_find = set()
+                for item_type in [key for key in ["item", "items"] if key in plando_item]:
+                    for item in plando_item[item_type]:
+                        items_to_find.add(item)
+                for item in items_to_find:
+                    if item in slot_data_item_names:
+                        slot_data[item] = []
+                        for item_location in self.multiworld.find_item_locations(item, self.player):
+                            slot_data[item].extend(self.get_real_location(item_location))
 
         return slot_data
 
