@@ -1,3 +1,17 @@
+const COOKIE_NAME = 'show_hidden_games';
+
+function setCookie(name, value, days = 365) {
+  const expires = new Date(Date.now() + days*864e5).toUTCString();
+  document.cookie = `${name}=${value};expires=${expires};path=/`;
+}
+
+function getCookie(name) {
+  return document.cookie
+    .split('; ')
+    .find(row => row.startsWith(name + '='))
+    ?.split('=')[1];
+}
+
 const showError = () => {
   const tutorial = document.getElementById('tutorial-landing');
   document.getElementById('page-title').innerText = 'This page is out of logic!';
@@ -12,6 +26,20 @@ const showError = () => {
 };
 
 window.addEventListener('load', () => {
+    const toggleLink = document.getElementById('toggle-nsfw');
+    toggleLink.addEventListener('click', e => {
+      e.preventDefault();
+      const currently = getCookie(COOKIE_NAME) === 'true';
+      setCookie(COOKIE_NAME, !currently);
+      // simple reload to reapply filter
+      window.location.reload();
+    });
+  
+    const isShowing = getCookie(COOKIE_NAME) === 'true';
+    toggleLink.textContent = isShowing
+      ? 'Hide NSFW games'
+      : 'Show NSFW games';
+
   const ajax = new XMLHttpRequest();
   ajax.onreadystatechange = () => {
     if (ajax.readyState !== 4) { return; }
@@ -20,7 +48,13 @@ window.addEventListener('load', () => {
 
     try {
       const games = JSON.parse(ajax.responseText);
-      games.forEach((game) => {
+
+      const showAll = getCookie(COOKIE_NAME) === 'true';
+      const visibleGames = games.filter(game =>
+        showAll || !game.rating?.toLowerCase().includes('nsfw')
+      );
+
+      visibleGames.forEach((game) => {
           if ("tutorials" in game) {
               const gameTitle = document.createElement('h2');
               gameTitle.innerText = game.gameTitle;

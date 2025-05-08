@@ -93,12 +93,16 @@ def create_ordered_tutorials_file() -> typing.List[typing.Dict[str, typing.Any]]
                 shutil.copyfile(Utils.local_path(source_path, file), Utils.local_path(target_path, file))
 
         game_title = game
+        game_rating = ''
 
         if hasattr(world.web, 'display_name') and world.web.display_name:
             game_title = world.web.display_name
+        
+        if hasattr(world.web, 'rating') :
+            game_rating = world.web.rating
 
         # build a json tutorial dict per game
-        game_data = {'gameTitle': game_title, 'tutorials': []}
+        game_data = {'gameTitle': game_title, 'rating': game_rating, 'tutorials': []}
         for tutorial in world.web.tutorials:
             # build dict for the json file
             current_tutorial = {

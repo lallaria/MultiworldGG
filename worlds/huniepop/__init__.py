@@ -9,6 +9,7 @@ from worlds.huniepop.Options import HPOptions
 from worlds.huniepop.Rules import set_rules
 
 class HuniePopWeb(WebWorld):
+    rating: str = "nsfw"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up the Hunie Pop randomizer connected to an MWGG Multiworld",
@@ -22,7 +23,6 @@ class HuniePopWeb(WebWorld):
 class HuniePop(World):
     game = "Hunie Pop"
     author: str = "dotsofdarkness"
-    nsfw: True
     worldversion = {
         "major":1,
         "minor":0,
