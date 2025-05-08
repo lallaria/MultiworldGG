@@ -264,6 +264,7 @@ class TunicPlandoConnections(PlandoConnections):
     If the Entrance Layout option is set to Standard or Fixed Shop, you can plando multiple shops.
     If the Entrance Layout option is set to Direction Pairs, your plando connections must be facing opposite directions.
     Shop Portal 1-6 are South portals, and Shop Portal 7-8 are West portals.
+    This option does nothing if Entrance Rando is disabled.
     """
     shops = {f"Shop Portal {i + 1}" for i in range(500)}
     entrances = {portal.name for portal in portal_mapping}.union(shops)
@@ -346,6 +347,34 @@ class LadderStorageWithoutItems(Toggle):
     display_name = "Ladder Storage without Items"
 
 
+class HiddenAllRandom(Toggle):
+    """
+    Sets all options that can be random to random.
+    For test gens.
+    """
+    internal_name = "all_random"
+    display_name = "All Random Debug"
+    visibility = Visibility.none
+
+
+class LogicRules(Choice):
+    """
+    This option has been superseded by the individual trick options.
+    If set to nmg, it will set Ice Grappling to medium and Laurels Zips on.
+    If set to ur, it will do nmg as well as set Ladder Storage to medium.
+    It is here to avoid breaking old yamls, and will be removed at a later date.
+    """
+    visibility = Visibility.none
+    internal_name = "logic_rules"
+    display_name = "Logic Rules"
+    option_restricted = 0
+    option_no_major_glitches = 1
+    alias_nmg = 1
+    option_unrestricted = 2
+    alias_ur = 2
+    default = 0
+
+
 class BreakableShuffle(Toggle):
     """
     Turns approximately 250 breakable objects in the game into checks.
@@ -371,6 +400,7 @@ class TunicOptions(PerGameCommonOptions):
     start_with_sword: StartWithSword
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
+
     fool_traps: FoolTraps
     laurels_location: LaurelsLocation
 
@@ -389,6 +419,7 @@ class TunicOptions(PerGameCommonOptions):
     entrance_rando: EntranceRando
     entrance_layout: EntranceLayout
     decoupled: Decoupled
+    plando_connections: TunicPlandoConnections
 
     combat_logic: CombatLogic
     lanternless: Lanternless
@@ -397,10 +428,11 @@ class TunicOptions(PerGameCommonOptions):
     ice_grappling: IceGrappling
     ladder_storage: LadderStorage
     ladder_storage_without_items: LadderStorageWithoutItems
-
-    plando_connections: TunicPlandoConnections
-
+      
     all_random: HiddenAllRandom
+
+    fixed_shop: FixedShop  # will be removed at a later date
+    logic_rules: Removed  # fully removed in the direction pairs update
 
     fixed_shop: FixedShop  # will be removed at a later date
     logic_rules: Removed  # fully removed in the direction pairs update

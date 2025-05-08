@@ -1,3 +1,4 @@
+from dataclasses import fields
 from typing import Dict, List, Any, Tuple, TypedDict, ClassVar, Union, Set, TextIO
 from dataclasses import fields
 from logging import warning
@@ -15,11 +16,12 @@ from .grass import grass_location_table, grass_location_name_to_id, grass_locati
 from .breakables import breakable_location_name_to_id, breakable_location_groups, breakable_location_table
 from .er_data import portal_mapping, RegionInfo, tunic_er_regions
 from .options import (TunicOptions, EntranceRando, tunic_option_groups, tunic_option_presets, TunicPlandoConnections,
-                      LaurelsLocation, LaurelsZips, IceGrappling, LadderStorage, EntranceLayout,
-                      check_options, LocalFill, get_hexagons_in_pool, HexagonQuestAbilityUnlockType)
+                      LaurelsLocation, LogicRules, LaurelsZips, IceGrappling, LadderStorage, check_options,
+                      get_hexagons_in_pool, HexagonQuestAbilityUnlockType, EntranceLayout)
+from .breakables import breakable_location_name_to_id, breakable_location_groups, breakable_location_table
 from .combat_logic import area_data, CombatState
 from worlds.AutoWorld import WebWorld, World
-from Options import PlandoConnection, OptionError, PerGameCommonOptions, Range, Removed
+from Options import PlandoConnection, OptionError, PerGameCommonOptions, Removed, Range
 from settings import Group, Bool
 
 
@@ -130,21 +132,26 @@ class TunicWorld(World):
             raise Exception("You have a TUNIC APWorld in your lib/worlds folder and custom_worlds folder.\n"
                             "This would cause an error at the end of generation.\n"
                             "Please remove one of them, most likely the one in lib/worlds.")
+        
         if self.options.all_random:
             for option_name in (attr.name for attr in fields(TunicOptions)
                                 if attr not in fields(PerGameCommonOptions)):
                 option = getattr(self.options, option_name)
                 if option_name == "all_random":
                     continue
-                if issubclass(option.__class__, Removed):
+                if isinstance(option, Removed):
                     continue
                 if option.supports_weighting:
-                    if issubclass(option.__class__, Range):
+                    if isinstance(option, Range):
                         option.value = self.random.randint(option.range_start, option.range_end)
                     else:
                         option.value = self.random.choice(list(option.name_lookup))
+
         check_options(self)
+
         self.er_regions = tunic_er_regions.copy()
+        if self.options.plando_connections and not self.options.entrance_rando:
+            self.options.plando_connections.value = ()
         if self.options.plando_connections:
             def replace_connection(old_cxn: PlandoConnection, new_cxn: PlandoConnection, index: int) -> None:
                 self.options.plando_connections.value.remove(old_cxn)
@@ -191,18 +198,16 @@ class TunicWorld(World):
                 self.options.hexagon_quest_ability_type.value = self.passthrough.get("hexagon_quest_ability_type", 0)
                 self.options.entrance_rando.value = self.passthrough["entrance_rando"]
                 self.options.shuffle_ladders.value = self.passthrough["shuffle_ladders"]
-                self.options.shuffle_fuses.value = self.passthrough.get("shuffle_fuses", 0)
-                self.options.shuffle_bells.value = self.passthrough.get("shuffle_bells", 0)
+                self.options.entrance_layout.value = EntranceLayout.option_standard
+                if ("ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].keys()
+                        or "ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].values()):
+                    self.options.entrance_layout.value = EntranceLayout.option_fixed_shop
+                self.options.decoupled = self.passthrough.get("decoupled", 0)
+                self.options.laurels_location.value = LaurelsLocation.option_anywhere
                 self.options.grass_randomizer.value = self.passthrough.get("grass_randomizer", 0)
                 self.options.breakable_shuffle.value = self.passthrough.get("breakable_shuffle", 0)
                 self.options.laurels_location.value = self.options.laurels_location.option_anywhere
-                self.options.combat_logic.value = self.passthrough["combat_logic"]
-
-                self.options.fixed_shop.value = self.options.fixed_shop.option_false
-                if ("ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].keys()
-                        or "ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].values()):
-                    self.options.fixed_shop.value = self.options.fixed_shop.option_true
-
+                self.options.combat_logic.value = self.passthrough.get("combat_logic", 0)
             else:
                 self.using_ut = False
         else:
