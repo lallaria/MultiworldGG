@@ -250,7 +250,7 @@ class BanjoTooieContext(CommonContext):
             fpath = pathlib.Path(__file__)
             archipelago_root = None
             for i in range(0, 5,+1) :
-                if fpath.parents[i].stem == "Archipelago":
+                if fpath.parents[i].stem  == apname:
                     archipelago_root = pathlib.Path(__file__).parents[i]
                     break
             async_start(run_game(os.path.join(archipelago_root, "Banjo-Tooie-AP"+game_append_version+".z64")))

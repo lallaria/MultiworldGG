@@ -4,8 +4,6 @@ import time
 from random import random
 from tokenize import endpats
 
-from win32comext.shell.shell import BHID_DataObject
-
 import Utils
 from typing import TYPE_CHECKING, Optional, Dict, Set, ClassVar, Any, Tuple
 
