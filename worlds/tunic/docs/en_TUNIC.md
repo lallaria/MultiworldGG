@@ -48,7 +48,7 @@ There is also a [standalone item tracker](https://github.com/radicoon/tunic-rand
 
 There is an [entrance tracker](https://scipiowright.gitlab.io/tunic-tracker/) for the entrance randomizer. This is a manual tracker that runs in your browser. This tracker was created by ScipioWright, and is a fork of the Pokémon Tracker by [Sergi "Sekii" Santana](https://gitlab.com/Sekii/pokemon-tracker).
 
-You can also use the Universal Tracker (by Faris and qwint) to find a complete list of what checks are in logic with your current items. You can find it on the Archipelago Discord, in its post in the future-game-design channel. This tracker is an extension of the regular MultiworldGG Text Client.
+You can also use the Universal Tracker (by Faris and qwint) to find a complete list of what checks are in logic with your current items. You can find it on the Archipelago Discord, in its post in the future-game-design channel. This tracker is an extension of the regular MultiworldGG Text Client. It ships with MWGG by default.
 
 ## What should I know regarding logic?
 In general:
@@ -85,7 +85,7 @@ Notes:
 - For a list of entrance names, check `er_data.py` in the TUNIC world folder or generate a game with the Entrance Randomizer option enabled and check the spoiler log.
 - You can plando up to 500 additional shops in Decoupled. You should not do this.
 
-See the [MultiworldGG Plando Guide](../../../tutorial/MultiworldGG/plando/en) for more information on Plando and Connection Plando.
+See the [MultiworldGG Plando Guide](../../../tutorial/Archipelago/plando/en) for more information on Plando and Connection Plando.
 
 ## Is there anything else I should know?
 - You can go to [The TUNIC Randomizer Website](https://rando.tunic.run/) for a list of randomizer features as well as some helpful tips.

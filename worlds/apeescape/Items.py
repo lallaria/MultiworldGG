@@ -89,7 +89,9 @@ def createItemGroups():
     GROUPED_ITEMS.setdefault("Punch", []).append("Magic Punch")
     GROUPED_ITEMS.setdefault("Flyer", []).append("Sky Flyer")
     GROUPED_ITEMS.setdefault("Car", []).append("R.C. Car")
-    GROUPED_ITEMS.setdefault("Water Net", []).append("Progressive Water Net")
+
+    # Removed because unit tests said having a group and item named the same is bad
+    # GROUPED_ITEMS.setdefault("Water Net", []).append("Progressive Water Net")
 
     # Item Groups
     GROUPED_ITEMS.setdefault("Gadgets", []).append("Stun Club")

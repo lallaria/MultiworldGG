@@ -9,15 +9,6 @@ from .Strings import AEItem, AEDoor, AELocation
 if TYPE_CHECKING:
     from . import ApeEscapeWorld
 
-
-# Creates an event item in a specified region. Thanks Aquaria for having a good template!
-# Example call: __add_event_location(self, self.get_region(AEDoor.DR_OUTSIDE_OBELISK_TOP.value), "Dark Ruins - Floor Broken", "DR-Block")
-def __add_event_location(self, region: Region, name: str, event_name: str) -> None:
-    location: ApeEscapeLocation = ApeEscapeLocation(self.player, name, None, region)
-    region.locations.append(location)
-    location.place_locked_item(ApeEscapeItem(event_name, ItemClassification.progression, None, self.player))
-    
-
 def set_rules(world: "ApeEscapeWorld"):
     world.levellist = initialize_level_list()
     # If entrances aren't shuffled, then we don't need to shuffle the entrances.
@@ -32,254 +23,10 @@ def set_rules(world: "ApeEscapeWorld"):
     if (world.options.entrance != 0x00):
         world.levellist.sort()
 
-    create_event_items(world)
     set_entrances(world)
     set_doors(world)
     set_transitions(world)
     set_locations(world)
-
-
-# Create all needed event items for checking access.
-def create_event_items(self):
-    # Buttons and state changes.
-    __add_event_location(self, self.get_region(AEDoor.DR_OUTSIDE_OBELISK_TOP.value), "Dark Ruins - Floor Broken", "DR-Block")
-    __add_event_location(self, self.get_region(AEDoor.DI_SLIDE_ROOM_GALLERY.value), "Dexter's Island - Button Reached", "DI-Button")
-    __add_event_location(self, self.get_region(AEDoor.CC_BASEMENT_BUTTON_DOWN.value), "Crumbling Castle - Button Reached", "CC-Button")
-    __add_event_location(self, self.get_region(AEDoor.MM_SIDE_ENTRY_OUTSIDE_CASTLE.value), "Monkey Madness - Spawn UFOs", "MM-UFOs")
-    __add_event_location(self, self.get_region(AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value), "Monkey Madness - Monkey Head Room", "MM-Button")
-    __add_event_location(self, self.get_region(AEDoor.MM_OUTSIDE_CLIMB_CASTLE_MAIN.value), "Monkey Madness - Specter 1 Open", "MM-Painting")
-    # Monkey Madness UFO monkeys - specifically for the door.
-    __add_event_location(self, self.get_region(AELocation.W9L1Donovan.value), "Monkey Madness UFO Monkey 1", "MM UFO Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Laura.value), "Monkey Madness UFO Monkey 2", "MM UFO Monkey")
-
-# ''' Event items for monkeys - mostly useful for debugging. NOTE: Add "# " to the beginning to uncomment.
-    # Monkeys by level, for lamps and Specter 2 vanilla condition.
-    # Fossil Field
-    __add_event_location(self, self.get_region(AELocation.W1L1Noonan.value), "Fossil Field Monkey 1", "FF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L1Jorjy.value), "Fossil Field Monkey 2", "FF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L1Nati.value), "Fossil Field Monkey 3", "FF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L1TrayC.value), "Fossil Field Monkey 4", "FF Monkey")
-    # Primordial Ooze
-    __add_event_location(self, self.get_region(AELocation.W1L2Shay.value), "Primordial Ooze Monkey 1", "PO Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L2DrMonk.value), "Primordial Ooze Monkey 2", "PO Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L2Grunt.value), "Primordial Ooze Monkey 3", "PO Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L2Ahchoo.value), "Primordial Ooze Monkey 4", "PO Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L2Gornif.value), "Primordial Ooze Monkey 5", "PO Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L2Tyrone.value), "Primordial Ooze Monkey 6", "PO Monkey")
-    # Molten Lava
-    __add_event_location(self, self.get_region(AELocation.W1L3Scotty.value), "Molten Lava Monkey 1", "ML Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L3Coco.value), "Molten Lava Monkey 2", "ML Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L3JThomas.value), "Molten Lava Monkey 3", "ML Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L3Mattie.value), "Molten Lava Monkey 4", "ML Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L3Barney.value), "Molten Lava Monkey 5", "ML Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L3Rocky.value), "Molten Lava Monkey 6", "ML Monkey")
-    __add_event_location(self, self.get_region(AELocation.W1L3Moggan.value), "Molten Lava Monkey 7", "ML Monkey")
-    # Thick Jungle
-    __add_event_location(self, self.get_region(AELocation.W2L1Marquez.value), "Thick Jungle Monkey 1", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Livinston.value), "Thick Jungle Monkey 2", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1George.value), "Thick Jungle Monkey 3", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Maki.value), "Thick Jungle Monkey 4", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Herb.value), "Thick Jungle Monkey 5", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Dilweed.value), "Thick Jungle Monkey 6", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Mitong.value), "Thick Jungle Monkey 7", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Stoddy.value), "Thick Jungle Monkey 8", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Nasus.value), "Thick Jungle Monkey 9", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Selur.value), "Thick Jungle Monkey 10", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Elehcim.value), "Thick Jungle Monkey 11", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Gonzo.value), "Thick Jungle Monkey 12", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Alphonse.value), "Thick Jungle Monkey 13", "TJ Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L1Zanzibar.value), "Thick Jungle Monkey 14", "TJ Monkey")
-    # Dark Ruins
-    __add_event_location(self, self.get_region(AELocation.W2L2Mooshy.value), "Dark Ruins Monkey 1", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Kyle.value), "Dark Ruins Monkey 2", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Cratman.value), "Dark Ruins Monkey 3", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Nuzzy.value), "Dark Ruins Monkey 4", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Mav.value), "Dark Ruins Monkey 5", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Stan.value), "Dark Ruins Monkey 6", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Bernt.value), "Dark Ruins Monkey 7", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Runt.value), "Dark Ruins Monkey 8", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Hoolah.value), "Dark Ruins Monkey 9", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Papou.value), "Dark Ruins Monkey 10", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Kenny.value), "Dark Ruins Monkey 11", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Trance.value), "Dark Ruins Monkey 12", "DR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L2Chino.value), "Dark Ruins Monkey 13", "DR Monkey")
-    # Cryptic Relics
-    __add_event_location(self, self.get_region(AELocation.W2L3Troopa.value), "Cryptic Relics Monkey 1", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Spanky.value), "Cryptic Relics Monkey 2", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Stymie.value), "Cryptic Relics Monkey 3", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Pally.value), "Cryptic Relics Monkey 4", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Freeto.value), "Cryptic Relics Monkey 5", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Jesta.value), "Cryptic Relics Monkey 6", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Bazzle.value), "Cryptic Relics Monkey 7", "CR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W2L3Crash.value), "Cryptic Relics Monkey 8", "CR Monkey")
-    # Crabby Beach
-    __add_event_location(self, self.get_region(AELocation.W4L1CoolBlue.value), "Crabby Beach Monkey 1", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1Sandy.value), "Crabby Beach Monkey 2", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1ShellE.value), "Crabby Beach Monkey 3", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1Gidget.value), "Crabby Beach Monkey 4", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1Shaka.value), "Crabby Beach Monkey 5", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1MaxMahalo.value), "Crabby Beach Monkey 6", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1Moko.value), "Crabby Beach Monkey 7", "CB Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L1Puka.value), "Crabby Beach Monkey 8", "CB Monkey")
-    # Coral Cave
-    __add_event_location(self, self.get_region(AELocation.W4L2Chip.value), "Coral Cave Monkey 1", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2Oreo.value), "Coral Cave Monkey 2", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2Puddles.value), "Coral Cave Monkey 3", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2Kalama.value), "Coral Cave Monkey 4", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2Iz.value), "Coral Cave Monkey 5", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2Jux.value), "Coral Cave Monkey 6", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2BongBong.value), "Coral Cave Monkey 7", "CoC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L2Pickles.value), "Coral Cave Monkey 8", "CoC Monkey")
-    # Dexter's Island
-    __add_event_location(self, self.get_region(AELocation.W4L3Stuw.value), "Dexter's Island Monkey 1", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3TonTon.value), "Dexter's Island Monkey 2", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Murky.value), "Dexter's Island Monkey 3", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Howeerd.value), "Dexter's Island Monkey 4", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Robbin.value), "Dexter's Island Monkey 5", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Jakkee.value), "Dexter's Island Monkey 6", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Frederic.value), "Dexter's Island Monkey 7", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Baba.value), "Dexter's Island Monkey 8", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Mars.value), "Dexter's Island Monkey 9", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Horke.value), "Dexter's Island Monkey 10", "DI Monkey")
-    __add_event_location(self, self.get_region(AELocation.W4L3Quirck.value), "Dexter's Island Monkey 11", "DI Monkey")
-    # Snowy Mammoth
-    __add_event_location(self, self.get_region(AELocation.W5L1Popcicle.value), "Snowy Mammoth Monkey 1", "SM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L1Iced.value), "Snowy Mammoth Monkey 2", "SM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L1Denggoy.value), "Snowy Mammoth Monkey 3", "SM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L1Skeens.value), "Snowy Mammoth Monkey 4", "SM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L1Rickets.value), "Snowy Mammoth Monkey 5", "SM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L1Chilly.value), "Snowy Mammoth Monkey 6", "SM Monkey")
-    # Frosty Retreat
-    __add_event_location(self, self.get_region(AELocation.W5L2Storm.value), "Frosty Retreat Monkey 1", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Qube.value), "Frosty Retreat Monkey 2", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Gash.value), "Frosty Retreat Monkey 3", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Kundra.value), "Frosty Retreat Monkey 4", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Shadow.value), "Frosty Retreat Monkey 5", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Ranix.value), "Frosty Retreat Monkey 6", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Sticky.value), "Frosty Retreat Monkey 7", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Sharpe.value), "Frosty Retreat Monkey 8", "FR Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L2Droog.value), "Frosty Retreat Monkey 9", "FR Monkey")
-    # Hot Springs
-    __add_event_location(self, self.get_region(AELocation.W5L3Punky.value), "Hot Springs Monkey 1", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Ameego.value), "Hot Springs Monkey 2", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Roti.value), "Hot Springs Monkey 3", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Dissa.value), "Hot Springs Monkey 4", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Yoky.value), "Hot Springs Monkey 5", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Jory.value), "Hot Springs Monkey 6", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Crank.value), "Hot Springs Monkey 7", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Claxter.value), "Hot Springs Monkey 8", "HS Monkey")
-    __add_event_location(self, self.get_region(AELocation.W5L3Looza.value), "Hot Springs Monkey 9", "HS Monkey")
-    # Sushi Temple
-    __add_event_location(self, self.get_region(AELocation.W7L1Taku.value), "Sushi Temple Monkey 1", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Rocka.value), "Sushi Temple Monkey 2", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Maralea.value), "Sushi Temple Monkey 3", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Wog.value), "Sushi Temple Monkey 4", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Long.value), "Sushi Temple Monkey 5", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Mayi.value), "Sushi Temple Monkey 6", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Owyang.value), "Sushi Temple Monkey 7", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1QuelTin.value), "Sushi Temple Monkey 8", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Phaldo.value), "Sushi Temple Monkey 9", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Voti.value), "Sushi Temple Monkey 10", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Elly.value), "Sushi Temple Monkey 11", "ST Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L1Chunky.value), "Sushi Temple Monkey 12", "ST Monkey")
-    # Wabi Sabi Wall
-    __add_event_location(self, self.get_region(AELocation.W7L2Minky.value), "Wabi Sabi Wall Monkey 1", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Zobbro.value), "Wabi Sabi Wall Monkey 2", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Xeeto.value), "Wabi Sabi Wall Monkey 3", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Moops.value), "Wabi Sabi Wall Monkey 4", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Zanabi.value), "Wabi Sabi Wall Monkey 5", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Buddha.value), "Wabi Sabi Wall Monkey 6", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Fooey.value), "Wabi Sabi Wall Monkey 7", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Doxs.value), "Wabi Sabi Wall Monkey 8", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Kong.value), "Wabi Sabi Wall Monkey 9", "WSW Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L2Phool.value), "Wabi Sabi Wall Monkey 10", "WSW Monkey")
-    # Crumbling Castle
-    __add_event_location(self, self.get_region(AELocation.W7L3Naners.value), "Crumbling Castle Monkey 1", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Robart.value), "Crumbling Castle Monkey 2", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Neeners.value), "Crumbling Castle Monkey 3", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Gustav.value), "Crumbling Castle Monkey 4", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Wilhelm.value), "Crumbling Castle Monkey 5", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Emmanuel.value), "Crumbling Castle Monkey 6", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3SirCutty.value), "Crumbling Castle Monkey 7", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Calligan.value), "Crumbling Castle Monkey 8", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Castalist.value), "Crumbling Castle Monkey 9", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Deveneom.value), "Crumbling Castle Monkey 10", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Igor.value), "Crumbling Castle Monkey 11", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Charles.value), "Crumbling Castle Monkey 12", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Astur.value), "Crumbling Castle Monkey 13", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Kilserack.value), "Crumbling Castle Monkey 14", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Ringo.value), "Crumbling Castle Monkey 15", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Densil.value), "Crumbling Castle Monkey 16", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Figero.value), "Crumbling Castle Monkey 17", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Fej.value), "Crumbling Castle Monkey 18", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Joey.value), "Crumbling Castle Monkey 19", "CrC Monkey")
-    __add_event_location(self, self.get_region(AELocation.W7L3Donqui.value), "Crumbling Castle Monkey 20", "CrC Monkey")
-    # City Park
-    __add_event_location(self, self.get_region(AELocation.W8L1Kaine.value), "City Park Monkey 1", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Jaxx.value), "City Park Monkey 2", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Gehry.value), "City Park Monkey 3", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Alcatraz.value), "City Park Monkey 4", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Tino.value), "City Park Monkey 5", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1QBee.value), "City Park Monkey 6", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1McManic.value), "City Park Monkey 7", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Dywan.value), "City Park Monkey 8", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1CKHutch.value), "City Park Monkey 9", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Winky.value), "City Park Monkey 10", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1BLuv.value), "City Park Monkey 11", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Camper.value), "City Park Monkey 12", "CP Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L1Huener.value), "City Park Monkey 13", "CP Monkey")
-    # Specter's Factory
-    __add_event_location(self, self.get_region(AELocation.W8L2BigShow.value), "Specter's Factory Monkey 1", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Dreos.value), "Specter's Factory Monkey 2", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Reznor.value), "Specter's Factory Monkey 3", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Urkel.value), "Specter's Factory Monkey 4", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2VanillaS.value), "Specter's Factory Monkey 5", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Radd.value), "Specter's Factory Monkey 6", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Shimbo.value), "Specter's Factory Monkey 7", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Hurt.value), "Specter's Factory Monkey 8", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2String.value), "Specter's Factory Monkey 9", "SF Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L2Khamo.value), "Specter's Factory Monkey 10", "SF Monkey")
-    # TV Tower
-    __add_event_location(self, self.get_region(AELocation.W8L3Fredo.value), "TV Tower Monkey 1", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Charlee.value), "TV Tower Monkey 2", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Mach3.value), "TV Tower Monkey 3", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Tortuss.value), "TV Tower Monkey 4", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Manic.value), "TV Tower Monkey 5", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Ruptdis.value), "TV Tower Monkey 6", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Eighty7.value), "TV Tower Monkey 7", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Danio.value), "TV Tower Monkey 8", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Roosta.value), "TV Tower Monkey 9", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Tellis.value), "TV Tower Monkey 10", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Whack.value), "TV Tower Monkey 11", "TVT Monkey")
-    __add_event_location(self, self.get_region(AELocation.W8L3Frostee.value), "TV Tower Monkey 12", "TVT Monkey")
-    # Monkey Madness
-    __add_event_location(self, self.get_region(AELocation.W9L1Goopo.value), "Monkey Madness Monkey 1", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Porto.value), "Monkey Madness Monkey 2", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Slam.value), "Monkey Madness Monkey 3", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Junk.value), "Monkey Madness Monkey 4", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Crib.value), "Monkey Madness Monkey 5", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Nak.value), "Monkey Madness Monkey 6", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Cloy.value), "Monkey Madness Monkey 7", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Shaw.value), "Monkey Madness Monkey 8", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Flea.value), "Monkey Madness Monkey 9", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Schafette.value), "Monkey Madness Monkey 10", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Donovan.value), "Monkey Madness Monkey 11", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Laura.value), "Monkey Madness Monkey 12", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Uribe.value), "Monkey Madness Monkey 13", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Gordo.value), "Monkey Madness Monkey 14", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Raeski.value), "Monkey Madness Monkey 15", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Poopie.value), "Monkey Madness Monkey 16", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Teacup.value), "Monkey Madness Monkey 17", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Shine.value), "Monkey Madness Monkey 18", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Wrench.value), "Monkey Madness Monkey 19", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Bronson.value), "Monkey Madness Monkey 20", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Bungee.value), "Monkey Madness Monkey 21", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Carro.value), "Monkey Madness Monkey 22", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1Carlito.value), "Monkey Madness Monkey 23", "MM Monkey")
-    __add_event_location(self, self.get_region(AELocation.W9L1BG.value), "Monkey Madness Monkey 24", "MM Monkey")
-'''
-# I love this trick :) '''
-
 
 # Entrances are specifically connections between the Time Station (level select) and a level.
 # If we ever want to change the starting room of a level, this is where we would set that room.
@@ -520,6 +267,7 @@ def set_doors(self):
                         lambda state: True)
     connect_regions(self, AEDoor.CC_BOSS_ROOM.value, AEDoor.CC_ENTRY_BOSS.value,
                         lambda state: True)
+    # City Park
     connect_regions(self, AEDoor.CP_OUTSIDE_SEWERS_FRONT.value, AEDoor.CP_SEWERSFRONT_OUTSIDE.value,
                         lambda state: True)
     connect_regions(self, AEDoor.CP_OUTSIDE_BARREL.value, AEDoor.CP_BARREL_OUTSIDE.value,
@@ -2519,7 +2267,7 @@ def set_locations(self):
         connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.W8L3Charlee.value, 
                         lambda state: CanHitOnce(state, self) and HasNet(state, self))
     connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.W8L3Mach3.value, 
-                        lambda state: HasNet(state, self))
+                        lambda state: HasNet(state, self) or HasWaterNet(state, self))
     # Lobby
     connect_regions(self, AEDoor.TVT_LOBBY_OUTSIDE.value, AELocation.W8L3Tortuss.value, 
                         lambda state: HasNet(state, self))

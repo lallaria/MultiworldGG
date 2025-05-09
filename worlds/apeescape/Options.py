@@ -122,7 +122,7 @@ class EntranceOption(Choice):
 
         off: Levels will be in the vanilla order.
         on: Levels will be in a random order.
-        lockmm: Levels will be in a random order, and Monkey Madness will be locked to its original entranxe.
+        lockmm: Levels will be in a random order, and Monkey Madness will be locked to its original entrance.
 
         Supported values: off, on, lockmm
         Default value: on
@@ -132,7 +132,7 @@ class EntranceOption(Choice):
     option_off = 0x00
     option_on = 0x01
     option_lockmm = 0x02
-    default = option_off
+    default = option_on
 
 
 class KeyOption(Choice):
@@ -316,10 +316,40 @@ class ItemDisplayOption(Choice):
         off: Receiving an item will not show a message in Bizhawk.
         on: Receiving an item will show a message in Bizhawk.
 
-        Supported values: off, true
+        Supported values: off, on
         Default value: on
     """
     display_name = "Item Display"
+    option_off = 0x00
+    option_on = 0x01
+    default = option_on
+
+
+class KickoutPreventionOption(Choice):
+    """Set the default for Kickout Prevention behavior. This can be changed in the client at any time.
+
+        off: Will always kick you out after catching the level's last monkey or defeating a boss.
+        on: Prevents the kickout when catching the last monkey or defeating a boss.
+
+        Supported values: off, on
+        Default value: on
+    """
+    display_name = "Kickout Prevention"
+    option_off = 0x00
+    option_on = 0x01
+    default = option_on
+
+
+class AutoEquipOption(Choice):
+    """Set the default for Auto Equipping new gadgets. This can be changed in the client at any time.
+
+        off: Received gadgets need to be manually equipped.
+        on: Received gadgets will automatically be equipped to an open face button, if one exists.
+
+        Supported values: off, on
+        Default value: on
+    """
+    display_name = "Auto Equip"
     option_off = 0x00
     option_on = 0x01
     default = option_on
@@ -346,4 +376,6 @@ class ApeEscapeOptions(PerGameCommonOptions):
     lowoxygensounds: LowOxygenSounds
     trapfillpercentage: TrapFillPercentage
     itemdisplay: ItemDisplayOption
+    kickoutprevention: KickoutPreventionOption
+    autoequip: AutoEquipOption
     death_link: DeathLink

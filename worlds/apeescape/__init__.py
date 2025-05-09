@@ -30,16 +30,8 @@ class ApeEscapeWeb(WebWorld):
         "setup/en",
         ["CDRomatron, Thedragon005, IHNN"]
     )
-    setup_fr = Tutorial(
-        setup_en.tutorial_name,
-        setup_en.description,
-        "Français",
-        "setup_fr.md",
-        "setup/fr",
-        ["Thedragon005"]
-    )
 
-    tutorials = [setup_en, setup_fr]
+    tutorials = [setup_en]
 
 
 class ApeEscapeWorld(World):
@@ -107,7 +99,7 @@ class ApeEscapeWorld(World):
         self.superflyer = self.options.superflyer.value
         self.entrance = self.options.entrance.value
         self.unlocksperkey = self.options.unlocksperkey.value
-        self.extrakeys: self.options.extrakeys.value
+        self.extrakeys = self.options.extrakeys.value
         self.coin = self.options.coin.value
         self.mailbox = self.options.mailbox.value
         self.lamp = self.options.lamp.value
@@ -201,7 +193,7 @@ class ApeEscapeWorld(World):
         if self.options.goal == "tokenhunt" or self.options.goal == "mmtoken" or self.options.goal == "ppmtoken":
             self.itempool += [self.create_item_skipbalancing(AEItem.Token.value) for _ in range(0, max(self.options.requiredtokens, self.options.totaltokens))]
             if self.options.tokenlocations == "ownworld":
-                self.multiworld.local_items[self.player].value.add("Specter Token")
+                self.options.local_items.value.add("Specter Token")
 
         # Create enough keys to access every level, if keys are on, plus the desired amount of extra keys.
         if self.options.unlocksperkey != "none":
@@ -368,6 +360,8 @@ class ApeEscapeWorld(World):
             "lowoxygensounds": self.options.lowoxygensounds.value,
             "trapfillpercentage": self.options.trapfillpercentage.value,
             "itemdisplay": self.options.itemdisplay.value,
+            "kickoutprevention": self.options.kickoutprevention.value,
+            "autoequip": self.options.autoequip.value,
             "levelnames": bytestowrite,  # List of level names in entrance order. FF leads to the first.
             "entranceids": entranceids,  # Not used by the client. List of level ids in entrance order.
             "newpositions": newpositions,  # List of positions a level is moved to. The position of FF is first.

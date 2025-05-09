@@ -215,6 +215,7 @@ class ShuffleFuses(Toggle):
     internal_name = "shuffle_fuses"
     display_name = "Shuffle Fuses"
 
+
 class ShuffleBells(Toggle):
     """
     The East and West bells are shuffled into the item pool and must be found in order to unlock the Sealed Temple.
@@ -222,6 +223,7 @@ class ShuffleBells(Toggle):
     """
     internal_name = "shuffle_bells"
     display_name = "Shuffle Bells"
+
 
 class GrassRandomizer(Toggle):
     """
@@ -264,6 +266,7 @@ class TunicPlandoConnections(PlandoConnections):
     If the Entrance Layout option is set to Standard or Fixed Shop, you can plando multiple shops.
     If the Entrance Layout option is set to Direction Pairs, your plando connections must be facing opposite directions.
     Shop Portal 1-6 are South portals, and Shop Portal 7-8 are West portals.
+    This option does nothing if Entrance Rando is disabled.
     """
     shops = {f"Shop Portal {i + 1}" for i in range(500)}
     entrances = {portal.name for portal in portal_mapping}.union(shops)
@@ -371,6 +374,7 @@ class TunicOptions(PerGameCommonOptions):
     start_with_sword: StartWithSword
     keys_behind_bosses: KeysBehindBosses
     ability_shuffling: AbilityShuffling
+
     fool_traps: FoolTraps
     laurels_location: LaurelsLocation
 
@@ -404,7 +408,7 @@ class TunicOptions(PerGameCommonOptions):
 
     fixed_shop: FixedShop  # will be removed at a later date
     logic_rules: Removed  # fully removed in the direction pairs update
-      
+
 
 tunic_option_groups = [
     OptionGroup("Hexagon Quest Options", [

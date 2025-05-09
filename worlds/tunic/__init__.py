@@ -1,3 +1,4 @@
+from dataclasses import fields
 from typing import Dict, List, Any, Tuple, TypedDict, ClassVar, Union, Set, TextIO
 from dataclasses import fields
 from logging import warning
@@ -6,7 +7,7 @@ from .bells import bell_location_groups, bell_location_name_to_id
 from .fuses import fuse_location_name_to_id, fuse_location_groups
 from .items import (item_name_to_id, item_table, item_name_groups, fool_tiers, filler_items, slot_data_item_names,
                     combat_items)
-from .locations import location_table, location_name_groups, standard_location_name_to_id, hexagon_locations, sphere_one
+from .locations import location_table, location_name_groups, standard_location_name_to_id, hexagon_locations
 from .rules import set_location_rules, set_region_rules, randomize_ability_unlocks, gold_hexagon
 from .er_rules import set_er_location_rules
 from .regions import tunic_regions
@@ -18,9 +19,10 @@ from .options import (TunicOptions, EntranceRando, tunic_option_groups, tunic_op
                       LaurelsLocation, LaurelsZips, IceGrappling, LadderStorage, EntranceLayout,
                       check_options, LocalFill, get_hexagons_in_pool, HexagonQuestAbilityUnlockType)
 from .combat_logic import area_data, CombatState
+from . import ut_stuff
 from worlds.AutoWorld import WebWorld, World
 from Options import PlandoConnection, OptionError, PerGameCommonOptions, Range, Removed
-from settings import Group, Bool
+from settings import Group, Bool, FilePath
 
 
 class TunicSettings(Group):
@@ -30,8 +32,14 @@ class TunicSettings(Group):
     class LimitGrassRando(Bool):
         """Limits the impact of Grass Randomizer on the multiworld by disallowing local_fill percentages below 95."""
 
+    class UTPoptrackerPath(FilePath):
+        """Path to the user's TUNIC Poptracker Pack."""
+        description = "TUNIC Poptracker Pack zip file"
+        required = False
+
     disable_local_spoiler: Union[DisableLocalSpoiler, bool] = False
     limit_grass_rando: Union[LimitGrassRando, bool] = True
+    ut_poptracker_path: Union[UTPoptrackerPath, str] = UTPoptrackerPath()
 
 
 class TunicWeb(WebWorld):
@@ -76,8 +84,8 @@ class TunicWorld(World):
     confront colossal beasts, collect strange and powerful items, and unravel long-lost secrets. Be brave, tiny fox!
     """
     game = "TUNIC"
-    author: str = "silent-destroyer & ScipioWright"
     web = TunicWeb()
+    author: str = "SilentSR & ScipioWright"
 
     options: TunicOptions
     options_dataclass = TunicOptions
@@ -130,21 +138,25 @@ class TunicWorld(World):
             raise Exception("You have a TUNIC APWorld in your lib/worlds folder and custom_worlds folder.\n"
                             "This would cause an error at the end of generation.\n"
                             "Please remove one of them, most likely the one in lib/worlds.")
+
         if self.options.all_random:
             for option_name in (attr.name for attr in fields(TunicOptions)
                                 if attr not in fields(PerGameCommonOptions)):
                 option = getattr(self.options, option_name)
                 if option_name == "all_random":
                     continue
-                if issubclass(option.__class__, Removed):
+                if isinstance(option, Removed):
                     continue
                 if option.supports_weighting:
-                    if issubclass(option.__class__, Range):
+                    if isinstance(option, Range):
                         option.value = self.random.randint(option.range_start, option.range_end)
                     else:
                         option.value = self.random.choice(list(option.name_lookup))
+
         check_options(self)
         self.er_regions = tunic_er_regions.copy()
+        if self.options.plando_connections and not self.options.entrance_rando:
+            self.options.plando_connections.value = ()
         if self.options.plando_connections:
             def replace_connection(old_cxn: PlandoConnection, new_cxn: PlandoConnection, index: int) -> None:
                 self.options.plando_connections.value.remove(old_cxn)
@@ -172,40 +184,7 @@ class TunicWorld(World):
                                       f"They have Direction Pairs enabled and the connection "
                                       f"{cxn.entrance} --> {cxn.exit} does not abide by this option.")
 
-        # Universal tracker stuff, shouldn't do anything in standard gen
-        if hasattr(self.multiworld, "re_gen_passthrough"):
-            if "TUNIC" in self.multiworld.re_gen_passthrough:
-                self.using_ut = True
-                self.passthrough = self.multiworld.re_gen_passthrough["TUNIC"]
-                self.options.start_with_sword.value = self.passthrough["start_with_sword"]
-                self.options.keys_behind_bosses.value = self.passthrough["keys_behind_bosses"]
-                self.options.sword_progression.value = self.passthrough["sword_progression"]
-                self.options.ability_shuffling.value = self.passthrough["ability_shuffling"]
-                self.options.laurels_zips.value = self.passthrough["laurels_zips"]
-                self.options.ice_grappling.value = self.passthrough["ice_grappling"]
-                self.options.ladder_storage.value = self.passthrough["ladder_storage"]
-                self.options.ladder_storage_without_items = self.passthrough["ladder_storage_without_items"]
-                self.options.lanternless.value = self.passthrough["lanternless"]
-                self.options.maskless.value = self.passthrough["maskless"]
-                self.options.hexagon_quest.value = self.passthrough["hexagon_quest"]
-                self.options.hexagon_quest_ability_type.value = self.passthrough.get("hexagon_quest_ability_type", 0)
-                self.options.entrance_rando.value = self.passthrough["entrance_rando"]
-                self.options.shuffle_ladders.value = self.passthrough["shuffle_ladders"]
-                self.options.shuffle_fuses.value = self.passthrough.get("shuffle_fuses", 0)
-                self.options.shuffle_bells.value = self.passthrough.get("shuffle_bells", 0)
-                self.options.grass_randomizer.value = self.passthrough.get("grass_randomizer", 0)
-                self.options.breakable_shuffle.value = self.passthrough.get("breakable_shuffle", 0)
-                self.options.entrance_layout.value = EntranceLayout.option_standard
-                if ("ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].keys()
-                        or "ziggurat2020_3, ziggurat2020_1_zig2_skip" in self.passthrough["Entrance Rando"].values()):
-                    self.options.entrance_layout.value = EntranceLayout.option_fixed_shop
-                self.options.decoupled = self.passthrough.get("decoupled", 0)
-                self.options.laurels_location.value = LaurelsLocation.option_anywhere
-                self.options.combat_logic.value = self.passthrough.get("combat_logic", 0)
-            else:
-                self.using_ut = False
-        else:
-            self.using_ut = False
+        ut_stuff.setup_options_from_slot_data(self)
 
         self.player_location_table = standard_location_name_to_id.copy()
 
@@ -222,7 +201,7 @@ class TunicWorld(World):
 
         if self.options.grass_randomizer:
             if self.settings.limit_grass_rando and self.options.local_fill < 95 and self.multiworld.players > 1:
-                raise OptionError(f"TUNIC: Player {self.player_name} has their Grass Fill option set too low. "
+                raise OptionError(f"TUNIC: Player {self.player_name} has their Local Fill option set too low. "
                                   f"They must either bring it above 95% or the host needs to disable limit_grass_rando "
                                   f"in their host.yaml settings")
 
@@ -524,9 +503,10 @@ class TunicWorld(World):
     def pre_fill(self) -> None:
         if self.options.local_fill > 0 and self.multiworld.players > 1:
             # we need to reserve a couple locations so that we don't fill up every sphere 1 location
-            reserved_locations: Set[str] = set(self.random.sample(sphere_one, 2))
+            sphere_one_locs = self.multiworld.get_reachable_locations(CollectionState(self.multiworld), self.player)
+            reserved_locations: Set[Location] = set(self.random.sample(sphere_one_locs, 2))
             viable_locations = [loc for loc in self.multiworld.get_unfilled_locations(self.player)
-                                if loc.name not in reserved_locations
+                                if loc not in reserved_locations
                                 and loc.name not in self.options.priority_locations.value]
 
             if len(viable_locations) < self.amount_to_local_fill:
@@ -558,10 +538,10 @@ class TunicWorld(World):
             multiworld.random.shuffle(non_grass_fill_locations)
 
             for filler_item in grass_fill:
-                multiworld.push_item(grass_fill_locations.pop(), filler_item, collect=False)
+                grass_fill_locations.pop().place_locked_item(filler_item)
 
             for filler_item in non_grass_fill:
-                multiworld.push_item(non_grass_fill_locations.pop(), filler_item, collect=False)
+                non_grass_fill_locations.pop().place_locked_item(filler_item)
 
     def create_regions(self) -> None:
         self.tunic_portal_pairs = {}
@@ -577,7 +557,8 @@ class TunicWorld(World):
         # Most non-standard options use ER regions
         if (self.options.entrance_rando or self.options.shuffle_ladders or self.options.combat_logic
                 or self.options.grass_randomizer or self.options.breakable_shuffle
-                or self.options.shuffle_fuses or self.options.shuffle_bells):
+                or self.options.shuffle_fuses or self.options.shuffle_bells
+                or self.options.ladder_storage or self.options.ice_grappling or self.options.laurels_zips):
             portal_pairs = create_er_regions(self)
             if self.options.entrance_rando:
                 # these get interpreted by the game to tell it which entrances to connect
@@ -608,7 +589,8 @@ class TunicWorld(World):
         # same reason as in create_regions
         if (self.options.entrance_rando or self.options.shuffle_ladders or self.options.combat_logic
                 or self.options.grass_randomizer or self.options.breakable_shuffle
-                or self.options.shuffle_fuses or self.options.shuffle_bells):
+                or self.options.shuffle_fuses or self.options.shuffle_bells
+                or self.options.ladder_storage or self.options.ice_grappling or self.options.laurels_zips):
             set_er_location_rules(self)
         else:
             set_region_rules(self)
@@ -755,18 +737,6 @@ class TunicWorld(World):
                     slot_data[start_item] = []
                 for _ in range(self.options.start_inventory_from_pool[start_item]):
                     slot_data[start_item].extend(["Your Pocket", self.player])
-
-        for plando_item in self.multiworld.plando_items[self.player]:
-            if plando_item["from_pool"]:
-                items_to_find = set()
-                for item_type in [key for key in ["item", "items"] if key in plando_item]:
-                    for item in plando_item[item_type]:
-                        items_to_find.add(item)
-                for item in items_to_find:
-                    if item in slot_data_item_names:
-                        slot_data[item] = []
-                        for item_location in self.multiworld.find_item_locations(item, self.player):
-                            slot_data[item].extend(self.get_real_location(item_location))
 
         return slot_data
 
