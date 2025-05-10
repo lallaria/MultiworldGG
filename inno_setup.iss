@@ -272,6 +272,11 @@ Root: HKCR; Subkey: "{#MyAppName}apleafgreenpatch";                     ValueDat
 Root: HKCR; Subkey: "{#MyAppName}apleafgreenpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGBizHawkClient.exe,0";                      ValueType: string; ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}apleafgreenpatch\shell\open\command";  ValueData: """{app}\MultiworldGGBizHawkClient.exe"" ""%1""";             ValueType: string; ValueName: "";
 
+Root: HKCR; Subkey: ".aplm";                                     ValueData: "{#MyAppName}aplmpatch";    Flags: uninsdeletevalue;   ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}aplmpatch";                     ValueData: "MultiworldGG Luigi's Mansion Patch"; Flags: uninsdeletekey;   ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}aplmpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGLauncher.exe,0";                      ValueType: string; ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}aplmpatch\shell\open\command";  ValueData: """{app}\MultiworldGGLauncher.exe"" ""%1""";             ValueType: string; ValueName: "";
+
 Root: HKCR; Subkey: ".apmk64";                                     ValueData: "{#MyAppName}apmk64patch";    Flags: uninsdeletevalue;        ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}apmk64patch";                     ValueData: "MultiworldGG Mario Kart 64 Patch"; Flags: uninsdeletekey;    ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}apmk64patch\DefaultIcon";         ValueData: "{app}\MultiworldGGBizHawkClient.exe,0";                      ValueType: string; ValueName: "";
