@@ -83,7 +83,7 @@ def update_event_info(event_info, boo_checks: bool, output_data):
 
     # Only remove the boo checks if the player does not want them.
     if not boo_checks:
-        events_to_remove = events_to_remove + [16, 47, 96]
+        events_to_remove += [16, 47, 96]
 
     event_info.info_file_field_entries = list(filter(
         lambda info_entry: not (info_entry["EventNo"] in events_to_remove or (info_entry["EventNo"] == 93 and
@@ -160,10 +160,10 @@ def update_event_info(event_info, boo_checks: bool, output_data):
         if x["EventNo"] == 74:
             x["CharacterName"] = "dltelesa"
 
-        # Make event38 load more than once
+        # Make Van Gogh load more than once
         if x["EventNo"] == 38:
             x["EventLoad"] = 0
-            x["disappear_flag"] = 10
+            x["disappear_flag"] = 22
             x["EventIf"] = 2
 
         # Update the Washroom event trigger to be area entry based
@@ -980,7 +980,7 @@ def update_observer_info(observer_info):
         "invisible": 1,
         "(Undocumented)": 0,
     })
-    # Turn on flag 3 to stop event38 from reloading
+    # Turn on Flag 22 to stop Van Gogh from reloading
     observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
@@ -997,7 +997,7 @@ def update_observer_info(observer_info):
         "scale_z": 1.000000,
         "room_no": 57,
         "cond_arg0": 0,
-        "arg0": 10,
+        "arg0": 22,
         "arg1": 0,
         "arg2": 0,
         "arg3": 0,
