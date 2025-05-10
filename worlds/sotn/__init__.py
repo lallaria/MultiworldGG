@@ -16,7 +16,7 @@ from .client import SotNClient
 #from .test_client import SotNTestClient
 
 
-# Thanks for Fuzzy for MultiworldGG Manual it all started there
+# Thanks for Fuzzy for Archipelago Manual it all started there
 # Thanks for Wild Mouse for it´s randomizer and a lot of stuff over here
 # Thanks for TalicZealot with a lot of rom addresses
 # Thanks for all decomp folks
