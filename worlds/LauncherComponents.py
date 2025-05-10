@@ -232,6 +232,8 @@ components: List[Component] = [
     Component('Zelda 1 Client', 'Zelda1Client', file_identifier=SuffixIdentifier('.aptloz')),
     # ChecksFinder
     Component('ChecksFinder Client', 'ChecksFinderClient'),
+    #MegaMan Battle Network 3
+    Component('MMBN3 Client', 'MMBN3Client', file_identifier=SuffixIdentifier('.apbn3')),
     # Manual games in Arch
     Component('Manual Client', 'ManualClient', file_identifier=SuffixIdentifier('.apmanual'))
 ]
