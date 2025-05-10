@@ -31,22 +31,23 @@ def launch_client(*args) -> None:
     LauncherComponents.launch(main, name="GZDoom Client", args=args)
 
 
+LauncherComponents.icon_paths["gzdoom_icon"] = f"ap:{__name__}/gzdoom_icon.png"
 LauncherComponents.components.append(
     LauncherComponents.Component(
         "GZDoom Client",
         func=launch_client,
-        component_type=LauncherComponents.Type.CLIENT
+        component_type=LauncherComponents.Type.CLIENT,
+        icon="gzdoom_icon",
     )
 )
-
 
 class GZDoomLocation(Location):
     game: str = "gzDoom"
 
-    def __init__(self, options, player: int, loc: DoomLocation, region: Region) -> None:
-        super().__init__(player=player, name=loc.name(), address=loc.id, parent=region)
-        self.access_rule = loc.access_rule(player)
-        if loc.secret and not options.allow_secret_progress.value:
+    def __init__(self, world, loc: DoomLocation, region: Region) -> None:
+        super().__init__(player=world.player, name=loc.name(), address=loc.id, parent=region)
+        self.access_rule = loc.access_rule(world)
+        if loc.secret and not world.options.allow_secret_progress.value:
             self.progress_type = LocationProgressType.EXCLUDED
         else:
             self.progress_type = LocationProgressType.DEFAULT
@@ -58,11 +59,17 @@ class GZDoomItem(Item):
     def __init__(self, item: DoomItem, player: int) -> None:
         super().__init__(name=item.name(), classification=item.classification(), code=item.id, player=player)
 
+class GZDoomUTGlitchToken(Item):
+    game: str = "gzDoom"
+    TOKEN_NAME = "[UT Glitch Logic Token]"
+
+    def __init__(self, player) -> None:
+        super().__init__(name=self.TOKEN_NAME, classification=ItemClassification.progression, code=None, player=player)
 
 class GZDoomWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the gzDoom randomizer connected to an Archipelago Multiworld",
+        "A guide to setting up the gzDoom randomizer connected to a MultiworldGG Multiworld",
         "English",
         "setup_en.md",
         "setup/en",
@@ -97,12 +104,18 @@ class GZDoomWorld(World):
     location_name_to_id: Dict[str, int] = model.unified_location_map()
     location_name_groups: Dict[str,FrozenSet[str]] = model.unified_location_groups()
 
+    # Universal Tracker integration
+    glitches_item_name: str = GZDoomUTGlitchToken.TOKEN_NAME
+
 
     def __init__(self, multiworld: MultiWorld, player: int):
         self.location_count = 0
         super().__init__(multiworld, player)
 
     def create_item(self, name: str) -> GZDoomItem:
+        if name == GZDoomUTGlitchToken.TOKEN_NAME:
+            return GZDoomUTGlitchToken(self.player)
+
         item = self.wad_logic.items_by_name[name]
         return GZDoomItem(item, self.player)
 
@@ -194,10 +207,7 @@ class GZDoomWorld(World):
 
             region = Region(map.map, self.player, self.multiworld)
             self.multiworld.regions.append(region)
-            if self.options.pretuning_mode:
-                rule = lambda state: True
-            else:
-                rule = map.access_rule(self)
+            rule = map.access_rule(self)
             menu_region.connect(
                 connecting_region=region,
                 name=f"{map.map}",
@@ -205,9 +215,8 @@ class GZDoomWorld(World):
             for loc in self.pool.locations_in_map(map.map):
                 assert loc.name() not in placed, f"Location {loc.name()} was already placed but we tried to place it again!"
                 placed.add(loc.name())
-                location = GZDoomLocation(self.options, self.player, loc, region)
+                location = GZDoomLocation(self, loc, region)
                 if self.options.pretuning_mode:
-                    location.access_rule = lambda state: True
                     if loc.orig_item:
                         location.place_locked_item(self.create_item(loc.orig_item.name()))
                     elif loc.item:
@@ -314,20 +323,24 @@ class GZDoomWorld(World):
                 return self.wad_logic.items_by_name[loc.item.name].typename
             return ""
 
+        def escape(name: str) -> str:
+            return name.replace('\\', '\\\\').replace('"', '\\"')
+
         def item_name_at(name: str) -> str:
             loc = self.get_location(name)
             if loc.item:
-                return loc.item.name
+                return escape(loc.item.name)
             return ""
 
         def locations(map):
             return self.pool.locations_in_map(map)
-        
+
         internal_data_dir = Path(os.path.join(Utils.local_path("data"), "gzdoom")) if Utils.is_frozen() else resources.files(__package__)
         mod_version = internal_data_dir.joinpath('VERSION').read_text().strip()
 
         data = {
             "singleplayer": self.multiworld.players == 1,
+            "pretuning": self.options.pretuning_mode.value,
             "seed": self.multiworld.seed_name,
             "mod_version": mod_version,
             "player": self.multiworld.player_name[self.player],
@@ -351,6 +364,7 @@ class GZDoomWorld(World):
             "item_at": item_at,
             "item_type_at": item_type_at,
             "item_name_at": item_name_at,
+            "escape": escape,
             "win_conditions": self.options.win_conditions.template_values(self),
             "generate_mapinfo": (not self.options.pretuning_mode) or self.options.full_persistence,
         }
