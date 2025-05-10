@@ -140,7 +140,7 @@ class PresentSprites(DefaultOnToggle):
     display_name = "Match Present Sprites"
 
 class NoAPPresents(Toggle):
-    """If enabled, present that contain items for other players will appear as EarthBound presents (trashcan, present, and chest) instead of MultiworldGG boxes.
+    """If enabled, present that contain items for other players will appear as EarthBound presents (trashcan, present, and chest) instead of Archipelago boxes.
        Does nothing if Presents Match Contents is disabled."""
 
 
@@ -379,7 +379,7 @@ class SkipEpilogue(Toggle):
     visibility = Visibility.template
 
 class EnergyLink(Toggle):
-    """If enabled, the money in the ATM will be linked across the MultiworldGG Server.
+    """If enabled, the money in the ATM will be linked across the Archipelago Server.
        This requires a server connection to be used, but won't break offline play."""
     display_name = "Energy Link"
 
