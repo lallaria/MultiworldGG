@@ -30,8 +30,16 @@ class ApeEscapeWeb(WebWorld):
         "setup/en",
         ["CDRomatron, Thedragon005, IHNN"]
     )
+    setup_fr = Tutorial(
+        setup_en.tutorial_name,
+        setup_en.description,
+        "Français",
+        "setup_fr.md",
+        "setup/fr",
+        ["Thedragon005"]
+    )
 
-    tutorials = [setup_en]
+    tutorials = [setup_en, setup_fr]
 
 
 class ApeEscapeWorld(World):
