@@ -102,7 +102,7 @@ def start_generation(options: Dict[str, Union[dict, str]], meta: Dict[str, Any])
             meta["error"] = f"{e.__class__.__name__}: {e}"
             if e.__cause__:
                 cause = e.__cause__
-                meta["source"] = cause.__class__.__name__ + ": " + str(cause)
+                meta["source"] = f"{cause.__class__.__name__}: {str(cause)}"
             details = json.dumps(meta, indent=4).strip()
             return render_template("seedError.html", seed_error=meta["error"], details=details)
 
@@ -177,7 +177,7 @@ def gen_game(gen_options: dict, meta: Optional[Dict[str, Any]] = None, owner=Non
                             e.__class__.__name__ + ": " + str(e))
                     if e.__cause__:
                         cause = e.__cause__
-                        meta["source"] = cause.__class__.__name__ + ": " + str(cause)
+                        meta["source"] = f"{cause.__class__.__name__}: {str(cause)}"
                     gen.meta = json.dumps(meta)
                     commit()
     except BaseException as e:
@@ -187,10 +187,10 @@ def gen_game(gen_options: dict, meta: Optional[Dict[str, Any]] = None, owner=Non
                 if gen is not None:
                     gen.state = STATE_ERROR
                     meta = json.loads(gen.meta)
-                    meta["error"] = (e.__class__.__name__ + ": " + str(e))
+                    meta["error"] = f"{e.__class__.__name__}: {str(e)}"
                     if e.__cause__:
                         cause = e.__cause__
-                        meta["source"] = cause.__class__.__name__ + ": " + str(cause)
+                        meta["source"] = f"{cause.__class__.__name__}: {str(cause)}"
                     gen.meta = json.dumps(meta)
                     commit()
         raise
