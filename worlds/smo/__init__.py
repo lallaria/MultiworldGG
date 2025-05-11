@@ -111,7 +111,7 @@ class SMOWorld(World):
                 classification = ItemClassification.filler
             elif self.options.goal < 17 and name in self.item_name_groups["Darker"]:
                 classification = ItemClassification.filler
-            elif self.options.goal <= 16 and (name in self.item_name_groups["Dark"] or (name == "Bone Clothes" and (self.options.shops == 0 or self.options.shops == 3))):
+            elif self.options.goal <= 16 and (name in self.item_name_groups["Dark"] or (name == "Bone Clothes" and (self.options.shopsanity == 0 or self.options.shopsanity == 3))):
                 classification = ItemClassification.filler
             elif self.options.goal <= 15 and (name in self.item_name_groups["Moon"] or name in self.item_name_groups["Mushroom"] or name in self.item_name_groups["Cloud"] or name in self.item_name_groups["Cap"]):
                 classification = ItemClassification.filler
@@ -159,19 +159,19 @@ class SMOWorld(World):
         else:
             pool.add("1000 Coins")
 
-        if self.options.shops == 0 or self.options.shops == 3:
+        if self.options.shopsanity == 0 or self.options.shopsanity == 3:
             for key in outfits:
                 pool.remove(key)
                 self.multiworld.get_location(key, self.player).place_locked_item(self.create_item(key))
         # Shuffle outfits amongst themselves
-        elif self.options.shops == "shuffle":
+        elif self.options.shopsanity == "shuffle":
             loc_names = outfits
             item_names = outfits.copy()
             for i in range(len(loc_names)):
                 pool.remove(loc_names[i])
                 self.multiworld.get_location(loc_names[i], self.player).place_locked_item(self.create_item(item_names.pop(random.randint(0, len(item_names) - 1))))
         # Non outfits
-        if self.options.shops < 3:
+        if self.options.shopsanity < 3:
             for key in shop_items:
                 pool.remove(key)
                 self.multiworld.get_location(key, self.player).place_locked_item(self.create_item(key))

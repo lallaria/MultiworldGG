@@ -2,13 +2,13 @@
 
 ## Required Software
 
-- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
+- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
 - [Don't Starve Together](https://store.steampowered.com/app/322330/Dont_Starve_Together/)
 - [Archipelago Randomizer Steam Workshop mod for Don't Starve Together](https://steamcommunity.com/sharedfiles/filedetails/?id=3218471273)
 
 ## Installation
 - Install Archipelago.
-- Follow MultiworldGG's basic tutorial on how to generate a game. [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+- Follow Archipelago's basic tutorial on how to generate a game. [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
     * Only a single YAML is needed for a Don't Starve Together server regardless of how many players will play on it.
 
 ## Setting up your world
@@ -50,5 +50,5 @@
 - Once you've connected your world to Archipelgo for the first time, it's possible to continue even if not connected. Progress syncs when
   you connect to Archipelago again. However, offline progress is lost if you regenerate your world!
 - It is fine to play the same Archipelago slot on multiple worlds, even by multiple people at the same time.
-    * You cannot play multiple slots on a single world. The DST's MultiworldGG client only connects to the DST server on the same machine.
+    * You cannot play multiple slots on a single world. The DST's Archipelago client only connects to the DST server on the same machine.
 - You cannot connect a different slot/multiworld to your existing Archipelago DST world. Your client will tell you if you have a mismatch.

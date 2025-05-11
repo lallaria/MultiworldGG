@@ -11,7 +11,7 @@ from CommonClient import CommonContext, get_base_parser
 from Utils import async_start, is_windows, is_macos
 from pathlib import Path
 import os
-from .Constants import LOCATION_BOSS_RANGE, LOCATION_RESEARCH_RANGE, VERSION, CLIENT_HOSTNAME, CLIENT_PORT
+from .Constants import LOCATION_BOSS_RANGE, LOCATION_RESEARCH_RANGE, VERSION
 from math import floor
 DST_FILE_START = "KLEI     1 "
 TIMEOUT_TIME:int = 60*3
@@ -463,10 +463,11 @@ class DSTHandler():
                         "sources": list(_sources),
                     })
             elif datatype == "DeathLink":
-                if "DeathLink" in self.ctx.tags:
+                _enabled = data.get("enabled", False)
+                if ("DeathLink" in self.ctx.tags) != _enabled:
                     await self.handle_dst_filedata_entry({
                         "datatype": datatype,
-                        "enabled": data.get("enabled", False),
+                        "enabled": _enabled,
                     })
             elif datatype == "Death":
                 for deathdata in data:

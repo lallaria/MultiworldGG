@@ -934,7 +934,7 @@ Deal,Clothes & Robes 9 (Deal),Clothes & Robes 9,Not Missable,Memory
 Deal,Nectar (Deal),Nectar,Not Missable,Memory
 Deal,Ambrosia (Deal),Ambrosia,Not Missable,Memory
 Deal,Rubber Duck (Deal),Rubber Duck,Not Missable,Memory
-Deal,Ultimate Material Pack (Deal),Ultra Material Pack,Not Missable,Memory
+Deal,Ultra Material Pack (Deal),Ultra Material Pack,Not Missable,Memory
 Chest,Nhysa (Buried) #3,nhburied_1,Not Missable,Memory
 Board,Defeat 6 Earthworms (Board),Board187,Not Missable,Memory
 Board,Find buried treasures in Nhysa (Board),Board227,Not Missable,Memory

@@ -5,6 +5,7 @@ import asyncio
 import threading
 import importlib.util
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 import pathlib
 
 from NetUtils import ClientStatus
@@ -343,7 +344,7 @@ class HadesContext(CommonContext):
 
         class HadesManager(GameManager):
             # logging_pairs for any separate logging tabs
-            base_title = "MultiworldGG Hades Client"
+            base_title = f"{apname} Hades Client"
 
         self.ui = HadesManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

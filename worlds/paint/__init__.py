@@ -1,8 +1,8 @@
 from typing import Dict, Any
 
-from BaseClasses import CollectionState, Item, Tutorial, Region, Entrance
-from worlds.AutoWorld import World, WebWorld
-from .items import item_table, PaintItem, item_data_table
+from BaseClasses import CollectionState, Item, Tutorial, Region, Entrance, MultiWorld
+from worlds.AutoWorld import World, WebWorld, LogicMixin
+from .items import item_table, PaintItem, item_data_table, traps, deathlink_traps
 from .locations import location_table, PaintLocation, location_data_table
 from .options import PaintOptions
 
@@ -14,8 +14,8 @@ class PaintWebWorld(WebWorld):
         tutorial_name="Start Guide",
         description="A guide to playing Paint in MultiworldGG.",
         language="English",
-        file_name="setup_en.md",
-        link="setup/en",
+        file_name="guide_en.md",
+        link="guide/en",
         authors=["MarioManTAW"]
     )
 
@@ -29,26 +29,25 @@ class PaintWorld(World):
     """
     game = "Paint"
     author: str = "MairoManTAW"
-    web = PaintWebWorld()
     options_dataclass = PaintOptions
     options = PaintOptions
+    web = PaintWebWorld()
     location_name_to_id = location_table
     item_name_to_id = item_table
 
-    def get_filler_item_name(self):
+    def get_filler_item_name(self) -> str:
         if self.random.randint(0, 99) >= self.options.trap_count:
             return "Additional Palette Color"
         elif self.options.death_link:
-            return self.random.choice(["Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])
+            return self.random.choice(deathlink_traps)
         else:
-            return self.random.choice(["Undo Trap", "Clear Image Trap", "Invert Colors Trap", "Flip Horizontal Trap",
-                                       "Flip Vertical Trap"])
+            return self.random.choice(traps)
 
     def create_item(self, name: str) -> PaintItem:
         item = PaintItem(name, item_data_table[name].type, item_data_table[name].code, self.player)
         return item
 
-    def create_items(self):
+    def create_items(self) -> None:
         starting_tools = ["Brush", "Pencil", "Eraser/Color Eraser", "Airbrush", "Line", "Rectangle", "Ellipse",
                           "Rounded Rectangle"]
         self.multiworld.push_precollected(self.create_item("Magnifier"))
@@ -63,15 +62,15 @@ class PaintWorld(World):
         pre_filled = len(items_to_create)
         to_fill = len(self.get_region("Canvas").locations)
         while len(items_to_create) < (to_fill - pre_filled) * (self.options.trap_count / 100) + pre_filled:
-            if self.options.death_link: items_to_create += [self.random.choice(
-            ["Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])]
-            else: items_to_create += [self.random.choice(
-            ["Undo Trap", "Clear Image Trap", "Invert Colors Trap", "Flip Horizontal Trap", "Flip Vertical Trap"])]
+            if self.options.death_link:
+                items_to_create += [self.random.choice(deathlink_traps)]
+            else:
+                items_to_create += [self.random.choice(traps)]
         while len(items_to_create) < to_fill:
             items_to_create += ["Additional Palette Color"]
         self.multiworld.itempool += [self.create_item(item) for item in items_to_create]
 
-    def create_regions(self):
+    def create_regions(self) -> None:
         menu = Region("Menu", self.player, self.multiworld)
         canvas = Region("Canvas", self.player, self.multiworld)
         canvas.locations += [PaintLocation(self.player, loc_name, loc_data.address, canvas)
@@ -83,14 +82,23 @@ class PaintWorld(World):
         connection.connect(canvas)
         self.multiworld.regions += [menu, canvas]
 
-    def set_rules(self):
+    def set_rules(self) -> None:
         from .rules import set_rules, set_completion_rules
         set_rules(self, self.player)
         set_completion_rules(self, self.player)
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return dict(self.options.as_dict("logic_percent", "goal_percent", "goal_image", "death_link"),
-                    version = "0.4.1")
+                    version="0.4.1")
+
+    class PaintState(LogicMixin):
+        paint_percent_available: dict[int, float]  # per player
+        paint_percent_stale: dict[int, bool]
+
+        def init_mixin(self, multiworld: MultiWorld) -> None:
+            self.paint_percent_available = {player: 0 for player in multiworld.get_game_players("Paint")}
+            self.paint_percent_stale = {player: True for player in multiworld.get_game_players("Paint")}
+
 
     def collect(self, state: CollectionState, item: Item) -> bool:
         change = super().collect(state, item)
@@ -104,7 +112,9 @@ class PaintWorld(World):
             state.paint_percent_stale[self.player] = True
         return change
 
+
 def location_exists_with_options(world: PaintWorld, location: int):
     l = location % 198600
-    return l <= world.options.logic_percent * 4 and (l % 4 == 0 or \
-		(l > world.options.half_percent_checks * 4 and l % 2 == 0) or l > world.options.quarter_percent_checks * 4)
+    return l <= world.options.logic_percent * 4 and (l % 4 == 0 or
+                                                    (l > world.options.half_percent_checks * 4 and l % 2 == 0) or
+                                                    l > world.options.quarter_percent_checks * 4)

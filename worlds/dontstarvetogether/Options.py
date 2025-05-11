@@ -37,8 +37,11 @@ class DaysToSurvive(NamedRange):
     }
 
 class RequiredBosses(OptionSet):
+    # TODO: If there's any intention of merging this to core, this description has to be shortened to look better on the web
     """
     Only applies for boss goal types. Which boss(es) are required to be defeated to beat the game?
+
+    Make sure correct regions, seasons, and day phases are enabled for your goal boss to be in logic.
 
     "Random" chooses a random boss. If bosses are chosen along with it, it'll choose a random boss within your selection.
 
@@ -62,6 +65,8 @@ class RequiredBosses(OptionSet):
     Scrappy Werepig - Cave (Full)
     Ancient Fuelweaver - Cave (Full), Night
     Celestial Champion - Ocean (Full)
+    
+    Example: ['Deerclops', 'Moose/Goose', 'Bearger']
     """
     display_name = "Boss Defeat Requirement"
     default = {"Ancient Guardian"}
@@ -254,7 +259,7 @@ class ChessPieceSketchItems(DefaultOnToggle):
 
 class ExtraDamageAgainstBosses(NamedRange):
     """
-    This adds "Extra Damage Against Bosses" buffs as MultiworldGG items. Recommended if playing solo.
+    This adds "Extra Damage Against Bosses" buffs as Archipelago items. Recommended if playing solo.
 
     Each stack of this buff gives the player a permanent +10% damage against easier bosses and +25% damage against tougher ones.
 
@@ -277,8 +282,8 @@ class ExtraDamageAgainstBosses(NamedRange):
 
 class DamageBonuses(NamedRange):
     """
-    This adds "Damage Bonus" buffs as MultiworldGG items.
-MultiworldGG
+    This adds "Damage Bonus" buffs as Archipelago items.
+
     Each stack of this buff gives the player a permanent +10% damage against all mobs.
 
     This is exponential. With 10 stacks, this turns into a x2.6 multipier. Multiplier can be configured in the mod configuration in the game's menu.
@@ -312,9 +317,9 @@ class BossFillItems(Choice):
 
 class ShuffleStartingRecipes(Toggle):
     """
-    Turn your basic starting recipes into MultiworldGG items?
+    Turn your basic starting recipes into Archipelago items?
 
-    This may leave you vulnerable to darkness on your first night! If you're not okay with this, you may want to add Torch to your starting items.
+    This may leave you vulnerable to darkness on your first night! If you're not okay with this, you may want to add {Torch: 1} to your start inventory.
 
     Sphere 1 will also be small, making generation more restrictive when generating alone, and is prone to fail if "Creature Locations" are off!
     """
@@ -322,13 +327,13 @@ class ShuffleStartingRecipes(Toggle):
 
 class ShuffleNoUnlockRecipes(Toggle):
     """
-    Turn crafting recipes from the Ancient Pseudoscience Station and Celestial Altars into MultiworldGG items?
+    Turn crafting recipes from the Ancient Pseudoscience Station and Celestial Altars into Archipelago items?
     """
     display_name = "Shuffle Ancient and Celestial Recipes"
 
 class SeedItems(DefaultOnToggle):
     """
-    Turn farm plant seeds into MultiworldGG items? When enabled, generic seeds can only grow weeds.
+    Turn farm plant seeds into Archipelago items? When enabled, generic seeds can only grow weeds.
     """
     display_name = "Farm Plant Seed Items"
 

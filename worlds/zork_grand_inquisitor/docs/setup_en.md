@@ -29,9 +29,9 @@ This being said, the game does need to be played through ScummVM 2.7.1, so some 
 ## Joining a Multiworld Game
 
 - Launch Zork Grand Inquisitor and start a new game.
-- Open the MultiworldGG Launcher and click `Zork Grand Inquisitor Client`.
+- Open the Archipelago Launcher and click `Zork Grand Inquisitor Client`.
 - Using the `Zork Grand Inquisitor Client`:
-  - Enter the room's hostname and port number (e.g. `multiworld.gg:54321`) in the top box and press `Connect`.
+  - Enter the room's hostname and port number (e.g. `archipelago.gg:54321`) in the top box and press `Connect`.
   - Input your player name at the bottom when prompted and press `Enter`.
   - You should now be connected to the Archipelago room.
   - Next, input `/zork` at the bottom and press `Enter`. This will attach the client to the game process.

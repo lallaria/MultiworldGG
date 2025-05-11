@@ -44,5 +44,5 @@ class ReplaceUnneededMoons(Toggle):
 class SMOOptions(PerGameCommonOptions):
     goal: Goal
     story : StorySanity
-    shops: ShopSanity
+    shopsanity: ShopSanity
     replace: ReplaceUnneededMoons

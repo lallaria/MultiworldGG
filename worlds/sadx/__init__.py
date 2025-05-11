@@ -32,6 +32,11 @@ class SonicAdventureDXWeb(WebWorld):
 
 
 class SonicAdventureDXWorld(World):
+    """
+    Sonic Adventure is a 1998 platform game for the Dreamcast. It was the first main Sonic the Hedgehog game to feature 3D gameplay.
+    Controlling one of the six characters—each with their own abilities—players complete levels to progress the story. Sonic Adventure retains many elements from prior Sonic games, 
+    such as power-ups and the ring-based health system. Players can play minigames such as racing and interact with Chao, a virtual pet.
+    """
     game = "Sonic Adventure DX"
     author: str = "Classic"
     web = SonicAdventureDXWeb()
