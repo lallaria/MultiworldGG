@@ -8,6 +8,5 @@ from .markuptextfield import (
 )
 from .colorpicker import (
     MWColorPicker,
-    MWColorWheel,
 )
 

@@ -17,6 +17,8 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.appbar import MDTopAppBar
 from kivymd.theming import ThemableBehavior
 
+from testdict import testdict
+
 # Load the KV string
 Builder.load_string('''
 <HintCard>:
@@ -133,6 +135,8 @@ Builder.load_string('''
 
 <HintScreen>:
     MDBoxLayout:
+        size_hint_y: None
+        height: Window.height-103
         orientation: "vertical"
         
         MDBoxLayout:
@@ -183,19 +187,24 @@ class HintCard(MDCard, DragBehavior, HoverBehavior):
     flagged = BooleanProperty(False)
     hint_data = ObjectProperty(None)
 
-    _theme_cls: ObjectProperty
-    _theme_mw: ObjectProperty
-
-    
     def __init__(self, **kwargs):
+        self.app = MDApp.get_running_app()
+        self.theme_style = 0 if self.app.theme_cls.theme_style == "Dark" else 1
         super().__init__(**kwargs)
         self.drag_threshold = dp(20)
         self.drag_timeout = 0.5  # 0.5 seconds for long press
-
-    def save_themes(self):
-        app = MDApp.get_running_app()
-        self._theme_cls = app.theme_cls
-        self._theme_mw = app.theme_mw
+        
+    def _update_colors(self):
+        """Update colors based on current theme"""
+        if not self.hint_data:
+            return
+            
+        if self.hint_data.get("is_player1", True):
+            self.theme_bg_color = "Custom"
+            self.md_bg_color = self.app.theme_mw.markup_tags_theme.player1_color[self.theme_style]
+        else:
+            self.theme_bg_color = "Custom"
+            self.md_bg_color = self.app.theme_mw.markup_tags_theme.player2_color[self.theme_style]
         
     def on_hint_data(self, instance, value):
         if value:
@@ -206,25 +215,20 @@ class HintCard(MDCard, DragBehavior, HoverBehavior):
             self.importance = value.get("importance", "")
             self.flagged = value.get("flagged", False)
             
-            # Set card background color based on player
-            if value.get("is_player1", True):
-                self.theme_bg_color = "Custom"
-                self.md_bg_color = self._theme_mw.markup_tags_theme.player1_color[self._theme_cls.theme_style]
-            else:
-                self.theme_bg_color = "Custom"
-                self.md_bg_color = self._theme_mw.markup_tags_theme.player2_color[self._theme_cls.theme_style]
-                
+            # Update colors
+            self._update_colors()
+            
             # Set card shadow color based on importance
             self.elevation = 2
             self.theme_shadow_color = "Custom"
             if self.importance == "Progression":    
-                self.shadow_color = self._theme_mw.markup_tags_theme.progression_item_color[self._theme_cls.theme_style]
+                self.shadow_color = self.app.theme_mw.markup_tags_theme.progression_item_color[self.theme_style]
             elif self.importance == "Helpful":
-                self.shadow_color = self._theme_mw.markup_tags_theme.useful_item_color[self._theme_cls.theme_style]
+                self.shadow_color = self.app.theme_mw.markup_tags_theme.useful_item_color[self.theme_style]
             elif self.importance == "Junk":
-                self.shadow_color = self._theme_mw.markup_tags_theme.regular_item_color[self._theme_cls.theme_style]
+                self.shadow_color = self.app.theme_mw.markup_tags_theme.regular_item_color[self.theme_style]
             elif self.importance == "Trap":
-                self.shadow_color = self._theme_mw.markup_tags_theme.trap_item_color[self._theme_cls.theme_style]
+                self.shadow_color = self.app.theme_mw.markup_tags_theme.trap_item_color[self.theme_style]
             
     def toggle_flag(self):
         """Toggle the flagged state of the hint."""
@@ -269,6 +273,7 @@ class HintScreen(MDScreen):
         self.drag_card = None
         self.drag_start_pos = None
         self.filter_chip_dict = {}  # Dictionary to store filter chips
+        self.load_hints()  # Load test data
         
     def on_kv_post(self, widget):
         """Called after the kv file is loaded."""
@@ -500,6 +505,38 @@ class HintScreen(MDScreen):
             
     def load_hints(self):
         """Load hints from the data source."""
+        # Clear existing hints
+        self.hints = []
+        
+        # Get current user from app
+        current_user = "Delilah"
+        
+        # Transform and load test data
+        importance_mapping = {
+            "Important": "Progression",
+            "Useful": "Helpful",
+            "Trash": "Junk"
+        }
+        
+        for importance, hints in testdict.items():
+            for hint in hints:
+                # Determine if current user is involved in this hint
+                is_finding_player = current_user == hint["finding_player"]
+                is_receiving_player = current_user == hint["receiving_player"]
+                
+                transformed_hint = {
+                    "id": f"{hint['finding_player']}_{hint['item']}",  # Create unique ID
+                    "item": hint["item"],
+                    "location": hint["location"],
+                    "entrance": hint["entrance"],
+                    "player1": hint["finding_player"] if is_finding_player else hint["receiving_player"],
+                    "player2": hint["receiving_player"] if is_finding_player else hint["finding_player"],
+                    "is_player1": is_finding_player or is_receiving_player,  # True if current user is involved
+                    "importance": importance_mapping.get(importance, "Junk"),
+                    "flagged": False,
+                    "order": len(self.hints)  # Maintain order
+                }
+                self.hints.append(transformed_hint)
         
         # Simulate loading
         Clock.schedule_once(lambda dt: self.finish_loading(), 1)

@@ -373,7 +373,7 @@ class KivyMDGUI(MDApp):
 
     def change_screen(self, item):
         self.screen_manager.current_heroes = ["logo"]
-        self.screen_manager.current = item.lower()
+        self.screen_manager.current = item
         self.top_appbar_menu.dismiss()
         
     def open_top_appbar_menu(self, menu_button):

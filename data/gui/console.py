@@ -57,7 +57,7 @@ Builder.load_string('''
                 MDLabel:
                     markup: True
                     padding: 5,0,0,0
-                    text: "[color=self.theme_mw.markup_tags_theme.location_color]" + root.location + "[/color] for [color=self.theme_mw.markup_tags_theme.receiving_player_color]" + root.receiving_player + "[/color]"
+                    text: root.formatted_text
                     pos_hint: {"left": 0, "top": 1}
                 TrailingPressedIconButton:
                     pos_hint: {"top":1, "right":1}
@@ -166,7 +166,7 @@ class HintItem(OpacityExpansionPanel):
     shadow_color = ColorProperty()
     found = StringProperty()
     chevron = ObjectProperty(None)
-
+    formatted_text = StringProperty()
 
     def __init__(self, receiving_player="", finding_player="", item="", location="", 
                  entrance="", shadow_color="", found="", **kwargs):
@@ -181,6 +181,16 @@ class HintItem(OpacityExpansionPanel):
         self.entrance = entrance
         self.shadow_color = shadow_color
         self.opening_transition = "out_expo"
+        self.bind(location=self.update_formatted_text)
+        self.bind(receiving_player=self.update_formatted_text)
+        self.update_formatted_text()
+
+    def update_formatted_text(self, *args):
+        app = MDApp.get_running_app()
+        theme_style = 0 if app.theme_cls.theme_style == "Dark" else 1
+        location_color = app.theme_mw.markup_tags_theme.location_color[theme_style]
+        player_color = app.theme_mw.markup_tags_theme.player2_color[theme_style]
+        self.formatted_text = f"[color=#{location_color}]{self.location}[/color] for [color=#{player_color}]{self.receiving_player}[/color]"
 
     def tap_expansion_chevron(self, panel: MDExpansionPanel, chevron: TrailingPressedIconButton):
         # Store chevron reference for later use

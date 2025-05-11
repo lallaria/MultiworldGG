@@ -9,7 +9,6 @@ import io
 from dataclasses import fields
 from kivy.clock import Clock
 
-from kivy.uix.colorpicker import ColorPicker
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.selectioncontrol import MDSwitch
@@ -21,11 +20,11 @@ from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.app import MDApp
-from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer
+from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer, MDDialogButtonContainer 
 
 from mw_theme import THEME_OPTIONS, MarkupTagsTheme
-from kivydi.markuptextfield import MarkupTextField
-
+from textconsole import TextConsole
+from kivydi.colorpicker import MWColorPicker
 # Set up logging
 log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")
 os.makedirs(log_dir, exist_ok=True)
@@ -181,19 +180,28 @@ class ColorPreviewBox(MDBoxLayout):
     """Box showing a color preview"""
     color = ColorProperty([0,0,0,0])
     color_attr = ObjectProperty(None)
+    color_attr_old = ObjectProperty(None)
     index = NumericProperty(0)
     text = StringProperty("")
+
+    def reset(self):
+        self.color_attr = self.color_attr_old
+        self.color_picker.dismiss()
+    
+    def apply(self):
+        self.color_picker.dismiss()
+
     def open_color_picker(self, color, index, color_attr, pos):
         # Create a new color picker each time to avoid binding issues
-        self.color_picker = ColorPicker()
         self.color_attr = color_attr
-        self.color = color
+        self.color_attr_old = color_attr
         self.index = index
         self.text = self.parent.text
+        self.color_picker = MWColorPicker(self)
         
         def on_color(instance, value):
             try:
-                hex_color = str(instance.hex_color).lstrip('#')[:-2]
+                hex_color = instance.hex_color#.lstrip('#')[:-2]
                 # Update the appropriate color in the list based on theme style
                 self.color_attr[self.index] = hex_color
                 #Clock.schedule_once(lambda dt: self.app.theme_cls.refresh(), 0.5)
@@ -212,12 +220,10 @@ class ColorPreviewBox(MDBoxLayout):
                 text=self.text
             ),
             MDDialogContentContainer(
-                MarkupTextField(
-                    text=f"[color={self.color_attr[self.index]}]Example Text[/color]",
-                ),
                 self.color_picker
             )
         )
+
         
         # Get current color and set it
         try:

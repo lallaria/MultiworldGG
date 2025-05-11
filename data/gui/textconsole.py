@@ -42,11 +42,6 @@ class TextConsole(MarkupTextField, ThemableBehavior):
         self.line_spacing = self.theme_cls.font_styles.monospace['large']['line-height']
         self.selection_color = self.theme_cls.secondaryColor
         self.selection_color[3] = 0.3
-        with open(r"C:\Users\Lindsay\source\repos\MultiworldGG\data\gui\textclientlog.txt") as oldlog:
-            lines = oldlog.readlines()
-            for i in lines:
-                self.text = self.text + i # TODO: add escape_markup
-        self.auto_indent = True
         #self.trigger_update_graphics()
         
     def scroll_to_bottom(self, *args):
@@ -66,6 +61,10 @@ class ConsoleView(MDFloatLayout):
 
         self.text_console = TextConsole(pos_hint={"x": 0, "y": 0}, size_hint=(1-(4/Window.width),1-(185/Window.height)))
         self.add_widget(self.text_console)
+        with open(r"C:\Users\Lindsay\source\repos\MultiworldGG\data\gui\textclientlog.txt") as oldlog:
+            lines = oldlog.readlines()
+            for i in lines:
+                self.text_console.text = self.text_console.text + i # TODO: add escape_markup
         
         # Create the "To Bottom" button
         self.to_bottom_button = MDExtendedFabButton(MDExtendedFabButtonText(text="Current"),
