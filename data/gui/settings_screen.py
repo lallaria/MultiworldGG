@@ -3,6 +3,9 @@ from kivy.properties import ObjectProperty, StringProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 import logging
+import os
+import sys
+import io
 
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.navigationdrawer import MDNavigationDrawer, MDNavigationDrawerMenu, MDNavigationDrawerDivider
@@ -13,9 +16,71 @@ from kivymd.uix.fitimage import FitImage
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.navigationdrawer import MDNavigationLayout
 from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.label import MDLabel
+
+from settings_components import ConnectionSettings, ThemingSettings, InterfaceSettings
+
 # Set up logging
-logging.basicConfig(level=logging.DEBUG)
+log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")
+os.makedirs(log_dir, exist_ok=True)
+log_file = os.path.join(log_dir, "settings_screen.log")
+
+# Remove any existing handlers
+root_logger = logging.getLogger()
+for handler in root_logger.handlers[:]:
+    root_logger.removeHandler(handler)
+    handler.close()
+
+# Create a custom stream handler that won't cause recursion
+class CustomStreamHandler(logging.StreamHandler):
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            stream = self.stream
+            stream.write(msg + self.terminator)
+            self.flush()
+        except Exception:
+            self.handleError(record)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_file, mode='w'),
+        CustomStreamHandler(sys.stdout)  # Use stdout instead of stderr
+    ]
+)
 logger = logging.getLogger(__name__)
+
+# Test log message
+logger.debug("Settings screen logging initialized")
+logger.info("Settings screen logging initialized")
+logger.warning("Settings screen logging initialized")
+logger.error("Settings screen logging initialized")
+
+settings_dict = {
+    "Connection": [
+        {"name": "Profile", "icon": "account"},
+        {"name": "Hostname", "icon": "earth"},
+        {"name": "Host Authentication", "icon": "shield-account"},
+    ],
+    "Theming": [
+        {"name": "Dark/Light Mode", "icon": "theme-light-dark"},
+        {"name": "Color Palette", "icon": "palette"},
+        {"name": "Text Colors", "icon": "format-paint"},
+        {"name": "Font Sizes", "icon": "format-font"}
+    ],
+    "Interface": [
+        {"name": "Display", "icon": "monitor"},
+        {"name": "Layout", "icon": "page-layout-sidebar-left"}
+    ],
+}
+
+# Log the available sections
+logger.debug("Available settings sections:")
+for section in settings_dict:
+    logger.debug(f"  - {section}")
 
 # Define custom widgets in kv language
 settings_kv = '''
@@ -71,12 +136,19 @@ SettingsNavLayout:
         icon_color: app.theme_cls.onPrimaryContainerColor
     MDNavigationDrawerItemText:
         text: root.text
+        shorten: True
         theme_text_color: "Custom"
         text_color: app.theme_cls.onSecondaryContainerColor
     MDNavigationDrawerItemTrailingText:
         text: root.trailing_text
+        width: dp(32)
         theme_text_color: "Custom"
         text_color: app.theme_cls.onTertiaryContainerColor
+
+<SettingsScreenSection>:
+    orientation: "vertical"
+    size_hint_y: None
+    height: Window.height-103
 '''
 
 class SettingsNavLayout(MDNavigationLayout):
@@ -94,11 +166,72 @@ class NavDrawerLabel(MDNavigationDrawerLabel):
     pass
 
 class NavDrawerItem(MDNavigationDrawerItem):
-    screen = ObjectProperty(None)
+    screen = StringProperty("")
     icon = StringProperty("")
     text = StringProperty("")
     trailing_text = StringProperty("")
+    manager = ObjectProperty(None)
 
+    def __init__(self, manager, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.manager = manager
+        self.bind(on_release=self.screen_callback)
+
+    def screen_callback(self, *args):
+        try:
+            logger.debug(f"Navigating to screen: {self.screen}")
+            self.manager.current = self.screen
+            logger.debug("Navigation complete")
+        except Exception as e:
+            logger.error(f"Error during navigation: {e}", exc_info=True)
+
+class SettingsScreenSection(MDScreen):
+    '''
+    Generic settings section screen
+    For use only on the settings screen, not as a standalone screen
+    '''
+    name = StringProperty("")
+    title = StringProperty("")
+    nav_drawer = ObjectProperty(None)
+
+    def __init__(self, name, title, nav_drawer, **kwargs):
+        super().__init__(**kwargs)
+        logger.debug(f"Initializing SettingsScreenSection: {name}")
+        self.nav_drawer = nav_drawer
+        self.name = name
+        self.title = title
+        Clock.schedule_once(lambda x: self.nav_drawer.set_state("open"))
+        
+        # Create the appropriate settings component based on the section name
+        try:
+            logger.debug(f"Creating settings component for section: {name.lower()}")
+            if name.lower() == "connection":
+                logger.debug("Creating ConnectionSettings component")
+                self.add_widget(ConnectionSettings())
+            elif name.lower() == "theming":
+                logger.debug("Creating ThemingSettings component")
+                self.add_widget(ThemingSettings())
+            elif name.lower() == "interface":
+                logger.debug("Creating InterfaceSettings component")
+                self.add_widget(InterfaceSettings())
+            else:
+                logger.warning(f"Unknown section name: {name.lower()}. Expected one of: connection, theming, interface")
+                # Add a placeholder widget with a warning message
+                warning_box = MDBoxLayout(orientation="vertical", padding=dp(16))
+                warning_box.add_widget(MDLabel(
+                    text=f"Unknown section: {name}",
+                    theme_text_color="Error"
+                ))
+                self.add_widget(warning_box)
+        except Exception as e:
+            logger.error(f"Error creating settings component for {name}: {e}", exc_info=True)
+            # Add an error widget
+            error_box = MDBoxLayout(orientation="vertical", padding=dp(16))
+            error_box.add_widget(MDLabel(
+                text=f"Error loading section: {name}",
+                theme_text_color="Error"
+            ))
+            self.add_widget(error_box)
 
 class SettingsScreen(MDScreen):
     '''
@@ -123,8 +256,7 @@ class SettingsScreen(MDScreen):
         logger.debug(f"Retrieved nav_drawer: {self.settings_nav_drawer}")
         
         self.settings_screen_manager = self.nav_layout.ids.settings_screen_manager
-        self.settings_screen_manager.add_widget(SettingsScreenSection(name="NavBar", title="Navigation Bar", nav_drawer=self.settings_nav_drawer))
-        self.settings_screen_manager.current = "NavBar"
+        self.setup_sections()
         logger.debug(f"Retrieved screen_manager: {self.settings_screen_manager}")
         
         self.settings_hero_to = self.nav_layout.settings_hero_to
@@ -136,101 +268,39 @@ class SettingsScreen(MDScreen):
         # Set up the navigation menu after everything else is initialized
         Clock.schedule_once(self.setup_navigation_menu)
     
-    def on_pre_enter(self, *args):
-        logger.debug("SettingsScreen on_pre_enter called")
-        logger.debug(f"Current screen manager screens: {self.settings_screen_manager.screens}")
-        logger.debug(f"Current screen manager current: {self.settings_screen_manager.current}")
-        super().on_pre_enter(*args)
+    def setup_sections(self, *args):
+        logger.debug("Setting up settings sections")
+        for section in settings_dict:
+            logger.debug(f"Adding section: {section}")
+            section_name = section.lower()
+            logger.debug(f"Section name (lowercase): {section_name}")
+            self.settings_screen_manager.add_widget(SettingsScreenSection(name=section_name, title=section, nav_drawer=self.settings_nav_drawer))
+        self.settings_screen_manager.current = "interface"
+        logger.debug("Finished setting up sections")
     
     def setup_navigation_menu(self, *args):
         """Set up the navigation menu with all its items."""
+        logger.debug("Setting up navigation menu")
         self.nav_menu = self.nav_layout.settings_nav_menu
         self.nav_menu.on_start()
         
-        # Add Interface section
-        self.nav_menu.add_widget(NavDrawerLabel(
-            text="Interface"
-        ))
-        
-        interface_items = [
-            ("Display", "monitor", None),
-            ("Animation", "animation", None),
-            ("Transition", "transition", None),
-            ("Menu", "menu", None)
-        ]
-        for text, icon, screen in interface_items:
-            self.nav_menu.add_widget(NavDrawerItem(
-                icon=icon,
-                text=text,
-                screen=screen
-            ))
-        
-        # Add divider
-        self.nav_menu.add_widget(MDNavigationDrawerDivider())
-        
-        # Add Theming section
-        self.nav_menu.add_widget(NavDrawerLabel(
-            text="Theming"
-        ))
-        
-        theming_items = [
-            ("Theme", "palette", None),
-            ("Palette", "palette-swatch", None),
-            ("Custom Colors", "color-helper", None),
-            ("Font", "format-font", None)
-        ]
-        for text, icon, screen in theming_items:
-            self.nav_menu.add_widget(NavDrawerItem(
-                icon=icon,
-                text=text,
-                screen=screen
-            ))
-        
-        # Add divider
-        self.nav_menu.add_widget(MDNavigationDrawerDivider())
-        
-        # Add Connection section
-        self.nav_menu.add_widget(NavDrawerLabel(
-            text="Connection"
-        ))
-        
-        connection_items = [
-            ("Server", "server", None),
-            ("Timeout", "clock", None),
-            ("Authentication", "shield-account", None),
-            ("Reconnection", "reload", None)
-        ]
-        for text, icon, screen in connection_items:
-            self.nav_menu.add_widget(NavDrawerItem(
-                icon=icon,
-                text=text,
-                screen=screen
+        for screen_name in self.settings_screen_manager.screen_names:
+            logger.debug(f"Adding menu item for screen: {screen_name}")
+            # Add section
+            self.nav_menu.add_widget(NavDrawerLabel(
+                text=screen_name.capitalize()    
             ))
 
-class SettingsScreenSection(MDScreen):
-    '''
-    Generic settings section screen
-    For use only on the settings screen, not as a standalone screen
-    '''
-    name = StringProperty("")
-    title = StringProperty("")
-    nav_drawer = ObjectProperty(None)
-    def __init__(self, name, title, nav_drawer, **kwargs):
-        super().__init__(**kwargs)
-        logger.debug(f"Initializing SettingsScreenSection: {name}")
-        self.nav_drawer = nav_drawer
-        self.name = name
-        self.title = title
-        
-        # Create a button to toggle the drawer
-        toggle_button = MDButton(
-            MDButtonText(text=self.title),
-            pos_hint={"center_x": 0.5, "center_y": 0.5}
-        )
-        toggle_button.bind(on_release=lambda x: self.nav_drawer.set_state("toggle"))
-        self.add_widget(toggle_button)
-        
-    def on_pre_enter(self, *args):
-        logger.debug(f"SettingsScreenSection {self.name} on_pre_enter called")
-        logger.debug(f"Children: {self.children}")
-        super().on_pre_enter(*args)
+            for item in settings_dict[screen_name.capitalize()]:
+                logger.debug(f"Adding menu item: {item['name']}")
+                self.nav_menu.add_widget(NavDrawerItem(
+                    manager=self.settings_screen_manager,
+                    icon=item["icon"],
+                    text=item["name"],
+                    screen=screen_name
+                ))
+            
+            # Add divider
+            if screen_name != "interface":
+                self.nav_menu.add_widget(MDNavigationDrawerDivider())
+        logger.debug("Finished setting up navigation menu")

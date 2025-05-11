@@ -39,6 +39,7 @@ os.environ["KIVY_HOME"] = os.path.join(local_path,"data", "kivy_home")
 os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
 
 from kivy.config import Config as MWKVConfig
+from kivy.config import ConfigParser
 
 #####
 ##### The config is an ACTUAL FILE THAT CAN SAVE ANY SETTING
@@ -176,6 +177,64 @@ class KivyMDGUI(MDApp):
         super().__init__(**kwargs)
         RegisterFonts(self)
         self.ctx = ctx
+        
+        # Use the existing Kivy Config singleton for Kivy settings
+        self.config = MWKVConfig
+        
+        # Create app-specific config
+        self.app_config = ConfigParser(name='app')
+        
+        # Ensure client.ini exists with default values
+        config_path = os.path.join(os.environ["KIVY_HOME"], "client.ini")
+        if not os.path.exists(config_path):
+            self.build_config(self.app_config)
+            self.app_config.write()
+
+    def get_application_config(self):
+        """Get the path to the configuration file"""
+        return os.path.join(os.environ["KIVY_HOME"], "client.ini")
+
+    def build_config(self, config):
+        """Build the configuration file with default values"""
+        config.setdefaults('client', {
+            'slot': '',
+            'alias': '',
+            'pronouns': '',
+            'in_call': '0',
+            'in_bk': '0',
+            'hostname': 'multiworld.gg',
+            'port': '38281',
+            'admin_password': '',
+            'theme_style': 'Dark',
+            'primary_palette': 'Purple',
+            'font_scale': '1.0',
+            'compact_mode': '0'
+        })
+
+    def on_config_change(self, config, section, key, value):
+        """Handle configuration changes"""
+        if section == 'client':
+            if key == 'theme_style':
+                self.theme_cls.theme_style = value
+            elif key == 'primary_palette':
+                self.theme_cls.primary_palette = value
+            elif key == 'font_scale':
+                # Update font sizes based on scale
+                scale_factor = float(value)
+                self.theme_cls.font_styles = {
+                    style: {
+                        size: {
+                            **style_data,
+                            'font-size': int(style_data['font-size'] * scale_factor)
+                        } for size, style_data in sizes.items()
+                    } for style, sizes in self.theme_cls.font_styles.items()
+                }
+        elif section == 'graphics':
+            if key == 'fullscreen':
+                Window.fullscreen = value == '1'
+        
+        # Write changes to app config file
+        self.app_config.write()
 
     def launch_splash_screen(self):
         """Launch the splash screen as a separate process"""
@@ -315,13 +374,14 @@ class KivyMDGUI(MDApp):
     def change_screen(self, item):
         self.screen_manager.current_heroes = ["logo"]
         self.screen_manager.current = item.lower()
-
+        self.top_appbar_menu.dismiss()
+        
     def open_top_appbar_menu(self, menu_button):
         """Open dropdown menu when menu button is pressed"""
         if not self.top_appbar_menu:
             menu_items = []
             for item in self.screen_manager.screen_names:
-                menu_items.append({"text": item.capitalize(), "on_release": lambda x=item: self.change_screen(x)})
+                menu_items.append({"text": item.capitalize(), "divider": None, "on_release": lambda x=item: self.change_screen(x)})
 
             self.top_appbar_menu = MDDropdownMenu(
                 caller=menu_button,

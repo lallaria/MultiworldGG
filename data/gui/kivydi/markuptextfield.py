@@ -32,9 +32,6 @@ file_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
-# Log the start of a new session
-logger.info("MarkupTextField logging started")
-
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import (ObjectProperty, 
@@ -81,7 +78,7 @@ Cache_register = Cache.register
 Cache_append = Cache.append
 Cache_get = Cache.get
 Cache_remove = Cache.remove
-Cache_register('textinput_markup.width', timeout=60.)
+Cache_register('textinput.markup_width', timeout=60.)
 
 #Clipboard = None
 
@@ -260,8 +257,8 @@ class MarkupTextField(TextInput, ThemableBehavior):
                         markup_index.append(i)
                 elif char == ']' and in_markup:
                     # End of a markup tag...but wait theres more!
-                    # Deceptively, text[i] is the next character because we started the enumerate at 1
-                    if text[i] == '[':
+                    # Check if we're not at the end of the string before accessing text[i]
+                    if i < len(text) and text[i] == '[':
                         markup_index.append(i)
                     # End of a markup tag
                     else:
@@ -276,7 +273,8 @@ class MarkupTextField(TextInput, ThemableBehavior):
                     # Character inside a markup tag
                     markup_index.append(i)
             except IndexError:
-                pass
+                # If we hit an index error, just continue to the next character
+                continue
 
     def _refresh_text(self, *args):
         """Override to update plain text lines when text is refreshed"""
@@ -370,6 +368,12 @@ class MarkupTextField(TextInput, ThemableBehavior):
         offset = 0
 
         try:
+            # If not multiline, treat the entire text as a single line
+            if not self.multiline:
+                markup_text = self.text[:col]
+                offset = self._get_text_width(markup_text, self.tab_width, self._label_cached)
+                return offset
+
             if col:
                 # Get the text up to the cursor position
                 markup_text = lines[row][:col]
@@ -502,7 +506,7 @@ class MarkupTextField(TextInput, ThemableBehavior):
 
     def _get_plain_from_markup_index(self, position):
         """Map markup text indices to plain text positions using the mapping dictionary"""
-        if position >= len(self.text):
+        if position > len(self.text):
             logger.debug(f"Selection out of bounds - Position: {position}, Text length: {len(self.text)}")
             return 0
 

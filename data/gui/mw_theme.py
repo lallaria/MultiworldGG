@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass
 from kivy.core.text import LabelBase
 from kivy.metrics import sp
-from kivy.properties import ObjectProperty, StringProperty
+from kivy.properties import ObjectProperty, StringProperty, BooleanProperty
 from kivy.config import Config
 from kivymd.app import MDApp
 from kivymd.theming import ThemableBehavior
@@ -64,6 +64,7 @@ class DefaultTheme(ThemableBehavior):
     theme_style: StringProperty
     primary_palette: StringProperty
     dynamic_scheme_name: StringProperty
+    compact_mode: BooleanProperty
 
 
     def __init__(self):
