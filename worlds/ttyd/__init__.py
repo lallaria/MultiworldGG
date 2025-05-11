@@ -103,7 +103,7 @@ class TTYDWorld(World):
         self.limited_chapter_locations = []
         self.limited_item_names = set()
         self.limited_items = []
-        self.limited_state = CollectionState(self.multiworld)
+        self.limited_state = CollectionState(self.multiworld, allow_partial_entrances=True)
         if self.options.limit_chapter_eight and self.options.palace_skip:
             logging.warning(f"{self.player_name}'s has enabled both Palace Skip and Limit Chapter 8. "
                             f"Disabling the Limit Chapter 8 option due to incompatibility.")
