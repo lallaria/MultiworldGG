@@ -71,7 +71,11 @@ def get_item_value(ap_id):
     return ap_id
 
 async def run_game(romfile):
-        auto_start = settings.get_settings()["banjo-tooie_options"].get("rom_start", True)
+        try:
+            auto_start = settings.get_settings()["banjo-tooie_options"].get("rom_start")
+        except:
+            auto_start = False
+            pass            
         if auto_start is True:
             import webbrowser
             webbrowser.open(romfile)
