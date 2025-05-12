@@ -18,7 +18,7 @@
 #    To test if your yaml is valid or not, you can use this website:
 #        http://www.yamllint.com/
 #    You can also verify that your Archipelago options are valid at this site:
-#        https://archipelago.gg/check
+#        https://multiworld.gg/check
 
 # Your name in-game, limited to 16 characters.
 #     {player} will be replaced with the player's slot number.
@@ -32,7 +32,7 @@ description: Default Majora's Mask Recompiled Template
 
 game: Majora's Mask Recompiled
 requires:
-  version: 0.5.1 # Version of Archipelago required for this yaml to work as expected.
+  version: 0.5.1 # Version of AP/MWGG required for this yaml to work as expected.
 
 Majora's Mask Recompiled:
   # Game Options

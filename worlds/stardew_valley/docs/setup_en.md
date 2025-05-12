@@ -6,10 +6,10 @@
 - SMAPI ([Mod loader for Stardew Valley](https://www.nexusmods.com/stardewvalley/mods/2400?tab=files))
 - [StardewArchipelago Mod Release 6.x.x](https://github.com/agilbert1412/StardewArchipelago/releases)
     - It is important to use a mod release of version 6.x.x to play seeds that have been generated here. Later releases 
-  can only be used with later releases of the world generator, that are not hosted on archipelago.gg yet.
+  can only be used with later releases of the world generator, that are not hosted on multiworld.gg yet.
 
 ## Optional Software
-- Archipelago from the [Archipelago Releases Page](https://github.com/ArchipelagoMW/Archipelago/releases)
+- MultiworldGG from the [MultiworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases)
     * (Only for the TextClient)
 - Other Stardew Valley Mods [Nexus Mods](https://www.nexusmods.com/stardewvalley)
     * There are [supported mods](https://github.com/agilbert1412/StardewArchipelago/blob/6.x.x/Documentation/Supported%20Mods.md) 
