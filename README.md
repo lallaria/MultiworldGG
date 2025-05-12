@@ -35,6 +35,7 @@ Currently, the following games are supported:
 * Chained Echoes
 * Chatipelago
 * Checks Finder
+* Chrono Trigger
 * Civilization VI
 * Clique
 * CrossCode
