@@ -10,6 +10,7 @@ from kivy.config import Config
 from kivymd.app import MDApp
 from kivymd.theming import ThemableBehavior
 from kivy.lang import Builder
+from kivy.utils import hex_colormap
 from PIL import Image
 import numpy as np
 
@@ -58,6 +59,18 @@ class MarkupTagsTheme:
         self.progression_item_color=["FFC500", "9f8a00"]
         self.command_echo_color=["ff9334", "a75600"]
 
+    def name(self, color_attr):
+        if color_attr == self.location_color: return "Location:"
+        if color_attr == self.player1_color: return "Slot:"
+        if color_attr == self.player2_color: return "Other Players:"
+        if color_attr == self.entrance_color: return "Entrance:"
+        if color_attr == self.trap_item_color: return "Trap Item:"
+        if color_attr == self.regular_item_color: return "Regular Item:"
+        if color_attr == self.useful_item_color: return "Useful Item:"
+        if color_attr == self.progression_item_color: return "Progression Item:"
+        if color_attr == self.command_echo_color: return "Broadcast:"
+
+
 class DefaultTheme(ThemableBehavior):
     titlebar_bg_color: dict
     markup_tags_theme: MarkupTagsTheme
@@ -65,10 +78,10 @@ class DefaultTheme(ThemableBehavior):
     primary_palette: StringProperty
     dynamic_scheme_name: StringProperty
     compact_mode: BooleanProperty
-
-
-    def __init__(self):
+    app_config: None
+    def __init__(self, app_config):
         super().__init__()
+        self.app_config = app_config
         self.global_theme()
         self.titlebar_bg_color = {"Light": self.theme_cls.primaryContainerColor,
                                   "Dark": self.theme_cls.onPrimaryColor}
@@ -134,10 +147,29 @@ class DefaultTheme(ThemableBehavior):
             # You might want to log this error or handle it differently
 
     def global_theme(self):
-        #defaults
-        self.theme_cls.theme_style = self.theme_style = "Dark"# Dark default
-        self.theme_cls.primary_palette = self.primary_palette = THEME_OPTIONS[self.theme_cls.theme_style][0][0] # Purple default
-        self.theme_cls.dynamic_scheme_name = self.dynamic_scheme_name = "RAINBOW" # Not changing this
+        # Get theme settings from app_config
+        # Get theme style with Dark as fallback
+        theme_style = self.app_config.get('client', 'theme_style', fallback='Dark')
+        if theme_style.lower() not in ["light","dark"]:
+            theme_style = 'Dark'
+        self.theme_cls.theme_style = self.theme_style = theme_style
+        
+        # Get primary palette with first option as fallback
+        primary_palette = self.app_config.get('client', 'primary_palette', fallback=THEME_OPTIONS[theme_style][0][0]).capitalize()
+        valid_palettes = [
+            name_color.capitalize() for name_color in hex_colormap.keys()
+        ]
+        if primary_palette not in valid_palettes:
+            primary_palette = THEME_OPTIONS[theme_style][0][0]
+        self.theme_cls.primary_palette = self.primary_palette = primary_palette
+        
+        # Get compact mode setting
+        compact_mode = self.app_config.getboolean('client', 'compact_mode', fallback=False)
+        self.compact_mode = compact_mode
+        
+        # Dynamic scheme name remains unchanged as per comment
+        self.theme_cls.dynamic_scheme_name = self.dynamic_scheme_name = "RAINBOW"
+        #self.theme_cls.sync_theme_styles()
 
 ### Full unicode fonts, finally
 def RegisterFonts(app: MDApp):

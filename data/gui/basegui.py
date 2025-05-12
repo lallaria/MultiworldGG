@@ -319,10 +319,11 @@ class KivyMDGUI(MDApp):
         Window.set_title("MultiWorldGG")
         self.icon = os.path.join(os.path.curdir, "icon.ico")
         
-        self.theme_mw = DefaultTheme()
+        self.theme_mw = DefaultTheme(self.app_config)
         self.theme_cls.theme_style = self.theme_mw.theme_style
         self.theme_cls.primary_palette = self.theme_mw.primary_palette
         self.theme_cls.dynamic_scheme_name = self.theme_mw.dynamic_scheme_name
+        self.theme_cls.theme_style_switch_animation = True
 
         self.main_layout = MainLayout()
         self.main_layout.anchor_x='left'
