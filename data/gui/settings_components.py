@@ -185,7 +185,8 @@ class ColorPreviewBox(MDBoxLayout):
     text = StringProperty("")
 
     def reset(self):
-        self.color_attr = self.color_attr_old
+        self.color_attr = [i for i in self.color_attr_old]
+        self.color = get_color_from_hex(self.color_attr[self.index])
         self.color_picker.dismiss()
     
     def apply(self):
@@ -194,7 +195,7 @@ class ColorPreviewBox(MDBoxLayout):
     def open_color_picker(self, color, index, color_attr, pos):
         # Create a new color picker each time to avoid binding issues
         self.color_attr = color_attr
-        self.color_attr_old = color_attr
+        self.color_attr_old = [i for i in color_attr]
         self.index = index
         self.text = self.parent.text
         self.color_picker = MWColorPicker(self)
@@ -205,6 +206,7 @@ class ColorPreviewBox(MDBoxLayout):
                 # Update the appropriate color in the list based on theme style
                 self.color_attr[self.index] = hex_color
                 #Clock.schedule_once(lambda dt: self.app.theme_cls.refresh(), 0.5)
+                self.color = instance.color
             except Exception as e:
                 logger.error(f"Error updating color: {e}", exc_info=True)
         
