@@ -2,20 +2,20 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest)
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases/latest)
 - [Don't Starve Together](https://store.steampowered.com/app/322330/Dont_Starve_Together/)
 - [Archipelago Randomizer Steam Workshop mod for Don't Starve Together](https://steamcommunity.com/sharedfiles/filedetails/?id=3218471273)
 
 ## Installation
-- Install Archipelago.
-- Follow Archipelago's basic tutorial on how to generate a game. [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
+- Install MultiworldGG.
+- Follow MultiworldGG's basic tutorial on how to generate a game. [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
     * Only a single YAML is needed for a Don't Starve Together server regardless of how many players will play on it.
 
 ## Setting up your world
-- Open the Archipelago launcher and run the Don't Starve Together client. Connect to the Archipelago server.
+- Open the MultiworldGG launcher and run the Don't Starve Together client. Connect to the MultiworldGG server.
     * Check the client for your world configuration if you cannot refer to your YAML (or if your settings are randomized).
     * It's also safe to launch the Don't Starve Together world before connecting the client if you don't need the info. You can do this
-      to make sure your group is logged in and ready before connecting to Archipelago, for example.
+      to make sure your group is logged in and ready before connecting to MultiworldGG, for example.
 - Start Don't Starve Together and choose Host Game.
 - Click on "Create New World".
     * A new world is recommended, though using an existing world is also perfectly fine.
@@ -48,7 +48,7 @@
   cooking dishes with a Crock Pot.
 - Most of your received items are recipe unlocks. Check your crafting menu for your items.
 - Once you've connected your world to Archipelgo for the first time, it's possible to continue even if not connected. Progress syncs when
-  you connect to Archipelago again. However, offline progress is lost if you regenerate your world!
-- It is fine to play the same Archipelago slot on multiple worlds, even by multiple people at the same time.
-    * You cannot play multiple slots on a single world. The DST's Archipelago client only connects to the DST server on the same machine.
-- You cannot connect a different slot/multiworld to your existing Archipelago DST world. Your client will tell you if you have a mismatch.
+  you connect to MultiworldGG again. However, offline progress is lost if you regenerate your world!
+- It is fine to play the same MultiworldGG slot on multiple worlds, even by multiple people at the same time.
+    * You cannot play multiple slots on a single world. The DST's MultiworldGG client only connects to the DST server on the same machine.
+- You cannot connect a different slot/multiworld to your existing MultiworldGG DST world. Your client will tell you if you have a mismatch.
