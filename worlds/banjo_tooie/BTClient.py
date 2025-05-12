@@ -261,8 +261,9 @@ class BanjoTooieContext(CommonContext):
                 if fpath.parents[i].stem == apname:
                     archipelago_root = pathlib.Path(__file__).parents[i]
                     break
-            async_start(run_game(os.path.join(archipelago_root, "Banjo-Tooie-AP"+game_append_version+".z64")))
-            self.n64_sync_task = asyncio.create_task(n64_sync_task(self), name="N64 Sync")
+            if archipelago_root is not None:
+                async_start(run_game(os.path.join(archipelago_root, "Banjo-Tooie-AP"+game_append_version+".z64")))
+                self.n64_sync_task = asyncio.create_task(n64_sync_task(self), name="N64 Sync")
         elif cmd == "ReceivedItems":
             if self.startup == False:
                 for item in args["items"]:
