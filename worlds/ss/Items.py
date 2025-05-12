@@ -43,10 +43,10 @@ class SSItem(Item):
     @staticmethod
     def get_apid(code: int) -> int:
         """
-        Compute the MultiworldGG ID for the given item index.
-MultiworldGG
+        Compute the Archipelago ID for the given item index.
+
         :param code: The index of the item.
-        :return: The computed MultiworldGG ID.
+        :return: The computed Archipelago ID.
         """
         base_id: int = 99000
         return base_id + code

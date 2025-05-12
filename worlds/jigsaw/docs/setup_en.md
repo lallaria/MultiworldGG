@@ -1,4 +1,4 @@
-# Jigsaw Puzzles for Archipelago Setup Guide
+# Jigsaw Puzzles for MultiworldGG Setup Guide
 
-- Create your Archipelago game.
+- Create your MWGG game.
 - Play here: https://jigsaw-ap.netlify.app/.

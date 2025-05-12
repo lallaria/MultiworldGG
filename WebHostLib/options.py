@@ -7,6 +7,7 @@ from docutils.core import publish_parts
 
 import yaml
 from flask import redirect, render_template, request, Response, abort
+from urllib.parse import quote
 
 import Options
 from Utils import local_path
@@ -30,7 +31,7 @@ def get_world_theme(game_name: str) -> str:
 
 def render_options_page(template: str, world_name: str, is_complex: bool = False) -> Union[Response, str]:
     world = AutoWorldRegister.world_types[world_name]
-    if world.hidden or world.web.options_page is False:
+    if world.hidden or world.web.options_page is False or world_name in app.config["HIDDEN_WEBWORLDS"]:
         return redirect("games")
     visibility_flag = Options.Visibility.complex_ui if is_complex else Options.Visibility.simple_ui
 
@@ -66,6 +67,9 @@ def send_yaml(player_name: str, formatted_options: dict) -> Response:
 def filter_dedent(text: str) -> str:
     return dedent(text).strip("\n ")
 
+@app.template_filter('encodeURIComponent')
+def encodeURIComponent_filter(s):
+    return quote(str(s), safe='~()*!.\'')  
 
 @app.template_filter("rst_to_html")
 def filter_rst_to_html(text: str) -> str:

@@ -11,6 +11,7 @@ from .Rules import set_rules
 from ..generic.Rules import  set_rule
 
 class HuniePop2Web(WebWorld):
+    rating: str = "nsfw"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up the Hunie Pop 2 randomizer connected to an MWGG Multiworld",
@@ -27,7 +28,6 @@ class HuniePop2(World):
     """
     game = "Hunie Pop 2"
     author: str = "dotsofdarkness"
-    nsfw: True
     worldversion = "1.0.0"
     item_name_to_id = item_table
     item_id_to_name = {item_table[name]: name for name in item_table}

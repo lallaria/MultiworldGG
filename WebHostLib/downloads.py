@@ -111,6 +111,6 @@ def list_yaml_templates():
     files = []
     from worlds.AutoWorld import AutoWorldRegister
     for world_name, world in AutoWorldRegister.world_types.items():
-        if not world.hidden:
+        if not world.hidden and not world_name in app.config["HIDDEN_WEBWORLDS"]:
             files.append(world_name)
     return render_template("templates.html", files=files)

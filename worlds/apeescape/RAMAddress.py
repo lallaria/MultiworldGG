@@ -975,7 +975,8 @@ class RAM:
         "Book": 0x1C,
         "Credits1": 0x1D,
         "Credits2": 0x1E,
-        "PostCredits": 0x23
+        "PostCredits": 0x23,
+        "Demo": 0x24
     }
 
     levelAddresses = {
@@ -1049,20 +1050,24 @@ class RAM:
         }
     }
 
-    localLamp_localUpdate = 0x097474 # Default: 9062007A. Set this to 0 to disable
-    globalLamp_localUpdate = 0x097574 # Default: 9082007A. Set this to 0 to disable
-    globalLamp_globalUpdate = 0x097568 # 0x097568 Default: 1444000F. Set this to 0 to disable
+    #Old values, not used but let them here just in case
+    #localLamp_localUpdate = 0x097474 # Default: 9062007A. Set this to 0 to disable
+    #globalLamp_localUpdate = 0x097574 # Default: 9082007A. Set this to 0 to disable
+    #globalLamp_globalUpdate = 0x097568  # 0x097568 Default: 1444000F. Set this to 0 to disable
+
+    # More precise addresses for local monkeys/events
+    localLamp_MonkeyDetect = 0x097464
+    globalLamp_MonkeyDetect1 = 0x097564
+    globalLamp_MonkeyDetect2 = 0x097560
 
     lampDoors_update = {
-        'LocalLamp_local_ON': 0x9062007A,
-        'LocalLamp_local_OFF': 0x90620000,
+        'localLamp_MonkeyDetect_ON':0x3C02800E,
+        'localLamp_MonkeyDetect_OFF': 0x00000000,
 
-        'GlobalLamp_local_ON': 0x9082007A,
-        'GlobalLamp_local_OFF': 0x90820000,
-
-        'GlobalLamp_global_ON': 0x1444000F,
-        'GlobalLamp_global_OFF': 0x14440000,
-
+        'globalLamp_MonkeyDetect1_ON': 0x02712021,
+        'globalLamp_MonkeyDetect1_OFF': 0x00000000,
+        'globalLamp_MonkeyDetect2_ON': 0x96420126,
+        'globalLamp_MonkeyDetect2_OFF': 0x00000000,
     }
     lampDoors_toggles = {
         # CBLamp
@@ -1245,6 +1250,8 @@ class RAM:
     tempGadgetStateFromServer = 0x0DFBE0
     gadgetStateFromServer = 0x0E00F0
 
+    DR_Block_Pushed = 0x18459A # Address is more of "Entry is open", but same result at the end
+
     DI_Button_Pressed = 0x1693A6 # Activated = 0x01
     DI_Button_DoorVisual = 0x0BFC8F # Activated = 0x00
     DI_Button_DoorHitBox = 0x1676F7 # Activated = 0xDC
@@ -1384,7 +1391,29 @@ class RAM:
     TargetRoomID8Address = 0x15437C
     TR8_DoorIDAddress = 0x154380
 
+    localLevelState = 0x0F447E # Same as level state, but can be changed to impact some behaviors (Like Kickout Prevention)
+
     kickoutofLevelAddress = 0x097B98  # 4 bytes: Default 84830188, Disable kickout = 00000000 (050E67EC)
+    kickoutofLevelAddress2 = 0x097B70  # BETTER 4 bytes: Default 24020001, Disable kickout = 00000000
+
+    CrC_BossPhaseAddress = 0x17475E
+    CrC_BossLife = 0x0E69E1
+
+    # 0 :not started
+    # 1 and 2 : In cinematic
+    # 3 : In fight
+    # 4 : Opening door
+    # 5 : Victory
+
+    TVT_BossPhase = 0x17C5A2
+    TVT_BossLife = 0x143E1F
+    # 1 In cinematic for boss
+    # 2 Boss in waiting
+    # 3 Boss in progress
+
+    CrC_DoorVisual = 0x0C062B
+    CrC_DoorHitBox = 0x164FFB
+
     CrC_kickoutofLevelAddress = 0x097B20  # 4 bytes: Default 86020166, Disable kickout = 00000000
     CrC_kickoutofLevelAddress2 = 0x097B24 # 4 bytes: Default 84830188, Disable kickout = 00000000
     TVT_kickoutofLevelAddress = 0x097B00  # 4 bytes: Default 84830188, Disable kickout = 00000000
@@ -1394,15 +1423,11 @@ class RAM:
     gadgetUseStateAddress = 0x0B20CC
     spikeStateAddress = 0x0EC250
     spikeState2Address = 0x0EC23E
+    spikeIdleTimer = 0x0EC328 # Put this to 0x0000 to wake up
     spikeGroundStateAddress = 0x0EC23D
     spikeHittableAddress = 0x0EC227
     spikeUltraInstinctAddress = 0x0EC2E2
-    # HUGE for ER since when transition it is 98 or 204 ?
-    # 1 In cinematic for boss
-    # 2 Boss in waiting
-    # 3 Boss in progress
-    roomStatus = 0x17C5A2
-    # Find better name please...
+
 
 
     # Specter bosses values

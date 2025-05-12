@@ -156,10 +156,18 @@ SkillLogicMixin, RegionLogicMixin, ActionLogicMixin, MonsterLogicMixin, Relation
 
         animal_rule = self.logic.animal.has_animal(Generic.any)
         artisan_rule = self.logic.artisan.can_keg(Generic.any) | self.logic.artisan.can_preserves_jar(Generic.any)
-        cooking_rule = self.logic.money.can_spend_at(Region.saloon, 220)  # Salads at the bar are good enough
-        fish_rule = self.logic.skill.can_fish(difficulty=50)
-        forage_rule = self.logic.region.can_reach_any((Region.forest, Region.backwoods))  # Hazelnut always available since the grange display is in fall
-        mineral_rule = self.logic.action.can_open_geode(Generic.any)  # More than half the minerals are good enough
+
+        # Salads at the bar are good enough
+        cooking_rule = self.logic.money.can_spend_at(Region.saloon, 220)
+
+        fish_rule = self.logic.fishing.can_fish_anywhere(50)
+
+        # Hazelnut always available since the grange display is in fall
+        forage_rule = self.logic.region.can_reach_any((Region.forest, Region.backwoods))
+
+        # More than half the minerals are good enough
+        mineral_rule = self.logic.action.can_open_geode(Generic.any)
+
         good_fruits = (fruit
                        for fruit in
                        (Fruit.apple, Fruit.banana, Forageable.coconut, Forageable.crystal_fruit, Fruit.mango, Fruit.orange, Fruit.peach, Fruit.pomegranate,
@@ -177,7 +185,7 @@ SkillLogicMixin, RegionLogicMixin, ActionLogicMixin, MonsterLogicMixin, Relation
             forage_rule & fruit_rule & mineral_rule & vegetable_rule
 
     def can_win_fishing_competition(self) -> StardewRule:
-        return self.logic.skill.can_fish(difficulty=60)
+        return self.logic.fishing.can_fish(60)
 
     def has_all_rarecrows(self) -> StardewRule:
         rules = []

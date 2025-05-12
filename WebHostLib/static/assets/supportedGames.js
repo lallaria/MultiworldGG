@@ -29,6 +29,41 @@ window.addEventListener('load', () => {
 
   document.getElementById('expand-all').addEventListener('click', expandAll);
   document.getElementById('collapse-all').addEventListener('click', collapseAll);
+
+  const COOKIE_NAME = 'show_hidden_games';
+
+  function setCookie(name, value, days = 365) {
+    const expires = new Date(
+      Date.now() + days * 24 * 60 * 60 * 1000
+    ).toUTCString();
+    document.cookie = `${name}=${value};expires=${expires};path=/`;
+  }
+
+  function getCookie(name) {
+    return document.cookie
+      .split('; ')
+      .find((row) => row.startsWith(name + '='))
+      ?.split('=')[1];
+  }
+
+  function updateNSFWVisibility() {
+    const show = getCookie(COOKIE_NAME) === 'true';
+    document.querySelectorAll('details[data-nsfw="true"]').forEach((el) => {
+      el.style.display = show ? '' : 'none';
+    });
+    document.getElementById('toggle-nsfw').textContent = show
+      ? 'Hide NSFW games'
+      : 'Show NSFW games';
+  }
+
+  document.getElementById('toggle-nsfw').addEventListener('click', (e) => {
+    e.preventDefault();
+    const currently = getCookie(COOKIE_NAME) === 'true';
+    setCookie(COOKIE_NAME, !currently);
+    updateNSFWVisibility();
+  });
+
+  updateNSFWVisibility();
 });
 
 const expandAll = () => {

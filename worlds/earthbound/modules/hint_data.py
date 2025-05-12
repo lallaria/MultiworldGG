@@ -140,7 +140,7 @@ def setup_hints(world):
         "PK scramble is a pretty good time.",
         "Apple Kid researched the Power of the Earth with Dr. Andonuts.",
         "you can find beta Archipelago games on the Archipelago discord.",
-        "you can randomize EarthBound with MultiworldGG.",
+        "you can randomize EarthBound with Archipelago.",
         "hint prices double with each one bought.",
         "you probably should have kept your money.",
         "there's a secret option to plando Lumine Hall's text.",

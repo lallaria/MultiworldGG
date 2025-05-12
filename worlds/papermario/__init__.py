@@ -24,7 +24,7 @@ from .items import PMItem, pm_is_item_of_type, pm_data_to_ap_id, ap_id_to_pm_dat
 from .data.ItemList import item_table, item_groups, progression_miscitems, item_multiples_ids
 from .data.itemlocation_special import limited_by_item_areas
 from .data.itemlocation_replenish import replenishing_itemlocations
-from .data.LocationsList import location_table, location_groups
+from .data.LocationsList import location_table, location_groups, ch8_locations
 from .modules.random_actor_stats import get_shuffled_chapter_difficulty
 from .Rules import set_rules
 from .modules.random_partners import get_rnd_starting_partners
@@ -121,6 +121,7 @@ class PaperMarioWorld(World):
         self.dro_shop_puzzle_items = []
         self.remove_from_start_inventory = []
         self.web_start_inventory = []
+        self.trappable_item_names = []
 
         self._regions_cache = {}
         self.parser = Rule_AST_Transformer(self, self.player)
@@ -143,8 +144,6 @@ class PaperMarioWorld(World):
 
         # fail generation if attempting to use options that are not fully implemented yet
         nyi_warnings = ""
-        if self.options.item_traps.value != ItemTraps.option_No_Traps:  # not possible with current base mod
-            nyi_warnings += "\n'item_traps' must be set to No_Traps"
         if self.options.shuffle_dungeon_entrances.value != ShuffleDungeonEntrances.option_Off:  # NYI
             nyi_warnings += "\n'shuffle_dungeon_entrances' must be set to Off"
         if self.options.boss_shuffle.value:  # NYI
@@ -248,6 +247,9 @@ class PaperMarioWorld(World):
                 self.ch_excluded_location_names = get_chapter_excluded_location_names(self.excluded_spirits,
                                                                 self.options.letter_rewards.value)
 
+        if self.options.seed_goal.value == SeedGoal.option_Open_Star_Way:
+            self.ch_excluded_location_names.extend(ch8_locations)
+
         # set power star counts to 0 if option is not being used
         if not self.options.power_star_hunt.value:
             self.options.star_way_power_stars.value = 0
@@ -255,11 +257,13 @@ class PaperMarioWorld(World):
             self.options.total_power_stars.value = 0
         else:
             # ensure there are at least as many power stars as there are required for star way and star beam
-            # if total power stars is less than either, then put it 10% higher than the bigger requirement, max 120
-            if (self.options.total_power_stars.value < self.options.star_way_power_stars.value or
-               self.options.total_power_stars.value < self.options.star_beam_power_stars.value):
-                self.options.total_power_stars.value = min(120, int(1.15 * max(self.options.star_beam_power_stars.value,
-                                                                              self.options.star_way_power_stars.value)))
+            # if total power stars is less than either, then put it 15% higher than the bigger requirement, max 120
+            required_power_stars = self.options.star_way_power_stars.value
+            if self.options.seed_goal.value == SeedGoal.option_Open_Star_Way:
+                required_power_stars = max(required_power_stars, self.options.star_beam_power_stars.value)
+
+            if self.options.total_power_stars.value < required_power_stars:
+                self.options.total_power_stars.value = min(120, int(1.15 * required_power_stars))
                 logger.info(f"Paper Mario: {self.player} ({self.multiworld.player_name[self.player]}) had less total "
                             f"power stars than the required amount. New total set to 15% more than the larger "
                             f"requirement, restricted to 120 or fewer.")
@@ -278,12 +282,22 @@ class PaperMarioWorld(World):
         for file in pkg_resources.resource_listdir(__name__, "data/regions"):
             if not pkg_resources.resource_isdir(__name__, "data/regions/" + file):
                 readfile = True
-                if file == "bowser's_castle.json":
-                    readfile = self.options.bowser_castle_mode.value == BowserCastleMode.option_Vanilla
-                elif file == "bowser's_castle_shortened.json":
-                    readfile = self.options.bowser_castle_mode.value == BowserCastleMode.option_Shortened
-                elif file == "bowser's_castle_boss_rush.json":
-                    readfile = self.options.bowser_castle_mode.value == BowserCastleMode.option_Boss_Rush
+                match file:
+                    case "bowser's_castle.json":
+                        readfile = (self.options.bowser_castle_mode.value == BowserCastleMode.option_Vanilla and
+                                    self.options.seed_goal.value != SeedGoal.option_Open_Star_Way)
+                    case "bowser's_castle_shortened.json":
+                        readfile = (self.options.bowser_castle_mode.value == BowserCastleMode.option_Shortened and
+                                    self.options.seed_goal.value != SeedGoal.option_Open_Star_Way)
+                    case "bowser's_castle_boss_rush.json":
+                        readfile = (self.options.bowser_castle_mode.value == BowserCastleMode.option_Boss_Rush and
+                                    self.options.seed_goal.value != SeedGoal.option_Open_Star_Way)
+                    case "shooting_star_summit_no_star_way.json":
+                        readfile = self.options.seed_goal.value == SeedGoal.option_Open_Star_Way
+                    case "shooting_star_summit.json":
+                        readfile = self.options.seed_goal.value != SeedGoal.option_Open_Star_Way
+                    case "peachs_castle.json":
+                        readfile = self.options.seed_goal.value != SeedGoal.option_Open_Star_Way
 
                 if readfile:
                     self.load_regions_from_json("regions/" + file)
@@ -395,6 +409,17 @@ class PaperMarioWorld(World):
 
         self.multiworld.itempool.extend(self.itempool)
         self.remove_from_start_inventory.extend(removed_items)
+
+        # get valid trap items from remaining pool if needed
+        if self.options.item_traps.value > ItemTraps.option_No_Traps:
+            trappable_items = list(filter(lambda item: item.type not in ["ITEM", "COIN"], self.itempool))
+            self.trappable_item_names = [item.name for item in trappable_items]
+            # Bias towards placing Ultra Stone or upgrade traps, done in base PMR as well as requested by clover
+            if self.options.partner_upgrades.value == PartnerUpgradeShuffle.option_Vanilla:
+                self.trappable_item_names.extend(["Ultra Stone"] * 9)
+            else:
+                self.trappable_item_names.extend(item_groups["PartnerUpgrade"])
+
 
     def set_rules(self) -> None:
         set_rules(self)
@@ -566,7 +591,7 @@ class PaperMarioWorld(World):
                 # check if this item gets kept local or not
                 # sets extra copies of consumable progression items to be filler so that they aren't considered in logic
                 keep_local = False
-                if item.type == "ITEM":
+                if item.type == "ITEM" and item.classification != ic.trap:
                     item.classification = ic.filler
                     keep_local = self.random.randint(0, 100) <= local_consumable_chance
                 elif item.type == "PARTNERUPGRADE":

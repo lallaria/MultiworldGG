@@ -252,7 +252,8 @@ item_data_table: Dict[str, MMRItemData] = {
     ),
     "Bottle": MMRItemData(
         code=0x346942000005A,
-        type=ItemClassification.progression
+        type=ItemClassification.progression,
+        num_exist=2
     ),
     "Bottle of Milk": MMRItemData(
         code=0x3469420000060,
@@ -378,22 +379,26 @@ item_data_table: Dict[str, MMRItemData] = {
     "Small Key (Woodfall)": MMRItemData(
         code=0x3469420090078,
         type=ItemClassification.progression,
-        num_exist=1
+        num_exist=1,
+        can_create=lambda options: options.keysanity.value
     ),
     "Small Key (Snowhead)": MMRItemData(
         code=0x3469420090178,
         type=ItemClassification.progression,
-        num_exist=3
+        num_exist=3,
+        can_create=lambda options: options.keysanity.value
     ),
     "Small Key (Great Bay)": MMRItemData(
         code=0x3469420090278,
         type=ItemClassification.progression,
-        num_exist=1
+        num_exist=1,
+        can_create=lambda options: options.keysanity.value
     ),
     "Small Key (Stone Tower)": MMRItemData(
         code=0x3469420090378,
         type=ItemClassification.progression,
-        num_exist=4
+        num_exist=4,
+        can_create=lambda options: options.keysanity.value
     ),
     "Dungeon Map (Woodfall)": MMRItemData(
         code=0x3469420090076,
@@ -481,33 +486,37 @@ item_data_table: Dict[str, MMRItemData] = {
     "Bombchu (1)": MMRItemData(
         code=0x3469420000036,
         type=ItemClassification.progression,
-        num_exist=4
+        num_exist=4,
+        can_create=lambda options: False
     ),
     "Bombchu (5)": MMRItemData(
         code=0x346942000003A,
         type=ItemClassification.progression,
-        num_exist=2
+        num_exist=2,
+        can_create=lambda options: False
     ),
     "Bombchu (10)": MMRItemData(
         code=0x346942000001A,
         type=ItemClassification.progression,
-        num_exist=2
+        num_exist=2,
+        can_create=lambda options: False
     ),
     "Blue Rupee": MMRItemData(
         code=0x3469420000002,
         type=ItemClassification.filler,
-        num_exist=6
+        num_exist=14
+        # ~ num_exist=6
     ),
     "Red Rupee": MMRItemData(
         code=0x3469420000004,
         type=ItemClassification.filler,
-        num_exist=44
+        num_exist=45
         # ~ num_exist=29
     ),
     "Purple Rupee": MMRItemData(
         code=0x3469420000005,
         type=ItemClassification.filler,
-        num_exist=9
+        num_exist=11
     ),
     "Silver Rupee": MMRItemData(
         code=0x3469420000006,
@@ -516,8 +525,8 @@ item_data_table: Dict[str, MMRItemData] = {
     ),
     "Gold Rupee": MMRItemData(
         code=0x3469420000007,
-        type=ItemClassification.filler,
-        num_exist=1
+        type=ItemClassification.useful,
+        num_exist=2
     ),
     "Victory": MMRItemData(
         type=ItemClassification.progression,

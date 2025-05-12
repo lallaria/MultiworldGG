@@ -30,8 +30,13 @@ from .options import CrossCodeOptions, ShopReceiveMode, ShopSendMode, StartWithD
 cclogger = logging.getLogger(__name__)
 
 class CrossCodeWebWorld(WebWorld):
-    theme="ocean"
+    """CrossCode is a retro-inspired 2D Action RPG set in the distant future,
+    combining 16-bit SNES-style graphics with butter-smooth physics, a
+    fast-paced combat system, and engaging puzzle mechanics, served with a
+    gripping sci-fi story.
+    """
 
+    theme="ocean"
     setup_en = Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up the CrossCode randomizer connected to an MultiworldGG Multiworld.",
@@ -274,9 +279,6 @@ class CrossCodeWorld(World):
 
         green_leaf_shade_name = "Green Leaf Shade"
 
-        self.required_items = Counter()
-        self.required_items.update(self.pools.item_pools["required"])
-
         area_unlocks = self.options.progressive_area_unlocks.value
         if area_unlocks & ProgressiveAreaUnlocks.COMBINE_POOLS:
             self.enabled_chain_names.add("areaItemsAll")
@@ -339,10 +341,6 @@ class CrossCodeWorld(World):
 
         if self.options.exclude_always_quests.value and not self.options.quest_rando.value:
             self.options.exclude_locations.value.update(self.location_name_groups["Always Quests"])
-
-        if self.options.force_filler_local.value:
-            for name in self._filler_pool_names:
-                self.options.local_items.value.update(self.item_name_groups[name])
 
         self.pre_fill_any_dungeon_names = set()
         self.pre_fill_specific_dungeons_names = defaultdict(set)

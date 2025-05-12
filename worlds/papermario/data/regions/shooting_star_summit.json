@@ -41,9 +41,6 @@
     "area_id": "5",
     "map_id": "1",
     "map_name": "Shooting Star Summit",
-    "events": {
-      "STARROD": "can_reach_star_way and star_way_goal"
-    },
     "locations": {
       "SSS Shooting Star Summit Hidden Panel": "can_flip_panels and can_climb_steps"
     },

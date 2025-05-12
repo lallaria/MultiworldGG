@@ -17,7 +17,7 @@ La [page d'options pour ce jeu](../player-options) contient toutes les options p
 - Pré-ouvre la porte de l'Enceinte du pénitencier (Prison Compound)
 - Permet une transformation instantanée dès que Mumbo ou Humba ont été visité en tant que Banjo-Kazooie
 - Permet de choisir le personnage qui parle lors que la réception de certains items
-- Le menu pause contient un sous-menu MultiworldGG, qui montre les items reçus et plusieurs options
+- Le menu pause contient un sous-menu Archipelago, qui montre les items reçus et plusieurs options
 - Mélange l'ordre d'ouverture des niveaux, ainsi que leur zones de chargements
 - Si nestsanity est actif, les nids non-collectés ont le logo d'Archipelago comme texture
 

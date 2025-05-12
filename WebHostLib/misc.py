@@ -51,7 +51,7 @@ def game_info(game, lang):
 def games():
     worlds = {}
     for game, world in AutoWorldRegister.world_types.items():
-        if not world.hidden:
+        if not world.hidden and not game in app.config["HIDDEN_WEBWORLDS"]:
             worlds[game] = world
     return render_template("supportedGames.html", worlds=worlds)
 
@@ -254,7 +254,7 @@ def get_datapackage():
 def get_sitemap():
     available_games: List[Dict[str, Union[str, bool]]] = []
     for game, world in AutoWorldRegister.world_types.items():
-        if not world.hidden:
+        if not world.hidden and not game in app.config["HIDDEN_WEBWORLDS"]:
             has_settings: bool = isinstance(world.web.options_page, bool) and world.web.options_page
             available_games.append({ 'title': game, 'has_settings': has_settings })
     return render_template("siteMap.html", games=available_games)

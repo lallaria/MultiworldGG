@@ -1,10 +1,28 @@
-# Setup Guide For Digimon World Archipelago
+# Digimon World Randomizer Setup Guide
 
 ## Required Software
-* [DWAP Client](https://github.com/ArsonAssassin/DWAP/releases)
 
-## Join a Multiworld Room
-* Run the game. If you are using PCSX2, YOU MUST USE version 1.6.0 Earlier/Later versions WILL NOT WORK.
-* *Open the client folder you unzipped earlier and run the included .exe.
-* Fill in your host, slot and password (if required) and press Connect.
-* You should now be ready to start a new game and play.
+- [Duckstation](https://github.com/stenzek/duckstation/releases/tag/latest)
+- [DWAP Client](https://github.com/ArsonAssassin/DWAP/releases)
+- [Digimon World APWorld] (https://github.com/ArsonAssassin/DWAP/releases)
+- Digimon World US ROM. The Archipelago community cannot provide this.
+
+## Optional Software
+
+- [Digimon World Poptracker Pack](https://github.com/seto10987/Digimon-World-AP-PopTracker-Pack), for use with [Poptracker](https://github.com/black-sliver/PopTracker/releases)
+
+## General Concept
+
+The DWAP Client is a C# client which reads memory addresses from ePSXe and communicates with MultiworldGG. Location Checks are sent when specific memory addresses update, and items are given by editing the memory addresses.
+
+## Joining a MultiWorld Game
+
+1. Run Duckstation.
+2. Load the Digimon World (USA) rom
+3. Open the DWAP Client
+4. Enter your host (including port), slot name and password (if set)
+5. Press Connect. This will fail if the above steps were not completed properly.
+
+## Where do I get a config file?
+
+If you are using the MultiworldGG website to generate, you can create one in the Game Options page. If you are generating locally, you can Generate Templates from the MultiworldGG launcher to create a default template, and edit it manually.

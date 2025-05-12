@@ -19,7 +19,7 @@ from .Items import item_table, faction_table, CommanderData, ItemData, item_id_n
 
 from .Levels import LEVEL_COUNT, FINAL_LEVEL_COUNT, region_names, \
     low_victory_checks_levels, high_victory_checks_levels, \
-    FINAL_LEVEL_1, FINAL_LEVEL_2, FINAL_LEVEL_3, FINAL_LEVEL_4, final_levels
+    FINAL_LEVEL_1, FINAL_LEVEL_2, FINAL_LEVEL_3, FINAL_LEVEL_4, final_levels, final_filler_levels
 from .Locations import location_table, location_id_name
 from .RegionFilter import Wargroove2LogicFilter
 from NetUtils import ClientStatus
@@ -94,15 +94,14 @@ class Wargroove2Context(CommonContext):
     starting_groove_multiplier: int = 0
     has_death_link: bool = False
     has_sacrifice_summon: bool = True
-    stored_units_key: str = ""
     victory_locations: int = 1
     objective_locations: int = 1
-    has_death_link: bool = False
-    has_death_link: bool = False
     final_levels: int = 1
     level_shuffle_seed: int = 0
     slot_data: dict[str, Any]
     stored_finale_key: str = ""
+    player_stored_units_key: str = ""
+    ai_stored_units_key: str = ""
     faction_item_ids = {
         'Starter': 0,
         'Cherrystone': 252034,
@@ -253,8 +252,11 @@ class Wargroove2Context(CommonContext):
 
             self.stored_finale_key = f"wargroove_2_{self.slot}_{self.team}"
             self.set_notify(self.stored_finale_key)
-            self.stored_units_key = f"wargroove_units_{self.team}"
-            self.set_notify(self.stored_units_key)
+            self.player_stored_units_key = f"wargroove_player_units_{self.team}"
+            self.set_notify(self.player_stored_units_key)
+            self.ai_stored_units_key = f"wargroove_ai_units_{self.team}"
+            self.set_notify(self.ai_stored_units_key)
+
             self.update_commander_data()
             self.ui.update_ui()
 
@@ -337,6 +339,7 @@ class Wargroove2Context(CommonContext):
     def run_gui(self):
         """Import kivy UI system and start running it as self.ui_task."""
         from kvui import GameManager
+        from kivymd.uix.tab import MDTabsItem, MDTabsItemText
         from kivy.uix.tabbedpanel import TabbedPanelItem
         from kivy.lang import Builder
         from kivy.uix.togglebutton import ToggleButton
@@ -396,12 +399,8 @@ class Wargroove2Context(CommonContext):
 
             def build(self):
                 container = super().build()
-                panel = TabbedPanelItem(text="WG2 Tracker")
-                panel.content = self.build_tracker()
-                self.tabs.add_widget(panel)
-                panel = TabbedPanelItem(text="WG2 Levels")
-                panel.content = self.build_levels()
-                self.tabs.add_widget(panel)
+                self.add_client_tab("WG2 Tracker", self.build_tracker())
+                self.add_client_tab("WG2 Levels", self.build_levels())
                 return container
 
             def build_levels(self) -> LevelsLayout:
@@ -442,30 +441,41 @@ class Wargroove2Context(CommonContext):
                     if level_counter <= LEVEL_COUNT and hasattr(self.ctx, 'slot_data'):
                         level_name = self.ctx.slot_data[region_name]
                         level_name_text = f"\n{level_name}"
-                        for location_name in level_rules[level_name].keys():
-                            rule_factory = level_rules[level_name][location_name]
-                            is_beatable = rule_factory is None or rule_factory(self.ctx.slot)(region_filter)
-                            is_fully_beaten = is_fully_beaten and \
-                                              location_table[location_name] in self.ctx.checked_locations
-                            if location_name.endswith(": Victory"):
-                                if location_table[location_name] in self.ctx.checked_locations:
-                                    is_victory_reached = True
-                                    status_color = (1.0, 1.0, 1.0, 1)
-                                    if level_counter <= 4:
-                                        next_level = (level_counter - 1) * 4 + 6 - level_counter
-                                        unreachable_levels.remove(next_level)
-                                        unreachable_levels.remove(next_level + 1)
-                                        unreachable_levels.remove(next_level + 2)
-                                    elif level_counter <= 16:
-                                        unreachable_levels.remove(level_counter + 12)
-                                elif level_counter in unreachable_levels:
-                                    status_color = (0.35, 0.2, 0.2, 1)
-                                    level_name_text = ""
-                                    break
-                                elif is_beatable:
-                                    status_color = (0.6, 0.6, 0.2, 1)
-                            elif is_beatable and location_table[location_name] not in self.ctx.checked_locations:
-                                fully_beaten_text = "*"
+                        if level_name in level_rules:
+                            for location_name in level_rules[level_name].keys():
+                                rule_factory = level_rules[level_name][location_name]
+                                is_beatable = rule_factory is None or rule_factory(self.ctx.slot)(region_filter)
+                                is_fully_beaten = is_fully_beaten and \
+                                                  location_table[location_name] in self.ctx.checked_locations
+                                if location_name.endswith(": Victory"):
+                                    if location_table[location_name] in self.ctx.checked_locations:
+                                        is_victory_reached = True
+                                        status_color = (1.0, 1.0, 1.0, 1)
+                                        if level_counter <= 4:
+                                            next_level = (level_counter - 1) * 4 + 6 - level_counter
+                                            unreachable_levels.remove(next_level)
+                                            unreachable_levels.remove(next_level + 1)
+                                            unreachable_levels.remove(next_level + 2)
+                                        elif level_counter <= 16:
+                                            unreachable_levels.remove(level_counter + 12)
+                                    elif level_counter in unreachable_levels:
+                                        status_color = (0.35, 0.2, 0.2, 1)
+                                        level_name_text = ""
+                                        break
+                                    elif is_beatable:
+                                        status_color = (0.6, 0.6, 0.2, 1)
+                                elif is_beatable and location_table[location_name] not in self.ctx.checked_locations:
+                                    fully_beaten_text = "*"
+                        else:
+                            is_victory_reached = True
+                            status_color = (1.0, 1.0, 1.0, 1)
+                            if level_counter <= 4:
+                                next_level = (level_counter - 1) * 4 + 6 - level_counter
+                                unreachable_levels.remove(next_level)
+                                unreachable_levels.remove(next_level + 1)
+                                unreachable_levels.remove(next_level + 2)
+                            elif level_counter <= 16:
+                                unreachable_levels.remove(level_counter + 12)
 
                     if is_fully_beaten and is_victory_reached:
                         fully_beaten_text = " (100%)"
@@ -498,6 +508,9 @@ class Wargroove2Context(CommonContext):
                     level_counter += 1
 
                 final_level_rules = {final_level.name: final_level.location_rules for final_level in final_levels}
+                filler_final_level_rules = {final_level.name: final_level.location_rules
+                                            for final_level in final_filler_levels}
+                final_level_rules = final_level_rules | filler_final_level_rules
                 final_level_1_name = None
                 final_level_2_name = None
                 final_level_3_name = None
@@ -517,12 +530,15 @@ class Wargroove2Context(CommonContext):
                 elif final_level_1_name is not None and region_filter.has_all(["Final North", "Final Center"],
                                                                               self.ctx.slot):
                     level_name_text = f"\n{final_level_1_name}"
-                    is_beatable = final_level_rules[final_level_1_name] \
-                        [f"{final_level_1_name}: Victory"](self.ctx.slot)(region_filter)
-                    if is_beatable:
+                    final_level_rule = final_level_rules[final_level_1_name][f"{final_level_1_name}: Victory"]
+                    if final_level_rule is None:
                         status_color = (0.6, 0.6, 0.2, 1)
                     else:
-                        status_color = (0.6, 0.2, 0.2, 1)
+                        is_beatable = final_level_rule(self.ctx.slot)(region_filter)
+                        if is_beatable:
+                            status_color = (0.6, 0.6, 0.2, 1)
+                        else:
+                            status_color = (0.6, 0.2, 0.2, 1)
                 else:
                     status_color = (0.35, 0.2, 0.2, 1)
                 label = ItemLabel(text=FINAL_LEVEL_1 + level_name_text, color=status_color)
@@ -534,12 +550,15 @@ class Wargroove2Context(CommonContext):
                 elif final_level_2_name is not None and region_filter.has_all(["Final East", "Final Center"],
                                                                               self.ctx.slot):
                     level_name_text = f"\n{final_level_2_name}"
-                    is_beatable = final_level_rules[final_level_2_name] \
-                        [f"{final_level_2_name}: Victory"](self.ctx.slot)(region_filter)
-                    if is_beatable:
+                    final_level_rule = final_level_rules[final_level_2_name][f"{final_level_2_name}: Victory"]
+                    if final_level_rule is None:
                         status_color = (0.6, 0.6, 0.2, 1)
                     else:
-                        status_color = (0.6, 0.2, 0.2, 1)
+                        is_beatable = final_level_rule(self.ctx.slot)(region_filter)
+                        if is_beatable:
+                            status_color = (0.6, 0.6, 0.2, 1)
+                        else:
+                            status_color = (0.6, 0.2, 0.2, 1)
                 else:
                     status_color = (0.35, 0.2, 0.2, 1)
                 label = ItemLabel(text=FINAL_LEVEL_2 + level_name_text, color=status_color)
@@ -551,12 +570,15 @@ class Wargroove2Context(CommonContext):
                 elif final_level_3_name is not None and region_filter.has_all(["Final South", "Final Center"],
                                                                               self.ctx.slot):
                     level_name_text = f"\n{final_level_3_name}"
-                    is_beatable = final_level_rules[final_level_3_name] \
-                        [f"{final_level_3_name}: Victory"](self.ctx.slot)(region_filter)
-                    if is_beatable:
+                    final_level_rule = final_level_rules[final_level_3_name][f"{final_level_3_name}: Victory"]
+                    if final_level_rule is None:
                         status_color = (0.6, 0.6, 0.2, 1)
                     else:
-                        status_color = (0.6, 0.2, 0.2, 1)
+                        is_beatable = final_level_rule(self.ctx.slot)(region_filter)
+                        if is_beatable:
+                            status_color = (0.6, 0.6, 0.2, 1)
+                        else:
+                            status_color = (0.6, 0.2, 0.2, 1)
                 else:
                     status_color = (0.35, 0.2, 0.2, 1)
                 label = ItemLabel(text=FINAL_LEVEL_3 + level_name_text, color=status_color)
@@ -568,12 +590,15 @@ class Wargroove2Context(CommonContext):
                 elif final_level_4_name is not None and region_filter.has_all(["Final West", "Final Center"],
                                                                               self.ctx.slot):
                     level_name_text = f"\n{final_level_4_name}"
-                    is_beatable = final_level_rules[final_level_4_name] \
-                        [f"{final_level_4_name}: Victory"](self.ctx.slot)(region_filter)
-                    if is_beatable:
+                    final_level_rule = final_level_rules[final_level_4_name][f"{final_level_4_name}: Victory"]
+                    if final_level_rule is None:
                         status_color = (0.6, 0.6, 0.2, 1)
                     else:
-                        status_color = (0.6, 0.2, 0.2, 1)
+                        is_beatable = final_level_rule(self.ctx.slot)(region_filter)
+                        if is_beatable:
+                            status_color = (0.6, 0.6, 0.2, 1)
+                        else:
+                            status_color = (0.6, 0.2, 0.2, 1)
                 else:
                     status_color = (0.35, 0.2, 0.2, 1)
                 label = ItemLabel(text=FINAL_LEVEL_4 + level_name_text, color=status_color)
@@ -759,27 +784,33 @@ async def game_watcher(ctx: Wargroove2Context):
                             victory = True
                     os.remove(os.path.join(ctx.game_communication_path, file))
                     ctx.ui.update_levels()
-                if file == "unitSacrifice":
+                if file == "unitSacrifice" or file == "unitSacrificeAI":
                     if ctx.has_sacrifice_summon:
+                        stored_units_key = ctx.player_stored_units_key
+                        if file == "unitSacrificeAI":
+                            stored_units_key = ctx.ai_stored_units_key
                         with open(os.path.join(ctx.game_communication_path, file), 'r') as f:
                             unit_class = f.read()
-                            message = [{"cmd": 'Set', "key": ctx.stored_units_key,
+                            message = [{"cmd": 'Set', "key": stored_units_key,
                                         "default": [],
                                         "want_reply": True,
-                                        "operations": [{"operation": "add", "value": [unit_class]}]}]
+                                        "operations": [{"operation": "add", "value": [unit_class[:64]]}]}]
                             await ctx.send_msgs(message)
                     os.remove(os.path.join(ctx.game_communication_path, file))
-                if file == "unitSummonRequest":
+                if file == "unitSummonRequest" or file == "unitSummonRequestAI":
                     if ctx.has_sacrifice_summon:
+                        stored_units_key = ctx.player_stored_units_key
+                        if file == "unitSummonRequestAI":
+                            stored_units_key = ctx.ai_stored_units_key
                         with open(os.path.join(ctx.game_communication_path, "unitSummonResponse"), 'w') as f:
-                            if ctx.stored_units_key in ctx.stored_data:
-                                stored_units = ctx.stored_data[ctx.stored_units_key]
-                                if len(stored_units) != 0:
+                            if stored_units_key in ctx.stored_data:
+                                stored_units = ctx.stored_data[stored_units_key]
+                                if stored_units is not None and len(stored_units) != 0:
                                     summoned_unit = random.choice(stored_units)
-                                    message = [{"cmd": 'Set', "key": ctx.stored_units_key,
+                                    message = [{"cmd": 'Set', "key": stored_units_key,
                                                 "default": [],
                                                 "want_reply": True,
-                                                "operations": [{"operation": "remove", "value": summoned_unit}]}]
+                                                "operations": [{"operation": "remove", "value": summoned_unit[:64]}]}]
                                     await ctx.send_msgs(message)
                                     f.write(summoned_unit)
                     os.remove(os.path.join(ctx.game_communication_path, file))
@@ -820,6 +851,6 @@ def launch():
     parser = get_base_parser(description="Wargroove 2 Client, for text interfacing.")
 
     args, rest = parser.parse_known_args()
-    colorama.init()
+    colorama.just_fix_windows_console()
     asyncio.run(main(args))
     colorama.deinit()

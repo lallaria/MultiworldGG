@@ -61,7 +61,7 @@ class SSContext(CommonContext):
         """
         Initialize the SS context.
 
-        :param server_address: Address of the MultiworldGG server.
+        :param server_address: Address of the Archipelago server.
         :param password: Password for server authentication.
         """
 
@@ -107,7 +107,7 @@ class SSContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False) -> None:
         """
-        Authenticate with the MultiworldGG server.
+        Authenticate with the Archipelago server.
 
         :param password_requested: Whether the server requires a password. Defaults to `False`.
         """
@@ -188,7 +188,7 @@ class SSContext(CommonContext):
         :return: The client's GUI.
         """
         ui = super().make_gui()
-        ui.base_title = "MultiworldGG Skyward Sword Client"
+        ui.base_title = "Archipelago Skyward Sword Client"
         return ui
 
     async def update_visited_stages(self, newly_visited_stage_name: str) -> None:
@@ -684,7 +684,7 @@ def main(connect: Optional[str] = None, password: Optional[str] = None) -> None:
     """
     Run the main async loop for the SS client.
 
-    :param connect: Address of the MultiworldGG server.
+    :param connect: Address of the Archipelago server.
     :param password: Password for server authentication.
     """
     Utils.init_logging("Skyward Sword Client")

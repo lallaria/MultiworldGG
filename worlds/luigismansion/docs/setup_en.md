@@ -6,6 +6,17 @@
 - [Dolphin Gamecube/Wii Emulator](https://dolphin-emu.org/)
 - Your American ISO file, probably named `Luigi's Mansion (NTSC-U).iso`. Support for the PAL version is planned in the distant future
 
+## Installation Procedures
+
+1. Download and install the MultiworldGG Multiworld Suite from the link above, making sure to install the most recent version.
+
+2. Download and install the Dolphin Gamecube/Wii Emulator from the link above, making sure to install the most recent version.
+Run the emulator at least once to make sure it is working.
+
+3. Unzip the APworld from the downloads. Place the luigismansion.apworld in the custom_worlds folder of your MultiworldGG install (not needed with MWGG release)
+
+4. Download the lib.zip from the releases page and unpack it. Place the contents of the /lib from what you unzipped into the /lib folder of your MultiworldGG install. (not needed with MWGG release)
+
 ## Create a Config (.yaml) File
 
 ### What is a config file and why do I need one?
@@ -79,4 +90,3 @@ at the top of the LMClient. If the port number is correct, you are now connected
    - Unfortunately, due to the nature of some checks, you must be connected to a server while playing
 
 ### Play the game
-

@@ -543,10 +543,21 @@ class GhostTrapWeight(Range):
 
 class DoorModelRando(Toggle):
     """
-    Randomly choose models for every door in the mansion except the double doors.
+    Randomly choose models for every door in the mansion.
     """
     display_name = "Randomized Door Model"
     internal_name = "door_model_rando"
+
+
+class TrapPercentage(Range):
+    """
+    Set the percentage of filler items that are traps.
+    """
+    display_name = "Trap Percentage"
+    internal_name = "trap_percentage"
+    range_start = 0
+    range_end = 100
+    default = 50
 
 @dataclass
 class LMOptions(DeathLinkMixin, PerGameCommonOptions):
@@ -589,6 +600,7 @@ class LMOptions(DeathLinkMixin, PerGameCommonOptions):
     chest_types: ChestTypes
     trap_chests: TrapChestType
     trap_link: TrapLink
+    trap_percentage: TrapPercentage
     bundle_weight: BundleWeight
     coin_weight: CoinWeight
     bill_weight: BillWeight

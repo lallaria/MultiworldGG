@@ -1,5 +1,6 @@
 from typing import Any, Dict
 
+import Options as APOptions
 from . import LuigiOptions as LMOptions
 
 all_random_settings = {
@@ -57,6 +58,7 @@ all_random_settings = {
     LMOptions.ExtraBooSpots.internal_name:             "random",
     LMOptions.Enemizer.internal_name:                  "random",
     LMOptions.RandomSpawn.internal_name:               "random",
+    LMOptions.TrapPercentage.internal_name:            "random",
     "death_link":                                      "random",
 }
 
@@ -84,6 +86,7 @@ money_settings = {
     LMOptions.PossTrapWeight.internal_name:            0,
     LMOptions.BonkTrapWeight.internal_name:            0,
     LMOptions.GhostTrapWeight.internal_name:           0,
+    LMOptions.TrapPercentage.internal_name:            0,
 }
 
 trap_settings = {
@@ -99,6 +102,7 @@ trap_settings = {
     LMOptions.PossTrapWeight.internal_name:            100,
     LMOptions.BonkTrapWeight.internal_name:            100,
     LMOptions.GhostTrapWeight.internal_name:           100,
+    LMOptions.TrapPercentage.internal_name:            100,
 }
 
 lm_options_presets: Dict[str, Dict[str, Any]] = {

@@ -41,14 +41,24 @@ class EOSProcedurePatch(APProcedurePatch, APTokenMixin):
         return get_base_rom_as_bytes()
 
 
-def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[Item]) -> None:
-    ov36_mem_loc = 0x297000  # find_ov36_mem_location()
+def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[Location],
+                 dimensional_screams: list[Location]) -> None:
+    ov36_mem_loc = 2721280  # find_ov36_mem_location()
     seed_offset = 0x36F90
     player_name_offset = 0x36F80
     ap_settings_offset = 0x36F98
-    mission_max_offset = 0x36F9A
-    macguffin_max_offset = 0x36F9E
-    hintable_items_offset = ov36_mem_loc + 0x36FA2
+    # mission_max_offset = 0x36F9A
+    # macguffin_max_offset = 0x36F9E
+    # spinda_drinks_offset = 0x37146
+    hintable_items_offset = 3298816  # number from Heckas makefile code
+    custom_save_area_offset = ov36_mem_loc + 0x8F80
+    # main_game_unlocked_offset = ov36_mem_loc + 0x37148  # custom_save_area_offset + 0x2A7
+    dimensional_scream_who_offset = hintable_items_offset + 0x4
+    dimensional_scream_what_offset = hintable_items_offset + 0x202
+    dimensional_scream_where_offset = hintable_items_offset + 0x5E0
+    #dimensional_scream_hints = get_dimensional_hints(world)
+    dimensional_scream_hints = dimensional_screams
+    #writable_screams = [k.address for k in dimensional_scream_hints]
     # recruitment_offset = 0x3702C
     # recruitment_evo_offset = 0x37030
     # team_formation_offset = 0x37034
@@ -63,25 +73,36 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[I
         "recruits_evolution": world.options.recruit_evo.value,
         "team_formation": world.options.team_form.value,
         "dojo_dungeons_rando": world.options.dojo_dungeons.value,
-        "relic_shard_fragments": world.options.shard_fragments.value,
-        "extra_shards": world.options.extra_shards.value,
+        "relic_shard_fragments": world.options.required_fragments.value,
+        "extra_shards": world.options.total_shards.value,
         "type_sanity": world.options.type_sanity.value,
         "starter_option": world.options.starter_option.value,
         "iq_scaling": world.options.iq_scaling.value,
         "xp_scaling": world.options.xp_scaling.value,
         "instruments_required": world.options.req_instruments.value,
-        "extra_instruments": world.options.extra_instruments.value,
+        "extra_instruments": world.options.total_instruments.value,
         "hero_evolution": world.options.hero_evolution.value,
         "deathlink": world.options.deathlink.value,
         "deathlink_type": world.options.deathlink_type.value,
         "legendaries": world.options.legendaries.value,
-
+        "sky_peak_type": world.options.sky_peak_type.value,
+        "special_sanity": world.options.special_episode_sanity.value,
+        "traps_allowed": world.options.allow_traps.value,
+        "invisible_traps": world.options.invisible_traps.value,
+        "trap_percentage": world.options.trap_percent.value,
+        "long_locations": world.options.long_location.value,
+        "cursed_aegis_cave": world.options.cursed_aegis_cave.value,
+        "drink_events": world.options.drink_events.value,
+        "spinda_drinks": world.options.spinda_drinks.value,
+        "exclude_special": world.options.exclude_special.value,
+        # "dimensional_screams": writable_screams,
     }
     seed = world.multiworld.seed_name.encode("UTF-8")[0:7]
     patch.write_file("options.json", json.dumps(options_dict).encode("UTF-8"))
-
-    # Change the player name so that PMD_EOS can read it correctly and then make it latin1
-    player_name_changed = (world.multiworld.player_name[world.player]).translate("[]~\\")
+    trans_table = {"[": "", "]": "", "~": "", "\\": ""}
+    trans_table = str.maketrans(trans_table)
+    # Change the player name so that PMD_EOS can read it correctly and then make it latin
+    player_name_changed = (world.multiworld.player_name[world.player]).translate(trans_table)
 
     player_name_changed = player_name_changed.encode("latin1", "xmlcharrefreplace")
 
@@ -91,61 +112,158 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[I
 
     # Bake names of previewable items into ROM
     for i in range(len(hint_items)):
-        hint_player = world.multiworld.player_name[hint_items[i].player].translate("[]~\\")
-        patch.write_token(APTokenTypes.WRITE, hintable_items_offset + 42*i,
-                          f"[CS:N]{hint_player[0:10]}[CR]'s {hint_items[i].name[0:20]}".encode("latin1"))
+        hint_player = world.multiworld.player_name[hint_items[i].player].translate(trans_table)
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 18 * i,
+                          hint_player[0:15].encode("latin1", "xmlcharrefreplace"))
+
+        hint_loc_name = hint_items[i].name.translate(trans_table)
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_where_offset + 34 * i,
+                          hint_loc_name[0:31].encode("latin1", "xmlcharrefreplace"))
+
+        hint_item = hint_items[i].item.name.translate(trans_table)
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_what_offset + 34 * i,
+                          hint_item[0:31].encode("latin1", "xmlcharrefreplace"))
+
+
+    # Bake the dimensional Scream Hints into the ROM
+
+    for i in range(len(dimensional_scream_hints)):
+        hint_player = world.multiworld.player_name[dimensional_scream_hints[i].player].translate(trans_table)
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 18 * (i + 10),
+                          hint_player[0:15].encode("latin1", "xmlcharrefreplace"))
+
+        hint_loc_name = dimensional_scream_hints[i].name.translate(trans_table)
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_where_offset + 34 * (i + 10),
+                          hint_loc_name[0:31].encode("latin1", "xmlcharrefreplace"))
+
+        hint_item = dimensional_scream_hints[i].item.name.translate(trans_table)
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_what_offset + 34 * (i + 10),
+                          hint_item[0:31].encode("latin1", "xmlcharrefreplace"))
 
     # Bake seed name into ROM
     patch.write_token(APTokenTypes.WRITE, ov36_mem_loc+seed_offset, seed)
-    instruments_required = world.options.req_instruments.value
-    macguffins_required = world.options.shard_fragments.value
-    # Take the options and bake them into the rom, so they can be applied on runtime
+
     write_byte = 0
-    write_byte = write_byte | world.options.iq_scaling.value
-    if world.options.level_scale.value:
-        write_byte = write_byte | (0x1 << 7)
-
-    if world.options.type_sanity.value:
-        write_byte = write_byte | (0x1 << 8)
-
-    if world.options.starter_option.value == 1:
-        write_byte = write_byte | (0x1 << 9)
-
-    elif world.options.starter_option.value == 2:
-        write_byte = write_byte | (0x1 << 10)
-
-    elif world.options.starter_option.value == 3:
-        write_byte = write_byte | ((0x1 << 9) + (0x1 << 10))
-
-    if world.options.deathlink.value and world.options.deathlink_type.value == 0:
-        write_byte = write_byte | (0x1 << 12)
-    elif world.options.deathlink.value and world.options.deathlink.value == 1:
-        write_byte = write_byte | (0x1 << 11)
-
     late_missions_count = 0
     late_outlaws_count = 0
-    if world.options.goal == 1:
+    if world.options.goal.value == 1:
         late_missions_count = world.options.late_mission_checks.value
         late_outlaws_count = world.options.late_outlaw_checks.value
+    elif world.options.goal.value == 0:
+        write_byte = write_byte | (0x1 << 17)
+
+    instruments_required = world.options.req_instruments.value
+    macguffins_required = world.options.required_fragments.value
+
+    # Take the options and bake them into the rom, so they can be applied on runtime
+
+    write_byte = write_byte | world.options.iq_scaling.value
+    write_byte = write_byte | (world.options.xp_scaling.value << 12)
+
+    write_byte = write_byte | (instruments_required << 52)
+
+    write_byte = write_byte | (macguffins_required << 48)
+    write_byte = write_byte | (world.options.early_mission_checks.value << 19)
+    write_byte = write_byte | (world.options.early_outlaw_checks.value << 27)
+    write_byte = write_byte | (late_missions_count << 35)
+    write_byte = write_byte | (late_outlaws_count << 43)
+    write_byte = write_byte | (world.options.drink_events.value << 56)
+    write_byte = write_byte | (world.options.spinda_drinks.value << 64)
+
+    if world.options.long_location.value == 1:
+        write_byte = write_byte | (0x1 << 18)
+
+    if world.options.early_mission_floors.value:
+        write_byte = write_byte | (0x1 << 4)
+
+    if world.options.move_shortcuts.value:
+        write_byte = write_byte | (0x1 << 5)
+
+    if world.options.level_scale.value == 1:
+        write_byte = write_byte | (0x1 << 24)
+    if world.options.level_scale.value == 2:
+        write_byte = write_byte | (0x1 << 25)
+    if world.options.level_scale.value == 3:
+        write_byte = write_byte | (0x1 << 24) | (0x1 << 25)
+
+    if world.options.guest_scaling.value:
+        write_byte = write_byte | (0x1 << 26)
+
+    if world.options.type_sanity.value:
+        write_byte = write_byte | (0x1 << 7)
+
+    if world.options.starter_option.value == 1:
+        write_byte = write_byte | (0x1 << 8)
+
+    elif world.options.starter_option.value == 2:
+        write_byte = write_byte | (0x1 << 9)
+
+    elif world.options.starter_option.value == 3:
+        write_byte = write_byte | ((0x1 << 8) + (0x1 << 9))
+
+    if world.options.deathlink.value and world.options.deathlink_type.value == 0:
+        write_byte = write_byte | (0x1 << 11)
+    elif world.options.deathlink.value and world.options.deathlink.value == 1:
+        write_byte = write_byte | (0x1 << 10)
+
+    if world.options.special_episode_sanity.value == 0:
+        write_byte = write_byte | (0x1 << 16)
+
     # write the tokens that will be applied and write the token data into the bin for AP
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + ap_settings_offset, int.to_bytes(write_byte, length=2, byteorder="little"))
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + macguffin_max_offset + 0x1, int.to_bytes(instruments_required))
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + macguffin_max_offset, int.to_bytes(macguffins_required))
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + mission_max_offset, int.to_bytes(world.options.early_mission_checks.value))
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + mission_max_offset + 0x1, int.to_bytes(world.options.early_outlaw_checks.value))
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + mission_max_offset + 0x2, int.to_bytes(late_missions_count))
-    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + mission_max_offset + 0x3, int.to_bytes(late_outlaws_count))
+    patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + ap_settings_offset,
+                      int.to_bytes(write_byte, length=9, byteorder="little"))
+
     patch.write_file("token_data.bin", patch.get_token_binary())
+    #testnum = find_ov36_mem_location()
+
+
+def get_dimensional_hints(world: "EOSWorld") -> list[Location]:
+    # getting the hint items for the dimensional scream hints
+    hint_loc = []
+    filler = 5
+    useful = 6
+    progressive = 9
+    sky_dungeons = []
+    important_sky_items = ["Icy Flute", "Fiery Drum", "Terra Cymbal", "Aqua-Monica", "Rock Horn",
+                           "Grass Cornet", "Sky Melodica", "Stellar Symphony", "Null Bagpipes", "Glimmer Harp",
+                           "Toxic Sax", "Biting Bass", "Knockout Bell", "Spectral Chimes", "Liar's Lyre",
+                           "Charge Synth", "Norma-ccordion", "Psychic Cello", "Dragu-teki", "Steel Guitar",
+                           "Relic Fragment Shard"]
+    location_list = list(world.multiworld.get_locations(world.player))
+    random.shuffle(location_list)
+    for location in location_list:
+        if location.address is not None and location.item:
+            if filler <= 0 and useful <= 0 and progressive <= 0:
+                break
+            elif progressive > 0 and location.item.advancement:
+                if location.item.player == world.player and location.item.name not in important_sky_items:
+                    sky_dungeons.append(location)
+                    continue
+                hint_loc.append(location)
+                progressive -= 1
+            elif filler > 0 and location.item is not (location.item.advancement or location.item.useful):
+                hint_loc.append(location)
+                filler -= 1
+            elif useful > 0 and location.item.useful:
+                hint_loc.append(location)
+                useful -= 1
+    if progressive > 0:
+        for i in range(progressive):
+            hint_loc.append(sky_dungeons[i])
+    return hint_loc
 
 
 def find_ov36_mem_location() -> int:
     # Not currently used. Was an attempt to search the entire rom for the identifier and return where it found it
     # Would simplify having to change the start value of ov 36 every time the base patch changes
     rom = get_base_rom_as_bytes()
-    for byte_i, byte in enumerate(rom):
-
-        hex_search_value = 0x0DF0ADBA
-        hex_searched = int.from_bytes(rom[byte_i:(byte_i+3)])
+    test = range(0x296000, 0x300000)
+    for byte_i in range(0x297000, 0x300000):
+        # , byte in enumerate(rom)
+        intest= 0x297000 / 2
+        hex_search_value = 0xBAADF00D
+        hex_searched = int.from_bytes((rom[byte_i:(byte_i+4)]))
+        test2 = rom[byte_i:(byte_i+4)]
         if hex_searched == hex_search_value:
             return byte_i
 

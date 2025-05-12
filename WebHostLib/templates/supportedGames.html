@@ -40,10 +40,11 @@
                 <button id="expand-all">Expand All</button>
                 <button id="collapse-all">Collapse All</button>
             </div>
+            <p><a href="#" id="toggle-nsfw">Show NSFW games</a></p>
         </div>
         {% for game_name in worlds | world_list_sorted(worlds=worlds) %}
         {% set world = worlds[game_name] %}
-        <details data-game="{{ game_name }}" data-display-name="{{ world.web.display_name | default(game_name) }}">
+        <details data-game="{{ game_name }}" data-display-name="{{ world.web.display_name | default(game_name) }}" {% if world.web.rating == "nsfw" %} data-nsfw="true"{% endif %}>
             <summary class="h2"> {{ world.web.display_name | default(game_name) }}</summary>
             {% if world.author %}
             <div class="author_credit">created by {{ world.author }}</div>
@@ -52,7 +53,7 @@
             <a href="{{ url_for("game_info", game=game_name, lang="en") }}">Game Page</a>
             {% if world.web.tutorials %}
             <span class="link-spacer">|</span>
-            <a href="{{ url_for("tutorial_landing", _anchor=(world.web.display_name | default(game_name))) }}">Setup Guides</a>
+            <a href="{{ url_for("tutorial_landing", _anchor=(world.web.display_name | default(game_name) | encodeURIComponent)) }}">Setup Guides</a>
             {% endif %}
             {% if world.web.options_page is string %}
             <span class="link-spacer">|</span>

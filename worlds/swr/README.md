@@ -32,9 +32,9 @@ On top of this, you can set the `Additional AI Multiplier`. A value of 1000 sets
 
 ### What do I need to play?
 You will need the following to play this randomizer:
-* An [MultiworldGG installation](https://github.com/MultiworldGG/MultiworldGG/releases) and the [latest apworld release](https://github.com/wcolding/SWR_apworld/releases) (for generating seeds)
+* An [Archipelago installation](https://github.com/ArchipelagoMW/Archipelago/releases) and the [latest apworld release](https://github.com/wcolding/SWR_apworld/releases) (for generating seeds)
 * The latest game client [More info](https://github.com/wcolding/SWR_AP_Client)
 * The Windows version of the game. Development has been conducted with the Steam version. The GOG release appears to work but has not been tested extensively.
 
 ### How do I use this?
-You can download the latest release on this repository and place the .apworld file into your MultiworldGG installation's `lib/worlds` directory. You can then run `MultiworldGGLauncher` and select `Generate Template Settings` to create a template YAML file in your `Players/Templates` directory. You can edit this to your liking, and then place it into the `Players` folder. Then you can generate a game, run a server, and connect the client.
+You can download the latest release on this repository and place the .apworld file into your Archipelago installation's `lib/worlds` directory. You can then run `ArchipelagoLauncher` and select `Generate Template Settings` to create a template YAML file in your `Players/Templates` directory. You can edit this to your liking, and then place it into the `Players` folder. Then you can generate a game, run a server, and connect the client.

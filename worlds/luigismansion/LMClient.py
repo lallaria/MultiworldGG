@@ -191,7 +191,7 @@ class LMCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, LMContext):
             Utils.async_start(self.ctx.get_debug_info(), name="Get Luigi's Mansion Debug info")
 
-class LMContext(CommonContext if not tracker_loaded else TrackerGameContext):
+class LMContext(CommonContext):
     command_processor = LMCommandProcessor
     game = "Luigi's Mansion"
     items_handling = 0b111
@@ -232,6 +232,9 @@ class LMContext(CommonContext if not tracker_loaded else TrackerGameContext):
         self.boo_balcony_count = None
         self.boo_final_count = None
         self.received_trap_link = False
+
+        # Debug Flag 10 announcement.
+        self.debug_flag_ten = False
 
         # Used for handling various weird item checks.
         self.last_map_id = 0
@@ -350,30 +353,14 @@ class LMContext(CommonContext if not tracker_loaded else TrackerGameContext):
         self.set_luigi_dead()
         return
 
-    def run_gui(self):
-        from kvui import GameManager
-
-        class LMManager(GameManager):
-            source = ""
-            logging_pairs = [("Client", "Archipelago")]
-            base_title = "Luigi's Mansion Client v" + CLIENT_VERSION
-            if tracker_loaded:
-                base_title += f" | Universal Tracker v{UT_VERSION}"
-            base_title +=  " | Archipelago v"
-
-            def build(self):
-                container = super().build()
-                if tracker_loaded:
-                    self.ctx.build_gui(self)
-                else:
-                    logger.info("To enable a tracker, install Universal Tracker")
-
-                return container
-
-        self.ui = LMManager(self)
+    def make_gui(self):
+        ui = super().make_gui()
+        ui.base_title = f"Luigi's Mansion Client v{CLIENT_VERSION}"
         if tracker_loaded:
-            self.load_kv()
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+            ui.base_title += f" | Universal Tracker {UT_VERSION}"
+
+        ui.base_title += " | AP"
+        return ui
 
     async def update_boo_count_label(self):
         if not self.check_ingame():
@@ -617,6 +604,12 @@ class LMContext(CommonContext if not tracker_loaded else TrackerGameContext):
             for addr_to_update in lm_item.update_ram_addr:
                 dme.write_bytes(addr_to_update.ram_addr, bytes.fromhex(vac_speed))
 
+        if not self.debug_flag_ten:
+            curr_val = int.from_bytes(dme.read_bytes(0x803D339A, 1))
+            if (curr_val & (1 << 2)) > 0:
+                logger.info("DEBUG -- Please inform the Luigi's Mansion channel in AP's discord server " +
+                    "that you saw this message and please explain what you last did to trigger it.")
+
         # TODO review this for king boo stuff in DOL_Updater instead.
         # Always adjust Pickup animation issues if the user turned pick up animations off.
         #if self.pickup_anim_off:
@@ -754,17 +747,17 @@ async def give_player_items(ctx: LMContext):
                 dme.write_word(LAST_RECV_ITEM_ADDR, last_recv_idx)
                 continue
 
-            item_name_display = lm_item_name[0:min(len(lm_item_name), RECV_MAX_STRING_LENGTH)]
+            item_name_display = lm_item_name[0:min(len(lm_item_name), RECV_MAX_STRING_LENGTH)].replace("&", "")
             dme.write_bytes(RECV_ITEM_NAME_ADDR, sbf.string_to_bytes(item_name_display, RECV_LINE_STRING_LENGTH))
 
             if item.player == ctx.slot:
                 loc_name_display = ctx.location_names.lookup_in_game(item.location)
             else:
                 loc_name_display = ctx.location_names.lookup_in_slot(item.location, item.player)
-            loc_name_display = loc_name_display[0:min(len(loc_name_display), SLOT_NAME_STR_LENGTH)]
+            loc_name_display = loc_name_display[0:min(len(loc_name_display), SLOT_NAME_STR_LENGTH)].replace("&", "")
             dme.write_bytes(RECV_ITEM_LOC_ADDR, sbf.string_to_bytes(loc_name_display, RECV_LINE_STRING_LENGTH))
 
-            recv_name_display = ctx.player_names[item.player]
+            recv_name_display = ctx.player_names[item.player].replace("&", "")
             recv_name_display = recv_name_display[0:min(len(recv_name_display), SLOT_NAME_STR_LENGTH)] + "'s Game"
             dme.write_bytes(RECV_ITEM_SENDER_ADDR, sbf.string_to_bytes(recv_name_display, RECV_LINE_STRING_LENGTH))
 

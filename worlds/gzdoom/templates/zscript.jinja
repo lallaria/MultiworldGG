@@ -18,9 +18,13 @@ class GZAP_DataPackageEventHandler : StaticEventHandler {
     let apstate = GZAP_PlayEventHandler.GetState();
 
     peh.RegisterGameInfo("{{player}}", "{{seed}}", "{{wad}}", {{spawn_filter}}, {{singleplayer}});
+    {% if pretuning %}
+    peh.pretuning = true;
+    {% endif %}
 
-    {% for condition, value in win_conditions.items() %}
-    apstate.RegisterWinCondition("{{condition}}", {{value}});
+    apstate.win_conditions.nrof_maps = {{win_conditions['nrof-maps']}};
+    {% for map in win_conditions['specific-maps'] %}
+      apstate.win_conditions.specific_maps.Insert("{{map}}", true);
     {% endfor %}
 
     RegisterMaps(apstate);
@@ -33,12 +37,12 @@ class GZAP_DataPackageEventHandler : StaticEventHandler {
   void RegisterMaps(GZAP_RandoState apstate) {
     console.printf("Registering %d maps.", {{maps|count}});
     {% for map in maps %}
-      apstate.RegisterMap("{{map.map}}", "{{map.checksum}}", {{id(map.access_token_name())}}, {{id(map.automap_name())}}, {{id(map.clear_token_name())}}, {{id(map.exit_location_name())}});
+      apstate.RegisterMap("{{map.map}}", "{{map.checksum}}", {{map.mapinfo.cluster}}, {{id(map.access_token_name())}}, {{id(map.automap_name())}}, {{id(map.clear_token_name())}}, {{id(map.exit_location_name())}});
       {% for check in locations(map.map) %}
         {% if check.category == "secret-sector" %}
-        apstate.RegisterSecretCheck("{{map.map}}", {{check.id}}, "{{check.name()}}", {{check.sector}}{% if check.unreachable %}, true{% endif %});
+        apstate.RegisterSecretCheck("{{map.map}}", {{check.id}}, "{{escape(check.name())}}", {{check.sector}}{% if check.unreachable %}, true{% endif %});
         {% elif not check.pos.virtual %}
-        apstate.RegisterCheck("{{map.map}}", {{check.id}}, "{{check.name()}}",
+        apstate.RegisterCheck("{{map.map}}", {{check.id}}, "{{escape(check.name())}}",
           "{{check.orig_item.typename}}", "{{item_type_at(check.name())}}", "{{item_name_at(check.name())}}",
           {{progression(check.name())}}, ({{check.pos.x}},{{check.pos.y}},{{check.pos.z}}){% if check.unreachable %}, true{% endif %});
         {% endif %}
@@ -90,6 +94,9 @@ class GZAP_DataPackageEventHandler : StaticEventHandler {
   override void NetworkProcess(ConsoleEvent evt) {
     // In multiplayer games checks will be processed and items granted by the host,
     // so only do this in singleplayer mode.
+    // TODO: this causes some confusion if someone is playing in singleplayer but
+    // is also connected to AP, which some people do in order to use the tracker
+    // or auto-record tuning files.
     if (!peh.IsSingleplayer()) return;
     if (evt.name == "ap-check") {
       let locid = evt.args[0];

@@ -4,26 +4,26 @@ from typing import Dict
 from BaseClasses import Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Items import MMRItem, item_data_table, item_table, code_to_item_table
-from .Locations import MMRLocation, location_data_table, location_table, code_to_location_table, locked_locations
+from .Locations import MMRLocation, location_data_table, location_table, code_to_location_table, locked_locations, prices_ints
 from .Options import MMROptions
 from .Regions import region_data_table, get_exit
 from .Rules import *
 from .NormalRules import *
-
+from .Constants import default_shop_prices
 
 class MMRWebWorld(WebWorld):
     # ~ theme = "partyTime"
     display_name = "The Legend of Zelda: Majora's Mask (Recompiled)"
-    
+
     setup_en = Tutorial(
-        tutorial_name="Start Guide",
+        tutorial_name="Setup Guide",
         description="A guide to playing Majora's Mask Recompiled in MultiworldGG.",
         language="English",
-        file_name="guide_en.md",
-        link="guide/en",
+        file_name="setup_en.md",
+        link="setup/en",
         authors=["LittleCube"]
     )
-    
+
     tutorials = [setup_en]
 
 
@@ -38,6 +38,7 @@ class MMRWorld(World):
     options = MMROptions
     location_name_to_id = location_table
     item_name_to_id = item_table
+    prices = ""
 
     def generate_early(self):
         pass
@@ -76,7 +77,7 @@ class MMRWorld(World):
             
         if self.options.start_with_soaring.value:
             mw.push_precollected(self.create_item("Song of Soaring"))
-            self.create_and_add_filler_items();
+            self.create_and_add_filler_items()
         
         if self.options.shuffle_spiderhouse_reward.value:
             mw.itempool.append(self.create_item("Progressive Wallet"))
@@ -88,19 +89,19 @@ class MMRWorld(World):
             mw.push_precollected(self.create_item("Romani Ranch Map"))
             mw.push_precollected(self.create_item("Great Bay Map"))
             mw.push_precollected(self.create_item("Stone Tower Map"))
-            self.create_and_add_filler_items(6);
+            self.create_and_add_filler_items(6)
             
         if self.options.scrubsanity.value != 0:
-            self.create_and_add_filler_items(4);
+            self.create_and_add_filler_items(4)
         
         if self.options.shopsanity.value != 0:
-            self.create_and_add_filler_items(24);
+            self.create_and_add_filler_items(27)
 
         if self.options.shopsanity.value == 2:
-            self.create_and_add_filler_items(12);
+            self.create_and_add_filler_items(15)
         
         if self.options.cowsanity.value != 0:
-            self.create_and_add_filler_items(8);
+            self.create_and_add_filler_items(8)
 
         shp = self.options.starting_hearts.value
         if self.options.starting_hearts_are_containers_or_pieces.value == 0:
@@ -115,6 +116,28 @@ class MMRWorld(World):
     def create_regions(self) -> None:
         player = self.player
         mw = self.multiworld
+
+        # Create shop prices.
+        if self.options.shopsanity.value != 0:
+            price_max = 0
+
+            if self.options.shop_prices.value == 2:
+                price_max = 99
+            elif self.options.shop_prices.value == 3:
+                price_max = 200
+            elif self.options.shop_prices.value == 4:
+                price_max = 500
+
+            # There are 34 (+2 fake) shop locations that need prices
+            for i in range(0, 36):
+                if self.options.shop_prices.value == 0:
+                    price = default_shop_prices[i]
+                else:
+                    price = self.random.randint(0, price_max)
+                prices_ints.append(price)
+                self.prices += str(price) + " "
+
+            self.prices = self.prices[:-1]
 
         # Create regions.
         for region_name in region_data_table.keys():
@@ -180,6 +203,20 @@ class MMRWorld(World):
             self.place("Great Bay Great Fairy Reward", "Double Defense")
             self.place("Stone Tower Great Fairy Reward", "Great Fairy Sword")
 
+        if not self.options.keysanity.value:
+            self.place("Woodfall Temple Moving Flower Platform Room Chest", "Small Key (Woodfall)")
+
+            self.place("Snowhead Temple Orange Door Behind Block Chest", "Small Key (Snowhead)")
+            self.place("Snowhead Temple Upstairs 2F Icicle Room Snowball Chest", "Small Key (Snowhead)")
+            self.place("Snowhead Temple Initial Runway Ice Blowers Chest", "Small Key (Snowhead)")
+
+            self.place("Great Bay Temple Froggy Entrance Room Underwater Chest", "Small Key (Great Bay)")
+
+            self.place("Stone Tower Temple Armos Room Lava Chest", "Small Key (Stone Tower)")
+            self.place("Stone Tower Temple Eyegore Room Dexi Hand Ledge Chest", "Small Key (Stone Tower)")
+            self.place("Stone Tower Temple Inverted Eastern Air Gust Room Hall Floor Switch Chest", "Small Key (Stone Tower)")
+            self.place("Stone Tower Temple Inverted Death Armos Maze Chest", "Small Key (Stone Tower)")
+
         if not self.options.fairysanity.value:
             self.place("Laundry Pool Stray Fairy (Clock Town)", "Stray Fairy (Clock Town)")
 
@@ -240,7 +277,7 @@ class MMRWorld(World):
             self.place("Stone Tower Temple Air Gust Room Goron Switch Chest", "Stray Fairy (Stone Tower)")
             self.place("Stone Tower Temple Eyegore Chest", "Stray Fairy (Stone Tower)")
             self.place("Stone Tower Temple Eastern Water Room Underwater Chest", "Stray Fairy (Stone Tower)")
-            self.place("Stone Tower Temple Inverted Entrance Room Sun Face", "Stray Fairy (Stone Tower)")
+            self.place("Stone Tower Temple Inverted Entrance Room Sun Face Chest", "Stray Fairy (Stone Tower)")
             self.place("Stone Tower Temple Inverted Eastern Air Gust Room Ice Eye Switch Chest", "Stray Fairy (Stone Tower)")
             self.place("Stone Tower Temple Inverted Wizzrobe Chest", "Stray Fairy (Stone Tower)")
             self.place("Stone Tower Temple Inverted Eastern Air Gust Room Fire Chest", "Stray Fairy (Stone Tower)")
@@ -296,19 +333,20 @@ class MMRWorld(World):
     def set_rules(self) -> None:
         player = self.player
         mw = self.multiworld
+        options = self.options
 
         # Completion condition.
         mw.completion_condition[player] = lambda state: state.has("Victory", player)
 
-        if (self.options.logic_difficulty == 4):
+        if (self.options.logic_difficulty.value == 4):
             return
 
-        if (self.options.logic_difficulty == 0):
-            region_rules = get_baby_region_rules(player)
-            location_rules = get_baby_location_rules(player)
-        if (self.options.logic_difficulty == 1):
-            region_rules = get_region_rules(player)
-            location_rules = get_location_rules(player)
+        # ~ if (self.options.logic_difficulty.value == 0):
+            # ~ region_rules = get_baby_region_rules(player, options)
+            # ~ location_rules = get_baby_location_rules(player, options)
+        if (self.options.logic_difficulty.value == 1):
+            region_rules = get_region_rules(player, options)
+            location_rules = get_location_rules(player, options)
 
         for entrance_name, rule in region_rules.items():
             entrance = mw.get_entrance(entrance_name, player)
@@ -329,17 +367,27 @@ class MMRWorld(World):
         shuffled_pieces = (12 - shp) % 4
         return {
             "skullsanity": self.options.skullsanity.value,
+            "fairysanity": self.options.fairysanity.value,
             "shopsanity": self.options.shopsanity.value,
             "scrubsanity": self.options.scrubsanity.value,
+            "shop_prices": self.prices,
             "cowsanity": self.options.cowsanity.value,
             "damage_multiplier": self.options.damage_multiplier.value,
             "death_behavior": self.options.death_behavior.value,
             "death_link": self.options.death_link.value,
             "camc": self.options.camc.value,
             "starting_heart_locations": 8 if self.options.starting_hearts_are_containers_or_pieces.value == 1 else starting_containers + starting_pieces + shuffled_containers + shuffled_pieces,
+            "majora_remains_required": self.options.majora_remains_required.value,
+            "moon_remains_required": self.options.moon_remains_required.value,
             "start_with_consumables": self.options.start_with_consumables.value,
             "permanent_chateau_romani": self.options.permanent_chateau_romani.value,
             "start_with_inverted_time": self.options.start_with_inverted_time.value,
             "receive_filled_wallets": self.options.receive_filled_wallets.value,
-            "link_tunic_color": ((self.options.link_tunic_color.value[0] & 0xFF) << 16) | ((self.options.link_tunic_color.value[1] & 0xFF) << 8) | (self.options.link_tunic_color.value[2] & 0xFF)
+            "remains_allow_boss_warps": self.options.remains_allow_boss_warps.value,
+            "magic_is_a_trap": self.options.magic_is_a_trap.value,
+            "shuffle_regional_maps": self.options.shuffle_regional_maps.value,
+            "shuffle_spiderhouse_reward": self.options.shuffle_spiderhouse_reward.value,
+            "shuffle_great_fairy_rewards": self.options.shuffle_great_fairy_rewards.value,
+            "link_tunic_color": ((self.options.link_tunic_color.value[0] & 0xFF) << 16) | ((self.options.link_tunic_color.value[1] & 0xFF) << 8) | (self.options.link_tunic_color.value[2] & 0xFF),
+            "logic_difficulty": self.options.logic_difficulty.value
         }

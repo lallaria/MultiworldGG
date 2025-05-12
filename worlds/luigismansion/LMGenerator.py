@@ -2,6 +2,17 @@ import hashlib
 import os
 import yaml
 
+from collections import Counter
+
+def counter_constructor(loader, node):
+    args = loader.construct_sequence(node)
+    return Counter(*args)
+
+yaml.SafeLoader.add_constructor(
+    'tag:yaml.org,2002:python/object/apply:collections.Counter',
+    counter_constructor
+)
+
 from worlds.luigismansion.iso_helper.DOL_Updater import update_dol_offsets
 from .iso_helper.Update_GameUSA import update_game_usa
 from .JMP_Info_File import JMPInfoFile

@@ -166,6 +166,8 @@ CLEAR_LOCATION_TABLE: dict[str, LMLocationData] = {
         update_ram_addr=[LMRamData(0x803CDF92, bit_position=2, in_game_room_id=34, ram_byte_size=2)]),
     "Nursery Clear Chest": LMLocationData("Nursery", 3, "Chest", 15, [],
         update_ram_addr=[LMRamData(0x803CDF80, bit_position=2, in_game_room_id=26, ram_byte_size=2)]),
+    "Pipe Room Clear Chest": LMLocationData("Pipe Room", 64, "Chest", 35, ["Ice Element Medal"],
+        update_ram_addr=[LMRamData(0x803CDFD4, bit_position=2, in_game_room_id=68, ram_byte_size=2)]),
 }
 
 # Ghost Affected Clear Chests. Rules applied to region entrances
@@ -204,8 +206,6 @@ ENEMIZER_LOCATION_TABLE: dict[str, LMLocationData] = {
         update_ram_addr=[LMRamData(0x803CDF98, bit_position=2, in_game_room_id=37, ram_byte_size=2)]),
     "Armory Clear Chest": LMLocationData("Armory", 63, "Chest", 27, [],
         update_ram_addr=[LMRamData(0x803CDFB0, bit_position=2, in_game_room_id=51, ram_byte_size=2)]),
-    "Pipe Room Clear Chest": LMLocationData("Pipe Room", 64, "Chest", 35, ["Ice Element Medal"],
-        update_ram_addr=[LMRamData(0x803CDFD4, bit_position=2, in_game_room_id=68, ram_byte_size=2)]),
     "Telephone Room Clear Chest": LMLocationData("Telephone Room", 716, "Chest", 28, [],
         update_ram_addr=[LMRamData(0x803CDFB4, bit_position=2, in_game_room_id=53, ram_byte_size=2)]),
     "Van Gore's Painting (Artist's Studio)": LMLocationData("Artist's Studio", 709, "Furniture", 690, [],
@@ -1848,7 +1848,7 @@ BOO_LOCATION_TABLE = {**ROOM_BOO_LOCATION_TABLE,
                       **BOOLOSSUS_LOCATION_TABLE}
 
 LIGHT_LOCATION_TABLE: dict[str, LMLocationData] = {
-    "Butler's Room Light On": LMLocationData("Butler's Room", 743, "KingdomHearts", 0, ["Fire Element Medal", "Shiver Spawn"],
+    "Butler's Room Light On": LMLocationData("Butler's Room", 743, "KingdomHearts", 0, ["Fire Element Medal", "Shivers Spawn"],
         remote_only=True, update_ram_addr=[LMRamData(0x803CDF50, bit_position=1, in_game_room_id=0, ram_byte_size=2)]),
     "Hidden Room Light On": LMLocationData("Hidden Room", 744, "KingdomHearts", 0, [], remote_only=True,
         update_ram_addr=[LMRamData(0x803CDF52, bit_position=1, in_game_room_id=1, ram_byte_size=2)]),

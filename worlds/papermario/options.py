@@ -146,9 +146,7 @@ class ShuffleFoliageCoins(Toggle):
 class LocalConsumables(Range):
     """A percentage of consumable items will remain in the player's world instead of being shuffled into the multiworld.
     This can prevent other people from getting too many of your filler items, as well as make it easier to restock your
-    inventory without farming items from enemies or using a potentially limited variety of consumables.
-    Note: It's recommended that this stays at 100. There is currently no handling for receiving consumables with a full
-    inventory. Extra items will disappear into the aether. Change at your own risk."""
+    inventory without farming items from enemies or using a potentially limited variety of consumables."""
     display_name = "Local Consumables Percentage"
     range_start = 0
     range_end = 100
@@ -648,8 +646,7 @@ class BadgePoolLimit(Range):
 
 
 class ItemTraps(Choice):
-    """Replaces some items with fakes that deal 2 damage upon contact.
-    Note: Traps are not yet implemented, so leave this setting set to No Traps."""
+    """Replaces some items with fakes that deal 2 damage upon contact."""
     display_name = "Item Traps"
     option_No_Traps = 0
     option_Sparse = 1
@@ -725,10 +722,10 @@ class Chapter7BridgeVisible(Toggle):
 
 class MirrorMode(Choice):
     """Off: The overworld is never mirrored.
-       Always On: The overworld is always mirrored.
-       Random On Every Load: Whether the overworld is mirrored or not is random with every screen transition.
-       Static Random: Some overworld screens are mirrored, some are not, but they won't change within a playthrough.
-       Note: The Static Random option is not yet implemented and will fail to generate."""
+    Always On: The overworld is always mirrored.
+    Random On Every Load: Whether the overworld is mirrored or not is random with every screen transition.
+    Static Random: Some overworld screens are mirrored, some are not, but they won't change within a playthrough.
+    Note: The Static Random option is not yet implemented and will fail to generate."""
     display_name = "Mirror Mode"
     option_Off = 0
     option_Always_On = 1
@@ -793,8 +790,8 @@ class VisibleHiddenPanels(DefaultOnToggle):
 
 class CutsceneMode(Choice):
     """Vanilla: Cutscenes from the original game are preserved.
-       Shortened: Cutscenes are quicker but preserved with some condensed dialogue.
-       Minimal: Most cutscenes and dialogues are removed."""
+    Shortened: Cutscenes are quicker but preserved with some condensed dialogue.
+    Minimal: Most cutscenes and dialogues are removed."""
     display_name = "Cutscene Mode"
     option_Vanilla = 0
     option_Shortened = 1
@@ -824,9 +821,8 @@ class AlwaysISpy(DefaultOnToggle):
 
 class ISpyPanelHints(Choice):
     """Off: Don't show panel hints.
-    Vague: Display a generic item sprite based on the type of item inside the panel (e.g. badge,
-       Shortened: Cutscenes are quicker but preserved with some condensed dialogue.
-       Minimal: Most cutscenes and dialogues are removed."""
+    Vague: Display a generic item sprite based on the type of item inside the panel (e.g. badge, star piece, key item).
+    Concrete: Display the exact sprite of the item inside the panel."""
     display_name = "I Spy Panel Hints"
     option_Off = 0
     option_Vague = 1

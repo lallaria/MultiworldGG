@@ -220,6 +220,9 @@ class WebWorld(metaclass=WebWorldRegister):
     display_name: ClassVar[str]
     """Display name for the world in the supported games and guides lists"""
 
+    rating: ClassVar[str] 
+    """indicate if this world is considered NSFW and should be hidden by default from listing"""
+
     game_categories: List[str] = ['en']
     """Categories of games this world can be found under"""
 
@@ -281,9 +284,6 @@ class World(metaclass=AutoWorldRegister):
 
     author: ClassVar[str]
     """author of apworld"""
-
-    nsfw: bool = False
-    """indicate if this world is considered NSFW and should be hidden by default from listing"""
 
     topology_present: bool = False
     """indicate if this world has any meaningful layout/pathing"""
