@@ -34,6 +34,9 @@ if typing.TYPE_CHECKING:
     import multiprocessing
 
 
+def normalize_tag(tag: str) -> str:
+    return tag[1:] if tag and tag[0].lower() == "v" else tag
+
 def tuplize_version(version: str) -> Version:
     return Version(*(int(piece, 10) for piece in version.split(".")))
 

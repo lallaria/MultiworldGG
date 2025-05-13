@@ -31,6 +31,7 @@ import Utils
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from Utils import (init_logging, is_frozen, is_linux, is_macos, is_windows, local_path, messagebox, open_filename,
                    user_path)
+from Updater import get_latest_release_info, download_and_install
 from worlds.LauncherComponents import Component, components, icon_paths, SuffixIdentifier, Type
 
 apname = "Archipelago" if not Utils.instance_name else Utils.instance_name
@@ -238,12 +239,21 @@ def run_gui(path: str, args: Any) -> None:
     from kivy.properties import ObjectProperty
     from kivy.core.window import Window
     from kivy.metrics import dp
-    from kivymd.uix.button import MDIconButton, MDButton
+    from kivymd.uix.button import MDIconButton, MDButton, MDButtonText
     from kivymd.uix.card import MDCard
     from kivymd.uix.menu import MDDropdownMenu
     from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
     from kivymd.uix.textfield import MDTextField
-
+    from kivy.clock import Clock
+    from kivy.uix.widget import Widget
+    from kivymd.uix.dialog import (
+        MDDialog,
+        MDDialogHeadlineText,
+        MDDialogSupportingText,
+        MDDialogButtonContainer,
+        MDDialogSupportingText
+    )
+    from kivy.app import App
     from kivy.lang.builder import Builder
 
     class LauncherCard(MDCard):
@@ -397,6 +407,73 @@ def run_gui(path: str, args: Any) -> None:
                 handle_uri(self.launch_uri, self.launch_args)
                 self.launch_uri = None
                 self.launch_args = None
+
+            if is_frozen() and is_windows:
+                Clock.schedule_once(self._maybe_show_update_dialog, 1.0)
+
+        def _maybe_show_update_dialog(self, dt):
+            try:
+                latest_ver, download_url = get_latest_release_info()
+            except Exception as e:
+                logging.warning("Launcher update check failed: %s", e)
+                return
+
+            if latest_ver > Utils.version_tuple:
+
+                dialog = MDDialog(
+                    MDDialogHeadlineText(
+                        text="Update Available",
+                        halign="center",
+                    ),
+                    MDDialogSupportingText(
+                        text=(
+                            f"A new version of {Utils.instance_name} is available: "
+                            f"{latest_ver.as_simple_string()}\n\n"
+                            f"You are currently running version {Utils.version_tuple.as_simple_string()}.\n\n"
+                            "Download and install the update now?"
+                        ),
+                        halign="left",
+                    ),
+                    MDDialogButtonContainer(
+                        Widget(),
+                        MDButton(
+                            MDButtonText(text="Later"),
+                            style="text",
+                            on_release=lambda *a: dialog.dismiss()
+                        ),
+
+                        MDButton(
+                            MDButtonText(text="Update Now"),
+                            style="filled",
+                            on_release=lambda *a: self._on_user_requested_update(dialog, download_url)
+                        ),
+                        spacing="8dp",
+                    ),
+                    size_hint=(0.8, None),
+                )
+
+                dialog.height = dp(200)
+                dialog.open()
+
+        def _on_user_requested_update(self, dialog, download_url):
+            dialog.dismiss()
+
+            downloading = MDDialog(
+                MDDialogSupportingText(
+                    text="Downloading update…",
+                    halign="center"
+                ),
+                size_hint=(0.6, None),
+            )
+            downloading.height = dp(100)
+            downloading.open()
+
+            Clock.schedule_once(lambda dt: self._finalize_update(dialog, download_url), 0.5)
+
+        def _finalize_update(self, dialog: MDDialog, download_url: str):
+            dialog.dismiss()
+            download_and_install(download_url)
+            self.stop()
 
         @staticmethod
         def component_action(button):

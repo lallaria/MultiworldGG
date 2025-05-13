@@ -74,6 +74,9 @@ Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/passive /norestart"; Check: I
 Filename: "{app}\MultiworldGGLttPAdjuster"; Parameters: "--update_sprites"; StatusMsg: "Updating Sprite Library..."; Components: lttp_sprites
 Filename: "{app}\MultiworldGGLauncher"; Parameters: "--update_settings"; StatusMsg: "Updating host.yaml..."; Flags: runasoriginaluser runhidden
 Filename: "{app}\MultiworldGGLauncher"; Description: "{cm:LaunchProgram,{#StringChange('Launcher', '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+; Silent install from updater auto starts the launcher again
+Filename: "{app}\MultiworldGGLauncher"; StatusMsg: "Restarting MultiworldGG Launcher..."; Flags: nowait skipifnotsilent
+
 
 [UninstallDelete]
 Type: dirifempty; Name: "{app}"
