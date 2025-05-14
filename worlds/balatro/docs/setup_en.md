@@ -1,6 +1,6 @@
 # Balatro AP Mod
 
-This is a Mod for [Balatro](https://store.steampowered.com/app/2379780/Balatro/) that provides Integration for [Archipelago Multi World](https://multiworld.gg)
+This is a Mod for [Balatro](https://store.steampowered.com/app/2379780/Balatro/) that provides Integration for [MultiworldGG](https://multiworld.gg)
 
 # Gameplay
 
