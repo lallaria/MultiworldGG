@@ -58,7 +58,7 @@ class PokemonCrystalWorld(World):
     defeat the elusive Red at the peak of Mt. Silver!"""
     game = "Pokemon Crystal"
     author: str = "James"
-    apworld_version = "3.2.3"
+    apworld_version = "3.2.4"
 
     topology_present = True
     web = PokemonCrystalWebWorld()

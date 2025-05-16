@@ -190,7 +190,12 @@ class FullTeamFormationControl(DefaultOnToggle):
 
 class LevelScaling(Choice):
     """Allow for dungeons to scale to the highest level of your party members?
-    This will not scale bosses at the end of dungeons"""
+    This will not scale bosses at the end of dungeons, also will not scale Outlaws
+    Adjust enemies levels to match the highest party level so you won't have to grind as much.
+    Off: Enemy levels are vanilla.
+    Easy: Enemies will be bumped down to the highest party level if they're above it.
+    Difficult: Enemies will be bumped either down or up to match the party level regardless of their vanilla level
+    Regardless of your choice, bosses at the end of dungeons will NOT scale."""
     display_name = "Level Scaling"
     option_off = 0
     option_easy = 1
@@ -369,8 +374,8 @@ class CursedAegisCave(Toggle):
 
 
 class LongLocationsInclusion(Toggle):
-    """Include Rule dungeons, master ranks, clearing all dojos, and final dojo in
-    logic"""
+    """Include Rule dungeons, clearing all dojos, final dojo, ludicolo dance,
+    and duskull bank checks over 20k in logic"""
     display_name = "Long Locations"
 
 
@@ -380,7 +385,8 @@ class EarlyMissionFloors(DefaultOnToggle):
 
 
 class MoveShortcutMenu(DefaultOnToggle):
-    """Enable the Move Shortcut Menu by holding (default L button)"""
+    """Enable the Move Shortcut Menu by holding (default L button)
+    Disabling this current is not implemented ROMSide"""
     display_name = "Move Shortcut Menu"
 
 

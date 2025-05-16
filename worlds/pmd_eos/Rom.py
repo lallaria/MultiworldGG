@@ -43,14 +43,14 @@ class EOSProcedurePatch(APProcedurePatch, APTokenMixin):
 
 def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[Location],
                  dimensional_screams: list[Location]) -> None:
-    ov36_mem_loc = 2721280  # find_ov36_mem_location()
+    ov36_mem_loc = 2721792  # find_ov36_mem_location()
     seed_offset = 0x36F90
     player_name_offset = 0x36F80
     ap_settings_offset = 0x36F98
     # mission_max_offset = 0x36F9A
     # macguffin_max_offset = 0x36F9E
     # spinda_drinks_offset = 0x37146
-    hintable_items_offset = 3298816  # number from Heckas makefile code
+    hintable_items_offset = 3299328  # number from Heckas makefile code
     custom_save_area_offset = ov36_mem_loc + 0x8F80
     # main_game_unlocked_offset = ov36_mem_loc + 0x37148  # custom_save_area_offset + 0x2A7
     dimensional_scream_who_offset = hintable_items_offset + 0x4
@@ -113,15 +113,15 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
     # Bake names of previewable items into ROM
     for i in range(len(hint_items)):
         hint_player = world.multiworld.player_name[hint_items[i].player].translate(trans_table)
-        patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 18 * i,
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 17 * i,
                           hint_player[0:15].encode("latin1", "xmlcharrefreplace"))
 
         hint_loc_name = hint_items[i].name.translate(trans_table)
-        patch.write_token(APTokenTypes.WRITE, dimensional_scream_where_offset + 34 * i,
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_where_offset + 33 * i,
                           hint_loc_name[0:31].encode("latin1", "xmlcharrefreplace"))
 
         hint_item = hint_items[i].item.name.translate(trans_table)
-        patch.write_token(APTokenTypes.WRITE, dimensional_scream_what_offset + 34 * i,
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_what_offset + 33 * i,
                           hint_item[0:31].encode("latin1", "xmlcharrefreplace"))
 
 
@@ -129,15 +129,15 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
 
     for i in range(len(dimensional_scream_hints)):
         hint_player = world.multiworld.player_name[dimensional_scream_hints[i].player].translate(trans_table)
-        patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 18 * (i + 10),
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 17 * (i + 10),
                           hint_player[0:15].encode("latin1", "xmlcharrefreplace"))
 
         hint_loc_name = dimensional_scream_hints[i].name.translate(trans_table)
-        patch.write_token(APTokenTypes.WRITE, dimensional_scream_where_offset + 34 * (i + 10),
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_where_offset + 33 * (i + 10),
                           hint_loc_name[0:31].encode("latin1", "xmlcharrefreplace"))
 
         hint_item = dimensional_scream_hints[i].item.name.translate(trans_table)
-        patch.write_token(APTokenTypes.WRITE, dimensional_scream_what_offset + 34 * (i + 10),
+        patch.write_token(APTokenTypes.WRITE, dimensional_scream_what_offset + 33 * (i + 10),
                           hint_item[0:31].encode("latin1", "xmlcharrefreplace"))
 
     # Bake seed name into ROM
@@ -183,8 +183,6 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
         write_byte = write_byte | (0x1 << 24)
     if world.options.level_scale.value == 2:
         write_byte = write_byte | (0x1 << 25)
-    if world.options.level_scale.value == 3:
-        write_byte = write_byte | (0x1 << 24) | (0x1 << 25)
 
     if world.options.guest_scaling.value:
         write_byte = write_byte | (0x1 << 26)

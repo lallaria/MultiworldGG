@@ -4,7 +4,7 @@ import random
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import set_rule, add_item_rule
 from BaseClasses import Item, ItemClassification, Location, Region, LocationProgressType, Tutorial
-from .Items import item_list, progression_items, repetable_categories, group_table, ItemCategory, DLC
+from .Items import item_list, progression_items, useful_items, repetable_categories, group_table, ItemCategory, DLC
 from .Locations import location_table, location_name_groups
 from .Options import DS2Options
 from typing import Optional
@@ -77,9 +77,9 @@ class DS2World(World):
         regions["Menu"] = menu_region
     
         for region_name in location_table:
-            if region_name == "Shulva" and not self.options.sunken_king_dlc: continue
-            if region_name == "Brume Tower" and not self.options.old_iron_king_dlc: continue
-            if region_name == "Eleum Loyce" and not self.options.ivory_king_dlc: continue
+            if region_name in ["Shulva", "Shulva - Sanctum Key", "Shulva - Dragon Stone"] and not self.options.sunken_king_dlc: continue
+            if region_name in ["Brume Tower","Brume Tower - scepter", "Iron Passage", "Memory of the Old Iron King"] and not self.options.old_iron_king_dlc: continue
+            if region_name in ["Eleum Loyce","Frigid Outskirts"] and not self.options.ivory_king_dlc: continue
             region = self.create_region(region_name)
             for location_data in location_table[region_name]:
                 if location_data.ngp and not self.options.enable_ngp: continue
@@ -146,10 +146,17 @@ class DS2World(World):
 
         if self.options.sunken_king_dlc:
             regions["The Gutter"].connect(regions["Shulva"])
+            regions["Shulva"].connect(regions["Shulva - Sanctum Key"])
+            regions["Shulva"].connect(regions["Shulva - Dragon Stone"])
         if self.options.old_iron_king_dlc:
             regions["Iron Keep"].connect(regions["Brume Tower"])
+            regions["Brume Tower"].connect(regions["Brume Tower - scepter"])
+            regions["Brume Tower - scepter"].connect(regions["Iron Passage"])
+            regions["Iron Passage"].connect(regions["Memory of the Old Iron King"])
         if self.options.ivory_king_dlc:
-            regions["Shaded Woods"].connect(regions["Eleum Loyce"])
+            regions["Drangleic Castle"].connect(regions["Eleum Loyce"])
+            regions["Eleum Loyce"].connect(regions["Frigid Outskirts"])
+            
 
     def create_region(self, name):
         return Region(name, self.player, self.multiworld)
@@ -167,9 +174,11 @@ class DS2World(World):
             event_item = DS2Item(event.name, ItemClassification.progression, None, self.player, None)
             self.multiworld.get_location(event.name, self.player).place_locked_item(event_item)
         
-        # set the giant's kinship at the original location
-        # because killing the giant lord is necessary to kill nashandra
+        # these items are paperweights, the event is triggered by interacting with the check no matter the item
+        # for that reason, for now, we just place the item in the default location to not confuse players
         self.multiworld.get_location("[MemoryJeigh] Giant Lord drop", self.player).place_locked_item(self.create_item("Giant's Kinship"))
+        if self.options.ivory_king_dlc:
+            self.multiworld.get_location("[DLC3] On altar", self.player).place_locked_item(self.create_item("Eye of the Priestess"))
 
         max_pool_size = len(self.multiworld.get_unfilled_locations(self.player))
 
@@ -188,6 +197,9 @@ class DS2World(World):
                 elif item_name == "Pharros' Lockstone":
                     if "Master Lockstone" in items_in_pool: continue
                     item_data = next((item for item in item_list if item.name == "Master Lockstone"), None)
+                elif item_name == "Smelter Wedge":
+                    if "Smelter Wedge x11" in items_in_pool: continue
+                    item_data = next((item for item in item_list if item.name == "Smelter Wedge x11"), None)
                 else:
                     item_data = next((item for item in item_list if item.name == item_name), None)
                     assert item_data, f"location's default item not in item list '{item_name}'"
@@ -228,7 +240,7 @@ class DS2World(World):
 
     def create_item(self, name: str, category=None) -> DS2Item:
         code = self.item_name_to_id[name]
-        classification = ItemClassification.progression if name in progression_items or category==ItemCategory.STATUE else ItemClassification.filler
+        classification = ItemClassification.progression if name in progression_items or category==ItemCategory.STATUE else ItemClassification.useful if name in useful_items else ItemClassification.filler
         return DS2Item(name, classification, code, self.player, category)
 
     def is_dlc_allowed(self, dlc):
@@ -250,8 +262,9 @@ class DS2World(World):
         for location in self.multiworld.get_locations(self.player):
             if location.shop:
                 add_item_rule(location, lambda item: 
-                              item.player != self.player or
-                              item.category not in [ItemCategory.AMMO, ItemCategory.CONSUMABLE, ItemCategory.STATUE])
+                              (item.player != self.player or
+                              item.category not in [ItemCategory.AMMO, ItemCategory.CONSUMABLE, ItemCategory.STATUE]) and
+                              item.classification in [ItemClassification.filler, ItemClassification.trap])
 
         self.set_shop_rules()
 
@@ -359,15 +372,24 @@ class DS2World(World):
         self.set_location_rule("[GraveOfSaints] 2nd floor on other side of the drawbridges", lambda state: state.has("Master Lockstone", self.player))
 
         # CONNECTIONS
-        if self.options.game_version == "sotfs":
-            if self.options.sunken_king_dlc:
-                self.set_connection_rule("The Gutter", "Shulva", lambda state: state.has("Dragon Talon", self.player))
-            if self.options.old_iron_king_dlc:
-                self.set_connection_rule("Iron Keep", "Brume Tower", lambda state: state.has("Heavy Iron Key", self.player))
-            if self.options.ivory_king_dlc:
-                self.set_connection_rule("Shaded Woods", "Eleum Loyce", lambda state: 
-                                            state.has("Frozen Flower", self.player) and 
-                                            state.has("Open Shrine of Winter", self.player))
+        
+        if self.options.sunken_king_dlc:
+            if self.options.game_version == "sotfs": self.set_connection_rule("The Gutter", "Shulva", lambda state: state.has("Dragon Talon", self.player))
+            self.set_connection_rule("Shulva", "Shulva - Sanctum Key", lambda state: state.has("Eternal Sanctum Key", self.player))
+            self.set_connection_rule("Shulva", "Shulva - Dragon Stone", lambda state: state.has("Dragon Stone", self.player))
+        if self.options.old_iron_king_dlc:
+            if self.options.game_version == "sotfs": self.set_connection_rule("Iron Keep", "Brume Tower", lambda state: state.has("Heavy Iron Key", self.player))
+            self.set_connection_rule("Brume Tower", "Brume Tower - scepter", lambda state: state.has("Scorching Iron Scepter", self.player))
+            self.set_connection_rule("Brume Tower - scepter", "Iron Passage", lambda state: state.has("Tower Key", self.player))
+            self.set_connection_rule("Iron Passage", "Memory of the Old Iron King", lambda state: state.has("Ashen Mist Heart", self.player))
+            self.set_location_rule("[DLC2] Wooden chest in the left of the dark cursed area next to the Foyer bonfire", lambda state: state.has("Tower Key", self.player))
+            self.set_location_rule("[DLC2] Metal chest in the dark cursed area next to the Foyer bonfire", lambda state: state.has("Tower Key", self.player))
+            self.set_location_rule("[DLC2] On altar in the dark cursed area next to the Foyer bonfire", lambda state: state.has("Tower Key", self.player))
+            self.set_location_rule("[DLC2] Fume Knight drop", lambda state: state.has("Smelter Wedge x11", self.player))
+            if self.options.enable_ngp: self.set_location_rule("[DLC2] Fume Knight drop in NG+", lambda state: state.has("Smelter Wedge x11", self.player))
+        if self.options.ivory_king_dlc:
+            if self.options.game_version == "sotfs": self.set_connection_rule("Drangleic Castle", "Eleum Loyce", lambda state: state.has("Frozen Flower", self.player))
+            self.set_connection_rule("Eleum Loyce", "Frigid Outskirts", lambda state: state.has("Garrison Ward Key", self.player))
 
         self.set_connection_rule("Majula", "Huntman's Copse", lambda state: state.has("Rotate the Majula Rotunda", self.player))
         self.set_connection_rule("Majula", "Grave of Saints", lambda state: state.has("Silvercat Ring", self.player) or state.has("Flying Feline Boots", self.player))
