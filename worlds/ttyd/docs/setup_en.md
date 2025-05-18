@@ -9,6 +9,8 @@
 
 ## Installing the APWorld
 
+* Note: This is not needed for the MultiworldGG client, which includes this apworld by default.
+
 Place the TTYD apworld in the `custom_worlds` folder of your MultiworldGG installation. You will only need one copy of this file, specifically in `custom_worlds`.
 Please also check the latest release for the `lib.zip` file, place the entire `gclib` folder found in `lib.zip` into the `lib` folder of your MultiworldGG installation.
 This is required for the world to work. NOTE: The `gclib` step only needs to ever be done one time, 

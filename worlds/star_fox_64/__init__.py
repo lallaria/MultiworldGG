@@ -1,5 +1,5 @@
 import worlds.LauncherComponents as LauncherComponents
-import Options, settings, Utils, logging
+import Options, settings, Utils, logging, typing
 from worlds.AutoWorld import World, WebWorld
 from Options import OptionGroup
 from BaseClasses import Tutorial
@@ -11,7 +11,7 @@ from .locations import StarFox64Location
 from .items import StarFox64Item
 from .rules import StarFox64Rules
 from .version import version
-from .ids import option_name_to_id, group_items, group_locations
+from .ids import option_name_to_id, group_items
 
 def launch_client():
   from . import client
@@ -38,10 +38,17 @@ class StarFox64Settings(settings.Group):
       Leave blank to disable.
     """
 
+  class EnableTracker(settings.Bool):
+    """
+      Whether to enable the built in logic Tracker.
+      If enabled, the 'Tracker' tab will show all unchecked locations in logic.
+    """
+
   rom_path: RomPath = ""
   patch_path: PatchPath = ""
   program_path: ProgramPath = ""
   program_args: ProgramArgs = f"--lua={Utils.local_path('data', 'lua', 'connector_sf64_bizhawk.lua')}"
+  enable_tracker: typing.Union[EnableTracker, bool] = True
 
 class StarFox64WebWorld(WebWorld):
   rich_text_options_doc = True
@@ -111,6 +118,8 @@ class StarFox64World(World):
   settings_key = "sf64_options"
   item_name_to_id = items.name_to_id
   location_name_to_id = locations.name_to_id
+  item_name_groups = items.groups
+  location_name_groups = locations.groups
   topology_present = True
   web = StarFox64WebWorld()
   filler_weights = {
@@ -150,7 +159,7 @@ class StarFox64World(World):
     self.create_victory_condition()
     swap_items = {}
     if self.options.shuffle_starting_level:
-      valid_levels = group_items["Level"].copy()
+      valid_levels = group_items["Levels"].copy()
       valid_levels.remove("Venom")
       item_name = self.random.choice(valid_levels)
       swap_items["Corneria"] = item_name
@@ -162,10 +171,7 @@ class StarFox64World(World):
           case "locations":
             for location_name, location in value.items():
               ap_location = StarFox64Location(self.player, location_name, None, ap_region)
-              item_name = location["item"]
-              match location.get("group"):
-                case "Mission Finished":
-                  item_name = item_name[self.options.level_access]
+              item_name = items.pick_name(self, location["item"], location.get("group"))
               if item_name in swap_items:
                 item_name = swap_items[item_name]
               if item_name == "Nothing":
@@ -190,10 +196,6 @@ class StarFox64World(World):
     regions.cache.clear()
 
   def create_items(self):
-    for group_name, items in group_items.items():
-      self.item_name_groups[group_name] = set(items)
-    for group_name, locations in group_locations.items():
-      self.location_name_groups[group_name] = set(locations)
     self.check_options()
     self.create_everything()
 
