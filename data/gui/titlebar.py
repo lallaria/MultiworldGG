@@ -22,6 +22,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.uix.effectwidget import EffectWidget
 from kivy.uix.effectwidget import HorizontalBlurEffect, VerticalBlurEffect
 from kivymd.uix.button import MDIconButton 
+from kivy.lang import Builder
 
 archipelago_name = "multiworld.gg"    ## need to fix in the future
 
@@ -32,24 +33,23 @@ TitlebarKV = f'''
     pos_hint: {{"y": 0, "x": 0}}
     draggable: False
     theme_bg_color: "Custom"
-    md_bg_color: app.theme_mw.titlebar_bg_color[app.theme_cls.theme_style]
+    md_bg_color: app.theme_cls.primaryContainerColor \
+                    if app.theme_cls.theme_style == "Light" \
+                    else app.theme_cls.onPrimaryColor
     theme_text_color: "Custom"
     text_color: app.theme_cls.onPrimaryContainerColor
 
 
-Titlebar:
+<Titlebar>:
     adaptive_height: True
     width: root.width
     orientation: 'horizontal'
     padding: [0,0,0,0]
     spacing: 0
     theme_bg_color: "Custom"
-    md_bg_color: app.theme_mw.titlebar_bg_color[app.theme_cls.theme_style]
-
-    tbmin: tbmin
-    tbrestore: tbrestore
-    tbmax: tbmax
-    tbclose: tbclose
+    md_bg_color: app.theme_cls.primaryContainerColor \
+                    if app.theme_cls.theme_style == "Light" \
+                    else app.theme_cls.onPrimaryColor
     tblabel: tblabel
     
     Image:
@@ -93,28 +93,8 @@ Titlebar:
             outline_width: 1
             outline_color: app.theme_cls.inverseOnSurfaceColor
 
-
-    TitleBarButton:
-        id: tbmin
-        icon: "window-minimize"
-        on_release: root.tb_min()
-    
-    TitleBarButton:
-        id: tbrestore
-        icon: "window-restore"
-        on_release: root.tb_res()
-
-    TitleBarButton:
-        id: tbmax
-        icon: "window-maximize"
-        on_release: root.tb_max()
-
-    TitleBarButton:
-        id: tbclose
-        icon: "close"
-        on_release: root.tb_close()
-
 '''
+
 class TitleBlur(EffectWidget):
     effects = [VerticalBlurEffect(size=3), HorizontalBlurEffect(size=3)]
 
@@ -127,13 +107,35 @@ class Titlebar(MDBoxLayout):
     Windows only
     '''
     titleblur = ObjectProperty(None)
-    tbmin = ObjectProperty(None)
-    tbmax = ObjectProperty(None)
-    tbrestore = ObjectProperty(None)
-    tbclose = ObjectProperty(None)
+    tbmin: TitleBarButton
+    tbmax: TitleBarButton
+    tbrestore: TitleBarButton
+    tbclose: TitleBarButton
 
     def __init__(self, **kwargs):
-        super(Titlebar, self).__init__(**kwargs)
+        super().__init__(**kwargs)
+        self.create_buttons()
+
+    def create_buttons(self):
+        self.tbmin = TitleBarButton(
+            icon = "window-minimize"
+        )
+        self.tbmin.bind(on_release=self.tb_min)
+        self.add_widget(self.tbmin)
+        self.tbrestore = TitleBarButton(
+            icon = "window-restore"
+        )
+        self.tbrestore.bind(on_release=self.tb_res)
+        self.tbmax = TitleBarButton(
+            icon = "window-maximize"
+        )
+        self.tbmax.bind(on_release=self.tb_max)
+        self.add_widget(self.tbmax)
+        self.tbclose = TitleBarButton(
+            icon = "close"
+        )
+        self.tbclose.bind(on_release=self.tb_close)
+        self.add_widget(self.tbclose)
 
     def tb_close(self):
         MDApp.get_running_app().stop()
@@ -167,3 +169,5 @@ class Titlebar(MDBoxLayout):
         
     def tb_min(self):
         Window.minimize()
+
+Builder.load_string(TitlebarKV)

@@ -8,7 +8,6 @@ import sys
 import io
 from dataclasses import fields
 from kivy.clock import Clock
-
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.selectioncontrol import MDSwitch
@@ -17,10 +16,11 @@ from kivymd.uix.dropdownitem import MDDropDownItem
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.label import MDLabel
 from kivymd.uix.scrollview import MDScrollView
-from kivymd.uix.textfield import MDTextField
+from kivymd.uix.textfield import MDTextField, MDTextFieldHelperText
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer, MDDialogButtonContainer 
+import weakref
 
 from mw_theme import THEME_OPTIONS, MarkupTagsTheme
 from textconsole import TextConsole
@@ -83,7 +83,53 @@ settings_components_kv = '''
         size_hint_x: 0.7
     MDSwitch:
         id: switch
-        on_active: root.on_switch(root, self.active) if root.on_switch else None
+
+<LightDarkSwitch>:
+    orientation: "horizontal"
+    size_hint_y: None
+    height: dp(48)
+    MDLabel:
+        theme_text_color: "Secondary"
+        text: root.text
+    MDSwitch:
+        id: light_dark_switch
+        icon_active: "weather-sunny"
+        icon_active_color: "white"
+        icon_inactive: "weather-night"
+        icon_inactive_color: "grey"
+        thumb_color_active: [.7, .7, .7, 1]
+        thumb_color_inactive: [.1, .1, .1, 1]
+        track_color_active: [.9, .9, .9, 1]
+        track_color_inactive: [.3, .3, .3, 1]
+        on_active: root.on_switch(self, self.active)
+
+
+<PaletteSection>:
+    orientation: "horizontal"
+    size_hint_y: None
+    height: dp(55)
+    padding: dp(4)
+    spacing: dp(4)
+    MDLabel:
+        text: root.text
+        theme_text_color: "Primary"
+    PaletteButtonLayout:
+        id: palette_buttons
+        orientation: "horizontal"
+        size_hint_x: 0.7
+        pos_hint: {"right": 1, "center_y": 0.5}
+        spacing: dp(4)
+
+<PaletteButton>:
+    style: "filled"
+    size: dp(75), dp(40)
+    theme_bg_color: "Custom"
+    md_bg_color: root.md_bg_color
+    MDButtonIcon:
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        icon: "palette"
+        theme_icon_color: "Custom"
+        icon_color: [.8, .8, .8, 1] if sum(root.md_bg_color[:3]) < 1.5 else [.2, .2, .2, 1]
 
 <LabeledDropdown>:
     orientation: "horizontal"
@@ -95,8 +141,9 @@ settings_components_kv = '''
         size_hint_x: 0.7
     MDButton:
         id: dropdown_button
-        text: root.current_item
         on_release: root.show_menu()
+        MDButtonText:
+            text: root.current_item
 
 <ColorBox>:
     orientation: "horizontal"
@@ -107,12 +154,21 @@ settings_components_kv = '''
         text_color: root.color
         text: root.text
         size_hint_x: 0.7
-    
+    MDButton:
+        id: reset_color_button
+        style: "filled"
+        size: dp(32), dp(32)
+        theme_bg_color: "Custom"
+        md_bg_color: root.color
+        on_release: root.reset_color()
+        MDButtonText:
+            text: "Reset"
     ColorPreviewBox:
         id: color_preview_box
         index: root.index
         color_attr: root.color_attr
         color: root.color
+        attr_name: root.attr_name
 
 <ColorPreviewBox>:
     orientation: "horizontal"
@@ -148,6 +204,22 @@ class LabeledSwitch(MDBoxLayout):
     text = StringProperty("")
     on_switch = ObjectProperty(None)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ids.switch.bind(on_active = lambda x: self.on_switch(self, self.active))
+
+    def on_switch(self, instance, value):
+        pass
+
+class LightDarkSwitch(MDBoxLayout):
+    """Switch for light/dark mode"""
+    text = StringProperty("")
+    on_switch = ObjectProperty(None)
+
+    def __init__(self, on_switch, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.on_switch = on_switch
+
 class LabeledDropdown(MDBoxLayout):
     """Dropdown with a label"""
     text = StringProperty("")
@@ -176,21 +248,70 @@ class LabeledDropdown(MDBoxLayout):
             self.on_select(item)
         self.menu.dismiss()
 
-class ColorPreviewBox(MDBoxLayout):
-    """Box showing a color preview"""
-    color = ColorProperty([0,0,0,0])
-    color_attr = ObjectProperty(None)
-    color_attr_old = ObjectProperty(None)
-    index = NumericProperty(0)
+class PaletteSection(MDBoxLayout):
+    """Section containing palette color buttons with a label"""
     text = StringProperty("")
 
-    def reset(self):
-        self.color_attr = [i for i in self.color_attr_old]
-        self.color = get_color_from_hex(self.color_attr[self.index])
-        self.color_picker.dismiss()
-    
-    def apply(self):
-        self.color_picker.dismiss()
+class PaletteButton(MDButton):
+    """Individual palette color button"""
+    hex_color = StringProperty("")
+    palette_name = StringProperty("")
+    md_bg_color = ColorProperty([0,0,0,0])
+    on_release = ObjectProperty(None)
+    set_palette = ObjectProperty(None)
+    is_current = BooleanProperty(False)
+
+    def __init__(self, hex_color, palette_name, md_bg_color, is_current, set_palette, **kwargs):
+        super().__init__(**kwargs)
+        self.hex_color = hex_color
+        self.palette_name = palette_name
+        self.md_bg_color = md_bg_color
+        self.is_current = is_current
+        self.set_palette = set_palette
+        self._update_style()
+        
+    def _update_style(self):
+        if self.is_current:
+            self.theme_line_color = "Custom"
+            self.line_color = self.theme_cls.inversePrimaryColor
+        else:
+            self.theme_line_color = "Primary"
+        
+    def on_release(self):
+        if self.set_palette:
+            self.set_palette(self, self.palette_name)
+            self.parent.set_current_button(self)
+
+class PaletteButtonLayout(MDBoxLayout):
+    """Layout containing palette color buttons"""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.buttons = []
+
+    def add_palette_button(self, hex_color, palette_name, md_bg_color, is_current, set_palette):
+        button = PaletteButton(
+            hex_color=hex_color,
+            palette_name=palette_name,
+            md_bg_color=md_bg_color,
+            is_current=is_current,
+            set_palette=set_palette
+        )
+        self.buttons.append(button)
+        self.add_widget(button)
+
+    def set_current_button(self, current_button):
+        for button in self.buttons:
+            button.is_current = (button == current_button)
+            button._update_style()
+
+class ColorPreviewBox(MDBoxLayout):
+    """Box showing a color preview"""
+    color = ColorProperty([0,0,0,0]) #actual color
+    color_attr = ObjectProperty(None) #link to color in theme
+    attr_name = StringProperty("") #name of the variable in the theme
+    color_attr_old = ObjectProperty(None) #previous choice of color
+    index = NumericProperty(0) #index (light/dark)
+    text = StringProperty("") #text of the label
 
     def open_color_picker(self, color, index, color_attr, pos):
         # Create a new color picker each time to avoid binding issues
@@ -198,7 +319,7 @@ class ColorPreviewBox(MDBoxLayout):
         self.color_attr_old = [i for i in color_attr]
         self.index = index
         self.text = self.parent.text
-        self.color_picker = MWColorPicker(self)
+        self.color_picker = MWColorPicker(self.color_attr_old[self.index])
         
         def on_color(instance, value):
             try:
@@ -212,7 +333,7 @@ class ColorPreviewBox(MDBoxLayout):
         
         # Bind to the color property
         self.color_picker.bind(color=on_color)
-        
+
         # Create popup with color picker
         dialog = MDDialog(
             MDDialogHeadlineText(
@@ -223,10 +344,18 @@ class ColorPreviewBox(MDBoxLayout):
             ),
             MDDialogContentContainer(
                 self.color_picker
-            )
+            ),
         )
-
+        # The dialog is a child of a button, 
+        # so I need to set the alpha here to 0 to avoid button behavior
+        dialog.state_press = 0
         
+        def apply(self, *args):
+            dialog.dismiss()
+        
+        self.color_picker.info_layout.apply_color_button.bind(on_release=apply)
+        self.color_picker.info_layout.revert_color_button.bind(on_release=lambda x: Clock.schedule_once(apply, 0.5))
+
         # Get current color and set it
         try:
             current_color = self.color
@@ -243,14 +372,20 @@ class ColorBox(MDBoxLayout):
     text = StringProperty("")
     color = ColorProperty([0,0,0,0])
     color_attr = ObjectProperty(None)
+    attr_name = StringProperty("")
     index = NumericProperty(0)
 
-    def __init__(self, text, color, color_attr, index, **kwargs):
+    def __init__(self, text, color, color_attr, attr_name, index, **kwargs):
         super().__init__(**kwargs)
         self.text = text
         self.color = color
         self.color_attr = color_attr
+        self.attr_name = attr_name
         self.index = index
+
+    def reset_color(self):
+        self.color_attr = MarkupTagsTheme.get_attr(self.attr_name)
+        self.color = get_color_from_hex(self.color_attr[self.index])
 
 class SettingsScrollBox(MDScrollView):
     """Scrollable box for settings"""
@@ -276,7 +411,7 @@ class ConnectionSettings(SettingsScrollBox):
         
         # Alias
         logger.debug("Adding alias field")
-        alias_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48))
+        alias_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(55), padding=dp(4), spacing=dp(4))
         alias_box.add_widget(MDLabel(text="Alias", theme_text_color="Primary", size_hint_x=0.7))
         alias_input = MDTextField(
             text=self.app.app_config.get('client', 'alias', fallback=''),
@@ -286,9 +421,14 @@ class ConnectionSettings(SettingsScrollBox):
         
         # Pronouns
         logger.debug("Adding pronouns field")
-        pronouns_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48))
+        pronouns_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(55), padding=dp(4), spacing=dp(4))
         pronouns_box.add_widget(MDLabel(text="Pronouns", theme_text_color="Primary", size_hint_x=0.7))
         pronouns_input = MDTextField(
+            MDTextFieldHelperText(
+                text="he/him she/her they/them any/any - freeform",
+                mode="persistent",
+                theme_text_color="Secondary",
+            ),
             text=self.app.app_config.get('client', 'pronouns', fallback=''),
         )
         pronouns_box.add_widget(pronouns_input)
@@ -312,14 +452,13 @@ class ConnectionSettings(SettingsScrollBox):
         
         # Hostname & Port
         logger.debug("Adding hostname field")
-        hostname_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48))
+        hostname_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(55), padding=dp(4), spacing=dp(4))
         hostname_box.add_widget(MDLabel(text="Hostname", theme_text_color="Primary"))
         hostname_input = MDTextField(
             text=self.app.app_config.get('client', 'hostname', fallback='multiworld.gg'),
         )
         hostname_box.add_widget(hostname_input)
-        hostname_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48))
-        hostname_box.add_widget(MDLabel(text="Port", theme_text_color="Primary", size_hint_x=0.7))
+        hostname_box.add_widget(MDLabel(text="Port", theme_text_color="Primary"))
         port_input = MDTextField(
             text=self.app.app_config.get('client', 'port', fallback='38281'),
         )
@@ -328,13 +467,13 @@ class ConnectionSettings(SettingsScrollBox):
  
         # Player Slot
         logger.debug("Adding player slot field")
-        slot_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48))
-        slot_box.add_widget(MDLabel(text="Player Slot", theme_text_color="Primary", size_hint_x=0.7))
+        slot_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(55), padding=dp(4), spacing=dp(4))
+        slot_box.add_widget(MDLabel(text="Player Slot", theme_text_color="Primary"))
         slot_input = MDTextField(
             text=self.app.app_config.get('client', 'slot', fallback=''),
         )
         slot_box.add_widget(slot_input)
-        slot_box.add_widget(MDLabel(text="Password", theme_text_color="Primary", size_hint_x=0.7))
+        slot_box.add_widget(MDLabel(text="Password", theme_text_color="Primary"))
         slot_input = MDTextField(
             text='',
             password=True,
@@ -344,11 +483,15 @@ class ConnectionSettings(SettingsScrollBox):
         
         # Admin Password
         logger.debug("Adding admin password field")
-        admin_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48))
+        admin_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(50))
         admin_box.add_widget(MDLabel(text="Admin Password", theme_text_color="Primary", size_hint_x=0.7))
         admin_input = MDTextField(
+            MDTextFieldHelperText(
+                text="Login for the multiworld server to run admin commands",
+                mode="persistent",
+                theme_text_color="Secondary",
+            ),
             text="********" if self.app.app_config.get('client', 'admin_password', fallback='') else '',
-            hint_text="Login for the multiworld server to run admin commands",
             password=True
         )
         admin_box.add_widget(admin_input)
@@ -381,75 +524,102 @@ class ConnectionSettings(SettingsScrollBox):
 
 class ThemingSettings(SettingsScrollBox):
     """Theming settings section"""
+    app_style = {"Light": 0, "Dark": 1}
+    light_dark_switch = ObjectProperty(None)
+    palette_layout = ObjectProperty(None)
+    app: MDApp
+
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
-        self.app = MDApp.get_running_app()
-        self.theme_mw = self.app.theme_mw
+        try:
+            self.app = MDApp.get_running_app()
+            self.theme_mw = self.app.theme_mw
 
-        # Theme style section
-        theme_style_section = SettingsSection(name="theme_style_settings", title="Theme Style")
-        theme_styles = ["Light", "Dark"]
-        current_style = self.app.theme_cls.theme_style
-        theme_style_section.add_widget(LabeledDropdown(
-            text="Theme Style",
-            items=theme_styles,
-            current_item=current_style,
-            on_select=self.set_theme_style
-        ))
-        
-        # Palette section
-        palette_section = SettingsSection(name="palette_settings", title="Primary Palette")
-        current_style = self.app.theme_cls.theme_style
-        palettes = [color[0] for color in THEME_OPTIONS[current_style]]
+            # Theme style section
+            theme_style_section = SettingsSection(name="theme_style_settings", title="Theme Style")
+            current_style = self.app.theme_cls.theme_style
+            opposite_style = "Light" if current_style == "Dark" else "Dark" 
+            self.light_dark_switch = LightDarkSwitch(
+                text=f"Switch to {opposite_style} Mode",
+                on_switch=self.change_theme
+            )
+            theme_style_section.add_widget(self.light_dark_switch)
+            
+            # Palette section
+            palette_section = SettingsSection(name="palette_settings", title="Primary Palette")
+            palettes = [color for color in THEME_OPTIONS[current_style]]
+            current_palette = self.app.theme_cls.primary_palette
+            palette_layout = PaletteSection()
+            palette_layout.text = "Primary Color"
+            
+            self.palette_buttons = palette_layout.ids.palette_buttons
+            for name, hc in palettes:
+                    self.palette_buttons.add_palette_button(
+                        hex_color=hc,
+                        palette_name=name,
+                        md_bg_color=get_color_from_hex(hc),
+                        is_current=(name == current_palette),
+                        set_palette=self.update_colors
+                    )
+            palette_section.add_widget(palette_layout)
+                        
+            # Custom colors section
+            custom_colors_section = SettingsSection(name="custom_colors_settings", title="Custom Color Settings")
+            for f in fields(self.theme_mw.markup_tags_theme):
+                color_attr = getattr(self.theme_mw.markup_tags_theme, f.name)
+                color_box = ColorBox(color=get_color_from_hex(color_attr[self.app_style[current_style]]), 
+                                    color_attr=color_attr, 
+                                    attr_name=f.name,
+                                    index=self.app_style[current_style],
+                                    text=self.theme_mw.markup_tags_theme.name(color_attr))
+                color_box.ids.reset_color_button.bind(on_release=color_box.reset_color)
+                custom_colors_section.add_widget(color_box)
+
+            # Font size section
+            font_section = SettingsSection(name="font_settings", title="Font Settings")
+            font_sizes = ["Small", "Medium", "Large", "Extra Large"]
+            font_section.add_widget(LabeledDropdown(
+                text="Font Size",
+                items=font_sizes,
+                current_item="Medium",
+                on_select=self.set_font_size
+            ))
+            
+            # Add all sections to the layout
+            self.layout.add_widget(theme_style_section)
+            self.layout.add_widget(palette_section)
+            self.layout.add_widget(custom_colors_section)
+            self.layout.add_widget(font_section)
+        except Exception as e:
+            logger.error(f"Error initializing ThemingSettings: {e}", exc_info=True)
+    
+    def swap_palette_buttons(self):
+        palettes = [color for color in THEME_OPTIONS[self.app.theme_cls.theme_style]]
         current_palette = self.app.theme_cls.primary_palette
-        palette_section.add_widget(LabeledDropdown(
-            text="Primary Color",
-            items=palettes,
-            current_item=current_palette,
-            on_select=self.set_primary_palette
-        ))
-        
-        # Custom colors section
-        custom_colors_section = SettingsSection(name="custom_colors_settings", title="Custom Color Settings")
-        app_style = {"Light": 0, "Dark": 1}
-        for f in fields(self.theme_mw.markup_tags_theme):
-            color_attr = getattr(self.theme_mw.markup_tags_theme, f.name)
-            color_box = ColorBox(text=f.name, 
-                                 color=get_color_from_hex(color_attr[app_style[current_style]]), 
-                                 color_attr=color_attr, 
-                                 index=app_style[current_style])
-            custom_colors_section.add_widget(color_box)
 
-        # Font size section
-        font_section = SettingsSection(name="font_settings", title="Font Settings")
-        font_sizes = ["Small", "Medium", "Large", "Extra Large"]
-        font_section.add_widget(LabeledDropdown(
-            text="Font Size",
-            items=font_sizes,
-            current_item="Medium",
-            on_select=self.set_font_size
-        ))
-        
-        # Add all sections to the layout
-        self.layout.add_widget(theme_style_section)
-        self.layout.add_widget(palette_section)
-        self.layout.add_widget(custom_colors_section)
-        self.layout.add_widget(font_section)
-    
-    def set_theme_style(self, style):
-        self.app.theme_cls.theme_style = style
-        self.app.app_config.set('client', 'theme_style', style)
+        for button, color in zip(self.palette_buttons.buttons, palettes):
+            button.hex_color = color[1]
+            button.palette_name = color[0]
+            button.md_bg_color = get_color_from_hex(color[1])
+            button.is_current = (color[0] == current_palette)
+            if button.is_current:
+                button.dispatch('on_release')
+
+    def change_theme(self, instance, value):
+        self.app.theme_mw.theme_style = "Light" if value == True else "Dark"
+        self.app.app_config.set('client', 'theme_style', self.app.theme_mw.theme_style)
         self.app.app_config.write()
-        # Schedule a refresh after the change
-        Clock.schedule_once(lambda dt: self.app.theme_cls.refresh(), 0.5)
-    
-    def set_primary_palette(self, palette):
-        self.app.theme_cls.primary_palette = palette
-        self.app.app_config.set('client', 'primary_palette', palette)
+        self.app.change_theme()
+        opposite_style = "Light" if self.app.theme_mw.theme_style == "Dark" else "Dark" 
+        self.light_dark_switch.text = f"Switch to {opposite_style} Mode"
+        self.swap_palette_buttons()
+
+    def update_colors(self, instance, value):
+        self.app.theme_mw.primary_palette = value
+        self.app.app_config.set('client', 'primary_palette', value)
         self.app.app_config.write()
-        # Schedule a refresh after the change
-        Clock.schedule_once(lambda dt: self.app.theme_cls.refresh(), 0.5)
-    
+        self.app.update_colors()
+
     def set_font_size(self, size):
         sizes = {"Small": 0.8, "Medium": 1.0, "Large": 1.2, "Extra Large": 1.5}
         scale_factor = sizes.get(size, 1.0)

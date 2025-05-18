@@ -66,6 +66,8 @@ MWKVConfig.set("graphics", "focus", "False")
 from kivy.core.window import Window
 Window.opacity = 0
 Window.clearcolor = [0,0,0,0]
+Window.borderless = True
+Window.set_title("MultiWorldGG")
 
 from kivy.core.clipboard import Clipboard
 from kivy.core.text.markup import MarkupLabel
@@ -101,7 +103,7 @@ from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon, MDIconButton
 from kivymd.uix.label import MDLabel, MDIcon
 from kivymd.uix.recycleview import MDRecycleView
 from kivymd.uix.textfield.textfield import MDTextField, MDTextFieldHelperText, MDTextFieldHintText, MDTextFieldLeadingIcon, MDTextFieldMaxLengthText, MDTextFieldTrailingIcon
-from kivymd.uix.progressindicator import MDLinearProgressIndicator
+from kivymd.uix.progressindicator import MDCircularProgressIndicator
 from kivymd.effects.stiffscroll.stiffscroll import StiffScrollEffect
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.tooltip import MDTooltip
@@ -145,7 +147,6 @@ class GuiContext:
     def __init__(self):
         self.loop = asyncio.get_event_loop()
         self.exit_event = asyncio.Event()
-        self.watcher_event = asyncio.Event()
         self.splash_process = None
 
     def run_gui(self):
@@ -155,8 +156,11 @@ class GuiContext:
         self.ui.launch_splash_screen()
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-class KivyMDGUI(MDApp): 
+    async def shutdown(self):
+        if self.ui_task:
+            await self.ui_task
 
+class KivyMDGUI(MDApp): 
     title = "MultiWorldGG: FoxyDelilah playing TUNIC"
     title_bar: Titlebar
     main_layout: MainLayout
@@ -172,6 +176,7 @@ class KivyMDGUI(MDApp):
     top_appbar_menu: MDDropdownMenu
     splash_process = None
     top_appbar_layout: TopAppBarLayout
+    loading_circle: MDCircularProgressIndicator
 
     def __init__(self, ctx: GuiContext, **kwargs):
         super().__init__(**kwargs)
@@ -182,13 +187,19 @@ class KivyMDGUI(MDApp):
         self.config = MWKVConfig
         
         # Create app-specific config
-        self.app_config = ConfigParser(name='app')
-        
+        try:
+            self.app_config = ConfigParser(name='app')
+        except ValueError:
+            # If parser already exists, get the existing one
+            self.app_config = ConfigParser.get_configparser('app')
+
         # Ensure client.ini exists with default values
         config_path = os.path.join(os.environ["KIVY_HOME"], "client.ini")
         if not os.path.exists(config_path):
             self.build_config(self.app_config)
             self.app_config.write()
+        self.icon = os.path.join(os.path.curdir, "icon.ico")
+        self.theme_mw = DefaultTheme(self.app_config)
 
     def get_application_config(self):
         """Get the path to the configuration file"""
@@ -293,15 +304,17 @@ class KivyMDGUI(MDApp):
     def on_start(self):
         Window.bind(on_restore=self.title_bar.tb_onres)
         Window.bind(on_maximize=self.title_bar.tb_onmax)
+        Window.bind(on_close=lambda x: self.on_stop())
+        self.change_screen("settings")
         self.slides = self.bottom_sheet.bottom_carousel.slides
 
         def on_start(*args):
             self.root.md_bg_color = self.theme_cls.backgroundColor
-            self.title_bar.remove_widget(self.title_bar.ids.tbrestore)
             self.bottom_chips = Builder.load_string(ChipsOptionsKV())
             self.bottom_sheet.ids.bs_tab_container.add_widget(self.bottom_chips), len(self.bottom_sheet.ids.bs_tab_container.ids)
             self.bottom_sheet.bind(on_open=self.bottom_appbar.hide_me)
             self.bottom_sheet.bind(on_close=self.bottom_appbar.show_me)
+            
             
         super().on_start()
         Clock.schedule_once(on_start)
@@ -315,28 +328,22 @@ class KivyMDGUI(MDApp):
         should be imported and called with super().
         Next in the app structure are the screens.
         '''
-        Window.borderless = True
-        Window.set_title("MultiWorldGG")
-        self.icon = os.path.join(os.path.curdir, "icon.ico")
-        
-        self.theme_mw = DefaultTheme(self.app_config)
         self.theme_cls.theme_style = self.theme_mw.theme_style
         self.theme_cls.primary_palette = self.theme_mw.primary_palette
         self.theme_cls.dynamic_scheme_name = self.theme_mw.dynamic_scheme_name
+        self.theme_mw.recolor_atlas()
         self.theme_cls.theme_style_switch_animation = True
 
         self.main_layout = MainLayout()
         self.main_layout.anchor_x='left'
         self.main_layout.anchor_y='top'
 
-        self.title_bar = Builder.load_string(TitlebarKV)
+        self.title_bar = Titlebar()
         Window.set_custom_titlebar(self.title_bar)
 
         self.navigation_layout = NavLayout()
         self.screen_manager = MainScreenMgr()
-        self.settings_screen = SettingsScreen()
-        self.console_screen = ConsoleScreen()
-        self.hint_screen = HintScreen()
+
         self.top_appbar_layout = TopAppBarLayout()
         self.top_appbar_menu = None
 
@@ -350,39 +357,93 @@ class KivyMDGUI(MDApp):
         #self.top_layer_buttons = Builder.load_string(ConsoleFABKV)
 
         self.bottom_appbar = BottomAppBar(theme_bg_color = "Custom", md_bg_color = self.theme_cls.secondaryContainerColor)
-        #self.settings_screen.add_widget(self.bottom_appbar)
-        self.console_screen.add_widget(self.bottom_appbar)
-
+        
+        self.loading_circle = MDCircularProgressIndicator(
+            size_hint=(None, None), 
+            pos_hint={'center_x': 0.5, 'center_y': 0.5},
+            size=(dp(100), dp(100)),
+            palette=[self.theme_cls.primaryColor, self.theme_cls.secondaryColor, 
+                     self.theme_cls.tertiaryColor],
+            active=False
+        )
+        
         self.navigation_layout.add_widget(self.screen_manager)
         self.navigation_layout.add_widget(self.bottom_sheet)
 
         self.main_layout.add_widget(self.navigation_layout)
         self.main_layout.add_widget(self.top_appbar_layout)
         self.main_layout.add_widget(self.title_bar)
-        
-        self.screen_manager.add_widget(self.settings_screen)
-        self.screen_manager.add_widget(self.console_screen)
-        self.screen_manager.add_widget(self.hint_screen)
-
-        self.screen_manager.current = 'console'
-        self.screen_manager.current_heroes = ["logo"]
+        self.main_layout.add_widget(MDRelativeLayout(self.loading_circle))
 
         return self.main_layout
 
     def on_stop(self):
         self.ctx.exit_event.set()
 
+    def loading(self):
+        if not self.loading_circle.active:
+            self.loading_circle.active = True
+
+    def not_loading(self):
+        if self.loading_circle.active:
+            self.loading_circle.active = False
+
+    def update_colors(self):
+        self.loading()
+        self.theme_cls.primary_palette = self.theme_mw.primary_palette
+        self.theme_mw.recolor_atlas()
+        self.not_loading()
+
+    def change_theme(self):
+        self.loading()
+        self.theme_cls.theme_style = self.theme_mw.theme_style
+        self.theme_cls.primary_palette = self.theme_mw.primary_palette
+        self.theme_mw.recolor_atlas()
+        self.not_loading()
+
     def change_screen(self, item):
         self.screen_manager.current_heroes = ["logo"]
-        self.screen_manager.current = item
-        self.top_appbar_menu.dismiss()
+        if item in self.screen_manager.screen_names:
+            self.screen_manager.current = item
+            self.top_appbar_menu.dismiss()
+            return
+        else:
+            self._create_screen(item)
+
+    def _create_screen(self, item):
+        if item == "console":
+            self.console_screen = ConsoleScreen(md_bg_color = self.theme_cls.backgroundColor)
+            self.console_screen.add_widget(self.bottom_appbar)
+            self.screen_manager.add_widget(self.console_screen)
+            self.screen_manager.current = "console"
+        elif item == "settings":
+            self.settings_screen = SettingsScreen(md_bg_color = self.theme_cls.backgroundColor)
+            self.screen_manager.add_widget(self.settings_screen)
+            self.screen_manager.current = "settings"
+        elif item == "hint":
+            self.hint_screen = HintScreen(md_bg_color = self.theme_cls.backgroundColor)
+            self.screen_manager.add_widget(self.hint_screen)
+            self.screen_manager.current = "hint"
+
+    def _create_menu_item(self, item):
+        """Create a menu item with proper binding"""
+        return {
+            "text": item.capitalize(),
+            "divider": None,
+            "on_release": lambda x=item: self._menu_item_callback(x)
+        }
+        
+    def _menu_item_callback(self, item):
+        """Callback for menu items to change screens"""
+        self.change_screen(item.lower())
         
     def open_top_appbar_menu(self, menu_button):
         """Open dropdown menu when menu button is pressed"""
         if not self.top_appbar_menu:
-            menu_items = []
-            for item in self.screen_manager.screen_names:
-                menu_items.append({"text": item.capitalize(), "divider": None, "on_release": lambda x=item: self.change_screen(x)})
+            menu_items = [
+                self._create_menu_item(item)
+                for item in ["console", "hint", "settings"]
+            ]
 
             self.top_appbar_menu = MDDropdownMenu(
                 caller=menu_button,
@@ -393,6 +454,7 @@ class KivyMDGUI(MDApp):
 
     
 # KivyMDGUI().run()
+
 def run_client(*args):
     class TextContext(GuiContext):
         tags = {"TextOnly"}
@@ -406,6 +468,8 @@ def run_client(*args):
         ctx.run_gui()
 
         await ctx.exit_event.wait()
+        await ctx.shutdown()
+        sys.exit()
 
     asyncio.run(main(args))
 

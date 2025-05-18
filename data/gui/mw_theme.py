@@ -3,12 +3,13 @@ __all__ = ('MWColorFilter',)
 import os
 import re
 from dataclasses import dataclass
+from kivy.core.window import Window
 from kivy.core.text import LabelBase
-from kivy.metrics import sp
-from kivy.properties import ObjectProperty, StringProperty, BooleanProperty
-from kivy.config import Config
 from kivymd.app import MDApp
 from kivymd.theming import ThemableBehavior
+from kivy.metrics import sp
+from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, ColorProperty
+from kivy.config import Config
 from kivy.lang import Builder
 from kivy.utils import hex_colormap
 from PIL import Image
@@ -23,17 +24,28 @@ Builder.load_string('''
 # and will be the input for primary_palette
 # The colors in hex are actual color for the theme
 THEME_OPTIONS = {
-    "Dark": [("Purple","5f1414"), #default
-             ("Brown","3f0071"),
-             ("Cyan","004175"),
-             ("OrangeRed","006b3c"),
-             ("Pink","b5651d"), 
-             ("Green","006b3c")],
-    "Light": [("Gray","006064"), #default
-              ("Goldenrod","004175"),
-              ("Gold","5f1414"),
-              ("Pink","006b3c"),
-              ("Olivedrab","b5651d")]
+    "Dark": [("Purple","551353"), #default
+             ("Pink","5f112a"),
+             ("Brown","5f1414"),
+             ("Cyan","003737"),
+             ("Green","003a00")],
+    "Light": [("Gray","97f0ff"), #default
+              ("Chocolate","ffdbc9"),
+              ("Goldenrod","ffdea0"),
+              ("Pink","ffd9df"),
+              ("Olivedrab","cbef86")]
+}
+
+DEFAULT_TEXT_COLORS = {
+    "location_color":["00c51b", "006f10"],
+    "player1_color":["ff87d7", "b42f88"],
+    "player2_color":["5fafff", "206cb8"],
+    "entrance_color":["60b7e8", "2985a0"],
+    "trap_item_color":["d75f5f", "8f1515"],
+    "regular_item_color":["b2b2b2", "3b3b3b"],
+    "useful_item_color":["bddd7e", "5f8e00"],
+    "progression_item_color":["FFC500", "9f8a00"],
+    "command_echo_color":["ff9334", "a75600"]
 }
 
 @dataclass
@@ -72,21 +84,32 @@ class MarkupTagsTheme:
 
 
 class DefaultTheme(ThemableBehavior):
-    titlebar_bg_color: dict
     markup_tags_theme: MarkupTagsTheme
-    theme_style: StringProperty
-    primary_palette: StringProperty
+    _theme_style: StringProperty
+    _primary_palette: StringProperty
     dynamic_scheme_name: StringProperty
     compact_mode: BooleanProperty
     app_config: None
     def __init__(self, app_config):
         super().__init__()
         self.app_config = app_config
-        self.global_theme()
-        self.titlebar_bg_color = {"Light": self.theme_cls.primaryContainerColor,
-                                  "Dark": self.theme_cls.onPrimaryColor}
-        self.recolor_atlas()
+        self.init_global_theme()
         self.markup_tags_theme = MarkupTagsTheme()
+
+    @property
+    def theme_style(self):
+        return self._theme_style
+    @theme_style.setter
+    def theme_style(self, value):
+        self.primary_palette = THEME_OPTIONS[value][0][0]
+        self._theme_style = value
+
+    @property
+    def primary_palette(self):
+        return self._primary_palette
+    @primary_palette.setter
+    def primary_palette(self, value):
+        self._primary_palette = value
 
     def recolor_atlas(self):
         """Recolor the atlas image by replacing pixels close to target colors with their respective theme colors.
@@ -146,13 +169,13 @@ class DefaultTheme(ThemableBehavior):
             print(f"Error recoloring atlas: {str(e)}")
             # You might want to log this error or handle it differently
 
-    def global_theme(self):
+    def init_global_theme(self):
         # Get theme settings from app_config
         # Get theme style with Dark as fallback
         theme_style = self.app_config.get('client', 'theme_style', fallback='Dark')
         if theme_style.lower() not in ["light","dark"]:
             theme_style = 'Dark'
-        self.theme_cls.theme_style = self.theme_style = theme_style
+        self.theme_style = theme_style
         
         # Get primary palette with first option as fallback
         primary_palette = self.app_config.get('client', 'primary_palette', fallback=THEME_OPTIONS[theme_style][0][0]).capitalize()
@@ -161,14 +184,14 @@ class DefaultTheme(ThemableBehavior):
         ]
         if primary_palette not in valid_palettes:
             primary_palette = THEME_OPTIONS[theme_style][0][0]
-        self.theme_cls.primary_palette = self.primary_palette = primary_palette
+        self.primary_palette = primary_palette
         
         # Get compact mode setting
         compact_mode = self.app_config.getboolean('client', 'compact_mode', fallback=False)
         self.compact_mode = compact_mode
         
         # Dynamic scheme name remains unchanged as per comment
-        self.theme_cls.dynamic_scheme_name = self.dynamic_scheme_name = "RAINBOW"
+        self.dynamic_scheme_name = "RAINBOW"
         #self.theme_cls.sync_theme_styles()
 
 ### Full unicode fonts, finally

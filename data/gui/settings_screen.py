@@ -149,6 +149,7 @@ SettingsNavLayout:
     orientation: "vertical"
     size_hint_y: None
     height: Window.height-103
+    md_bg_color: app.theme_cls.backgroundColor
 '''
 
 class SettingsNavLayout(MDNavigationLayout):
@@ -243,6 +244,7 @@ class SettingsScreen(MDScreen):
     settings_screen_manager: MDScreenManager
     nav_layout: SettingsNavLayout
     nav_menu: NavDrawerMenu
+    
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
