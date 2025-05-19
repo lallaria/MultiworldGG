@@ -37,7 +37,7 @@ options.
 
 ### Where do I get the config and ROM files?
 
-Unlike most Archipelago games, Chrono Trigger: Jets of Time config files are generated with the  
+Unlike most MultiworldGG games, Chrono Trigger: Jets of Time config files are generated with the  
 [CTJoT multiworld randomizer site](https://multiworld.ctjot.com/options).  
 
 To generate a ROM/yaml pair:
