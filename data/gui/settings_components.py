@@ -22,8 +22,7 @@ from kivymd.app import MDApp
 from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer, MDDialogButtonContainer 
 import weakref
 
-from mw_theme import THEME_OPTIONS, MarkupTagsTheme
-from textconsole import TextConsole
+from mw_theme import THEME_OPTIONS, DEFAULT_TEXT_COLORS
 from kivydi.colorpicker import MWColorPicker
 # Set up logging
 log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")
@@ -92,7 +91,8 @@ settings_components_kv = '''
         theme_text_color: "Secondary"
         text: root.text
     MDSwitch:
-        id: light_dark_switch
+        id: light_dark_mode_switch
+        active: root.theme_cls.theme_style == "Light"
         icon_active: "weather-sunny"
         icon_active_color: "white"
         icon_inactive: "weather-night"
@@ -102,7 +102,6 @@ settings_components_kv = '''
         track_color_active: [.9, .9, .9, 1]
         track_color_inactive: [.3, .3, .3, 1]
         on_active: root.on_switch(self, self.active)
-
 
 <PaletteSection>:
     orientation: "horizontal"
@@ -150,6 +149,7 @@ settings_components_kv = '''
     size_hint_y: None
     height: dp(48)
     MDLabel:
+        id: text_color_label
         theme_text_color: "Custom"
         text_color: root.color
         text: root.text
@@ -159,7 +159,7 @@ settings_components_kv = '''
         style: "filled"
         size: dp(32), dp(32)
         theme_bg_color: "Custom"
-        md_bg_color: root.color
+        md_bg_color: root.default_color
         on_release: root.reset_color()
         MDButtonText:
             text: "Reset"
@@ -312,6 +312,7 @@ class ColorPreviewBox(MDBoxLayout):
     color_attr_old = ObjectProperty(None) #previous choice of color
     index = NumericProperty(0) #index (light/dark)
     text = StringProperty("") #text of the label
+    on_color_change = ObjectProperty(None)
 
     def open_color_picker(self, color, index, color_attr, pos):
         # Create a new color picker each time to avoid binding issues
@@ -328,6 +329,9 @@ class ColorPreviewBox(MDBoxLayout):
                 self.color_attr[self.index] = hex_color
                 #Clock.schedule_once(lambda dt: self.app.theme_cls.refresh(), 0.5)
                 self.color = instance.color
+                # Trigger the color change event
+                if self.on_color_change:
+                    self.on_color_change(self.attr_name, self.color_attr)
             except Exception as e:
                 logger.error(f"Error updating color: {e}", exc_info=True)
         
@@ -371,21 +375,35 @@ class ColorBox(MDBoxLayout):
     """Box showing a color preview"""
     text = StringProperty("")
     color = ColorProperty([0,0,0,0])
+    default_color = ColorProperty([0,0,0,0])
     color_attr = ObjectProperty(None)
     attr_name = StringProperty("")
     index = NumericProperty(0)
+    on_reset = ObjectProperty(None)
+    _initialized = BooleanProperty(False)
 
     def __init__(self, text, color, color_attr, attr_name, index, **kwargs):
         super().__init__(**kwargs)
         self.text = text
-        self.color = color
         self.color_attr = color_attr
         self.attr_name = attr_name
         self.index = index
+        self.color = color
+        self.default_color = DEFAULT_TEXT_COLORS[self.attr_name]
+        Clock.schedule_once(self._finish_init)
 
-    def reset_color(self):
-        self.color_attr = MarkupTagsTheme.get_attr(self.attr_name)
+    def _finish_init(self, dt):
+        self._initialized = True
+
+    def reset_color(self, *args):
+        if not self._initialized:
+            return
+        default_value = DEFAULT_TEXT_COLORS[self.attr_name]
+        # Only reset the specific index (light/dark) that's being modified
+        self.color_attr[self.index] = default_value[self.index]
         self.color = get_color_from_hex(self.color_attr[self.index])
+        if self.on_reset:
+            self.on_reset(self.attr_name, self.color_attr)
 
 class SettingsScrollBox(MDScrollView):
     """Scrollable box for settings"""
@@ -564,16 +582,10 @@ class ThemingSettings(SettingsScrollBox):
             palette_section.add_widget(palette_layout)
                         
             # Custom colors section
-            custom_colors_section = SettingsSection(name="custom_colors_settings", title="Custom Color Settings")
-            for f in fields(self.theme_mw.markup_tags_theme):
-                color_attr = getattr(self.theme_mw.markup_tags_theme, f.name)
-                color_box = ColorBox(color=get_color_from_hex(color_attr[self.app_style[current_style]]), 
-                                    color_attr=color_attr, 
-                                    attr_name=f.name,
-                                    index=self.app_style[current_style],
-                                    text=self.theme_mw.markup_tags_theme.name(color_attr))
-                color_box.ids.reset_color_button.bind(on_release=color_box.reset_color)
-                custom_colors_section.add_widget(color_box)
+            self.custom_colors_section = SettingsSection(name="custom_colors_settings", title="Custom Color Settings")
+            color_boxes = self.make_color_boxes()
+            for box in color_boxes:
+                self.custom_colors_section.add_widget(box)
 
             # Font size section
             font_section = SettingsSection(name="font_settings", title="Font Settings")
@@ -588,7 +600,7 @@ class ThemingSettings(SettingsScrollBox):
             # Add all sections to the layout
             self.layout.add_widget(theme_style_section)
             self.layout.add_widget(palette_section)
-            self.layout.add_widget(custom_colors_section)
+            self.layout.add_widget(self.custom_colors_section)
             self.layout.add_widget(font_section)
         except Exception as e:
             logger.error(f"Error initializing ThemingSettings: {e}", exc_info=True)
@@ -605,7 +617,32 @@ class ThemingSettings(SettingsScrollBox):
             if button.is_current:
                 button.dispatch('on_release')
 
+    def make_color_boxes(self):
+        color_boxes = []
+        self.custom_colors_section.clear_widgets()
+        for f in fields(self.theme_mw.markup_tags_theme):
+            color_attr = getattr(self.theme_mw.markup_tags_theme, f.name)
+            color_box = ColorBox(color=get_color_from_hex(color_attr[self.app_style[self.app.theme_cls.theme_style]]), 
+                                color_attr=color_attr, 
+                                attr_name=f.name,
+                                index=self.app_style[self.app.theme_cls.theme_style],
+                                text=self.theme_mw.markup_tags_theme.name(color_attr))
+            
+            # Create a closure that captures the current attr_name
+            def make_save_handler(attr_name):
+                def save_handler(attr_name, color_attr):
+                    print(f"Saving color {attr_name}: {color_attr}")  # Debug print
+                    self.theme_mw.save_markup_color(attr_name, color_attr)
+                return save_handler
+            
+            # Bind the handlers with the current attr_name
+            color_box.on_reset = make_save_handler(f.name)
+            color_box.ids.color_preview_box.on_color_change = make_save_handler(f.name)
+            color_boxes.append(color_box)
+        return color_boxes
+
     def change_theme(self, instance, value):
+        self.app.loading()
         self.app.theme_mw.theme_style = "Light" if value == True else "Dark"
         self.app.app_config.set('client', 'theme_style', self.app.theme_mw.theme_style)
         self.app.app_config.write()
@@ -613,12 +650,18 @@ class ThemingSettings(SettingsScrollBox):
         opposite_style = "Light" if self.app.theme_mw.theme_style == "Dark" else "Dark" 
         self.light_dark_switch.text = f"Switch to {opposite_style} Mode"
         self.swap_palette_buttons()
+        color_boxes = self.make_color_boxes()
+        for box in color_boxes:
+            self.custom_colors_section.add_widget(box)
+        self.app.not_loading()
 
     def update_colors(self, instance, value):
+        self.app.loading()
         self.app.theme_mw.primary_palette = value
         self.app.app_config.set('client', 'primary_palette', value)
         self.app.app_config.write()
         self.app.update_colors()
+        self.app.not_loading()
 
     def set_font_size(self, size):
         sizes = {"Small": 0.8, "Medium": 1.0, "Large": 1.2, "Extra Large": 1.5}
@@ -650,9 +693,9 @@ class InterfaceSettings(SettingsScrollBox):
         layout_section.add_widget(LabeledSwitch(
             text="Compact Mode",
             theme_text_color="Secondary",
-            on_switch=self.toggle_compact_mode
+            on_switch=self.toggle_device_orientation
         ))
-        logger.debug("Added compact mode switch")
+        logger.debug("Added device orientation (compact mode) switch")
         
         # Add all sections to the layout
         logger.debug("Adding sections to layout")
@@ -669,11 +712,11 @@ class InterfaceSettings(SettingsScrollBox):
         except Exception as e:
             logger.error(f"Error in toggle_fullscreen: {e}", exc_info=True)
     
-    def toggle_compact_mode(self, instance, value):
+    def toggle_device_orientation(self, instance, value):
         try:
-            logger.debug(f"Toggling compact mode to {value}")
-            self.app.app_config.set('client', 'compact_mode', str(value))
+            logger.debug(f"Toggling device orientation to {value}")
+            self.app.app_config.set('client', 'device_orientation', str(value))
             self.app.app_config.write()
-            logger.debug("Compact mode toggle complete")
+            logger.debug("Device orientation toggle complete")
         except Exception as e:
-            logger.error(f"Error in toggle_compact_mode: {e}", exc_info=True) 
+            logger.error(f"Error in toggle_device_orientation: {e}", exc_info=True) 

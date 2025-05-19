@@ -37,15 +37,15 @@ THEME_OPTIONS = {
 }
 
 DEFAULT_TEXT_COLORS = {
-    "location_color":["00c51b", "006f10"],
-    "player1_color":["ff87d7", "b42f88"],
-    "player2_color":["5fafff", "206cb8"],
-    "entrance_color":["60b7e8", "2985a0"],
-    "trap_item_color":["d75f5f", "8f1515"],
-    "regular_item_color":["b2b2b2", "3b3b3b"],
-    "useful_item_color":["bddd7e", "5f8e00"],
-    "progression_item_color":["FFC500", "9f8a00"],
-    "command_echo_color":["ff9334", "a75600"]
+    "location_color":["006f10", "00c51b"],
+    "player1_color":["b42f88", "ff87d7"],
+    "player2_color":["206cb8", "5fafff"],
+    "entrance_color":["2985a0", "60b7e8"],
+    "trap_item_color":["8f1515", "d75f5f"],
+    "regular_item_color":["3b3b3b", "b2b2b2"],
+    "useful_item_color":["5f8e00", "bddd7e"],
+    "progression_item_color":["9f8a00", "FFC500"],
+    "command_echo_color":["a75600", "ff9334"]
 }
 
 @dataclass
@@ -61,15 +61,15 @@ class MarkupTagsTheme:
     command_echo_color: list[str]
 
     def __init__(self, **kwargs):
-        self.location_color=["00c51b", "006f10"]
-        self.player1_color=["ff87d7", "b42f88"]
-        self.player2_color=["5fafff", "206cb8"]
-        self.entrance_color=["60b7e8", "2985a0"]
-        self.trap_item_color=["d75f5f", "8f1515"]
-        self.regular_item_color=["b2b2b2", "3b3b3b"]
-        self.useful_item_color=["bddd7e", "5f8e00"]
-        self.progression_item_color=["FFC500", "9f8a00"]
-        self.command_echo_color=["ff9334", "a75600"]
+        self.location_color=["006f10","00c51b"]
+        self.player1_color=["b42f88","ff87d7"]
+        self.player2_color=["206cb8","5fafff"]
+        self.entrance_color=["2985a0","60b7e8"]
+        self.trap_item_color=["8f1515","d75f5f"]
+        self.regular_item_color=["3b3b3b","b2b2b2"]
+        self.useful_item_color=["5f8e00","bddd7e"]
+        self.progression_item_color=["9f8a00","FFC500"]
+        self.command_echo_color=["a75600","ff9334"]
 
     def name(self, color_attr):
         if color_attr == self.location_color: return "Location:"
@@ -82,6 +82,27 @@ class MarkupTagsTheme:
         if color_attr == self.progression_item_color: return "Progression Item:"
         if color_attr == self.command_echo_color: return "Broadcast:"
 
+    def save_color(self, app_config, color_name, color_value):
+        """Save a single color value to the config file"""
+        app_config.set('markup_tags', color_name, ','.join(color_value))
+        app_config.write()
+
+    def load_color(self, app_config, color_name, default_value):
+        """Load a single color value from the config file"""
+        value = app_config.get('markup_tags', color_name, fallback=','.join(default_value))
+        return value.split(',')
+
+    def save_all_colors(self, app_config):
+        """Save all color values to the config file"""
+        for color_name in DEFAULT_TEXT_COLORS.keys():
+            color_value = getattr(self, color_name)
+            self.save_color(app_config, color_name, color_value)
+
+    def load_all_colors(self, app_config):
+        """Load all color values from the config file"""
+        for color_name, default_value in DEFAULT_TEXT_COLORS.items():
+            loaded_value = self.load_color(app_config, color_name, default_value)
+            setattr(self, color_name, loaded_value)
 
 class DefaultTheme(ThemableBehavior):
     markup_tags_theme: MarkupTagsTheme
@@ -95,6 +116,7 @@ class DefaultTheme(ThemableBehavior):
         self.app_config = app_config
         self.init_global_theme()
         self.markup_tags_theme = MarkupTagsTheme()
+        self.markup_tags_theme.load_all_colors(app_config)
 
     @property
     def theme_style(self):
@@ -110,6 +132,18 @@ class DefaultTheme(ThemableBehavior):
     @primary_palette.setter
     def primary_palette(self, value):
         self._primary_palette = value
+
+    def save_markup_color(self, color_name, color_value):
+        """Save a single markup color to the config"""
+        if not self.app_config.has_section('markup_tags'):
+            self.app_config.add_section('markup_tags')
+        self.app_config.set('markup_tags', color_name, ','.join(color_value))
+        self.app_config.write()
+
+    def load_markup_color(self, color_name):
+        """Load a single markup color from the config"""
+        default_value = DEFAULT_TEXT_COLORS[color_name]
+        return self.markup_tags_theme.load_color(self.app_config, color_name, default_value)
 
     def recolor_atlas(self):
         """Recolor the atlas image by replacing pixels close to target colors with their respective theme colors.
@@ -189,6 +223,13 @@ class DefaultTheme(ThemableBehavior):
         # Get compact mode setting
         compact_mode = self.app_config.getboolean('client', 'compact_mode', fallback=False)
         self.compact_mode = compact_mode
+        
+        # Save default markup colors if they don't exist
+        if not self.app_config.has_section('markup_tags'):
+            self.app_config.add_section('markup_tags')
+            for color_name, default_value in DEFAULT_TEXT_COLORS.items():
+                self.app_config.set('markup_tags', color_name, ','.join(default_value))
+            self.app_config.write()
         
         # Dynamic scheme name remains unchanged as per comment
         self.dynamic_scheme_name = "RAINBOW"

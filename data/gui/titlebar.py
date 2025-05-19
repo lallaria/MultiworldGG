@@ -134,12 +134,12 @@ class Titlebar(MDBoxLayout):
         self.tbclose = TitleBarButton(
             icon = "close"
         )
-        self.tbclose.bind(on_release=self.tb_close)
+        self.tbclose.bind(on_release=lambda x: MDApp.get_running_app().stop(x))
         self.add_widget(self.tbclose)
 
-    def tb_close(self):
-        MDApp.get_running_app().stop()
-        Window.close()
+    # def tb_close(self):
+    #     MDApp.get_running_app().stop()
+    #     Window.close()
 
     def tb_max(self):
         Window.maximize()

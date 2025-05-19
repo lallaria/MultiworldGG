@@ -195,9 +195,13 @@ class KivyMDGUI(MDApp):
 
         # Ensure client.ini exists with default values
         config_path = os.path.join(os.environ["KIVY_HOME"], "client.ini")
-        if not os.path.exists(config_path):
+        if os.path.exists(config_path):
+            # Read existing config file
+            self.app_config.read(config_path)
+        else:
             self.build_config(self.app_config)
             self.app_config.write()
+            
         self.icon = os.path.join(os.path.curdir, "icon.ico")
         self.theme_mw = DefaultTheme(self.app_config)
 
@@ -219,7 +223,7 @@ class KivyMDGUI(MDApp):
             'theme_style': 'Dark',
             'primary_palette': 'Purple',
             'font_scale': '1.0',
-            'compact_mode': '0'
+            'device_orientation': '0'
         })
 
     def on_config_change(self, config, section, key, value):
@@ -309,7 +313,7 @@ class KivyMDGUI(MDApp):
         self.slides = self.bottom_sheet.bottom_carousel.slides
 
         def on_start(*args):
-            self.root.md_bg_color = self.theme_cls.backgroundColor
+            self.root.md_bg_color = self.theme_cls.surfaceColor
             self.bottom_chips = Builder.load_string(ChipsOptionsKV())
             self.bottom_sheet.ids.bs_tab_container.add_widget(self.bottom_chips), len(self.bottom_sheet.ids.bs_tab_container.ids)
             self.bottom_sheet.bind(on_open=self.bottom_appbar.hide_me)
@@ -346,10 +350,6 @@ class KivyMDGUI(MDApp):
 
         self.top_appbar_layout = TopAppBarLayout()
         self.top_appbar_menu = None
-
-        # bottom sheet should be client only, but it needs to be added
-        # before the screen_manager
-        # pass & remove the widget from the launcher class
 
         self.bottom_sheet = Builder.load_string(BottomSheetKV())
         Builder.load_string(BottomBarKV())
@@ -389,19 +389,34 @@ class KivyMDGUI(MDApp):
             self.loading_circle.active = False
 
     def update_colors(self):
-        self.loading()
+        '''
+        This function is called when the theme color is changed.
+        It updates the primary palette, forces a background color 
+        refresh and recolors the atlas which controls the little 
+        teeny graphics in the gui.
+        '''
         self.theme_cls.primary_palette = self.theme_mw.primary_palette
+        self.root.md_bg_color = self.theme_cls.surfaceColor
         self.theme_mw.recolor_atlas()
-        self.not_loading()
 
     def change_theme(self):
-        self.loading()
+        '''
+        This function is called when the theme is changed.
+        It updates the theme style (light/dark) and primary palette,
+        forces a background color refresh and recolors the atlas
+        which controls the little teeny graphics in the gui.
+        '''
         self.theme_cls.theme_style = self.theme_mw.theme_style
         self.theme_cls.primary_palette = self.theme_mw.primary_palette
+        self.root.md_bg_color = self.theme_cls.surfaceColor
         self.theme_mw.recolor_atlas()
-        self.not_loading()
 
     def change_screen(self, item):
+        '''
+        This function is called when the screen is changed.
+        It updates the current screen and dismisses menu
+        with the screen names.
+        '''
         self.screen_manager.current_heroes = ["logo"]
         if item in self.screen_manager.screen_names:
             self.screen_manager.current = item
@@ -411,22 +426,28 @@ class KivyMDGUI(MDApp):
             self._create_screen(item)
 
     def _create_screen(self, item):
+        '''
+        This function is called when the screen is changed.
+        It updates or creates the current screen and dismisses 
+        the menu with the screen names.
+        '''
         if item == "console":
-            self.console_screen = ConsoleScreen(md_bg_color = self.theme_cls.backgroundColor)
+            self.console_screen = ConsoleScreen()
             self.console_screen.add_widget(self.bottom_appbar)
             self.screen_manager.add_widget(self.console_screen)
             self.screen_manager.current = "console"
         elif item == "settings":
-            self.settings_screen = SettingsScreen(md_bg_color = self.theme_cls.backgroundColor)
+            self.settings_screen = SettingsScreen()
             self.screen_manager.add_widget(self.settings_screen)
             self.screen_manager.current = "settings"
         elif item == "hint":
-            self.hint_screen = HintScreen(md_bg_color = self.theme_cls.backgroundColor)
+            self.hint_screen = HintScreen()
             self.screen_manager.add_widget(self.hint_screen)
             self.screen_manager.current = "hint"
 
     def _create_menu_item(self, item):
-        """Create a menu item with proper binding"""
+        """Create a menu item with proper binding
+        to change screens when the item is pressed"""
         return {
             "text": item.capitalize(),
             "divider": None,
@@ -438,7 +459,8 @@ class KivyMDGUI(MDApp):
         self.change_screen(item.lower())
         
     def open_top_appbar_menu(self, menu_button):
-        """Open dropdown menu when menu button is pressed"""
+        """Open dropdown menu to change screens 
+        when menu button is pressed"""
         if not self.top_appbar_menu:
             menu_items = [
                 self._create_menu_item(item)
