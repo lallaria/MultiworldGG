@@ -1,4 +1,4 @@
-from ..test import JakAndDaxterTestBase
+from .bases import JakAndDaxterTestBase
 
 
 class TradesCostNothingTest(JakAndDaxterTestBase):
@@ -23,14 +23,14 @@ class TradesCostEverythingTest(JakAndDaxterTestBase):
     options = {
         "enable_orbsanity": 2,
         "global_orbsanity_bundle_size": 5,
-        "citizen_orb_trade_amount": 222,
-        "oracle_orb_trade_amount": 0
+        "citizen_orb_trade_amount": 120,
+        "oracle_orb_trade_amount": 150
     }
 
     def test_orb_items_are_progression(self):
         self.collect_all_but("")
         self.assertIn("5 Precursor Orbs", self.multiworld.state.prog_items[self.player])
-        self.assertEqual(400, self.multiworld.state.prog_items[self.player]["5 Precursor Orbs"])
+        self.assertEqual(396, self.multiworld.state.prog_items[self.player]["5 Precursor Orbs"])
 
     def test_trades_are_accessible(self):
         self.collect_all_but("")

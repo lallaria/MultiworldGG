@@ -14,7 +14,7 @@
 
 ## Optionale Software
 
-- Archipelago von der [Archipelago-Release-Seite](https://github.com/MultiworldGG/MultiworldGG/releases)
+- MultiworldGG von der [MultiworldGG-Release-Seite](https://github.com/MultiworldGG/MultiworldGG/releases)
     * (Für den Text-Client)
     * (Alternativ kannst du auch die eingebaute Konsole (nur lesbar) nutzen, indem du beim Starten des Spiels den 
   `-dev`-Parameter verwendest)

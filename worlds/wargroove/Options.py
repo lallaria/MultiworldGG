@@ -1,5 +1,6 @@
-from typing import Dict, Optional
 from dataclasses import dataclass
+from Options import Choice, Range, PerGameCommonOptions, StartInventoryPool, OptionDict, OptionGroup, \
+    DeathLinkMixin
 
 from schema import Schema, And, Use
 
@@ -82,7 +83,7 @@ class PlayerSummonLimit(Range):
 
 class AISacrificeLimit(Range):
     """How many times the AI can sacrifice a unit at the Stronghold per level attempt.
-    Sacrificed units are stored in the multiworld for other players to summon."""
+    Sacrificed units are stored in the multiworld for other AIs to summon."""
     display_name = "AI Sacrifice Limit"
     range_start = 0
     range_end = 5
@@ -91,7 +92,7 @@ class AISacrificeLimit(Range):
 
 class AISummonLimit(Range):
     """How many times the AI can summon a unit at the Stronghold per level attempt.
-    Summoned units are from the multiworld which were sacrificed by other players.
+    Summoned units are from the multiworld which were sacrificed by other AIs.
     AI summoning can be overwhelming, use /sacrifice_summon in the client if a level becomes impossible."""
     display_name = "AI Summon Limit"
     range_start = 0
@@ -114,7 +115,7 @@ wargroove_option_groups = [
 ]
 
 @dataclass
-class WargrooveOptions(PerGameCommonOptions):
+class WargrooveOptions(DeathLinkMixin, PerGameCommonOptions):
     income_boost: IncomeBoost
     commander_defense_boost: CommanderDefenseBoost
     commander_choice: CommanderChoice
@@ -122,5 +123,4 @@ class WargrooveOptions(PerGameCommonOptions):
     player_summon_limit: PlayerSummonLimit
     ai_sacrifice_limit: AISacrificeLimit
     ai_summon_limit: AISummonLimit
-    death_link: DeathLink
     start_inventory_from_pool: StartInventoryPool

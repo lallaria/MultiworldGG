@@ -144,7 +144,7 @@ def fill_restrictive(multiworld: MultiWorld, base_state: CollectionState, locati
 
                             swap_count += 1
                             swapped_items[placed_item.player, placed_item.name, unsafe] = swap_count
-                            
+
                             reachable_items[placed_item.player].appendleft(
                                 placed_item)
                             item_pool.append(placed_item)

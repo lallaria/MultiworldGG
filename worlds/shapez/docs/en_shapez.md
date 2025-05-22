@@ -12,6 +12,8 @@ that make your buildings work faster.
 
 The [player options page for this game](../player-options) contains all the options you need to configure
 and export a config file.
+There are also some advanced "datapackage settings" that can be changed by following 
+[this guide](/tutorial/shapez/datapackage_settings/en).
 
 ## What does randomization do to this game?
 
@@ -19,14 +21,13 @@ Buildings and gameplay mechanics, that you normally unlock by completing a level
 into the item pool of the multiworld. Also, if enabled, the requirements for completing a level or buying an upgrade are
 randomized.
 
-## What is the goal of shapez in Archipelago?
+## What is the goal of shapez in MultiworldGG?
 
 As the game has no actual goal where the game ends, there are (currently) 4 different goals you can choose from in the 
 player options:
 1. Vanilla: Complete level 26 (the end of the tutorial).
-2. MAM: Complete an in the player options specified level after level 26. It's recommended to build a 
-Make-Anything-Machine (MAM).
-3. Even Fasterer: Upgrade everything to an in the player options specified tier after tier 8.
+2. MAM: Complete a player-specified level after level 26. It's recommended to build a Make-Anything-Machine (MAM).
+3. Even Fasterer: Upgrade everything to a player-specified tier after tier 8.
 4. Efficiency III: Deliver 256 blueprint shapes per second to the hub.
 
 ## Which items can be in another player's world?
@@ -54,10 +55,11 @@ A pop-up will show, which item(s) were received, with additional information on 
 ## What do the names of all these shapesanity locations mean?
 
 Here's a cheat sheet:
+
 ![image](https://raw.githubusercontent.com/BlastSlimey/Archipelago/refs/heads/main/worlds/shapez/docs/shapesanity_full.png)
 
 ## Can I use other mods alongside the AP client?
 
 At the moment, compatibility with other mods is not supported, but not forbidden. Gameplay altering mods will most
 likely crash the game or disable loading the afflicted mods, while QoL mods might work without problems. Try at your own
-risk. However, as long as the game is not connected to a multiworld, it should behave like there is no client mod.
+risk.

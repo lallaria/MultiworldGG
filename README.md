@@ -76,7 +76,7 @@ Currently, the following games are supported:
 * HuniePop 2
 * Hylics 2
 * Inscryption
-* Jak and Daxter
+* Jak and Daxter: The Precursor Legacy
 * Jigsaw Puzzles
 * Kingdom Hearts
 * Kingdom Hearts II
@@ -141,6 +141,7 @@ Currently, the following games are supported:
 * Super Mario Bros.
 * Super Mario 64 EX
 * Super Mario 64 Hacks
+* Super Mario Land 2: 6 Golden Coins
 * Super Mario Odyssey
 * Super Mario Sunshine
 * Super Mario World
