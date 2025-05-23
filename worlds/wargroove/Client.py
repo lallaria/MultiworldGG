@@ -18,7 +18,6 @@ ModuleUpdate.update()
 import Utils
 import json
 import logging
-import settings
 
 if __name__ == "__main__":
     Utils.init_logging("WargrooveClient", exception_logger="Client")
@@ -325,17 +324,11 @@ class WargrooveContext(CommonContext):
     def run_gui(self):
         """Import kivy UI system and start running it as self.ui_task."""
         from kvui import GameManager, HoverBehavior, ServerToolTip
-        from kivy.uix.tabbedpanel import TabbedPanelItem
+        from kivymd.uix.tab import MDTabsItem, MDTabsItemText
         from kivy.lang import Builder
-        from kivy.uix.button import Button
         from kivy.uix.togglebutton import ToggleButton
         from kivy.uix.boxlayout import BoxLayout
-        from kivy.uix.gridlayout import GridLayout
-        from kivy.uix.image import AsyncImage, Image
-        from kivy.uix.stacklayout import StackLayout
         from kivy.uix.label import Label
-        from kivy.properties import ColorProperty
-        from kivy.uix.image import Image
         import pkgutil
 
         class TrackerLayout(BoxLayout):
@@ -511,7 +504,6 @@ async def game_watcher(ctx: WargrooveContext):
             ctx.syncing = False
         sending = []
         victory = False
-        await ctx.update_death_link(ctx.has_death_link)
         for root, dirs, files in os.walk(ctx.game_communication_path):
             for file in files:
                 if file == "deathLinkSend" and ctx.has_death_link:

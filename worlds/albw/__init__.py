@@ -15,7 +15,16 @@ from .Locations import ALBWLocation, LocationData, LocationType, all_locations, 
 from .Options import ALBWOptions, CrackShuffle, InitialCrackState, Keysy, LogicMode, NiceItems, WeatherVanes, \
     create_randomizer_settings
 from .Patch import PatchInfo, PatchItemInfo, ALBWProcedurePatch
-from albwrandomizer import ArchipelagoInfo, Cracksanity, PyRandomizable, SeedInfo, randomize_pre_fill
+from pathlib import Path
+import sys
+
+# Path to the lib directory
+lib_path = Path(__file__).parent / "lib"
+
+# Add the lib directory to sys.path
+sys.path.append(str(lib_path))
+
+from albwrandomizer import ArchipelagoInfo, PyRandomizable, SeedInfo, randomize_pre_fill
 
 albw_base_id = 6242624000
 

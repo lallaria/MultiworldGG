@@ -2,37 +2,6 @@ from dataclasses import dataclass
 from Options import Choice, Range, PerGameCommonOptions, StartInventoryPool, OptionDict, OptionGroup, \
     DeathLinkMixin
 
-from schema import Schema, And, Use
-
-from Options import Choice, Range, PerGameCommonOptions, DeathLink, StartInventoryPool, OptionDict, OptionGroup
-
-unit_trap_table: Dict[str, int] = {
-    "Soldier": 0,
-    "Dog": 0,
-    "Spearman": 0,
-    "Wagon": 0,
-    "Mage": 0,
-    "Archer": 0,
-    "Knight": 0,
-    "Ballista": 0,
-    "Trebuchet": 0,
-    "Golem": 0,
-    "Harpy": 0,
-    "Witch": 0,
-    "Dragon": 0,
-    "Balloon": 0,
-    "Barge": 0,
-    "Merfolk": 0,
-    "Turtle": 0,
-    "Harpoon Ship": 0,
-    "Warship": 0,
-    "Thief": 0,
-    "Rifleman": 0
-}
-
-unit_trap_schema = Schema(
-    {key: And(int, lambda value: 0 <= value <= 10)} for key in unit_trap_table.keys()
-)
 
 class IncomeBoost(Range):
     """How much extra income the player gets per turn per boost received."""
