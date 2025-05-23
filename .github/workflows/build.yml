@@ -214,7 +214,7 @@ jobs:
       - name: Install Homebrew dependencies
         run: |
           brew update
-          brew install gtk+3 gobject-introspection coreutils
+          brew install gtk+3 gobject-introspection coreutils dmgbuild
 
       - name: Read `app_version` from application.yaml
         run: |
@@ -282,11 +282,18 @@ jobs:
           cp Players/Templates/Clique.yaml Players/
           gtimeout 30 ./MultiworldGGGenerate
 
+      - name: Create DMG with dmgbuild
+        run: |
+          dmgbuild -s .github/dmg_settings.py \
+            "MultiworldGG v${{ env.APP_VERSION }}" \
+            "build/MultiworldGG_v${{ env.APP_VERSION }}.dmg"
+
+
       - name: Store .app file
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.MACOS_APP }}
-          path: build/${{ env.MACOS_APP }}
+          path: build/MultiworldGG_v${{ env.APP_VERSION }}.dmg
           compression-level: 1
           if-no-files-found: error
           retention-days: 7
