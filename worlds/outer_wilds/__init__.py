@@ -1,4 +1,4 @@
-from typing import Any, Dict, TextIO
+from typing import Any, TextIO
 
 from BaseClasses import Tutorial
 from Options import OptionError
@@ -27,12 +27,7 @@ class OuterWildsWebWorld(WebWorld):
 
 
 class OuterWildsWorld(World):
-    """
-    Outer Wilds is a 2019 adventure video game developed by Mobius Digital.
-    The game follows the player character as they explore a planetary system stuck in a 22-minute time loop that resets after the sun goes supernova and destroys the system.
-    """
     game = "Outer Wilds"
-    author: str = "Ixrec"
     web = OuterWildsWebWorld()
 
     eotu_coordinates = 'vanilla'
@@ -44,7 +39,7 @@ class OuterWildsWorld(World):
 
     # this is how we tell the Universal Tracker we want to use re_gen_passthrough
     @staticmethod
-    def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
         return slot_data
 
     # and this is how we tell Universal Tracker we don't need the yaml
@@ -173,7 +168,7 @@ class OuterWildsWorld(World):
         slot_data["warps"] = self.warps
         # Archipelago does not yet have apworld versions (data_version is deprecated),
         # so we have to roll our own with slot_data for the time being
-        slot_data["apworld_version"] = "0.3.15"
+        slot_data["apworld_version"] = "0.3.16"
         return slot_data
 
     def write_spoiler(self, spoiler_handle: TextIO) -> None:

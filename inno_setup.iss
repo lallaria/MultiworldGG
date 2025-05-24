@@ -84,6 +84,7 @@ Type: dirifempty; Name: "{app}"
 [InstallDelete]
 Type: files; Name: "{app}\*.exe"
 Type: files; Name: "{app}\data\lua\connector_pkmn_rb.lua"
+Type: files; Name: "{app}\data\lua\connector_ff1.lua"
 Type: filesandordirs; Name: "{app}\SNI\lua*"
 Type: filesandordirs; Name: "{app}\EnemizerCLI*"
 #include "installdelete.iss"
@@ -304,6 +305,11 @@ Root: HKCR; Subkey: ".appm64";                                     ValueData: "{
 Root: HKCR; Subkey: "{#MyAppName}appm64patch";                     ValueData: "MultiworldGG Paper Mario 64 Patch"; Flags: uninsdeletekey;     ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}appm64patch\DefaultIcon";         ValueData: "{app}\MultiworldGGBizHawkClient.exe,0";                        ValueType: string; ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}appm64patch\shell\open\command";  ValueData: """{app}\MultiworldGGBizHawkClient.exe"" ""%1""";               ValueType: string; ValueName: "";
+
+Root: HKCR; Subkey: ".apsmmr";                                     ValueData: "{#MyAppName}apsmmrpatch";        Flags: uninsdeletevalue;     ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}apsmmrpatch";                     ValueData: "MultiworldGG SM Map Rando Patch"; Flags: uninsdeletekey;      ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}apsmmrpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGSNIClient.exe,0";                           ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}apsmmrpatch\shell\open\command";  ValueData: """{app}\MultiworldGGSNIClient.exe"" ""%1""";                  ValueType: string;  ValueName: "";
 
 Root: HKCR; Subkey: ".apsotn";                                   ValueData: "{#MyAppName}apsotnpatch";      Flags: uninsdeletevalue; ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}apsotnpatch";                     ValueData: "MultiworldGG SotN Patch"; Flags: uninsdeletekey;      ValueType: string;  ValueName: "";

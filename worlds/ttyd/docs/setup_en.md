@@ -3,18 +3,30 @@
 ## Required Software
 
 - Dolphin Emulator: [Dolphin Emulator Releases](https://dolphin-emu.org/download/?ref=btn)
-- Archipelago: [Latest releases](https://github.com/MultiworldGG/MultiworldGG/releases)
-- TTYD APWorld: [Latest releases](https://github.com/jamesbrq/ArchipelagoTTYD/releases)
+- MultiworldGG: [Latest releases](https://github.com/MultiworldGG/MultiworldGG/releases)
+- TTYD APWorld: [Latest releases](https://github.com/jamesbrq/ArchipelagoTTYD/releases) (not needed for MultiworldGG)
 - A US copy of Paper Mario The Thousand Year Door. (EU and JP versions are not supported at this time)
+	- This can not be a .ciso or .nkit.iso (or nkit.rvz) file as the data will not be structured properly
 
 ## Installing the APWorld
 
-* Note: This is not needed for the MultiworldGG client, which includes this apworld by default.
+Note: The steps described here are not needed in MultiworldGG, as MWGG already ships with TTYD and its requirements.
 
 Place the TTYD apworld in the `custom_worlds` folder of your MultiworldGG installation. You will only need one copy of this file, specifically in `custom_worlds`.
 Please also check the latest release for the `lib.zip` file, place the entire `gclib` folder found in `lib.zip` into the `lib` folder of your MultiworldGG installation.
 This is required for the world to work. NOTE: The `gclib` step only needs to ever be done one time, 
 if you update the apworld then you do not need to update the `gclib` folder.
+
+## Dolphin Configuration
+
+In your TTYD Properties (Accessed by Right Clicking on the game in Dolphin and selecting Properties), change the following settings:
+- In Game Config > General, make sure Enable Dual Core is unchecked
+- In Game Config > Graphics, set your Backend to either OpenGL or Vulkan (Direct3D can often cause errors that may lead to crashes)
+
+In your Dolphin settings (Accessed by going to Options > Configuration up top), change the following settings:
+
+- In Advanced > Clock Override, make sure that Enable Emulated CPU Clock Override is unchecked
+- In Advanced > Memory Override, make sure that Enable Emulated Memory Size Override is unchecked
 
 ## Configuring your YAML file
 
