@@ -214,7 +214,7 @@ jobs:
       - name: Install Homebrew dependencies
         run: |
           brew update
-          brew install gtk+3 gobject-introspection
+          brew install gtk+3 gobject-introspection coreutils
 
       - name: Read `app_version` from application.yaml
         run: |
