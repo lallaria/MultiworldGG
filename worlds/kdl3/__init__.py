@@ -63,6 +63,7 @@ class KDL3World(World):
 
     game = "Kirby's Dream Land 3"
     author: str = "Silvris"
+    igdb_id: int = 3720
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = KDL3Options
     options: KDL3Options
     item_name_to_id = lookup_item_to_id

@@ -84,6 +84,7 @@ class LethalCompanyWorld(World):
     """
     game = f"Lethal Company{name}"
     author: str = "T0r1nn"
+    igdb_id: int = 212089
     options_dataclass = LCOptions
     options: LCOptions
     topology_present = False

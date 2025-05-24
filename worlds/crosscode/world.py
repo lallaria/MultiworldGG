@@ -61,6 +61,7 @@ class CrossCodeWorld(World):
 
     game = NAME
     author: str = "CodeTriangle"
+    igdb_id = 35252
     web = CrossCodeWebWorld()
 
     world_data: typing.ClassVar[WorldData] = static_world_data

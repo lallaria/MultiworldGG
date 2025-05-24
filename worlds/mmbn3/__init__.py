@@ -53,6 +53,7 @@ class MMBN3World(World):
     """
     game = "MegaMan Battle Network 3"
     author: str = "digiholic"
+    igdb_id: int = 1758
     options_dataclass = MMBN3Options
     options: MMBN3Options
     settings: typing.ClassVar[MMBN3Settings]

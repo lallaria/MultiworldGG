@@ -23,6 +23,7 @@ class HuniePopWeb(WebWorld):
 class HuniePop(World):
     game = "Hunie Pop"
     author: str = "dotsofdarkness"
+    igdb_id: int = 9655
     worldversion = {
         "major":1,
         "minor":0,

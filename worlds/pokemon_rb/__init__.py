@@ -73,6 +73,7 @@ class PokemonRedBlueWorld(World):
     # -MuffinJets#4559
     game = "Pokemon Red and Blue"
     author: str = "Alchav"
+    igdb_id: int = 1561 #Charizard is better, nerds.
 
     options_dataclass = PokemonRBOptions
     options: PokemonRBOptions

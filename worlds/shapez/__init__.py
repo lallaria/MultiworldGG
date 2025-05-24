@@ -68,7 +68,8 @@ class ShapezWorld(World):
     your factories.
     """
     game = OTHER.game_name
-    author: str = "Slimey"
+    author = OTHER.author
+    igdb_id = OTHER.igdb_id
     options_dataclass = ShapezOptions
     options: ShapezOptions
     topology_present = True

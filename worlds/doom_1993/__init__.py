@@ -42,6 +42,7 @@ class DOOM1993World(World):
     options: DOOM1993Options
     game = "DOOM 1993"
     author: str = "Daivuk & Kaito Sinclaire"
+    igdb_id = 673
     web = DOOM1993Web()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher
 

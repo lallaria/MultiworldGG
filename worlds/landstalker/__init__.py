@@ -32,6 +32,7 @@ class LandstalkerWorld(World):
     """
     game = "Landstalker - The Treasures of King Nole"
     author: str = "Dinopony"
+    igdb_id: int = 15072
     options_dataclass = LandstalkerOptions
     options: LandstalkerOptions
     required_client_version = (0, 4, 4)

@@ -85,6 +85,7 @@ class Factorio(World):
     """
     game = "Factorio - Space Age Without Space"
     author: str = "Alchav & Berserker66"
+    igdb_id = 263344
     special_nodes = {"automation", "logistics", "rocket-silo"}
     custom_recipes: typing.Dict[str, Recipe]
     location_pool: typing.List[FactorioScienceLocation]

@@ -57,6 +57,7 @@ class FF4FEWorld(World):
     find the Crystal, and defeat Zeromus on the moon. Adapted from the open source release of FE 4.6.0."""
     game = "Final Fantasy IV Free Enterprise"
     author: str = "Rosalie"
+    igdb_id = 387
     options_dataclass = FF4FEOptions
     options: FF4FEOptions
     settings: typing.ClassVar[FF4FESettings]

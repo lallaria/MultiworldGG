@@ -50,6 +50,7 @@ class CupheadWorld(World):
 
     game: str = GAME_NAME # type: ignore
     author: str = "JKL"
+    igdb_id = 237497
     web = CupheadWebWorld()
     options_dataclass = CupheadOptions
     options: CupheadOptions # type: ignore

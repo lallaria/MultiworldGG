@@ -51,6 +51,7 @@ class ResidentEvil3Remake(World):
     """
     game: str = "Resident Evil 3 Remake"
     author: str = "TheRealSolidusSnake"
+    igdb_id: int = 115115
 
     data_version = 2
     required_client_version = (0, 5, 0)

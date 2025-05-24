@@ -1,6 +1,8 @@
 
 class OTHER:
     game_name = "shapez"
+    author = "Slimey"
+    igdb_id = 134826
 
 
 class SLOTDATA:

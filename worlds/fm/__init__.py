@@ -47,6 +47,7 @@ class FMWorld(World):
     Egypt who transcends time in order to thwart a cataclysmic evil."""
     game: str = Constants.GAME_NAME
     author: str = Constants.AUTHOR
+    igdb_id: int = Constants.IGDB_ID
     options_dataclass = FMOptions
     options: FMOptions
     required_client_version = (0, 4, 4)

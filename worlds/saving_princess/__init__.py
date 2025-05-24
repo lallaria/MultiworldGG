@@ -72,6 +72,8 @@ class SavingPrincessWorld(World):
     """  # Excerpt from itch
     game = GAME_NAME
     author: str = "LeonarthCG"
+    #not keeping this here, but saving for later.
+    keywords: List[str] = ["8-Bit", "Boss battle", "Difficult", "Exploration", "Female Protagonist", "Metroidvania", "princess", "Retro", "Robots", "Space"]
     required_client_version = (0, 5, 0)
 
     topology_present = False

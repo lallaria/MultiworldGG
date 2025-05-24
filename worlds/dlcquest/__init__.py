@@ -43,6 +43,7 @@ class DLCqworld(World):
     """
     game = "DLCQuest"
     author: str = "axe-y & Kaito Kid"
+    igdb_id = 3004
     topology_present = False
     web = DLCqwebworld()
 

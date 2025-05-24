@@ -37,6 +37,7 @@ class DungeonClawlerWorld(World):
     """
     game = GAME_NAME
     author: str = "Kaito Kid"
+    igdb_id = 290897
     topology_present = False
     web = DungeonClawlerWebWorld()
 

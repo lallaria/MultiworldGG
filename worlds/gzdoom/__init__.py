@@ -87,6 +87,7 @@ class GZDoomWorld(World):
     """
     game = "gzDoom"
     author: str = "ToxicFrog"
+    igdb_id: int = 307741
     options_dataclass = GZDoomOptions
     options: GZDoomOptions
     topology_present = True

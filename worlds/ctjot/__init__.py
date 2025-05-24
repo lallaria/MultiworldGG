@@ -37,6 +37,7 @@ class CTJoTWorld(World):
 
     game = "Chrono Trigger Jets of Time"
     author: str = "Anguirel"
+    igdb_id = 20398
     option_definitions = {
         "game_mode": GameMode,
         "item_difficulty": ItemDifficulty,

@@ -36,7 +36,8 @@ class SM64HackWorld(World):
     The first Super Mario game to feature 3D gameplay, but heavily modded - with support for a lot of popular rom hacks.
     """
     game = "SM64 Romhack"
-    author: str = "DNVIC"
+    author = "DNVIC"
+    igdb_id = 1074
     options_dataclass = SM64HackOptions
     options: SM64HackOptions
 #    settings: ClassVar[SM64HackSettings]

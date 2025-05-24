@@ -81,7 +81,7 @@ class JakAndDaxterSettings(settings.Group):
 class JakAndDaxterWebWorld(WebWorld):
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up ArchipelaGOAL(Archipelago on OpenGOAL).",
+        "A guide to setting up on MultiworldGG.",
         "English",
         "setup_en.md",
         "setup/en",
@@ -129,6 +129,7 @@ class JakAndDaxterWorld(World):
     # ID, name, version
     game = jak1_name
     author: str = "massimilianodelliubaldini"
+    igdb_id: int = 1528
     required_client_version = (0, 5, 0)
 
     # Options

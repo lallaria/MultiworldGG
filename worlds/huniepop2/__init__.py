@@ -28,6 +28,7 @@ class HuniePop2(World):
     """
     game = "Hunie Pop 2"
     author: str = "dotsofdarkness"
+    igdb_id: int = 72472
     worldversion = "1.0.0"
     item_name_to_id = item_table
     item_id_to_name = {item_table[name]: name for name in item_table}

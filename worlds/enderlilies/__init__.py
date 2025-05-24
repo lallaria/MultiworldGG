@@ -65,6 +65,7 @@ class EnderLiliesWorld(World):
 
     game = ENDERLILIES
     author: str = "Trexounay"
+    igdb_id = 138858
     web = EnderLiliesWeb()
     # option_definitions = options
     options_dataclass = EnderLiliesGameOptions

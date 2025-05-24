@@ -39,6 +39,7 @@ class DoronkoWankoWorld(World):
     """
     game = "DORONKO WANKO"  # name of the game/world
     author: str = "Vendily"
+    igdb_id = 290647
     options_dataclass = DoronkoWankoOptions  # options the player can set
     options: DoronkoWankoOptions  # typing hints for option results
     topology_present = True  # show path to required location checks in spoiler

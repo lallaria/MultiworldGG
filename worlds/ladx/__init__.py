@@ -110,6 +110,7 @@ class LinksAwakeningWorld(World):
     """
     game = LINKS_AWAKENING  # name of the game/world
     author = AUTHOR
+    igdb_id = IGDB_ID
     web = LinksAwakeningWebWorld()
 
     options_dataclass = LinksAwakeningOptions

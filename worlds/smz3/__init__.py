@@ -68,6 +68,7 @@ class SMZ3World(World):
     """
     game: str = "SMZ3"
     author: str = "lordlou"
+    igdb_id: int = 210231
     topology_present = False
     options_dataclass = SMZ3Options
     options: SMZ3Options

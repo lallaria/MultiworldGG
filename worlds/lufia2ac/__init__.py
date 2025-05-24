@@ -53,6 +53,7 @@ class L2ACWorld(World):
     """
     game: ClassVar[str] = "Lufia II Ancient Cave"
     author: str = "el-u & word_fcuk"
+    igdb_id: int = 1178
 
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = L2ACOptions
     options: L2ACOptions

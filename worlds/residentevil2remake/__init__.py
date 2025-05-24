@@ -50,6 +50,7 @@ class ResidentEvil2Remake(World):
     """
     game: str = "Resident Evil 2 Remake"
     author: str = "Fuzzy"
+    igdb_id: int = 19686
 
     data_version = 2
     required_client_version = (0, 4, 4)
