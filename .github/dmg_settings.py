@@ -2,7 +2,7 @@ import os
 
 application = os.environ.get("MACOS_APP", "MultiworldGG.app")
 
-files = [application]
+files = ['build/' + application]
 
 symlinks = {'Applications': '/Applications'}
 
