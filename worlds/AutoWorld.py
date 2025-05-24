@@ -285,6 +285,9 @@ class World(metaclass=AutoWorldRegister):
     author: ClassVar[str]
     """author of apworld"""
 
+    igdb_id: ClassVar[int] = 0
+    """IGDB ID of the game"""
+    
     topology_present: bool = False
     """indicate if this world has any meaningful layout/pathing"""
 

@@ -45,7 +45,7 @@ class YachtDiceWeb(WebWorld):
 
 class YachtDiceWorld(World):
     """
-    Yacht Dice is a straightforward game, custom-made for MultiworldGG,
+    Yacht Dice is a straightforward game, custom-made for Archipelago,
     where you cast your dice to chart a course for high scores,
     unlocking valuable treasures along the way.
     Discover more dice, extra rolls, multipliers,
