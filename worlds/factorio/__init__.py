@@ -236,7 +236,7 @@ class Factorio(World):
             else:
                 location.access_rule = lambda state, ingredient=ingredient: \
                     all(state.has(technology.name, player) for technology in required_technologies[ingredient])
-            assert self.multiworld.get_all_state(True).can_reach(location), f"Can never reach {location}."
+            assert self.multiworld.get_all_state(use_cache=True, allow_partial_entrances=True).can_reach(location), f"Can never reach {location}."
 
         for location in self.science_locations:
             Rules.set_rule(location, lambda state, ingredients=frozenset(location.ingredients):
