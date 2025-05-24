@@ -92,6 +92,7 @@ class OracleOfAgesWorld(World):
     """
     game = "The Legend of Zelda - Oracle of Ages"
     author: str = "Dinopony"
+    igdb_id = 1041
     options_dataclass = OracleOfAgesOptions
     options: OracleOfAgesOptions
     required_client_version = (0, 4, 5)

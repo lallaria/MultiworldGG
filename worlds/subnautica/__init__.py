@@ -35,6 +35,7 @@ class SubnauticaWorld(World):
     You must find a cure for yourself, build an escape rocket, and leave the planet.
     """
     game = "Subnautica"
+    igdb_id = 143025
     author: str = "Berserker66"
     web = SubnauticaWeb()
 

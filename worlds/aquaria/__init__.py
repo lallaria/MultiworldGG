@@ -63,6 +63,8 @@ class AquariaWorld(World):
 
     author: ClassVar[str] = "tioui"
 
+    igdb_id: ClassVar[int] = 7406
+
     topology_present = True
     "show path to required location checks in spoiler"
 

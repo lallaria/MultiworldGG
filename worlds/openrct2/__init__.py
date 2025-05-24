@@ -33,6 +33,7 @@ class OpenRCT2WebWorld(WebWorld):
 
 class OpenRCT2Location(Location):
     game = "OpenRCT2"
+    igdb_id = 80720
 
 
 def launch_client() -> None:  # Shoutout to Serpent.ai for the launcher code!

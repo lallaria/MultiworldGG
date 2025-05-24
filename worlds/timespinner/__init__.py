@@ -40,6 +40,7 @@ class TimespinnerWorld(World):
     options: BackwardsCompatiableTimespinnerOptions
     game = "Timespinner"
     author: str = "Jarno458"
+    igdb_id = 28952
     topology_present = True
     web = TimespinnerWebWorld()
     required_client_version = (0, 4, 2)

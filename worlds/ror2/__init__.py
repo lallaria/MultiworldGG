@@ -33,6 +33,7 @@ class RiskOfRainWorld(World):
      first crash landing.
     """
     game = "Risk of Rain 2"
+    igdb_id = 28512
     author: str = "Sneaki"
     options_dataclass = ROR2Options
     options: ROR2Options

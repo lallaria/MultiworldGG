@@ -40,6 +40,7 @@ class OSRSWorld(World):
     """
 
     game = "Old School Runescape"
+    igdb_id = 79824
     author: str = "digiholic"
     options_dataclass = OSRSOptions
     options: OSRSOptions

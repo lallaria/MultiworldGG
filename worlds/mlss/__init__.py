@@ -50,6 +50,7 @@ class MLSSWorld(World):
     """
 
     game = "Mario & Luigi Superstar Saga"
+    igdb_id = 37151
     author: str = "jamesbrq"
     options_dataclass = MLSSOptions
     options: MLSSOptions

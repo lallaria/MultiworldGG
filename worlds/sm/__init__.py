@@ -900,6 +900,7 @@ class SMLocation(Location):
 
 class SMItem(Item):
     game = "Super Metroid"
+    igdb_id = 330214
     type: str
 
     def __init__(self, name, classification, type: str, code, player: int):

@@ -39,6 +39,8 @@ class ToontownWorld(World):
     """
 
     game = "Toontown"
+    author = "DevvyDont"
+    igdb_id = 25326
     web = ToontownWeb()
 
     required_client_version = (0, 4, 4)

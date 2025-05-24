@@ -33,6 +33,7 @@ class Spyro3World(World):
     """
 
     game: str = "Spyro 3"
+    igdb_id = 1578
     author: str = "ArsonAssassin"
     options_dataclass = Spyro3Option
     options: Spyro3Option

@@ -27,6 +27,7 @@ class UltrakillWorld(World):
 
     game = "ULTRAKILL"
     author: str = "TRPG"
+    igdb_id = 124333
     web = UltrakillWeb()
 
     item_name_to_id = {item.name: (base_id + index) for index, item in enumerate(item_list)}

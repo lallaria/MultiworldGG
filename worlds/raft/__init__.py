@@ -234,6 +234,7 @@ def create_region(world: MultiWorld, player: int, name: str, locations=None, exi
 
 class RaftLocation(Location):
     game = "Raft"
+    igdb_id = 27082
 
 
 class RaftItem(Item):

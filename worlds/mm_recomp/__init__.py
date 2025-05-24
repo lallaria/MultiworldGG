@@ -31,6 +31,7 @@ class MMRWorld(World):
     """A Zelda game we're not completely burnt out on."""
 
     game = "Majora's Mask Recompiled"
+    igdb_id = 300618
     author: str = "LittleCube"
     data_version = 1
     web = MMRWebWorld()

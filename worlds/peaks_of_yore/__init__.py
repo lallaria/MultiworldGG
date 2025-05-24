@@ -12,6 +12,7 @@ from .regions import create_poy_regions, RegionLocationInfo
 
 class PeaksOfYoreItem(Item):
     game = "Peaks of Yore"
+    igdb_id = 238690
 
 
 class PeaksOfWeb(WebWorld):

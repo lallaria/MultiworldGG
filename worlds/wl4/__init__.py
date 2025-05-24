@@ -53,6 +53,7 @@ class WL4World(World):
 
     game: str = 'Wario Land 4'
     author: str = "lil David"
+    igdb_id: int = 1699
     options_dataclass = WL4Options
     options: WL4Options
     settings: ClassVar[WL4Settings]

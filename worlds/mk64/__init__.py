@@ -43,6 +43,7 @@ class MK64World(World):
     stay on the track, and race to victory in each course and cup.
     """
     game = "Mario Kart 64"
+    igdb_id = 290274
     author: str = "Edsploration"
 
     topology_present = False

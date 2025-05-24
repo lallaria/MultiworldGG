@@ -28,6 +28,7 @@ class ShortHikeWorld(World):
 
     game = "A Short Hike"
     author: str = "chandler05 & BrandenEK"
+    igdb_id: int = 116753
 
     item_name_to_id = {item["name"]: item["id"] for item in item_table}
     location_name_to_id = {loc["name"]: loc["id"] for loc in location_table}

@@ -25,6 +25,7 @@ from .Rom import EOSProcedurePatch, write_tokens
 class EOSWeb(WebWorld):
     theme = "ocean"
     game = "Pokemon Mystery Dungeon Explorers of Sky"
+    igdb_id = 2323
 
     tutorials = [Tutorial(
         "Multiworld Setup Guide",

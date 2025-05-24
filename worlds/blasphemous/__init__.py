@@ -33,6 +33,7 @@ class BlasphemousWorld(World):
 
     game = "Blasphemous"
     author: str = "TRPG"
+    igdb_id = 26820
     web = BlasphemousWeb()
 
     item_name_to_id = {item["name"]: (base_id + index) for index, item in enumerate(item_table)}

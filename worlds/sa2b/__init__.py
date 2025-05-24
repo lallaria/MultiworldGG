@@ -57,6 +57,7 @@ class SA2BWorld(World):
     Sonic Adventure 2 Battle is an action platforming game. Play as Sonic, Tails, Knuckles, Shadow, Rouge, and Eggman across 31 stages and prevent the destruction of the earth.
     """
     game: str = "Sonic Adventure 2 Battle"
+    igdb_id = 192194
     author: str = "PoryGone & RaspberrySpace"
     options_dataclass = SA2BOptions
     options: SA2BOptions

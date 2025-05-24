@@ -41,6 +41,7 @@ class InscryptionWorld(World):
     Darker still are the secrets inscrybed upon the cards...
     """
     game = "Inscryption"
+    igdb_id = 139090
     author: str = "DrBibop"
     web = InscrypWeb()
     options_dataclass = InscryptionOptions

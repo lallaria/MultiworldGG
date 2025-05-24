@@ -11,7 +11,7 @@ class ChatipelagoWeb(WebWorld):
     theme = "partyTime"
     tutorials = [Tutorial(
     "Multiworld Setup Guide",
-    "A guide to setting up the MultiworldGG Chatipelago software on your computer. This guide covers "
+    "A guide to setting up Chatipelago on your computer. This guide covers "
     "single-player, multiworld, and related software.",
     "English",
     "setup_en.md",
@@ -24,7 +24,7 @@ class ChatipelagoWorld(World):
     Chat plays MultiworldGG!
     """
     game = Chati.name
-    author: str = "Delilah"
+    author: str = "Delilah, Dranzior, LMarioza"
     options_dataclass = PerGameCommonOptions
     web = ChatipelagoWeb()
 

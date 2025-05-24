@@ -29,6 +29,7 @@ class V6World(World):
 
     game: str = "VVVVVV"
     author: str = "N00byKing"
+    igdb_id: int = 1990
     topology_present = False
     web = V6Web()
 

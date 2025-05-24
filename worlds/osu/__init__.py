@@ -54,6 +54,7 @@ class OsuWorld(World):
 
     # Lots of code is taken from Mushdash, Clique, and various other APworlds
     game: str = "osu!"
+    igdb_id = 3012
     author: str = "Kanave"
     options_dataclass = OsuOptions
     options: OsuOptions

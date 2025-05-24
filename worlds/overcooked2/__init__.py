@@ -45,6 +45,7 @@ class Overcooked2World(World):
     # Autoworld API
 
     game = "Overcooked! 2"
+    igdb_id = 135963
     author: str = "toasterparty"
 
     required_client_version = (0, 3, 8)

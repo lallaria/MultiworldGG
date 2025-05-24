@@ -98,6 +98,7 @@ class GSTLAWorld(World):
     It is the second installment in the Golden Sun series. 
     """
     game = "Golden Sun The Lost Age"
+    igdb_id = 1173
     author: str = "Dragion"
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = GSTLAOptions
     options: GSTLAOptions

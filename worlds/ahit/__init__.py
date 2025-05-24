@@ -48,6 +48,7 @@ class HatInTimeWorld(World):
 
     game = "A Hat in Time"
     author: str = "CookieCat45"
+    igdb_id = 6705
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = get_location_names()
     options_dataclass = AHITOptions

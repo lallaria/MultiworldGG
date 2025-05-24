@@ -33,6 +33,7 @@ class SonicAdventureDXWeb(WebWorld):
 
 class SonicAdventureDXWorld(World):
     game = "Sonic Adventure DX"
+    igdb_id = 192114
     author: str = "Classic"
     web = SonicAdventureDXWeb()
     starter_setup: StarterSetup = StarterSetup()

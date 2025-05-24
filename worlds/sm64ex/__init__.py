@@ -30,6 +30,7 @@ class SM64World(World):
     """
 
     game: str = "Super Mario 64"
+    igdb_id = 229245
     author: str = "N00byKing"
     topology_present = False
 

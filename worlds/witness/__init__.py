@@ -48,6 +48,7 @@ class WitnessWorld(World):
     """
     game = "The Witness"
     author: str = "NewSoupVi & blastron"
+    igdb_id = 5601
     topology_present = False
     web = WitnessWebWorld()
 

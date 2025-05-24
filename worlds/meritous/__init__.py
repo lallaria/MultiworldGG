@@ -36,6 +36,7 @@ class MeritousWorld(World):
     """
 
     game: str = "Meritous"
+    igdb_id = 78479
     author: str = "FelicitusNeko"
     topology_present: False
 

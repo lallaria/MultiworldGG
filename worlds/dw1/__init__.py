@@ -34,6 +34,7 @@ class DigimonWorldWorld(World):
     """
 
     game: str = "Digimon World"
+    igdb_id = 3878
     author: str = "ArsonAssassin"
     options_dataclass = DigimonWorldOption
     options: DigimonWorldOption

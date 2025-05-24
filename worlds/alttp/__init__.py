@@ -134,6 +134,7 @@ class ALTTPWorld(World):
     """
     game = "A Link to the Past"
     author: str = "Berserker66"
+    igdb_id = 1026
     options_dataclass = ALTTPOptions
     options: ALTTPOptions
     settings_key = "lttp_options"

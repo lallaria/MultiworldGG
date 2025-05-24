@@ -53,6 +53,7 @@ class FFMQWorld(World):
     # -Giga Otomia
 
     game = "Final Fantasy Mystic Quest"
+    igdb_id = 415
     author: str = "Alchav"
     item_name_to_id = {name: data.id for name, data in item_table.items() if data.id is not None}
     location_name_to_id = location_table

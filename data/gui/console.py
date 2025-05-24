@@ -16,6 +16,7 @@ from kivymd.uix.chip.chip import MDChipLeadingAvatar
 from kivy.uix.anchorlayout import AnchorLayout
 #from console import ConsoleView, UIRecycleView
 from textconsole import ConsoleView, TextConsole
+from launcher import LauncherScreen, LauncherLayout
 
 # from kivy.core.window import Window
 from kivy.clock import Clock

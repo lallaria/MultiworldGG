@@ -36,6 +36,7 @@ class DiddyKongRacingWorld(World):
     """Diddy Kong Racing is a kart racing game with a story mode, complete with bosses and hidden collectibles."""
 
     game = "Diddy Kong Racing"
+    igdb_id = 2723
     author: str = "zakwiz"
     apworld_version = "DKRv0.6.1"
     web = DiddyKongRacingWeb()

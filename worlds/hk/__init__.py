@@ -740,6 +740,7 @@ class HKLocation(Location):
 
 class HKItem(Item):
     game = "Hollow Knight"
+    igdb_id = 14593
     type: str
 
     def __init__(self, name, advancement, code, type: str, player: int = None):

@@ -34,6 +34,7 @@ class BumpStikWorld(World):
 
     game = "Bumper Stickers"
     author: str = "FelicitusNeko"
+    igdb_id = 271950
     web = BumpStikWeb()
 
     item_name_to_id = item_table

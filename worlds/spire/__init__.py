@@ -30,6 +30,7 @@ class SpireWorld(World):
     options_dataclass = SpireOptions
     options: SpireOptions
     game = "Slay the Spire"
+    igdb_id = 296831
     author: str = "KonoTyran"
     topology_present = False
     web = SpireWeb()

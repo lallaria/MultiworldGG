@@ -67,6 +67,7 @@ class FFTAWorld(World):
     battlefields. Players are mostly free to decide the classes, abilities, and stats of their characters.
     """
     game = "Final Fantasy Tactics Advance"
+    igdb_id = 414
     author: str = "spicynun"
     web = FFTAWebWorld()
     topology_present = False

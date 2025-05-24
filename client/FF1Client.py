@@ -1,3 +1,6 @@
+__all__ = ("FF1Context","FF1CommandProcessor","FF1Main")
+from __future__ import annotations
+
 import asyncio
 import copy
 import json
@@ -5,12 +8,12 @@ import time
 from asyncio import StreamReader, StreamWriter
 from typing import List
 
-
 import Utils
 from Utils import async_start
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, \
     get_base_parser
+from factory import Bond, CommandMixin, Launch
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -234,14 +237,17 @@ async def nes_sync_task(ctx: FF1Context):
                 continue
 
 
-if __name__ == '__main__':
-    # Text Mode to use !hint and such with games that have no text entry
-    Utils.init_logging("FF1Client")
+class FF1Main(Launch):
+    '''Concrete FF1Main MWGGMain for factory method'''
 
     options = Utils.get_options()
     DISPLAY_MSGS = options["ffr_options"]["display_msgs"]
 
-    async def main(args):
+    def __init__(self):
+        # Text Mode to use !hint and such with games that have no text entry
+        Utils.init_logging("FF1Client")
+
+    async def launch_client(self, args):
         ctx = FF1Context(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
         if gui_enabled:
@@ -264,5 +270,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     colorama.just_fix_windows_console()
 
-    asyncio.run(main(args))
+    #asyncio.run(main(args)) TODO: move the run to the client main
     colorama.deinit()

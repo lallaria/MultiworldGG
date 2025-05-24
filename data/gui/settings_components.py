@@ -389,7 +389,7 @@ class ColorBox(MDBoxLayout):
         self.attr_name = attr_name
         self.index = index
         self.color = color
-        self.default_color = DEFAULT_TEXT_COLORS[self.attr_name]
+        self.default_color = DEFAULT_TEXT_COLORS[self.attr_name][self.index]
         Clock.schedule_once(self._finish_init)
 
     def _finish_init(self, dt):

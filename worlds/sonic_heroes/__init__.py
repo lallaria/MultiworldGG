@@ -35,6 +35,7 @@ class SonicHeroesWeb(WebWorld):
 class SonicHeroesWorld(World):
 
     game: str = "Sonic Heroes"
+    igdb_id = 4156
     author: str = "xMcacutt"
     options_dataclass = SonicHeroesOptions
     options: SonicHeroesOptions

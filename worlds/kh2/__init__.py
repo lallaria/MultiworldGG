@@ -44,6 +44,7 @@ class KH2World(World):
     focuses on Sora and his friends' continued battle against the Darkness.
     """
     game = "Kingdom Hearts 2"
+    igdb_id = 1221
     author: str = "JaredWeakStrike & Shananas"
     web = KingdomHearts2Web()
 

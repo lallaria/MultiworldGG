@@ -26,6 +26,7 @@ class AUSWorld(World):
     """
     game = "An Untitled Story"
     author: str = "ThatOneGuy27"
+    igdb_id = 72926
     options_dataclass = AUSOptions
     options: AUSOptions
     topology_present = False

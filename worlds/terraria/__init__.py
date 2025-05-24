@@ -51,6 +51,7 @@ class TerrariaWorld(World):
 
     game = "Terraria"
     author: str = "Seldom-SE"
+    igdb_id = 1879
 
     options_dataclass = TerrariaOptions
     options: TerrariaOptions

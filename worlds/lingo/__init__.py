@@ -34,6 +34,7 @@ class LingoWorld(World):
     world filled with 800 word puzzles that use a variety of different mechanics.
     """
     game = "Lingo"
+    igdb_id = 341915
     author: str = "hatkirby"
     web = LingoWebWorld()
 

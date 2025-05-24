@@ -41,6 +41,7 @@ class BalatroWorld(World):
     """
     game = "Balatro"
     author: str = "Burndi"
+    igdb_id = 251833
     web = BalatroWebWorld()
 
     topology_present = False

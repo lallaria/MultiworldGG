@@ -54,6 +54,7 @@ class WLWorld(World):
     """
     game: str = "Wario Land"
     author: str = "rand0"
+    igdb_id: int = 1072
     options: WLOptions
     options_dataclass = WLOptions
     settings: typing.ClassVar[WLSettings]

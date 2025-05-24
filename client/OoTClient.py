@@ -1,3 +1,5 @@
+__all__ = ("OoTContext","OoTCommandProcessor","OoTMain")
+from __future__ import annotations
 import asyncio
 import json
 import os
@@ -16,7 +18,7 @@ from worlds import network_data_package
 from worlds.oot.Rom import Rom, compress_rom_file
 from worlds.oot.N64Patch import apply_patch_file
 from worlds.oot.Utils import data_path
-
+from MWGGClientFactory import MWGGMain
 
 CONNECTION_TIMING_OUT_STATUS = "Connection timing out. Please restart your emulator, then restart connector_oot.lua"
 CONNECTION_REFUSED_STATUS = "Connection refused. Please start your emulator and make sure connector_oot.lua is running"
@@ -314,11 +316,12 @@ async def patch_and_run_game(apz5_file):
     async_start(run_game(comp_path))
 
 
-if __name__ == '__main__':
+class OoTMain(MWGGMain):
+    '''Concrete OoTMain MWGGMain for factory method'''
+    def __init__(self):
+        Utils.init_logging("OoTClient")
 
-    Utils.init_logging("OoTClient")
-
-    async def main():
+    async def launch_client(self, args):
         multiprocessing.freeze_support()
         parser = get_base_parser()
         parser.add_argument('apz5_file', default="", type=str, nargs="?",
@@ -349,5 +352,5 @@ if __name__ == '__main__':
 
     colorama.just_fix_windows_console()
 
-    asyncio.run(main())
+    #asyncio.run(main()) TODO: move the run to the client main
     colorama.deinit()

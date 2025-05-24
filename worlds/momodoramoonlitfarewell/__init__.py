@@ -30,6 +30,7 @@ class MomodoraWorld(World):
     which can be used to access different areas of the game world.
     """
     game = "Momodora Moonlit Farewell"
+    igdb_id = 188088
     author: str = "alditto"
     options_dataclass = MomodoraOptions
     options: MomodoraOptions

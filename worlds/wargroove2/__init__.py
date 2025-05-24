@@ -76,6 +76,8 @@ class Wargroove2World(World):
     options_dataclass = Wargroove2Options
     settings: typing.ClassVar[Wargroove2Settings]
     game = "Wargroove 2"
+    author = "Fly Sniper"
+    igdb_id = 241149
     topology_present = True
     web = Wargroove2Web()
     level_list: typing.List[Wargroove2Level] = []

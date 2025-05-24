@@ -72,6 +72,7 @@ class Rac2World(World):
     orchestrated by the shadowy MegaCorp.
     """
     game = "Ratchet & Clank 2"
+    igdb_id = 1770
     author: str = "Evilwb"
 
     options_dataclass = Rac2Options

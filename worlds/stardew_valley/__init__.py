@@ -91,6 +91,7 @@ class StardewValleyWorld(World):
     """
     game = STARDEW_VALLEY
     author: str = "Kaito Kid"
+    igdb_id = 17000
     topology_present = False
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}

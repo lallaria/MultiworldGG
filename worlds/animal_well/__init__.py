@@ -76,6 +76,7 @@ class AnimalWellWorld(World):
     """
     game = "ANIMAL WELL"
     author: str = "ScipioWright, RoobyRoo, Franklesby & Dicene"
+    igdb_id = 191435
     version_string: str = "v0.6.0 RC1"
 
     options: AnimalWellOptions

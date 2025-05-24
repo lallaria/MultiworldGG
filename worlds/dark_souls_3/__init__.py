@@ -42,6 +42,7 @@ class DarkSouls3World(World):
     """
 
     game = "Dark Souls III"
+    igdb_id = 11133
     author: str = "Marech & nex3"
     options: DarkSouls3Options
     options_dataclass = DarkSouls3Options

@@ -50,6 +50,7 @@ class ApeEscapeWorld(World):
     """
     game = "Ape Escape"
     author: str = "Thedragon005"
+    igdb_id = 3762
     web: ClassVar[WebWorld] = ApeEscapeWeb()
     topology_present = True
 

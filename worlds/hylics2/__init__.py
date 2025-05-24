@@ -24,6 +24,7 @@ class Hylics2World(World):
     travel the world, and gather your allies to defeat the nefarious Gibby in his Hylemxylem!
     """
     game: str = "Hylics 2"
+    igdb_id = 98469
     author: str = "TRPG"
     web = Hylics2Web()
 

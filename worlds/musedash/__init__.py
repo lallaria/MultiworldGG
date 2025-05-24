@@ -50,6 +50,7 @@ class MuseDashWorld(World):
 
     # World Options
     game = "Muse Dash"
+    igdb_id = 86316
     author: str = "DeamonHunter"
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = MuseDashOptions
     options: MuseDashOptions

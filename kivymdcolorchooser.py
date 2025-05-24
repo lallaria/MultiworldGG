@@ -2,7 +2,7 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 from kivy.properties import StringProperty, ColorProperty, NumericProperty
 from kivy.uix.boxlayout import BoxLayout
-from kivy.utils import hex_colormap
+from kivy.utils import hex_colormap, get_hex_from_color
 from kivymd.dynamic_color import DynamicColor
 
 from kivymd.uix.label import MDLabel
@@ -207,6 +207,10 @@ class Example(MDApp):
                     "text": value,
                 }
             )
+            # if value == "onPrimaryColor":
+            #     print(f'color (dark): {getattr(self.theme_cls, value)}, {get_hex_from_color(getattr(self.theme_cls, value))}')
+            if value == "primaryContainerColor":
+                print(f'color (light): {getattr(self.theme_cls, value)}, {get_hex_from_color(getattr(self.theme_cls, value))}')
 
 
     def on_start(self):

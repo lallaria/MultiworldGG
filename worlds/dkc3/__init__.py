@@ -53,6 +53,7 @@ class DKC3World(World):
     mystery of why Donkey Kong and Diddy disappeared while on vacation.
     """
     game: str = "Donkey Kong Country 3"
+    igdb_id = 132723
     author: str = "PoryGone"
     settings: typing.ClassVar[DK3Settings]
 

@@ -16,6 +16,7 @@ class GOIWorld(World):
     The game was released as part of the October 2017 Humble Monthly,
     """
     game = "Getting Over It"
+    igdb_id = 13144
     author: str = "Slimey"
     options_dataclass = GOIOptions
     options: GOIOptions

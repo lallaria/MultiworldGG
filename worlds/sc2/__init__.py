@@ -58,6 +58,7 @@ class SC2World(World):
     """
 
     game = "Starcraft 2"
+    igdb_id = 239
     author: str = "Ziktofel"
 
     item_name_to_id = {name: data.code for name, data in get_full_item_list().items()}

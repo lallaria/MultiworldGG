@@ -35,6 +35,7 @@ class YGODDMWorld(World):
     featured in the Yu-Gi-Oh! storyline."""
     game: str = Constants.GAME_NAME
     author: str = Constants.AUTHOR
+    igdb_id: int = Constants.IGDB_ID
     options_dataclass = YGODDMOptions
     options: YGODDMOptions
     required_client_version = (0, 5, 0)

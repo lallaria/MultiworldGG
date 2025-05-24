@@ -109,6 +109,7 @@ class TPWorld(World):
 
     game: ClassVar[str] = "Twilight Princess"
     author: ClassVar[str] = "WritingHusky"
+    igdb_id: ClassVar[int] = 134014
     topology_present: bool = True
 
     item_name_to_id: ClassVar[dict[str, int]] = {

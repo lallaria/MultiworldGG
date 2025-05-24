@@ -114,6 +114,7 @@ class TWWWorld(World):
 
     game: ClassVar[str] = "The Wind Waker"
     author: str = "tanjo3"
+    igdb_id: int = 1033
     topology_present: bool = True
 
     item_name_to_id: ClassVar[dict[str, int]] = {

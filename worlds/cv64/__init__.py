@@ -55,6 +55,7 @@ class CV64World(World):
     make your way to Dracula's chamber and stop his rule of terror!
     """
     game = "Castlevania 64"
+    igdb_id = 1130
     author: str = "LiquidCat64"
     item_name_groups = {
         "Bomb": {iname.magical_nitro, iname.mandragora},

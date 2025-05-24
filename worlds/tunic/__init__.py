@@ -86,6 +86,7 @@ class TunicWorld(World):
     game = "TUNIC"
     web = TunicWeb()
     author: str = "SilentSR & ScipioWright"
+    igdb_id = 23733
 
     options: TunicOptions
     options_dataclass = TunicOptions

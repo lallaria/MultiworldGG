@@ -28,6 +28,7 @@ class ShiversWorld(World):
     """
 
     game = "Shivers"
+    igdb_id = 12477
     author: str = "GodlFire & korydondzila"
     topology_present = False
     options_dataclass = ShiversOptions

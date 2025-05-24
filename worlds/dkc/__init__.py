@@ -61,6 +61,7 @@ class DKCWorld(World):
     The player traverses 40 side-scrolling levels as they jump between platforms and avoid obstacles. 
     """
     game = "Donkey Kong Country"
+    igdb_id = 152752
     author: str = "lx5"
     web = DKCWeb()
 

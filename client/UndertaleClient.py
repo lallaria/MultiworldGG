@@ -1,3 +1,4 @@
+__all__ = ("UndertaleContext","UndertaleCommandProcessor","UndertaleMain")
 from __future__ import annotations
 import os
 import sys
@@ -5,7 +6,7 @@ import asyncio
 import typing
 import bsdiff4
 import shutil
-
+import colorama
 import Utils
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
@@ -15,7 +16,7 @@ from MultiServer import mark_raw
 from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import async_start
-
+from factory import Bond, Parser, Launch
 
 class UndertaleCommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx):
@@ -480,10 +481,15 @@ async def game_watcher(ctx: UndertaleContext):
         await asyncio.sleep(0.1)
 
 
-def main():
-    Utils.init_logging("UndertaleClient", exception_logger="Client")
+class UndertaleMain(Launch):
+    '''Concrete UndertaleMain MWGGMain for factory method'''
+    def __init__(self):
+        parser = get_base_parser(description="Undertale Client, for text interfacing.")
+        args = parser.parse_args()
 
-    async def _main():
+        Utils.init_logging("UndertaleClient", exception_logger="Client")
+
+    async def launch(self):
         ctx = UndertaleContext(None, None)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
         asyncio.create_task(
@@ -499,15 +505,9 @@ def main():
         await ctx.exit_event.wait()
         await ctx.shutdown()
 
-    import colorama
-
-    colorama.just_fix_windows_console()
-
-    asyncio.run(_main())
-    colorama.deinit()
 
 
-if __name__ == "__main__":
-    parser = get_base_parser(description="Undertale Client, for text interfacing.")
-    args = parser.parse_args()
-    main()
+        colorama.just_fix_windows_console()
+
+        #asyncio.run(_main()) TODO: move the run to the client main
+        colorama.deinit()

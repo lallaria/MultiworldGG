@@ -30,6 +30,7 @@ class PseudoregaliaWorld(World):
     her way through the Castle Sansa. The gameplay emphasizes fluidity and responsiveness, with a focus on running and jumping.
     """
     game = "Pseudoregalia"
+    igdb_id = 259465
     author: str = "LittleMeowMeow & qwint"
     required_client_version = (0, 7, 0)
 

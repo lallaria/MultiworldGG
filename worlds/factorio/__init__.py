@@ -44,6 +44,7 @@ class FactorioWeb(WebWorld):
 
 class FactorioItem(Item):
     game = "Factorio"
+    igdb_id = 7046
 
 
 all_items = tech_table.copy()

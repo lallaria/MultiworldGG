@@ -61,6 +61,7 @@ class DKC2World(World):
     """
     # borrowed from DKC3's description
     game = "Donkey Kong Country 2"
+    igdb_id = 178237
     author: str = "lx5"
     web = DKC2Web()
 

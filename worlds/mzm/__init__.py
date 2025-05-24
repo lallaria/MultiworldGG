@@ -59,6 +59,7 @@ class MZMWorld(World):
     used with permission.
     """
     game: str = "Metroid Zero Mission"
+    igdb_id = 1107
     author: str = "Noise"
     options_dataclass = MZMOptions
     options: MZMOptions

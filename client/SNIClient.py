@@ -1,3 +1,4 @@
+__all__ = ("SNIClientCommandProcessor","SNIContext","SNESState","launch_sni","_snes_connect","SNESRequest","get_snes_devices","verify_snes_app","snes_connect","snes_disconnect","task_alive","snes_autoreconnect","snes_recv_loop","snes_read","snes_write","snes_buffered_write","snes_flush_writes")
 from __future__ import annotations
 
 import sys
@@ -30,6 +31,8 @@ if __name__ == "__main__":
 import colorama
 from websockets.client import connect as websockets_connect, WebSocketClientProtocol
 from websockets.exceptions import WebSocketException, ConnectionClosed
+
+from MWGGClientFactory import MWGGMain
 
 snes_logger = logging.getLogger("SNES")
 
@@ -679,63 +682,67 @@ async def run_game(romfile: str) -> None:
                          stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-async def main() -> None:
-    multiprocessing.freeze_support()
-    parser = get_base_parser()
-    parser.add_argument('diff_file', default="", type=str, nargs="?",
-                        help='Path to a MultiworldGG Binary Patch file')
-    parser.add_argument('--snes', default='localhost:23074', help='Address of the SNI server.')
-    parser.add_argument('--loglevel', default='info', choices=['debug', 'info', 'warning', 'error', 'critical'])
-    args = parser.parse_args()
-
-    if args.diff_file:
-        import Patch
-        logging.info("Patch file was supplied. Creating sfc rom..")
-        try:
-            meta, romfile = Patch.create_rom_file(args.diff_file)
-        except Exception as e:
-            Utils.messagebox('Error', str(e), True)
-            raise
-        args.connect = meta["server"]
-        logging.info(f"Wrote rom file to {romfile}")
-        if args.diff_file.endswith(".apsoe"):
-            import webbrowser
-            async_start(run_game(romfile))
-            await _snes_connect(SNIContext(args.snes, args.connect, args.password), args.snes, False)
-            webbrowser.open(f"http://www.evermizer.com/apclient/#server={meta['server']}")
-            logging.info("Starting Evermizer Client in your Browser...")
-            import time
-            time.sleep(3)
-            sys.exit()
-        elif args.diff_file.endswith(".aplttp"):
-            from worlds.alttp.Client import get_alttp_settings
-            adjustedromfile, adjusted = get_alttp_settings(romfile)
-            async_start(run_game(adjustedromfile if adjusted else romfile))
-        else:
-            async_start(run_game(romfile))
-
-    ctx = SNIContext(args.snes, args.connect, args.password)
-    if ctx.server_task is None:
-        ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
-
-    if gui_enabled:
-        ctx.run_gui()
-    ctx.run_cli()
-
-    ctx.snes_connect_task = asyncio.create_task(snes_connect(ctx, ctx.snes_address), name="SNES Connect")
-    watcher_task = asyncio.create_task(game_watcher(ctx), name="GameWatcher")
-
-    await ctx.exit_event.wait()
-
-    ctx.server_address = None
-    ctx.snes_reconnect_address = None
-    if ctx.snes_socket is not None and not ctx.snes_socket.closed:
-        await ctx.snes_socket.close()
-    await watcher_task
-    await ctx.shutdown()
 
 
-if __name__ == '__main__':
-    colorama.just_fix_windows_console()
-    asyncio.run(main())
-    colorama.deinit()
+
+class SNIMain(MWGGMain):
+    '''Concrete SNIMain MWGGMain for factory method'''
+    async def launch_client(self, args):
+        colorama.just_fix_windows_console()
+
+        multiprocessing.freeze_support()
+        parser = get_base_parser()
+        parser.add_argument('diff_file', default="", type=str, nargs="?",
+                            help='Path to a MultiworldGG Binary Patch file')
+        parser.add_argument('--snes', default='localhost:23074', help='Address of the SNI server.')
+        parser.add_argument('--loglevel', default='info', choices=['debug', 'info', 'warning', 'error', 'critical'])
+        args = parser.parse_args()
+
+        if args.diff_file:
+            import Patch
+            logging.info("Patch file was supplied. Creating sfc rom..")
+            try:
+                meta, romfile = Patch.create_rom_file(args.diff_file)
+            except Exception as e:
+                Utils.messagebox('Error', str(e), True)
+                raise
+            args.connect = meta["server"]
+            logging.info(f"Wrote rom file to {romfile}")
+            if args.diff_file.endswith(".apsoe"):
+                import webbrowser
+                async_start(run_game(romfile))
+                await _snes_connect(SNIContext(args.snes, args.connect, args.password), args.snes, False)
+                webbrowser.open(f"http://www.evermizer.com/apclient/#server={meta['server']}")
+                logging.info("Starting Evermizer Client in your Browser...")
+                import time
+                time.sleep(3)
+                sys.exit()
+            elif args.diff_file.endswith(".aplttp"):
+                from worlds.alttp.Client import get_alttp_settings
+                adjustedromfile, adjusted = get_alttp_settings(romfile)
+                async_start(run_game(adjustedromfile if adjusted else romfile))
+            else:
+                async_start(run_game(romfile))
+
+        ctx = SNIContext(args.snes, args.connect, args.password)
+        if ctx.server_task is None:
+            ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
+
+        if gui_enabled:
+            ctx.run_gui()
+        ctx.run_cli()
+
+        ctx.snes_connect_task = asyncio.create_task(snes_connect(ctx, ctx.snes_address), name="SNES Connect")
+        watcher_task = asyncio.create_task(game_watcher(ctx), name="GameWatcher")
+
+        await ctx.exit_event.wait()
+
+        ctx.server_address = None
+        ctx.snes_reconnect_address = None
+        if ctx.snes_socket is not None and not ctx.snes_socket.closed:
+            await ctx.snes_socket.close()
+        await watcher_task
+        await ctx.shutdown()
+            
+        #asyncio.run(main()) TODO: move the run to the client main
+        colorama.deinit()

@@ -73,6 +73,7 @@ class ALBWWorld(World):
     """
     game: ClassVar[str] = "A Link Between Worlds"
     author: ClassVar[str] = "randomsalience"
+    igdb_id: ClassVar[int] = 2909
     options_dataclass = ALBWOptions
     options: ALBWOptions
     topology_present: ClassVar[bool] = False

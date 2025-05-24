@@ -39,6 +39,7 @@ class XenobladeXWorld(World):
 
     game = "Xenoblade X"
     author: str = "Maragon"
+    igdb_id = 2366
     topology_present = True
     web = XenobladeXWeb()
 

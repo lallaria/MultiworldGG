@@ -40,6 +40,7 @@ class CelesteWorld(World):
 
     game = "Celeste"
     author: str = "doshyw"
+    igdb_id = 26226
     options_dataclass = CelesteGameOptions
     options: CelesteGameOptions
     topology_present = True

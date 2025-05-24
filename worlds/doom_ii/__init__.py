@@ -42,6 +42,7 @@ class DOOM2World(World):
     options_dataclass = DOOM2Options
     options: DOOM2Options
     game = "DOOM II"
+    igdb_id = 313164
     author: str = "Daivuk & Kaito Sinclaire"
     web = DOOM2Web()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher

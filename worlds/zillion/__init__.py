@@ -87,6 +87,7 @@ class ZillionWorld(World):
     """
     game = "Zillion"
     author: str = "beauxq"
+    igdb_id = 18141
     web = ZillionWebWorld()
 
     options_dataclass = ZillionOptions

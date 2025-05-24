@@ -26,6 +26,7 @@ class NoitaWorld(World):
     """
 
     game = "Noita"
+    igdb_id = 52006
     author: str = "ScipioWright & heinermann"
     options: NoitaOptions
     options_dataclass = NoitaOptions

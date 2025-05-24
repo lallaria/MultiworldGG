@@ -82,6 +82,7 @@ class Yugioh06World(World):
 
     game = "Yu-Gi-Oh! 2006"
     author: str = "Rensen3"
+    igdb_id = 49377
     web = Yugioh06Web()
     options: Yugioh06Options
     options_dataclass = Yugioh06Options

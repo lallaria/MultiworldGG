@@ -40,6 +40,7 @@ class HereticWorld(World):
     options_dataclass = HereticOptions
     options: HereticOptions
     game = "Heretic"
+    igdb_id = 6362
     author: str = "Daivuk & Kaito Sinclaire"
     web = HereticWeb()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher

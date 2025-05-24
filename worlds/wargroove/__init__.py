@@ -69,6 +69,7 @@ class WargrooveWorld(World):
     settings: typing.ClassVar[WargrooveSettings]
     game = "Wargroove"
     author: str = "FlySniper"
+    igdb_id = 27441
     topology_present = True
     web = WargrooveWeb()
 

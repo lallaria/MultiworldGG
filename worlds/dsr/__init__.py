@@ -33,6 +33,7 @@ class DSRWorld(World):
     """
 
     game: str = "Dark Souls Remastered"
+    igdb_id = 81085
     author: str = "ArsonAssassin"
     options_dataclass = DSROption
     options: DSROption

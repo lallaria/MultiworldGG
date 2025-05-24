@@ -99,6 +99,7 @@ class OracleOfSeasonsWorld(World):
     """
     game = "The Legend of Zelda - Oracle of Seasons"
     author: str = "Piapiou"
+    igdb_id = 1032
     options_dataclass = OracleOfSeasonsOptions
     options: OracleOfSeasonsOptions
     required_client_version = (0, 5, 1)

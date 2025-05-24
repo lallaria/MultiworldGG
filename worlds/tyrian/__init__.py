@@ -74,6 +74,7 @@ class TyrianWorld(World):
     """
     game = "Tyrian"
     author: str = "Kaito Sinclaire"
+    igdb_id = 14432
     web = TyrianWebWorld()
     options_dataclass = TyrianOptions
     options: TyrianOptions  # type: ignore

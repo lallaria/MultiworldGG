@@ -50,6 +50,7 @@ class DS2World(World):
     It is set in the kingdom of Drangleic and follows an undead traveler searching for a cure to their affliction.
     """
     game = "Dark Souls II"
+    igdb_id = 2368
     author: str = "WildBunnie"
 
     options_dataclass = DS2Options

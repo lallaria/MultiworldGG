@@ -1,3 +1,7 @@
+from __future__ import annotations
+__all__ = ("AdventureContext","AdventureCommandProcessor","AdventureMain")
+from factory import Bond, CommandMixin, LaunchFactory
+
 import asyncio
 import hashlib
 import json
@@ -471,11 +475,12 @@ async def patch_and_run_game(patch_file, ctx):
     async_start(run_game(comp_path))
 
 
-if __name__ == '__main__':
+class AdventureMain(MWGGClient):
+    '''Concrete AdventureMain MWGGClient for factory method'''
+    def __init__(self):
+        Utils.init_logging("AdventureClient")
 
-    Utils.init_logging("AdventureClient")
-
-    async def main():
+    async def launch_client(self):
         parser = get_base_parser()
         parser.add_argument('patch_file', default="", type=str, nargs="?",
                             help='Path to an ADVNTURE.BIN rom file')
@@ -514,5 +519,5 @@ if __name__ == '__main__':
 
     colorama.just_fix_windows_console()
 
-    asyncio.run(main())
+    #asyncio.run(main(args)) TODO: move the run to the client main
     colorama.deinit()

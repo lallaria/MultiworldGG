@@ -30,6 +30,7 @@ class AgainstTheStormWorld(World):
 
     game = "Against the Storm"
     author: str = "Ryguy9999"
+    igdb_id = 147519
     options_dataclass = AgainstTheStormOptions
     options: AgainstTheStormOptions
     topology_present = True

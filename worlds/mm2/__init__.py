@@ -87,6 +87,7 @@ class MM2World(World):
     """
 
     game = "Mega Man 2"
+    igdb_id = 1734
     settings: ClassVar[MM2Settings]
     options_dataclass = MM2Options
     options: MM2Options

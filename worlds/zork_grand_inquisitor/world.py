@@ -68,6 +68,7 @@ class ZorkGrandInquisitorWorld(World):
 
     game = "Zork Grand Inquisitor"
     author: str = "nbrochu"
+    igdb_id = 1955
 
     item_name_to_id = item_names_to_id()
     location_name_to_id = location_names_to_id()

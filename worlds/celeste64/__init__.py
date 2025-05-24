@@ -36,6 +36,7 @@ class Celeste64World(World):
     # Class Data
     game = "Celeste 64"
     author: str = "PoryGone"
+    igdb_id = 284430
     options_dataclass = Celeste64Options
     options: Celeste64Options
     web = Celeste64WebWorld()

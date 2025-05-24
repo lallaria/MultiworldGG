@@ -58,6 +58,7 @@ class HadesWorld(World):
     options: HadesOptions
     options_dataclass = HadesOptions
     game = "Hades"
+    igdb_id = 113112
     author: str = "Naix"
     topology_present = False
     settings: typing.ClassVar[HadesSettings]

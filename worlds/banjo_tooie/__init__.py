@@ -58,6 +58,7 @@ class BanjoTooieWorld(World):
 
     game: str = "Banjo-Tooie"
     author: str = "jjjj12212"
+    igdb_id: int = 3418
     version = "V4.5.1"
     web = BanjoTooieWeb()
     topology_present = True

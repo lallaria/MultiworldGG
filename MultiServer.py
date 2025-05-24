@@ -35,7 +35,7 @@ import websockets
 from websockets.extensions.permessage_deflate import PerMessageDeflate
 try:
     # ponyorm is a requirement for webhost, not default server, so may not be importable
-    from pony.orm.dbapiprovider import OperationalError
+    from pony.orm.dbapiprovider import OperationalError # type: ignore
 except ImportError:
     OperationalError = ConnectionError
 
@@ -45,7 +45,7 @@ from Utils import version_tuple, restricted_loads, Version, async_start, get_int
 from NetUtils import Endpoint, ClientStatus, NetworkItem, decode, encode, NetworkPlayer, Permission, NetworkSlot, \
     SlotType, LocationStore, Hint, HintStatus
 from BaseClasses import ItemClassification
-
+from client.factory import Parser
 
 min_client_version = Version(0, 1, 6)
 colorama.just_fix_windows_console()

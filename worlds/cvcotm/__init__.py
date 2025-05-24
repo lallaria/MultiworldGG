@@ -60,6 +60,7 @@ class CVCotMWorld(World):
     from a demonic ritual to restore the Count's power...
     """
     game = "Castlevania - Circle of the Moon"
+    igdb_id = 222410
     author: str = "LiquidCat64"
     item_name_groups = {
         "DSS": ACTION_CARDS.union(ATTRIBUTE_CARDS),

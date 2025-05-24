@@ -37,6 +37,7 @@ class FaxanaduWorld(World):
     options_dataclass = FaxanaduOptions
     options: FaxanaduOptions
     game = "Faxanadu"
+    igdb_id = 1974
     author: str = "Daivuk"
     web = FaxanaduWeb()
 

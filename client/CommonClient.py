@@ -1,5 +1,5 @@
+__all__ = ("CommonContext","CommonCommandProcessor")
 from __future__ import annotations
-
 import collections
 import copy
 import logging
@@ -29,12 +29,14 @@ from Utils import Version, stream_input, async_start
 from worlds import network_data_package, AutoWorldRegister
 import os
 import ssl
+from factory import Bond, CommandMixin, Launch
 
 if typing.TYPE_CHECKING:
     import kvui
     import argparse
 
 logger = logging.getLogger("Client")
+logging.getLogger().setLevel(logging.INFO)  # force log-level to work around log level resetting to WARNING
 
 # without terminal, we have to use gui mode
 gui_enabled = not sys.stdout or "--nogui" not in sys.argv
@@ -46,7 +48,7 @@ def get_ssl_context():
     return ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=certifi.where())
 
 
-class ClientCommandProcessor(CommandProcessor):
+class ClientCommandProcessor(CommandProcessor, CommandMixin):
     """
     The Command Processor will parse every method of the class that starts with "_cmd_" as a command to be called
     when parsing user input, i.e. _cmd_exit will be called when the user sends the command "/exit".
@@ -183,7 +185,7 @@ class ClientCommandProcessor(CommandProcessor):
             async_start(self.ctx.send_msgs([{"cmd": "Say", "text": raw}]), name="send Say")
 
 
-class CommonContext:
+class CommonContext(Bond):
     # The following attributes are used to Connect and should be adjusted as needed in subclasses
     tags: typing.Set[str] = {"AP"}
     game: typing.Optional[str] = None
@@ -1056,57 +1058,55 @@ def handle_url_arg(args: "argparse.Namespace",
 
     return args
 
+#TODO: HMMMM
+class LaunchClient(Launch):
 
-def run_as_textclient(*args):
-    class TextContext(CommonContext):
-        # Text Mode to use !hint and such with games that have no text entry
-        tags = CommonContext.tags | {"TextOnly"}
-        game = ""  # empty matches any game since 0.3.2
-        items_handling = 0b111  # receive all items for /received
-        want_slot_data = False  # Can't use game specific slot_data
+    def launch(*args):
+        class TextContext(CommonContext):
+            # Text Mode to use !hint and such with games that have no text entry
+            tags = CommonContext.tags | {"TextOnly"}
+            game = ""  # empty matches any game since 0.3.2
+            items_handling = 0b111  # receive all items for /received
+            want_slot_data = False  # Can't use game specific slot_data
 
-        async def server_auth(self, password_requested: bool = False):
-            if password_requested and not self.password:
-                await super(TextContext, self).server_auth(password_requested)
-            await self.get_username()
-            await self.send_connect(game="")
+            async def server_auth(self, password_requested: bool = False):
+                if password_requested and not self.password:
+                    await super(TextContext, self).server_auth(password_requested)
+                await self.get_username()
+                await self.send_connect(game="")
 
-        def on_package(self, cmd: str, args: dict):
-            if cmd == "Connected":
-                self.game = self.slot_info[self.slot].game
+            def on_package(self, cmd: str, args: dict):
+                if cmd == "Connected":
+                    self.game = self.slot_info[self.slot].game
 
-        async def disconnect(self, allow_autoreconnect: bool = False):
-            self.game = ""
-            await super().disconnect(allow_autoreconnect)
+            async def disconnect(self, allow_autoreconnect: bool = False):
+                self.game = ""
+                await super().disconnect(allow_autoreconnect)
 
-    async def main(args):
-        ctx = TextContext(args.connect, args.password)
-        ctx.auth = args.name
-        ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+        async def main(args):
+            ctx = TextContext(args.connect, args.password)
+            ctx.auth = args.name
+            ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
 
-        if gui_enabled:
-            ctx.run_gui()
-        ctx.run_cli()
+            if gui_enabled:
+                ctx.run_gui()
+            ctx.run_cli()
 
-        await ctx.exit_event.wait()
-        await ctx.shutdown()
+            await ctx.exit_event.wait()
+            await ctx.shutdown()
 
-    import colorama
+        import colorama
 
-    parser = get_base_parser(description=f"Gameless {apname} Client, for text interfacing.")
-    parser.add_argument('--name', default=None, help="Slot Name to connect as.")
-    parser.add_argument("url", nargs="?", help=f"{apname} connection url")
-    args = parser.parse_args(args)
+        parser = get_base_parser(description=f"Gameless {apname} Client, for text interfacing.")
+        parser.add_argument('--name', default=None, help="Slot Name to connect as.")
+        parser.add_argument("url", nargs="?", help=f"{apname} connection url")
+        args = parser.parse_args(args)
 
-    args = handle_url_arg(args, parser=parser)
+        args = handle_url_arg(args, parser=parser)
 
-    # use colorama to display colored text highlighting on windows
-    colorama.just_fix_windows_console()
+        # use colorama to display colored text highlighting on windows
+        colorama.just_fix_windows_console()
 
-    asyncio.run(main(args))
-    colorama.deinit()
+        asyncio.run(main(args))
+        colorama.deinit()
 
-
-if __name__ == '__main__':
-    logging.getLogger().setLevel(logging.INFO)  # force log-level to work around log level resetting to WARNING
-    run_as_textclient(*sys.argv[1:])  # default value for parse_args

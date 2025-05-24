@@ -32,6 +32,7 @@ MainBottomSheet
     size_hint_y: None
     height: "180dp"
     bottom_carousel: bottom_carousel
+    md_bg_color: app.theme_cls.surfaceContainerLowColor
 
     MDStackLayout:
         id: bs_tab_container

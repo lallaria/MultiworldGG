@@ -173,6 +173,7 @@ class SoEWorld(World):
     """
     game: typing.ClassVar[str] = "Secret of Evermore"
     author: str = "black-silver"
+    igdb_id = 1359
     options_dataclass = SoEOptions
     options: SoEOptions
     settings: typing.ClassVar[SoESettings]

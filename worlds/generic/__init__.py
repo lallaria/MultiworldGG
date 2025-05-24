@@ -32,6 +32,7 @@ class GenericWeb(WebWorld):
 
 class GenericWorld(World):
     game = "Archipelago"
+    igdb_id = 303100
     topology_present = False
     item_name_to_id = {
         "Nothing": -1

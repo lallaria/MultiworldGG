@@ -26,6 +26,7 @@ class BombRushCyberfunkWorld(World):
 
     game = "Bomb Rush Cyberfunk"
     author: str = "CookieCat45"
+    igdb_id = 135940
     web = BombRushCyberfunkWeb()
 
     item_name_to_id = {item["name"]: (base_id + index) for index, item in enumerate(item_table)}

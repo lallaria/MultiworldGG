@@ -32,6 +32,7 @@ class OuterWildsWorld(World):
     The game follows the player character as they explore a planetary system stuck in a 22-minute time loop that resets after the sun goes supernova and destroys the system.
     """
     game = "Outer Wilds"
+    igdb_id = 11737
     author: str = "Ixrec"
     web = OuterWildsWebWorld()
 

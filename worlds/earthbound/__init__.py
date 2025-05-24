@@ -63,6 +63,7 @@ class EarthBoundWorld(World):
        across the world in search of 8 Melodies to defeat Giygas, the cosmic evil."""
     
     game = "EarthBound"
+    igdb_id = 78559
     author: str = "Pink Switch"
     option_definitions = EBOptions
     data_version = 1

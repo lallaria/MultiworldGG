@@ -1,3 +1,5 @@
+__all__ = ("MMBN3Context","MMBN3CommandProcessor","MMBN3Main")
+from __future__ import annotations
 import asyncio
 import hashlib
 import json
@@ -18,6 +20,7 @@ from NetUtils import ClientStatus
 from worlds.mmbn3.Items import items_by_id
 from worlds.mmbn3.Rom import get_base_rom_path
 from worlds.mmbn3.Locations import all_locations, scoutable_locations
+from MWGGClientFactory import MWGGMain
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -339,10 +342,12 @@ def confirm_checksum():
     return CHECKSUM_BLUE == basemd5.hexdigest()
 
 
-if __name__ == "__main__":
-    Utils.init_logging("MMBN3Client")
+class MMBN3Main(MWGGMain):
+    '''Concrete MMBN3Main MWGGMain for factory method'''
+    def __init__(self):
+        Utils.init_logging("MMBN3Client")
 
-    async def main():
+    async def launch_client(self, args):
         multiprocessing.freeze_support()
         parser = get_base_parser()
         parser.add_argument("patch_file", default="", type=str, nargs="?",
@@ -373,5 +378,5 @@ if __name__ == "__main__":
 
     colorama.just_fix_windows_console()
 
-    asyncio.run(main())
+    #asyncio.run(main()) TODO: move the run to the client main
     colorama.deinit()

@@ -45,6 +45,7 @@ class SOTWorld(World):
 
     MAX_ISLANDS = 20  # number of hints
     game = "Sea of Thieves"
+    igdb_id = 11137
     author: str = "EthanTheEpic"
     topology_present = False
 

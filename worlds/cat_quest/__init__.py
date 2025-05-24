@@ -26,6 +26,7 @@ class CatQuestWorld(World):
 
     game = "Cat Quest"
     author: str = "Nikkilite"
+    igdb_id = 36597
     web = CatQuestWeb()
     data_version = 1
 

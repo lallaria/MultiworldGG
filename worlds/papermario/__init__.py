@@ -82,6 +82,7 @@ class PaperMarioWorld(World):
     and venture through dangerous lands with the help of partners you meet along the way.
     """
     game = "Paper Mario"
+    igdb_id = 3349
     author: str = "JKB"
     web = PaperMarioWeb()
     topology_present = True

@@ -32,6 +32,7 @@ class SmsWorld(World):
     as a jetpack), Mario must clean the graffiti off of Delfino Isle and return light to the sky.
     """
     game = "Super Mario Sunshine"
+    igdb_id = 229177
     author: str = "Joshark"
 
     data_version = 1

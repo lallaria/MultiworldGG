@@ -76,6 +76,7 @@ class TLoZWorld(World):
     settings: typing.ClassVar[TLoZSettings]
     game = "The Legend of Zelda"
     author: str = "Rosalie-A & t3hf1gm3nt"
+    igdb_id = 1022
     patch_file_ending: str = ".aptloz"
     topology_present = True
     base_id = 7000

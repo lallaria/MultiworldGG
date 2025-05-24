@@ -37,6 +37,7 @@ class SMOWebWorld(WebWorld):
 class SMOWorld(World):
     """Super Mario Odyssey is a 3-D Plaformer where Mario sets off across the world with his companion Cappy to save Princess Peach and Cappy's sister Tiara from Bowser's wedding plans."""
     game = "Super Mario Odyssey"
+    igdb_id = 235169
     author: str = "Kgamer77"
     
     web = SMOWebWorld()

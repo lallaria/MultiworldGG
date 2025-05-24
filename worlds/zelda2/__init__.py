@@ -61,6 +61,7 @@ class Z2World(World):
 
     game = "Zelda II: The Adventure of Link"
     author: str = "Pink Switch"
+    igdb_id = 1025
     option_definitions = Z2Options
     data_version = 1
     required_client_version = (0, 5, 0)

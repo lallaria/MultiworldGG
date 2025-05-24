@@ -72,6 +72,7 @@ class TTYDWorld(World):
     """
     game = "Paper Mario The Thousand Year Door"
     author: str = "jamesbrq"
+    igdb_id = 328663
     options_dataclass = TTYDOptions
     options: TTYDOptions
     settings: typing.ClassVar[TTYDSettings]

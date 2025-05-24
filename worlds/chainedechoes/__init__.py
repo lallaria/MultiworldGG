@@ -25,6 +25,7 @@ class ChainedEchoesWorld(World):
     """
     game = "Chained Echoes"
     author: str = "SergioAlonso"
+    igdb_id = 117271
     location_name_to_id = location_table
     item_name_to_id = item_table
     topology_present = True

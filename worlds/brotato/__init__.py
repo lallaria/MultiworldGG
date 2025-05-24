@@ -95,6 +95,7 @@ class BrotatoWorld(World):
     options: BrotatoOptions  # type: ignore
     game: ClassVar[str] = "Brotato"
     author: ClassVar[str] = "Rampaging Hippy"
+    igdb_id: ClassVar[int] = 199116
     web = BrotatoWeb()
     data_version = 0
     required_client_version: tuple[int, int, int] = (0, 5, 0)

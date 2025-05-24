@@ -42,6 +42,7 @@ class JigsawWorld(World):
     """
 
     game: str = "Jigsaw"
+    igdb_id = 203698
     author: str = "spinerak"
     options_dataclass = JigsawOptions
 

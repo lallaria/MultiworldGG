@@ -56,6 +56,7 @@ class SMWWorld(World):
     lost all of his abilities. Can he get them back in time to save the Princess?
     """
     game: str = "Super Mario World"
+    igdb_id = 270346
     author: str = "PoryGone"
     settings: typing.ClassVar[SMWSettings]
 

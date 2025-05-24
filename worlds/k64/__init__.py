@@ -84,6 +84,7 @@ class K64World(World):
     """
 
     game = "Kirby 64 - The Crystal Shards"
+    igdb_id = 2713
     author: str = "Silvris"
     options_dataclass = K64Options
     options: K64Options

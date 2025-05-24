@@ -98,6 +98,7 @@ SettingsNavLayout:
         drawer_type: "standard"
         anchor: "left"
         elevation: 10
+        md_bg_color: app.theme_cls.surfaceContainerLowColor
         
         MDBoxLayout:
             orientation: "vertical"

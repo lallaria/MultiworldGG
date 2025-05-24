@@ -47,6 +47,7 @@ class UndertaleWorld(World):
     """
     game = "Undertale"
     author: str = "jonloveslegos"
+    igdb_id = 12517
     options_dataclass = UndertaleOptions
     options: UndertaleOptions
     web = UndertaleWeb()

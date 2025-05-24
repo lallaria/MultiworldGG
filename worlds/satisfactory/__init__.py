@@ -17,6 +17,7 @@ class SatisfactoryWorld(World):
     """
 
     game = "Satisfactory"
+    igdb_id = 90558
     author: str = "Jarno"
     options_dataclass = SatisfactoryOptions
     options: SatisfactoryOptions

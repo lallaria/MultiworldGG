@@ -121,6 +121,7 @@ class SSWorld(World):
     options: SSOptions
 
     game: ClassVar[str] = "Skyward Sword"
+    igdb_id = 534
     author: str = "Battlecats59"
     topology_present: bool = True
     web = SSWeb()

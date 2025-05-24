@@ -122,6 +122,7 @@ class MetroidPrimeWorld(World):
     """
 
     game = "Metroid Prime"
+    igdb_id = 134258
     author: str = "Electro15"
     required_client_version = (0, 5, 0)
     options_dataclass = MetroidPrimeOptions
