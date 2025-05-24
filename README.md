@@ -163,6 +163,7 @@ Currently, the following games are supported:
 * The Legend of Zelda: The Wind Waker
 * The Legend of Zelda: Twilight Princess
 * The Messenger
+* The Sims 4
 * The Witness
 * Toontown
 * Tunic

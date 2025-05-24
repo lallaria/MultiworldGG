@@ -74,7 +74,6 @@ non_apworlds: set[str] = {
     "Sudoku",
     "Super Mario 64",
     "VVVVVV",
-    "Wargroove",
 }
 
 def download_SNI() -> None:
