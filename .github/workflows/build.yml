@@ -243,7 +243,7 @@ jobs:
         run: |
           "${{ env.PYTHON }}" -m venv venv
           source venv/bin/activate
-          pip install --upgrade pip PyGObject charset-normalizer 
+          pip install --upgrade pip PyGObject charset-normalizer
           python setup.py bdist_mac --yes
 
           APP_BINARY=$(ls build/ | grep ".app" | head -n 1 || echo "")
@@ -288,11 +288,10 @@ jobs:
             "MultiworldGG v${{ env.APP_VERSION }}" \
             "build/MultiworldGG_v${{ env.APP_VERSION }}.dmg"
 
-
       - name: Store DMG file
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.MACOS_APP }}
+          name: MultiworldGG_v${{ env.APP_VERSION }}.dmg
           path: build/MultiworldGG_v${{ env.APP_VERSION }}.dmg
           compression-level: 1
           if-no-files-found: error

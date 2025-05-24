@@ -685,7 +685,7 @@ cx_Freeze.setup(
            "build_folder": buildfolder,
         },
         "bdist_mac": {
-            "bundle_name": f"{instance_name} {version_tuple.major}.{version_tuple.minor}.{version_tuple.build}"
+            "bundle_name": f"{instance_name}"
         }
     },
     cmdclass=cmdclass,
