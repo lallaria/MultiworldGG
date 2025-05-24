@@ -117,34 +117,30 @@ components.extend([
 ])
 
 
-def handle_uri(path: str, launch_args: tuple[str, ...]) -> None:
+def handle_uri(path: str) -> tuple[list[Component], Component]:
     url = urllib.parse.urlparse(path)
     queries = urllib.parse.parse_qs(url.query)
-    launch_args = (path, *launch_args)
-    client_component = []
+    client_components = []
     text_client_component = None
     game = queries["game"][0]
     for component in components:
         if component.supports_uri and component.game_name == game:
-            client_component.append(component)
+            client_components.append(component)
         elif component.display_name == "Text Client":
             text_client_component = component
+    return client_components, text_client_component
 
 
-    if not client_component:
-        run_component(text_client_component, *launch_args)
-        return
-    else:
-        from kvui import ButtonsPrompt
-        component_options = {
-            text_client_component.display_name: text_client_component,
-            **{component.display_name: component for component in client_component}
-        }
-        popup = ButtonsPrompt("Connect to Multiworld",
-                              "Select client to open and connect with.",
-                              lambda component_name: run_component(component_options[component_name], *launch_args),
-                              *component_options.keys())
-        popup.open()
+def build_uri_popup(component_list: list[Component], launch_args: tuple[str, ...]) -> None:
+    from kvui import ButtonsPrompt
+    component_options = {
+        component.display_name: component for component in component_list
+    }
+    popup = ButtonsPrompt("Connect to Multiworld",
+                          "Select client to open and connect with.",
+                          lambda component_name: run_component(component_options[component_name], *launch_args),
+                          *component_options.keys())
+    popup.open()
 
 
 def identify(path: None | str) -> tuple[None | str, None | Component]:
@@ -217,7 +213,7 @@ def create_shortcut(button: Any, component: Component) -> None:
 refresh_components: Callable[[], None] | None = None
 
 
-def run_gui(path: str, args: Any) -> None:
+def run_gui(launch_components: list[Component], args: Any) -> None:
     from kvui import (ThemedApp, MDFloatLayout, MDGridLayout, ScrollBox)
     from kivy.properties import ObjectProperty
     from kivy.core.window import Window
@@ -259,12 +255,12 @@ def run_gui(path: str, args: Any) -> None:
         cards: list[LauncherCard]
         current_filter: Sequence[str | Type] | None
 
-        def __init__(self, ctx=None, path=None, args=None):
+        def __init__(self, ctx=None, components=None, args=None):
             self.title = self.base_title + " " + Utils.__version__
             self.ctx = ctx
             self.icon = r"data/icon.png"
             self.favorites = []
-            self.launch_uri = path
+            self.launch_components = components
             self.launch_args = args
             self.cards = []
             self.current_filter = (Type.CLIENT, Type.TOOL, Type.ADJUSTER, Type.MISC)
@@ -386,9 +382,9 @@ def run_gui(path: str, args: Any) -> None:
             return self.top_screen
 
         def on_start(self):
-            if self.launch_uri:
-                handle_uri(self.launch_uri, self.launch_args)
-                self.launch_uri = None
+            if self.launch_components:
+                build_uri_popup(self.launch_components, self.launch_args)
+                self.launch_components = None
                 self.launch_args = None
 
             if is_frozen() and is_windows:
@@ -496,7 +492,7 @@ def run_gui(path: str, args: Any) -> None:
                                                                    for filter in self.current_filter))
             super().on_stop()
 
-    Launcher(path=path, args=args).run()
+    Launcher(components=launch_components, args=args).run()
 
     # avoiding Launcher reference leak
     # and don't try to do something with widgets after window closed
@@ -523,7 +519,15 @@ def main(args: argparse.Namespace | dict | None = None):
 
     path = args.get("Patch|Game|Component|url", None)
     if path is not None:
-        if not path.startswith("archipelago://") or path.startswith("mwgg://"):
+        if path.startswith("archipelago://") or path.startswith("mwgg://"):
+            args["args"] = (path, *args.get("args", ()))
+            # add the url arg to the passthrough args
+            components, text_client_component = handle_uri(path)
+            if not components:
+                args["component"] = text_client_component
+            else:
+                args['launch_components'] = [text_client_component, *components]
+        else:
             file, component = identify(path)
             if file:
                 args['file'] = file
@@ -539,7 +543,7 @@ def main(args: argparse.Namespace | dict | None = None):
     elif "component" in args:
         run_component(args["component"], *args["args"])
     elif not args["update_settings"]:
-        run_gui(path, args.get("args", ()))
+        run_gui(args.get("launch_components", None), args.get("args", ()))
 
 
 if __name__ == '__main__':
