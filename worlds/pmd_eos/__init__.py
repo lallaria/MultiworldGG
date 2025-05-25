@@ -56,7 +56,6 @@ class EOSWorld(World):
     """
 
     game = "Pokemon Mystery Dungeon Explorers of Sky"
-    author: str = "CrypticMonkey33"
     options: EOSOptions
     options_dataclass = EOSOptions
     web = EOSWeb()
@@ -77,6 +76,7 @@ class EOSWorld(World):
     excluded_locations = 0
     dimensional_scream_list = []
     dimensional_scream_list_ints: list[int] = []
+    starting_se: int = 0
     slot_data_ready = threading.Event
 
     def generate_early(self) -> None:
@@ -105,7 +105,9 @@ class EOSWorld(World):
         if self.options.special_episode_sanity.value and not self.options.exclude_special.value:
             possibleSEs = ["Bidoof\'s Wish", "Igglybuff the Prodigy", "In the Future of Darkness",
                            "Here Comes Team Charm!", 'Today\'s "Oh My Gosh"']
-            item_name = self.random.choice(possibleSEs)
+            SE_Num = self.random.randint(0, 4)
+            self.starting_se = SE_Num
+            item_name = possibleSEs[SE_Num]
             self.multiworld.push_precollected(self.create_item(item_name))
         else:
             self.multiworld.push_precollected(self.create_item("Main Game Unlock"))
@@ -294,13 +296,22 @@ class EOSWorld(World):
                           location.classification == "SEDungeonUnlock")):
                 extra_items_region.locations.append(EOSLocation(self.player, location.name,
                                                                 location.id, extra_items_region))
-            elif location.classification in ["RuleDungeonComplete", "OptionalSubX"]:
+            elif location.classification in ["RuleDungeonComplete"]:
                 if self.options.long_location.value == 0:
                     self.excluded_locations += 1
                     continue
                     #location = EOSLocation(self.player, location.name, location.id, rule_dungeons_region)
                     #location.progress_type = LocationProgressType.EXCLUDED
                     #rule_dungeons_region.locations.append(location)
+                else:
+                    location = EOSLocation(self.player, location.name, location.id, rule_dungeons_region)
+                    rule_dungeons_region.locations.append(location)
+
+            elif location.classification == "OptionalSubX":
+                if self.options.long_location.value == 0:
+                    location = EOSLocation(self.player, location.name, location.id, rule_dungeons_region)
+                    location.progress_type = LocationProgressType.EXCLUDED
+                    rule_dungeons_region.locations.append(location)
                 else:
                     location = EOSLocation(self.player, location.name, location.id, rule_dungeons_region)
                     rule_dungeons_region.locations.append(location)
@@ -334,7 +345,7 @@ class EOSWorld(World):
             return EOSItem(item_data.name, item_data.classification, item_data.id, self.player)
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        self.slot_data_ready.wait()
+
         return {
             "Goal": self.options.goal.value,
             "BagOnStart": self.options.bag_on_start.value,
@@ -581,7 +592,7 @@ class EOSWorld(World):
 
         for i in range(10):
             hint_item_list += [self.multiworld.get_location(f"Shop Item {1 + i}", self.player)]
-        write_tokens(self, patch, hint_item_list, self.dimensional_scream_list)
+        write_tokens(self, patch, hint_item_list, self.dimensional_scream_list, self.starting_se)
         rom_path = os.path.join(
             output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}" f"{patch.patch_file_ending}"
         )
@@ -599,7 +610,7 @@ class EOSWorld(World):
                                "Toxic Sax", "Biting Bass", "Knockout Bell", "Spectral Chimes", "Liar's Lyre",
                                "Charge Synth", "Norma-ccordion", "Psychic Cello", "Dragu-teki", "Steel Guitar",
                                "Relic Fragment Shard"]
-        location_list = list(self.multiworld.get_locations(self.player))
+        location_list = list(self.multiworld.get_locations())
         random.shuffle(location_list)
         for location in location_list:
             if location.address is not None and location.item:
@@ -621,3 +632,8 @@ class EOSWorld(World):
             for i in range(progressive):
                 hint_loc.append(sky_dungeons[i])
         return hint_loc
+
+    def modify_multidata(self, multidata: Dict[str, Any]) -> None:
+        self.slot_data_ready.wait()
+        if self.dimensional_scream_list_ints:
+            multidata["slot_data"][1]["HintLocationList"] = self.dimensional_scream_list_ints

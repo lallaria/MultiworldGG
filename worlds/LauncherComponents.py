@@ -214,18 +214,24 @@ components: List[Component] = [
     Component('Launcher', 'Launcher', component_type=Type.HIDDEN),
     # Core
     Component('Host', 'MultiServer', f'{apname}Server', cli=True,
-              file_identifier=SuffixIdentifier('.archipelago', '.mwgg', '.zip')),
-    Component('Generate', 'Generate', cli=True),
-    Component("Install APWorld", func=install_apworld, file_identifier=SuffixIdentifier(".apworld")),
-    Component('Text Client', 'CommonClient', f'{apname}TextClient', func=launch_textclient),
-    Component('LttP Adjuster', 'LttPAdjuster'),
+              file_identifier=SuffixIdentifier('.archipelago', '.mwgg', '.zip'),
+              description="Host a generated multiworld on your computer."),
+    Component('Generate', 'Generate', cli=True,
+              description="Generate a multiworld with the YAMLs in the players folder."),
+    Component("Install APWorld", func=install_apworld, file_identifier=SuffixIdentifier(".apworld"),
+              description="Install an APWorld to play games not included with Archipelago by default."),
+    Component('Text Client', 'CommonClient', f'{apname}TextClient', func=launch_textclient,
+              description="Connect to a multiworld using the text client."),
+    Component('LttP Adjuster', 'LttPAdjuster',
+              description="Adjust your ALttPR seed in regards to sprites, color palettes, and more."),
     # Minecraft
     Component('Minecraft Client', 'MinecraftClient', icon='mcicon', cli=True,
               file_identifier=SuffixIdentifier('.apmc')),
     # Ocarina of Time
     Component('OoT Client', 'OoTClient',
               file_identifier=SuffixIdentifier('.apz5')),
-    Component('OoT Adjuster', 'OoTAdjuster'),
+    Component('OoT Adjuster', 'OoTAdjuster',
+              description="Adjust your OoTR seed in regards to cosmetics, sfx, and UI options."),
     # TLoZ
     Component('Zelda 1 Client', 'Zelda1Client', file_identifier=SuffixIdentifier('.aptloz')),
     # ChecksFinder

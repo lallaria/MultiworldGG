@@ -42,15 +42,15 @@ class EOSProcedurePatch(APProcedurePatch, APTokenMixin):
 
 
 def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[Location],
-                 dimensional_screams: list[Location]) -> None:
-    ov36_mem_loc = 2721792  # find_ov36_mem_location()
+                 dimensional_screams: list[Location], starting_se: int) -> None:
+    ov36_mem_loc = 2722304  # find_ov36_mem_location()
     seed_offset = 0x36F90
     player_name_offset = 0x36F80
     ap_settings_offset = 0x36F98
     # mission_max_offset = 0x36F9A
     # macguffin_max_offset = 0x36F9E
     # spinda_drinks_offset = 0x37146
-    hintable_items_offset = 3299328  # number from Heckas makefile code
+    hintable_items_offset = 3299840  # number from Heckas makefile code
     custom_save_area_offset = ov36_mem_loc + 0x8F80
     # main_game_unlocked_offset = ov36_mem_loc + 0x37148  # custom_save_area_offset + 0x2A7
     dimensional_scream_who_offset = hintable_items_offset + 0x4
@@ -204,8 +204,11 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
     elif world.options.deathlink.value and world.options.deathlink.value == 1:
         write_byte = write_byte | (0x1 << 10)
 
-    if world.options.special_episode_sanity.value == 0:
-        write_byte = write_byte | (0x1 << 16)
+    # if world.options.special_episode_sanity.value == 0:
+    #    write_byte = write_byte | (0x1 << 16)
+    if starting_se != 0:
+        write_byte = write_byte | (starting_se << 32)
+
 
     # write the tokens that will be applied and write the token data into the bin for AP
     patch.write_token(APTokenTypes.WRITE, ov36_mem_loc + ap_settings_offset,
@@ -213,42 +216,6 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
 
     patch.write_file("token_data.bin", patch.get_token_binary())
     #testnum = find_ov36_mem_location()
-
-
-def get_dimensional_hints(world: "EOSWorld") -> list[Location]:
-    # getting the hint items for the dimensional scream hints
-    hint_loc = []
-    filler = 5
-    useful = 6
-    progressive = 9
-    sky_dungeons = []
-    important_sky_items = ["Icy Flute", "Fiery Drum", "Terra Cymbal", "Aqua-Monica", "Rock Horn",
-                           "Grass Cornet", "Sky Melodica", "Stellar Symphony", "Null Bagpipes", "Glimmer Harp",
-                           "Toxic Sax", "Biting Bass", "Knockout Bell", "Spectral Chimes", "Liar's Lyre",
-                           "Charge Synth", "Norma-ccordion", "Psychic Cello", "Dragu-teki", "Steel Guitar",
-                           "Relic Fragment Shard"]
-    location_list = list(world.multiworld.get_locations(world.player))
-    random.shuffle(location_list)
-    for location in location_list:
-        if location.address is not None and location.item:
-            if filler <= 0 and useful <= 0 and progressive <= 0:
-                break
-            elif progressive > 0 and location.item.advancement:
-                if location.item.player == world.player and location.item.name not in important_sky_items:
-                    sky_dungeons.append(location)
-                    continue
-                hint_loc.append(location)
-                progressive -= 1
-            elif filler > 0 and location.item is not (location.item.advancement or location.item.useful):
-                hint_loc.append(location)
-                filler -= 1
-            elif useful > 0 and location.item.useful:
-                hint_loc.append(location)
-                useful -= 1
-    if progressive > 0:
-        for i in range(progressive):
-            hint_loc.append(sky_dungeons[i])
-    return hint_loc
 
 
 def find_ov36_mem_location() -> int:

@@ -117,12 +117,18 @@ def update_settings():
 
 components.extend([
     # Functions
-    Component("Open host.yaml", func=open_host_yaml),
-    Component("Open Patch", func=open_patch),
-    Component("Generate Template Options", func=generate_yamls),
-    Component("MultiworldGG Website", func=lambda: webbrowser.open("https://multiworld.gg/")),
-    Component("ZSR Discord", icon="discord", func=lambda: webbrowser.open("https://discord.gg/zsr")),
-    Component("Browse Files", func=browse_files),
+    Component("Open host.yaml", func=open_host_yaml,
+                description="Open the host.yaml file to change settings for generation, games, and more."),
+    Component("Open Patch", func=open_patch,
+              description="Open a patch file, downloaded from the room page or provided by the host."),
+    Component("Generate Template Options", func=generate_yamls,
+              description="Generate template YAMLs for currently installed games."),
+    Component("MultiworldGG Website", func=lambda: webbrowser.open("https://multiworld.gg/"),
+              description="Open multiworld.gg in your browser."),
+    Component("ZSR Discord", icon="discord", func=lambda: webbrowser.open("https://discord.gg/zsr"),
+              description="Join the Discord server to play public multiworlds, report issues, or just chat!"),
+    Component("Browse Files", func=browse_files,
+              description="Open the Archipelago installation folder in your file browser."),
 ])
 
 

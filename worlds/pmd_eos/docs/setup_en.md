@@ -47,3 +47,7 @@ Navigate to your MultiworldGG install folder and open `data/lua/connector_bizhaw
 To connect the client to the multiserver simply put `<address>:<port>` on the textfield on top and press enter (if the
 server uses password, type in the bottom textfield `/connect <address>:<port> [password]`)
 
+### Saving the game
+
+For unknown reasons, BizHawk seems to have issues with saving the game properly. To ensure that your save file is updated properly, make sure to navigate to File > Save RAM > Flush Save Ram (bound to Ctrl+S by default) after saving in-game.
+
