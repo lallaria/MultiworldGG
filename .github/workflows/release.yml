@@ -220,7 +220,7 @@ jobs:
         run: |
           dmgbuild -s .github/dmg_settings.py \
             "MultiworldGG v${{ env.RELEASE_VERSION }}" \
-            "build/MultiworldGG_v${{ env.RELEASE_VERSION }}.dmg"
+            "build/MultiworldGG_${{ env.RELEASE_VERSION }}.dmg"
 
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
@@ -229,6 +229,6 @@ jobs:
           prerelease: false
           name: v${{ env.RELEASE_VERSION }}
           files: |
-            build/MultiworldGG_v${{ env.RELEASE_VERSION }}.dmg
+            build/MultiworldGG_${{ env.RELEASE_VERSION }}.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
