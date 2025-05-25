@@ -53,7 +53,7 @@ class Rac2Settings(settings.Group):
 class Rac2Web(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Ratchet & Clank 2 for MultiworldGG",
+        "A guide to setting up Ratchet & Clank 2 for Archipelago",
         "English",
         "setup.md",
         "setup/en",
@@ -72,11 +72,9 @@ class Rac2World(World):
     orchestrated by the shadowy MegaCorp.
     """
     game = "Ratchet & Clank 2"
-    author: str = "Evilwb"
-
+    web = Rac2Web()
     options_dataclass = Rac2Options
     options: Rac2Options
-    web = Rac2Web()
     topology_present = True
     item_name_to_id = {item.name: item.item_id for item in Items.ALL}
     location_name_to_id = {location.name: location.location_id for location in Planets.ALL_LOCATIONS if location.location_id}

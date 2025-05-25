@@ -4,6 +4,7 @@ from random import choice, randint
 
 from .Regions import spawn_locations
 from .Items import ALL_ITEMS_TABLE, filler_items
+from .Locations import FLIP_BALCONY_BOO_EVENT_LIST
 
 #TODO remove this in favor of JMP entries?
 speedy_observer_index: [int] = [183, 182, 179, 178, 177, 101, 100, 99, 98, 97, 21, 19]
@@ -194,11 +195,17 @@ def update_event_info(event_info, boo_checks: bool, output_data):
 
         # Update the Balcony Boo event trigger to be area entry based
         if boo_checks and x["EventNo"] == 96:
-            x["pos_x"] = 1800.000000
-            x["pos_y"] = 1200.000000
-            x["pos_z"] = -2600.000000
+            if str(output_data["Options"]["spawn"]) in FLIP_BALCONY_BOO_EVENT_LIST:
+                x["pos_x"] = 1800.000000
+                x["pos_y"] = 1200.000000
+                x["pos_z"] = -2950.000000
+                x["EventArea"] = 350
+            else:
+                x["pos_x"] = 1800.000000
+                x["pos_y"] = 1200.000000
+                x["pos_z"] = -2600.000000
+                x["EventArea"] = 200
             x["EventIf"] = 5
-            x["EventArea"] = 200
             x["EventLock"] = 1
             x["PlayerStop"] = 1
             x["EventLoad"] = 0
@@ -234,7 +241,7 @@ def update_character_info(character_info, output_data):
         if x["name"] == "fat" and x["room_no"] == 45:
             x["disappear_flag"] = 0
 
-        # Make Shivers not disappear by doing a different appear flag.
+        # Make Shivers / Butler not disappear by doing a different appear flag.
         if x["name"] == "situji":
             x["appear_flag"] = 7
 
@@ -255,6 +262,67 @@ def update_teiden_observer_info(observer_info, teiden_observer_info):
         x = observer_info.info_file_field_entries[entry_no]
         teiden_observer_info.info_file_field_entries.append(x)
         observer_info.info_file_field_entries.remove(x)
+
+    # Adds an observer in Blackout Breaker room (event44) to turn on spikes on the doors when room flag 115 is on.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 3250.000000,
+        "pos_y": -290.000000,
+        "pos_z": -1480.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 67,
+        "cond_arg0": 115,
+        "arg0": 0,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 18,
+        "do_type": 11,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+    # Adds a teiden observer in Blackout Breaker room (event44) to turn off spikes on the doors when room flag 120 on.
+    teiden_observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 3250.000000,
+        "pos_y": -290.000000,
+        "pos_z": -1480.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 67,
+        "cond_arg0": 120,
+        "arg0": 0,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 18,
+        "do_type": 12,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
 
 
 def update_observer_info(observer_info):
@@ -350,7 +418,7 @@ def update_observer_info(observer_info):
         "invisible": 1,
         "(Undocumented)": 0,
     })
-    # This one enables the Conservatory 1F hallway after catching Shivers
+    # This one enables the Conservatory 1F hallway after catching Shivers / Butler
     observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
@@ -380,7 +448,7 @@ def update_observer_info(observer_info):
         "invisible": 1,
         "(Undocumented)": 0,
     })
-    # Check that Shivers is caught to turn on Conservatory Hallway Light
+    # Check that Shivers / Butler is caught to turn on Conservatory Hallway Light
     observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
@@ -1041,6 +1109,219 @@ def update_observer_info(observer_info):
         "(Undocumented)": 0,
     })
 
+    # Adds an observer in Clairvoya's room (event36) to turn on spikes on the doors when room flag 120 is on.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 2074.000000,
+        "pos_y": 100.000000,
+        "pos_z": -261.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 3,
+        "cond_arg0": 120,
+        "arg0": 0,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 18,
+        "do_type": 11,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+    # Adds an observer in Clairvoya's room (event36) to turn off spikes on the doors when room flag 120 is off.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 2074.000000,
+        "pos_y": 100.000000,
+        "pos_z": -261.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 3,
+        "cond_arg0": 120,
+        "arg0": 0,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 120,
+        "cond_type": 19,
+        "do_type": 12,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+
+    # Adds an observer in Blackout Breaker room (event44) to turn on spikes on the doors when room flag 115 is on.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 3250.000000,
+        "pos_y": -290.000000,
+        "pos_z": -1480.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 67,
+        "cond_arg0": 115,
+        "arg0": 0,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 18,
+        "do_type": 11,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+    # Adds an observer in Blackout Breaker room (event44) to turn off spikes on the doors when room flag 120 is on.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 3250.000000,
+        "pos_y": -290.000000,
+        "pos_z": -1480.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 67,
+        "cond_arg0": 120,
+        "arg0": 0,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 18,
+        "do_type": 12,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+
+    # Adds an observer on Balcony 3F to turn on Boolossus Flag if lights are on, preventing the event again.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": 220.000000,
+        "pos_y": 1350.000000,
+        "pos_z": -3180.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 59,
+        "cond_arg0": 0,
+        "arg0": 81,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 13,
+        "do_type": 7,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+    # Adds an observer in Nursery to turn on Chauncey Flag if lights are on, preventing the event again.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": -3300.000000,
+        "pos_y": 575.000000,
+        "pos_z": 30.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 24,
+        "cond_arg0": 0,
+        "arg0": 46,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 13,
+        "do_type": 7,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+    # Adds an observer in Graveyard to turn on Bogmire Flag if lights are on, preventing the event again.
+    observer_info.info_file_field_entries.append({
+        "name": "observer",
+        "code_name": "(null)",
+        "string_arg0": "(null)",
+        "cond_string_arg0": "(null)",
+        "pos_x": -3300.000000,
+        "pos_y": 25.000000,
+        "pos_z": -5300.000000,
+        "dir_x": 0.000000,
+        "dir_y": 0.000000,
+        "dir_z": 0.000000,
+        "scale_x": 0.000000,
+        "scale_y": 0.000000,
+        "scale_z": 0.000000,
+        "room_no": 16,
+        "cond_arg0": 0,
+        "arg0": 67,
+        "arg1": 0,
+        "arg2": 0,
+        "arg3": 0,
+        "arg4": 0,
+        "arg5": 0,
+        "appear_flag": 0,
+        "disappear_flag": 0,
+        "cond_type": 13,
+        "do_type": 7,
+        "invisible": 1,
+        "(Undocumented)": 0,
+    })
+
 
 def update_generator_info(generator_info):
     for x in generator_info.info_file_field_entries:
@@ -1261,7 +1542,7 @@ def update_treasure_table(treasure_info, character_info, output_data):
                 else:
                     chest_size = __get_chest_size_from_key(item_data["door_id"])
 
-            treasure_item_name = __get_item_name(item_data, slot_num)
+            treasure_item_name = __get_item_name(item_data, slot_num) #nothing
             coin_amount = 0
             bill_amount = 0
             gold_bar_amount = 0
@@ -1272,7 +1553,8 @@ def update_treasure_table(treasure_info, character_info, output_data):
             rdiamond_amount = 0
 
             # Define the actor name to use from the Location in the generation output. Act differently if it's a key.
-            if item_data["name"] in ALL_ITEMS_TABLE.keys():
+            # Don't give any items that are not from our game, leave those 0 / blank.
+            if int(item_data["player"]) == slot_num and item_data["name"] in ALL_ITEMS_TABLE.keys():
                 lm_item_data = ALL_ITEMS_TABLE[item_data["name"]]
                 if lm_item_data.update_ram_addr and any(update_addr.item_count for update_addr in
                         lm_item_data.update_ram_addr if update_addr.item_count and update_addr.item_count > 0):
@@ -1295,7 +1577,7 @@ def update_treasure_table(treasure_info, character_info, output_data):
                         emerald_amount = item_amt
                     elif "Ruby" in item_data["name"]:
                         ruby_amount = item_amt
-                    elif "Diamond" in item_data["name"]:
+                    elif item_data["name"] == "Diamond":
                         diamond_amount = item_amt
                     elif "Gold Diamond" in item_data["name"]:
                         rdiamond_amount = item_amt
@@ -1463,15 +1745,12 @@ def update_furniture_info(furniture_info, item_appear_info, output_data):
     # Adjust the item spawn height based on if the item spawns from the ceiling or high up on the wall.
     # Otherwise items are sent into the floor above or out of bounds, which makes it almost impossible to get.
     ceiling_furniture_list = [4, 38, 43, 62, 63, 76, 77, 81, 84, 85, 91, 92, 101, 110, 111, 137, 156, 158, 159, 163,
-                              173, 174, 189, 190, 195, 199, 200, 228, 240, 266, 310, 342, 352, 354, 355, 356, 357, 358,
-                              359, 373, 374,
-                              378, 379, 380, 381, 399, 423, 426, 445, 446, 454, 459, 460, 463, 467, 485, 547, 595, 596,
-                              631, 632, 636,
-                              657, 671, 672]
-    medium_height_furniture_list = [0, 1, 104, 112, 113, 114, 124, 125, 135, 136, 204, 206, 210, 232, 234, 235, 264, 265,
-                                    270, 315, 343, 344, 345, 346, 347, 353, 361, 362, 363, 368, 369, 370, 376, 388, 397, 398,
-                                    411, 418, 431, 438, 444, 520,
-                                    526, 544, 552, 553, 554, 555, 557, 602, 603, 634, 635]
+        173, 174, 189, 190, 195, 199, 200, 228, 240, 266, 310, 342, 352, 354, 355, 356, 357, 358, 359, 373, 374,
+        378, 379, 380, 381, 399, 423, 426, 445, 446, 454, 459, 460, 463, 467, 485, 547, 595, 596, 631, 632, 636,
+        657, 671, 672]
+    medium_height_furniture_list = [0, 1, 104, 112, 113, 114, 124, 125, 135, 136, 204, 206, 210, 232, 234, 235,
+        264, 265, 270, 315, 343, 344, 345, 346, 347, 353, 361, 362, 363, 368, 369, 370, 376, 388, 397, 398,
+        411, 418, 431, 438, 444, 520, 526, 544, 552, 553, 554, 555, 557, 602, 603, 634, 635]
     for furniture_jmp_id in (ceiling_furniture_list + medium_height_furniture_list):
         current_y_offset = furniture_info.info_file_field_entries[furniture_jmp_id]["item_offset_y"]
         adjust_y_offset = 125.0
@@ -1489,6 +1768,12 @@ def update_furniture_info(furniture_info, item_appear_info, output_data):
         if x["move"] == 16 and x["dmd_name"] != "o_tuku1":
             x["move"] = 0
 
+        # Removes the red diamond from furniture as this will break our custom code fix we have for king boo.
+        if x["generate"] == 8:
+            x["item_table"] = 0
+            x["generate"] = 0
+            x["generate_num"] = 0
+
         # If one of Vincent's painting, update the flag to disable zoom instead.
         # if furniture_info_entry.info_file_field_entries.index(x) in {692, 693, 694, 695, 696, 697}:
         # x["move"] = 0
@@ -1497,7 +1782,8 @@ def update_furniture_info(furniture_info, item_appear_info, output_data):
         if not (item_data["type"] == "Furniture" or item_data["type"] == "Plant"):
             continue
 
-        if (item_data["type"] == "Furniture" and item_name != "Kitchen Oven") and output_data["Options"]["extra_boo_spots"] == 1:
+        if ((item_data["type"] == "Furniture" and item_name != "Kitchen Oven") and
+            output_data["Options"]["extra_boo_spots"] == 1):
                 furniture_info.info_file_field_entries[item_data["loc_enum"]]["telesa_hide"] = 10
 
         actor_item_name = __get_item_name(item_data, int(output_data["Slot"]))
@@ -1505,8 +1791,7 @@ def update_furniture_info(furniture_info, item_appear_info, output_data):
         # Replace the furnitureinfo entry to spawn an item from the "itemappeartable".
         # If the entry is supposed to be money, then generate a random amount of coins and/or bills from it.
         filtered_item_appear = list(item_appear_entry for item_appear_entry in
-                                    item_appear_info.info_file_field_entries if
-                                    item_appear_entry["item0"] == actor_item_name)
+            item_appear_info.info_file_field_entries if  item_appear_entry["item0"] == actor_item_name)
         item_appear_entry_idx = filtered_item_appear[len(filtered_item_appear) - 1]
 
         # Adjust move types for WDYM furniture items. Trees require water, obviously
@@ -1643,7 +1928,7 @@ def update_boo_table(telesa_info, output_data):
         if output_data["Options"]["boo_health_option"] == 0:
             x["str_hp"] = output_data["Options"]["boo_health_value"]
         elif output_data["Options"]["boo_health_option"] == 1:
-            x["str_hp"] = randint(1,999)
+            x["str_hp"] = randint(1,output_data["Options"]["boo_health_value"])
         elif output_data["Options"]["boo_health_option"] == 2:
             for loc_name, loc_info in output_data["Locations"].items():
                 if loc_info["room_no"] != x["init_room"] or loc_info["type"] != "Boo":

@@ -5,6 +5,7 @@ import traceback
 
 import NetUtils
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from typing import Any
 
 import dolphin_memory_engine as dme
@@ -359,7 +360,8 @@ class LMContext(CommonContext):
         if tracker_loaded:
             ui.base_title += f" | Universal Tracker {UT_VERSION}"
 
-        ui.base_title += " | AP"
+        # AP version is added behind this automatically
+        ui.base_title += f" | {apname}"
         return ui
 
     async def update_boo_count_label(self):
@@ -373,7 +375,7 @@ class LMContext(CommonContext):
             from kvui import Label
 
         if not self.boo_count:
-            self.boo_count = Label(text=f"")
+            self.boo_count = Label(text=f"", size_hint_x=None, width=120, halign="center")
             self.ui.connect_layout.add_widget(self.boo_count)
 
         curr_boo_count = len(set(([item.item for item in self.items_received if item.item in BOO_AP_ID_LIST])))
@@ -584,6 +586,8 @@ class LMContext(CommonContext):
                         self.already_mentioned_rank_diff = True
 
         if not self.finished_game and self.game_clear:
+            logger.info("Congratulations on completing LM Rando! You completed " + "{:.2f}".format(
+                (len(self.checked_locations) / len(self.server_locations)) * 100)+"% of the total checks")
             self.finished_game = True
             await self.send_msgs([{
                 "cmd": "StatusUpdate",
@@ -609,12 +613,13 @@ class LMContext(CommonContext):
             if (curr_val & (1 << 2)) > 0:
                 logger.info("DEBUG -- Please inform the Luigi's Mansion channel in AP's discord server " +
                     "that you saw this message and please explain what you last did to trigger it.")
+                self.debug_flag_ten = True
 
         # TODO review this for king boo stuff in DOL_Updater instead.
         # Always adjust Pickup animation issues if the user turned pick up animations off.
-        #if self.pickup_anim_off:
-        #    crown_helper_val = "01"
-        #    dme.write_bytes(0x804DDFF8, bytes.fromhex(crown_helper_val))
+        if self.pickup_anim_off:
+            crown_helper_val = "00000001"
+            dme.write_bytes(0x804DE028, bytes.fromhex(crown_helper_val))
 
         # Make it so the displayed Boo counter always appears even if you dont have boo radar or if you haven't caught
         # a boo in-game yet.
@@ -736,17 +741,6 @@ async def give_player_items(ctx: LMContext):
             lm_item_name = ctx.item_names.lookup_in_game(item.item)
             lm_item = ALL_ITEMS_TABLE[lm_item_name]
 
-            if "TrapLink" in ctx.tags and item.item in trap_id_list:
-                await ctx.send_trap_link(lm_item_name)
-
-            # Filter for only items where we have not received yet. If same slot, only receive locations from pre-set
-            # list of locations, otherwise accept other slots. Additionally accept only items from a pre-approved list.
-            if item.item in RECV_ITEMS_IGNORE or (item.player == ctx.slot and not
-            (item.location in SELF_LOCATIONS_TO_RECV or item.item in RECV_OWN_GAME_ITEMS)):
-                last_recv_idx += 1
-                dme.write_word(LAST_RECV_ITEM_ADDR, last_recv_idx)
-                continue
-
             item_name_display = lm_item_name[0:min(len(lm_item_name), RECV_MAX_STRING_LENGTH)].replace("&", "")
             dme.write_bytes(RECV_ITEM_NAME_ADDR, sbf.string_to_bytes(item_name_display, RECV_LINE_STRING_LENGTH))
 
@@ -765,6 +759,17 @@ async def give_player_items(ctx: LMContext):
             await wait_for_next_loop(int(RECV_DEFAULT_TIMER_IN_HEX, 16)/FRAME_AVG_COUNT)
             while dme.read_byte(RECV_ITEM_DISPLAY_VIZ_ADDR) > 0:
                 await wait_for_next_loop(0.1)
+
+            if "TrapLink" in ctx.tags and item.item in trap_id_list:
+                await ctx.send_trap_link(lm_item_name)
+
+            # Filter for only items where we have not received yet. If same slot, only receive locations from pre-set
+            # list of locations, otherwise accept other slots. Additionally accept only items from a pre-approved list.
+            if item.item in RECV_ITEMS_IGNORE or (item.player == ctx.slot and not
+            (item.location in SELF_LOCATIONS_TO_RECV or item.item in RECV_OWN_GAME_ITEMS or item.location < 0)):
+                last_recv_idx += 1
+                dme.write_word(LAST_RECV_ITEM_ADDR, last_recv_idx)
+                continue
 
             for addr_to_update in lm_item.update_ram_addr:
                 byte_size = 1 if addr_to_update.ram_byte_size is None else addr_to_update.ram_byte_size
