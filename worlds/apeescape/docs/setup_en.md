@@ -1,11 +1,11 @@
-# Ape Escape Setup Guide
+# Ape Escape - Setup Guide
 
 ## Required Software
 - [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Please use version 0.4.4 or later for integrated
 BizHawk support.
 - Ape Escape (USA) ISO or BIN/CUE.
-- [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later. Other emulators are not supported.
-- The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `Archipelago/custom_worlds` folder. This is only needed if you are not using the released MWGG client.
+- [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 to 2.9.1. Bizhawk version 2.10 or other emulators are **not** supported.
+- (Only if you are not using the MWGG client:) The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `Archipelago/custom_worlds` folder.
 
 ### Configuring BizHawk
 
@@ -22,8 +22,8 @@ clear it.
 
 ## Generating a Game
 
-1. Create your options file (YAML). After installing the `apeescape.apworld` file, you can generate a template within the Archipelago Launcher by clicking `Generate Template Settings`.
-2. Follow the general Archipelago instructions for [generating a game](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game).
+1. Create your options file (YAML). After installing the `apeescape.apworld` file, you can generate a template within the MultiworldGG Launcher by clicking `Generate Template Settings`.
+2. Follow the general MultiworldGG instructions for [generating a game](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game).
 3. Open `MultiworldGGLauncher.exe`
 4. Select "BizHawk Client" in the right-side column. On your first time opening BizHawk Client, you will also be asked to
 locate `EmuHawk.exe` in your BizHawk install.

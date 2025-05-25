@@ -1,7 +1,7 @@
 import math
 import os
 import json
-from typing import ClassVar, Dict, List, Tuple, Optional, TextIO
+from typing import ClassVar, Dict, List, Tuple, Optional, TextIO, Any
 
 from BaseClasses import ItemClassification, MultiWorld, Tutorial, CollectionState
 from logging import warning
@@ -69,6 +69,8 @@ class ApeEscapeWorld(World):
     item_name_groups = GROUPED_ITEMS
     location_name_groups = GROUPED_LOCATIONS
 
+    using_ut: bool  # so we can check if we're using UT only once
+    passthrough: Dict[str, Any]
 
     def __init__(self, multiworld: MultiWorld, player: int):
         self.goal: Optional[int] = 0
@@ -119,6 +121,34 @@ class ApeEscapeWorld(World):
         self.itemdisplay = self.options.itemdisplay.value
         self.itempool = []
 
+        # Universal tracker stuff, shouldn't do anything in standard gen
+        if hasattr(self.multiworld, "re_gen_passthrough"):
+            if "Ape Escape" in self.multiworld.re_gen_passthrough:
+                self.using_ut = True
+                self.passthrough = self.multiworld.re_gen_passthrough["Ape Escape"]
+                self.options.goal.value = self.passthrough["goal"]
+                self.options.requiredtokens.value = self.passthrough["requiredtokens"]
+                self.options.totaltokens.value = self.passthrough["totaltokens"]
+                self.options.tokenlocations.value = self.passthrough["tokenlocations"]
+                self.options.logic.value = self.passthrough["logic"]
+                self.options.infinitejump.value = self.passthrough["infinitejump"]
+                self.options.superflyer.value = self.passthrough["superflyer"]
+                self.options.entrance.value = self.passthrough["entrance"]
+                self.options.unlocksperkey.value = self.passthrough["unlocksperkey"]
+                self.options.extrakeys.value = self.passthrough["extrakeys"]
+                self.options.coin.value = self.passthrough["coin"]
+                self.options.mailbox.value = self.passthrough["mailbox"]
+                self.options.lamp.value = self.passthrough["lamp"]
+                self.options.gadget.value = self.passthrough["gadget"]
+                self.options.shufflenet.value = self.passthrough["shufflenet"]
+                self.options.shufflewaternet.value = self.passthrough["shufflewaternet"]
+                self.options.lowoxygensounds.value = self.passthrough["lowoxygensounds"]
+                self.options.trapfillpercentage.value = self.passthrough["trapfillpercentage"]
+                self.options.itemdisplay.value = self.passthrough["itemdisplay"]
+            else:
+                self.using_ut = False
+        else:
+            self.using_ut = False
 
     def create_regions(self):
         create_regions(self)
@@ -292,6 +322,7 @@ class ApeEscapeWorld(World):
                     self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
                 else:
                     self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
+                    #self.itempool += [self.create_item_trap(AEItem.ApeingAroundInputTrap.value)]
                     # Deactivated for now
                     # self.itempool += [self.create_item_trap(AEItem.GadgetShuffleTrap.value)]
 
@@ -378,6 +409,13 @@ class ApeEscapeWorld(World):
             "death_link": self.options.death_link.value
         }
 
+    # for the universal tracker, doesn't get called in standard gen
+    # docs: https://github.com/FarisTheAncient/Archipelago/blob/tracker/worlds/tracker/docs/re-gen-passthrough.md
+    @staticmethod
+    def interpret_slot_data(slot_data: Dict[str, Any]) -> Dict[str, Any]:
+        # returning slot_data so it regens, giving it back in multiworld.re_gen_passthrough
+        # we are using re_gen_passthrough over modifying the world here due to complexities with ER
+        return slot_data
 
     def write_spoiler(self, spoiler_handle: TextIO):
         if self.options.entrance.value != 0x00:

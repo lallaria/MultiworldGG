@@ -1,6 +1,6 @@
 import sys, tempfile, os, subprocess, requests, struct
 import logging
-from Utils import normalize_tag, tuplize_version
+from Utils import normalize_tag, tuplize_version, is_windows, is_linux, is_macos
 
 GITHUB_OWNER = "MultiworldGG"
 GITHUB_REPO  = "MultiworldGG"
@@ -9,22 +9,19 @@ GITHUB_API_LATEST = (
 )
 
 def select_installer_asset(assets: list[dict]) -> dict:
-    # 1) filter to only .exe assets
-    exe_assets = [a for a in assets if a["name"].lower().endswith(".exe")]
-    if not exe_assets:
-        raise RuntimeError("No .exe installer found in release assets")
+    if is_windows:
+        release_assets = [a for a in assets if a["name"].lower().endswith(".exe")]
+    elif is_linux: 
+        release_assets = [a for a in assets if a["name"].lower().endswith(".appimage")]
+    elif is_macos:
+        release_assets = [a for a in assets if a["name"].lower().endswith(".dmg")]
+    else:   
+        raise RuntimeError("This platform is not supported.")
 
-    # 2) detect local pointer size → 64 vs 32
-    bits = struct.calcsize("P") * 8  # 64 or 32
-
-    # 3) look for the asset whose name contains "64" (or "32")
-    for a in exe_assets:
-        name = a["name"].lower()
-        if f"{bits}" in name or f"{bits}-bit" in name or f"{bits}bit" in name:
-            return a
-
-    # 4) fallback to the first exe we found
-    return exe_assets[0]
+    if not release_assets:
+        raise RuntimeError("No feasible installer found in latest release for this platform.")
+    
+    return release_assets[0]
 
 def get_latest_release_info() -> tuple:
     resp = requests.get(GITHUB_API_LATEST, headers={"Accept":"application/vnd.github.v3+json"})

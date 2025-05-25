@@ -729,7 +729,7 @@ class CommonContext:
         from kvui import GameManager
 
         class TextManager(GameManager):
-            base_title = apname + "Archipelago Text Client"
+            base_title = f"{apname} Text Client"
 
         return TextManager
 

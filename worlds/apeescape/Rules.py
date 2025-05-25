@@ -10,12 +10,19 @@ if TYPE_CHECKING:
     from . import ApeEscapeWorld
 
 def set_rules(world: "ApeEscapeWorld"):
-    world.levellist = initialize_level_list()
-    # If entrances aren't shuffled, then we don't need to shuffle the entrances.
-    if (world.options.entrance != 0x00):
-        world.random.shuffle(world.levellist)
-        # Some levels need to be kept at a specific entrance - put those back.
-        world.levellist = fixed_levels(world.levellist, world.options.entrance, world.options.coin)
+    # Detect if connected with UT and put the shuffled order back into the initialize_level_list function
+    if hasattr(world.multiworld, "re_gen_passthrough"):
+        levelids = world.passthrough["entranceids"]
+        world.levellist = initialize_level_list(levelids)
+    else:
+        # Normal world generation
+        world.levellist = initialize_level_list()
+        # If entrances aren't shuffled, then we don't need to shuffle the entrances.
+        if (world.options.entrance != 0x00):
+            world.random.shuffle(world.levellist)
+            # Some levels need to be kept at a specific entrance - put those back.
+            world.levellist = fixed_levels(world.levellist, world.options.entrance, world.options.coin)
+
     world.levellist = set_calculated_level_data(world.levellist, world.options.unlocksperkey, world.options.goal, world.options.coin)
     # Make a copy of the list for passing to the client for entrance shuffle purposes. We know this list has the levels sorted in the order they'd be presented in-game (so whatever is at the Fossil Field entrance first, etc.)
     world.entranceorder = list(world.levellist)
@@ -2307,7 +2314,7 @@ def set_locations(self):
                             lambda state: HasFlyer(state, self) or IJ(state, self))
         else:
             connect_regions(self, AEDoor.TVT_WATER_LOBBY.value, AELocation.Coin64.value, 
-                            lambda state: HasFlyer(state, self) or HasHoop(state, self) or IJ(state, self))
+                            lambda state: True)
         connect_regions(self, AEDoor.TVT_TANK_LOBBY.value, AELocation.Coin66.value, 
                         lambda state: True)
 
@@ -2440,7 +2447,7 @@ def set_locations(self):
                         lambda state: HasSling(state, self) and HasFlyer(state, self) and HasNet(state, self))
     elif self.options.logic == "hard":
         connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carlito.value, 
-                        lambda state: HasClub(state, self) or HasSling(state, self) or HasPunch(state, self) or HasFlyer(state, self))
+                        lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self) or HasFlyer(state, self)) and HasNet(state, self))
     else:
         connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.W9L1Carlito.value, 
                         lambda state: (CanHitWheel(state, self) or HasFlyer(state, self)) and HasNet(state, self))
@@ -2485,7 +2492,7 @@ def set_locations(self):
                             lambda state: HasSling(state, self) and HasFlyer(state, self))
         elif self.options.logic == "hard":
             connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.Coin84.value, 
-                            lambda state: (HasClub(state, self) or HasSling(state, self) or HasPunch(state, self) or HasFlyer(state, self)) and HasNet(state, self))
+                            lambda state: HasClub(state, self) or HasSling(state, self) or HasPunch(state, self) or HasFlyer(state, self))
         else:
             connect_regions(self, AEDoor.MM_MONKEY_HEAD_CASTLE_MAIN.value, AELocation.Coin84.value, 
                             lambda state: CanHitWheel(state, self) or HasFlyer(state, self))
@@ -2802,12 +2809,29 @@ def CountAccessibleLocations(state, world, locs_to_check):
 
 
 # Entrance Shuffle Helper Functions
-def initialize_level_list():
-    levelnames = ["Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"]
-    levelids = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x14, 0x15, 0x16, 0x18, 0x1E]
+def initialize_level_list(setlevelids=None):
+
+    baselevelnames = ["Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"]
+    baselevelids = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11,
+                0x14, 0x15, 0x16, 0x18, 0x1E]
+    # If not using UT, use the vanilla list
+    if setlevelids is None:
+        levelids = baselevelids
+        levelnames = baselevelnames
+    # Using UT, will replace the vanilla list with the already shuffled one
+    else:
+        levelnames = [baselevelnames[baselevelids.index(setlevelids[x])] for x in range(0, 22)]
+        levelids = setlevelids
+
     levellist = []
     for x in range (0, 22):
-        levellist.append(ApeEscapeLevel(levelnames[x], levelids[x], x))
+        # Vanilla position
+        if setlevelids is None:
+            vanillapos = x
+        # Using UT : will get the vanilla level order of the level in the shuffled list
+        else:
+            vanillapos = baselevelids.index(setlevelids[x])
+        levellist.append(ApeEscapeLevel(levelnames[x], levelids[x], vanillapos))
     return levellist
 
 

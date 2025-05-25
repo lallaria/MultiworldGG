@@ -62,6 +62,7 @@ item_table = {
     # Traps
     AEItem.BananaPeelTrap.value: RAM.items["BananaPeelTrap"],
     AEItem.GadgetShuffleTrap.value: RAM.items["GadgetShuffleTrap"],
+    AEItem.MonkeyMashTrap.value: RAM.items["MonkeyMashTrap"],
 }
 
 gadgetsValues = {

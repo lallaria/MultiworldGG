@@ -128,6 +128,7 @@ Currently, the following games are supported:
 * Shapez
 * Shivers
 * Slay the Spire
+* Sly Cooper and the Thievius Raccoonus
 * Sonic Adventure 2: Battle
 * Sonic Adventure DX
 * Sonic Heroes
