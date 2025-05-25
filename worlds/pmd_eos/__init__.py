@@ -56,6 +56,7 @@ class EOSWorld(World):
     """
 
     game = "Pokemon Mystery Dungeon Explorers of Sky"
+    author: str = "CrypticMonkey33"
     options: EOSOptions
     options_dataclass = EOSOptions
     web = EOSWeb()
