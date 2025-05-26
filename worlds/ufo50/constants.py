@@ -1,6 +1,7 @@
 from typing import Dict
 
 GAME_NAME: str = "UFO 50"
+IGDB_ID: int = 54555
 BASE_ID: int = 21061550_00_000  # UFO50, 2 digits for the game number, 3 digits for its items/locations
 
 # client installation data

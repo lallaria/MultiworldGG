@@ -32,6 +32,7 @@ class RaftWorld(World):
     """
     game: str = "Raft"
     author: str = "SunnyBat"
+    igdb_id = 27082
 
     item_name_to_id = items_lookup_name_to_id.copy()
     lastItemId = max(filter(lambda val: val is not None, item_name_to_id.values()))
@@ -234,7 +235,6 @@ def create_region(world: MultiWorld, player: int, name: str, locations=None, exi
 
 class RaftLocation(Location):
     game = "Raft"
-    igdb_id = 27082
 
 
 class RaftItem(Item):

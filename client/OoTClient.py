@@ -18,7 +18,7 @@ from worlds import network_data_package
 from worlds.oot.Rom import Rom, compress_rom_file
 from worlds.oot.N64Patch import apply_patch_file
 from worlds.oot.Utils import data_path
-from MWGGClientFactory import MWGGMain
+from .factory import Launch
 
 CONNECTION_TIMING_OUT_STATUS = "Connection timing out. Please restart your emulator, then restart connector_oot.lua"
 CONNECTION_REFUSED_STATUS = "Connection refused. Please start your emulator and make sure connector_oot.lua is running"
@@ -316,7 +316,7 @@ async def patch_and_run_game(apz5_file):
     async_start(run_game(comp_path))
 
 
-class OoTMain(MWGGMain):
+class OoTMain(Launch):
     '''Concrete OoTMain MWGGMain for factory method'''
     def __init__(self):
         Utils.init_logging("OoTClient")

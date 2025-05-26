@@ -59,9 +59,9 @@ class CrossCodeWorld(World):
     gripping sci-fi story.
     """
 
-    game = NAME
+    game = "CrossCode"
     author: str = "CodeTriangle"
-    igdb_id = 35252
+    igdb_id = 35282
     web = CrossCodeWebWorld()
 
     world_data: typing.ClassVar[WorldData] = static_world_data

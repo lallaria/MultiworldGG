@@ -32,7 +32,7 @@ import colorama
 from websockets.client import connect as websockets_connect, WebSocketClientProtocol
 from websockets.exceptions import WebSocketException, ConnectionClosed
 
-from MWGGClientFactory import MWGGMain
+from .factory import Launch
 
 snes_logger = logging.getLogger("SNES")
 
@@ -685,7 +685,7 @@ async def run_game(romfile: str) -> None:
 
 
 
-class SNIMain(MWGGMain):
+class SNIMain(Launch):
     '''Concrete SNIMain MWGGMain for factory method'''
     async def launch_client(self, args):
         colorama.just_fix_windows_console()

@@ -45,7 +45,7 @@ from Utils import version_tuple, restricted_loads, Version, async_start, get_int
 from NetUtils import Endpoint, ClientStatus, NetworkItem, decode, encode, NetworkPlayer, Permission, NetworkSlot, \
     SlotType, LocationStore, Hint, HintStatus
 from BaseClasses import ItemClassification
-from client.factory import Parser
+from client.factory import CommandMixin
 
 min_client_version = Version(0, 1, 6)
 colorama.just_fix_windows_console()

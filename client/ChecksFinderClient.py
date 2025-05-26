@@ -16,7 +16,7 @@ if __name__ == "__main__":
 from NetUtils import NetworkItem, ClientStatus
 from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, \
     CommonContext, server_loop
-from factory import Bond, CommandMixin, LaunchFactory
+from .factory import Bond, CommandMixin, Launch
 
 class ChecksFinderClientCommandProcessor(ClientCommandProcessor):
     def _cmd_resync(self):
@@ -146,8 +146,8 @@ async def game_watcher(ctx: ChecksFinderContext):
         await asyncio.sleep(0.1)
 
 
-class ChecksFinderMain(MWGGMain):
-    '''Concrete ChecksFinderMain MWGGMain for factory method'''
+class ChecksFinderMain(Launch):
+    '''Concrete ChecksFinderMain Launch for factory method'''
     async def launch_client(self, args):
         ctx = ChecksFinderContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")

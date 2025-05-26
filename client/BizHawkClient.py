@@ -22,7 +22,7 @@ apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from . import BizHawkContext, ConnectionStatus, NotConnectedError, RequestFailedError, connect, disconnect, get_hash, \
     get_script_version, get_system, ping
 from worlds._bizhawk.client import BizHawkClient, AutoBizHawkClientRegister
-from factory import Bond, CommandMixin, LaunchFactory
+from .factory import Bond, CommandMixin, Launch
 
 EXPECTED_SCRIPT_VERSION = 1
 
@@ -253,7 +253,7 @@ def _patch_and_run_game(patch_file: str):
         return {}
 
 
-class BizHawkMain(MWGGMain):
+class BizHawkMain(Launch):
     async def launch_client(self, args):
         parser = get_base_parser()
         parser.add_argument("patch_file", default="", type=str, nargs="?", help="Path to a MultiworldGG patch file")

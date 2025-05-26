@@ -38,7 +38,6 @@ class CliqueWorld(World):
     """The greatest game of all time."""
 
     game = "Clique"
-    igdb_id = 76969
     author: str = "Phar"
     web = CliqueWebWorld()
     options: CliqueOptions

@@ -16,7 +16,7 @@ from MultiServer import mark_raw
 from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import async_start
-from factory import Bond, Parser, Launch
+from .factory import Bond, CommandMixin, Launch
 
 class UndertaleCommandProcessor(ClientCommandProcessor):
     def __init__(self, ctx):

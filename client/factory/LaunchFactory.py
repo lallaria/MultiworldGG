@@ -1,5 +1,5 @@
-__all__ = ['LaunchFactory', 'Launch']
 from __future__ import annotations
+__all__ = ['LaunchFactory', 'Launch']
 from typing import Dict, Type, TypeVar, Optional, Any
 import importlib
 import inspect

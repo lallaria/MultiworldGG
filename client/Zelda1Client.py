@@ -22,7 +22,7 @@ from worlds.tloz.Items import item_game_ids
 from worlds.tloz.Locations import location_ids
 from worlds.tloz import Items, Locations, Rom
 
-from MWGGClientFactory import MWGGMain
+from .factory import Launch
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -340,7 +340,7 @@ async def nes_sync_task(ctx: ZeldaContext):
                 continue
 
 
-class Zelda1Main(MWGGMain):
+class Zelda1Main(Launch):
     '''Concrete ZeldaMain MWGGMain for factory method'''
     options = Utils.get_options()
     DISPLAY_MSGS = options["tloz_options"]["display_msgs"]

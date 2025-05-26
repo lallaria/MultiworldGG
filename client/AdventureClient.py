@@ -1,6 +1,6 @@
 from __future__ import annotations
 __all__ = ("AdventureContext","AdventureCommandProcessor","AdventureMain")
-from factory import Bond, CommandMixin, LaunchFactory
+from .factory import Bond, CommandMixin, Launch
 
 import asyncio
 import hashlib
@@ -475,7 +475,7 @@ async def patch_and_run_game(patch_file, ctx):
     async_start(run_game(comp_path))
 
 
-class AdventureMain(MWGGClient):
+class AdventureMain(Launch):
     '''Concrete AdventureMain MWGGClient for factory method'''
     def __init__(self):
         Utils.init_logging("AdventureClient")

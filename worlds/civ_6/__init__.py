@@ -84,7 +84,7 @@ class CivVIWorld(World):
     """
 
     game = "Civilization VI"
-    igdb_id = 341802
+    igdb_id = 293
     author: str = "hesto2"
     topology_present = False
     options_dataclass = CivVIOptions

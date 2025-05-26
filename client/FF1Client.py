@@ -13,7 +13,7 @@ from Utils import async_start
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, \
     get_base_parser
-from factory import Bond, CommandMixin, Launch
+from .factory import Bond, CommandMixin, Launch
 
 SYSTEM_MESSAGE_ID = 0
 

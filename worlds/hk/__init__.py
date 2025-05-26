@@ -167,6 +167,7 @@ class HKWorld(World):
     """  # from https://www.hollowknight.com
     game: str = "Hollow Knight"
     author: str = "BadMagic"
+    igdb_id = 14593
     options_dataclass = HKOptions
     options: HKOptions
     settings: typing.ClassVar[HollowKnightSettings]
@@ -740,7 +741,6 @@ class HKLocation(Location):
 
 class HKItem(Item):
     game = "Hollow Knight"
-    igdb_id = 14593
     type: str
 
     def __init__(self, name, advancement, code, type: str, player: int = None):

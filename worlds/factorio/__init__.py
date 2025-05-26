@@ -44,7 +44,6 @@ class FactorioWeb(WebWorld):
 
 class FactorioItem(Item):
     game = "Factorio"
-    igdb_id = 7046
 
 
 all_items = tech_table.copy()
@@ -67,6 +66,7 @@ class Factorio(World):
     """
     game = "Factorio"
     author: str = "Berserker66"
+    igdb_id = 7046
     special_nodes = {"automation", "logistics", "rocket-silo"}
     custom_recipes: typing.Dict[str, Recipe]
     location_pool: typing.List[FactorioScienceLocation]

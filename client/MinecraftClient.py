@@ -16,7 +16,7 @@ import requests
 
 import Utils
 from Utils import is_windows
-from MWGGClientFactory import MWGGMain
+from .factory import Launch
 
 atexit.register(input, "Press enter to exit.")
 
@@ -267,7 +267,7 @@ def is_correct_forge(forge_dir) -> bool:
     return False
 
 
-class MinecraftMain(MWGGMain):
+class MinecraftMain(Launch):
     '''Concrete MinecraftMain MWGGMain for factory method'''
     async def launch_client(self, args):
         Utils.init_logging("MinecraftClient")

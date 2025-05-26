@@ -127,7 +127,7 @@ class JakAndDaxterWorld(World):
     and save the world.
     """
     # ID, name, version
-    game = jak1_name
+    game = "Jak and Daxter The Precursor Legacy"
     author: str = "massimilianodelliubaldini"
     igdb_id: int = 1528
     required_client_version = (0, 5, 0)

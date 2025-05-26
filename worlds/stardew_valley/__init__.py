@@ -89,9 +89,9 @@ class StardewValleyWorld(World):
     Stardew Valley is an open-ended country-life RPG. You can farm, fish, mine, fight, complete quests,
     befriend villagers, and uncover dark secrets.
     """
-    game = STARDEW_VALLEY
+    game = "Stardew Valley"
     author: str = "Kaito Kid"
-    igdb_id = 17000
+    igdb_id: int = 17000
     topology_present = False
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}

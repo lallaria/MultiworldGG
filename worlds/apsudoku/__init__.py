@@ -23,7 +23,6 @@ class AP_SudokuWorld(World):
     Play a little Sudoku while you're in BK mode to maybe get some useful hints
     """
     game = "Sudoku"
-    igdb_id = 326509
     author: str = "EmilyV99"
     web = AP_SudokuWebWorld()
 

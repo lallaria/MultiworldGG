@@ -141,7 +141,7 @@ class OOTWorld(World):
     to rescue the Seven Sages, and then confront Ganondorf to save Hyrule!
     """
     game: str = "Ocarina of Time"
-    igdb_id = 182313
+    igdb_id = 1029
     author: str = "espeon65536 (currenty unmaintained)"
     options_dataclass = OoTOptions
     options: OoTOptions

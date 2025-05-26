@@ -48,7 +48,7 @@ class CupheadWorld(World):
     GAME_NAME: str = "Cuphead"
     APWORLD_VERSION: str = "preview03f"
 
-    game: str = GAME_NAME # type: ignore
+    game: str = "Cuphead"
     author: str = "JKL"
     igdb_id = 237497
     web = CupheadWebWorld()

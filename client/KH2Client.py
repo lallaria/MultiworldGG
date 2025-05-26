@@ -22,7 +22,7 @@ except ImportError:
 
 from NetUtils import ClientStatus
 from CommonClient import gui_enabled, logger, get_base_parser, CommonContext, server_loop
-from MWGGClientFactory import MWGGMain
+from .factory import Launch
 
 class KH2Context(CommonContext):
     # command_processor: int = KH2CommandProcessor
@@ -966,7 +966,7 @@ async def kh2_watcher(ctx: KH2Context):
         await asyncio.sleep(0.5)
 
 
-class KH2Main(MWGGMain):
+class KH2Main(Launch):
     def __init__(self):
         Utils.init_logging("KH2Client", exception_logger="Client")
 

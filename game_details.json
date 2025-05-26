@@ -1,0 +1,4485 @@
+{
+    "Adventure": {
+        "igdb_id": "12239",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/qzcqrjruhpuge5egkzgj.jpg",
+        "world_name": "Adventure",
+        "igdb_name": "Adventure",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Adventure"
+        ],
+        "themes": [
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 1983
+    },
+    "Against the Storm": {
+        "igdb_id": "147519",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7j13.jpg",
+        "world_name": "Against the Storm",
+        "igdb_name": "Against the Storm",
+        "rating": [
+            "Mild Blood",
+            "Alcohol Reference",
+            "Use of Tobacco",
+            "Language",
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Real Time Strategy (RTS)",
+            "Simulator",
+            "Strategy",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy"
+        ],
+        "keywords": [
+            "roguelite"
+        ],
+        "release_date": 2023
+    },
+    "A Hat in Time": {
+        "igdb_id": "6705",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5pl5.jpg",
+        "world_name": "A Hat in Time",
+        "igdb_name": "A Hat in Time",
+        "rating": [
+            "Blood",
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "First person",
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "time travel",
+            "female protagonist",
+            "action-adventure",
+            "cute",
+            "snow",
+            "3d platformer",
+            "swimming"
+        ],
+        "release_date": 2017
+    },
+    "A Link Between Worlds": {
+        "igdb_id": "2909",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3p0j.jpg",
+        "world_name": "A Link Between Worlds",
+        "igdb_name": "The Legend of Zelda: A Link Between Worlds",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Historical",
+            "Sandbox",
+            "Open world"
+        ],
+        "keywords": [
+            "medieval",
+            "magic",
+            "minigames",
+            "2.5d",
+            "archery",
+            "action-adventure",
+            "fairy",
+            "bird",
+            "princess",
+            "snow",
+            "sequel",
+            "swimming",
+            "sword & sorcery",
+            "darkness",
+            "digital distribution",
+            "anthropomorphism",
+            "polygonal 3d",
+            "bow and arrow",
+            "damsel in distress",
+            "upgradeable weapons",
+            "disorientation zone",
+            "descendants of other characters",
+            "save point",
+            "side quests",
+            "potion",
+            "real-time combat",
+            "rpg elements",
+            "mercenary",
+            "coming of age",
+            "androgyny",
+            "context sensitive",
+            "living inventory",
+            "bees"
+        ],
+        "release_date": 2013
+    },
+    "A Link to the Past": {
+        "igdb_id": "1026",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3vzn.jpg",
+        "world_name": "A Link to the Past",
+        "igdb_name": "The Legend of Zelda: A Link to the Past",
+        "rating": [
+            "Mild Violence",
+            "Mild Animated Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "ghosts",
+            "magic",
+            "mascot",
+            "death",
+            "maze",
+            "archery",
+            "action-adventure",
+            "fairy",
+            "backtracking",
+            "undead",
+            "campaign",
+            "princess",
+            "pixel art",
+            "easter egg",
+            "teleportation",
+            "sequel",
+            "level selection",
+            "silent protagonist",
+            "swimming",
+            "sword & sorcery",
+            "darkness",
+            "explosion",
+            "monkey",
+            "world map",
+            "human",
+            "shopping",
+            "bow and arrow",
+            "damsel in distress",
+            "disorientation zone",
+            "ice stage",
+            "side quests",
+            "potion",
+            "real-time combat",
+            "secret area",
+            "walking through walls",
+            "mercenary",
+            "coming of age",
+            "villain",
+            "merchants",
+            "fetch quests",
+            "kidnapping",
+            "poisoning",
+            "time paradox",
+            "context sensitive",
+            "living inventory",
+            "status effects",
+            "hidden room",
+            "damage over time",
+            "monomyth",
+            "retroachievements",
+            "bees"
+        ],
+        "release_date": 1991
+    },
+    "ANIMAL WELL": {
+        "igdb_id": "191435",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4hdh.jpg",
+        "world_name": "ANIMAL WELL",
+        "igdb_name": "Animal Well",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Horror",
+            "Survival",
+            "Mystery"
+        ],
+        "keywords": [
+            "exploration",
+            "retro",
+            "2d",
+            "metroidvania",
+            "cute",
+            "atmospheric",
+            "pixel art",
+            "pixel graphics",
+            "relaxing"
+        ],
+        "release_date": 2024
+    },
+    "Ape Escape": {
+        "igdb_id": "3762",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2gzc.jpg",
+        "world_name": "Ape Escape",
+        "igdb_name": "Ape Escape",
+        "rating": [
+            "Mild Animated Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "anime",
+            "dinosaurs",
+            "time travel",
+            "collecting",
+            "minigames",
+            "multiple endings",
+            "amnesia",
+            "easter egg",
+            "digital distribution",
+            "anthropomorphism",
+            "monkey",
+            "voice acting",
+            "human",
+            "polygonal 3d",
+            "moving platforms"
+        ],
+        "release_date": 1999
+    },
+    "Aquaria": {
+        "igdb_id": "7406",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1r7r.jpg",
+        "world_name": "Aquaria",
+        "igdb_name": "Aquaria",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy",
+            "Drama"
+        ],
+        "keywords": [
+            "exploration",
+            "magic",
+            "metroidvania",
+            "action-adventure",
+            "steam",
+            "amnesia",
+            "swimming",
+            "darkness",
+            "alternate costumes",
+            "world map",
+            "save point",
+            "underwater gameplay",
+            "shape-shifting"
+        ],
+        "release_date": 2007
+    },
+    "An Untitled Story": {
+        "igdb_id": "72926",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2nok.jpg",
+        "world_name": "An Untitled Story",
+        "igdb_name": "An Untitled Story",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "ghosts",
+            "metroidvania",
+            "action-adventure",
+            "bird"
+        ],
+        "release_date": 2007
+    },
+    "Banjo-Tooie": {
+        "igdb_id": "3418",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6c1w.jpg",
+        "world_name": "Banjo-Tooie",
+        "igdb_name": "Banjo-Tooie",
+        "rating": [
+            "Crude Humor",
+            "Animated Violence",
+            "Comic Mischief",
+            "Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Quiz/Trivia",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Comedy"
+        ],
+        "keywords": [
+            "aliens",
+            "dinosaurs",
+            "collecting",
+            "flight",
+            "action-adventure",
+            "witches",
+            "bird",
+            "backtracking",
+            "achievements",
+            "easter egg",
+            "sequel",
+            "swimming",
+            "digital distribution",
+            "anthropomorphism",
+            "breaking the fourth wall",
+            "ice stage",
+            "underwater gameplay",
+            "rpg elements",
+            "villain",
+            "shape-shifting",
+            "temporary invincibility",
+            "e3 2000",
+            "lgbtq+",
+            "retroachievements"
+        ],
+        "release_date": 2000
+    },
+    "Blasphemous": {
+        "igdb_id": "26820",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2eyn.jpg",
+        "world_name": "Blasphemous",
+        "igdb_name": "Blasphemous",
+        "rating": [
+            "Blood and Gore",
+            "Violence",
+            "Nudity"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Hack and slash/Beat 'em up",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "retro",
+            "2d",
+            "metroidvania",
+            "side-scrolling",
+            "pixel art",
+            "you can pet the dog",
+            "interconnected-world"
+        ],
+        "release_date": 2019
+    },
+    "Bomb Rush Cyberfunk": {
+        "igdb_id": "135940",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6ya8.jpg",
+        "world_name": "Bomb Rush Cyberfunk",
+        "igdb_name": "Bomb Rush Cyberfunk",
+        "rating": [
+            "Language",
+            "Violence",
+            "Suggestive Themes",
+            "Blood"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Sport",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "3d platformer",
+            "great soundtrack"
+        ],
+        "release_date": 2023
+    },
+    "Brotato": {
+        "igdb_id": "199116",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4pcj.jpg",
+        "world_name": "Brotato",
+        "igdb_name": "Brotato",
+        "rating": [
+            "Fantasy Violence",
+            "Mild Blood"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Fighting",
+            "Shooter",
+            "Role-playing (RPG)",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "roguelite"
+        ],
+        "release_date": 2023
+    },
+    "Bumper Stickers": {
+        "igdb_id": "271950",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co78k5.jpg",
+        "world_name": "Bumper Stickers",
+        "igdb_name": "Bumper Stickers Archipelago Edition",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Puzzle"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2023
+    },
+    "Cat Quest": {
+        "igdb_id": "36597",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1qlq.jpg",
+        "world_name": "Cat Quest",
+        "igdb_name": "Cat Quest",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2017
+    },
+    "Celeste": {
+        "igdb_id": "26226",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3byy.jpg",
+        "world_name": "Celeste",
+        "igdb_name": "Celeste",
+        "rating": [
+            "Alcohol Reference",
+            "Fantasy Violence",
+            "Mild Language"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "exploration",
+            "retro",
+            "2d",
+            "difficult",
+            "female protagonist",
+            "cute",
+            "atmospheric",
+            "pixel art",
+            "snow",
+            "pixel graphics",
+            "great soundtrack",
+            "digital distribution",
+            "lgbtq+"
+        ],
+        "release_date": 2018
+    },
+    "Celeste 64": {
+        "igdb_id": "284430",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7oz4.jpg",
+        "world_name": "Celeste 64",
+        "igdb_name": "Celeste 64: Fragments of the Mountain",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "female protagonist",
+            "lgbtq+"
+        ],
+        "release_date": 2024
+    },
+    "Chained Echoes": {
+        "igdb_id": "117271",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co544u.jpg",
+        "world_name": "Chained Echoes",
+        "igdb_name": "Chained Echoes",
+        "rating": [
+            "Strong Language",
+            "Suggestive Themes",
+            "Sexual Themes"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "jrpg"
+        ],
+        "release_date": 2022
+    },
+    "Civilization VI": {
+        "igdb_id": "293",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1rjp.jpg",
+        "world_name": "Civilization VI",
+        "igdb_name": "Sid Meier's Civilization IV",
+        "rating": [
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Simulator",
+            "Strategy",
+            "Turn-based strategy (TBS)"
+        ],
+        "themes": [
+            "Fantasy",
+            "Historical",
+            "Educational",
+            "4X (explore, expand, exploit, and exterminate)"
+        ],
+        "keywords": [
+            "turn-based",
+            "steam",
+            "multiple endings",
+            "sequel",
+            "digital distribution",
+            "voice acting",
+            "ambient music"
+        ],
+        "release_date": 2005
+    },
+    "CrossCode": {
+        "igdb_id": "35282",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co28wy.jpg",
+        "world_name": "CrossCode",
+        "igdb_name": "CrossCode",
+        "rating": [
+            "Fantasy Violence",
+            "Language"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Shooter",
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "action-adventure",
+            "pixel art",
+            "digital distribution"
+        ],
+        "release_date": 2018
+    },
+    "Chrono Trigger Jets of Time": {
+        "igdb_id": "20398",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co54iw.jpg",
+        "world_name": "Chrono Trigger Jets of Time",
+        "igdb_name": "Chrono Trigger",
+        "rating": [
+            "Animated Blood",
+            "Mild Fantasy Violence",
+            "Suggestive Themes",
+            "Use of Alcohol"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "time travel",
+            "magic"
+        ],
+        "release_date": 2008
+    },
+    "Cuphead": {
+        "igdb_id": "237497",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co65ip.jpg",
+        "world_name": "Cuphead",
+        "igdb_name": "Cuphead",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Shooter",
+            "Platform",
+            "Adventure",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Comedy"
+        ],
+        "keywords": [],
+        "release_date": 2019
+    },
+    "Castlevania 64": {
+        "igdb_id": "1130",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5geb.jpg",
+        "world_name": "Castlevania 64",
+        "igdb_name": "Castlevania",
+        "rating": [
+            "Animated Blood",
+            "Animated Violence"
+        ],
+        "player_perspectives": [
+            "First person",
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle",
+            "Hack and slash/Beat 'em up",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Horror"
+        ],
+        "keywords": [
+            "ghosts",
+            "exploration",
+            "bloody",
+            "magic",
+            "summoning support",
+            "death",
+            "maze",
+            "female protagonist",
+            "action-adventure",
+            "witches",
+            "multiple protagonists",
+            "backtracking",
+            "multiple endings",
+            "undead",
+            "dog",
+            "teleportation",
+            "bats",
+            "day/night cycle",
+            "explosion",
+            "anthropomorphism",
+            "alternate costumes",
+            "voice acting",
+            "human",
+            "polygonal 3d",
+            "shopping",
+            "upgradeable weapons",
+            "skeletons",
+            "descendants of other characters",
+            "save point",
+            "ice stage",
+            "melee",
+            "real-time combat",
+            "difficulty level",
+            "moving platforms",
+            "ambient music",
+            "poisoning",
+            "time paradox",
+            "retroachievements"
+        ],
+        "release_date": 1999
+    },
+    "Castlevania - Circle of the Moon": {
+        "igdb_id": "222410",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5lee.jpg",
+        "world_name": "Castlevania - Circle of the Moon",
+        "igdb_name": "Castlevania: Circle of the Moon",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Horror"
+        ],
+        "keywords": [],
+        "release_date": 2021
+    },
+    "Dark Souls II": {
+        "igdb_id": "2368",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2eoo.jpg",
+        "world_name": "Dark Souls II",
+        "igdb_name": "Dark Souls II",
+        "rating": [
+            "Blood and Gore",
+            "Partial Nudity",
+            "Violence",
+            "Mild Language"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "medieval",
+            "magic",
+            "3d",
+            "metroidvania",
+            "death",
+            "action-adventure",
+            "achievements",
+            "undead",
+            "sequel",
+            "sword & sorcery",
+            "customizable characters",
+            "leveling up",
+            "human",
+            "bow and arrow",
+            "upgradeable weapons",
+            "checkpoints",
+            "side quests",
+            "melee",
+            "real-time combat",
+            "rpg elements",
+            "mercenary",
+            "boss assistance",
+            "sliding down ladders",
+            "fire manipulation",
+            "status effects",
+            "hidden room",
+            "soulslike",
+            "interconnected-world"
+        ],
+        "release_date": 2014
+    },
+    "Dark Souls III": {
+        "igdb_id": "11133",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1vcf.jpg",
+        "world_name": "Dark Souls III",
+        "igdb_name": "Dark Souls III",
+        "rating": [
+            "Blood",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "medieval",
+            "3d",
+            "death",
+            "action-adventure",
+            "sequel",
+            "sword & sorcery",
+            "customizable characters",
+            "human",
+            "sliding down ladders",
+            "soulslike",
+            "interconnected-world"
+        ],
+        "release_date": 2016
+    },
+    "Diddy Kong Racing": {
+        "igdb_id": "2723",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1wgj.jpg",
+        "world_name": "Diddy Kong Racing",
+        "igdb_name": "Diddy Kong Racing",
+        "rating": [],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Racing"
+        ],
+        "themes": [
+            "Action",
+            "Comedy"
+        ],
+        "keywords": [
+            "flight",
+            "snow",
+            "anthropomorphism",
+            "monkey",
+            "secret area",
+            "behind the waterfall",
+            "retroachievements"
+        ],
+        "release_date": 1997
+    },
+    "Donkey Kong Country": {
+        "igdb_id": "152752",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3jhu.jpg",
+        "world_name": "Donkey Kong Country",
+        "igdb_name": "Donkey Kong Country",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "side-scrolling",
+            "overworld"
+        ],
+        "release_date": 2000
+    },
+    "Donkey Kong Country 2": {
+        "igdb_id": "178237",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7n25.jpg",
+        "world_name": "Donkey Kong Country 2",
+        "igdb_name": "Donkey Kong Country 2",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2004
+    },
+    "Donkey Kong Country 3": {
+        "igdb_id": "132723",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2ven.jpg",
+        "world_name": "Donkey Kong Country 3",
+        "igdb_name": "Donkey Kong Country 3",
+        "rating": [
+            "Mild Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "retroachievements"
+        ],
+        "release_date": 2005
+    },
+    "DLCQuest": {
+        "igdb_id": "3004",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2105.jpg",
+        "world_name": "DLCQuest",
+        "igdb_name": "DLC Quest",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Comedy"
+        ],
+        "keywords": [
+            "exploration",
+            "steam",
+            "digital distribution",
+            "deliberately retro"
+        ],
+        "release_date": 2011
+    },
+    "Don": {
+        "igdb_id": "17832",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6la0.jpg",
+        "world_name": "Don",
+        "igdb_name": "Don't Starve Together",
+        "rating": [
+            "Crude Humor",
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Simulator",
+            "Strategy",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Horror",
+            "Survival",
+            "Sandbox",
+            "Open world"
+        ],
+        "keywords": [
+            "2d",
+            "crafting",
+            "difficult",
+            "action-adventure",
+            "funny",
+            "atmospheric",
+            "survival horror",
+            "sequel",
+            "digital distribution",
+            "bees"
+        ],
+        "release_date": 2016
+    },
+    "DOOM 1993": {
+        "igdb_id": "673",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5rav.jpg",
+        "world_name": "DOOM 1993",
+        "igdb_name": "Doom",
+        "rating": [
+            "Intense Violence",
+            "Blood and Gore",
+            "Violence",
+            "Animated Violence",
+            "Animated Blood and Gore"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Shooter"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Horror"
+        ],
+        "keywords": [
+            "2.5d",
+            "maze",
+            "silent protagonist",
+            "melee",
+            "real-time combat"
+        ],
+        "release_date": 1993
+    },
+    "DOOM II": {
+        "igdb_id": "313164",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co8noe.jpg",
+        "world_name": "DOOM II",
+        "igdb_name": "Doom II",
+        "rating": [],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Shooter"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Horror"
+        ],
+        "keywords": [],
+        "release_date": 2024
+    },
+    "DORONKO WANKO": {
+        "igdb_id": "290647",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7zj5.jpg",
+        "world_name": "DORONKO WANKO",
+        "igdb_name": "Doronko Wanko",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Simulator"
+        ],
+        "themes": [
+            "Action",
+            "Comedy"
+        ],
+        "keywords": [
+            "dog"
+        ],
+        "release_date": 2024
+    },
+    "Dark Souls Remastered": {
+        "igdb_id": "81085",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2uro.jpg",
+        "world_name": "Dark Souls Remastered",
+        "igdb_name": "Dark Souls: Remastered",
+        "rating": [
+            "Blood and Gore",
+            "Partial Nudity",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "magic",
+            "3d",
+            "undead",
+            "soulslike",
+            "interconnected-world"
+        ],
+        "release_date": 2018
+    },
+    "Dungeon Clawler": {
+        "igdb_id": "290897",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7ygu.jpg",
+        "world_name": "Dungeon Clawler",
+        "igdb_name": "Dungeon Clawler",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Simulator",
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Survival"
+        ],
+        "keywords": [
+            "roguelike",
+            "roguelite"
+        ],
+        "release_date": 2024
+    },
+    "Digimon World": {
+        "igdb_id": "3878",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2dyy.jpg",
+        "world_name": "Digimon World",
+        "igdb_name": "Digimon World 4",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Comedy"
+        ],
+        "keywords": [
+            "anime",
+            "sequel",
+            "leveling up",
+            "voice acting",
+            "polygonal 3d",
+            "shopping"
+        ],
+        "release_date": 2005
+    },
+    "EarthBound": {
+        "igdb_id": "78559",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/udoqdu91vczupvadieku.jpg",
+        "world_name": "EarthBound",
+        "igdb_name": "Earthbound",
+        "rating": [],
+        "player_perspectives": [
+            "Side view",
+            "Text"
+        ],
+        "genres": [
+            "Adventure"
+        ],
+        "themes": [
+            "Fantasy",
+            "Mystery"
+        ],
+        "keywords": [
+            "amnesia"
+        ],
+        "release_date": 1983
+    },
+    "Ender Lilies: Quietus of the Knights": {
+        "igdb_id": "138858",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9s9e.jpg",
+        "world_name": "Ender Lilies: Quietus of the Knights",
+        "igdb_name": "Ender Lilies: Quietus of the Knights",
+        "rating": [
+            "Violence",
+            "Blood"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "metroidvania",
+            "female protagonist",
+            "witches",
+            "soulslike"
+        ],
+        "release_date": 2021
+    },
+    "Factorio": {
+        "igdb_id": "7046",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1tfy.jpg",
+        "world_name": "Factorio",
+        "igdb_name": "Factorio",
+        "rating": [
+            "Blood",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Simulator",
+            "Strategy",
+            "Indie"
+        ],
+        "themes": [
+            "Science fiction",
+            "Survival",
+            "Sandbox"
+        ],
+        "keywords": [
+            "aliens",
+            "crafting",
+            "steam",
+            "digital distribution"
+        ],
+        "release_date": 2020
+    },
+    "Factorio - Space Age Without Space": {
+        "igdb_id": "263344",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co91k3.jpg",
+        "world_name": "Factorio - Space Age Without Space",
+        "igdb_name": "Factorio: Space Age",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Simulator",
+            "Strategy",
+            "Indie"
+        ],
+        "themes": [
+            "Science fiction",
+            "Survival",
+            "Sandbox"
+        ],
+        "keywords": [
+            "aliens",
+            "crafting"
+        ],
+        "release_date": 2024
+    },
+    "Faxanadu": {
+        "igdb_id": "1974",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5jif.jpg",
+        "world_name": "Faxanadu",
+        "igdb_name": "Faxanadu",
+        "rating": [
+            "Mild Fantasy Violence",
+            "Use of Tobacco"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Sandbox"
+        ],
+        "keywords": [
+            "magic",
+            "metroidvania",
+            "backtracking",
+            "save point",
+            "temporary invincibility",
+            "merchants"
+        ],
+        "release_date": 1987
+    },
+    "Final Fantasy IV Free Enterprise": {
+        "igdb_id": "387",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2y6s.jpg",
+        "world_name": "Final Fantasy IV Free Enterprise",
+        "igdb_name": "Final Fantasy II",
+        "rating": [
+            "Mild Fantasy Violence",
+            "Mild Suggestive Themes"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "jrpg",
+            "retroachievements"
+        ],
+        "release_date": 1991
+    },
+    "Final Fantasy Mystic Quest": {
+        "igdb_id": "415",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2y0b.jpg",
+        "world_name": "Final Fantasy Mystic Quest",
+        "igdb_name": "Final Fantasy: Mystic Quest",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "ghosts",
+            "casual",
+            "turn-based",
+            "jrpg",
+            "overworld",
+            "undead",
+            "sword & sorcery",
+            "explosion",
+            "party system",
+            "rock music",
+            "retroachievements"
+        ],
+        "release_date": 1992
+    },
+    "Final Fantasy Tactics Advance": {
+        "igdb_id": "414",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1wyp.jpg",
+        "world_name": "Final Fantasy Tactics Advance",
+        "igdb_name": "Final Fantasy Tactics Advance",
+        "rating": [
+            "Mild Violence",
+            "Alcohol Reference"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Tactical"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "magic",
+            "grinding",
+            "turn-based",
+            "summoning support",
+            "jrpg",
+            "death",
+            "overworld",
+            "backtracking",
+            "snow",
+            "sequel",
+            "explosion",
+            "bow and arrow",
+            "breaking the fourth wall",
+            "party system",
+            "melee",
+            "stat tracking",
+            "rock music",
+            "coming of age",
+            "androgyny",
+            "damage over time"
+        ],
+        "release_date": 2003
+    },
+    "Yu-Gi-Oh! Forbidden Memories": {
+        "igdb_id": "4109",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2y74.jpg",
+        "world_name": "Yu-Gi-Oh! Forbidden Memories",
+        "igdb_name": "X-Men: Mutant Academy",
+        "rating": [
+            "Animated Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Fighting",
+            "Platform",
+            "Hack and slash/Beat 'em up"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "side-scrolling",
+            "multiple protagonists",
+            "level selection",
+            "alternate costumes",
+            "human",
+            "polygonal 3d",
+            "melee",
+            "e3 2000"
+        ],
+        "release_date": 2000
+    },
+    "Getting Over It": {
+        "igdb_id": "13144",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1zpr.jpg",
+        "world_name": "Getting Over It",
+        "igdb_name": "The Sims 4: Get Together",
+        "rating": [
+            "Violence",
+            "Crude Humor",
+            "Sexual Themes"
+        ],
+        "player_perspectives": [
+            "First person",
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Simulator",
+            "Adventure"
+        ],
+        "themes": [
+            "Fantasy",
+            "Comedy",
+            "Sandbox",
+            "Romance"
+        ],
+        "keywords": [
+            "casual",
+            "cute",
+            "funny",
+            "relaxing",
+            "lgbtq+"
+        ],
+        "release_date": 2015
+    },
+    "Golden Sun The Lost Age": {
+        "igdb_id": "1173",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co25rt.jpg",
+        "world_name": "Golden Sun The Lost Age",
+        "igdb_name": "Golden Sun: The Lost Age",
+        "rating": [
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Open world"
+        ],
+        "keywords": [
+            "anime",
+            "magic",
+            "minigames",
+            "turn-based",
+            "summoning support",
+            "death",
+            "overworld",
+            "snow",
+            "sequel",
+            "silent protagonist",
+            "leveling up",
+            "human",
+            "party system",
+            "save point",
+            "potion",
+            "melee",
+            "rock music",
+            "androgyny",
+            "fire manipulation",
+            "behind the waterfall"
+        ],
+        "release_date": 2002
+    },
+    "gzDoom": {
+        "igdb_id": "307741",
+        "cover_url": "",
+        "world_name": "gzDoom",
+        "igdb_name": "GZDoom SM64",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": null
+    },
+    "Hades": {
+        "igdb_id": "113112",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co39vc.jpg",
+        "world_name": "Hades",
+        "igdb_name": "Hades",
+        "rating": [
+            "Mild Language",
+            "Alcohol Reference",
+            "Violence",
+            "Suggestive Themes",
+            "Blood"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Hack and slash/Beat 'em up",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Drama"
+        ],
+        "keywords": [
+            "roguelike",
+            "difficult",
+            "roguelite",
+            "you can pet the dog"
+        ],
+        "release_date": 2020
+    },
+    "Heretic": {
+        "igdb_id": "6362",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1mwz.jpg",
+        "world_name": "Heretic",
+        "igdb_name": "Heretic",
+        "rating": [],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Shooter"
+        ],
+        "themes": [
+            "Fantasy",
+            "Historical"
+        ],
+        "keywords": [
+            "bloody",
+            "medieval",
+            "magic",
+            "death",
+            "2.5d",
+            "steam",
+            "undead",
+            "sword & sorcery",
+            "digital distribution",
+            "skeletons",
+            "melee",
+            "secret area",
+            "hidden room"
+        ],
+        "release_date": 1994
+    },
+    "Hunie Pop": {
+        "igdb_id": "9655",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2sor.jpg",
+        "world_name": "Hunie Pop",
+        "igdb_name": "HuniePop",
+        "rating": [],
+        "player_perspectives": [
+            "First person",
+            "Text"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Simulator",
+            "Strategy",
+            "Indie",
+            "Visual Novel"
+        ],
+        "themes": [
+            "Fantasy",
+            "Comedy",
+            "Erotic",
+            "Romance"
+        ],
+        "keywords": [
+            "anime"
+        ],
+        "release_date": 2015
+    },
+    "Hunie Pop 2": {
+        "igdb_id": "72472",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5x87.jpg",
+        "world_name": "Hunie Pop 2",
+        "igdb_name": "HuniePop 2: Double Date",
+        "rating": [],
+        "player_perspectives": [
+            "First person",
+            "Text"
+        ],
+        "genres": [
+            "Puzzle",
+            "Simulator",
+            "Strategy",
+            "Indie",
+            "Visual Novel"
+        ],
+        "themes": [
+            "Erotic",
+            "Romance"
+        ],
+        "keywords": [
+            "anime",
+            "steam",
+            "fairy",
+            "achievements",
+            "funny",
+            "digital distribution",
+            "voice acting"
+        ],
+        "release_date": 2021
+    },
+    "Hylics 2": {
+        "igdb_id": "98469",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co290q.jpg",
+        "world_name": "Hylics 2",
+        "igdb_name": "Hylics 2",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Role-playing (RPG)",
+            "Indie"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2020
+    },
+    "Inscryption": {
+        "igdb_id": "139090",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co401c.jpg",
+        "world_name": "Inscryption",
+        "igdb_name": "Inscryption",
+        "rating": [
+            "Blood",
+            "Strong Language",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "First person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Strategy",
+            "Adventure",
+            "Indie",
+            "Card & Board Game"
+        ],
+        "themes": [
+            "Horror",
+            "Mystery"
+        ],
+        "keywords": [],
+        "release_date": 2021
+    },
+    "Jak and Daxter The Precursor Legacy": {
+        "igdb_id": "1528",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1w7q.jpg",
+        "world_name": "Jak and Daxter The Precursor Legacy",
+        "igdb_name": "Jak and Daxter: The Precursor Legacy",
+        "rating": [
+            "Fantasy Violence",
+            "Mild Suggestive Themes"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Racing",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Comedy",
+            "Open world"
+        ],
+        "keywords": [
+            "exploration",
+            "mascot",
+            "backtracking",
+            "snow",
+            "teleportation",
+            "silent protagonist",
+            "climbing",
+            "swimming",
+            "day/night cycle",
+            "anthropomorphism",
+            "world map",
+            "voice acting",
+            "polygonal 3d",
+            "breaking the fourth wall",
+            "descendants of other characters",
+            "save point",
+            "ice stage",
+            "checkpoints",
+            "coming of age",
+            "moving platforms",
+            "temporary invincibility",
+            "time paradox",
+            "damage over time"
+        ],
+        "release_date": 2001
+    },
+    "Jigsaw": {
+        "igdb_id": "203698",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4tyf.jpg",
+        "world_name": "Jigsaw",
+        "igdb_name": "Pirates Jigsaw Puzzle for Kids & Toddlers",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Puzzle",
+            "Adventure",
+            "Card & Board Game"
+        ],
+        "themes": [
+            "Educational"
+        ],
+        "keywords": [],
+        "release_date": 2022
+    },
+    "Kirby 64 - The Crystal Shards": {
+        "igdb_id": "2713",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1wcz.jpg",
+        "world_name": "Kirby 64 - The Crystal Shards",
+        "igdb_name": "Kirby 64: The Crystal Shards",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "minigames",
+            "mascot",
+            "2.5d",
+            "side-scrolling",
+            "fairy",
+            "multiple endings",
+            "silent protagonist",
+            "anthropomorphism",
+            "polygonal 3d",
+            "melee",
+            "moving platforms",
+            "shape-shifting",
+            "e3 2000",
+            "sliding down ladders",
+            "retroachievements"
+        ],
+        "release_date": 2000
+    },
+    "Kirby": {
+        "igdb_id": "3720",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co25su.jpg",
+        "world_name": "Kirby",
+        "igdb_name": "Kirby's Dream Land 3",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "mascot",
+            "side-scrolling",
+            "melee",
+            "shape-shifting",
+            "retroachievements"
+        ],
+        "release_date": 1997
+    },
+    "Kingdom Hearts": {
+        "igdb_id": "301925",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co8dgh.jpg",
+        "world_name": "Kingdom Hearts",
+        "igdb_name": "Kingdom Hearts",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 2004
+    },
+    "Kingdom Hearts 2": {
+        "igdb_id": "1221",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co30t1.jpg",
+        "world_name": "Kingdom Hearts 2",
+        "igdb_name": "Kingdom Hearts II",
+        "rating": [
+            "Mild Blood",
+            "Violence",
+            "Use of Alcohol"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2005
+    },
+    "Links Awakening DX Beta": {
+        "igdb_id": "1027",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4o47.jpg",
+        "world_name": "Links Awakening DX Beta",
+        "igdb_name": "The Legend of Zelda: Link's Awakening DX",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "magic",
+            "mascot",
+            "fishing",
+            "death",
+            "maze",
+            "action-adventure",
+            "fairy",
+            "backtracking",
+            "undead",
+            "campaign",
+            "princess",
+            "pixel art",
+            "easter egg",
+            "silent protagonist",
+            "sword & sorcery",
+            "darkness",
+            "digital distribution",
+            "monkey",
+            "world map",
+            "human",
+            "bow and arrow",
+            "breaking the fourth wall",
+            "disorientation zone",
+            "side quests",
+            "potion",
+            "real-time combat",
+            "walking through walls",
+            "moving platforms",
+            "fetch quests",
+            "status effects"
+        ],
+        "release_date": 1998
+    },
+    "Landstalker - The Treasures of King Nole": {
+        "igdb_id": "15072",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2kb9.jpg",
+        "world_name": "Landstalker - The Treasures of King Nole",
+        "igdb_name": "Landstalker",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Sandbox"
+        ],
+        "keywords": [
+            "action-adventure",
+            "steam",
+            "fairy",
+            "leveling up",
+            "real-time combat"
+        ],
+        "release_date": 1992
+    },
+    "Lethal Company": {
+        "igdb_id": "212089",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5ive.jpg",
+        "world_name": "Lethal Company",
+        "igdb_name": "Lethal Company",
+        "rating": [],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Horror",
+            "Comedy"
+        ],
+        "keywords": [
+            "aliens",
+            "exploration",
+            "survival horror"
+        ],
+        "release_date": 2023
+    },
+    "Lingo": {
+        "igdb_id": "341915",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9qzj.jpg",
+        "world_name": "Lingo",
+        "igdb_name": "Lingo",
+        "rating": [],
+        "player_perspectives": [
+            "Text"
+        ],
+        "genres": [
+            "Quiz/Trivia"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 1994
+    },
+    "Lufia II Ancient Cave": {
+        "igdb_id": "1178",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9mg3.jpg",
+        "world_name": "Lufia II Ancient Cave",
+        "igdb_name": "Lufia II: Rise of the Sinistrals",
+        "rating": [
+            "Mild Animated Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)"
+        ],
+        "themes": [
+            "Fantasy"
+        ],
+        "keywords": [
+            "retroachievements"
+        ],
+        "release_date": 1995
+    },
+    "Luigi": {
+        "igdb_id": "90109",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1wmb.jpg",
+        "world_name": "Luigi",
+        "igdb_name": "Luigi's Mansion",
+        "rating": [
+            "Mild Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 2018
+    },
+    "Hatsune Miku Project Diva Mega Mix+": {
+        "igdb_id": "202864",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4sos.jpg",
+        "world_name": "Hatsune Miku Project Diva Mega Mix+",
+        "igdb_name": "Hatsune Miku: Project Diva Mega Mix+",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Music",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2022
+    },
+    "The Messenger": {
+        "igdb_id": "44838",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7yb2.jpg",
+        "world_name": "The Messenger",
+        "igdb_name": "The Messenger",
+        "rating": [
+            "Violence"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Point-and-click",
+            "Adventure"
+        ],
+        "themes": [
+            "Historical"
+        ],
+        "keywords": [],
+        "release_date": 2000
+    },
+    "Metroid Prime": {
+        "igdb_id": "134258",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6m4o.jpg",
+        "world_name": "Metroid Prime",
+        "igdb_name": "New Play Control! Metroid Prime 2: Dark Echoes",
+        "rating": [],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Shooter",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "metroidvania"
+        ],
+        "release_date": 2009
+    },
+    "Minecraft": {
+        "igdb_id": "135400",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co8fu7.jpg",
+        "world_name": "Minecraft",
+        "igdb_name": "Minecraft",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "First person",
+            "Third person",
+            "Virtual Reality"
+        ],
+        "genres": [
+            "Simulator",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Survival",
+            "Sandbox",
+            "Kids",
+            "Open world",
+            "4X (explore, expand, exploit, and exterminate)"
+        ],
+        "keywords": [
+            "bees"
+        ],
+        "release_date": 2016
+    },
+    "Mario Kart 64": {
+        "igdb_id": "290274",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7v76.jpg",
+        "world_name": "Mario Kart 64",
+        "igdb_name": "Mario Kart 64 Remade",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Racing"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2022
+    },
+    "Mario & Luigi Superstar Saga": {
+        "igdb_id": "37151",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co22a7.jpg",
+        "world_name": "Mario & Luigi Superstar Saga",
+        "igdb_name": "Mario & Luigi: Superstar Saga + Bowser's Minions",
+        "rating": [
+            "Mild Suggestive Themes",
+            "Mild Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Comedy"
+        ],
+        "keywords": [],
+        "release_date": 2017
+    },
+    "Mega Man 2": {
+        "igdb_id": "1734",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5572.jpg",
+        "world_name": "Mega Man 2",
+        "igdb_name": "Mega Man II",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "mascot",
+            "death",
+            "flight",
+            "side-scrolling",
+            "pixel art",
+            "sequel",
+            "explosion",
+            "upgradeable weapons",
+            "checkpoints",
+            "underwater gameplay",
+            "difficulty level",
+            "moving platforms",
+            "villain",
+            "monomyth"
+        ],
+        "release_date": 1991
+    },
+    "MegaMan Battle Network 3": {
+        "igdb_id": "1758",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co203k.jpg",
+        "world_name": "MegaMan Battle Network 3",
+        "igdb_name": "Mega Man Battle Network 3 Blue",
+        "rating": [
+            "Mild Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [],
+        "release_date": 2002
+    },
+    "Majora": {
+        "igdb_id": "1030",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3pah.jpg",
+        "world_name": "Majora",
+        "igdb_name": "The Legend of Zelda: Majora's Mask",
+        "rating": [
+            "Animated Violence",
+            "Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Horror",
+            "Open world"
+        ],
+        "keywords": [
+            "time travel",
+            "archery",
+            "action-adventure",
+            "fairy",
+            "sequel",
+            "day/night cycle",
+            "sword & sorcery",
+            "descendants of other characters",
+            "sprinting mechanics",
+            "shape-shifting",
+            "boss assistance",
+            "living inventory",
+            "retroachievements"
+        ],
+        "release_date": 2000
+    },
+    "Momodora Moonlit Farewell": {
+        "igdb_id": "188088",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7mxs.jpg",
+        "world_name": "Momodora Moonlit Farewell",
+        "igdb_name": "Momodora: Moonlit Farewell",
+        "rating": [
+            "Fantasy Violence",
+            "Blood",
+            "Suggestive Themes"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "metroidvania",
+            "pixel graphics"
+        ],
+        "release_date": 2024
+    },
+    "Monster Sanctuary": {
+        "igdb_id": "89594",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1q3q.jpg",
+        "world_name": "Monster Sanctuary",
+        "igdb_name": "Monster Sanctuary",
+        "rating": [
+            "Fantasy Violence",
+            "Mild Blood",
+            "Tobacco Reference"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "metroidvania"
+        ],
+        "release_date": 2020
+    },
+    "Muse Dash": {
+        "igdb_id": "86316",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6h43.jpg",
+        "world_name": "Muse Dash",
+        "igdb_name": "Muse Dash",
+        "rating": [
+            "Sexual Themes",
+            "Mild Blood",
+            "Mild Lyrics",
+            "Fantasy Violence",
+            "Suggestive Themes"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Music",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Comedy"
+        ],
+        "keywords": [
+            "anime",
+            "casual",
+            "2d",
+            "side-scrolling",
+            "steam",
+            "achievements",
+            "cute",
+            "digital distribution",
+            "difficulty level"
+        ],
+        "release_date": 2018
+    },
+    "Metroid Zero Mission": {
+        "igdb_id": "1107",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1vci.jpg",
+        "world_name": "Metroid Zero Mission",
+        "igdb_name": "Metroid: Zero Mission",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Shooter",
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Open world"
+        ],
+        "keywords": [
+            "aliens",
+            "pirates",
+            "collecting",
+            "metroidvania",
+            "death",
+            "maze",
+            "female protagonist",
+            "side-scrolling",
+            "backtracking",
+            "multiple endings",
+            "pixel art",
+            "explosion",
+            "upgradeable weapons",
+            "save point",
+            "difficulty level",
+            "rpg elements",
+            "ambient music",
+            "interconnected-world"
+        ],
+        "release_date": 2004
+    },
+    "Noita": {
+        "igdb_id": "52006",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1qp1.jpg",
+        "world_name": "Noita",
+        "igdb_name": "Noita",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Shooter",
+            "Role-playing (RPG)",
+            "Simulator",
+            "Adventure",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Sandbox"
+        ],
+        "keywords": [
+            "magic",
+            "pixel graphics",
+            "roguelite"
+        ],
+        "release_date": 2020
+    },
+    "OpenRCT2": {
+        "igdb_id": "80720",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1ngq.jpg",
+        "world_name": "OpenRCT2",
+        "igdb_name": "OpenRCT2",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Real Time Strategy (RTS)",
+            "Simulator",
+            "Strategy"
+        ],
+        "themes": [
+            "Business",
+            "4X (explore, expand, exploit, and exterminate)"
+        ],
+        "keywords": [
+            "death",
+            "maze",
+            "easter egg",
+            "explosion",
+            "kidnapping"
+        ],
+        "release_date": 2014
+    },
+    "Ori and the Blind Forest": {
+        "igdb_id": "19456",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2s0m.jpg",
+        "world_name": "Ori and the Blind Forest",
+        "igdb_name": "Ori and the Blind Forest: Definitive Edition",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Open world"
+        ],
+        "keywords": [
+            "metroidvania",
+            "achievements"
+        ],
+        "release_date": 2016
+    },
+    "Old School Runescape": {
+        "igdb_id": "79824",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1mo1.jpg",
+        "world_name": "Old School Runescape",
+        "igdb_name": "Old School RuneScape",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Text"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Fantasy",
+            "Sandbox",
+            "Open world"
+        ],
+        "keywords": [
+            "grinding"
+        ],
+        "release_date": 2013
+    },
+    "osu!": {
+        "igdb_id": "3012",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co8a4m.jpg",
+        "world_name": "osu!",
+        "igdb_name": "Osu!",
+        "rating": [],
+        "player_perspectives": [
+            "Auditory"
+        ],
+        "genres": [
+            "Music",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "anime",
+            "stat tracking",
+            "difficulty level"
+        ],
+        "release_date": 2007
+    },
+    "Outer Wilds": {
+        "igdb_id": "11737",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co65ac.jpg",
+        "world_name": "Outer Wilds",
+        "igdb_name": "Outer Wilds",
+        "rating": [
+            "Fantasy Violence",
+            "Alcohol Reference"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Puzzle",
+            "Simulator",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Open world",
+            "Mystery"
+        ],
+        "keywords": [
+            "exploration",
+            "time travel"
+        ],
+        "release_date": 2019
+    },
+    "Overcooked! 2": {
+        "igdb_id": "135963",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2g3n.jpg",
+        "world_name": "Overcooked! 2",
+        "igdb_name": "Overcooked! + Overcooked! 2",
+        "rating": [
+            "Mild Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Strategy",
+            "Arcade"
+        ],
+        "themes": [
+            "Business"
+        ],
+        "keywords": [],
+        "release_date": 2019
+    },
+    "Paint": {
+        "igdb_id": "231309",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9tyz.jpg",
+        "world_name": "Paint",
+        "igdb_name": "Warrior Paint: 2005 GOTY Edition",
+        "rating": [
+            "Blood and Gore"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Shooter",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Historical"
+        ],
+        "keywords": [],
+        "release_date": 2022
+    },
+    "Paper Mario": {
+        "igdb_id": "3349",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co25us.jpg",
+        "world_name": "Paper Mario",
+        "igdb_name": "Paper Mario: The Thousand-Year Door",
+        "rating": [
+            "Mild Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Turn-based strategy (TBS)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Science fiction",
+            "Comedy"
+        ],
+        "keywords": [
+            "ghosts",
+            "dinosaurs",
+            "magic",
+            "mascot",
+            "turn-based",
+            "death",
+            "2.5d",
+            "maze",
+            "backtracking",
+            "undead",
+            "princess",
+            "easter egg",
+            "sequel",
+            "silent protagonist",
+            "bats",
+            "anthropomorphism",
+            "alternate costumes",
+            "leveling up",
+            "human",
+            "polygonal 3d",
+            "damsel in distress",
+            "upgradeable weapons",
+            "breaking the fourth wall",
+            "party system",
+            "save point",
+            "side quests",
+            "melee",
+            "secret area",
+            "violent plants",
+            "moving platforms",
+            "villain",
+            "temporary invincibility",
+            "boss assistance",
+            "fetch quests",
+            "kidnapping",
+            "poisoning",
+            "fire manipulation",
+            "hidden room",
+            "interconnected-world"
+        ],
+        "release_date": 2004
+    },
+    "Peaks of Yore": {
+        "igdb_id": "238690",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co8zzc.jpg",
+        "world_name": "Peaks of Yore",
+        "igdb_name": "Peaks of Yore",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 2023
+    },
+    "Pokemon Mystery Dungeon Explorers of Sky": {
+        "igdb_id": "2323",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7ovf.jpg",
+        "world_name": "Pokemon Mystery Dungeon Explorers of Sky",
+        "igdb_name": "Pok\u00e9mon Mystery Dungeon: Explorers of Sky",
+        "rating": [
+            "Mild Cartoon Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Turn-based strategy (TBS)"
+        ],
+        "themes": [
+            "Fantasy",
+            "Kids"
+        ],
+        "keywords": [
+            "time travel",
+            "roguelike",
+            "jrpg"
+        ],
+        "release_date": 2009
+    },
+    "Pokemon Crystal": {
+        "igdb_id": "337415",
+        "cover_url": "",
+        "world_name": "Pokemon Crystal",
+        "igdb_name": "Pokemon Crystal Clear",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": null
+    },
+    "Pokemon Emerald": {
+        "igdb_id": "331767",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9fje.jpg",
+        "world_name": "Pokemon Emerald",
+        "igdb_name": "Pok\u00e9mon Emerald Slide",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2022
+    },
+    "Pokemon FireRed and LeafGreen": {
+        "igdb_id": "288206",
+        "cover_url": "",
+        "world_name": "Pokemon FireRed and LeafGreen",
+        "igdb_name": "Pokemon FireRed and LeafGreen+",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Fantasy",
+            "Kids"
+        ],
+        "keywords": [],
+        "release_date": 2021
+    },
+    "Pokemon Red and Blue": {
+        "igdb_id": "1561",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5pi4.jpg",
+        "world_name": "Pokemon Red and Blue",
+        "igdb_name": "Pok\u00e9mon Red Version",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Turn-based strategy (TBS)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Kids",
+            "Open world"
+        ],
+        "keywords": [
+            "collecting"
+        ],
+        "release_date": 1996
+    },
+    "Pseudoregalia": {
+        "igdb_id": "259465",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6vcy.jpg",
+        "world_name": "Pseudoregalia",
+        "igdb_name": "Pseudoregalia: Jam Ver.",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "metroidvania"
+        ],
+        "release_date": 2023
+    },
+    "Ratchet & Clank 2": {
+        "igdb_id": "1770",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co230n.jpg",
+        "world_name": "Ratchet & Clank 2",
+        "igdb_name": "Ratchet & Clank: Going Commando",
+        "rating": [
+            "Animated Blood",
+            "Comic Mischief",
+            "Fantasy Violence",
+            "Mild Language"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Shooter",
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Comedy"
+        ],
+        "keywords": [],
+        "release_date": 2003
+    },
+    "Resident Evil 2 Remake": {
+        "igdb_id": "19686",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1ir3.jpg",
+        "world_name": "Resident Evil 2 Remake",
+        "igdb_name": "Resident Evil 2",
+        "rating": [
+            "Strong Language",
+            "Intense Violence",
+            "Blood and Gore"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Shooter",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Horror",
+            "Survival"
+        ],
+        "keywords": [
+            "bloody",
+            "survival horror"
+        ],
+        "release_date": 2019
+    },
+    "Resident Evil 3 Remake": {
+        "igdb_id": "115115",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co22l7.jpg",
+        "world_name": "Resident Evil 3 Remake",
+        "igdb_name": "Resident Evil 3",
+        "rating": [
+            "Intense Violence",
+            "Strong Language",
+            "Blood and Gore"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Shooter",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Horror",
+            "Survival"
+        ],
+        "keywords": [
+            "survival horror"
+        ],
+        "release_date": 2020
+    },
+    "Rogue Legacy": {
+        "igdb_id": "3221",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co27fi.jpg",
+        "world_name": "Rogue Legacy",
+        "igdb_name": "Rogue Legacy",
+        "rating": [
+            "Fantasy Violence",
+            "Crude Humor"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Comedy"
+        ],
+        "keywords": [
+            "ghosts",
+            "exploration",
+            "medieval",
+            "magic",
+            "minigames",
+            "roguelike",
+            "metroidvania",
+            "death",
+            "female protagonist",
+            "flight",
+            "action-adventure",
+            "side-scrolling",
+            "steam",
+            "multiple protagonists",
+            "bird",
+            "pixel art",
+            "pixel graphics",
+            "easter egg",
+            "teleportation",
+            "darkness",
+            "explosion",
+            "digital distribution",
+            "bow and arrow",
+            "breaking the fourth wall",
+            "descendants of other characters",
+            "potion",
+            "stat tracking",
+            "secret area",
+            "violent plants",
+            "temporary invincibility",
+            "boss assistance",
+            "fire manipulation",
+            "lgbtq+"
+        ],
+        "release_date": 2013
+    },
+    "Risk of Rain": {
+        "igdb_id": "28512",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2eu7.jpg",
+        "world_name": "Risk of Rain",
+        "igdb_name": "Risk of Rain 2",
+        "rating": [
+            "Blood",
+            "Drug Reference",
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Shooter",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Survival"
+        ],
+        "keywords": [
+            "roguelite"
+        ],
+        "release_date": 2019
+    },
+    "Risk of Rain 2": {
+        "igdb_id": "28512",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2eu7.jpg",
+        "world_name": "Risk of Rain 2",
+        "igdb_name": "Risk of Rain 2",
+        "rating": [
+            "Blood",
+            "Drug Reference",
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Shooter",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Survival"
+        ],
+        "keywords": [
+            "roguelite"
+        ],
+        "release_date": 2019
+    },
+    "Sonic Adventure 2 Battle": {
+        "igdb_id": "192194",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5p3o.jpg",
+        "world_name": "Sonic Adventure 2 Battle",
+        "igdb_name": "Sonic Adventure 2: Battle",
+        "rating": [
+            "Mild Lyrics",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 2012
+    },
+    "Sonic Adventure DX": {
+        "igdb_id": "192114",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4iln.jpg",
+        "world_name": "Sonic Adventure DX",
+        "igdb_name": "Sonic Adventure: Sonic Adventure DX Upgrade",
+        "rating": [
+            "Animated Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 2010
+    },
+    "Starcraft 2": {
+        "igdb_id": "239",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1tnn.jpg",
+        "world_name": "Starcraft 2",
+        "igdb_name": "StarCraft II: Wings of Liberty",
+        "rating": [
+            "Blood and Gore",
+            "Language",
+            "Suggestive Themes",
+            "Use of Alcohol and Tobacco",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Real Time Strategy (RTS)",
+            "Strategy"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Warfare"
+        ],
+        "keywords": [
+            "aliens",
+            "human",
+            "side quests",
+            "mercenary"
+        ],
+        "release_date": 2010
+    },
+    "Sea of Thieves": {
+        "igdb_id": "11137",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2558.jpg",
+        "world_name": "Sea of Thieves",
+        "igdb_name": "Sea of Thieves",
+        "rating": [
+            "Crude Humor",
+            "Use of Alcohol",
+            "Violence"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Simulator",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Open world"
+        ],
+        "keywords": [
+            "pirates",
+            "exploration",
+            "grinding",
+            "crafting",
+            "action-adventure",
+            "digital distribution",
+            "skeletons",
+            "you can pet the dog"
+        ],
+        "release_date": 2018
+    },
+    "shapez": {
+        "igdb_id": "134826",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4tfx.jpg",
+        "world_name": "shapez",
+        "igdb_name": "Shapez",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Simulator",
+            "Strategy",
+            "Indie"
+        ],
+        "themes": [
+            "Sandbox"
+        ],
+        "keywords": [],
+        "release_date": 2020
+    },
+    "Shivers": {
+        "igdb_id": "12477",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7a5z.jpg",
+        "world_name": "Shivers",
+        "igdb_name": "Shivers",
+        "rating": [
+            "Realistic Blood and Gore",
+            "Realistic Blood"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Point-and-click",
+            "Puzzle",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Horror"
+        ],
+        "keywords": [],
+        "release_date": 1995
+    },
+    "A Short Hike": {
+        "igdb_id": "116753",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co6e83.jpg",
+        "world_name": "A Short Hike",
+        "igdb_name": "A Short Hike",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy",
+            "Open world"
+        ],
+        "keywords": [
+            "exploration",
+            "casual",
+            "fishing",
+            "female protagonist",
+            "flight",
+            "bird",
+            "cute",
+            "funny",
+            "pixel graphics",
+            "relaxing",
+            "3d platformer",
+            "great soundtrack"
+        ],
+        "release_date": 2019
+    },
+    "SM64 Romhack": {
+        "igdb_id": "1074",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co721v.jpg",
+        "world_name": "SM64 Romhack",
+        "igdb_name": "Super Mario 64",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Open world"
+        ],
+        "keywords": [
+            "rabbit",
+            "3d platformer",
+            "swimming",
+            "sprinting mechanics",
+            "real-time combat",
+            "underwater gameplay",
+            "retroachievements"
+        ],
+        "release_date": 1996
+    },
+    "Super Mario Odyssey": {
+        "igdb_id": "235169",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co63jd.jpg",
+        "world_name": "Super Mario Odyssey",
+        "igdb_name": "Super Mario Odyssey F.L.U.D.D.",
+        "rating": [],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2023
+    },
+    "Super Mario Sunshine": {
+        "igdb_id": "229177",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co68sg.jpg",
+        "world_name": "Super Mario Sunshine",
+        "igdb_name": "Super Mario Sunshine",
+        "rating": [],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Sandbox"
+        ],
+        "keywords": [],
+        "release_date": 2020
+    },
+    "Super Mario World": {
+        "igdb_id": "270346",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co779k.jpg",
+        "world_name": "Super Mario World",
+        "igdb_name": "Super Mario World",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2001
+    },
+    "Secret of Evermore": {
+        "igdb_id": "1359",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co8kz6.jpg",
+        "world_name": "Secret of Evermore",
+        "igdb_name": "Secret of Evermore",
+        "rating": [
+            "Mild Animated Violence"
+        ],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction",
+            "Historical"
+        ],
+        "keywords": [
+            "medieval",
+            "dog",
+            "sprinting mechanics",
+            "ambient music"
+        ],
+        "release_date": 1995
+    },
+    "Sonic Heroes": {
+        "igdb_id": "4156",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9olx.jpg",
+        "world_name": "Sonic Heroes",
+        "igdb_name": "Sonic Heroes",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Platform",
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "3d",
+            "rabbit",
+            "multiple protagonists",
+            "achievements",
+            "amnesia",
+            "3d platformer",
+            "explosion",
+            "anthropomorphism",
+            "voice acting",
+            "checkpoints",
+            "rock music",
+            "moving platforms",
+            "temporary invincibility",
+            "retroachievements"
+        ],
+        "release_date": 2003
+    },
+    "Symphony of the Night": {
+        "igdb_id": "181156",
+        "cover_url": "",
+        "world_name": "Symphony of the Night",
+        "igdb_name": "Symphony of the Night",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Puzzle",
+            "Indie"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2014
+    },
+    "Spyro 3": {
+        "igdb_id": "1578",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7t4m.jpg",
+        "world_name": "Spyro 3",
+        "igdb_name": "Spyro: Year of the Dragon",
+        "rating": [
+            "Comic Mischief"
+        ],
+        "player_perspectives": [
+            "Third person",
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Comedy"
+        ],
+        "keywords": [
+            "minigames",
+            "mascot",
+            "flight",
+            "multiple protagonists",
+            "level selection",
+            "swimming",
+            "sword & sorcery",
+            "anthropomorphism",
+            "polygonal 3d",
+            "real-time combat",
+            "moving platforms",
+            "e3 2000"
+        ],
+        "release_date": 2000
+    },
+    "Skyward Sword": {
+        "igdb_id": "534",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co5wrj.jpg",
+        "world_name": "Skyward Sword",
+        "igdb_name": "The Legend of Zelda: Skyward Sword",
+        "rating": [
+            "Fantasy Violence",
+            "Animated Blood",
+            "Comic Mischief"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Historical",
+            "Open world"
+        ],
+        "keywords": [
+            "medieval",
+            "archery",
+            "action-adventure",
+            "campaign",
+            "princess",
+            "silent protagonist",
+            "day/night cycle",
+            "sword & sorcery",
+            "human",
+            "polygonal 3d",
+            "bow and arrow",
+            "damsel in distress",
+            "potion",
+            "real-time combat",
+            "mercenary",
+            "violent plants",
+            "androgyny",
+            "context sensitive",
+            "living inventory",
+            "behind the waterfall",
+            "monomyth"
+        ],
+        "release_date": 2011
+    },
+    "Stardew Valley": {
+        "igdb_id": "17000",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/xrpmydnu9rpxvxfjkiu7.jpg",
+        "world_name": "Stardew Valley",
+        "igdb_name": "Stardew Valley",
+        "rating": [
+            "Fantasy Violence",
+            "Mild Blood",
+            "Mild Language",
+            "Simulated Gambling",
+            "Use of Tobacco",
+            "Use of Alcohol",
+            "Use of Alcohol and Tobacco"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Simulator",
+            "Strategy",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy",
+            "Business",
+            "Sandbox",
+            "Romance"
+        ],
+        "keywords": [
+            "2d",
+            "fishing",
+            "crafting",
+            "fairy",
+            "pixel art",
+            "relaxing",
+            "day/night cycle",
+            "customizable characters",
+            "deliberately retro"
+        ],
+        "release_date": 2016
+    },
+    "Star Fox 64": {
+        "igdb_id": "6890",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1wwu.jpg",
+        "world_name": "Star Fox 64",
+        "igdb_name": "Star Fox 64 3D",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Shooter"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "flight",
+            "anthropomorphism",
+            "polygonal 3d"
+        ],
+        "release_date": 2011
+    },
+    "Subnautica": {
+        "igdb_id": "143025",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2x8n.jpg",
+        "world_name": "Subnautica",
+        "igdb_name": "Subnautica + Subnautica Below Zero Double Pack",
+        "rating": [
+            "Animated Blood",
+            "Fantasy Violence",
+            "Mild Language"
+        ],
+        "player_perspectives": [],
+        "genres": [
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2021
+    },
+    "The Binding of Isaac Repentance": {
+        "igdb_id": "321536",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co949f.jpg",
+        "world_name": "The Binding of Isaac Repentance",
+        "igdb_name": "The Binding of Isaac: Repentance+",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 2024
+    },
+    "Terraria": {
+        "igdb_id": "1879",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1rbo.jpg",
+        "world_name": "Terraria",
+        "igdb_name": "Terraria",
+        "rating": [
+            "Mild Suggestive Themes",
+            "Blood and Gore",
+            "Use of Alcohol",
+            "Cartoon Violence",
+            "Suggestive Themes",
+            "Violence",
+            "Blood",
+            "Alcohol Reference"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Simulator",
+            "Strategy",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Science fiction",
+            "Horror",
+            "Survival",
+            "Sandbox",
+            "Open world"
+        ],
+        "keywords": [
+            "exploration",
+            "magic",
+            "2d",
+            "fishing",
+            "crafting",
+            "death",
+            "rabbit",
+            "flight",
+            "action-adventure",
+            "steam",
+            "fairy",
+            "undead",
+            "pixel art",
+            "snow",
+            "teleportation",
+            "climbing",
+            "swimming",
+            "bats",
+            "day/night cycle",
+            "sword & sorcery",
+            "darkness",
+            "explosion",
+            "digital distribution",
+            "customizable characters",
+            "human",
+            "bow and arrow",
+            "skeletons",
+            "deliberately retro",
+            "ice stage",
+            "melee",
+            "underwater gameplay",
+            "violent plants",
+            "merchants",
+            "you can pet the dog",
+            "bees"
+        ],
+        "release_date": 2011
+    },
+    "Tetris Attack": {
+        "igdb_id": "133313",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2dp0.jpg",
+        "world_name": "Tetris Attack",
+        "igdb_name": "Tetris Attack",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Puzzle"
+        ],
+        "themes": [
+            "Fantasy",
+            "Kids"
+        ],
+        "keywords": [],
+        "release_date": 1996
+    },
+    "Timespinner": {
+        "igdb_id": "28952",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co24ag.jpg",
+        "world_name": "Timespinner",
+        "igdb_name": "Timespinner",
+        "rating": [
+            "Fantasy Violence",
+            "Sexual Themes",
+            "Mild Language"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "time travel",
+            "metroidvania",
+            "female protagonist",
+            "action-adventure",
+            "pixel art",
+            "digital distribution",
+            "deliberately retro",
+            "merchants",
+            "lgbtq+"
+        ],
+        "release_date": 2018
+    },
+    "The Legend of Zelda": {
+        "igdb_id": "1022",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1uii.jpg",
+        "world_name": "The Legend of Zelda",
+        "igdb_name": "The Legend of Zelda",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Open world"
+        ],
+        "keywords": [
+            "fairy",
+            "overworld"
+        ],
+        "release_date": 1986
+    },
+    "The Legend of Zelda - Oracle of Ages": {
+        "igdb_id": "1041",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2tw1.jpg",
+        "world_name": "The Legend of Zelda - Oracle of Ages",
+        "igdb_name": "The Legend of Zelda: Oracle of Ages",
+        "rating": [
+            "Mild Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "pirates",
+            "ghosts",
+            "time travel",
+            "minigames",
+            "death",
+            "rabbit",
+            "action-adventure",
+            "witches",
+            "fairy",
+            "undead",
+            "campaign",
+            "princess",
+            "silent protagonist",
+            "climbing",
+            "swimming",
+            "sword & sorcery",
+            "explosion",
+            "anthropomorphism",
+            "shopping",
+            "damsel in distress",
+            "disorientation zone",
+            "descendants of other characters",
+            "side quests",
+            "real-time combat",
+            "walking through walls",
+            "villain",
+            "time paradox",
+            "context sensitive",
+            "status effects",
+            "behind the waterfall"
+        ],
+        "release_date": 2001
+    },
+    "The Legend of Zelda - Oracle of Seasons": {
+        "igdb_id": "1032",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2tw0.jpg",
+        "world_name": "The Legend of Zelda - Oracle of Seasons",
+        "igdb_name": "The Legend of Zelda: Oracle of Seasons",
+        "rating": [
+            "Mild Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "pirates",
+            "time travel",
+            "magic",
+            "grinding",
+            "mascot",
+            "death",
+            "action-adventure",
+            "witches",
+            "fairy",
+            "backtracking",
+            "multiple endings",
+            "undead",
+            "campaign",
+            "princess",
+            "pixel art",
+            "dog",
+            "teleportation",
+            "silent protagonist",
+            "climbing",
+            "sword & sorcery",
+            "digital distribution",
+            "anthropomorphism",
+            "world map",
+            "shopping",
+            "bow and arrow",
+            "damsel in distress",
+            "disorientation zone",
+            "side quests",
+            "potion",
+            "real-time combat",
+            "secret area",
+            "walking through walls",
+            "villain",
+            "fetch quests",
+            "poisoning",
+            "context sensitive",
+            "status effects",
+            "damage over time"
+        ],
+        "release_date": 2001
+    },
+    "Toontown": {
+        "igdb_id": "25326",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co28yv.jpg",
+        "world_name": "Toontown",
+        "igdb_name": "Toontown Online",
+        "rating": [
+            "Cartoon Violence",
+            "Comic Mischief"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)"
+        ],
+        "themes": [
+            "Comedy",
+            "Open world"
+        ],
+        "keywords": [
+            "minigames"
+        ],
+        "release_date": 2003
+    },
+    "Twilight Princess": {
+        "igdb_id": "134014",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3w1h.jpg",
+        "world_name": "Twilight Princess",
+        "igdb_name": "The Legend of Zelda: Twilight Princess",
+        "rating": [
+            "Fantasy Violence",
+            "Animated Blood"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [],
+        "release_date": 2006
+    },
+    "Paper Mario The Thousand Year Door": {
+        "igdb_id": "328663",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co9p1w.jpg",
+        "world_name": "Paper Mario The Thousand Year Door",
+        "igdb_name": "Paper Mario: The Thousand-Year Door",
+        "rating": [],
+        "player_perspectives": [],
+        "genres": [
+            "Puzzle"
+        ],
+        "themes": [],
+        "keywords": [],
+        "release_date": 2004
+    },
+    "TUNIC": {
+        "igdb_id": "23733",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/td1t8kb33gyo8mvhl2pc.jpg",
+        "world_name": "TUNIC",
+        "igdb_name": "Tunic",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "exploration",
+            "3d",
+            "difficult",
+            "cute",
+            "atmospheric",
+            "great soundtrack",
+            "digital distribution",
+            "anthropomorphism",
+            "soulslike"
+        ],
+        "release_date": 2022
+    },
+    "The Wind Waker": {
+        "igdb_id": "1033",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3ohz.jpg",
+        "world_name": "The Wind Waker",
+        "igdb_name": "The Legend of Zelda: The Wind Waker",
+        "rating": [
+            "Violence"
+        ],
+        "player_perspectives": [
+            "Third person"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy"
+        ],
+        "keywords": [
+            "archery",
+            "action-adventure",
+            "fairy",
+            "day/night cycle",
+            "sword & sorcery",
+            "living inventory"
+        ],
+        "release_date": 2002
+    },
+    "Tyrian": {
+        "igdb_id": "14432",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2zg1.jpg",
+        "world_name": "Tyrian",
+        "igdb_name": "Tyrian 2000",
+        "rating": [
+            "Animated Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Shooter",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Science fiction"
+        ],
+        "keywords": [
+            "pixel art"
+        ],
+        "release_date": 1999
+    },
+    "UFO 50": {
+        "igdb_id": "54555",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co24v0.jpg",
+        "world_name": "UFO 50",
+        "igdb_name": "UFO 50",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Shooter",
+            "Platform",
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Strategy",
+            "Adventure",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "digital distribution",
+            "deliberately retro"
+        ],
+        "release_date": 2024
+    },
+    "ULTRAKILL": {
+        "igdb_id": "124333",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co46s3.jpg",
+        "world_name": "ULTRAKILL",
+        "igdb_name": "Ultrakill",
+        "rating": [
+            "Violence",
+            "Blood and Gore"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Shooter",
+            "Platform",
+            "Indie",
+            "Arcade"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Science fiction"
+        ],
+        "keywords": [
+            "bloody",
+            "level selection",
+            "silent protagonist",
+            "great soundtrack",
+            "rock music"
+        ],
+        "release_date": 2020
+    },
+    "Undertale": {
+        "igdb_id": "12517",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2855.jpg",
+        "world_name": "Undertale",
+        "igdb_name": "Undertale",
+        "rating": [
+            "Mild Blood",
+            "Mild Language",
+            "Use of Tobacco",
+            "Simulated Gambling",
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric"
+        ],
+        "genres": [
+            "Puzzle",
+            "Role-playing (RPG)",
+            "Turn-based strategy (TBS)",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy",
+            "Horror",
+            "Comedy",
+            "Drama"
+        ],
+        "keywords": [
+            "retro",
+            "2d",
+            "turn-based",
+            "female protagonist",
+            "backtracking",
+            "multiple endings",
+            "cute",
+            "funny",
+            "pixel art",
+            "pixel graphics",
+            "great soundtrack",
+            "anthropomorphism",
+            "leveling up",
+            "breaking the fourth wall",
+            "skeletons",
+            "you can pet the dog"
+        ],
+        "release_date": 2015
+    },
+    "Wargroove": {
+        "igdb_id": "27441",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co4hgb.jpg",
+        "world_name": "Wargroove",
+        "igdb_name": "Wargroove",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Tactical",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy",
+            "Warfare"
+        ],
+        "keywords": [
+            "pixel art"
+        ],
+        "release_date": 2019
+    },
+    "Wargroove 2": {
+        "igdb_id": "241149",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co731u.jpg",
+        "world_name": "Wargroove 2",
+        "igdb_name": "Wargroove 2",
+        "rating": [
+            "Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Side view"
+        ],
+        "genres": [
+            "Role-playing (RPG)",
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Indie"
+        ],
+        "themes": [
+            "Fantasy",
+            "Warfare"
+        ],
+        "keywords": [
+            "pirates"
+        ],
+        "release_date": 2023
+    },
+    "The Witness": {
+        "igdb_id": "5601",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co3hih.jpg",
+        "world_name": "The Witness",
+        "igdb_name": "The Witness",
+        "rating": [
+            "Alcohol Reference"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Puzzle",
+            "Adventure",
+            "Indie"
+        ],
+        "themes": [
+            "Science fiction",
+            "Open world",
+            "Mystery"
+        ],
+        "keywords": [
+            "exploration",
+            "maze",
+            "steam",
+            "backtracking",
+            "multiple endings",
+            "amnesia",
+            "darkness",
+            "digital distribution",
+            "voice acting",
+            "polygonal 3d",
+            "stat tracking",
+            "secret area"
+        ],
+        "release_date": 2016
+    },
+    "Wario Land": {
+        "igdb_id": "1072",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co216h.jpg",
+        "world_name": "Wario Land",
+        "igdb_name": "Wario Land: Super Mario Land 3",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [],
+        "release_date": 1994
+    },
+    "Wario Land 4": {
+        "igdb_id": "1699",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1wpx.jpg",
+        "world_name": "Wario Land 4",
+        "igdb_name": "Wario Land 4",
+        "rating": [
+            "Comic Mischief"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle",
+            "Adventure"
+        ],
+        "themes": [
+            "Action"
+        ],
+        "keywords": [
+            "ghosts",
+            "anime",
+            "minigames",
+            "flight",
+            "multiple endings",
+            "pixel art",
+            "sequel",
+            "swimming",
+            "digital distribution",
+            "sprinting mechanics",
+            "ice stage",
+            "melee",
+            "moving platforms",
+            "sliding down ladders"
+        ],
+        "release_date": 2001
+    },
+    "Yoshi": {
+        "igdb_id": "1073",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2kn9.jpg",
+        "world_name": "Yoshi",
+        "igdb_name": "Super Mario World 2: Yoshi's Island",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Kids"
+        ],
+        "keywords": [
+            "dinosaurs",
+            "side-scrolling",
+            "digital distribution",
+            "kidnapping"
+        ],
+        "release_date": 1995
+    },
+    "Yu-Gi-Oh! 2006": {
+        "igdb_id": "49377",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7yau.jpg",
+        "world_name": "Yu-Gi-Oh! 2006",
+        "igdb_name": "Yu-Gi-Oh! Ultimate Masters: World Championship Tournament 2006",
+        "rating": [],
+        "player_perspectives": [
+            "Bird view / Isometric",
+            "Text"
+        ],
+        "genres": [
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Card & Board Game"
+        ],
+        "themes": [
+            "Fantasy",
+            "Survival"
+        ],
+        "keywords": [],
+        "release_date": 2006
+    },
+    "Yu-Gi-Oh! Dungeon Dice Monsters": {
+        "igdb_id": "4108",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1ui5.jpg",
+        "world_name": "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "igdb_name": "Yu-Gi-Oh! Forbidden Memories",
+        "rating": [
+            "Violence"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Strategy",
+            "Turn-based strategy (TBS)",
+            "Card & Board Game"
+        ],
+        "themes": [
+            "Fantasy",
+            "Historical"
+        ],
+        "keywords": [
+            "anime",
+            "turn-based",
+            "summoning support"
+        ],
+        "release_date": 1999
+    },
+    "Zelda II: The Adventure of Link": {
+        "igdb_id": "1025",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co1uje.jpg",
+        "world_name": "Zelda II: The Adventure of Link",
+        "igdb_name": "Zelda II: The Adventure of Link",
+        "rating": [
+            "Mild Fantasy Violence"
+        ],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Role-playing (RPG)",
+            "Adventure"
+        ],
+        "themes": [
+            "Action",
+            "Fantasy",
+            "Sandbox"
+        ],
+        "keywords": [
+            "magic",
+            "collecting",
+            "2d",
+            "metroidvania",
+            "death",
+            "difficult",
+            "action-adventure",
+            "side-scrolling",
+            "fairy",
+            "overworld",
+            "campaign",
+            "pixel art",
+            "sequel",
+            "silent protagonist",
+            "bats",
+            "sword & sorcery",
+            "darkness",
+            "explosion",
+            "leveling up",
+            "human",
+            "damsel in distress",
+            "potion",
+            "real-time combat",
+            "secret area",
+            "rpg elements",
+            "villain",
+            "fetch quests",
+            "status effects",
+            "monomyth"
+        ],
+        "release_date": 1987
+    },
+    "Zillion": {
+        "igdb_id": "18141",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co7xxj.jpg",
+        "world_name": "Zillion",
+        "igdb_name": "Zillion",
+        "rating": [],
+        "player_perspectives": [
+            "Side view"
+        ],
+        "genres": [
+            "Platform",
+            "Puzzle"
+        ],
+        "themes": [
+            "Science fiction"
+        ],
+        "keywords": [
+            "anime",
+            "metroidvania",
+            "action-adventure"
+        ],
+        "release_date": 1987
+    },
+    "Zork Grand Inquisitor": {
+        "igdb_id": "1955",
+        "cover_url": "//images.igdb.com/igdb/image/upload/t_thumb/co2kql.jpg",
+        "world_name": "Zork Grand Inquisitor",
+        "igdb_name": "Zork: Grand Inquisitor",
+        "rating": [
+            "Comic Mischief",
+            "Suggestive Themes",
+            "Use of Alcohol and Tobacco"
+        ],
+        "player_perspectives": [
+            "First person"
+        ],
+        "genres": [
+            "Point-and-click",
+            "Puzzle",
+            "Adventure"
+        ],
+        "themes": [
+            "Fantasy",
+            "Comedy"
+        ],
+        "keywords": [
+            "magic"
+        ],
+        "release_date": 1997
+    }
+}

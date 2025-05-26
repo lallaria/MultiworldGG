@@ -53,7 +53,6 @@ class MegaMixWeb(WebWorld):
         )
     ]
     game = "Hatsune Miku Project Diva Mega Mix+"
-    igdb_id = 202864
 
 class MegaMixWorld(World):
     """Hatsune Miku: Project Diva Mega Mix+ is a rhythm game where you hit notes to the beat of one of 250+ songs.
@@ -63,6 +62,7 @@ class MegaMixWorld(World):
     # World Options
     game = "Hatsune Miku Project Diva Mega Mix+"
     author: str = "Cynichill"
+    igdb_id = 202864
 
     web = MegaMixWeb()
 

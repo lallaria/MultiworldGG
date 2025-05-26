@@ -20,7 +20,7 @@ from NetUtils import ClientStatus
 from worlds.mmbn3.Items import items_by_id
 from worlds.mmbn3.Rom import get_base_rom_path
 from worlds.mmbn3.Locations import all_locations, scoutable_locations
-from MWGGClientFactory import MWGGMain
+from .factory import Launch
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -342,7 +342,7 @@ def confirm_checksum():
     return CHECKSUM_BLUE == basemd5.hexdigest()
 
 
-class MMBN3Main(MWGGMain):
+class MMBN3Main(Launch):
     '''Concrete MMBN3Main MWGGMain for factory method'''
     def __init__(self):
         Utils.init_logging("MMBN3Client")

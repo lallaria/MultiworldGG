@@ -99,7 +99,7 @@ class AdventureWorld(World):
     game: ClassVar[str] = "Adventure"
     author: ClassVar[str] = "JusticePS"
     web: ClassVar[WebWorld] = AdventureWeb()
-    igdb_id: ClassVar[int] = 8253
+    igdb_id: ClassVar[int] = 12239
 
     options_dataclass = AdventureOptions
     settings: ClassVar[AdventureSettings]

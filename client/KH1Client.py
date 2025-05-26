@@ -27,7 +27,7 @@ if __name__ == "__main__":
 from NetUtils import NetworkItem, ClientStatus
 from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, \
     CommonContext, server_loop
-from factory import Bond, CommandMixin, Launch
+from .factory import Bond, CommandMixin, Launch
 
 def check_stdin() -> None:
     if Utils.is_windows and sys.stdin:
