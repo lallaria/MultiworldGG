@@ -33,9 +33,9 @@ class YGODDMWeb(WebWorld):
 class YGODDMWorld(World):
     """Yu-Gi-Oh! Dungeon Dice Monsters is a Game Boy Advance dice-based tactics game based on an original board game
     featured in the Yu-Gi-Oh! storyline."""
-    game: str = "Yu-Gi-Oh! Dungeon Dice Monsters"
+    game: str = Constants.GAME_NAME
     author: str = Constants.AUTHOR
-    igdb_id: int = 4108
+    igdb_id: int = Constants.IGDB_ID
     options_dataclass = YGODDMOptions
     options: YGODDMOptions
     required_client_version = (0, 5, 0)

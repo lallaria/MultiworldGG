@@ -108,9 +108,9 @@ class LinksAwakeningWorld(World):
     After a previous adventure, Link is stranded on Koholint Island, full of mystery and familiar faces.
     Gather the 8 Instruments of the Sirens to wake the Wind Fish, so that Link can go home!
     """
-    game = "Links Awakening DX Beta"  # name of the game/world
-    author = "threeandthree"
-    igdb_id = 1027
+    game = LINKS_AWAKENING  # name of the game/world
+    author = AUTHOR
+    igdb_id = IGDB_ID
     web = LinksAwakeningWebWorld()
 
     options_dataclass = LinksAwakeningOptions
