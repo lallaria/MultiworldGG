@@ -7,7 +7,7 @@ As we are using BizHawk, this guide is only applicable to Windows and Linux syst
 ## Required Software
 
 - BizHawk: [BizHawk Releases from TASVideos](https://tasvideos.org/BizHawk/ReleaseHistory)
-  - Version 2.3.1 and later are supported. Version 2.7 is recommended for stability.
+  - Version 2.3.1 and later are supported. Version 2.10 is recommended for stability.
   - Detailed installation instructions for BizHawk can be found at the above link.
   - Windows users must run the prereq installer first, which can also be found at the above link.
 - The built-in MultiworldGG client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases).
