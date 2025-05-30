@@ -21,7 +21,7 @@ if os.path.exists(icon_path):
     icon_paths['tmicon'] = icon_path
     icon = 'tmicon'
 
-components.append(Component("Trackmania Client", "TrackmaniaClient", func=launch_client,
+components.append(Component("Trackmania Client", func=launch_client,
                             component_type=Type.CLIENT, icon=icon))
 
 class Webmania(WebWorld):
