@@ -167,6 +167,7 @@ Currently, the following games are supported:
 * The Sims 4
 * The Witness
 * Toontown
+* Trackmania
 * Tunic
 * UFO 50
 * Ultrakill

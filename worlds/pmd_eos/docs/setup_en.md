@@ -8,7 +8,7 @@ The EoS APWorld is still in development, so expect bugs! If you find a bug that 
 ## Required Software
 
 - BizHawk: [Bizhawk Releases from TASVideos](https://tasvideos.org/BizHawk/ReleaseHistory)
-  - Version 2.9.1 is recommended; 2.10 is currently unable to connect.
+  - Version 2.10 is recommended.
   - Detailed installation instructions for BizHawk can be found at the above link.
   - Windows users must run the prerequisite installer first, which can also be found at the above link.
 - The built-in BizHawk client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases)

@@ -293,6 +293,23 @@ class GZDoomWorld(World):
             item.name for item in self.multiworld.precollected_items[self.player]
         }
 
+    def keys_in_pool(self):
+        return {
+            key
+            for mapinfo in self.maps
+            for key in self.wad_logic.keys_for_map(mapinfo.map)
+        }
+
+    def key_in_world(self, keyname):
+        return keyname in {key.fqin() for key in self.keys_in_pool()}
+
+    def fill_slot_data(self):
+        return self.options.as_dict(
+            'level_order_bias', 'local_weapon_bias', 'carryover_weapon_bias',
+            'spawn_filter') | {
+                'selected_wad': self.wad_logic.name
+            }
+
     def generate_output(self, path):
         def progression(name: str) -> bool:
             # print("is_progression?", id, name)
@@ -321,7 +338,8 @@ class GZDoomWorld(World):
             loc = self.get_location(name)
             if loc.item and loc.item.name in self.wad_logic.items_by_name:
                 return self.wad_logic.items_by_name[loc.item.name].typename
-            return ""
+            return (icons.guess_icon(loc.item.game, loc.item.name)
+                or f"NONE:{loc.item.game}:{loc.item.name}")
 
         def escape(name: str) -> str:
             return name.replace('\\', '\\\\').replace('"', '\\"')
@@ -348,6 +366,7 @@ class GZDoomWorld(World):
             "persistence": self.options.full_persistence.value,
             "respawn": self.options.allow_respawn.value,
             "wad": self.wad_logic.name,
+            "keys": self.keys_in_pool(),
             "maps": self.maps,
             "items": self.pool.all_pool_items(),
             "starting_items": [

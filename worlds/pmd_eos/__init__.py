@@ -67,8 +67,8 @@ class EOSWorld(World):
     location_name_to_id = {location.name: location.id for
                            location in expanded_EOS_location_table}
 
-    required_client_version = (0, 5, 1)
-    required_server_version = (0, 5, 1)
+    required_client_version = (0, 6, 1)
+    required_server_version = (0, 6, 1)
 
     item_name_groups = item_table_by_groups
     disabled_locations: Set[str] = []
@@ -541,7 +541,6 @@ class EOSWorld(World):
 
                 required_items.append(self.create_item(item_name, classification))
 
-
             else:
                 required_items.append(self.create_item(item_name, ItemClassification.useful))
 
@@ -549,6 +548,8 @@ class EOSWorld(World):
             required_items) - 1 - self.excluded_locations  # subtracting 1 for the event check
 
         self.multiworld.itempool += required_items
+
+
         item_weights += filler_item_weights
         for i in range(4):
             filler_items_pool += filler_items_pool
@@ -563,6 +564,7 @@ class EOSWorld(World):
         all_trap_weights = []
         all_trap_weights += non_unique_trap_weights
         all_trap_weights += unique_trap_weights
+
         if self.options.allow_traps.value in [1, 2]:
             filler_items_toadd = math.ceil(remaining * (100 - self.options.trap_percent) / 100)
             traps_toadd = math.floor(remaining * self.options.trap_percent / 100)
@@ -636,5 +638,6 @@ class EOSWorld(World):
 
     def modify_multidata(self, multidata: Dict[str, Any]) -> None:
         self.slot_data_ready.wait()
+        slot = self.player
         if self.dimensional_scream_list_ints:
-            multidata["slot_data"][1]["HintLocationList"] = self.dimensional_scream_list_ints
+            multidata["slot_data"][slot]["HintLocationList"] = self.dimensional_scream_list_ints

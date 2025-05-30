@@ -20,22 +20,22 @@
 2. Elije la pestaña "automated", haz clic en el botón "select" y busca tu `MuseDash.exe`.
   - Puedes encontrar la carpeta en Steam buscando el juego en tu biblioteca, haciendo clic derecho sobre el y elegir *Administrar→Ver archivos locales*.
   - Si haces clic en la barra superior que te indica la carpeta en la que estas, te dará la dirección de ésta para que puedas copiarla. Al pegar esa dirección en la ventana que **MelonLoader** abre, irá automaticamente a esa carpeta.
-3. Desmarca "Latest" y selecciona v0.6.1. Luego haz clic en "install".
+3. Selecciona v0.7.0. Luego haz clic en "install".
 4. Ejecuta el juego una vez, y espera hasta que aparezca la pantalla de inicio de Muse Dash antes de cerrarlo.
 5. Descarga la última version de [Muse Dash Archipelago Mod](https://github.com/DeamonHunter/ArchipelagoMuseDash/releases/latest) y extraelo en la nueva carpeta creada llamada `/Mods/`, localizada en la carpeta de instalación de Muse Dash.
   - Todos los archivos deben ir directamente en la carpeta `/Mods/`, y NO en una subcarpeta dentro de la carpeta `/Mods/`
 
-Si todo fue instalado correctamente, un botón aparecerá en la parte inferior derecha del juego una vez abierto, que te permitirá conectarte al servidor de Archipelago.
+Si todo fue instalado correctamente, un botón aparecerá en la parte inferior derecha del juego una vez abierto, que te permitirá conectarte al servidor de MultiworldGG.
 
 ## Generar un juego MultiWorld
 1. Entra a la página de [configuraciones de jugador](/games/Muse%20Dash/player-options) y configura las opciones del juego a tu gusto.
 2. Genera tu archivo YAML y úsalo para generar un juego nuevo en el radomizer
-  - (Instrucciones sobre como generar un juego en Archipelago disponibles en la [guía web de Archipelago en Inglés](/tutorial/Archipelago/setup/en))
+  - (Instrucciones sobre como generar un juego en MultiworldGG disponibles en la [guía web de MultiworldGG en Inglés](/tutorial/Archipelago/setup/en))
 
 ## Unirse a un juego MultiWorld
 
 1. Ejecuta Muse Dash y pasa por la pantalla de introducción. Haz clic en el botón de la esquina inferior derecha.
-2. Ingresa los detalles de la sesión de archipelago, como la dirección del servidor con el puerto (por ejemplo, multiworld.gg:38381), nombre de usuario y contraseña.
+2. Ingresa los detalles de la sesión de MultiworldGG, como la dirección del servidor con el puerto (por ejemplo, multiworld.gg:38381), nombre de usuario y contraseña.
 3. Si todo se ingresó correctamente, el pop-up debería desaparecer y se mostrará el menú principal habitual. Al ingresar a la selección de canciones, deberías ver una cantidad limitada de canciones.
 
 ## Solución de problemas

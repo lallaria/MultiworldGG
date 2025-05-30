@@ -442,6 +442,10 @@
 
 # ToonTown
 /worlds/toontown/ @PIEisFANTASTIC
+
+# Trackmania
+/worlds/trackmania/ @SerialBoxes
+
 # TUNIC
 /worlds/tunic/ @silent-destroyer @ScipioWright
 

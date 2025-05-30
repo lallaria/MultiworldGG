@@ -24,9 +24,9 @@ _IPC_SIZE = 4096
 class GZDoomContext(SuperContext):
     game = "gzDoom"
     items_handling = 0b111  # fully remote
-    want_slot_data = False
+    want_slot_data = True
     slot_name = None
-    tags = {"AP"}
+    tags = {"AP", "DeathLink"}
 
     def __init__(self, server_address: str, password: str, gzd_dir: str):
         self.found_gzdoom = asyncio.Event()
@@ -100,12 +100,21 @@ class GZDoomContext(SuperContext):
             {"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL }
             ])
 
+    async def on_death(self, reason):
+        await self.send_death(reason)
+
     def on_package(self, cmd, args):
         # print("on_package", cmd, args)
-        if cmd == "Connected" and tracker_loaded:
+        if cmd == "Connected":
+            # Workaround for Universal Tracker bug
             args.setdefault("slot_data", dict())
+            self.slot_data = args['slot_data']
         super().on_package(cmd, args)
         self.awaken()
+
+    def on_deathlink(self, data: Dict[str,Any]):
+        self.ipc.send_death(data.get("source", "[unknown player]"), data.get("cause", ""))
+        super().on_deathlink(data)
 
     # async def send_msgs(self, msgs):
     #     for msg in msgs:
@@ -119,7 +128,7 @@ class GZDoomContext(SuperContext):
         # and propagate the error if so.
         for task in [self.items_task, self.locations_task, self.hints_task, self.tracker_task]:
             if task is not None and task.done():
-                print(f"Task {task} has exited!")
+                logger.error(f"Task {task} has exited!")
                 task.result()  # raises if the task errored out
         self.watcher_event.set()
 

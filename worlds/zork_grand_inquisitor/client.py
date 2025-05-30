@@ -4,7 +4,7 @@ import CommonClient
 import NetUtils
 import Utils
 
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
 
 from .data_funcs import (
     item_names_to_id,
@@ -27,6 +27,8 @@ from .game_controller import GameController
 
 
 class ZorkGrandInquisitorCommandProcessor(CommonClient.ClientCommandProcessor):
+    ctx: "ZorkGrandInquisitorContext"
+
     def _cmd_zork(self) -> None:
         """Attach to an open Zork Grand Inquisitor process."""
         if not self.ctx.server or not self.ctx.slot:
@@ -41,24 +43,17 @@ class ZorkGrandInquisitorCommandProcessor(CommonClient.ClientCommandProcessor):
 
             self.ctx.game_controller.output_seed_information()
             self.ctx.game_controller.output_starter_kit()
+
+            Utils.async_start(
+                self.ctx.send_msgs([
+                    {
+                        "cmd": "StatusUpdate",
+                        "status": CommonClient.ClientStatus.CLIENT_PLAYING
+                    }
+                ])
+            )
         else:
             self.output("Failed to attach to Zork Grand Inquisitor process.")
-
-    def _cmd_brog(self) -> None:
-        """List received Brog items."""
-        self.ctx.game_controller.list_received_brog_items()
-
-    def _cmd_griff(self) -> None:
-        """List received Griff items."""
-        self.ctx.game_controller.list_received_griff_items()
-
-    def _cmd_lucy(self) -> None:
-        """List received Lucy items."""
-        self.ctx.game_controller.list_received_lucy_items()
-
-    def _cmd_hotspots(self) -> None:
-        """List received Hotspots."""
-        self.ctx.game_controller.list_received_hotspots()
 
     def _cmd_deathlink(self) -> None:
         """Toggle deathlink status."""
@@ -82,7 +77,10 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
     id_to_locations: Dict[int, ZorkGrandInquisitorLocations] = id_to_locations()
 
     game_controller: GameController
+    data_storage_key: Optional[str]
     death_link_status: bool = False
+    entrance_randomizer_data_by_name: Optional[Dict[str, str]]
+    locations_checked: Set[ZorkGrandInquisitorLocations]
 
     controller_task: Optional[asyncio.Task]
 
@@ -94,20 +92,18 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
 
         self.game_controller = GameController(logger=CommonClient.logger)
 
+        self.data_storage_key = None
+        self.entrance_randomizer_data_by_name = None
+        self.locations_checked = set()
+
         self.controller_task = None
 
         self.process_attached_at_least_once = False
         self.can_display_process_message = True
 
-    def run_gui(self) -> None:
-        from kvui import GameManager
-
-        class TextManager(GameManager):
-            logging_pairs: List[Tuple[str, str]] = [("Client", "Archipelago")]
-            base_title: str = "Archipelago Zork Grand Inquisitor Client"
-
-        self.ui = TextManager(self)
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+    def make_gui(self):
+        from .client_gui.client_gui import ZorkGrandInquisitorManager
+        return ZorkGrandInquisitorManager
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
@@ -124,8 +120,12 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
 
         self.game_controller.reset()
 
+        self.data_storage_key = None
+
         self.items_received = []
         self.locations_info = {}
+
+        self.ui.update_tabs()
 
         await super().disconnect(allow_autoreconnect)
 
@@ -208,9 +208,59 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
 
             # Entrance Randomizer Data
             self.game_controller.entrance_randomizer_data = _args["slot_data"]["entrance_randomizer_data"]
+            self.entrance_randomizer_data_by_name = _args["slot_data"]["entrance_randomizer_data_by_name"]
 
             # Save IDs
             self.game_controller.save_ids = tuple(_args["slot_data"]["save_ids"])
+
+            # Data Storage
+            self.data_storage_key = f"zork_grand_inquisitor_{self.team}_{self.slot}"
+
+            Utils.async_start(
+                self.send_msgs([
+                    {
+                        "cmd": "Set",
+                        "key": self.data_storage_key,
+                        "want_reply": True,
+                        "default": {
+                            "discovered_regions": list(),
+                            "discovered_entrances": list(),
+                        },
+                        "operations": [
+                            {"operation": "default", "value": None},
+                        ],
+                    },
+                    {
+                        "cmd": "SetNotify",
+                        "keys": [self.data_storage_key],
+                    }
+                ])
+            )
+
+            # Locations Checked
+            if "checked_locations" in _args:
+                locations_checked_update: Set[ZorkGrandInquisitorLocations] = set(
+                    [self.id_to_locations[location_id] for location_id in _args["checked_locations"]]
+                )
+
+                self.locations_checked |= locations_checked_update
+
+            # UI Tabs
+            self.ui.update_tabs()
+        elif cmd == "ReceivedItems":
+            self.ui.update_tabs()
+        elif cmd == "RoomUpdate":
+            if "checked_locations" in _args:
+                locations_checked_update: Set[ZorkGrandInquisitorLocations] = set(
+                    [self.id_to_locations[location_id] for location_id in _args["checked_locations"]]
+                )
+
+                self.locations_checked |= locations_checked_update
+
+                self.ui.update_tabs()
+        elif cmd == "SetReply":
+            if _args["key"] == self.data_storage_key:
+                self.ui.update_tabs()
 
     def on_deathlink(self, data: Dict[str, Any]) -> None:
         self.last_death_link = max(data["time"], self.last_death_link)
@@ -254,12 +304,12 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
 
                 if self.process_attached_at_least_once:
                     process_message = (
-                        "Connection to the Zork Grand Inquisitor process was lost. Ensure you are connected "
-                        "to an Archipelago server and the game is running, then use the /zork command to reconnect."
+                        "Connection to the Zork Grand Inquisitor process was lost. Ensure that you are connected "
+                        "to an MultiworldGG or AP server and the game is running, then use the /zork command to reconnect."
                     )
                 else:
                     process_message = (
-                        "To start playing, connect to an Archipelago server and use the /zork command to "
+                        "To start playing, connect to an MultiworldGG or AP server and use the /zork command to "
                         "link to an active Zork Grand Inquisitor process."
                     )
 
@@ -278,12 +328,7 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
 
                     checked_location_ids.append(location_id)
 
-                await self.send_msgs([
-                    {
-                        "cmd": "LocationChecks",
-                        "locations": checked_location_ids
-                    }
-                ])
+                await self.check_locations(checked_location_ids)
 
                 # Check for Goal Completion
                 if self.game_controller.goal_completed:
@@ -294,6 +339,44 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
                         }
                     ])
 
+                # Update Data Storage
+                if self.data_storage_key is not None and self.data_storage_key in self.stored_data:
+                    update_dict: Dict[str, Any] = dict()
+
+                    current_discovered_regions: Set[str] = set(
+                        self.stored_data[self.data_storage_key]["discovered_regions"]
+                    )
+
+                    update_discovered_regions: Set[str] = (
+                        current_discovered_regions | self.game_controller.discovered_regions
+                    )
+
+                    if len(update_discovered_regions) > len(current_discovered_regions):
+                        update_dict["discovered_regions"] = sorted(update_discovered_regions)
+
+                    current_discovered_entrances: Set[str] = set(
+                        self.stored_data[self.data_storage_key]["discovered_entrances"]
+                    )
+
+                    update_discovered_entrances: Set[str] = (
+                        current_discovered_entrances | self.game_controller.discovered_entrances
+                    )
+
+                    if len(update_discovered_entrances) > len(current_discovered_entrances):
+                        update_dict["discovered_entrances"] = sorted(update_discovered_entrances)
+
+                    if len(update_dict):
+                        await self.send_msgs([
+                            {
+                                "cmd": "Set",
+                                "key": self.data_storage_key,
+                                "want_reply": True,
+                                "operations": [
+                                    {"operation": "update", "value": update_dict},
+                                ],
+                            }
+                        ])
+
                 # Handle Energy Link
                 while len(self.game_controller.energy_link_queue) > 0:
                     energy_to_add: int = self.game_controller.energy_link_queue.popleft()
@@ -302,7 +385,6 @@ class ZorkGrandInquisitorContext(CommonClient.CommonContext):
                         {
                             "cmd": "Set",
                             "key": f"EnergyLink{self.team}",
-                            "slot": self.slot,
                             "operations":
                                 [
                                     {"operation": "add", "value": energy_to_add},
@@ -351,7 +433,7 @@ def main() -> None:
 
     import colorama
 
-    colorama.init()
+    colorama.just_fix_windows_console()
 
     asyncio.run(_main())
 

@@ -295,27 +295,27 @@ entrance_names: Dict[
     (
         ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS,
         ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM
-    ): "Subway Ride from Crossroads with Destination Set to 'Flood Control Dam #3'",
+    ): "Subway Ride from Crossroads to FCD #3",
     (
         ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS,
         ZorkGrandInquisitorRegions.SUBWAY_HADES
-    ): "Subway Ride from Crossroads with Destination Set to 'Hades'",
+    ): "Subway Ride from Crossroads to Hades",
     (
         ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS,
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY
-    ): "Subway Ride from Crossroads with Destination Set to 'Monastery'",
+    ): "Subway Ride from Crossroads to Monastery",
     (
         ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM,
         ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS
-    ): "Subway Ride from FCD #3 with Destination Set to 'Crossroads'",
+    ): "Subway Ride from FCD #3 to Crossroads",
     (
         ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM,
         ZorkGrandInquisitorRegions.SUBWAY_HADES
-    ): "Subway Ride from FCD #3 with Destination Set to 'Hades'",
+    ): "Subway Ride from FCD #3 to Hades",
     (
         ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM,
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY
-    ): "Subway Ride from FCD #3 with Destination Set to 'Monastery'",
+    ): "Subway Ride from FCD #3 to Monastery",
     (
         ZorkGrandInquisitorRegions.SUBWAY_HADES,
         ZorkGrandInquisitorRegions.HADES_SHORE
@@ -323,15 +323,15 @@ entrance_names: Dict[
     (
         ZorkGrandInquisitorRegions.SUBWAY_HADES,
         ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS
-    ): "Subway Ride from Hades with Destination Set to 'Crossroads'",
+    ): "Subway Ride from Hades to Crossroads",
     (
         ZorkGrandInquisitorRegions.SUBWAY_HADES,
         ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM
-    ): "Subway Ride from Hades with Destination Set to 'Flood Control Dam #3'",
+    ): "Subway Ride from Hades to FCD #3",
     (
         ZorkGrandInquisitorRegions.SUBWAY_HADES,
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY
-    ): "Subway Ride from Hades with Destination Set to 'Monastery'",
+    ): "Subway Ride from Hades to Monastery",
     (
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
         ZorkGrandInquisitorRegions.MONASTERY
@@ -339,15 +339,15 @@ entrance_names: Dict[
     (
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
         ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS
-    ): "Subway Ride from Monastery with Destination Set to 'Crossroads'",
+    ): "Subway Ride from Monastery to Crossroads",
     (
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
         ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM
-    ): "Subway Ride from Monastery with Destination Set to 'Flood Control Dam #3'",
+    ): "Subway Ride from Monastery to FCD #3",
     (
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
         ZorkGrandInquisitorRegions.SUBWAY_HADES
-    ): "Subway Ride from Monastery with Destination Set to 'Hades'",
+    ): "Subway Ride from Monastery to Hades",
     (
         ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
         ZorkGrandInquisitorRegions.TELEPORTER
@@ -396,6 +396,63 @@ entrance_names: Dict[
 
 entrance_names_reverse: Dict[str, Tuple[ZorkGrandInquisitorRegions, ZorkGrandInquisitorRegions]] = {
     name: entrance for entrance, name in entrance_names.items()
+}
+
+game_location_to_region: Dict[
+    str,
+    ZorkGrandInquisitorRegions,
+] = {
+    "cd20": ZorkGrandInquisitorRegions.DRAGON_ARCHIPELAGO_DRAGON,
+    "cd60": ZorkGrandInquisitorRegions.DRAGON_ARCHIPELAGO,
+    "dc10": ZorkGrandInquisitorRegions.WALKING_CASTLE,
+    "dg10": ZorkGrandInquisitorRegions.DM_LAIR,
+    "dg30": ZorkGrandInquisitorRegions.DM_LAIR,
+    "dg40": ZorkGrandInquisitorRegions.DM_LAIR,
+    "dv10": ZorkGrandInquisitorRegions.DM_LAIR_INTERIOR,
+    "hp10": ZorkGrandInquisitorRegions.HADES_SHORE,
+    "hp40": ZorkGrandInquisitorRegions.HADES,
+    "hp50": ZorkGrandInquisitorRegions.HADES,
+    "hp60": ZorkGrandInquisitorRegions.HADES_BEYOND_GATES,
+    "me10": ZorkGrandInquisitorRegions.MONASTERY_EXHIBIT,
+    "me20": ZorkGrandInquisitorRegions.MONASTERY_EXHIBIT,
+    "mt10": ZorkGrandInquisitorRegions.MONASTERY,
+    "mt20": ZorkGrandInquisitorRegions.MONASTERY,
+    "mt30": ZorkGrandInquisitorRegions.MONASTERY,
+    "pc10": ZorkGrandInquisitorRegions.OUTSIDE_PORT_FOOZLE_WELL,
+    "pe10": ZorkGrandInquisitorRegions.PORT_FOOZLE,
+    "pp10": ZorkGrandInquisitorRegions.PORT_FOOZLE_JACKS_SHOP,
+    "ps10": ZorkGrandInquisitorRegions.OUTSIDE_PORT_FOOZLE_SIGNPOST,
+    "ps20": ZorkGrandInquisitorRegions.OUTSIDE_PORT_FOOZLE_WELL,
+    "px10": ZorkGrandInquisitorRegions.OUTSIDE_PORT_FOOZLE_INQUISITION_HQ,
+    "qb10": ZorkGrandInquisitorRegions.PORT_FOOZLE_PAST_TAVERN,
+    "qe10": ZorkGrandInquisitorRegions.PORT_FOOZLE_PAST,
+    "sg10": ZorkGrandInquisitorRegions.WHITE_HOUSE_INTERIOR,
+    "sw40": ZorkGrandInquisitorRegions.WHITE_HOUSE,
+    "te10": ZorkGrandInquisitorRegions.GUE_TECH_ENTRANCE,
+    "te30": ZorkGrandInquisitorRegions.GUE_TECH_ENTRANCE,
+    "te40": ZorkGrandInquisitorRegions.GUE_TECH_OUTSIDE,
+    "te50": ZorkGrandInquisitorRegions.GUE_TECH_OUTSIDE,
+    "th20": ZorkGrandInquisitorRegions.GUE_TECH_HALLWAY,
+    "th30": ZorkGrandInquisitorRegions.GUE_TECH_HALLWAY,
+    "tp10": ZorkGrandInquisitorRegions.SPELL_LAB_BRIDGE,
+    "tp20": ZorkGrandInquisitorRegions.SPELL_LAB,
+    "tr10": ZorkGrandInquisitorRegions.GUE_TECH,
+    "tr20": ZorkGrandInquisitorRegions.GUE_TECH,
+    "tr30": ZorkGrandInquisitorRegions.GUE_TECH,
+    "uc10": ZorkGrandInquisitorRegions.CROSSROADS,
+    "uc30": ZorkGrandInquisitorRegions.CROSSROADS,
+    "uc40": ZorkGrandInquisitorRegions.CROSSROADS,
+    "uc50": ZorkGrandInquisitorRegions.CROSSROADS,
+    "uc60": ZorkGrandInquisitorRegions.CROSSROADS,
+    "ue10": ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM,
+    "ue20": ZorkGrandInquisitorRegions.SUBWAY_FLOOD_CONTROL_DAM,
+    "uh10": ZorkGrandInquisitorRegions.SUBWAY_HADES,
+    "uh20": ZorkGrandInquisitorRegions.SUBWAY_HADES,
+    "um10": ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
+    "um20": ZorkGrandInquisitorRegions.SUBWAY_MONASTERY,
+    "us10": ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS,
+    "us20": ZorkGrandInquisitorRegions.SUBWAY_CROSSROADS,
+    "uw10": ZorkGrandInquisitorRegions.BOTTOM_OF_THE_WELL,
 }
 
 hotspot_to_regional_hotspot: Dict[ZorkGrandInquisitorItems, ZorkGrandInquisitorItems] = {

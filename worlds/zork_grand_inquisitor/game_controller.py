@@ -3,17 +3,18 @@ import datetime
 import functools
 import logging
 import random
-import traceback  # TODO: Only in dev
 import time
 
 from typing import Dict, List, Optional, Set, Tuple, Union
 
-from .data.entrance_randomizer_data import relevant_game_locations
+from .data.entrance_randomizer_data import entrances_to_game_locations_reverse, relevant_game_locations
 from .data.item_data import item_data, ZorkGrandInquisitorItemData
 from .data.location_data import location_data, ZorkGrandInquisitorLocationData
 
 from .data.mapping_data import (
     death_cause_labels,
+    entrance_names,
+    game_location_to_region,
     hotspots_for_regional_hotspot,
     labels_for_enum_items,
     voxam_cast_game_locations,
@@ -36,6 +37,7 @@ from .enums import (
     ZorkGrandInquisitorItems,
     ZorkGrandInquisitorLandmarksanity,
     ZorkGrandInquisitorLocations,
+    ZorkGrandInquisitorRegions,
     ZorkGrandInquisitorStartingLocations,
     ZorkGrandInquisitorTags,
 )
@@ -95,6 +97,9 @@ class GameController:
 
     entrance_randomizer_data: Dict[Tuple[str, str], Tuple[str, str]]
     entrance_randomizer_last_locations_visited: collections.deque
+
+    discovered_regions: Set[str]
+    discovered_entrances: Set[str]
 
     received_traps: List[ZorkGrandInquisitorItems]
 
@@ -180,6 +185,9 @@ class GameController:
 
         self.entrance_randomizer_data = dict()
         self.entrance_randomizer_last_locations_visited = collections.deque(maxlen=2)
+
+        self.discovered_regions = {ZorkGrandInquisitorRegions.ANYWHERE.value}
+        self.discovered_entrances = set()
 
         self.received_traps = list()
 
@@ -361,69 +369,6 @@ class GameController:
             if self.goal_item_count >= self.option_deaths_required:
                 self.log("All needed Deaths have been experienced! Go beyond the gates of hell to win")
 
-    def list_received_brog_items(self) -> None:
-        self.log("Received Brog Items:")
-
-        self._process_received_items()
-        received_brog_items: Set[ZorkGrandInquisitorItems] = self.received_items & self.brog_items
-
-        if not len(received_brog_items):
-            self.log("    Nothing")
-            return
-
-        for item in sorted(i.value for i in received_brog_items):
-            self.log(f"    {item}")
-
-    def list_received_griff_items(self) -> None:
-        self.log("Received Griff Items:")
-
-        self._process_received_items()
-        received_griff_items: Set[ZorkGrandInquisitorItems] = self.received_items & self.griff_items
-
-        if not len(received_griff_items):
-            self.log("    Nothing")
-            return
-
-        for item in sorted(i.value for i in received_griff_items):
-            self.log(f"    {item}")
-
-    def list_received_lucy_items(self) -> None:
-        self.log("Received Lucy Items:")
-
-        self._process_received_items()
-        received_lucy_items: Set[ZorkGrandInquisitorItems] = self.received_items & self.lucy_items
-
-        if not len(received_lucy_items):
-            self.log("    Nothing")
-            return
-
-        for item in sorted(i.value for i in received_lucy_items):
-            self.log(f"    {item}")
-
-    def list_received_hotspots(self) -> None:
-        if self.option_hotspots == ZorkGrandInquisitorHotspots.ENABLED:
-            self.log("Hotspots are enabled for this seed and don't require items")
-            return
-
-        self.log("Received Hotspots:")
-
-        self._process_received_items()
-
-        hotspot_items: Set[ZorkGrandInquisitorItems] = set()
-        if self.option_hotspots == ZorkGrandInquisitorHotspots.REQUIRE_ITEM_PER_REGION:
-            hotspot_items = items_with_tag(ZorkGrandInquisitorTags.HOTSPOT_REGIONAL)
-        elif self.option_hotspots == ZorkGrandInquisitorHotspots.REQUIRE_ITEM_PER_HOTSPOT:
-            hotspot_items = items_with_tag(ZorkGrandInquisitorTags.HOTSPOT)
-
-        received_hotspots: Set[ZorkGrandInquisitorItems] = self.received_items & hotspot_items
-
-        if not len(received_hotspots):
-            self.log("    Nothing")
-            return
-
-        for item in sorted(i.value for i in received_hotspots):
-            self.log(f"    {item}")
-
     def update(self) -> None:
         if self.game_state_manager.is_process_still_running():
             try:
@@ -443,6 +388,8 @@ class GameController:
                 self._apply_conditional_game_state()
 
                 self._apply_permanent_game_flags()
+
+                self._manage_game_location()
 
                 if self.option_entrance_randomizer != ZorkGrandInquisitorEntranceRandomizer.DISABLED:
                     self._manage_entrance_randomizer()
@@ -471,7 +418,6 @@ class GameController:
                 self._check_for_victory()
             except Exception as e:
                 self.log_debug(e)
-                traceback.print_exc()
 
     def reset(self) -> None:
         self.received_items = set()
@@ -512,6 +458,9 @@ class GameController:
 
         self.entrance_randomizer_data = dict()
         self.entrance_randomizer_last_locations_visited = collections.deque(maxlen=2)
+
+        self.discovered_regions = {ZorkGrandInquisitorRegions.ANYWHERE.value}
+        self.discovered_entrances = set()
 
         self.received_traps = list()
 
@@ -809,6 +758,16 @@ class GameController:
         self._write_game_flags_value_for(8435, 0)  # Always Allow Moving to Hades Phone
         self._write_game_flags_value_for(4991, 0)  # Always Allow Moving to DM Lair Mirror
 
+    def _manage_game_location(self) -> None:
+        if self._read_game_state_value_for(19985) == 0:
+            return
+
+        if self.game_location not in game_location_to_region:
+            return
+
+        if self._player_is_at_for_at_least(self.game_location, 1000):
+            self.discovered_regions.add(game_location_to_region[self.game_location].value)
+
     def _manage_entrance_randomizer(self) -> None:
         if self._read_game_state_value_for(19985) == 0:
             return
@@ -835,6 +794,13 @@ class GameController:
                 offset: int = int(self.entrance_randomizer_data[location_pairing_key].split(" ")[-1])
 
                 self.game_state_manager.set_game_location(next_game_location, offset)
+
+                entrance_pair: Tuple[str, str] = (
+                    self.entrance_randomizer_last_locations_visited[0],
+                    self.entrance_randomizer_last_locations_visited[1]
+                )
+
+                self.discovered_entrances.add(entrance_names[entrances_to_game_locations_reverse[entrance_pair]])
 
                 self.entrance_randomizer_last_locations_visited.clear()
 
@@ -1848,7 +1814,14 @@ class GameController:
 
         i: int
         for i in range(151, 171):
-            inventory_item_values.add(self._read_game_state_value_for(i))
+            inventory_item_value: int = self._read_game_state_value_for(i)
+
+            # Always get rid of blue sword. Causes issues with ER
+            if inventory_item_value == 100:
+                inventory_item_value = 21
+                self._write_game_state_value_for(i, inventory_item_value)
+
+            inventory_item_values.add(inventory_item_value)
 
         cursor_item_value: int = self._read_game_state_value_for(9)
         inspector_item_value: int = self._read_game_state_value_for(4512)
@@ -1920,10 +1893,6 @@ class GameController:
                     to_filter_inventory_items.add(item)
             elif item == ZorkGrandInquisitorItems.SWORD:
                 if 22 in inventory_item_values:
-                    to_filter_inventory_items.add(item)
-                elif 100 in inventory_item_values:
-                    to_filter_inventory_items.add(item)
-                elif 111 in inventory_item_values:
                     to_filter_inventory_items.add(item)
             elif item == ZorkGrandInquisitorItems.ZIMDOR_SCROLL:
                 if self._read_game_state_value_for(12167) == 1:
