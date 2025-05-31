@@ -30,6 +30,7 @@ from .TrackerConsts import storage_key
 from .ItemTracker import ItemTracker
 from .Locations import links_awakening_location_meta_to_id
 from .Tracker import LocationTracker, MagpieBridge, Check
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 links_awakening_location_id_to_meta = {v:k for k,v in links_awakening_location_meta_to_id.items()}
 
@@ -619,7 +620,7 @@ class LinksAwakeningContext(CommonContext):
                 ("Client", "Archipelago"),
                 ("Tracker", "Tracker"),
             ]
-            base_title = f"Archipelago {Common.LINKS_AWAKENING} Client"
+            base_title = f"{apname} {Common.LINKS_AWAKENING} Client"
 
         self.ui = LADXManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

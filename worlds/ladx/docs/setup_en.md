@@ -81,13 +81,13 @@ You only have to do these steps once. Note, RetroArch 1.9.x will not work as it 
 #### BizHawk 2.8 or newer (older versions untested)
 
 1. Load the ROM.
-2. Navigate to the folder Archipelago is installed in, then `data/lua`, and drag+drop `connector_ladx_bizhawk.lua` onto
+2. Navigate to the folder MultiworldGG is installed in, then `data/lua`, and drag+drop `connector_ladx_bizhawk.lua` onto
    the main EmuHawk window.
     - You could instead open the Lua Console manually, click `Script` 〉 `Open Script`, and navigate to
       `connector_ladx_bizhawk.lua` with the file picker.
 3. Keep the Lua Console open during gameplay (minimizing it is fine!)
 
-### Connect to the Archipelago Server
+### Connect to the MultiworldGG Server
 
 The patch file which launched your client should have automatically connected you to the AP Server. There are a few
 reasons this may not happen, however, including if the game is hosted on the website but was generated elsewhere. If the

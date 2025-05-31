@@ -196,6 +196,11 @@ Root: HKCR; Subkey: "{#MyAppName}ladxpatch";                     ValueData: "Mul
 Root: HKCR; Subkey: "{#MyAppName}ladxpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGLinksAwakeningClient.exe,0";                           ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}ladxpatch\shell\open\command";  ValueData: """{app}\MultiworldGGLinksAwakeningClient.exe"" ""%1""";                  ValueType: string;  ValueName: "";
 
+Root: HKCR; Subkey: ".apladxb";                                   ValueData: "{#MyAppName}ladxbpatch";        Flags: uninsdeletevalue; ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}ladxbpatch";                     ValueData: "MultiworldGG Links Awakening DX Beta Patch"; Flags: uninsdeletekey;   ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}ladxbpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGLinksAwakeningClient.exe,0";                           ValueType: string;  ValueName: "";
+Root: HKCR; Subkey: "{#MyAppName}ladxbpatch\shell\open\command";  ValueData: """{app}\MultiworldGGLinksAwakeningClient.exe"" ""%1""";                  ValueType: string;  ValueName: "";
+
 Root: HKCR; Subkey: ".aptloz";                                   ValueData: "{#MyAppName}tlozpatch";        Flags: uninsdeletevalue; ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}tlozpatch";                     ValueData: "MultiworldGG The Legend of Zelda Patch"; Flags: uninsdeletekey;   ValueType: string;  ValueName: "";
 Root: HKCR; Subkey: "{#MyAppName}tlozpatch\DefaultIcon";         ValueData: "{app}\MultiworldGGZelda1Client.exe,0";                           ValueType: string;  ValueName: "";
