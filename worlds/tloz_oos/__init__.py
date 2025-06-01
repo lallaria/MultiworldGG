@@ -2,7 +2,7 @@ import os
 import logging
 from typing import List, Union, ClassVar, Any, Optional, Tuple
 import settings
-from BaseClasses import Tutorial, Region, Location, LocationProgressType, Item, ItemClassification, MultiWorld
+from BaseClasses import Tutorial, Region, Location, LocationProgressType, Item, ItemClassification, MultiWorld, CollectionState
 from Fill import fill_restrictive, FillError
 from Options import Accessibility, OptionError
 from worlds.AutoWorld import WebWorld, World
@@ -70,10 +70,9 @@ class OracleOfSeasonsSettings(settings.Group):
 
 class OracleOfSeasonsWeb(WebWorld):
     theme = "grass"
-    display_name = "The Legend of Zelda: Oracle of Seasons"
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Oracle of Seasons for MultiworldGG on your computer.",
+        "A guide to setting up Oracle of Seasons for Archipelago on your computer.",
         "English",
         "oos_setup_en.md",
         "oos_setup/en",
@@ -82,7 +81,7 @@ class OracleOfSeasonsWeb(WebWorld):
 
     setup_fr = Tutorial(
         "Guide de configuration MultiWorld",
-        "Un guide pour configurer Oracle of Seasons d'MultiworldGG sur votre PC.",
+        "Un guide pour configurer Oracle of Seasons d'Archipelago sur votre PC.",
         "Français",
         "oos_setup_fr.md",
         "oos_setup/fr",
@@ -98,7 +97,6 @@ class OracleOfSeasonsWorld(World):
     Gather the Essences of Nature, confront Onox and rescue Din to give nature some rest in Holodrum.
     """
     game = "The Legend of Zelda - Oracle of Seasons"
-    author: str = "Piapiou"
     options_dataclass = OracleOfSeasonsOptions
     options: OracleOfSeasonsOptions
     required_client_version = (0, 5, 1)
@@ -446,6 +444,10 @@ class OracleOfSeasonsWorld(World):
             region = Region(region_name, self.player, self.multiworld)
             self.multiworld.regions.append(region)
 
+        if self.options.logic_difficulty == OracleOfSeasonsLogicDifficulty.option_hell:
+            region = Region("rooster adventure", self.player, self.multiworld)
+            self.multiworld.regions.append(region)
+
         if self.options.deterministic_gasha_locations > 0:
             for i in range(self.options.deterministic_gasha_locations):
                 region = Region(GASHA_REGIONS[i], self.player, self.multiworld)
@@ -497,7 +499,6 @@ class OracleOfSeasonsWorld(World):
         self.create_event("tower of autumn", "_opened_tower_of_autumn")
         self.create_event("d2 moblin chest", "_reached_d2_bracelet_room")
         self.create_event("d5 drop ball", "_dropped_d5_magnet_ball")
-        self.create_event("d6 kill vire", "_can_kill_vire")
         self.create_event("d8 SE crystal", "_dropped_d8_SE_crystal")
         self.create_event("d8 NE crystal", "_dropped_d8_NE_crystal")
         self.create_event("d2 rupee room", "_reached_d2_rupee_room")
@@ -540,6 +541,9 @@ class OracleOfSeasonsWorld(World):
         if not self.options.shuffle_business_scrubs:
             locations_to_exclude.difference_update(SCRUB_LOCATIONS)
 
+        if self.options.randomize_ai:
+            locations_to_exclude.add("Western Coast: Black Beast's Chest")
+
         for name in locations_to_exclude:
             self.multiworld.get_location(name, self.player).progress_type = LocationProgressType.EXCLUDED
 
@@ -547,6 +551,12 @@ class OracleOfSeasonsWorld(World):
         create_connections(self.multiworld, self.player, self.origin_region_name, self.options)
         apply_self_locking_rules(self.multiworld, self.player)
         self.multiworld.completion_condition[self.player] = lambda state: state.has("_beaten_game", self.player)
+
+        if self.options.logic_difficulty == OracleOfSeasonsLogicDifficulty.option_hell:
+            cucco_region = self.get_region("rooster adventure")
+            # This saves using an event which is slightly more efficient
+            self.multiworld.register_indirect_condition(cucco_region, self.get_entrance("d6 sector -> old man near d6"))
+            self.multiworld.register_indirect_condition(cucco_region, self.get_entrance("d6 sector -> d6 entrance"))
 
     def create_item(self, name: str) -> Item:
         # If item name has a "!PROG" suffix, force it to be progression. This is typically used to create the right
@@ -567,7 +577,7 @@ class OracleOfSeasonsWorld(World):
 
         # A few items become progression only in hard logic
         progression_items_in_medium_logic = ["Expert's Ring", "Fist Ring", "Swimmer's Ring", "Energy Ring"]
-        if (self.options.logic_difficulty == "medium" or self.options.logic_difficulty == "hard") and name in progression_items_in_medium_logic:
+        if self.options.logic_difficulty >= OracleOfSeasonsLogicDifficulty.option_medium and name in progression_items_in_medium_logic:
             classification = ItemClassification.progression
         # As many Gasha Seeds become progression as the number of deterministic Gasha Nuts
         if self.remaining_progressive_gasha_seeds > 0 and name == "Gasha Seed":
@@ -1015,6 +1025,8 @@ class OracleOfSeasonsWorld(World):
         slot_data["shop_rupee_requirements"] = self.shop_rupee_requirements
         slot_data["shop_costs"] = self.shop_prices
 
+        slot_data["version"] = f"{VERSION[0]}.{VERSION[1]}"
+
         return slot_data
 
     def write_spoiler(self, spoiler_handle):
@@ -1044,6 +1056,24 @@ class OracleOfSeasonsWorld(World):
                     currency = "Ore Chunks" if shop_code.startswith("subrosia") else "Rupees"
                     spoiler_handle.write(f"\t- {loc_name}: {price} {currency}\n")
                 break
+
+    def collect(self, state: CollectionState, item: Item) -> bool:
+        change = super().collect(state, item)
+        if not change or self.options.logic_difficulty < OracleOfSeasonsLogicDifficulty.option_hell:
+            return change
+        if item.code is None or item.code >= 0x2100 and item.code != 0x2e00:  # Not usable item nor ember nor flippers
+            return True
+        state.tloz_oos_available_cuccos[self.player] = None
+        return True
+
+    def remove(self, state: CollectionState, item: Item) -> bool:
+        change = super().collect(state, item)
+        if not change or self.options.logic_difficulty < OracleOfSeasonsLogicDifficulty.option_hell:
+            return change
+        if item.code is None or item.code >= 0x2100 and item.code != 0x2e00:  # Not usable item nor ember nor flippers
+            return True
+        state.tloz_oos_available_cuccos[self.player] = None
+        return True
 
     # UT stuff
     def interpret_slot_data(self, slot_data: Optional[dict[str, Any]]) -> Any:
