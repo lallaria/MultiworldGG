@@ -117,6 +117,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sm64hacks\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smo\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sms\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smw\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smz3\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\soe\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sonic_heroes\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sotn\__init__.py
@@ -154,4 +155,3 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\yugiohddm\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\zelda2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\zillion\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\zork_grand_inquisitor\world.py
-C:\Users\Lindsay\source\repos\MultiworldGG\worlds\_manual\Meta.py

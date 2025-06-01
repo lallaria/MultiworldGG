@@ -65,7 +65,7 @@ class MessengerWorld(World):
     adventure full of thrills, surprises, and humor.
     """
     game = "The Messenger"
-    igdb_id = 44838
+    igdb_id = 71628
     author: str = "alwaysintreble"
     options_dataclass = MessengerOptions
     options: MessengerOptions

@@ -32,7 +32,7 @@ class RoR1World(World):
     They attempt to survive by killing monsters and collecting items that can boost their offensive and defensive abilities. 
     """
     game = "Risk of Rain"
-    igdb_id = 28512
+    igdb_id = 3173
     author: str = "studkid"
     options_dataclass = ROROptions
     options: ROROptions

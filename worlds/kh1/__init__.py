@@ -41,7 +41,7 @@ class KH1World(World):
     through many worlds to find Riku and Kairi.
     """
     game = "Kingdom Hearts"
-    igdb_id = 301925
+    igdb_id = 1219
     author: str = "gaithern"
     options_dataclass = KH1Options
     options: KH1Options

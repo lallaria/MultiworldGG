@@ -28,7 +28,7 @@ class OriBlindForestWorld(World):
     They are tasked to move between platforms and solve puzzles.
     """
     game = "Ori and the Blind Forest"
-    igdb_id = 19456
+    igdb_id = 7344
     author: str = "Gray"
     options_dataclass = OriBlindForestOptions
     options: OriBlindForestOptions

@@ -87,7 +87,7 @@ class StarFox64World(World):
   """
   game = "Star Fox 64"
   author: str = "Austin"
-  igdb_id = 6890
+  igdb_id = 2591
   options_dataclass = StarFox64Options
   options: StarFox64Options
   settings: StarFox64Settings

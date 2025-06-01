@@ -57,7 +57,7 @@ class PokemonCrystalWorld(World):
     Explore the Johto and Kanto regions, become the Pokémon League Champion, and
     defeat the elusive Red at the peak of Mt. Silver!"""
     game = "Pokemon Crystal"
-    igdb_id = 337415
+    igdb_id = 1514
     author: str = "AliceMousie & James"
     apworld_version = "3.2.2"
 

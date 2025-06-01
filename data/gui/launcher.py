@@ -1,5 +1,5 @@
-__all__ = ['LauncherScreen', 'LauncherLayout']
 from __future__ import annotations
+__all__ = ['LauncherScreen', 'LauncherLayout']
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.lang import Builder
@@ -12,7 +12,7 @@ from kivymd.uix.chip import MDChip, MDChipLeadingIcon, MDChipText
 from kivymd.uix.textfield import MDTextField, MDTextFieldLeadingIcon, MDTextFieldHelperText
 
 LauncherKV = '''
-LauncherLayout:
+<LauncherLayout>:
     orientation: 'vertical'
     padding: 10
     spacing: 10

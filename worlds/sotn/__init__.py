@@ -62,7 +62,7 @@ class SotnWorld(World):
     and released for Sony Playstation and Sega Saturn in 1997.
     """
     game: ClassVar[str] = "Symphony of the Night"
-    igdb_id = 181156
+    igdb_id = 1128
     author: ClassVar[str] = "Lockmau"
     settings_key = "sotn_settings"
     settings: ClassVar[SotnSettings]

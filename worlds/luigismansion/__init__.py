@@ -144,7 +144,7 @@ class LMWorld(World):
     """
 
     game: ClassVar[str] = "Luigi's Mansion"
-    igdb_id = 90109
+    igdb_id = 2485
     author: ClassVar[str] = "BootsinSoots"
     options_dataclass = LuigiOptions.LMOptions
     options: LuigiOptions.LMOptions

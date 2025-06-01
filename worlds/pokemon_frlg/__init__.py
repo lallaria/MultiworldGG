@@ -82,7 +82,7 @@ class PokemonFRLGWorld(World):
     earn Badges, help resolve the many crises on the Sevii Islands, and become the Pokémon Champion!
     """
     game = "Pokemon FireRed and LeafGreen"
-    igdb_id = 288206
+    igdb_id = 1516
     author: str = "Vyneras"
     web = PokemonFRLGWebWorld()
     topology_present = True
