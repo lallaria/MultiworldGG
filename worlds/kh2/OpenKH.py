@@ -506,10 +506,10 @@ def patch_kh2(self, output_directory):
             logging.warning(openerror)
 
     apworldloc = os.path.join("lib","worlds")
-    if not os.path.isfile(user_path(apworldloc, 'kh2.apworld')): apworldloc = os.path.join("custom_worlds", "")
+    if not os.path.isfile(Utils.user_path(apworldloc, 'kh2.apworld')): apworldloc = os.path.join("custom_worlds", "")
     if os.path.exists(os.path.join(apworldloc,"kh2.apworld")):
         try: 
-            with zipfile.ZipFile(user_path(os.path.join(apworldloc, 'kh2.apworld')), 'r') as apworld_archive:
+            with zipfile.ZipFile(Utils.user_path(os.path.join(apworldloc, 'kh2.apworld')), 'r') as apworld_archive:
                 with apworld_archive.open('kh2/data/khapicon.png', 'r') as icon, apworld_archive.open('kh2/data/preview.png', 'r') as preview:
                     iconbytes = icon.read()
                     previewbytes = preview.read()
