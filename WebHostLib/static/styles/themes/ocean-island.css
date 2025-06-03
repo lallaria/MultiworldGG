@@ -35,7 +35,7 @@ h1{
     min-width: 300px;
     min-height: 220px;
 
-    padding: 30px 30px 30px; -85 -35 -27
+    padding: 30px 30px 30px;
 }
 
 pre{
@@ -48,9 +48,19 @@ pre{
 }
 
 code{
-    background-color: #ffeeab;
+    background-color: lightblue;
     border-radius: 4px;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
     color: #000000;
+}
+
+code.grassy {
+    background-color: lightblue;
+    border: 1px solid #652895;
+    white-space: preserve;
+    text-align: left;
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
 }

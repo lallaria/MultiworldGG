@@ -1,12 +1,9 @@
-VERSION:str = "1.3.0.1"
+VERSION:str = "1.3.1.1"
 ITEM_ID_OFFSET:int = 264000
 LOCATION_ID_OFFSET:int = 264000
 LOCATION_DAY_OFFSET = 266000
 LOCATION_BOSS_RANGE = {"start": 264251, "end": 264300}
 LOCATION_RESEARCH_RANGE = {"start": 264501, "end": 264900}
-# If for some reason you want the client to connect to DST across different machines, this should be changed to "0.0.0.0", and in DST: MultiworldGG.AP_CLIENT_IP should be changed
-CLIENT_HOSTNAME = "localhost"
-CLIENT_PORT = 8000
 
 class REGION:
     NONE = "None"
@@ -520,7 +517,7 @@ DSTAP_LOCATIONS = [
     [143,   "California Roll",          "californiaroll",           [ "cooking", "meat", "ocean" ] ],
     [144,   "Seafood Gumbo",            "seafoodgumbo",             [ "cooking", "meat", "cave" ] ],
     [145,   "Surf 'n' Turf",            "surfnturf",                [ "cooking", "meat" ] ],
-    [146,   "Lobster Bisque",           "lobsterbisque",            [ "cooking", "meat", "ocean", "dusk", "night" ] ],
+    [146,   "Lobster Bisque",           "lobsterbisque",            [ "cooking", "meat", "ocean", "dusk", "night", "nonsummer" ] ],
     [147,   "Lobster Dinner",           "lobsterdinner",            [ "cooking", "meat", "ocean", "rng", "nonwinter", "special_lobsterdinner" ] ],
     [148,   "Barnacle Pita",            "barnaclepita",             [ "cooking", "meat", "ocean" ] ],
     [149,   "Barnacle Nigiri",          "barnaclesushi",            [ "cooking", "meat", "ocean" ] ],
@@ -531,7 +528,7 @@ DSTAP_LOCATIONS = [
     [154,   "Jelly Salad",              "leafymeatsouffle",         [ "cooking", "meat", "special_leafymeat" ] ],
     [155,   "Beefy Greens",             "meatysalad",               [ "cooking", "meat", "special_leafymeat" ] ],
     [156,   "Mushy Cake",               "shroomcake",               [ "cooking", "cave" ] ],
-    [157,   "Soothing Tea",             "sweettea",                 [ "cooking", "veggie" ] ],
+    [157,   "Soothing Tea",             "sweettea",                 [ "cooking", "veggie", "nonsummer" ] ],
     [158,   "Fig-Stuffed Trunk",        "koalefig_trunk",           [ "cooking", "meat", "ocean" ] ],
     [159,   "Figatoni",                 "figatoni",                 [ "cooking", "veggie", "ocean" ] ],
     [160,   "Figkabab",                 "figkabab",                 [ "cooking", "meat", "ocean" ] ],

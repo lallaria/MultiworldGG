@@ -29,13 +29,14 @@ Currently, the following games are supported:
 * Bomb Rush Cyberfunk
 * Brotato
 * Bumper Stickers
+* Candy Box 2
 * Cat Quest
 * Celeste
 * Celeste 64
 * Chained Echoes
 * Chatipelago
 * Checks Finder
-* Chrono Trigger: Jets of Time
+* Chrono Trigger
 * Civilization VI
 * Clique
 * CrossCode
@@ -51,6 +52,7 @@ Currently, the following games are supported:
 * Donkey Kong Country
 * Donkey Kong Country 2
 * Donkey Kong Country 3
+* Donkey Kong 64
 * DLC Quest
 * Don't Starve Together
 * Doom (1993)
@@ -76,7 +78,7 @@ Currently, the following games are supported:
 * HuniePop 2
 * Hylics 2
 * Inscryption
-* Jak and Daxter
+* Jak and Daxter: The Precursor Legacy
 * Jigsaw Puzzles
 * Kingdom Hearts
 * Kingdom Hearts II
@@ -128,6 +130,7 @@ Currently, the following games are supported:
 * Shapez
 * Shivers
 * Slay the Spire
+* Sly Cooper and the Thievius Raccoonus
 * Sonic Adventure 2: Battle
 * Sonic Adventure DX
 * Sonic Heroes
@@ -141,6 +144,7 @@ Currently, the following games are supported:
 * Super Mario Bros.
 * Super Mario 64 EX
 * Super Mario 64 Hacks
+* Super Mario Land 2: 6 Golden Coins
 * Super Mario Odyssey
 * Super Mario Sunshine
 * Super Mario World
@@ -162,8 +166,10 @@ Currently, the following games are supported:
 * The Legend of Zelda: The Wind Waker
 * The Legend of Zelda: Twilight Princess
 * The Messenger
+* The Sims 4
 * The Witness
 * Toontown
+* Trackmania
 * Tunic
 * UFO 50
 * Ultrakill

@@ -10,12 +10,12 @@ from datetime import datetime, UTC
 from .Items import item_dictionary_table
 from .Locations import all_locations, SoraLevels, exclusion_table
 from .XPValues import lvlStats, formExp, soraExp
-from worlds.Files import APContainer
-from Utils import user_path
+from worlds.Files import APPlayerContainer
 
 
-class KH2Container(APContainer):
+class KH2Container(APPlayerContainer):
     game: str = 'Kingdom Hearts 2'
+    patch_file_ending = ".zip"
 
     def __init__(self, patch_data: dict, base_path: str, output_directory: str,
         player=None, player_name: str = "", server: str = ""):
@@ -506,10 +506,10 @@ def patch_kh2(self, output_directory):
             logging.warning(openerror)
 
     apworldloc = os.path.join("lib","worlds")
-    if not os.path.isfile(user_path(apworldloc, 'kh2.apworld')): apworldloc = os.path.join("custom_worlds", "")
+    if not os.path.isfile(Utils.user_path(apworldloc, 'kh2.apworld')): apworldloc = os.path.join("custom_worlds", "")
     if os.path.exists(os.path.join(apworldloc,"kh2.apworld")):
         try: 
-            with zipfile.ZipFile(user_path(os.path.join(apworldloc, 'kh2.apworld')), 'r') as apworld_archive:
+            with zipfile.ZipFile(Utils.user_path(os.path.join(apworldloc, 'kh2.apworld')), 'r') as apworld_archive:
                 with apworld_archive.open('kh2/data/khapicon.png', 'r') as icon, apworld_archive.open('kh2/data/preview.png', 'r') as preview:
                     iconbytes = icon.read()
                     previewbytes = preview.read()

@@ -2,14 +2,13 @@ from typing import TYPE_CHECKING, Optional, Set, List, Dict
 import array
 import time
 import re
-import binascii
 
 from BaseClasses import ItemClassification
-from Utils import async_start
 from NetUtils import ClientStatus
-from .Locations import EOSLocation, EOS_location_table, location_Dict_by_id, location_dict_by_start_id, \
+from .Locations import location_Dict_by_id, location_dict_by_start_id, \
     location_table_by_groups
-from .Items import ItemData, item_table_by_id, lootbox_table, item_table_by_groups
+from .Items import item_table_by_id, lootbox_table, item_table_by_groups
+from .DeathMessages import death_message_list, death_message_weights
 from random import Random
 import asyncio
 
@@ -129,13 +128,13 @@ class EoSClient(BizHawkClient):
         from CommonClient import logger
         mission_start_id = 1000
         try:
-            if ctx.seed_name is None:
+            if ctx.server_seed_name is None:
                 return
             if not self.seed_verify:
                 # Need to figure out where we are putting the seed and then update this
                 seed = await bizhawk.read(ctx.bizhawk_ctx, [(0x3DE010, 8, self.ram_mem_domain)])
                 seed = seed[0].decode("UTF-8")[0:7]
-                seed_name = ctx.seed_name[0:7]
+                seed_name = ctx.server_seed_name[0:7]
                 if seed != seed_name:
                     logger.info(
                         "ERROR: The ROM you loaded is for a different game of AP. "
@@ -236,9 +235,13 @@ class EoSClient(BizHawkClient):
             bag_upgrade_offset = custom_save_area_offset + 0x2BC
             # dimensional_scream_info_offset = custom_save_area_offset + 0x2A8
             dungeon_traps_bitfield_offset = custom_save_area_offset + 0x2B8
+            sky_peaks_offset = custom_save_area_offset + 0x2BE
             trans_table = {"[": "", "]": "", "~": "", "\\": ""}
             trans_table = str.maketrans(trans_table)
             trans_table.update({0: 32})
+
+            if not self.hint_loc:
+                self.hint_loc = ctx.slot_data["HintLocationList"]
 
             if (self.player_name + "Dungeon Missions") in ctx.stored_data:
                 dungeon_missions_dict = ctx.stored_data[self.player_name + "Dungeon Missions"]
@@ -296,8 +299,7 @@ class EoSClient(BizHawkClient):
             if self.required_instruments == 0:
                 self.required_instruments = ctx.slot_data["RequiredInstruments"]
             
-            if not self.hint_loc:
-                self.hint_loc = ctx.slot_data["HintLocationList"]
+
 
             #if not ctx.locations_info:
             #    await (ctx.send_msgs(
@@ -342,6 +344,7 @@ class EoSClient(BizHawkClient):
                     (recycle_amount_offset, 4, self.ram_mem_domain),
                     (pelipper_received_counter_offset, 4, self.ram_mem_domain),
                     (dungeon_traps_bitfield_offset, 1, self.ram_mem_domain),
+                    (sky_peaks_offset, 1, self.ram_mem_domain), # Sky Peaks check
                     # (dimensional_scream_info_offset, 0x51, self.ram_mem_domain),
                 ]
             )
@@ -408,6 +411,7 @@ class EoSClient(BizHawkClient):
             recycle_amount = int.from_bytes(read_state[27], "little")
             pelipper_received_counter = int.from_bytes(read_state[28], "little")
             dungeon_traps_bitfield = int.from_bytes(read_state[29])
+            sky_peaks_ram = int.from_bytes(read_state[30])  # , "little")
             #dimensional_scream_info = int.from_bytes(read_state[29], "little")
 
             #if (310 in ctx.locations_info) and hintable_items[0] == 0:
@@ -429,8 +433,36 @@ class EoSClient(BizHawkClient):
                 if "SkyPeak" in item_data.group:
                     item_memory_offset = 0
                     if ctx.slot_data["SkyPeakType"] == 1:  # progressive
-                        self.skypeaks_open += 1
-                        item_memory_offset = 0x6E + self.skypeaks_open
+                        if sky_peaks_ram == self.skypeaks_open:
+                            self.skypeaks_open += 1
+                            sky_peaks_ram += 1
+                            logger.info(
+                                "The Sky Peak count from AP is " + str(self.skypeaks_open) +
+                                "\nAnd the Sky Peaks written to the ROM should now be: " + str(
+                                    sky_peaks_ram)
+                            )
+                        elif sky_peaks_ram > self.skypeaks_open:
+                            # uhhhh I don't know how this could happen? Also what do I do????
+                            self.skypeaks_open = sky_peaks_ram
+                            self.skypeaks_open += 1
+                            sky_peaks_ram += 1
+                            logger.info(
+                                "Something Weird Happened Please tell Cryptic if you see this " +
+                                "\nThe Sky Peak count from AP is " + str(self.skypeaks_open) +
+                                "\nAnd the Sky Peaks written to the ROM should now be: " + str(
+                                    sky_peaks_ram)
+                            )
+                        else:
+                            sky_peaks_ram += 1
+                            logger.info(
+                                "The Rom decided to be lower than the AP count probably due to save states " +
+                                "\nThe Sky Peak count from AP is " + str(self.skypeaks_open) +
+                                "\nAnd the Sky Peaks written to the ROM should now be: " + str(
+                                    sky_peaks_ram)
+                            )
+
+                        #self.skypeaks_open += 1
+                        item_memory_offset = 0x6E + sky_peaks_ram
                     elif ctx.slot_data["SkyPeakType"] == 2:  # all random
                         item_memory_offset = item_data.memory_offset
                         # Since our open list is a byte array and our memory offset is bit based
@@ -449,24 +481,30 @@ class EoSClient(BizHawkClient):
                                     ctx.bizhawk_ctx,
                                     [
                                         (open_list_total_offset + sig_digit, int.to_bytes(write_byte),
-                                         self.ram_mem_domain)],
+                                         self.ram_mem_domain)
+                                    ],
+
+
                                 )
 
                         await self.update_received_items(ctx, received_items_offset, received_index, i)
                         continue
+                    if item_data != 0:
+                        sig_digit = item_memory_offset // 8
+                        non_sig_digit = item_memory_offset % 8
+                        if ((open_list[sig_digit] >> non_sig_digit) & 1) == 0:
+                            # Since we are writing bytes, we need to add the bit to the specific byte
+                            write_byte = open_list[sig_digit] | (1 << non_sig_digit)
+                            open_list[sig_digit] = write_byte
+                            await bizhawk.write(
+                                ctx.bizhawk_ctx,
+                                [
+                                    (open_list_total_offset + sig_digit, int.to_bytes(write_byte),
+                                     self.ram_mem_domain),
+                                    (sky_peaks_offset, int.to_bytes(sky_peaks_ram),
+                                     self.ram_mem_domain)],
 
-                    sig_digit = item_memory_offset // 8
-                    non_sig_digit = item_memory_offset % 8
-                    if ((open_list[sig_digit] >> non_sig_digit) & 1) == 0:
-                        # Since we are writing bytes, we need to add the bit to the specific byte
-                        write_byte = open_list[sig_digit] | (1 << non_sig_digit)
-                        open_list[sig_digit] = write_byte
-                        await bizhawk.write(
-                            ctx.bizhawk_ctx,
-                            [
-                                (open_list_total_offset + sig_digit, int.to_bytes(write_byte),
-                                 self.ram_mem_domain)],
-                        )
+                            )
 
                     await self.update_received_items(ctx, received_items_offset, received_index, i)
                     await asyncio.sleep(0.1)
@@ -744,14 +782,29 @@ class EoSClient(BizHawkClient):
                             await asyncio.sleep(0.1)
                         elif relic_shards_amount > self.macguffins_collected:
                             # uhhhh I don't know how this could happen? Also what do I do????
+                            old_macguffins = self.macguffins_collected
                             self.macguffins_collected = relic_shards_amount
                             self.macguffins_collected += 1
+                            old_relic_shards_amount = relic_shards_amount
                             relic_shards_amount += 1
+                            await bizhawk.write(
+                                ctx.bizhawk_ctx,
+                                [
+                                    #relic_shards_amount.to_bytes(),
+                                    (relic_shards_offset, int.to_bytes(relic_shards_amount),
+                                     self.ram_mem_domain)],
+                            )
+                            await asyncio.sleep(0.1)
                             logger.info(
                                 "Something Weird Happened Please tell Cryptic if you see this " +
+                                "\nThe Relic Fragment Shard count from AP was " + str(old_macguffins) +
                                 "\nThe Relic Fragment Shard count from AP is " + str(self.macguffins_collected) +
+                                "\nThe Relic Fragment Shard count from ROM was" + str(old_relic_shards_amount) +
                                 "\nAnd the Relic Fragments written to the ROM should now be: " + str(
                                     relic_shards_amount)
+                                #"\n And just for Hecka, the bytes written are " + str(int.to_bytes(relic_shards_amount)) +
+                                #"\n And just for Hecka, doing it the other way would result in " +
+                                #str(relic_shards_amount.to_bytes())
                             )
                         else:
                             relic_shards_amount += 1
@@ -824,7 +877,7 @@ class EoSClient(BizHawkClient):
                     await self.update_received_items(ctx, received_items_offset, received_index, i)
 
                 elif "Trap" in item_data.group:
-                    if item_data.name == "Inspiration Strikes!":
+                    if item_data.name in ["Inspiration Strikes!", "Inspiration Strikes!!"]:
                         if ((performance_progress_bitfield[4] >> 0) & 1) == 0:
                             write_byte = performance_progress_bitfield[4] | 0x1
                             performance_progress_bitfield[4] = write_byte
@@ -1040,8 +1093,10 @@ class EoSClient(BizHawkClient):
                     deathlink_message_from_sky = re.sub(r"\[.*?]", "", deathlink_message_from_sky)
                     lappyint = self.random.randint(1, 100)
                     #deathlink_message_from_sky = deathlink_message_from_sky.replace("byan", "by an")
-                    if lappyint == 1:
-                        await ctx.send_death(f"{ctx.player_names[ctx.slot]} was defeated by Lappy's silliness")
+                    if lappyint <= 20:
+                        death_string_list = self.random.sample(death_message_list, k=1, counts=death_message_weights)
+                        death_string = death_string_list[0].death_string
+                        await ctx.send_death(f"{ctx.player_names[ctx.slot]}{death_string}")
                     else:
                         await ctx.send_death(f"{ctx.player_names[ctx.slot]}{deathlink_message_from_sky}")
                 await bizhawk.write(
@@ -1145,14 +1200,29 @@ class EoSClient(BizHawkClient):
                             await asyncio.sleep(0.1)
                         elif instruments_amount > self.instruments_collected:
                             # uhhhh I don't know how this could happen? Also what do I do????
+                            old_instruments_ap = self.instruments_collected
+                            old_instruments_rom = instruments_amount
                             self.instruments_collected = instruments_amount
                             self.instruments_collected += 1
                             instruments_amount += 1
+                            await bizhawk.write(
+                                ctx.bizhawk_ctx,
+                                [
+                                    (instruments_offset, int.to_bytes(instruments_amount),
+                                     self.ram_mem_domain)],
+                            )
+                            await asyncio.sleep(0.1)
                             logger.info(
                                 "Something Weird Happened Please tell Cryptic if you see this " +
+                                "\nThe Instrument count from AP was " + str(old_instruments_ap) +
                                 "\nThe Instrument count from AP is " + str(self.instruments_collected) +
+                                "\nAnd the Instrument written to the ROM was: " + str(
+                                    old_instruments_rom) +
                                 "\nAnd the Instrument written to the ROM should now be: " + str(
-                                    instruments_amount)
+                                    instruments_amount) +
+                                "\n And just for Hecka, the bytes written are " + str(int.to_bytes(relic_shards_amount)) +
+                                "\n And just for Hecka, doing it the other way would result in " +
+                                str(relic_shards_amount.to_bytes())
                             )
                         else:
                             instruments_amount += 1
@@ -1292,14 +1362,30 @@ class EoSClient(BizHawkClient):
                             await asyncio.sleep(0.1)
                         elif instruments_amount > self.instruments_collected:
                             # uhhhh I don't know how this could happen? Also what do I do????
+                            old_instruments_ap = self.instruments_collected
+                            old_instruments_rom = instruments_amount
                             self.instruments_collected = instruments_amount
                             self.instruments_collected += 1
                             instruments_amount += 1
+                            await bizhawk.write(
+                                ctx.bizhawk_ctx,
+                                [
+                                    (instruments_offset, int.to_bytes(instruments_amount),
+                                     self.ram_mem_domain)],
+                            )
+                            await asyncio.sleep(0.1)
                             logger.info(
                                 "Something Weird Happened Please tell Cryptic if you see this " +
+                                "\nThe Instrument count from AP was " + str(old_instruments_ap) +
                                 "\nThe Instrument count from AP is " + str(self.instruments_collected) +
+                                "\nAnd the Instrument written to the ROM was: " + str(
+                                    old_instruments_rom) +
                                 "\nAnd the Instrument written to the ROM should now be: " + str(
-                                    instruments_amount)
+                                    instruments_amount) +
+                                "\n And just for Hecka, the bytes written are " + str(
+                                    int.to_bytes(relic_shards_amount)) +
+                                "\n And just for Hecka, doing it the other way would result in " +
+                                str(relic_shards_amount.to_bytes())
                             )
                         else:
                             instruments_amount += 1
@@ -1488,7 +1574,7 @@ class EoSClient(BizHawkClient):
                      "key": self.player_name + "Hinted Hints",
                      "default": {},
                      "want_reply": True,
-                     "operations": [{"operation": "default", "value": {0: self.hints_hinted}}]
+                     "operations": [{"operation": "update", "value": {0: self.hints_hinted}}]
                      },
                     {"cmd": "Set",
                      "key": self.player_name + "GenericStorage",

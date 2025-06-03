@@ -1,10 +1,10 @@
-# Setup Guide for Ratchet & Clank 2 Archipelago
+# Setup Guide for Ratchet & Clank 2 MultiworldGG
 
-This guide is meant to help you get up and running with Ratchet & Clank 2 in your Archipelago run.
+This guide is meant to help you get up and running with Ratchet & Clank 2 in your MultiworldGG run.
 
 ## Requirements
 
-The following are required in order to play Ratchet & Clank 2 in Archipelago
+The following are required in order to play Ratchet & Clank 2 in MultiworldGG
 
 - Installed [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases) v0.5.0 or higher.\
    **Make sure to install the Generator if you intend to generate multiworlds.**
@@ -15,7 +15,7 @@ The following are required in order to play Ratchet & Clank 2 in Archipelago
 ## AP World Installation
 
 1. Unzip the downloaded Ratchet & Clank 2 apworld zip file
-2. Double-click the `rac2.apworld` to install it to your local Archipelago instance
+2. Double-click the `rac2.apworld` to install it to your local MultiworldGG instance
 
 ## PCSX2 Settings
 - Enable PINE in PCSX2
@@ -62,17 +62,17 @@ name and port number from the room's host.
 
 Once you do, follow these steps to connect to the room:
 
-0. (Optional): If you want the `aprac2` file to automatically open your game for you, navigate to your `Archipelago` installation and edit the `host.yaml` file.
+0. (Optional): If you want the `aprac2` file to automatically open your game for you, navigate to your `MultiworldGG` installation and edit the `host.yaml` file.
    - Scroll down to `rac2_options` and either set `rom_start` to `true` if ISO files are already associated with PCSX2, or set it to the path to your `PCSX2` binary.
    - If `rac2_options` isn't in the `host.yaml` yet, click your `aprac2` file and then reopen the `host.yaml` and it should now be there.
 1. Double click the `aprac2` file. If you have not done so before, it will ask you what program you want to open it with.
-   Click "Choose another program" and browser to your Archipelago directory. Select `MultiworldGGLauncher.exe`.
+   Click "Choose another program" and browser to your MultiworldGG directory. Select `MultiworldGGLauncher.exe`.
 2. Be patient, after clicking the `aprac2` file, it can take a minute to have the client and patched iso showup
 3. If this is your first time, it will prompt you for an input iso. Select your Ratchet & Clank 2 SCUS-97268 iso
 4. Once the output iso file appears in the same directory as your `aprac2` file (it should have a name `AP_XXXX.iso`), open it with PCSX2 (or if you associated the file type with PCSX2, sit back and enjoy watching the computer do this menial task for you)
 5. After the game is running, connect the Ratchet & Clank 2 Client to the room by entering the server name and port number at the top and pressing `Connect`.
    For rooms hosted on the website, this will be `multiworld.gg:<port>`, where `<port>` is the port number.
-   If a game is hosted from the `ArchipelagoServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
+   If a game is hosted from the `MultiworldGGServer.exe` (without `.exe` on Linux), this will default to `38281` but may be changed in the `host.yaml`.
 
 ## Troubleshooting
 

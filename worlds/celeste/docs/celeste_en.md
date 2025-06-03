@@ -4,7 +4,7 @@
 
 - [Everest mod loader](https://everestapi.github.io) installed on your copy of Celeste.
 - CelesteArchipelago Everest mod from the [GitHub releases page](https://github.com/doshyw/CelesteArchipelago/releases).
-- Celeste APWorld from the [GitHub releases page](https://github.com/doshyw/CelesteArchipelago/releases).
+- Celeste APWorld from the [GitHub releases page](https://github.com/doshyw/CelesteArchipelago/releases) (not needed with the MWGG client)
 - MultiworldGG from the [MultiworldGG Releases Page](https://github.com/MultiworldGG/MultiworldGG/releases).
 
 ## Configuring your YAML file
@@ -18,10 +18,8 @@
 ### Generating a Celeste game (offline)
 
 1. Download and install [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
-1. Open your MultiworldGG installation in a file explorer (defaults to `C:\Program Files\MultiworldGG` on Windows).
-1. Download `celeste.apworld` from the [GitHub releases page](https://github.com/doshyw/CelesteArchipelago/releases)
-and add it to the `lib\worlds` folder under your MultiworldGG installation.
-1. Follow the instructions in the [MultiworldGG Setup Guide](tutorial/Archipelago/setup/en#on-your-local-installation) to
+2. Open your MultiworldGG installation in a file explorer (defaults to `C:\Program Files\MultiworldGG` on Windows).
+3. Follow the instructions in the [MultiworldGG Setup Guide](tutorial/Archipelago/setup/en#on-your-local-installation) to
 generate and host your game.
 
 

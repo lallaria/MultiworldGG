@@ -1,5 +1,5 @@
 """
-Constants for MultiworldGG generation.
+Constants for Archipelago generation.
 """
 from enum import IntFlag, auto
 from BaseClasses import Item, Location
@@ -58,7 +58,7 @@ class ToontownWinCondition(IntFlag):
 
     @classmethod
     def from_options(cls, options):
-        """expects MultiworldGG world options."""
+        """expects archipelago world options."""
         win_conditions = cls(0)
         lookup = {
             "cog-bosses": cls.cog_bosses,

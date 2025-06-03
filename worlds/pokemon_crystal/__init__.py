@@ -58,7 +58,7 @@ class PokemonCrystalWorld(World):
     defeat the elusive Red at the peak of Mt. Silver!"""
     game = "Pokemon Crystal"
     igdb_id = 337415
-    author: str = "AliceMousie & James"
+    author: str = "James"
     apworld_version = "3.2.2"
 
     topology_present = True

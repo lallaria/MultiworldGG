@@ -18,7 +18,6 @@ ModuleUpdate.update()
 import Utils
 import json
 import logging
-import settings
 
 if __name__ == "__main__":
     Utils.init_logging("WargrooveClient", exception_logger="Client")
@@ -47,6 +46,7 @@ class WargrooveClientCommandProcessor(ClientCommandProcessor):
         """Toggles deathlink On/Off"""
         if isinstance(self.ctx, WargrooveContext):
             self.ctx.has_death_link = not self.ctx.has_death_link
+            Utils.async_start(self.ctx.update_death_link(self.ctx.has_death_link), name="Update Deathlink")
             if self.ctx.has_death_link:
                 death_link_send_file = os.path.join(self.ctx.game_communication_path, "deathLinkSend")
                 if os.path.exists(death_link_send_file):
@@ -89,7 +89,9 @@ class WargrooveContext(CommonContext):
     starting_groove_multiplier: float
     has_death_link: bool = False
     has_sacrifice_summon: bool = True
-    stored_units_key: str = ""
+    player_stored_units_key: str = ""
+    ai_stored_units_key: str = ""
+    max_stored_units: int = 1000
     faction_item_ids = {
         'Starter': 0,
         'Cherrystone': 52025,
@@ -107,52 +109,25 @@ class WargrooveContext(CommonContext):
         "archer",
         "ballista",
         "balloon",
-        "barracks",
-        "city",
-        "commander_caesar",
-        "commander_darkmercia",
-        "commander_elodie",
-        "commander_emeric",
-        "commander_greenfinger",
-        "commander_koji",
-        "commander_mercia",
-        "commander_mercival",
-        "commander_nuru",
-        "commander_ragna",
-        "commander_ryota",
-        "commander_sedge",
-        "commander_sigrid",
-        "commander_tenri",
-        "commander_valder",
-        "crystal",
         "dog",
         "dragon",
-        "drone",
-        "garrison",
-        "gate",
-        "ghost_mercival",
         "giant",
         "harpoonship",
         "harpy",
-        "hq",
         "knight",
         "mage",
         "merman",
-        "port",
         "rifleman",
         "soldier",
         "spearman",
         "thief",
         "thief_with_gold",
-        "tower",
         "travelboat",
         "trebuchet",
         "turtle",
         "villager",
-        "vine",
         "wagon",
         "warship",
-        "water_city",
         "witch",
     }
 
@@ -162,7 +137,7 @@ class WargrooveContext(CommonContext):
         self.syncing = False
         self.awaiting_bridge = False
         # self.game_communication_path: files go in this path to pass data between us and the actual game
-        game_options = settings.get_settings().wargroove_options
+        game_options = WargrooveWorld.settings
 
         # Validate the AppData directory with Wargroove save data.
         # By default, Windows sets an environment variable we can leverage.
@@ -190,7 +165,7 @@ class WargrooveContext(CommonContext):
 
         # Check for the Wargroove game executable path.
         # This should always be set regardless of the OS.
-        root_directory = os.path.join(game_options["root_directory"])
+        root_directory = game_options["root_directory"]
         if not os.path.isfile(os.path.join(root_directory, "win64_bin", "wargroove64.exe")):
             print_error_and_close(f"WargrooveClient couldn't find wargroove64.exe in "
                                   f"\"{root_directory}/win64_bin/\".\n"
@@ -211,21 +186,21 @@ class WargrooveContext(CommonContext):
         # Wargroove doesn't always create the mods directory, so we have to do it
         if not os.path.isdir(mods_directory):
             os.makedirs(mods_directory)
-        resources = [os.path.join("data", "mods", "ArchipelagoMod", "maps.dat"),
-                     os.path.join("data", "mods", "ArchipelagoMod", "mod.dat"),
-                     os.path.join("data", "mods", "ArchipelagoMod", "modAssets.dat"),
-                     os.path.join("data", "save", "campaign-c40a6e5b0cdf86ddac03b276691c483d.cmp"),
-                     os.path.join("data", "save", "campaign-c40a6e5b0cdf86ddac03b276691c483d.cmp.bak")]
+        resources = ["data/mods/ArchipelagoMod/maps.dat",
+                     "data/mods/ArchipelagoMod/mod.dat",
+                     "data/mods/ArchipelagoMod/modAssets.dat",
+                     "data/save/campaign-c40a6e5b0cdf86ddac03b276691c483d.cmp",
+                     "data/save/campaign-c40a6e5b0cdf86ddac03b276691c483d.cmp.bak"]
         file_paths = [os.path.join(mods_directory, "maps.dat"),
                       os.path.join(mods_directory, "mod.dat"),
                       os.path.join(mods_directory, "modAssets.dat"),
                       os.path.join(save_directory, "campaign-c40a6e5b0cdf86ddac03b276691c483d.cmp"),
                       os.path.join(save_directory, "campaign-c40a6e5b0cdf86ddac03b276691c483d.cmp.bak")]
-        for i in range(0, len(resources)):
-            file_data = pkgutil.get_data("worlds.wargroove", resources[i])
+        for resource, destination in zip(resources, file_paths):
+            file_data = pkgutil.get_data("worlds.wargroove", resource)
             if file_data is None:
                 print_error_and_close("WargrooveClient couldn't find Wargoove mod and save files in install!")
-            with open(file_paths[i], 'wb') as f:
+            with open(destination, 'wb') as f:
                 f.write(file_data)
 
     def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
@@ -286,8 +261,10 @@ class WargrooveContext(CommonContext):
                 with open(os.path.join(self.game_communication_path, filename), 'w') as f:
                     pass
 
-            self.stored_units_key = f"wargroove_units_{self.team}"
-            self.set_notify(self.stored_units_key)
+            self.player_stored_units_key = f"wargroove_player_units_{self.team}"
+            self.ai_stored_units_key = f"wargroove_ai_units_{self.team}"
+            self.set_notify(self.player_stored_units_key, self.ai_stored_units_key)
+
             self.update_commander_data()
             self.ui.update_tracker()
 
@@ -297,7 +274,6 @@ class WargrooveContext(CommonContext):
                 filename = f"seed{i}"
                 with open(os.path.join(self.game_communication_path, filename), 'w') as f:
                     f.write(str(random.randint(0, 4294967295)))
-                    pass
 
         if cmd in {"RoomInfo"}:
             self.seed_name = args["seed_name"]
@@ -348,17 +324,11 @@ class WargrooveContext(CommonContext):
     def run_gui(self):
         """Import kivy UI system and start running it as self.ui_task."""
         from kvui import GameManager, HoverBehavior, ServerToolTip
-        from kivy.uix.tabbedpanel import TabbedPanelItem
+        from kivymd.uix.tab import MDTabsItem, MDTabsItemText
         from kivy.lang import Builder
-        from kivy.uix.button import Button
         from kivy.uix.togglebutton import ToggleButton
         from kivy.uix.boxlayout import BoxLayout
-        from kivy.uix.gridlayout import GridLayout
-        from kivy.uix.image import AsyncImage, Image
-        from kivy.uix.stacklayout import StackLayout
         from kivy.uix.label import Label
-        from kivy.properties import ColorProperty
-        from kivy.uix.image import Image
         import pkgutil
 
         class TrackerLayout(BoxLayout):
@@ -525,7 +495,6 @@ class WargrooveContext(CommonContext):
 
 
 async def game_watcher(ctx: WargrooveContext):
-    from worlds.wargroove.Locations import location_table
     while not ctx.exit_event.is_set():
         if ctx.syncing == True:
             sync_msg = [{'cmd': 'Sync'}]
@@ -535,7 +504,6 @@ async def game_watcher(ctx: WargrooveContext):
             ctx.syncing = False
         sending = []
         victory = False
-        await ctx.update_death_link(ctx.has_death_link)
         for root, dirs, files in os.walk(ctx.game_communication_path):
             for file in files:
                 if file == "deathLinkSend" and ctx.has_death_link:
@@ -551,28 +519,36 @@ async def game_watcher(ctx: WargrooveContext):
                 if file.find("victory") > -1:
                     victory = True
                     os.remove(os.path.join(ctx.game_communication_path, file))
-                if file == "unitSacrifice":
+                if file == "unitSacrifice" or file == "unitSacrificeAI":
                     if ctx.has_sacrifice_summon:
+                        stored_units_key = ctx.player_stored_units_key
+                        if file == "unitSacrificeAI":
+                            stored_units_key = ctx.ai_stored_units_key
                         with open(os.path.join(ctx.game_communication_path, file), 'r') as f:
                             unit_class = f.read()
-                            message = [{"cmd": 'Set', "key": ctx.stored_units_key,
-                                        "default": [unit_class],
+                            message = [{"cmd": 'Set', "key": stored_units_key,
+                                        "default": [],
                                         "want_reply": True,
-                                        "operations": [{"operation": "add", "value": [unit_class]}]}]
+                                        "operations": [{"operation": "add", "value": [unit_class[:64]]}]}]
                             await ctx.send_msgs(message)
                     os.remove(os.path.join(ctx.game_communication_path, file))
-                if file == "unitSummonRequest":
+                if file == "unitSummonRequestAI" or file == "unitSummonRequest":
                     if ctx.has_sacrifice_summon:
+                        stored_units_key = ctx.player_stored_units_key
+                        if file == "unitSummonRequestAI":
+                            stored_units_key = ctx.ai_stored_units_key
                         with open(os.path.join(ctx.game_communication_path, "unitSummonResponse"), 'w') as f:
-                            if ctx.stored_units_key in ctx.stored_data:
-                                stored_units = ctx.stored_data[ctx.stored_units_key]
+                            if stored_units_key in ctx.stored_data:
+                                stored_units = ctx.stored_data[stored_units_key]
+                                if stored_units is None:
+                                    stored_units = []
                                 wg1_stored_units = [unit for unit in stored_units if unit in ctx.unit_classes]
                                 if len(wg1_stored_units) != 0:
                                     summoned_unit = random.choice(wg1_stored_units)
-                                    message = [{"cmd": 'Set', "key": ctx.stored_units_key,
+                                    message = [{"cmd": 'Set', "key": stored_units_key,
                                                 "default": [],
                                                 "want_reply": True,
-                                                "operations": [{"operation": "remove", "value": summoned_unit}]}]
+                                                "operations": [{"operation": "remove", "value": summoned_unit[:64]}]}]
                                     await ctx.send_msgs(message)
                                     f.write(summoned_unit)
                     os.remove(os.path.join(ctx.game_communication_path, file))
@@ -591,8 +567,9 @@ def print_error_and_close(msg):
     Utils.messagebox("Error", msg, error=True)
     sys.exit(1)
 
-def launch():
-    async def main(args):
+def launch(*launch_args: str):
+    async def main():
+        args = parser.parse_args(launch_args)
         ctx = WargrooveContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
         if gui_enabled:
@@ -612,7 +589,6 @@ def launch():
 
     parser = get_base_parser(description="Wargroove Client, for text interfacing.")
 
-    args, rest = parser.parse_known_args()
-    colorama.init()
-    asyncio.run(main(args))
+    colorama.just_fix_windows_console()
+    asyncio.run(main())
     colorama.deinit()

@@ -2,26 +2,29 @@ regions = {
   "Katina": {
     "locations": {
       "Katina - Mission Complete": {
-        "item": "Katina - Blue Path",
+        "item": ["Nothing", "Katina - Blue Path"],
+        "group": "Mission Finished",
         "logic": "true",
       },
       "Katina - Mission Accomplished": {
-        "item": "Katina - Yellow Path",
+        "item": ["Nothing", "Katina - Yellow Path"],
+        "group": "Mission Finished",
         "logic": "true",
       },
       "Katina - Medal": {
         "item": "Medal",
+        "group": "Medals",
         "logic": "true",
       },
     },
     "exits": {
       "Sector X": {
         "type": "Level",
-        "logic": "KatinaBluePath",
+        "logic": "LevelAccess == 'shuffle_paths' and KatinaBluePath",
       },
       "Solar": {
         "type": "Level",
-        "logic": "KatinaYellowPath",
+        "logic": "LevelAccess == 'shuffle_paths' and KatinaYellowPath",
       },
     },
   },

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Toggle, Choice, DefaultOnToggle, DeathLink, PerGameCommonOptions
+from Options import Toggle, Choice, DefaultOnToggle, PerGameCommonOptions
 from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 
@@ -8,11 +8,10 @@ class LogicLevel(Choice):
     The overall difficulty of the logic, used to determine the requirements to access locations and regions.
 
     Normal: Suitable for anyone who has beaten the game. Requires backflips and knowing where everything is.
-    Hard: Requires some easier movement tricks such as cling climbing, and more nuanced movement like turning during an air kick.
+    Hard: Requires some easier movement tricks such as cling climbing and backwards ultras using solar wind,
+          and more nuanced movement like turning during an air kick.
     Expert: Requires more difficult movement tricks such as ultrahops and reverse wallkicks, and obscure knowledge.
     Lunatic: Requires extremely difficult jumps and creative thinking. No holds barred. You have been warned.
-
-    Currently applies to Castle, Dungeon, Library, Keep, and Underbelly.
     """
     display_name = "Logic Level"
     option_normal = NORMAL
@@ -26,8 +25,6 @@ class ObscureLogic(Toggle):
     """
     Enables logic for obscure knowledge and creative pathing that isn't difficult to execute but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
-
-    Currently applies to Castle, Dungeon, Library, Keep, and Underbelly.
     """
     display_name = "Obscure Logic"
 
@@ -70,5 +67,4 @@ class PseudoregaliaOptions(PerGameCommonOptions):
     progressive_breaker: ProgressiveBreaker
     progressive_slide: ProgressiveSlide
     split_sun_greaves: SplitSunGreaves
-    death_link: DeathLink
 

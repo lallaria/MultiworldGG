@@ -8,8 +8,8 @@ from Options import AssembleOptions
 
 from .Items import SotnItem, items, relic_table, item_id_to_name
 from .Locations import locations, SotnLocation
-from .Regions import create_regions
-from .Rules import set_rules
+from .Regions import create_regions, create_regions_no_logic
+from .Rules import set_rules, set_no_logic_rules
 from .Options import SOTNOptions, sotn_option_groups
 from .Rom import SotnProcedurePatch, write_tokens
 from .client import SotNClient
@@ -42,7 +42,6 @@ class SotnSettings(settings.Group):
 
 class SotnWeb(WebWorld):
     display_name = "Castlevania - Symphony of the Night"
-
     setup = Tutorial(
         "Multiworld Setup Guide",
         "A guide to setting up Symphony of the Night for MultiWorld.",
@@ -64,11 +63,11 @@ class SotnWorld(World):
     game: ClassVar[str] = "Symphony of the Night"
     igdb_id = 181156
     author: ClassVar[str] = "Lockmau"
+    web: ClassVar[WebWorld] = SotnWeb()
     settings_key = "sotn_settings"
     settings: ClassVar[SotnSettings]
     options_dataclass = SOTNOptions
     options: SOTNOptions
-    web: ClassVar[WebWorld] = SotnWeb()
     data_version: ClassVar[int] = 1
     required_client_version: Tuple[int, int, int] = (0, 4, 5)
     extra_add = ["Duplicator", "Crissaegrim", "Ring of varda", "Mablung sword", "Masamune", "Marsil", "Yasutsuna"]
@@ -198,16 +197,23 @@ class SotnWorld(World):
         return SotnItem(rng_junk, data["classification"], data["id"], self.player)
 
     def create_regions(self) -> None:
-        create_regions(self.multiworld, self.player, self.options)
+        if self.options.no_logic.value:
+            create_regions_no_logic(self.multiworld, self.player, self.options)
+        else:
+            create_regions(self.multiworld, self.player, self.options)
 
     def create_event(self, name: str) -> Item:
         return SotnItem(name, ItemClassification.progression, None, self.player)
 
     def set_rules(self):
-        set_rules(self.multiworld, self.player, self.options)
+        if self.options.no_logic.value:
+            set_no_logic_rules(self.multiworld, self.player, self.options)
+        else:
+            set_rules(self.multiworld, self.player, self.options)
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        option_names: List[str] = [option_name for option_name in self.options_dataclass.type_hints]
+        option_names: List[str] = [option_name for option_name in self.options_dataclass.type_hints
+                                   if option_name != "plando_items"]
         slot_data = self.options.as_dict(*option_names)
         return slot_data
 

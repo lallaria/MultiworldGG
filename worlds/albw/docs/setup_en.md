@@ -31,6 +31,6 @@
 
 ## Resuming a Game
 
-1. Run the MultiworldGG Launcher and select the A Link Between Worlds client.
+1. Run the Archipelago Launcher and select the A Link Between Worlds client.
 2. Run A Link Between Worlds in the emulator. The client should automatically connect to the emulator.
 3. Enter the server URL into the client and press Connect.

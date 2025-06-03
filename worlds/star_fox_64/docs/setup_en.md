@@ -64,7 +64,7 @@ The configuration for `/autostart` is located in the `host.yaml` file in your Mu
 
 No specific configuration is necessary for Bizhawk. However, it is recommended to enable AutoSaveRAM. Every 5s is fine.
 
-Either use the `/autostart` command or load the [patched ROM](#patched-rom), and then load `Archipelago/data/lua/connector_sf64_bizhawk.lua`. Use the Archipelago Launcher's `Browse Files` button to find the MultiworldGG folder.
+Either use the `/autostart` command or load the [patched ROM](#patched-rom), and then load `MultiworldGG/data/lua/connector_sf64_bizhawk.lua`. Use the MultiworldGG Launcher's `Browse Files` button to find the MultiworldGG folder.
 
 ## Project 64
 

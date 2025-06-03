@@ -15,7 +15,7 @@ from .Regions import create_sadx_regions, get_location_ids_for_area
 from .Rules import create_sadx_rules, LocationDistribution
 from .StartingSetup import StarterSetup, generate_early_sadx, write_sadx_spoiler, CharacterArea, level_areas
 
-sadx_version = 111
+sadx_version = 112
 
 
 class SonicAdventureDXWeb(WebWorld):
@@ -32,6 +32,11 @@ class SonicAdventureDXWeb(WebWorld):
 
 
 class SonicAdventureDXWorld(World):
+    """
+    Sonic Adventure is a 1998 platform game for the Dreamcast. It was the first main Sonic the Hedgehog game to feature 3D gameplay.
+    Controlling one of the six characters—each with their own abilities—players complete levels to progress the story. Sonic Adventure retains many elements from prior Sonic games, 
+    such as power-ups and the ring-based health system. Players can play minigames such as racing and interact with Chao, a virtual pet.
+    """
     game = "Sonic Adventure DX"
     igdb_id = 192114
     author: str = "Classic"
@@ -259,7 +264,7 @@ class SonicAdventureDXWorld(World):
                 mission.missionNumber: mission.missionNumber
                 for mission in mission_location_table
                 if str(mission.missionNumber) in self.options.mission_blacklist.value
-                or str(mission.character.name) in self.options.mission_blacklist.value
+                   or str(mission.character.name) in self.options.mission_blacklist.value
             },
 
             "EnemySanity": self.options.enemy_sanity.value,
@@ -301,6 +306,12 @@ class SonicAdventureDXWorld(World):
             "SkyChaseChecks": self.options.sky_chase_checks.value,
             "SkyChaseChecksHard": self.options.sky_chase_checks_hard.value,
 
+            "MusicSource": self.options.music_source.value,
+            "MusicShuffle": self.options.music_shuffle.value,
+            "MusicShuffleConsistency": self.options.music_shuffle_consistency.value,
+            "LifeCapsulesChangeSongs": self.options.life_capsules_change_songs.value,
+            "MusicShuffleSeed": self.multiworld.seed % (2 ** 31),
+
             "BossChecks": self.options.boss_checks.value,
             "UnifyChaos4": self.options.unify_chaos4.value,
             "UnifyChaos6": self.options.unify_chaos6.value,
@@ -328,6 +339,13 @@ class SonicAdventureDXWorld(World):
             "BigActionStageMissions": self.options.big_action_stage_missions.value,
 
             "JunkFillPercentage": self.options.junk_fill_percentage.value,
+
+            "IceTrapWeight": self.options.ice_trap_weight.value,
+            "SpringTrapWeight": self.options.spring_trap_weight.value,
+            "PoliceTrapWeight": self.options.police_trap_weight.value,
+            "BuyonTrapWeight": self.options.buyon_trap_weight.value,
+            "ReverseTrapWeight": self.options.reverse_trap_weight.value,
+            "GravityTrapWeight": self.options.gravity_trap_weight.value,
 
             "ReverseControlTrapDuration": self.options.reverse_trap_duration.value,
             "TrapsOnAdventureFields": self.options.traps_and_filler_on_adventure_fields.value,

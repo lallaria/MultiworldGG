@@ -5,52 +5,37 @@
 The [player options page for this game](../player-options) contains all the options you need to configure and export a
 config file.
 
-
 ## What does randomization do to this game?
 
-```
-Spike!
+Access to levels is determined by World Keys instead of the standard progression of catching enough monkeys in a level.
+Which entrance leads to which level can also be randomized.
+Gadgets are shuffled throughout the multiworld instead of being unlocked at specific points, optionally including the
+Time Net and Water Net.
+"Specter Token" items can also be included to unlock the chosen goal boss (Specter in either Monkey Madness or Peak
+Point Matrix) or as the goal.
 
-This is the professor, Specter is at it again! The monkeys stole everybody's items and went away through time!
-What's worse? Specter locked each era with a key and you need to find them to travel to the next era ! 
-
-I'm counting on you, please help everyone get their items back!
-
-Go Ape and catch Specter !
-```
-
-Specter felt that Ape Escape is a pretty linear game, so he locked each era behind an item called "World Key".
-
-The game unlocks 3 levels (one world) 
-at the start of the game. After each "World Key" is collected, the next 3 levels are unlocked.
-This allows for a much less linear experience.
-
-Progression is also blocked by not having your normally unlocked gadgets, 
-since some levels/monkeys require a combination of gadgets to access
 ## What items and locations get shuffled?
 
-Items that are shuffled are the gadgets normally acquired thought the tutorial levels and 6 "World Keys" which are there to limit progression further.
-Stun Club can also be shuffled or replaced by another starting gadget for more complex logic.
+The Stun Club, Monkey Radar, Slingback Shooter, Super Hoop, Sky Flyer, RC Car and Magic Punch are always shuffled.
+The Time Net and Water Net can also be shuffled.
+The door to the second half of Monkey Madness is also always an item, instead of its vanilla requirement.
+Monkey Lamps can also be shuffled, unlocking their doors on receiving an item instead of catching enough monkeys.
+World Keys unlock access to 1, 2 or 3 levels, depending on the options chosen. These can also be turned off.
+Specter Tokens can also be created, as an optional requirement for goal, similar to a Triforce Hunt.
+Energy Chips, special pellets, Cookies and even Jackets fill the rest of the item pool.
 
-The Monkeys you catch and
-certain level bosses count as locations, with the possibility to add more in future versions.
+Monkeys and non-goal bosses are always locations.
+Specter Coins and Mailboxes can optionally be included as locations. The mailboxes in the gadget training rooms are
+not included in this due to technical limitations with the gadget training.
+Even if Mailbox Shuffle is turned off, the Time Station mailboxes will be included if the Time Net is shuffled.
 
-Specters coins are optional locations that are disabled by default,
-you can activate them in the options.
+## How do I check my settings?
 
-
-
-## Which items can be in another player's world?
-
-Any of the items which can be shuffled may also be placed into another player's world. It is possible to choose to limit
-certain items to your own world.
-
-There is also filler items to compensate for the lack of items compared to locations
-
-## What does another world's item look like in Ape Escape?
-
-There is currently no way to tell apart other world's items and your own items
+The mailbox in the center of the Time Station contains a lot of useful information about the seed, including logic
+difficulties and included tricks, what remote doors are open, and how many Specter Tokens are needed or found.
 
 ## When the player receives an item, what happens?
 
-You will be able to see the change directly in game (In the pause menu) or by checking the Bizhawk client
+A gadget will be added to the inventory, a level or door will be unlocked, or a consumable will be given.
+Optionally, a message will be sent as a BizHawk message, displayed over the emulator window.
+There is currently no other in-game indication or sound effect on receiving an item.

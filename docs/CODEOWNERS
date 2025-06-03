@@ -56,6 +56,9 @@
 # Bumper Stickers
 /worlds/bumpstik/ @FelicitusNeko
 
+# Candy Box 2
+/worlds/candybox2/ @vicr123
+
 # Castlevania 64
 /worlds/cv64/ @LiquidCat64
 
@@ -122,7 +125,7 @@
 # Donkey Kong Country 3
 /worlds/dkc3/ @PoryGone
 
-# Don't starve together
+# Don't Starve Together
 /worlds/dontstarvetogether/ @DragonWolfLeo
 
 # DOOM 1993
@@ -189,7 +192,7 @@
 # Inscryption
 /worlds/inscryption/ @DrBibop @Glowbuzz
 
-# Jak & Dexter
+# Jak & Dexter: The Precursor Legacy
 /worlds/jakanddexter/ @massimilianodelliubaldini
 
 # Jigsaw
@@ -361,8 +364,14 @@
 # A Short Hike
 /worlds/shorthike/ @chandler05 @BrandenEK
 
+# Sims 4
+/worlds/sims4/ @benny-dreamly
+
 # Skyward Sword
 /worlds/ss/ @Battlecats59
+
+# Sly Cooper and the Thievius Raccoonus
+/worlds/sly1/ @Philoffalot
 
 # Sonic Adventure DX
 /worlds/sadx/ @ClassicSpeed
@@ -391,6 +400,9 @@
 
 # Super Mario 64
 /worlds/sm64ex/ @N00byKing
+
+# Super Mario Land 2: 6 Golden Coins
+/worlds/marioland2/ @Alchav
 
 # Super Mario Odyssey
 /worlds/smo/ @Kgamer77
@@ -431,6 +443,12 @@
 # The Legend of Zelda (1)
 /worlds/tloz/ @Rosalie-A @t3hf1gm3nt
 
+# ToonTown
+/worlds/toontown/ @PIEisFANTASTIC
+
+# Trackmania
+/worlds/trackmania/ @SerialBoxes
+
 # TUNIC
 /worlds/tunic/ @silent-destroyer @ScipioWright
 
@@ -457,6 +475,7 @@
 
 # UFO 50
 /worlds/ufo50/ @ScipioWright @LeonarthCG
+
 # ULTRAKILL
 /worlds/ultrakill/ @TPRG0
 
@@ -500,7 +519,7 @@
 ## Active Unmaintained Worlds
 
 # The following worlds in this repo are currently unmaintained, but currently still work in core. If any update breaks
-# compatibility, these worlds may be moved to `worlds_disabled`. If you are interested in stepping up as maintainer for
+# compatibility, these worlds may be deleted. If you are interested in stepping up as maintainer for
 # any of these worlds, please review `/docs/world maintainer.md` documentation.
 
 # Final Fantasy (1)
