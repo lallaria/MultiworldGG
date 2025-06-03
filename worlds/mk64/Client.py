@@ -79,7 +79,7 @@ class MarioKart64Client(BizHawkClient):
                 receive_item = ctx.items_received[num_received_items]
                 local_id = receive_item.item - ID_BASE
                 receive_player = ctx.player_names[receive_item.player].encode("ascii")[:Addr.ASCII_PLAYER_NAME_SIZE]
-                receive_item_name = ctx.item_names[receive_item.item].encode("ascii")[:Addr.ITEM_NAME_SIZE]
+                receive_item_name = ctx.item_names.lookup_in_game(receive_item.item).encode("ascii")[:Addr.ITEM_NAME_SIZE]
                 await bizhawk.guarded_write(ctx.bizhawk_ctx,
                     [(Addr.RECEIVE_ITEM_ID, local_id.to_bytes(1, "big"), "RDRAM"),
                         (Addr.RECEIVE_CLASSIFICATION, receive_item.flags.to_bytes(1, "big"), "RDRAM"),

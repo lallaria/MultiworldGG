@@ -42,6 +42,7 @@ class JigsawWorld(World):
     """
 
     game: str = "Jigsaw"
+    author: str = "Spineraks"
     options_dataclass = JigsawOptions
 
     web = JigsawWeb()

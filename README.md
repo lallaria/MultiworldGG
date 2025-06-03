@@ -29,6 +29,7 @@ Currently, the following games are supported:
 * Bomb Rush Cyberfunk
 * Brotato
 * Bumper Stickers
+* Candy Box 2
 * Cat Quest
 * Celeste
 * Celeste 64
