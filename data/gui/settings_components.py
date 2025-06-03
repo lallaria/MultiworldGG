@@ -642,7 +642,12 @@ class ThemingSettings(SettingsScrollBox):
         return color_boxes
 
     def change_theme(self, instance, value):
-        self.app.loading()
+        # Show loading with a delay first
+        Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(), 0)
+        # Then make the changes
+        Clock.schedule_once(lambda dt: self._do_theme_change(value), 1)
+
+    def _do_theme_change(self, value):
         self.app.theme_mw.theme_style = "Light" if value == True else "Dark"
         self.app.app_config.set('client', 'theme_style', self.app.theme_mw.theme_style)
         self.app.app_config.write()
@@ -653,15 +658,20 @@ class ThemingSettings(SettingsScrollBox):
         color_boxes = self.make_color_boxes()
         for box in color_boxes:
             self.custom_colors_section.add_widget(box)
-        self.app.not_loading()
+        self.app.loading_layout.hide_loading()
 
     def update_colors(self, instance, value):
-        self.app.loading()
+        # Show loading with a delay first
+        Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(), 0)
+        # Then make the changes
+        Clock.schedule_once(lambda dt: self._do_color_update(value), 0.5)
+
+    def _do_color_update(self, value):
         self.app.theme_mw.primary_palette = value
         self.app.app_config.set('client', 'primary_palette', value)
         self.app.app_config.write()
         self.app.update_colors()
-        self.app.not_loading()
+        self.app.loading_layout.hide_loading()
 
     def set_font_size(self, size):
         sizes = {"Small": 0.8, "Medium": 1.0, "Large": 1.2, "Extra Large": 1.5}
