@@ -1,9 +1,9 @@
+from __future__ import annotations
 __all__ = ("MarkupTextField", 
            "MDTextFieldHintText",
            "MDTextFieldHelperText",
            "MDTextFieldLeadingIcon",
-           "MDTextFieldTrailingIcon", 
-           "MarkupTextFieldCutCopyPaste",
+           "MDTextFieldTrailingIcon",
            )
 
 import logging
@@ -165,8 +165,6 @@ class MarkupTextField(TextInput, ThemableBehavior):
     error_color = ColorProperty(None) #MD
     error = BooleanProperty(False) #MD
     use_menu = BooleanProperty(True)
-    text_color_normal = ColorProperty(None) #MD
-    text_color_focus = ColorProperty(None) #MD
     radius = VariableListProperty([dp(4), dp(4), dp(4), dp(4)]) #MD
     required = BooleanProperty(False) #MD
     line_color_normal = ColorProperty(None) #MD
@@ -193,19 +191,25 @@ class MarkupTextField(TextInput, ThemableBehavior):
         self.use_markup = True
         self.hint_info = [] # for use in hinting, 2nd item is for host/admin hinting
         self._lines_plaintext = []  # Add a list to store plain text lines
-        self.theme_text_color = "Custom"
         self.use_text_color = True
-        self.text_color = "FFFFFF"
+        self.text_color = '#000000'
         self._markup_to_plain_map = {}  # Dictionary to map markup positions to plain text positions
         super().__init__(**kwargs)
+
         self.use_bubble = False
         self.bind(text=self.set_text) #MD
         self._line_options = kw = self._get_line_options()
         self._label_cached = Label(**kw)
+        # use text_color as foreground color
+        text_color = kwargs.get('foreground_color')
+        if text_color:
+            self.text_color = get_hex_from_color(text_color)
         # set foreground to white to allow text colors to show
         # use text_color as the default color in bbcodes
         self.use_text_color = False
-        self.text_color = self.text_color_focus
+        self.foreground_color = [1,1,1,.999]
+        if not kwargs.get('background_color'):
+            self.background_color = [.9, .92, .92, 1]
         
         # Initialize the cut/copy/paste menu
         self._cut_copy_paste_menu = None
@@ -216,6 +220,7 @@ class MarkupTextField(TextInput, ThemableBehavior):
         self._update_plaintext_lines()
         # Update the markup to plain text mapping
         self._update_markup_to_plain_map()
+        
 
     @property
     def end_cursor(self):
@@ -414,7 +419,7 @@ class MarkupTextField(TextInput, ThemableBehavior):
         if not self.use_text_color:
             self.use_text_color = True
             return
-        self.text_color_focus = get_hex_from_color(text_color)
+        self.text_color = get_hex_from_color(text_color)
         self.use_text_color = False
         self.foreground_color = (1, 1, 1, .999)
         self._trigger_refresh_text()
