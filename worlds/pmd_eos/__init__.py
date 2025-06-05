@@ -104,11 +104,11 @@ class EOSWorld(World):
             item_name = "Formation Control"
             self.multiworld.push_precollected(self.create_item(item_name))
         if self.options.special_episode_sanity.value and not self.options.exclude_special.value:
-            possibleSEs = ["Bidoof\'s Wish", "Igglybuff the Prodigy", "In the Future of Darkness",
-                           "Here Comes Team Charm!", 'Today\'s "Oh My Gosh"']
-            SE_Num = self.random.randint(0, 4)
-            self.starting_se = SE_Num
-            item_name = possibleSEs[SE_Num]
+            possible_se = ["Bidoof\'s Wish", "Igglybuff the Prodigy", 'Today\'s "Oh My Gosh"', "Here Comes Team Charm!",
+                           "In the Future of Darkness"]
+            se_num = self.random.randint(0, 4)
+            self.starting_se = se_num
+            item_name = possible_se[se_num]
             self.multiworld.push_precollected(self.create_item(item_name))
         else:
             self.multiworld.push_precollected(self.create_item("Main Game Unlock"))
@@ -435,10 +435,10 @@ class EOSWorld(World):
         for item_name in item_table:
             if (item_name == "Dark Crater") and (self.options.goal.value == 1):
                 continue
-            if (item_name in precollected) or (item_name in item_frequencies):
+            if item_name in item_frequencies:
                 freq = 0
-                if item_name in item_frequencies:
-                    freq = item_frequencies.get(item_name, 1)
+
+                freq = item_frequencies.get(item_name, 1)
 
                 freq = max(freq - precollected.count(item_name), 0)
                 required_items += [self.create_item(item_name) for _ in range(freq)]
@@ -549,7 +549,6 @@ class EOSWorld(World):
 
         self.multiworld.itempool += required_items
 
-
         item_weights += filler_item_weights
         for i in range(4):
             filler_items_pool += filler_items_pool
@@ -595,7 +594,7 @@ class EOSWorld(World):
 
         for i in range(10):
             hint_item_list += [self.multiworld.get_location(f"Shop Item {1 + i}", self.player)]
-        write_tokens(self, patch, hint_item_list, self.dimensional_scream_list, self.starting_se)
+        write_tokens(self, patch, hint_item_list, self.dimensional_scream_list, self.starting_se + 1)
         rom_path = os.path.join(
             output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}" f"{patch.patch_file_ending}"
         )
@@ -607,13 +606,18 @@ class EOSWorld(World):
         filler = 5
         useful = 6
         progressive = 9
+        min_internal_progressive = 4
+        max_external_progressive = progressive - min_internal_progressive
         sky_dungeons = []
+        external_items = []
+        extra_useful_items = []
+        extra_filler_items = []
         important_sky_items = ["Icy Flute", "Fiery Drum", "Terra Cymbal", "Aqua-Monica", "Rock Horn",
                                "Grass Cornet", "Sky Melodica", "Stellar Symphony", "Null Bagpipes", "Glimmer Harp",
                                "Toxic Sax", "Biting Bass", "Knockout Bell", "Spectral Chimes", "Liar's Lyre",
                                "Charge Synth", "Norma-ccordion", "Psychic Cello", "Dragu-teki", "Steel Guitar",
                                "Relic Fragment Shard"]
-        location_list = list(self.multiworld.get_locations())
+        location_list = list(self.multiworld.get_locations(self.player))
         random.shuffle(location_list)
         for location in location_list:
             if location.address is not None and location.item:
@@ -623,17 +627,45 @@ class EOSWorld(World):
                     if location.item.player == self.player and location.item.name not in important_sky_items:
                         sky_dungeons.append(location)
                         continue
-                    hint_loc.append(location)
-                    progressive -= 1
+                    if location.item.player != self.player:
+                        if max_external_progressive > 0:
+                            hint_loc.append(location)
+                            max_external_progressive -= 1
+                            progressive -= 1
+                        else:
+                            external_items.append(location)
+                            continue
+                    if location.item.player == self.player and location.item.name in important_sky_items:
+                        hint_loc.append(location)
+                        progressive -= 1
                 elif filler > 0 and location.item is not (location.item.advancement or location.item.useful):
                     hint_loc.append(location)
                     filler -= 1
+                elif location.item is not (location.item.advancement or location.item.useful):
+                    extra_filler_items.append(location)
                 elif useful > 0 and location.item.useful:
                     hint_loc.append(location)
                     useful -= 1
+                elif location.item.useful:
+                    extra_useful_items.append(location)
         if progressive > 0:
             for i in range(progressive):
-                hint_loc.append(sky_dungeons[i])
+                if i < len(sky_dungeons):
+                    hint_loc.append(sky_dungeons[i])
+                else:
+                    if i - len(sky_dungeons) < len(external_items):
+                        hint_loc.append(external_items[i - len(sky_dungeons)])
+                    else:
+                        if i - len(sky_dungeons) - len(external_items) < len(extra_useful_items):
+                            hint_loc.append(extra_useful_items[i - len(sky_dungeons) - len(external_items)])
+                        else:
+                            if (i - len(sky_dungeons) - len(external_items) -
+                                    len(extra_useful_items) < len(extra_filler_items)):
+                                hint_loc.append(extra_filler_items[i - len(sky_dungeons) - len(external_items) -
+                                                                   len(extra_useful_items)])
+                            else:
+                                break
+
         return hint_loc
 
     def modify_multidata(self, multidata: Dict[str, Any]) -> None:

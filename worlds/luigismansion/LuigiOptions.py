@@ -206,13 +206,14 @@ class Furnisanity(OptionSet):
     Adds interactable objects, such as dressers, paintings, candles, and light fixtures, to the location pool.
 
     Different sets of locations can be added within the list. Valid strings are:
+
     "Hangables" includes items on walls such as paintings and other decor
 
     "Decor" includes items such as instruments and suits of armor
 
     "Ceiling" includes ceiling fans and lights attached to the ceiling
 
-    "Candles" includes any candles tat can be interacted with
+    "Candles" includes any candles that can be interacted with
 
     "Seating" includes chairs, stools and other typs of seating
 
@@ -523,7 +524,7 @@ class PossTrapWeight(Range):
     internal_name = "poss_trap_weight"
     range_start = 0
     range_end = 100
-    default = 15
+    default = 5
 
 class BonkTrapWeight(Range):
     """

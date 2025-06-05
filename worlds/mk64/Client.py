@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Optional, Set
 
 from .Locations import ID_BASE
 from .Rom import Addr
+import unicodedata
 
 from NetUtils import ClientStatus
 import worlds._bizhawk as bizhawk
@@ -78,8 +79,21 @@ class MarioKart64Client(BizHawkClient):
             if num_received_items < len(ctx.items_received):
                 receive_item = ctx.items_received[num_received_items]
                 local_id = receive_item.item - ID_BASE
-                receive_player = ctx.player_names[receive_item.player].encode("ascii")[:Addr.ASCII_PLAYER_NAME_SIZE]
-                receive_item_name = ctx.item_names[receive_item.item].encode("ascii")[:Addr.ITEM_NAME_SIZE]
+
+                raw_name = ctx.player_names[receive_item.player]
+                decomposed = unicodedata.normalize("NFKD", raw_name)
+                ascii_bytes = decomposed.encode("ascii", "ignore")
+                receive_player = ascii_bytes[:Addr.ASCII_PLAYER_NAME_SIZE]
+                
+                if len(receive_player) < Addr.ASCII_PLAYER_NAME_SIZE:
+                    receive_player = receive_player.ljust(Addr.ASCII_PLAYER_NAME_SIZE, b"\0")
+
+                raw_item = ctx.item_names.lookup_in_game(receive_item.item)
+                item_bytes = raw_item.encode("ascii", "ignore")
+                receive_item_name = item_bytes[:Addr.ITEM_NAME_SIZE]
+                if len(receive_item_name) < Addr.ITEM_NAME_SIZE:
+                    receive_item_name = receive_item_name.ljust(Addr.ITEM_NAME_SIZE, b"\0")
+
                 await bizhawk.guarded_write(ctx.bizhawk_ctx,
                     [(Addr.RECEIVE_ITEM_ID, local_id.to_bytes(1, "big"), "RDRAM"),
                         (Addr.RECEIVE_CLASSIFICATION, receive_item.flags.to_bytes(1, "big"), "RDRAM"),

@@ -54,7 +54,7 @@ If you would like to validate your config file to make sure it works, you may do
 You will be prompted to locate your Luigi's Mansion ISO the first time you do this.
    - This action will automatically run the Luigi's Mansion Client.
    - The patch will be placed in the same folder as your patch file by default.
-   - You will ***not*** need to patch the game every time, and can simply run the `LMClient` from the list on the right of the MultiworldGG Launcher
+   - You will ***not*** need to patch the game every time, and can simply run the `Luigis Mansion Client` from the list on the right of the MultiworldGG Launcher
 to continue later.
 7. Open Dolphin and from Dolphin, open your newly patched Luigi's Mansion ISO. Load all the way into a brand new save file, and pause.
    - Ensure that "Enable GPU Overclock" and "Emulated Memory Size Override" are both off in your Dolphin settings

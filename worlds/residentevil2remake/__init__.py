@@ -10,6 +10,7 @@ from ..generic.Rules import set_rule
 from Fill import fill_restrictive
 
 from .Data import Data
+from .Exceptions import RE2ROptionError
 from .Options import RE2ROptions
 from .WeaponRandomizer import WeaponRandomizer
 
@@ -30,7 +31,7 @@ class RE2RLocation(Location):
         return RE2RLocation.stack_names(*area_names)
 
     def is_item_forbidden(item, location_data, current_item_rule):
-        return current_item_rule and ('forbid_item' not in location_data or item.name not in location_data['forbid_item'])
+        return current_item_rule(item) and ('forbid_item' not in location_data or item.name not in location_data['forbid_item'])
 
 class ResidentEvil2RemakeWeb(WebWorld):
     tutorials = [
@@ -50,12 +51,11 @@ class ResidentEvil2Remake(World):
     """
     game: str = "Resident Evil 2 Remake"
     author: str = "Fuzzy"
+    web = ResidentEvil2RemakeWeb()
 
     data_version = 2
-    required_client_version = (0, 4, 4)
-    apworld_release_version = "0.2.5" # defined to show in spoiler log
-
-    web = ResidentEvil2RemakeWeb()
+    required_client_version = (0, 5, 0)
+    apworld_release_version = "0.2.7" # defined to show in spoiler log
 
     item_id_to_name = { item['id']: item['name'] for item in Data.item_table }
     item_name_to_id = { item['name']: item['id'] for item in Data.item_table }
@@ -84,11 +84,13 @@ class ResidentEvil2Remake(World):
                 for i, l in self.source_locations[self.player].items() 
         } # turn it into name:loc instead
 
+        weapon_rando = self._format_option_text(self.options.cross_scenario_weapons).lower()
+
         # if any of the "Oops! All X" weapon options are present, don't bother with weapon randomization since they'll all get overwritten
         #    and since starting with pistol is important to prevent softlock at Gator with all knives
-        if self._format_option_text(self.options.oops_all_rockets) == 'True' or \
-            self._format_option_text(self.options.oops_all_grenades) == 'True' or \
-            self._format_option_text(self.options.oops_all_knives) == 'True':
+        if self._get_oops_all_options_flag():
+            if weapon_rando != "none":
+                raise RE2ROptionError("Cannot apply 'Oops All' options alongside Cross Scenario Weapons. Please fix your yaml.")
             return
 
         weapon_rando = self._format_option_text(self.options.cross_scenario_weapons).lower()
@@ -112,16 +114,18 @@ class ResidentEvil2Remake(World):
             weapon_randomizer.full_ammo()
         # all ammo and troll are identical, except there's a step after upgrades are placed for all weapons to remove all but a few weapons
         # so just do all_ammo here, then call the actual troll option after upgrades + gunpowder + whatever else
-        elif weapon_rando == "all ammo" or weapon_rando == "troll": 
+        elif weapon_rando == "all ammo" or weapon_rando == "troll" or weapon_rando == "troll starting": 
             weapon_randomizer.all_ammo()
         else:
-            raise "Invalid weapon randomizer value!"
+            raise RE2ROptionError("Invalid weapon randomizer value!")
 
         weapon_randomizer.upgrades() # always swap upgrades after weapons are rando'd
         weapon_randomizer.high_grade_gunpowder() # always split high-grade gunpowder after weapons are rando'd
 
         if weapon_rando == "troll":
             weapon_randomizer.troll()
+        if weapon_rando == "troll starting":
+            weapon_randomizer.troll_starting()
 
     def create_regions(self): # and create locations
         scenario_locations = { l['id']: l for _, l in self.source_locations[self.player].items() }
@@ -162,7 +166,7 @@ class ResidentEvil2Remake(World):
                     if not current_item_rule:
                         current_item_rule = lambda x: True
 
-                    location.item_rule = lambda item, location_data=location_data: RE2RLocation.is_item_forbidden(item, location_data, current_item_rule)
+                    location.item_rule = lambda item, loc_data=location_data, cur_rule=current_item_rule: RE2RLocation.is_item_forbidden(item, loc_data, cur_rule)
 
                 # now, set rules for the location access
                 if "condition" in location_data and "items" in location_data["condition"]:
@@ -243,14 +247,22 @@ class ResidentEvil2Remake(World):
 
         # check the bonus start option and add some heal items and ammo packs as precollected / starting items
         if self._format_option_text(self.options.bonus_start) == 'True':
-            for x in range(3): self.multiworld.push_precollected(self.create_item('First Aid Spray'))
+            count_spray = 3
+            count_ammo = 4
+            count_grenades = 3
+            count_bangs = 3
+
+            for x in range(count_spray): self.multiworld.push_precollected(self.create_item('First Aid Spray'))
 
             if self.player in self.starting_weapon:
                 starting_weapon = self.starting_weapon[self.player]
                 starting_weapon_ammo = self.item_name_to_item[starting_weapon].get('ammo')
-                for x in range(4): self.multiworld.push_precollected(self.create_item(starting_weapon_ammo))
+                for x in range(count_ammo): self.multiworld.push_precollected(self.create_item(starting_weapon_ammo))
             else:
-                for x in range(4): self.multiworld.push_precollected(self.create_item('Handgun Ammo'))
+                for x in range(count_ammo): self.multiworld.push_precollected(self.create_item('Handgun Ammo'))
+
+            for x in range(count_grenades): self.multiworld.push_precollected(self.create_item('Hand Grenade'))
+            for x in range(count_bangs): self.multiworld.push_precollected(self.create_item('Flash Grenade'))
 
         # do all the "no X" options here so we have more empty spots to use for traps, if needed
         if self._format_option_text(self.options.no_first_aid_spray) == 'True':
@@ -343,68 +355,43 @@ class ResidentEvil2Remake(World):
                 pool.append(self.create_item('Maiden Medallion'))
 
         if self._format_option_text(self.options.early_medallions) == 'True':
-            medallions = {i: len([i2 for i2 in pool if i2.name == i.name]) for i in pool if i.name in ['Lion Medallion', 'Unicorn Medallion', 'Maiden Medallion']}
+            medallions = {i.name: len([i2 for i2 in pool if i2.name == i.name]) for i in pool if i.name in ['Lion Medallion', 'Unicorn Medallion', 'Maiden Medallion']}
 
             for item_name, item_qty in medallions.items():
                 if item_qty > 0:
                     self.multiworld.early_items[self.player][item_name] = item_qty
    
 
-        # check the "Oops! All Rockets" option. From the option description:
-        #     Enabling this swaps all weapons, weapon ammo, and subweapons to Rocket Launchers. 
+        # check the "Oops! All ____" option. From the option description:
+        #     Enabling this swaps all weapons, weapon ammo, and subweapons to the selected weapon. 
         #     (Except progression weapons, of course.)
-        if self._format_option_text(self.options.oops_all_rockets) == 'True':
-            # leave the Anti-Tank Rocket on Tyrant alone so the player can finish the fight
+        oops_all_flag = self._get_oops_all_options_flag()
+        if oops_all_flag:            
+            oops_items_map = {
+                0x01: 'Single Use Rocket',
+                0x02: 'Mini-Minigun',
+                0x04: 'Hand Grenade',
+                0x08: 'Combat Knife'
+            }
+
+            if oops_all_flag not in oops_items_map:
+                raise RE2ROptionError("Cannot apply multiple 'Oops All' options. Please fix your yaml.")
+
+            # Leave the Anti-Tank Rocket on Tyrant alone so the player can finish the fight
             items_to_replace = [
                 item for item in self.item_name_to_item.values() 
                 if 'type' in item and item['type'] in ['Weapon', 'Subweapon', 'Ammo'] and item['name'] != 'Anti-tank Rocket'
             ]
-            to_item_name = 'Single Use Rocket'
 
             for from_item in items_to_replace:
-                pool = self._replace_pool_item_with(pool, from_item['name'], to_item_name)
+                pool = self._replace_pool_item_with(pool, from_item['name'], oops_items_map[oops_all_flag])
 
             # Add Marvin's Knife back in. He gets cranky if you don't give him his knife.
             for item in pool:
-                if item.name == to_item_name:
+                if item.name == oops_items_map[oops_all_flag]:
                     pool.remove(item)
                     pool.append(self.create_item("Combat Knife"))
                     break
-
-        # check the "Oops! All Grenades" option. From the option description:
-        #     Enabling this swaps all weapons, weapon ammo, and subweapons to Grenades. 
-        #     (Except progression weapons, of course.)
-        if self._format_option_text(self.options.oops_all_grenades) == 'True':
-            # leave the Anti-Tank Rocket on Tyrant alone so the player can finish the fight
-            items_to_replace = [
-                item for item in self.item_name_to_item.values() 
-                if 'type' in item and item['type'] in ['Weapon', 'Subweapon', 'Ammo'] and item['name'] != 'Anti-tank Rocket'
-            ]
-            to_item_name = 'Hand Grenade'
-
-            for from_item in items_to_replace:
-                pool = self._replace_pool_item_with(pool, from_item['name'], to_item_name)
-
-            # Add Marvin's Knife back in. He gets cranky if you don't give him his knife.
-            for item in pool:
-                if item.name == to_item_name:
-                    pool.remove(item)
-                    pool.append(self.create_item("Combat Knife"))
-                    break
-
-        # check the "Oops! All Knives" option. From the option description:
-        #     Enabling this swaps all weapons, weapon ammo, and subweapons to Combat Knives. 
-        #     (Except progression weapons, of course.)
-        if self._format_option_text(self.options.oops_all_knives) == 'True':
-            # leave the Anti-Tank Rocket on Tyrant alone so the player can finish the fight
-            items_to_replace = [
-                item for item in self.item_name_to_item.values() 
-                if 'type' in item and item['type'] in ['Weapon', 'Subweapon', 'Ammo'] and item['name'] != 'Anti-tank Rocket'
-            ]
-            to_item_name = 'Combat Knife'
-
-            for from_item in items_to_replace:
-                pool = self._replace_pool_item_with(pool, from_item['name'], to_item_name)
 
 
         # if the number of unfilled locations exceeds the count of the pool, fill the remainder of the pool with extra maybe helpful items
@@ -427,6 +414,22 @@ class ResidentEvil2Remake(World):
         for item_name, item_qty in local_items.items():
             if item_qty > 0:
                 self.options.local_items.value.add(item_name)
+
+        # Check the item count against the location count, and remove items until they match
+        extra_items = len(pool) - len(self.multiworld.get_unfilled_locations(self.player))
+
+        for _ in range(extra_items):
+            eligible_items = [i for i in pool if i.classification == ItemClassification.filler]
+
+            if len(eligible_items) == 0:
+                eligible_items = [i for i in pool if i.name in ["Wooden Boards", "Blue Herb", "Gunpowder"]]
+
+            if len(eligible_items) == 0:
+                eligible_items = [i for i in pool if i.name in ["Handgun Ammo"]]
+
+            if len(eligible_items) == 0: break # no items to remove to match, give up
+
+            pool.remove(eligible_items[0])
 
         self.multiworld.itempool += pool
             
@@ -452,6 +455,7 @@ class ResidentEvil2Remake(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         slot_data = {
+            "apworld_version": self.apworld_release_version,
             "character": self._get_character(),
             "scenario": self._get_scenario(),
             "difficulty": self._get_difficulty(),
@@ -480,6 +484,10 @@ class ResidentEvil2Remake(World):
                     from_weapon = '(Added)'
 
                 if isinstance(to_weapon, list):
+                    if not to_weapon:
+                        spoiler_handle.write(f"\n{from_weapon.ljust(30, ' ')} -> :(")
+                        continue
+
                     spoiler_handle.write(f"\n{from_weapon.ljust(30, ' ')} -> {to_weapon[0]}")
 
                     if len(to_weapon) > 1:
@@ -605,6 +613,18 @@ class ResidentEvil2Remake(World):
 
         return pool
 
+    def _get_oops_all_options_flag(self) -> int:
+        flag = 0
+        if self._format_option_text(self.options.oops_all_rockets) == 'True':
+            flag |= 0x01
+        if self._format_option_text(self.options.oops_all_miniguns) == 'True':
+            flag |= 0x02
+        if self._format_option_text(self.options.oops_all_grenades) == 'True':
+            flag |= 0x04
+        if self._format_option_text(self.options.oops_all_knives) == 'True':
+            flag |= 0x08
+        return flag
+       
     # def _output_items_and_locations_as_text(self):
     #     my_locations = [
     #         {

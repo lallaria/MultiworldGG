@@ -1,4 +1,3 @@
-import struct
 from .modules.flavor_data import random_flavors
 from .game_data.text_data import lumine_hall_text, eb_text_table, text_encoder
 from .game_data.local_data import item_id_table
@@ -9,140 +8,6 @@ from .modules.dungeon_er import shuffle_dungeons
 
 
 def setup_gamevars(world):
-    world.common_items = [
-        "Cookie",
-        "Bag of Fries",
-        "Teddy Bear",
-        "Hamburger",
-        "Boiled Egg",
-        "Fresh Egg",
-        "Picnic Lunch",
-        "Croissant",
-        "Bread Roll",
-        "Can of Fruit Juice",
-        "Royal Iced Tea",
-        "Protein Drink",
-        "Bottle of Water",
-        "Cold Remedy",
-        "Vial of Serum",
-        "Ketchup Packet",
-        "Sugar Packet",
-        "Tin of Cocoa",
-        "Carton of Cream",
-        "Sprig of Parsley",
-        "Jar of Hot Sauce",
-        "Salt Packet",
-        "Wet Towel",
-        "Refreshing Herb",
-        "Ruler",
-        "Protractor",
-        "Insecticide Spray",
-        "Rust Promoter",
-        "Stag Beetle",
-        "Toothbrush",
-        "Handbag Strap",
-        "Chick",
-        "Chicken",
-        "Trout Yogurt",
-        "Banana",
-        "Calorie Stick",
-        "Gelato de Resort",
-        "Snake",
-        "Cup of Noodles",
-        "Cup of Coffee",
-        "Double Burger",
-        "Bean Croquette",
-        "Molokheiya Soup",
-        "Plain Roll",
-        "Magic Tart",
-        "Popsicle",
-        "Bottle Rocket"
-    ]
-
-    world.common_gear = [
-        "Yo-yo",
-        "Slingshot",
-        "Travel Charm",
-        "Great Charm",
-        "Ribbon",
-        "Red Ribbon"
-    ]
-
-    world.uncommon_items = [
-        "Pasta di Summers",
-        "Pizza",
-        "Chef's Special",
-        "Super Plush Bear",
-        "PSI Caramel",
-        "Jar of Delisauce",
-        "Secret Herb",
-        "Xterminator Spray",
-        "Snake Bag",
-        "Bomb",
-        "Rust Promoter DX",
-        "Pair of Dirty Socks",
-        "Mummy Wrap",
-        "Pharaoh's Curse",
-        "Sudden Guts Pill",
-        "Picture Postcard",
-        "Viper",
-        "Repel Sandwich",
-        "Lucky Sandwich",
-        "Peanut Cheese Bar",
-        "Bowl of Rice Gruel",
-        "Kabob",
-        "Plain Yogurt",
-        "Beef Jerky",
-        "Mammoth Burger",
-        "Bottle of DXwater",
-        "Magic Pudding",
-        "Big Bottle Rocket",
-        "Bazooka"
-
-    ]
-
-    world.uncommon_gear = [
-        "Trick Yo-yo",
-        "Bionic Slingshot",
-        "Crystal Charm",
-        "Defense Ribbon",
-        "Earth Pendant",
-        "Flame Pendant",
-        "Rain Pendant",
-        "Night Pendant"
-    ]
-
-    world.rare_items = [
-        "Large Pizza",
-        "Magic Truffle",
-        "Brain Food Lunch",
-        "Rock Candy",
-        "Kraken Soup",
-        "IQ Capsule",
-        "Guts Capsule",
-        "Speed Capsule",
-        "Vital Capsule",
-        "Luck Capsule",
-        "Horn of Life",
-        "Multi Bottle Rocket",
-        "Super Bomb",
-        "Bag of Dragonite",
-        "Meteotite",
-        "Repel Superwich",
-        "Piggy Jelly",
-        "Spicy Jerky",
-        "Luxury Jerky",
-        "Cup of Lifenoodles"
-    ]
-
-    world.rare_gear = [
-        "Combat Yo-yo",
-        "Sword of Kings",
-        "Sea Pendant",
-        "Star Pendant",
-        "Goddess Ribbon"
-    ]
-
     world.slime_pile_wanted_item = world.random.choice([
         "Cookie",
         "Bag of Fries",
@@ -544,9 +409,10 @@ def setup_gamevars(world):
     for char in lumine_str[:213]:
         world.lumine_text.extend(eb_text_table[char])
     world.lumine_text.extend([0x00])
-    world.starting_money = struct.pack('<I', world.options.starting_money.value)
+    world.starting_money = world.options.starting_money.value
 
-    prayer_player = world.multiworld.get_player_name(world.random.randint(1, world.multiworld.players))  # todo; move to text converter
+    # todo; move to text converter
+    prayer_player = world.multiworld.get_player_name(world.random.randint(1, world.multiworld.players))
     for char in prayer_player[:24]:
         if char in eb_text_table:
             world.prayer_player.extend(eb_text_table[char])
@@ -582,16 +448,20 @@ def place_static_items(world):
     if world.options.giygas_required == 1:
         world.get_location("Giygas").place_locked_item(world.create_item("Saved Earth"))  # Normal final boss
         if world.options.magicant_mode == 1:
-            world.get_location("Magicant - Ness's Nightmare").place_locked_item(world.create_item("Power of the Earth"))  # If required magicant
+            # If required magicant
+            world.get_location("Magicant - Ness's Nightmare").place_locked_item(world.create_item("Power of the Earth"))
             world.get_location("Sanctuary Goal").place_locked_item(world.create_item("Magicant Unlock"))
         else:
-            world.get_location("Sanctuary Goal").place_locked_item(world.create_item("Power of the Earth"))  # If not required, place this condition on sanctuary goal
+            # If not required, place this condition on sanctuary goal
+            world.get_location("Sanctuary Goal").place_locked_item(world.create_item("Power of the Earth"))
     else:
         if world.options.magicant_mode == 1:
-            world.get_location("Magicant - Ness's Nightmare").place_locked_item(world.create_item("Saved Earth"))  # If Magicant required but not Giygas, place goal
+            # If Magicant required but not Giygas, place goal
+            world.get_location("Magicant - Ness's Nightmare").place_locked_item(world.create_item("Saved Earth"))
             world.get_location("Sanctuary Goal").place_locked_item(world.create_item("Magicant Unlock"))
         else:
-            world.get_location("Sanctuary Goal").place_locked_item(world.create_item("Saved Earth"))  # If neither final boss, place goal
+            # If neither final boss, place goal
+            world.get_location("Sanctuary Goal").place_locked_item(world.create_item("Saved Earth"))
 
     if world.options.alternate_sanctuary_goal:
         world.get_location("+2 Sanctuaries").place_locked_item(world.create_item("Alternate Goal"))

@@ -137,7 +137,7 @@ enemy_ids = {
     "No Good Fly": 0x9d,
     "Mostly Bad Fly": 0x9e,
     "Spiteful Crow": 0x9f,
-    "Loaded Dice (2)": 0xC3,
+    "Loaded Dice 2": 0xC3,
     "Black Antoid (2)": 0xD1,
     "Cave Boy": 0x7B,
     "Farm Zombie": 0xde,
@@ -285,7 +285,7 @@ base_enemy_table = [
     "Criminal Caterpillar",
     "Evil Eye",
     "Master Criminal Worm",
-    "Loaded Dice (2)"
+    "Loaded Dice 2"
 ]
 
 enemy_descriptions = {
@@ -423,7 +423,7 @@ enemy_descriptions = {
     "Criminal Caterpillar": "@He is wanted in seventeen countries for his crimes.",
     "Evil Eye": "@Third-year staring contest champion.",
     "Master Criminal Worm": "@He is wanted in seventeen countries for his crimes.",
-    "Loaded Dice (2)": "@Always dangerous at parties.",
+    "Loaded Dice 2": "@Always dangerous at parties.",
 }
 
 can_walkthrough = [
@@ -471,6 +471,7 @@ can_walkthrough = [
     0x0146,
     0x0169,
     0x0182,
+    0x0185,
     0x0186,
     0x0187,
     0x0188,
@@ -770,7 +771,7 @@ def apply_enemy_shuffle(world, rom):
     rom.write_bytes(0x10d94a, bytearray([enemy_ids[world.acting_enemy_list["Beautiful UFO"]]]))
     rom.write_bytes(0x10d94d, bytearray([enemy_ids[world.acting_enemy_list["High-class UFO"]]]))
 
-    rom.write_bytes(0x10d951, bytearray([enemy_ids[world.acting_enemy_list["Loaded Dice (2)"]]]))
+    rom.write_bytes(0x10d951, bytearray([enemy_ids[world.acting_enemy_list["Loaded Dice 2"]]]))
     rom.write_bytes(0x10d954, bytearray([enemy_ids[world.acting_enemy_list["Electro Swoosh"]]]))
     rom.write_bytes(0x10d957, bytearray([enemy_ids[world.acting_enemy_list["Fobby"]]]))
     rom.write_bytes(0x10d95a, bytearray([enemy_ids[world.acting_enemy_list["Uncontrollable Sphere"]]]))
@@ -1332,6 +1333,14 @@ def apply_enemy_shuffle(world, rom):
         rom.write_bytes(0x098625, bytearray([0x1f, 0x1e, 0x7F, 0x01, 0x00, 0x00, 0x00, 0x00]))
         rom.write_bytes(0x09869E, bytearray([0x1f, 0x1e, 0x80, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                              0x00, 0x00]))
+
+        rom.write_bytes(0x098375, bytearray([0x44]))
+        rom.write_bytes(0x098425, bytearray([0x44]))
+        rom.write_bytes(0x098480, bytearray([0x44]))
+        rom.write_bytes(0x098518, bytearray([0x44]))
+        rom.write_bytes(0x098599, bytearray([0x44]))
+        rom.write_bytes(0x098603, bytearray([0x44]))
+        rom.write_bytes(0x09864C, bytearray([0x44]))
 
     for i in range(3):
 

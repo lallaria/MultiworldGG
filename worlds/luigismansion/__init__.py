@@ -1,3 +1,4 @@
+import copy
 import math
 import os
 import threading
@@ -5,6 +6,7 @@ from dataclasses import fields
 from typing import ClassVar
 
 import yaml
+from yaml import CDumper as Dumper
 
 import Options
 import settings
@@ -39,7 +41,7 @@ components.append(
 
 icon_paths["archiboolego"] = f"ap:{__name__}/data/archiboolego.png"
 
-CLIENT_VERSION = "0.4.3"
+CLIENT_VERSION = "0.4.5"
 
 class LuigisMansionSettings(settings.Group):
     class ISOFile(settings.UserFilePath):
@@ -168,8 +170,8 @@ class LMWorld(World):
         self.itempool: list[LMItem] = []
         self.pre_fill_items: list[LMItem] = []
         super(LMWorld, self).__init__(*args, **kwargs)
-        self.ghost_affected_regions: dict[str, str] = GHOST_TO_ROOM
-        self.open_doors: dict[int, int] = vanilla_door_state
+        self.ghost_affected_regions: dict[str, str] = GHOST_TO_ROOM.copy()
+        self.open_doors: dict[int, int] = vanilla_door_state.copy()
         self.origin_region_name: str = "Foyer"
         self.finished_hints = threading.Event()
         self.finished_boo_scaling = threading.Event()
@@ -555,7 +557,7 @@ class LMWorld(World):
             v = list(self.open_doors.values())
             self.open_doors = dict(zip(self.random.sample(k, k=len(self.open_doors)),
                                        v))
-            spawn_doors = spawn_locations[self.origin_region_name]["door_ids"]
+            spawn_doors = copy.copy(spawn_locations[self.origin_region_name]["door_ids"])
             if spawn_doors:
                 for door in spawn_locations[self.origin_region_name]["door_ids"]:
                     if self.open_doors[door] == 1:
@@ -724,13 +726,20 @@ class LMWorld(World):
         n_filler_items = n_locations - n_items
         n_trap_items = math.ceil(n_filler_items*(self.options.trap_percentage.value/100))
         n_other_filler = n_filler_items-n_trap_items
+        filler_trap_weights = [self.options.poss_trap_weight.value, self.options.bonk_trap_weight.value,
+                          self.options.bomb_trap_weight.value, self.options.ice_trap_weight.value,  # bomb, ice
+                          self.options.banana_trap_weight.value, self.options.poison_trap_weight.value,
+                          self.options.ghost_weight.value]
 
-        # Add filler items to the item pool.
-        for _ in range(n_trap_items):
-            self.itempool.append(self.create_item(self.get_trap_item_name()))
+        if sum(filler_trap_weights) > 0:# Add filler items to the item pool.
+            for _ in range(n_trap_items):
+                self.itempool.append(self.create_item(self.get_trap_item_name()))
 
-        for _ in range(n_other_filler):
-            self.itempool.append(self.create_item((self.get_other_filler_item())))
+            for _ in range(n_other_filler):
+                self.itempool.append(self.create_item((self.get_other_filler_item())))
+        else:
+            for _ in range(n_filler_items):
+                self.itempool.append(self.create_item((self.get_other_filler_item())))
 
         self.multiworld.itempool += self.itempool
 
@@ -739,7 +748,7 @@ class LMWorld(World):
         filler_weights = [self.options.poss_trap_weight.value, self.options.bonk_trap_weight.value,
                           self.options.bomb_trap_weight.value, self.options.ice_trap_weight.value,  # bomb, ice
                           self.options.banana_trap_weight.value, self.options.poison_trap_weight.value,
-                          self.options.ghost_weight]
+                          self.options.ghost_weight.value]
         return self.random.choices(filler, weights=filler_weights, k=1)[0]
 
 
@@ -891,7 +900,7 @@ class LMWorld(World):
         # Output the plando details to file
         file_path = os.path.join(output_directory, f"{self.multiworld.get_out_file_name_base(self.player)}.aplm")
         with open(file_path, "w") as f:
-            f.write(yaml.dump(output_data, sort_keys=False))
+            f.write(yaml.dump(output_data, sort_keys=False, Dumper=Dumper))
 
     # TODO: UPDATE FOR LM tracker
     def fill_slot_data(self):

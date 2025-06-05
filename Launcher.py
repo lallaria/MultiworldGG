@@ -33,7 +33,7 @@ import Utils
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from Utils import (init_logging, is_frozen, is_linux, is_macos, is_windows, local_path, messagebox, open_filename,
                    user_path)
-from Updater import get_latest_release_info, download_and_install
+from Updater import get_latest_release_info, download_and_install_win
 from worlds.LauncherComponents import Component, components, icon_paths, SuffixIdentifier, Type
 
 apname = "Archipelago" if not Utils.instance_name else Utils.instance_name
@@ -466,7 +466,7 @@ def run_gui(launch_components: list[Component], args: Any) -> None:
 
         def _finalize_update(self, dialog: MDDialog, download_url: str):
             dialog.dismiss()
-            download_and_install(download_url)
+            download_and_install_win(download_url)
             self.stop()
 
         @staticmethod

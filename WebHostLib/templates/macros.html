@@ -55,8 +55,11 @@
                             {% endif %}
                         {% else %}
                             {% if patch.game == "Jigsaw" %}
-                            <a href="http://jigsaw-ap.netlify.app/?hostport={{ config['HOST_ADDRESS'] }}:{{ room.last_port }}&name={{ patch.player_name | e}}" download>
+                            <a href="http://jigsaw-ap.netlify.app/?hostport={{ config['HOST_ADDRESS'] }}:{{ room.last_port }}&name={{ patch.player_name | e}}">
                                 Open game on jigsaw-ap.netlify.app</a>
+                            {% elif patch.game == "Candy Box 2" %}
+                            <a href="https://candybox2-ap.vicr123.com">
+                                Join game on candybox2-ap.vicr123.com</a>
                             {% else %}
                                 No file to download for this game.
                             {% endif %}

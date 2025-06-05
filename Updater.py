@@ -1,4 +1,4 @@
-import sys, tempfile, os, subprocess, requests, struct
+import tempfile, os, subprocess, requests
 import logging
 from Utils import normalize_tag, tuplize_version, is_windows, is_linux, is_macos
 
@@ -34,7 +34,7 @@ def get_latest_release_info() -> tuple:
     logging.info(f"latest release {tag} under url {download_url}")
     return tuplize_version(tag), download_url
 
-def download_and_install(url: str):
+def download_and_install_win(url: str):
     fd, path = tempfile.mkstemp(suffix=".exe")
     os.close(fd)
     with requests.get(url, stream=True) as r:
