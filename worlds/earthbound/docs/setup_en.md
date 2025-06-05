@@ -1,4 +1,4 @@
-# EarthBound Archipelago Randomizer Setup Guide
+# EarthBound MultiworldGG Randomizer Setup Guide
 
 ## Required Software
 
@@ -33,7 +33,7 @@
 
 ### What is a config file and why do I need one?
 
-See the guide on setting up a basic YAML at the Archipelago setup
+See the guide on setting up a basic YAML at the MultiworldGG setup
 guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
 
 ### Where do I get a config file?
@@ -90,7 +90,7 @@ the lua you are using in your file explorer and copy the `socket.dll` to the bas
 
 
 
-### Connect to the Archipelago Server
+### Connect to the MultiworldGG Server
 
 The patch file which launched your client should have automatically connected you to the AP Server. There are a few
 reasons this may not happen however, including if the game is hosted on the website but was generated elsewhere. If the

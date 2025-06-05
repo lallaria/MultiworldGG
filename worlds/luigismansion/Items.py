@@ -60,7 +60,7 @@ ITEM_TABLE: dict[str, LMItemData] = {
     "Conservatory Key": LMItemData("Door Key", 16, IC.progression, 21, [LMRamData(0x803D5E16, bit_position=5)]),
     "Dining Room Key": LMItemData("Door Key", 17, IC.progression, 14, [LMRamData(0x803D5E15, bit_position=6)]),
     "North Rec Room Key": LMItemData("Door Key", 18, IC.progression, 25, [LMRamData(0x803D5E17, bit_position=1)]),
-    "Billiards Key": LMItemData("Door Key", 19, IC.progression, 17, [LMRamData(0x803D5E16, bit_position=1)]),
+    "Billiards Room Key": LMItemData("Door Key", 19, IC.progression, 17, [LMRamData(0x803D5E16, bit_position=1)]),
     "Safari Room Key": LMItemData("Door Key", 20, IC.progression, 56, [LMRamData(0x803D5E1B, bit_position=0)]),
     "Balcony Key": LMItemData("Door Key", 21, IC.progression, 62, [LMRamData(0x803D5E1B, bit_position=6)]),
     "Cellar Key": LMItemData("Door Key", 23, IC.progression, 68, [LMRamData(0x803D5E1C, bit_position=4)]),
@@ -258,19 +258,19 @@ other_filler_items: Dict[str, LMItemData] = {
 
 trap_filler_items: Dict[str, LMItemData] = {
     "Possession Trap": LMItemData("Trap", 141, IC.trap,
-        update_ram_addr=[LMRamData(0x804DDD4C, ram_byte_size=4, item_count=5)]),
+        update_ram_addr=[LMRamData(0x804DDE7C, ram_byte_size=4, item_count=5)]),
     "Bonk Trap": LMItemData("Trap", 142, IC.trap,
-        update_ram_addr=[LMRamData(0x804DDD4C, ram_byte_size=4, item_count=4)]),
+        update_ram_addr=[LMRamData(0x804DDE7C, ram_byte_size=4, item_count=4)]),
     "Bomb": LMItemData("Trap", 130, IC.trap,
-        update_ram_addr=[LMRamData(0x804DDD4C, ram_byte_size=4, item_count=1)]), # value of 1
+        update_ram_addr=[LMRamData(0x804DDE7C, ram_byte_size=4, item_count=1)]), # value of 1
     "Ice Trap": LMItemData("Trap", 131, IC.trap,
-        update_ram_addr=[LMRamData(0x804DDD4C, ram_byte_size=4, item_count=3)]), # value of 3
+        update_ram_addr=[LMRamData(0x804DDE7C, ram_byte_size=4, item_count=3)]), # value of 3
     "Banana Trap": LMItemData("Trap", 132, IC.trap,
-        update_ram_addr=[LMRamData(0x804DDD4C, ram_byte_size=4, item_count=2)]), # value of 2
+        update_ram_addr=[LMRamData(0x804DDE7C, ram_byte_size=4, item_count=2)]), # value of 2
     "Poison Mushroom": LMItemData("Trap", 125, IC.trap,
-        update_ram_addr=[LMRamData(0x804DDD4C, ram_byte_size=4, item_count=6)]), # value of 6
+        update_ram_addr=[LMRamData(0x804DDE7C, ram_byte_size=4, item_count=6)]), # value of 6
     "Ghost": LMItemData("Trap", 126, IC.trap,
-        update_ram_addr=[LMRamData(0x804DD940, ram_byte_size=4, item_count=1)]),
+        update_ram_addr=[LMRamData(0x804DDA50, ram_byte_size=4, item_count=1)]),
 
 }
 
@@ -297,7 +297,7 @@ HEALTH_RELATED_ITEMS: list[int] = [8128, 8129]
 
 ICE_TRAP_EQUIV = ["Freeze Trap", "Frozen Trap", "Ice Trap"]
 BOMB_EQUIV = ["TNT Barrel Trap", "Bomb", "Fire Trap"]
-BANANA_TRAP_EQUIV = ["Stun Trap", "Banana Trap", "Thwimp Trap", "Hiccup Trap"]
+BANANA_TRAP_EQUIV = ["Stun Trap", "Banana Trap", "Thwimp Trap", "Hiccup Trap", "Push Trap"]
 GHOST_EQUIV = ["OmoTrap", "Ghost", "Bee Trap", "Police Trap", "Nut Trap", "Army Trap"]
 POISON_MUSH_EQUIV = [ "Tiny Trap", "Poison Mushroom"]
 BONK_EQUIV = ["Spring Trap", "Damage Trap", "Bonk Trap"]
