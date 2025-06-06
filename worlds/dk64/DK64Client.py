@@ -17,6 +17,10 @@ import traceback
 
 import time
 import typing
+try:
+    from Utils import instance_name as apname
+except ImportError:
+    apname = "Archipelago"
 from client.common import DK64MemoryMap, create_task_log_exception, check_version
 from client.pj64 import PJ64Client
 from client.items import item_ids, item_names_to_id
@@ -688,7 +692,7 @@ class DK64Context(CommonContext):
                 ("Client", "Archipelago"),
                 ("Tracker", "Tracker"),
             ]
-            base_title = f"Archipelago Donkey Kong 64 Client (Version {ap_version})"
+            base_title = f"{apname} Donkey Kong 64 Client (Version {ap_version})"
 
             def build(self):
                 b = super().build()
