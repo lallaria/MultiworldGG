@@ -61,11 +61,9 @@ def get_config_file_path() -> str:
         # When frozen, the executable's directory is the base path.
         base_path = os.path.dirname(sys.executable)
     else:
-        # In a normal run, use the directory of this file.
         base_path = os.path.dirname(__file__)
     return os.path.join(base_path, "application.yaml")
 
-# Now use this function to load the config:
 config_file = get_config_file_path()
 
 if os.path.exists(config_file):
