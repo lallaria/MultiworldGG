@@ -734,28 +734,40 @@ def set_rules(multiworld, player, girls, starting, goal):
         forbid_items_for_player(multiworld.get_location(locationgen_to_name["kyu gift location 24"], player), {"Unlock Girl(kyu)", itemgen_to_name["kyu unique item 6"]}, player)
 
         if "tiffany" in girls:
+            set_rule(multiworld.get_location("given kyu tiffany's panties", player), lambda state: state.has("tiffany's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu tiffany's panties", player), {"Unlock Girl(kyu)", "tiffany's panties"}, player)
         if "aiko" in girls:
+            set_rule(multiworld.get_location("given kyu aiko's panties", player), lambda state: state.has("aiko's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu aiko's panties", player), {"Unlock Girl(kyu)", "aiko's panties"}, player)
         if "kyanna" in girls:
+            set_rule(multiworld.get_location("given kyu kyanna's panties", player), lambda state: state.has("kyanna's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu kyanna's panties", player), {"Unlock Girl(kyu)", "kyanna's panties"}, player)
         if "audrey" in girls:
+            set_rule(multiworld.get_location("given kyu audrey's panties", player), lambda state: state.has("audrey's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu audrey's panties", player), {"Unlock Girl(kyu)", "audrey's panties"}, player)
         if "lola" in girls:
+            set_rule(multiworld.get_location("given kyu lola's panties", player), lambda state: state.has("lola's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu lola's panties", player), {"Unlock Girl(kyu)", "lola's panties"}, player)
         if "nikki" in girls:
+            set_rule(multiworld.get_location("given kyu nikki's panties", player), lambda state: state.has("nikki's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu nikki's panties", player), {"Unlock Girl(kyu)", "nikki's panties"}, player)
         if "jessie" in girls:
+            set_rule(multiworld.get_location("given kyu jessie's panties", player), lambda state: state.has("jessie's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu jessie's panties", player), {"Unlock Girl(kyu)", "jessie's panties"}, player)
         if "beli" in girls:
+            set_rule(multiworld.get_location("given kyu beli's panties", player), lambda state: state.has("beli's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu beli's panties", player), {"Unlock Girl(kyu)", "beli's panties"}, player)
         if "kyu" in girls:
+            set_rule(multiworld.get_location("given kyu kyu's panties", player), lambda state: state.has("kyu's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu kyu's panties", player), {"Unlock Girl(kyu)", "kyu's panties"}, player)
         if "momo" in girls:
+            set_rule(multiworld.get_location("given kyu momo's panties", player), lambda state: state.has("momo's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu momo's panties", player), {"Unlock Girl(kyu)", "momo's panties"}, player)
         if "celeste" in girls:
+            set_rule(multiworld.get_location("given kyu celeste's panties", player), lambda state: state.has("celeste's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu celeste's panties", player), {"Unlock Girl(kyu)", "celeste's panties"}, player)
         if "venus" in girls:
+            set_rule(multiworld.get_location("given kyu venus's panties", player), lambda state: state.has("venus's panties", player))
             forbid_items_for_player(multiworld.get_location("given kyu venus's panties", player), {"Unlock Girl(kyu)", "venus's panties"}, player)
 
     if "momo" in girls:

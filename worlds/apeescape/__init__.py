@@ -309,7 +309,7 @@ class ApeEscapeWorld(World):
         # Trap item fill: randomly pick items according to a set of weights.
         # Trap weights: Banana Peel, Gadget Shuffle
         if self.options.trapfillpercentage != 0:
-            trap_weights = [75, 25]
+            trap_weights = [50, 25, 25]
             trap_percentage = self.options.trapfillpercentage / 100
             trap_count = round((len(self.multiworld.get_unfilled_locations(self.player)) - len(self.itempool) - reservedlocations) * trap_percentage, None)
 
@@ -320,11 +320,14 @@ class ApeEscapeWorld(World):
                 randomTrap = self.random.randint(1, trap_weights[len(trap_weights) - 1])
                 if 0 < randomTrap <= trap_weights[0]:
                     self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
-                else:
-                    self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
-                    #self.itempool += [self.create_item_trap(AEItem.ApeingAroundInputTrap.value)]
+                elif trap_weights[0] < randomTrap <= trap_weights[1]:
                     # Deactivated for now
                     # self.itempool += [self.create_item_trap(AEItem.GadgetShuffleTrap.value)]
+                    self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
+                else:
+                    self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
+                    #self.itempool += [self.create_item_trap(AEItem.MonkeyMashTrap.value)]
+
 
             # print("Created " + str(trap_count) + " traps.")
 
@@ -401,6 +404,8 @@ class ApeEscapeWorld(World):
             "itemdisplay": self.options.itemdisplay.value,
             "kickoutprevention": self.options.kickoutprevention.value,
             "autoequip": self.options.autoequip.value,
+            "spikecolor" : self.options.spikecolor.value,
+            "customspikecolor": self.options.customspikecolor.value,
             "levelnames": bytestowrite,  # List of level names in entrance order. FF leads to the first.
             "entranceids": entranceids,  # Not used by the client. List of level ids in entrance order.
             "newpositions": newpositions,  # List of positions a level is moved to. The position of FF is first.

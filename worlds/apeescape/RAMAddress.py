@@ -652,7 +652,7 @@ class RAM:
         },
         24: {
             181, 182, 183, 184, 185, 187, 186, 188, 189, 190, 192, 191, 194, 195, 196, 193, 197, 198, 199, 200, 201,
-            202, 203, 204
+            202, 203 , 204
         }
     }
     # To check if red mailboxes are already checked in the current room
@@ -1159,6 +1159,39 @@ class RAM:
     radarFixAddress = 0x0F5125
     hoopFixAddress = 0x0F5124 # 2 bytes
 
+    BUTTON_BYTE_ADDR_HIGH = 0x0B87A3  # Triggers and Face Buttons (contains bits 8-15 of the 16-bit word)
+    BUTTON_BYTE_ADDR_LOW = 0x0B87A2  # D-Pad, Start/Select, L3/R3 (contains bits 0-7 of the 16-bit word)
+
+    # Joystick Analog Axes (8-bit values, 0x80 is center)
+    # These 4 addresses are consecutive and will be written as a single 4-byte block starting at ANALOG_START_ADDR
+    ANALOG_START_ADDR = 0x0B87A4  # Start of analog joystick data (RY, RX, LY, LX)
+
+    MEMORY_DOMAIN = "MainRAM"  # Common for PS1 I/O registers
+
+    # --- Button Mappings to Bit Positions within a conceptual 16-bit controller word ---
+    # This dictionary maps the button name (e.g., "P1 X") to its bit position (0-15)
+    # within the combined 16-bit digital input word.
+    BUTTON_BIT_MAP = {
+        #"P1 Select": 0,  # Bit 0 (low byte)
+        "P1 L3": 1,  # Bit 1 (low byte)
+        "P1 R3": 2,  # Bit 2 (low byte)
+        #"P1 Start": 3,  # Bit 3 (low byte)
+        #"P1 Up": 4,  # Bit 4 (low byte)
+        #"P1 Right": 5,  # Bit 5 (low byte)
+        #"P1 Down": 6,  # Bit 6 (low byte)
+        #"P1 Left": 7,  # Bit 7 (low byte)
+        "P1 L2": 8,  # Bit 0 (high byte)
+        "P1 R2": 9,  # Bit 1 (high byte)
+        "P1 L1": 10,  # Bit 2 (high byte)
+        "P1 R1": 11,  # Bit 3 (high byte)
+        "P1 Triangle": 12,  # Bit 4 (high byte)
+        "P1 Circle": 13,  # Bit 5 (high byte)
+        "P1 X": 14,  # Bit 6 (high byte)
+        "P1 Square": 15,  # Bit 7 (high byte)
+    }
+    #ANALOG_STICK_ORDER = ["P1 R_Y", "P1 R_X", "P1 L_Y", "P1 L_X"]
+    ANALOG_STICK_ORDER = ["P1 R_Y", "P1 R_X"]
+    ANALOG_CENTER_VALUE = 0x80  # Default center value for 8-bit analog sticks (128 decimal)
 
     isUnderwater = 0x0F4DCA
     canDiveAddress = 0x061970 #08018664 - default value (4 bytes)
@@ -1348,7 +1381,7 @@ class RAM:
     Controls_TriggersShapes = 0x0B87A3
 
     punchVisualAddress = 0x0E78C0
-    transitionPhase = 0x0F447C # Default: 8C63FDCC
+    transitionPhase = 0x0F447C # TheDragon Note : If you set Nearby_RoomIDAddress and Nearby_DoorIDAddress   = 0x0E38A4
     # 0x01 = ?? Maybe spawning
     # 0x02 = Black screen fading out
     # 0x03 = in level, not near a transition
@@ -1385,23 +1418,37 @@ class RAM:
     Nearby_RoomIDAddress = 0x0E38B4
     Nearby_DoorIDAddress   = 0x0E38A4
 
-    TargetRoomID1Address = 0x154264
-    TR1_DoorIDAddress = 0x154268
-    TargetRoomID2Address = 0x15428C
-    TR2_DoorIDAddress = 0x154290
-    TargetRoomID3Address = 0x1542B4
-    TR3_DoorIDAddress = 0x1542B8
-    TargetRoomID4Address = 0x1542DC
-    TR4_DoorIDAddress = 0x1542E0
+    # To translate Transition ID from doorTransitions Table to which address we need to change for the room
+    transitionAddresses = {
+        # --Array content--
+        # TR_ID : {TargetRoomAddress,TargetDoorAddress}
+        1 : {0x154264,0x154268},
+        2 : {0x15428C,0x154290},
+        3 : {0x1542B4, 0x1542B8},
+        4 : {0x1542DC, 0x1542E0},
+        5 : {0x154304, 0x154308},
+        6 : {0x15432C, 0x154330},
+        7 : {0x154354, 0x154358},
+        8 : {0x15437C, 0x154380},
+    }
+
+    #TargetRoomID1Address = 0x154264
+    #TR1_DoorIDAddress = 0x154268
+    #TargetRoomID2Address = 0x15428C
+    #TR2_DoorIDAddress = 0x154290
+    #TargetRoomID3Address = 0x1542B4
+    #TR3_DoorIDAddress = 0x1542B8
+    #TargetRoomID4Address = 0x1542DC
+    #TR4_DoorIDAddress = 0x1542E0
     TR4_TransitionEnabled = 0x1542BC # For CrC_Boss_Door -> Blocked value : 0x03, Opened Value : 0x00
-    TargetRoomID5Address = 0x154304
-    TR5_DoorIDAddress = 0x154308
-    TargetRoomID6Address = 0x15432C
-    TR6_DoorIDAddress = 0x154330
-    TargetRoomID7Address = 0x154354
-    TR7_DoorIDAddress = 0x154358
-    TargetRoomID8Address = 0x15437C
-    TR8_DoorIDAddress = 0x154380
+    #TargetRoomID5Address = 0x154304
+    #TR5_DoorIDAddress = 0x154308
+    #TargetRoomID6Address = 0x15432C
+    #TR6_DoorIDAddress = 0x154330
+    #TargetRoomID7Address = 0x154354
+    #TR7_DoorIDAddress = 0x154358
+    #TargetRoomID8Address = 0x15437C
+    #TR8_DoorIDAddress = 0x154380
 
     localLevelState = 0x0F447E # Same as level state, but can be changed to impact some behaviors (Like Kickout Prevention)
 
@@ -1439,7 +1486,33 @@ class RAM:
     spikeGroundStateAddress = 0x0EC23D
     spikeHittableAddress = 0x0EC227
     spikeUltraInstinctAddress = 0x0EC2E2
+    spikeColor = 0x0EC1E5
+    #spikeColor2 = 0x0EC1E6
 
+    colortable = {
+        "vanilla" : 0x1030,
+        "white" : 0x7617,
+        "grey" : 0x4c00,
+        "purple" : 0x1C00,
+        "orange" : 0x2F2F,
+        "green" : 0x35F6,
+        "red" : 0x2F00,
+        "yellow": 0x1065,
+        "darkgreen": 0x0131,
+        "darkblue" : 0x2600,
+        "voidwhite" : 0x2E2E,
+        "voidpurple": 0x4DFF,
+        "voidorange" : 0x0007,
+        "voidred" : 0x7595,
+        "neonpink" : 0x3BFF,
+        "neongreen": 0x2EF6,
+        "blueskin": 0x75D8,
+        "purpleskin" : 0x75D7,
+        "alien" : 0x3300,
+        "alien2" : 0x350C,
+        "metal" : 0x3674,
+        "rave" : 0x1D2F
+    }
 
 
     # Specter bosses values

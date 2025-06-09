@@ -1,40 +1,90 @@
 from dataclasses import dataclass
-from Options import Toggle, PerGameCommonOptions, DeathLink, TextChoice
+from Options import Toggle, Range, Choice, FreeText, PerGameCommonOptions, DeathLink, TextChoice
 
 
-class ProgressiveKeys(Toggle):
+class ProgressiveKeys(Choice):
     """Makes the keys progressive items
-    May make generation impossible if there's only Key 2"""
+
+    Off - Keys are not progressive items
+
+    On - Keys are progressive items, you get Key 1 first and then Key 2
+    May make generation impossible if there's only Key 2
+    
+    Reverse - Keys are progressive items, you get Key 2 first, and then Key 1
+    May make generation impossible if there's only Key 1
+    
+    JSON - Go with the recommended value for the hack you are playing in the JSON
+    Will only work with newer JSONs"""
     display_name = "Make keys progressive"
+    option_off = 0
+    option_on = 1
+    option_reverse = 2
+    option_json = 3
+    default = 3
 
-
+class TrollStars(Choice):
+    """Enables checks for grabbing troll stars, if the JSON supports it. But beware! Every new check created by troll stars adds one trap to the pool!
+    In asyncs, traps received while you are not playing will not be received all immediately but will activate randomly while you are playing the game
+    Note: Each world has 1 check shared among all its troll stars, not one check per troll star.
+    
+    Off - Troll stars are not randomized
+    
+    On - Troll stars are randomized and traps are added to the pool
+    
+    On (no traps) - Troll stars are randomized and traps are not added into the pool. Instead singular coins will be added"""
+    option_off = 0
+    option_on = 1
+    option_on_no_traps = 2
+    display_name = "Troll Stars"
 
 class JsonFile(TextChoice):
     """Name of the hack to use.
     Custom jsons can be used with offline generation by placing the json in the data/sm64hacks folder. Note that Custom Value is not supported in web generation."""
     auto_display_name = True
     display_name = "Hack to Use"
-    option_24_hour_hack  = 1
-    option_cursed_castles = 2
-    option_despair_marios_gambit_64 = 3
-    option_eureka = 4
-    option_grand_star = 5
-    option_koopa_power = 6
-    option_lugs_delightful_dioramas = 7
-    option_marios_new_earth = 8
-    option_shining_stars_repainted = 9
-    option_sm64_the_green_stars = 10
-    option_star_revenge_0 = 11
-    option_star_revenge_3_dot_5 = 12
-    option_star_revenge_4_dot_5 = 13
-    option_star_revenge_8 = 14
-    option_super_donkey_kong_64 = 15
-    option_super_mario_64 = 16
-    option_super_mario_fantasy_64 = 17
-    option_super_mario_star_road = 18
-    option_super_mario_treasure_world = 19
-    option_ztar_attack_rebooted = 20
-    default = 16
+    option_24_hour_hack                 = 1
+    option_aventure_alpha_redone        = 2
+    option_cursed_castles               = 3
+    option_despair_marios_gambit_64     = 4
+    option_eureka                       = 5
+    option_grand_star                   = 6
+    option_koopa_power                  = 7
+    option_lugs_delightful_dioramas     = 8
+    option_marios_new_earth             = 9
+    option_peachs_memory                = 10
+    option_phenomena                    = 11
+    option_sapphire                     = 12
+    option_shining_stars_repainted      = 13
+    option_sm64_the_green_stars         = 14
+    option_sm74_tya                     = 15
+    option_star_revenge_0               = 16
+    option_star_revenge_1_dot_5         = 17
+    option_star_revenge_2_to_the_moon   = 18
+    option_star_revenge_3_dot_5         = 19
+    option_star_revenge_3               = 20
+    option_star_revenge_4_dot_5         = 21
+    option_star_revenge_5               = 22
+    option_star_revenge_6_dot_25        = 23
+    option_star_revenge_6_dot_5         = 24
+    option_star_revenge_6               = 25
+    option_star_revenge_7_dot_5         = 26
+    option_star_revenge_7_dot_5_expert  = 27
+    option_star_revenge_7               = 28
+    option_star_revenge_7_no_badges     = 29
+    option_star_revenge_8               = 30
+    option_star_revenge_8_advanced      = 31
+    option_star_revenge_8_no_badges     = 32
+    option_super_donkey_kong_64         = 33
+    option_super_mario_64               = 34
+    option_super_mario_74               = 35
+    option_super_mario_fantasy_64       = 36
+    option_super_mario_star_road        = 37
+    option_super_mario_treasure_world   = 38
+    option_timeless_rrendezvous         = 39
+    option_unoriginal_cringe_meme_hack  = 40
+    option_ztar_attack_2                = 41
+    option_ztar_attack_rebooted         = 42
+    default = 34
 
     @classmethod
     def get_option_name(cls, value) -> str:
@@ -50,6 +100,7 @@ class JsonFile(TextChoice):
 @dataclass
 class SM64HackOptions(PerGameCommonOptions):
     progressive_keys: ProgressiveKeys
-    death_link: DeathLink
+    troll_stars: TrollStars
     json_file: JsonFile
+    death_link: DeathLink
 

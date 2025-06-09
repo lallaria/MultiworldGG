@@ -5,7 +5,7 @@
 BizHawk support.
 - Ape Escape (USA) ISO or BIN/CUE.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 to 2.9.1. Bizhawk version 2.10 or other emulators are **not** supported.
-- (Only if you are not using the MWGG client:) The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `Archipelago/custom_worlds` folder.
+- (Only if you are not using the MWGG client:) The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `MultiworldGG/custom_worlds` folder.
 
 ### Configuring BizHawk
 
