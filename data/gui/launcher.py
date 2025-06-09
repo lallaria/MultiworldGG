@@ -34,6 +34,8 @@ from kivy.logger import Logger
 from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 
+from game_index import GameIndex
+
 logger = logging.getLogger(__name__)
 
 LauncherKV = '''
@@ -356,16 +358,16 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     important_appbar: MDSliverAppbar
     launcher_layout: LauncherLayout
     game_filter: list
-
+    
     def __init__(self,**kwargs):
         logger.debug("Initializing LauncherScreen")
         super().__init__(**kwargs)
         self.game_filter = []
         self.games_mdlist = MDList(width=260)
+        self.game_tag_filter.text = "popular"
 
         async def set_game_list():
-            game_list = self.load_game_list()
-            for game_tag, tag_type in game_list.items():
+            for game_tag, tag_type in GameIndex.search(self.game_filter).items():
                 await asynckivy.sleep(0)
                 game = GameListPanel(game_tag=game_tag, tag_type=tag_type)
                 self.games_mdlist.add_widget(game)
@@ -396,12 +398,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
             self.game_filter.remove((self.game_tag_filter.text, tag))
 
     def on_game_tag_filter_text(self, instance):
-        self.game_filter = [(self.game_tag_filter.text, tag) for tag in self.load_game_list().keys()]
-
-    def load_game_list(self) -> list[dict]:
-        with open("game_details.json", "r", encoding="utf-8") as file:
-            game_list = json.load(file)
-        return game_list
+        self.game_filter = [(self.game_tag_filter.text, tag) for tag in GameIndex.search(self.game_tag_filter.text)]
     
     def connect(self):
         pass

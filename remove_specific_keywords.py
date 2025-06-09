@@ -51,8 +51,10 @@ def process_game_details():
         "virtual console",
         "female antagonist",
         "nintendo gateway system",
+        "e3 2005",
         "e3 2017",
         "pax west 2017",
+        "mod support",
         "nintendo switch online - expansion pack",
         "wii virtual console",
         "player's choice",
@@ -74,7 +76,10 @@ def process_game_details():
         "transforming boss",
         "unlockables",
         "unofficial",
-        "young protagonist"
+        "young protagonist",
+        "e3 1997",
+        "e3 2001",
+        "steam",
     ]
     
     # Print initial keyword statistics
