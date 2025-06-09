@@ -8,7 +8,10 @@ import pkgutil
 import asyncio
 import subprocess
 import time
+
 from collections import deque
+from PIL import Image as PILImage, ImageSequence
+
 
 # from worlds.alttp.Rom import text_addresses
 
@@ -16,11 +19,12 @@ assert "kivy" not in sys.modules, "gui needs instansiation first"
 sys.path.append(os.path.join(os.path.dirname(__file__), "kivydi"))
 
 if sys.platform == "win32":
-    import ctypes
+    #import ctypes
 
     # kivy 2.2.0 introduced DPI awareness on Windows, but it makes the UI enter an infinitely recursive re-layout
     # by setting the application to not DPI Aware, Windows handles scaling the entire window on its own, ignoring kivy's
-    ctypes.windll.shcore.SetProcessDpiAwareness(0)
+    from ctypes import windll, c_int64
+    windll.user32.SetProcessDpiAwarenessContext(c_int64(-4))
 
 #os.environ["KCFG_GRAPHICS_WINDOW_STATE"] = "visible"
 os.environ["KIVY_NO_CONSOLELOG"] = "0"
@@ -75,8 +79,8 @@ from kivy.core.image import Image, ImageLoader, ImageLoaderBase, ImageData
 from kivy.base import ExceptionHandler, ExceptionManager, EventLoop
 from kivy.factory import Factory
 from kivy.clock import Clock
-from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty, DictProperty
-from kivy.metrics import dp
+from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty, DictProperty, ListProperty
+from kivy.metrics import dp, sp, Metrics
 from kivy.uix.widget import Widget
 from kivy.uix.layout import Layout
 from kivy.utils import escape_markup
@@ -94,6 +98,7 @@ from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.anchorlayout import MDAnchorLayout
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.tab import MDTabsItem, MDTabsItemIcon
 from kivymd.uix.tab.tab import MDTabsItemText
 from kivymd.uix.menu import MDDropdownMenu
@@ -113,6 +118,7 @@ from kivymd.uix.navigationdrawer import MDNavigationLayout, MDNavigationDrawer
 from kivymd.uix.appbar import MDActionBottomAppBarButton, MDBottomAppBar
 from kivymd.uix.fitimage import FitImage
 from kivymd.uix.relativelayout import MDRelativeLayout
+from kivy.uix.effectwidget import EffectWidget, PixelateEffect
 
 #from NetUtils import JSONtoTextParser, JSONMessagePart, SlotType, HintStatus
 # from Utils import async_start, get_input_text_from_response
@@ -125,6 +131,7 @@ from console import ConsoleScreen
 from hintscreen import HintScreen
 from settings_screen import SettingsScreen
 from topappbar import TopAppBarLayout, TopAppBar
+from kivydi.loadinglayout import MWGGLoadingLayout
 
 class BottomAppBar(MDBottomAppBar):
     def hide_me(self, *args):
@@ -165,6 +172,8 @@ class KivyMDGUI(MDApp):
     title_bar: Titlebar
     main_layout: MainLayout
     navigation_layout: NavLayout
+    loading_layout: MWGGLoadingLayout
+    top_appbar_layout: TopAppBarLayout
     bottom_sheet: MainBottomSheet
     bottom_appbar: BottomAppBar
     bottom_chips: BottomChipLayout
@@ -175,8 +184,7 @@ class KivyMDGUI(MDApp):
     theme_mw: DefaultTheme
     top_appbar_menu: MDDropdownMenu
     splash_process = None
-    top_appbar_layout: TopAppBarLayout
-    loading_circle: MDCircularProgressIndicator
+    pixelate_effect: EffectWidget
 
     def __init__(self, ctx: GuiContext, **kwargs):
         super().__init__(**kwargs)
@@ -309,7 +317,7 @@ class KivyMDGUI(MDApp):
         Window.bind(on_restore=self.title_bar.tb_onres)
         Window.bind(on_maximize=self.title_bar.tb_onmax)
         Window.bind(on_close=lambda x: self.on_stop())
-        self.change_screen("settings")
+        self.change_screen("console")
         self.slides = self.bottom_sheet.bottom_carousel.slides
 
         def on_start(*args):
@@ -319,7 +327,12 @@ class KivyMDGUI(MDApp):
             self.bottom_sheet.bind(on_open=self.bottom_appbar.hide_me)
             self.bottom_sheet.bind(on_close=self.bottom_appbar.show_me)
             
-            
+            # Initialize and show loading animation
+            self.loading_layout = MWGGLoadingLayout()
+            self.loading_layout.size = (self.root.width, self.root.height)
+            self.loading_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+            self.root_layout.add_widget(self.loading_layout)
+
         super().on_start()
         Clock.schedule_once(on_start)
         # Terminate the splash screen after the UI is fully initialized
@@ -338,6 +351,7 @@ class KivyMDGUI(MDApp):
         self.theme_mw.recolor_atlas()
         self.theme_cls.theme_style_switch_animation = True
 
+        self.pixelate_effect = EffectWidget()
         self.main_layout = MainLayout()
         self.main_layout.anchor_x='left'
         self.main_layout.anchor_y='top'
@@ -351,21 +365,13 @@ class KivyMDGUI(MDApp):
         self.top_appbar_layout = TopAppBarLayout()
         self.top_appbar_menu = None
 
+        #TODO: Fix this - it won't change colors correctly
+        #Needs to be done in the module, not here.
         self.bottom_sheet = Builder.load_string(BottomSheetKV())
         Builder.load_string(BottomBarKV())
         self.bottom_chips = BottomChipLayout()
-        #self.top_layer_buttons = Builder.load_string(ConsoleFABKV)
 
         self.bottom_appbar = BottomAppBar(theme_bg_color = "Custom", md_bg_color = self.theme_cls.secondaryContainerColor)
-        
-        self.loading_circle = MDCircularProgressIndicator(
-            size_hint=(None, None), 
-            pos_hint={'center_x': 0.5, 'center_y': 0.5},
-            size=(dp(100), dp(100)),
-            palette=[self.theme_cls.primaryColor, self.theme_cls.secondaryColor, 
-                     self.theme_cls.tertiaryColor],
-            active=False
-        )
         
         self.navigation_layout.add_widget(self.screen_manager)
         self.navigation_layout.add_widget(self.bottom_sheet)
@@ -373,20 +379,16 @@ class KivyMDGUI(MDApp):
         self.main_layout.add_widget(self.navigation_layout)
         self.main_layout.add_widget(self.top_appbar_layout)
         self.main_layout.add_widget(self.title_bar)
-        self.main_layout.add_widget(MDRelativeLayout(self.loading_circle))
 
-        return self.main_layout
+        # Blur effect everything during loading
+        self.pixelate_effect.add_widget(self.main_layout)
+        self.root_layout = MDFloatLayout()
+        self.root_layout.add_widget(self.pixelate_effect)
+
+        return self.root_layout
 
     def on_stop(self):
         self.ctx.exit_event.set()
-
-    def loading(self):
-        if not self.loading_circle.active:
-            self.loading_circle.active = True
-
-    def not_loading(self):
-        if self.loading_circle.active:
-            self.loading_circle.active = False
 
     def update_colors(self):
         '''

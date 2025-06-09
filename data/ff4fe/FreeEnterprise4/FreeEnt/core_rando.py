@@ -576,7 +576,7 @@ def apply(env):
         # assign bosses
         if not env.options.flags.has('bosses_vanilla'):
             env.rnd.shuffle(bosses)
-            while bosses[len(bosses) - 1] in env.meta["objective_required_bosses"]:
+            while bosses[len(bosses) - 1] in env.meta["objective_required_bosses"] or bosses[-1] == 'dmist':
                 env.rnd.shuffle(bosses)
             for i,k in enumerate(assignable_boss_slots):
                 boss_assignment[k] = bosses[i]

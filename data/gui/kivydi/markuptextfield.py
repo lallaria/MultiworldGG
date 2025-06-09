@@ -1,9 +1,9 @@
+from __future__ import annotations
 __all__ = ("MarkupTextField", 
            "MDTextFieldHintText",
            "MDTextFieldHelperText",
            "MDTextFieldLeadingIcon",
-           "MDTextFieldTrailingIcon", 
-           "MarkupTextFieldCutCopyPaste",
+           "MDTextFieldTrailingIcon",
            )
 
 import logging
@@ -32,6 +32,9 @@ file_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
+# Silence PIL debug messages
+logging.getLogger('PIL').setLevel(logging.INFO)
+
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.properties import (ObjectProperty, 
@@ -44,22 +47,14 @@ from kivy.properties import (ObjectProperty,
 from kivy.base import EventLoop
 from kivy.metrics import dp
 from kivy.clock import Clock
-from kivy.uix.behaviors import FocusBehavior
-from kivy.core.clipboard import Clipboard, CutBuffer
+from kivy.core.clipboard import Clipboard
 from kivy.animation import Animation
 from kivy.config import Config
-from kivy.utils import escape_markup
 from kivy.uix.textinput import TextInput
-from kivy.utils import get_hex_from_color, get_color_from_hex, boundary
 from kivy.core.text.markup import MarkupLabel as Label
-from kivymd.uix.label import MDLabel
 from kivy.cache import Cache
-from kivy.graphics.texture import Texture
-from kivy.factory import Factory
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.graphics import Rectangle
 # import and pass to add it to the new textfield
 from kivymd.uix.textfield import (MDTextFieldHelperText,
                                   MDTextFieldTrailingIcon, 
@@ -165,8 +160,6 @@ class MarkupTextField(TextInput, ThemableBehavior):
     error_color = ColorProperty(None) #MD
     error = BooleanProperty(False) #MD
     use_menu = BooleanProperty(True)
-    text_color_normal = ColorProperty(None) #MD
-    text_color_focus = ColorProperty(None) #MD
     radius = VariableListProperty([dp(4), dp(4), dp(4), dp(4)]) #MD
     required = BooleanProperty(False) #MD
     line_color_normal = ColorProperty(None) #MD
@@ -185,6 +178,9 @@ class MarkupTextField(TextInput, ThemableBehavior):
     # The right/left lines coordinates of the text field in 'outlined' mode.
     _left_x_axis_pos = NumericProperty(dp(32)) #MD
     _right_x_axis_pos = NumericProperty(dp(32)) #MD
+    text_default_color = ColorProperty(None) #MD
+    _empty_texture = ObjectProperty(None) #MD
+    _saved_markup = StringProperty("[color=FFFFFF]") #MD
 
     def __init__(self, **kwargs):
         self._label_cached = Label()
@@ -193,29 +189,26 @@ class MarkupTextField(TextInput, ThemableBehavior):
         self.use_markup = True
         self.hint_info = [] # for use in hinting, 2nd item is for host/admin hinting
         self._lines_plaintext = []  # Add a list to store plain text lines
-        self.theme_text_color = "Custom"
-        self.use_text_color = True
-        self.text_color = "FFFFFF"
         self._markup_to_plain_map = {}  # Dictionary to map markup positions to plain text positions
         super().__init__(**kwargs)
+
         self.use_bubble = False
         self.bind(text=self.set_text) #MD
         self._line_options = kw = self._get_line_options()
         self._label_cached = Label(**kw)
-        # set foreground to white to allow text colors to show
-        # use text_color as the default color in bbcodes
-        self.use_text_color = False
-        self.text_color = self.text_color_focus
+        self._empty_texture = self._create_empty_texture()
         
         # Initialize the cut/copy/paste menu
         self._cut_copy_paste_menu = None
         Clock.schedule_once(self._check_text)
+
 
     def on_text(self, instance, value):
         # Update the plain text lines list
         self._update_plaintext_lines()
         # Update the markup to plain text mapping
         self._update_markup_to_plain_map()
+        
 
     @property
     def end_cursor(self):
@@ -283,20 +276,61 @@ class MarkupTextField(TextInput, ThemableBehavior):
         self._update_markup_to_plain_map()
 
     def _create_line_label(self, text, hint=False):
-        # Create a label from a text, using line options
-        ntext = text.replace(u'\n', u'').replace(u'\t', u' ' * self.tab_width)
+        '''Create a label from a text, using line options'''
 
+        # If the text is not in a color tag and has no new lines, we're not using it
+        # These are created because kivy can't dectect how much space a line takes up
+        # so we increment until we find something that works - we know this doesn't work
+        # so just fail it.
+        if not self._is_color_tag(text) and text.find(u'\n') == 0:
+            return self._empty_texture
+        
+        ntext = text.replace(u'\n', u'').replace(u'\t', u' ' * self.tab_width)
+        
         if self.password and not hint:  # Don't replace hint_text with *
             ntext = self.password_mask * len(ntext)
 
         kw = self._get_line_options()
+
         cid = u'{}\0{}\0{}'.format(ntext, self.password, kw)
         texture = Cache_get('textinput.label', cid)
         if texture is None:
             # FIXME right now, we can't render very long line...
             # if we move on "VBO" version as fallback, we won't need to
             # do this. try to find the maximum text we can handle
+
+            # TODO: God this is so fucking stupid, and won't work in some cases.
+            #Need to instead find the max character amt in the space
+            #That doesn't work with non-monospace fonts but should work here
+
             label = Label(text=ntext, **kw)
+            start_tag = ""
+            end_tag = ""
+            almost_end_tag = ""
+            if len(label.markup) > 0:
+                start_tag = label.markup[0]
+                end_tag = label.markup[-1]
+                if len(label.markup) > 1:
+                    almost_end_tag = label.markup[-2]
+                    if start_tag == " ":
+                        start_tag = label.markup[1]
+                    if end_tag == " ":
+                        end_tag = label.markup[-2]
+                    if almost_end_tag == " " and len(label.markup) > 2:
+                        almost_end_tag = label.markup[-3]
+            if start_tag == '[b]' and end_tag != '[/b]':
+                ntext = u'{}[/b]'.format(ntext)
+                label = Label(text=ntext, **kw)
+            elif end_tag == '[/b]' and start_tag != '[b]':
+                ntext = u'[b]{}'.format(ntext)
+                label = Label(text=ntext, **kw)
+            elif end_tag != '[/color]':
+                self._saved_markup = almost_end_tag
+                ntext = u'{}[/color]'.format(ntext)
+                label = Label(text=ntext, **kw)
+            elif start_tag.count('color') == 0 and end_tag == '[/color]':
+                ntext = u'{}{}'.format(self._saved_markup, ntext)
+                label = Label(text=ntext, **kw)
             if text.find(u'\n') > 0:
                 label.text = u''
             else:
@@ -309,8 +343,9 @@ class MarkupTextField(TextInput, ThemableBehavior):
 
     def _get_line_options(self):
         kw = super(MarkupTextField, self)._get_line_options()
+        #kw['font_blended'] = False
         kw['markup'] = True
-        kw['valign'] = 'top'
+        #kw['valign'] = 'top'
         return kw
 
     def _get_text_width(self, text, tab_width, _label_cached):
@@ -334,9 +369,9 @@ class MarkupTextField(TextInput, ThemableBehavior):
         if self.use_markup:
             # For markup text, we need to handle the width calculation differently
             # First, check if we're in the middle of a markup tag
-            if '[' in text and ']' not in text:
+            if '[' in text and ']' not in text or ']' in text and '[' not in text:
                 # If we're in the middle of a markup tag, return 0 width
-                width = 0
+                return 0
                
             # Get the plain text version
             plain_text = self.strip_markup(text)
@@ -359,6 +394,18 @@ class MarkupTextField(TextInput, ThemableBehavior):
         # Cache the result
         Cache_append(cache_key, cid, width)
         return width
+
+    def _is_color_tag(self, text) -> bool:
+        """Check if the text is in a color tag with format [color=XXXXXX]text[/color]
+        where XXXXXX is a 6-digit hex color code (0-9A-F), or if it contains just a closing color tag"""
+        import re
+        # Pattern for complete color tag pair
+        complete_pattern = r'.*\[color=[0-9A-Fa-f]{6}\].*\[\/color\].*'
+        # Pattern for just a closing color tag - this will flag the markup warning but necessary for
+        # word wraps
+        closing_pattern = r'.*\[\/color\].*'
+        return bool(re.match(complete_pattern, text) or re.match(closing_pattern, text))
+
 
     def cursor_offset(self):
         '''Get the cursor x offset on the current line'''
@@ -410,15 +457,6 @@ class MarkupTextField(TextInput, ThemableBehavior):
         except IndexError:
             return 0
 
-    def on_foreground_color(self, instance, text_color):
-        if not self.use_text_color:
-            self.use_text_color = True
-            return
-        self.text_color_focus = get_hex_from_color(text_color)
-        self.use_text_color = False
-        self.foreground_color = (1, 1, 1, .999)
-        self._trigger_refresh_text()
-
     def on_touch_down(self, touch):
         """Override to prevent deselection on right-click"""
         # If right-clicking on a selection, prevent deselection
@@ -431,8 +469,6 @@ class MarkupTextField(TextInput, ThemableBehavior):
         touch.grab(self)
         touch_pos = touch.pos
 
-        # if self.focus:
-        #     self._trigger_cursor_reset()
         self._touch_count += 1
         if touch.button == 'right' and self.collide_point(*touch.pos):
             return True
@@ -1320,6 +1356,14 @@ class MarkupTextField(TextInput, ThemableBehavior):
             if not self.error_color
             else self.error_color
         )
+
+    def _create_empty_texture(self):
+        """Creates and returns an empty texture with minimal size.
+        I hate this."""
+        from kivy.graphics.texture import Texture
+        empty_texture = Texture.create(size=(1, 1), colorfmt='rgba')
+        empty_texture.blit_buffer(b'\x00\x00\x00\x00', colorfmt='rgba', bufferfmt='ubyte')
+        return empty_texture
 
     def _check_text(self, *args) -> None:
         self.set_text(self, self.text)

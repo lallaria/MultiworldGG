@@ -136,7 +136,7 @@ class StartHiddenMansion(Toggle):
 
 
 class SpeedySpirits(Toggle):
-    """Adds Blue Ghosts to location pool"""
+    """Adds Blue Ghosts to location pool. These have moved to be only available during blackout so they cannot be missed"""
     display_name = "Speedy Spirits"
     internal_name = "speedy_spirits"
 
@@ -419,7 +419,7 @@ class BooHealthOption(Choice):
 
     Choice: Use Boo Health Value to set all boos to the specified value
 
-    Random Values: Every boo has a different, randomly chosen health value between 1 and 999
+    Random Values: Every boo has a different, randomly chosen health value between 1 and the value set in Boo Health Value
 
     Boo Health by Sphere: Boos will receive health values based on the spheres they are in. Boo Health Value will determine the highest health a Boo can have
 
@@ -438,6 +438,8 @@ class BooHealthValue(Range):
     Choose the health value all Boos will have it the Boo Health Option is Choice. Range between 1 and 999
 
     Values over 150 may not be catchable within the current room and logic cannot account for where they move
+
+    If you have a boo go into an area you cannot access yet, you may need to save and quit to main menu to reload them.
     """
     display_name = "Boo Health Value"
     internal_name = "boo_health_value"
@@ -488,6 +490,8 @@ class TrapLink(Toggle):
 class GoldMice(Toggle):
     """
     Adds Gold Mice as locations to be checked.
+
+    Logic requires these to be obtained after blackout so they can't be missed. They can be acquired without black out, out of logic.
     """
     display_name = " Gold Mice"
     internal_name = "gold_mice"

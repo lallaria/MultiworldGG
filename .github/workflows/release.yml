@@ -190,7 +190,7 @@ jobs:
           # set your python command;
           echo "PYTHON=python3" >> $GITHUB_ENV
           python3 -m pip install --upgrade pip
-          python3 -m pip install "PyGObject<3.51.0" charset-normalizer
+          python3 -m pip install dmgbuild
 
       - name: Install run-time dependencies
         run: |
@@ -216,10 +216,11 @@ jobs:
             build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGGenerate
             build/${{ env.MACOS_APP }}/Contents/MacOS/MultiworldGGServer
 
-      - name: Package MacOS .app
+      - name: Create DMG with dmgbuild
         run: |
-          cd build
-          zip -r "${{ env.MACOS_APP }}_MacOS_universal.zip" "${{ env.MACOS_APP }}"
+          dmgbuild -s .github/dmg_settings.py \
+            "MultiworldGG v${{ env.RELEASE_VERSION }}" \
+            "build/MultiworldGG_${{ env.RELEASE_VERSION }}.dmg"
 
       - name: Add to Release
         uses: softprops/action-gh-release@975c1b265e11dd76618af1c374e7981f9a6ff44a
@@ -228,6 +229,6 @@ jobs:
           prerelease: false
           name: v${{ env.RELEASE_VERSION }}
           files: |
-            build/${{ env.MACOS_APP }}_MacOS_universal.zip
+            build/MultiworldGG_${{ env.RELEASE_VERSION }}.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

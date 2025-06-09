@@ -40,7 +40,7 @@ with [PopTracker](https://github.com/black-sliver/PopTracker/releases)
 2. Create your options file (YAML). You can make one ~~on
    the [Pokémon Crystal options page](../../../games/Pokemon%20Crystal/player-options)~~ by choosing "Generate Template Options"
    from the Archipelago Launcher. From there, you can edit the `.yaml` in any text editor.
-4. Follow the general Archipelago instructions for [generating a game on your local installation](https://multiworld.gg/tutorial/Archipelago/setup/en#on-your-local-installation).
+4. Follow the general MultiworldGG instructions for [generating a game on your local installation](https://multiworld.gg/tutorial/Archipelago/setup/en#on-your-local-installation).
    This will generate an output file for you. Your patch file will have the `.apcrystal` file extension.
 5. Open `MultiworldGGLauncher.exe`
 6. Select "Open Patch" on the left side and select your patch file.

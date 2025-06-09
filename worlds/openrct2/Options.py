@@ -449,7 +449,8 @@ class SelectedDifficulty(Choice):
 
 class SelectedIntensity(Choice):
     """Choose a preferred intensity for your guests. Less intense will limit guests to a maximum of 4 intensity, and more intense will limit guests
-    to a minimum of 8 intensity in most circumstances. Normal is recommended for most players.
+    to a minimum of 8 intensity in most circumstances. Normal is highly recommended for most players! Seriously, unless you really know what you 
+    are doing and want the (likely very tedious) challenge, you shouldn't change this.
     """
     display_name = "Preferred Intensity"
     option_less_intense = PreferredIntensity.less_intense.value
@@ -634,13 +635,14 @@ class ShopMinimumNausea(Range):
     default = 0
 
 class ShopMinimumLength(Range):
-    """If the shop determines you need a ride with a minimum length, this value in meters will be the lowest it 
-    can ask for. If this value is higher than the maximum, the generator will assume it is a mistake and set it to 0.
+    """If the shop determines you need a ride with a minimum length (In Meters), this value in meters will 
+    be the lowest it can ask for. If this value is higher than the maximum, the generator will assume it is a 
+    mistake and set it to 0.
     """
     display_name = "Minimum Shop Length Requirement"
     range_start = 0
     range_end = 2500
-    default = 610
+    default = 0
 
 class ShopMinimumTotalCustomers(Range):
     """If the shop determines you need a ride with a minimum total number of customers, this value will be the 
@@ -649,7 +651,7 @@ class ShopMinimumTotalCustomers(Range):
     """
     display_name = "Minimum Shop Customers Requirement"
     range_start = 0
-    range_end = 2000
+    range_end = 1000
     default = 0
 
 class ShopMaximumExcitement(Range):
@@ -677,12 +679,13 @@ class ShopMaximumNausea(Range):
     default = 4
 
 class ShopMaximumLength(Range):
-    """If the shop determines you need a ride with a minimum length, this value will be the highest it can ask for.
+    """If the shop determines you need a ride with a minimum length (In Meters), 
+    this value will be the highest it can ask for.
     """
     display_name = "Maximum Shop Length Requirement"
     range_start = 0
     range_end = 2500
-    default = 1250
+    default = 500
 
 class ShopMaximumTotalCustomers(Range):
     """If the shop determines you need a ride with a minimum total number of customers, this value will be the 
@@ -690,15 +693,15 @@ class ShopMaximumTotalCustomers(Range):
     """
     display_name = "Maximum Shop Total Customers Requirement"
     range_start = 0
-    range_end = 2000
-    default = 800
+    range_end = 1000
+    default = 400
 
 class BalanceGuestCounts(OpenRCT2OnToggle):
     """Attempts to balance the minimum guest requirements to the ride they're attached to. Low throughput rides
     like Spiral Slides will tend towards the minimum, while high throughput rides like roller coasters will 
     tend towards the maximum.
     """
-    display_name = "Randomize Park Values"
+    display_name = "Balance Guest Counts"
 
 class RequiredUniqueRides(Range):
     """Requires specific rides to be built before scenario completion is awarded. These will tend to appear in the later half of the game.
@@ -784,8 +787,8 @@ class Skips(Range):
     be found in the item pool."""
     display_name = "Skips"
     range_start = 0
-    range_end = 10
-    default = 3
+    range_end = 100
+    default = 7
 
 openrct2_option_groups = [
     OptionGroup("Scenario Options", [

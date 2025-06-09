@@ -1,10 +1,12 @@
-import colorama, asyncio, bsdiff4, pathlib, os, Utils, hashlib, sys, zipfile, settings, atexit, time
-import worlds.LauncherComponents as LauncherComponents
-from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser, server_loop, gui_enabled, logger
+import colorama, asyncio, bsdiff4, pathlib, os, Utils, hashlib, sys, zipfile, settings, atexit, time, typing
+from CommonClient import CommonContext, ClientCommandProcessor, get_base_parser, gui_enabled, logger
 from NetUtils import ClientStatus
 
+from . import locations, items, data
 from .version import version
 from .ids import option_name_to_id, location_name_to_id, item_name_to_id, AP_CMD, AP_STATE
+from .rules import StarFox64Rules
+from .options import StarFox64OptionsList
 
 game_name = "Star Fox 64"
 vanilla_version = "v1.1"
@@ -188,6 +190,109 @@ class StarFox64CommandProcessor(ClientCommandProcessor):
     asyncio.create_task(self.ctx.update_ring_link(not "RingLink" in self.ctx.tags))
     return True
 
+  def _cmd_tracker(self):
+    """Toggles the built in logic Tracker."""
+    sf64_options.enable_tracker = not sf64_options.enable_tracker
+    sf64_options._changed = True
+    self.ctx.tracker.update_locations()
+    return True
+
+class StarFox64Tracker:
+  player = 1
+
+  def __init__(self, ctx):
+    self.ctx = ctx
+    self.regions = {}
+    self.locations = set()
+    self.items = {item_name: 0 for item_name in items.name_to_id}
+    self.options = StarFox64OptionsList(**{
+      option_key: option_class(ctx.slot_data["options"][option_key])
+      for option_key, option_class in typing.get_type_hints(StarFox64OptionsList).items()
+    })
+    parser = StarFox64Rules(self)
+    for region_name, region in data.regions.items():
+      self.regions[region_name] = {}
+      for key, value in region.items():
+        self.regions[region_name][key] = {}
+        for name, entry in value.items():
+          self.regions[region_name][key][name] = parser.parse(entry["logic"], f"Tracker, {key}: {region_name} -> {name}")
+    self.refresh_items()
+
+  def check_region(self, region_name, checked_regions):
+    checked_regions.add(region_name)
+    region = data.regions[region_name]
+    for key, value in region.items():
+      logic = self.regions[region_name][key]
+      match key:
+        case "locations":
+          if region_name == "Menu": continue
+          for location_name, location in value.items():
+            item_name = items.pick_name(self, location["item"], location.get("group"))
+            if logic[location_name](self):
+              if items.is_event(self, data.items[item_name].get("type", item_name)):
+                self.items[item_name] += 1
+              else: self.locations.add(locations.name_to_id[location_name])
+        case "exits":
+          for exit_name, _exit in value.items():
+            if exit_name in checked_regions: continue
+            if logic[exit_name](self):
+              self.check_region(exit_name, checked_regions)
+
+  def update_locations(self):
+    if sf64_options.enable_tracker:
+      self.ctx.tab_locations.content.data = sorted([
+        {"text": self.ctx.location_names.lookup_in_game(location)}
+        for location in (self.locations - self.ctx.checked_locations)
+      ], key=lambda e: e["text"])
+    else: self.ctx.tab_locations.content.data = [{"text":"Tracker disabled. Use /tracker to enable it."}]
+
+  def refresh_locations(self):
+    self.locations.clear()
+    self.check_region("Menu", set())
+    self.update_locations()
+
+  def refresh_items(self):
+    for item in self.items:
+      self.items[item] = 0
+    for item in self.ctx.items_received:
+      self.items[self.ctx.item_names.lookup_in_game(item.item)] += 1
+    self.ctx.tab_items.content.data = []
+    for item_name, amount in sorted(self.items.items()):
+      if amount == 0: continue
+      if amount > 1: self.ctx.tab_items.content.data.append({"text":f"{item_name}: {amount}"})
+      else: self.ctx.tab_items.content.data.append({"text":f"{item_name}"})
+    self.refresh_locations()
+
+  def has(self, item, player, count = 1):
+    return self.items[item] >= count
+
+  def has_all(self, items, player):
+    for item in items:
+      if not self.items[item]:
+        return False
+    return True
+
+  def has_any(self, items, player):
+    for item in items:
+      if self.items[item]:
+        return True
+    return False
+
+  def has_all_counts(self, item_counts, player):
+    for item, count in item_counts.items():
+      if self.items[item] < count:
+        return False
+    return True
+
+  def has_any_count(self, item_counts, player):
+    for item, count in item_counts.items():
+      if self.items[item] >= count:
+        return True
+      return False
+
+  def count(self, item, player):
+    return self.items[item]
+
 class StarFox64Context(CommonContext):
   tags = CommonContext.tags
   game = "Star Fox 64"
@@ -195,21 +300,24 @@ class StarFox64Context(CommonContext):
   want_slot_data = True
   command_processor = StarFox64CommandProcessor
   last_ring_link: float = time.time()  # last received ring link on AP layer
-
   seed_name = 0
-
   slot_data = {}
   n64_sockets = set()
 
   def make_gui(self):
-    from kvui import GameManager, Window
+    from kvui import GameManager, Window, UILog
 
     Window.bind(on_request_close=self.on_request_close)
+    asyncio.create_task(patch_and_run(True))
 
     class StarFox64Manager(GameManager):
       base_title = f"Star Fox 64 Client {version.as_string()} | AP"
 
-    asyncio.create_task(patch_and_run(True))
+      def build(self):
+        ret = super().build()
+        self.ctx.tab_items = self.add_client_tab("Items", UILog())
+        self.ctx.tab_locations = self.add_client_tab("Tracker", UILog())
+        return ret
 
     return StarFox64Manager
 
@@ -252,7 +360,9 @@ class StarFox64Context(CommonContext):
         case "RoomInfo":
           self.seed_name = args["seed_name"]
         case "RoomUpdate":
-          if "checked_locations" in args: self.n64_send_checked_locations(locations=set(args["checked_locations"]))
+          if "checked_locations" in args:
+            self.tracker.update_locations()
+            self.n64_send_checked_locations(locations=set(args["checked_locations"]))
         case "Connected":
           await self.check_assert("slot_data" in args, "Missing Slot Data", "Necessary data is missing from this slot...")
           self.slot_data = args["slot_data"]
@@ -261,21 +371,26 @@ class StarFox64Context(CommonContext):
           if self.slot_data["options"]["deathlink"]: self.tags.add("DeathLink")
           if self.slot_data["options"]["ringlink"]: self.tags.add("RingLink")
           if old_tags != self.tags: await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
+          self.tracker = StarFox64Tracker(self)
           self.n64_send_seed()
           self.n64_send_slot_data()
           self.n64_send_ready()
           self.n64_send_checked_locations()
         case "ReceivedItems":
+          self.tracker.refresh_items()
           self.n64_send_items(items=args["items"])
         case "Bounced":
           tags = args.get("tags", [])
           if "RingLink" in tags and self.last_ring_link != args["data"]["time"]:
             self.on_ringlink(args["data"])
-        # case "PrintJSON":
-        #   match args["type"]:
-        #     case "ItemSend" | "ItemCheat":
-        #       print(f"  receiving: {args["receiving"]}")
-        #       print(f"  item: {args["item"]}") # item.item, item.player
+        case "PrintJSON":
+          match args["type"]:
+            case "ItemSend" | "ItemCheat":
+              item = args["item"]
+              if args["receiving"] == self.slot:
+                for n64 in self.n64_sockets:
+                  n64.messages.append(f"RECEIVED {self.item_names.lookup_in_game(item.item)}")
+                  if len(n64.messages) == 1: self.n64_send_message("", n64)
     except AssertionError as e:
       logger.error(e)
 
@@ -298,8 +413,11 @@ class StarFox64Context(CommonContext):
       self.tags.add("RingLink")
     else:
       self.tags -= {"RingLink"}
-    if old_tags != self.tags and self.server and not self.server.socket.closed:
-      await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
+    if old_tags != self.tags:
+      self.slot_data["ringlink"] = 1 if "RingLink" in self.tags else 0
+      self.n64_send_slot_data()
+      if self.server and not self.server.socket.closed:
+        await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
 
   async def send_ring(self, amount: int = 1):
     """Helper function to send a ringlink"""
@@ -315,67 +433,75 @@ class StarFox64Context(CommonContext):
       }]
       await self.send_msgs(msg)
 
-  def n64_send_seed(self, writer=None):
+  def n64_send_seed(self, socket=None):
     if self.seed_name == None: return
     send = AP_CMD.SEED.to_bytes(2, "big")
     send += self.team.to_bytes(2, "big")
     send += self.slot.to_bytes(2, "big")
     send += self.seed_name.encode()
-    self.n64_send(send, writer)
+    self.n64_send(send, socket)
 
-  def n64_send_slot_data(self, writer=None):
+  def n64_send_slot_data(self, socket=None):
     if self.seed_name == None: return
     send = bytes()
     for name, value in self.slot_data["options"].items():
       send += option_name_to_id[name].to_bytes(2, "big")
       send += value.to_bytes(2, "big")
-    self.n64_split_and_send(AP_CMD.OPTIONS.to_bytes(2, "big"), send, 4, writer)
+    self.n64_split_and_send(AP_CMD.OPTIONS.to_bytes(2, "big"), send, 4, socket)
 
-  def n64_send_ready(self, writer=None):
+  def n64_send_ready(self, socket=None):
     if self.seed_name == None: return
     send = AP_CMD.READY.to_bytes(2, "big")
-    self.n64_send(send, writer)
+    self.n64_send(send, socket)
 
-  def n64_send_checked_locations(self, writer=None, locations=None):
+  def n64_send_checked_locations(self, socket=None, locations=None):
     if self.seed_name == None: return
     if not locations: locations = self.checked_locations
     send = bytes()
     for location in locations:
       send += location.to_bytes(4, "big")
-    self.n64_split_and_send(AP_CMD.LOCATIONS.to_bytes(2, "big"), send, 4, writer)
+    self.n64_split_and_send(AP_CMD.LOCATIONS.to_bytes(2, "big"), send, 4, socket)
 
-  def n64_send_items(self, writer=None, items=None):
+  def n64_send_items(self, socket=None, items=None):
     if self.seed_name == None: return
     if not items: items = self.items_received
     send = bytes()
     for item in items:
       send += item.item.to_bytes(4, "big")
-    self.n64_split_and_send(AP_CMD.ITEMS.to_bytes(2, "big"), send, 4, writer)
+    self.n64_split_and_send(AP_CMD.ITEMS.to_bytes(2, "big"), send, 4, socket)
 
-  def n64_send_deathlink(self, writer=None):
+  def n64_send_deathlink(self, socket=None):
     if self.seed_name == None: return
     send = AP_CMD.DEATHLINK.to_bytes(2, "big")
-    self.n64_send(send, writer)
+    self.n64_send(send, socket)
 
-  def n64_send_ringlink(self, amount, writer=None):
+  def n64_send_ringlink(self, amount, socket=None):
     """For RingLink messages etc"""
     if self.seed_name == None: return
     send = AP_CMD.RINGLINK.to_bytes(2, "big")
     send += amount.to_bytes(2, "big", signed=True)
-    self.n64_send(send, writer)
+    self.n64_send(send, socket)
 
-  def n64_send(self, send, writer=None):
+  def n64_send_message(self, message, socket=None):
+    send = AP_CMD.MESSAGE.to_bytes(2, "big")
+    message = message.upper()
+    for char in message:
+      send += ord(char).to_bytes(1, "big")
+    send += b"\0"
+    self.n64_send(send, socket)
+
+  def n64_send(self, send, socket=None):
     send = len(send).to_bytes(2, "big") + send
-    writers = self.n64_sockets
-    if writer: writers = {writer}
-    for n64 in writers:
-      n64.write(send)
+    sockets = self.n64_sockets
+    if socket: sockets = {socket}
+    for n64 in sockets:
+      n64.writer.write(send)
 
-  def n64_split_and_send(self, cmd, send, element_size, writer=None):
+  def n64_split_and_send(self, cmd, send, element_size, socket=None):
     max_packet_size = 510 # not including cmd
     size = max_packet_size - max_packet_size % element_size
     for idx in range(0, len(send), size):
-      self.n64_send(cmd + send[idx:idx+size], writer)
+      self.n64_send(cmd + send[idx:idx+size], socket)
 
 class N64Socket:
 
@@ -387,11 +513,12 @@ class N64Socket:
     self.ctx = ctx
     self.ping = True
     self.state = AP_STATE.DISCONNECTED
+    self.messages = []
     logger.info(f"[N64] Connecting")
     asyncio.create_task(self.ping_loop())
     await self.loop()
     self.ping = False
-    ctx.n64_sockets -= {writer}
+    ctx.n64_sockets -= {self}
     writer.close()
     await writer.wait_closed()
     logger.info(f"[N64] Disconnected")
@@ -422,25 +549,25 @@ class N64Socket:
                 send = AP_CMD.HANDSHAKE.to_bytes(2, "big")
                 send += v.to_bytes(4, "big")
                 send += b"'LO!"
-                self.ctx.n64_send(send, self.writer)
+                self.ctx.n64_send(send, self)
                 self.state = AP_STATE.CONNECTING
           case AP_STATE.CONNECTING:
             match cmd:
               case AP_CMD.PING:
-                self.ctx.n64_send(AP_CMD.PONG.to_bytes(2, "big"), self.writer)
+                self.ctx.n64_send(AP_CMD.PONG.to_bytes(2, "big"), self)
                 self.state = AP_STATE.CONNECTED
-                self.ctx.n64_send_seed(self.writer)
-                self.ctx.n64_send_slot_data(self.writer)
-                self.ctx.n64_send_ready(self.writer)
-                self.ctx.n64_send_checked_locations(self.writer)
-                self.ctx.n64_send_items(self.writer)
-                self.ctx.n64_sockets.add(self.writer)
+                self.ctx.n64_send_seed(self)
+                self.ctx.n64_send_slot_data(self)
+                self.ctx.n64_send_ready(self)
+                self.ctx.n64_send_checked_locations(self)
+                self.ctx.n64_send_items(self)
+                self.ctx.n64_sockets.add(self)
                 logger.info(f"[N64] Connected")
           case AP_STATE.CONNECTED:
             self.state &= ~AP_STATE.PINGED
             match cmd:
               case AP_CMD.PING:
-                self.ctx.n64_send(AP_CMD.PONG.to_bytes(2, "big"), self.writer)
+                self.ctx.n64_send(AP_CMD.PONG.to_bytes(2, "big"), self)
               case AP_CMD.LOCATIONS:
                 locations = set()
                 for idx in range(0, len(data), 4):
@@ -457,6 +584,9 @@ class N64Socket:
                 if "RingLink" in self.ctx.tags:
                   ring_amount = int.from_bytes(data[:2], "big", signed=True)
                   await self.ctx.send_ring(ring_amount)
+              case AP_CMD.MESSAGE:
+                if len(self.messages):
+                  self.ctx.n64_send_message(self.messages.pop(0), self)
               case _:
                 logger.error(f"[N64] Unexpected packet: {cmd}")
                 return
@@ -498,9 +628,9 @@ def run(*args):
     await ctx.exit_event.wait()
     await ctx.shutdown()
 
-  parser = get_base_parser(description="Star Fox 64 MultiworldGG Client.")
+  parser = get_base_parser(description="Star Fox 64 Archipelago Client.")
   parser.add_argument('--name', default=None, help="Slot Name to connect as.")
-  parser.add_argument("url", nargs="?", help="MultiworldGG connection url")
+  parser.add_argument("url", nargs="?", help="Archipelago connection url")
   args = parser.parse_args(args)
   if args.url:
     url = urllib.parse.urlparse(args.url)
@@ -511,7 +641,7 @@ def run(*args):
       if url.password:
         args.password = urllib.parse.unquote(url.password)
     else:
-      parser.error(f"bad url, found {args.url}, expected url in form of archipelago://multiworld.gg:38281")
+      parser.error(f"bad url, found {args.url}, expected url in form of archipelago://archipelago.gg:38281")
 
   colorama.init()
   asyncio.run(main(args))

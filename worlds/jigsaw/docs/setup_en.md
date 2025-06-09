@@ -1,4 +1,4 @@
 # Jigsaw Puzzles for MultiworldGG Setup Guide
 
-- Create your MWGG game.
+- Create your MultiworldGG game.
 - Play here: https://jigsaw-ap.netlify.app/.

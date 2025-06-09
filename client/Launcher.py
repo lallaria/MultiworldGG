@@ -12,14 +12,16 @@ import argparse
 import logging
 import logging.handlers
 import multiprocessing
+import os
 import shlex
 import subprocess
 import sys
 import urllib.parse
 import webbrowser
+from collections.abc import Callable, Sequence
 from os.path import isfile
 from shutil import which
-from typing import Callable, Optional, Sequence, Tuple, Union, Any
+from typing import Any
 
 if __name__ == "__main__":
     import ModuleUpdate
@@ -31,6 +33,7 @@ import Utils
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from Utils import (init_logging, is_frozen, is_linux, is_macos, is_windows, local_path, messagebox, open_filename,
                    user_path)
+from Updater import get_latest_release_info, download_and_install
 from worlds.LauncherComponents import Component, components, icon_paths, SuffixIdentifier, Type
 
 apname = "Archipelago" if not Utils.instance_name else Utils.instance_name
@@ -43,13 +46,17 @@ def open_host_yaml():
     if is_linux:
         exe = which('sensible-editor') or which('gedit') or \
               which('xdg-open') or which('gnome-open') or which('kde-open')
-        subprocess.Popen([exe, file])
     elif is_macos:
         exe = which("open")
-        subprocess.Popen([exe, file])
     else:
         webbrowser.open(file)
+        return
 
+    env = os.environ
+    if "LD_LIBRARY_PATH" in env:
+        env = env.copy()
+        del env["LD_LIBRARY_PATH"]  # exe is a system binary, so reset LD_LIBRARY_PATH
+    subprocess.Popen([exe, file], env=env)
 
 def open_patch():
     suffixes = []
@@ -94,7 +101,11 @@ def open_folder(folder_path):
         return
 
     if exe:
-        subprocess.Popen([exe, folder_path])
+        env = os.environ
+        if "LD_LIBRARY_PATH" in env:
+            env = env.copy()
+            del env["LD_LIBRARY_PATH"]  # exe is a system binary, so reset LD_LIBRARY_PATH
+        subprocess.Popen([exe, folder_path], env=env)
     else:
         logging.warning(f"No file browser available to open {folder_path}")
 
@@ -106,64 +117,48 @@ def update_settings():
 
 components.extend([
     # Functions
-    Component("Open host.yaml", func=open_host_yaml),
-    Component("Open Patch", func=open_patch),
-    Component("Generate Template Options", func=generate_yamls),
-    Component("MultiworldGG Website", func=lambda: webbrowser.open("https://multiworld.gg/")),
-    Component("ZSR Discord", icon="discord", func=lambda: webbrowser.open("https://discord.gg/zsr")),
-    Component("Browse Files", func=browse_files),
+    Component("Open host.yaml", func=open_host_yaml,
+                description="Open the host.yaml file to change settings for generation, games, and more."),
+    Component("Open Patch", func=open_patch,
+              description="Open a patch file, downloaded from the room page or provided by the host."),
+    Component("Generate Template Options", func=generate_yamls,
+              description="Generate template YAMLs for currently installed games."),
+    Component("MultiworldGG Website", func=lambda: webbrowser.open("https://multiworld.gg/"),
+              description="Open multiworld.gg in your browser."),
+    Component("ZSR Discord", icon="discord", func=lambda: webbrowser.open("https://discord.gg/zsr"),
+              description="Join the Discord server to play public multiworlds, report issues, or just chat!"),
+    Component("Browse Files", func=browse_files,
+              description="Open the Archipelago installation folder in your file browser."),
 ])
 
 
-def handle_uri(path: str, launch_args: Tuple[str, ...]) -> None:
+def handle_uri(path: str) -> tuple[list[Component], Component]:
     url = urllib.parse.urlparse(path)
     queries = urllib.parse.parse_qs(url.query)
-    launch_args = (path, *launch_args)
-    client_component = []
+    client_components = []
     text_client_component = None
-    if "game" in queries:
-        game = queries["game"][0]
-    else:  # TODO around 0.6.0 - this is for pre this change webhost uri's
-        game = "Archipelago"
+    game = queries["game"][0]
     for component in components:
         if component.supports_uri and component.game_name == game:
-            client_component.append(component)
+            client_components.append(component)
         elif component.display_name == "Text Client":
             text_client_component = component
-
-    from kvui import MDButton, MDButtonText
-    from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogContentContainer, MDDialogSupportingText
-    from kivymd.uix.divider import MDDivider
-
-    if not client_component:
-        run_component(text_client_component, *launch_args)
-        return
-    else:
-        popup_text = MDDialogSupportingText(text="Select client to open and connect with.")
-        component_buttons = [MDDivider()]
-        for component in [text_client_component, *client_component]:
-            component_buttons.append(MDButton(
-                MDButtonText(text=component.display_name),
-                on_release=lambda *args, comp=component: run_component(comp, *launch_args),
-                style="text"
-            ))
-        component_buttons.append(MDDivider())
-
-    MDDialog(
-        # Headline
-        MDDialogHeadlineText(text="Connect to Multiworld"),
-        # Text
-        popup_text,
-        # Content
-        MDDialogContentContainer(
-            *component_buttons,
-            orientation="vertical"
-        ),
-
-    ).open()
+    return client_components, text_client_component
 
 
-def identify(path: Union[None, str]) -> Tuple[Union[None, str], Union[None, Component]]:
+def build_uri_popup(component_list: list[Component], launch_args: tuple[str, ...]) -> None:
+    from kvui import ButtonsPrompt
+    component_options = {
+        component.display_name: component for component in component_list
+    }
+    popup = ButtonsPrompt("Connect to Multiworld",
+                          "Select client to open and connect with.",
+                          lambda component_name: run_component(component_options[component_name], *launch_args),
+                          *component_options.keys())
+    popup.open()
+
+
+def identify(path: None | str) -> tuple[None | str, None | Component]:
     if path is None:
         return None, None
     for component in components:
@@ -174,7 +169,7 @@ def identify(path: Union[None, str]) -> Tuple[Union[None, str], Union[None, Comp
     return None, None
 
 
-def get_exe(component: Union[str, Component]) -> Optional[Sequence[str]]:
+def get_exe(component: str | Component) -> Sequence[str] | None:
     if isinstance(component, str):
         name = component
         component = None
@@ -230,20 +225,29 @@ def create_shortcut(button: Any, component: Component) -> None:
     button.menu.dismiss()
 
 
-refresh_components: Optional[Callable[[], None]] = None
+refresh_components: Callable[[], None] | None = None
 
 
-def run_gui(path: str, args: Any) -> None:
+def run_gui(launch_components: list[Component], args: Any) -> None:
     from kvui import (ThemedApp, MDFloatLayout, MDGridLayout, ScrollBox)
     from kivy.properties import ObjectProperty
     from kivy.core.window import Window
     from kivy.metrics import dp
-    from kivymd.uix.button import MDIconButton, MDButton
+    from kivymd.uix.button import MDIconButton, MDButton, MDButtonText
     from kivymd.uix.card import MDCard
     from kivymd.uix.menu import MDDropdownMenu
     from kivymd.uix.snackbar import MDSnackbar, MDSnackbarText
     from kivymd.uix.textfield import MDTextField
-
+    from kivy.clock import Clock
+    from kivy.uix.widget import Widget
+    from kivymd.uix.dialog import (
+        MDDialog,
+        MDDialogHeadlineText,
+        MDDialogSupportingText,
+        MDDialogButtonContainer,
+        MDDialogSupportingText
+    )
+    from kivy.app import App
     from kivy.lang.builder import Builder
 
     class LauncherCard(MDCard):
@@ -266,12 +270,12 @@ def run_gui(path: str, args: Any) -> None:
         cards: list[LauncherCard]
         current_filter: Sequence[str | Type] | None
 
-        def __init__(self, ctx=None, path=None, args=None):
+        def __init__(self, ctx=None, components=None, args=None):
             self.title = self.base_title + " " + Utils.__version__
             self.ctx = ctx
             self.icon = r"data/icon.png"
             self.favorites = []
-            self.launch_uri = path
+            self.launch_components = components
             self.launch_args = args
             self.cards = []
             self.current_filter = (Type.CLIENT, Type.TOOL, Type.ADJUSTER, Type.MISC)
@@ -393,10 +397,77 @@ def run_gui(path: str, args: Any) -> None:
             return self.top_screen
 
         def on_start(self):
-            if self.launch_uri:
-                handle_uri(self.launch_uri, self.launch_args)
-                self.launch_uri = None
+            if self.launch_components:
+                build_uri_popup(self.launch_components, self.launch_args)
+                self.launch_components = None
                 self.launch_args = None
+
+            if is_frozen() and is_windows:
+                Clock.schedule_once(self._maybe_show_update_dialog, 1.0)
+
+        def _maybe_show_update_dialog(self, dt):
+            try:
+                latest_ver, download_url = get_latest_release_info()
+            except Exception as e:
+                logging.warning("Launcher update check failed: %s", e)
+                return
+
+            if latest_ver > Utils.version_tuple:
+
+                dialog = MDDialog(
+                    MDDialogHeadlineText(
+                        text="Update Available",
+                        halign="center",
+                    ),
+                    MDDialogSupportingText(
+                        text=(
+                            f"A new version of {Utils.instance_name} is available: "
+                            f"{latest_ver.as_simple_string()}\n\n"
+                            f"You are currently running version {Utils.version_tuple.as_simple_string()}.\n\n"
+                            "Download and install the update now?"
+                        ),
+                        halign="left",
+                    ),
+                    MDDialogButtonContainer(
+                        Widget(),
+                        MDButton(
+                            MDButtonText(text="Later"),
+                            style="text",
+                            on_release=lambda *a: dialog.dismiss()
+                        ),
+
+                        MDButton(
+                            MDButtonText(text="Update Now"),
+                            style="filled",
+                            on_release=lambda *a: self._on_user_requested_update(dialog, download_url)
+                        ),
+                        spacing="8dp",
+                    ),
+                    size_hint=(0.8, None),
+                )
+
+                dialog.height = dp(200)
+                dialog.open()
+
+        def _on_user_requested_update(self, dialog, download_url):
+            dialog.dismiss()
+
+            downloading = MDDialog(
+                MDDialogSupportingText(
+                    text="Downloading update…",
+                    halign="center"
+                ),
+                size_hint=(0.6, None),
+            )
+            downloading.height = dp(100)
+            downloading.open()
+
+            Clock.schedule_once(lambda dt: self._finalize_update(dialog, download_url), 0.5)
+
+        def _finalize_update(self, dialog: MDDialog, download_url: str):
+            dialog.dismiss()
+            download_and_install(download_url)
+            self.stop()
 
         @staticmethod
         def component_action(button):
@@ -413,7 +484,7 @@ def run_gui(path: str, args: Any) -> None:
             if file and component:
                 run_component(component, file)
             else:
-                logging.warning(f"unable to identify component for {file}")
+                logging.warning(f"unable to identify component for {filename}")
 
         def _on_keyboard(self, window: Window, key: int, scancode: int, codepoint: str, modifier: list[str]):
             # Activate search as soon as we start typing, no matter if we are focused on the search box or not.
@@ -436,7 +507,7 @@ def run_gui(path: str, args: Any) -> None:
                                                                    for filter in self.current_filter))
             super().on_stop()
 
-    Launcher(path=path, args=args).run()
+    Launcher(components=launch_components, args=args).run()
 
     # avoiding Launcher reference leak
     # and don't try to do something with widgets after window closed
@@ -455,7 +526,7 @@ def run_component(component: Component, *args):
         logging.warning(f"Component {component} does not appear to be executable.")
 
 
-def main(args: Optional[Union[argparse.Namespace, dict]] = None):
+def main(args: argparse.Namespace | dict | None = None):
     if isinstance(args, argparse.Namespace):
         args = {k: v for k, v in args._get_kwargs()}
     elif not args:
@@ -463,7 +534,15 @@ def main(args: Optional[Union[argparse.Namespace, dict]] = None):
 
     path = args.get("Patch|Game|Component|url", None)
     if path is not None:
-        if not path.startswith("archipelago://") or path.startswith("mwgg://"):
+        if path.startswith("archipelago://") or path.startswith("mwgg://"):
+            args["args"] = (path, *args.get("args", ()))
+            # add the url arg to the passthrough args
+            components, text_client_component = handle_uri(path)
+            if not components:
+                args["component"] = text_client_component
+            else:
+                args['launch_components'] = [text_client_component, *components]
+        else:
             file, component = identify(path)
             if file:
                 args['file'] = file
@@ -479,7 +558,7 @@ def main(args: Optional[Union[argparse.Namespace, dict]] = None):
     elif "component" in args:
         run_component(args["component"], *args["args"])
     elif not args["update_settings"]:
-        run_gui(path, args.get("args", ()))
+        run_gui(args.get("launch_components", None), args.get("args", ()))
 
 
 if __name__ == '__main__':

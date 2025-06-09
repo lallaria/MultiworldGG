@@ -32,6 +32,7 @@
 *.mwgg
 *.apsave
 *.BIN
+!worlds/ttyd/data/US.bin
 *.puml
 *.iso
 

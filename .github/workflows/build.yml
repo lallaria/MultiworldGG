@@ -232,7 +232,7 @@ jobs:
           # set your python command;
           echo "PYTHON=python3" >> $GITHUB_ENV
           python3 -m pip install --upgrade pip
-          python3 -m pip install "PyGObject<3.51.0" charset-normalizer
+          python3 -m pip install dmgbuild
 
       - name: Install run-time dependencies
         run: |
@@ -282,11 +282,17 @@ jobs:
           cp Players/Templates/Clique.yaml Players/
           gtimeout 30 ./MultiworldGGGenerate
 
-      - name: Store .app file
+      - name: Create DMG with dmgbuild
+        run: |
+          dmgbuild -s .github/dmg_settings.py \
+            "MultiworldGG v${{ env.APP_VERSION }}" \
+            "build/MultiworldGG_v${{ env.APP_VERSION }}.dmg"
+
+      - name: Store DMG file
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.MACOS_APP }}
-          path: build/${{ env.MACOS_APP }}
+          name: MultiworldGG_v${{ env.APP_VERSION }}.dmg
+          path: build/MultiworldGG_v${{ env.APP_VERSION }}.dmg
           compression-level: 1
           if-no-files-found: error
           retention-days: 7

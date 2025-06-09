@@ -63,7 +63,7 @@ class EnderLiliesWorld(World):
     Ender Lilies: QUIETUS OF THE KNIGHTS is a dark fantasy 2D action RPG about unraveling the mysteries of a destroyed kingdom.
     """
 
-    game = "Ender Lilies: Quietus of the Knights"
+    game = ENDERLILIES
     author: str = "Trexounay"
     igdb_id = 138858
     web = EnderLiliesWeb()

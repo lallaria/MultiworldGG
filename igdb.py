@@ -18,12 +18,12 @@ with open(client_id_path, 'r') as file:
 with open(key_path, 'r') as file:
     igdb_key = file.readline().strip()
 
-# url = f"https://id.twitch.tv/oauth2/token?client_id={igdb_client_id}&client_secret={igdb_key}&grant_type=client_credentials"
-# response = requests.post(url)
-# print(url)
-# print(response.json())
-# igdb_token = response.json()['access_token']
-igdb_token = "ok558j0ne651nzmks56bnfp54apy5j"
+url = f"https://id.twitch.tv/oauth2/token?client_id={igdb_client_id}&client_secret={igdb_key}&grant_type=client_credentials"
+response = requests.post(url)
+print(url)
+print(response.json())
+igdb_token = response.json()['access_token']
+#igdb_token = "ok558j0ne651nzmks56bnfp54apy5j"
 
 
 def get_igdb_game_keywords(game_id: int) -> list:
@@ -255,6 +255,8 @@ def get_igdb_game_details(game_id: int) -> dict:
         'themes': [theme['name'] for theme in game_data.get('themes', [])],
         'player_perspectives': [perspective['name'] for perspective in game_data.get('player_perspectives', [])],
         'genres': [genre['name'] for genre in game_data.get('genres', [])],
+        'platforms': [platform['name'] for platform in game_data.get('platforms', [])],
+        'storyline': game_data.get('storyline', ''),
         'release_date': game_data.get('first_release_date', ''),
         'keywords': [keyword['name'] for keyword in game_data.get('keywords', [])]
     }
@@ -284,6 +286,8 @@ def generate_game_details_json() -> dict:
                 'rating': igdb_details.get('rating', ''),
                 'player_perspectives': igdb_details.get('player_perspectives', []),
                 'genres': igdb_details.get('genres', []),
+                'platforms': igdb_details.get('platforms', []),
+                'storyline': igdb_details.get('storyline', ''),
                 'themes': igdb_details.get('themes', []),
                 'keywords': igdb_details.get('keywords', []),
                 'release_date': igdb_details.get('release_date', '')
@@ -297,6 +301,8 @@ def generate_game_details_json() -> dict:
                 'rating': '',
                 'player_perspectives': [],
                 'genres': [],
+                'platforms': [],
+                'storyline': '',
                 'themes': [],
                 'keywords': [],
                 'release_date': ''

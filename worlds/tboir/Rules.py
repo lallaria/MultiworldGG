@@ -6,6 +6,6 @@ def set_rules(world: MultiWorld, player: int, progression_item_count: int, requi
     set_rule(world.get_location("Run End", player),
              lambda state: state.has(f"Progression Item", player,
                                      progression_item_count * required_prog_item_factor) and state.can_reach(
-                 world.get_location(f"ItemPickup{world.required_locations[player].value}", player).parent_region))
+                 world.get_location(f"ItemPickup{world.worlds[player].options.required_locations.value}", player).parent_region))
 
     world.completion_condition[player] = lambda state: state.has("Victory", player)

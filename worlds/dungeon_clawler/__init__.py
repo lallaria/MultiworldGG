@@ -35,7 +35,7 @@ class DungeonClawlerWorld(World):
     """
     Dungeon Clawler mixes deck building with a dash of rogue-like mechanics and most importantly: a claw machine.
     """
-    game = "Dungeon Clawler"
+    game = GAME_NAME
     author: str = "Kaito Kid"
     igdb_id = 290897
     topology_present = False

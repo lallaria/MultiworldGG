@@ -21,7 +21,7 @@ from .options import (TunicOptions, EntranceRando, tunic_option_groups, tunic_op
 from .combat_logic import area_data, CombatState
 from . import ut_stuff
 from worlds.AutoWorld import WebWorld, World
-from Options import PlandoConnection, OptionError, PerGameCommonOptions, Range, Removed
+from Options import PlandoConnection, OptionError, PerGameCommonOptions, Removed, Range
 from settings import Group, Bool, FilePath
 
 
@@ -31,6 +31,11 @@ class TunicSettings(Group):
 
     class LimitGrassRando(Bool):
         """Limits the impact of Grass Randomizer on the multiworld by disallowing local_fill percentages below 95."""
+    
+    class UTPoptrackerPath(FilePath):
+        """Path to the user's TUNIC Poptracker Pack."""
+        description = "TUNIC Poptracker Pack zip file"
+        required = False
 
     class UTPoptrackerPath(FilePath):
         """Path to the user's TUNIC Poptracker Pack."""
@@ -131,6 +136,7 @@ class TunicWorld(World):
     using_ut: bool  # so we can check if we're using UT only once
     passthrough: Dict[str, Any]
     ut_can_gen_without_yaml = True  # class var that tells it to ignore the player yaml
+    tracker_world: ClassVar = ut_stuff.tracker_world
 
     def generate_early(self) -> None:
         try:

@@ -22,6 +22,7 @@ from CommonClient import ClientCommandProcessor, CommonContext, logger, server_l
 from MultiServer import mark_raw
 from NetUtils import ClientStatus, NetworkItem, JSONtoTextParser, JSONMessagePart
 from Utils import async_start, get_file_safe_name
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 
 def check_stdin() -> None:
@@ -194,9 +195,9 @@ class FactorioContext(CommonContext):
     def toggle_bridge_chat_out(self) -> None:
         self.bridge_chat_out = not self.bridge_chat_out
         if self.bridge_chat_out:
-            announcement = "Chat is now bridged to MultiworldGG."
+            announcement = f"Chat is now bridged to {apname}."
         else:
-            announcement = "Chat is no longer bridged to MultiworldGG."
+            announcement = f"Chat is no longer bridged to {apname}."
         logger.info(announcement)
         self.print_to_game(announcement)
 
@@ -209,7 +210,7 @@ class FactorioContext(CommonContext):
                 ("FactorioServer", "Factorio Server Log"),
                 ("FactorioWatcher", "Bridge Data Log"),
             ]
-            base_title = "MultiworldGG Factorio Client"
+            base_title = f"{apname} Factorio Client"
 
         self.ui = FactorioManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -335,7 +336,7 @@ async def factorio_server_watcher(ctx: FactorioContext):
                                                                timeout=5)
                     if not ctx.server:
                         logger.info("Established bridge to Factorio Server. "
-                                    "Ready to connect to MultiworldGG via /connect")
+                                    f"Ready to connect to {apname} via /connect")
                         check_stdin()
 
                 if not ctx.awaiting_bridge and "Archipelago Bridge Data available for game tick " in msg:

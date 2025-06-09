@@ -1,9 +1,6 @@
-import typing
-import string
+
 from typing import ClassVar, TextIO
 import re
-import math
-import dataclasses
 
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region
 from Options import OptionError
@@ -21,7 +18,7 @@ class SonicHeroesWeb(WebWorld):
     theme = "partyTime"
     setup_en = Tutorial(
         tutorial_name="Multiworld Setup Guide",
-        description="A guide to setting up the Sonic Heroes randomizer connected to an MultiworldGG world.",
+        description="A guide to setting up the Sonic Heroes randomizer connected to a MultiworldGG world.",
         language="English",
         file_name="setup_en.md",
         link="setup/en",
@@ -33,14 +30,18 @@ class SonicHeroesWeb(WebWorld):
 
 
 class SonicHeroesWorld(World):
-
+    """
+    Sonic Heroes is a 2003 platform game developed by Sonic Team USA. The player races a team of series characters through levels to amass rings, 
+    defeat robots, and collect the seven Chaos Emeralds needed to defeat Doctor Eggman. Within each level, the player switches between the team's three characters, 
+    who each have unique abilities, to overcome obstacles.
+    """
     game: str = "Sonic Heroes"
     igdb_id = 4156
     author: str = "xMcacutt"
+    web = SonicHeroesWeb()
     options_dataclass = SonicHeroesOptions
     options: SonicHeroesOptions
 
-    web = SonicHeroesWeb()
     item_name_to_id: ClassVar[dict[str, int]] = {item.itemName: item.code for item in itemList}  # noqa: F405
     location_name_to_id: ClassVar[dict[str, int]] = {v: k for k, v in location_id_name_dict.items()}  # noqa: F405
 
@@ -102,12 +103,33 @@ class SonicHeroesWorld(World):
         """
         String for printing to the spoiler log
         """
+        self.excluded_sanity_locations = []
+        """
+        List of excluded sanity locations (by ID) for option SanityExcludedPercent
+        """
+        self.key_sanity_key_amounts = [
+            [
+                3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
+            ],
+            [
+                3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
+            ],
+            [
+                2, 3, 2, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3
+            ],
+            [
+                2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
+            ]
+        ]
         ###   4 gates 2 stories    1 3 5 7 9 11 13
 
         super().__init__(multiworld, player)
 
 
     def generate_early(self) -> None:
+
+        if self.options.super_hard_mode_sonic_act_2.value and self.options.sonic_story.value < 2:
+            raise OptionError("[ERROR] Super Hard Mode Sonic Act 2 requires Sonic Act 2 to be enabled.")
 
         number_of_enabled_mission_blocks = 0
         max_allowed_emblems = 0
@@ -286,7 +308,7 @@ class SonicHeroesWorld(World):
                 temp_int = 0
                 if gate < extra_levels:
                     extra_level_int += 1
-                while (number_check_in_gate < self.gate_emblem_costs[0] and shuffle_index < len(shuffeable_test_list)) or (number_level_in_gate < levels_per_gate + extra_level_int and shuffle_index < len(shuffeable_test_list)):
+                while (number_check_in_gate < self.gate_emblem_costs[0] or number_level_in_gate < levels_per_gate + extra_level_int) and shuffle_index < len(shuffeable_test_list):
                     team = shuffeable_test_list[shuffle_index][0][:1]
 
                     for index in range(len(self.story_list)):
@@ -307,6 +329,19 @@ class SonicHeroesWorld(World):
                 test_levels_per_gate.append(number_level_in_gate)
                 test_checks_per_gate.append(number_check_in_gate)
 
+
+        else:
+            #do stuff here
+            temp_int = 0
+            for i in range(len(shuffeable_test_list)):
+                team = shuffeable_test_list[i][0][:1]
+                for index in range(len(self.story_list)):
+                    if team == self.story_list[index][0:1]:
+                        temp_int = index
+                        team = self.story_list[index]
+                temp_int = 14 * temp_int + shuffeable_test_list[i][1] - 1
+                test_level_list.append(temp_int)
+            #test_levels_per_gate.append(len(test_level_list))
 
 
         #print(f"Shuffle Test List: {shuffeable_test_list}")
@@ -365,8 +400,9 @@ class SonicHeroesWorld(World):
 
 
     def connect_entrances(self):
-        from Utils import visualize_regions
-        visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.player_name}_world.puml")
+        #from Utils import visualize_regions
+        #visualize_regions(self.multiworld.get_region("Menu", self.player), f"{self.player_name}_world.puml")
+        pass
 
 
 
@@ -402,20 +438,24 @@ class SonicHeroesWorld(World):
         self.shuffleable_boss_list = templist
 
         return {
-            "ModVersion": "1.2.0",
-
+            "ModVersion": "1.3.0",
             "Goal": self.options.goal.value,
             "GoalUnlockCondition": self.options.goal_unlock_condition.value,
             "SkipMetalMadness": self.options.skip_metal_madness.value,
             "RequiredRank": self.options.required_rank.value,
             "DontLoseBonusKey": self.options.dont_lose_bonus_key.value,
             "SonicStory": self.options.sonic_story.value,
+            "SuperHardModeSonicAct2": self.options.super_hard_mode_sonic_act_2.value,
+            "SonicKeySanity": self.options.sonic_key_sanity.value,
             "DarkStory": self.options.dark_story.value,
             "DarkSanity": self.options.dark_sanity.value,
+            "DarkKeySanity": self.options.dark_key_sanity.value,
             "RoseStory": self.options.rose_story.value,
             "RoseSanity": self.options.rose_sanity.value,
+            "RoseKeySanity": self.options.rose_key_sanity.value,
             "ChaotixStory": self.options.chaotix_story.value,
             "ChaotixSanity": self.options.chaotix_sanity.value,
+            "ChaotixKeySanity": self.options.chaotix_key_sanity.value,
             "RingLink": self.options.ring_link.value,
             "RingLinkOverlord": self.options.ring_link_overlord.value,
             "ModernRingLoss": self.options.modern_ring_loss.value,
@@ -448,7 +488,7 @@ class SonicHeroesWorld(World):
                                     new_hint_data[loc.address] = f"Final Boss after Gate {len(self.gate_emblem_costs) - 1}: Requires the 7 Chaos Emeralds. Gate {len(self.gate_emblem_costs) - 1} is Available From Start"
                                 else:
                                     new_hint_data[
-                                        loc.address] = f"Final Boss after Gate {len(self.gate_emblem_costs) - 1}: Requires the 7 Chaos Emeralds. Gate {len(self.gate_emblem_costs) - 1} Requires {self.gate_emblem_costs[-2]} Emblems and {self.shuffleable_boss_list[len(self.gate_emblem_costs) - 2]}"
+                                        loc.address] = f"Final Boss after Gate {len(self.gate_emblem_costs) - 1}: Requires the 7 Chaos Emeralds. Gate {len(self.gate_emblem_costs) - 1} Requires {self.gate_emblem_costs[-2]} Emblems and {sonic_heroes_extra_names[self.shuffleable_boss_list[len(self.gate_emblem_costs) - 2]]}"
                             else: #Both
                                 new_hint_data[loc.address] = f"Final Boss after Gate {len(self.gate_emblem_costs) - 1}: Requires {self.gate_emblem_costs[-1]} Emblems and the 7 Chaos Emeralds"
 

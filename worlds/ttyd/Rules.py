@@ -72,8 +72,7 @@ def get_rules_dict(world: "TTYDWorld") -> dict[str, Any]:
             lambda state: state.has("Autograph", world.player) and state.has("Blanket", world.player)
                           and state.has("Ragged Diary", world.player) and state.has("Vivian", world.player),
         "Excess Express Storage Car: Ragged Diary":
-            lambda state: state.has("Autograph", world.player) and state.has("Vivian", world.player)
-                          and (state.has("Paper Curse", world.player) or StateLogic.ultra_boots(state, world.player)),
+            lambda state: state.has("Paper Curse", world.player) or StateLogic.ultra_boots(state, world.player),
         "Excess Express Front Passenger Car: Vital Paper":
             lambda state: (state.has("Autograph", world.player) and state.has("Vivian", world.player)
                            and state.has("Ragged Diary", world.player) and state.has("Blanket", world.player)),
@@ -138,11 +137,8 @@ def get_rules_dict(world: "TTYDWorld") -> dict[str, Any]:
         "Glitzville Arena: Gold Star":
             lambda state: state.has("Yoshi", world.player) and state.has("Flurrie", world.player)
                           and StateLogic.super_hammer(state, world.player),
-        "Glitzville Promoter's Office: Star Piece 2":
-            lambda state: state.has("Yoshi", world.player) and state.has("Flurrie", world.player)
-                          and StateLogic.super_hammer(state, world.player),
         "Great Tree Red/Blue Cages: Star Piece":
-            lambda state: StateLogic.key_any(state, world.player) and StateLogic.super_boots(state, world.player),
+            lambda state: (state.has("Blue Key", world.player) or state.has("Paper Curse", world.player)) and StateLogic.super_boots(state, world.player),
         "Great Tree Entrance: Puni Orb":
             lambda state: state.has("Red Key", world.player),
         "Great Tree Bubble Room: Shine Sprite":
@@ -487,29 +483,29 @@ def get_rules_dict(world: "TTYDWorld") -> dict[str, Any]:
                            and StateLogic.ultra_hammer(state, world.player) and state.has("Plane Curse", world.player)),
         "Riverside Station Tube Mode Maze: Dried Shroom":
             lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
-                          and StateLogic.tube_curse(state, world.player),
+                          and StateLogic.tube_curse(state, world.player) and state.has("Flurrie", world.player),
         "Riverside Station Tube Mode Maze: P-Up D-Down":
             lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
-                          and StateLogic.tube_curse(state, world.player),
+                          and StateLogic.tube_curse(state, world.player) and state.has("Flurrie", world.player),
         "Riverside Station Back Exterior: HP Plus":
             lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2",world.player)
                           and StateLogic.tube_curse(state, world.player),
         "Riverside Station Back Exterior: Shine Sprite":
-            lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
-                          and StateLogic.tube_curse(state, world.player),
+            lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player),
         "Riverside Station Back Exterior: Thunder Rage":
-            lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
-                          and StateLogic.tube_curse(state, world.player),
+            lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player),
         "Riverside Station Ultra Boots Room: Ultra Boots":
             lambda state: state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
-                          and StateLogic.tube_curse(state, world.player),
+                          and StateLogic.tube_curse(state, world.player) and state.has("Flurrie", world.player),
         "Riverside Station Goomba Room: Shine Sprite":
             lambda state: (state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
                            and StateLogic.tube_curse(state, world.player)
-                           and (StateLogic.ultra_boots(state, world.player) or state.has("Koops", world.player))),
+                           and (StateLogic.ultra_boots(state, world.player) or state.has("Koops", world.player))
+                           and state.has("Flurrie", world.player)),
         "Riverside Station Ultra Boots Room: Elevator Key":
             lambda state: (state.has("Station Key 1", world.player) and state.has("Station Key 2", world.player)
-                           and StateLogic.tube_curse(state, world.player) and StateLogic.ultra_boots(state, world.player)),
+                           and StateLogic.tube_curse(state, world.player) and StateLogic.ultra_boots(state, world.player)
+                           and state.has("Flurrie", world.player)),
         "Riverside Station Clockwork Room: Star Piece":
             lambda state: state.has("Station Key 1", world.player) and StateLogic.tube_curse(state, world.player),
         "Riverside Station Clockwork Room: Station Key 2":
@@ -530,7 +526,7 @@ def get_rules_dict(world: "TTYDWorld") -> dict[str, Any]:
                            and StateLogic.ultra_boots(state, world.player) and state.has("Elevator Key", world.player)
                            and state.has("Plane Curse", world.player) and StateLogic.super_hammer(state, world.player)),
         "Rogueport Sewers Boggly Woods Pipe: Star Piece":
-            lambda state: StateLogic.super_boots(state, world.player) and state.has("Paper Curse", world.player),
+            lambda state: StateLogic.super_boots(state, world.player) and (state.has("Paper Curse", world.player) or StateLogic.super_hammer(state, world.player)),
         "Rogueport Sewers Boggly Woods Pipe: Damage Dodge":
             lambda state: state.has("Paper Curse", world.player),
         "Rogueport Sewers Town: Shine Sprite":

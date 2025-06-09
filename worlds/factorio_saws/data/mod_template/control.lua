@@ -677,7 +677,7 @@ end, {LuaEntityDiedEventFilter = {["filter"] = "name", ["name"] = "character"}})
 
 
 -- add / commands
-commands.add_command("ap-sync", "Used by the MultiworldGG client to get progress information", function(call)
+commands.add_command("ap-sync", "Used by the Archipelago client to get progress information", function(call)
     local force
     if call.player_index == nil then
         force = game.forces.player
@@ -704,7 +704,7 @@ commands.add_command("ap-sync", "Used by the MultiworldGG client to get progress
     rcon.print(helpers.table_to_json({["slot_name"] = SLOT_NAME, ["seed_name"] = SEED_NAME, ["info"] = data_collection}))
 end)
 
-commands.add_command("ap-print", "Used by the MultiworldGG client to print messages", function (call)
+commands.add_command("ap-print", "Used by the Archipelago client to print messages", function (call)
     game.print(call.parameter)
 end)
 
@@ -739,7 +739,7 @@ end,
 end,
 }
 
-commands.add_command("ap-get-technology", "Grant a technology, used by the MultiworldGG client.", function(call)
+commands.add_command("ap-get-technology", "Grant a technology, used by the Archipelago Client.", function(call)
     if storage.index_sync == nil then
         storage.index_sync = {}
     end
@@ -800,7 +800,7 @@ commands.add_command("ap-get-technology", "Grant a technology, used by the Multi
 end)
 
 
-commands.add_command("ap-rcon-info", "Used by the MultiworldGG client to get information", function(call)
+commands.add_command("ap-rcon-info", "Used by the Archipelago client to get information", function(call)
     rcon.print(helpers.table_to_json({
         ["slot_name"] = SLOT_NAME,
         ["seed_name"] = SEED_NAME,
@@ -824,7 +824,7 @@ commands.add_command("ap-deathlink", "Kill all players", function(call)
     game.print("Death was granted by " .. source)
 end)
 
-commands.add_command("ap-energylink", "Used by the MultiworldGG client to manage Energy Link", function(call)
+commands.add_command("ap-energylink", "Used by the Archipelago client to manage Energy Link", function(call)
     local change = tonumber(call.parameter or "0")
     local force = "player"
     storage.forcedata[force].energy = storage.forcedata[force].energy + change

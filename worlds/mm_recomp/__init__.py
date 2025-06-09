@@ -14,16 +14,15 @@ from .Constants import default_shop_prices
 class MMRWebWorld(WebWorld):
     # ~ theme = "partyTime"
     display_name = "The Legend of Zelda: Majora's Mask (Recompiled)"
-
     setup_en = Tutorial(
-        tutorial_name="Setup Guide",
+        tutorial_name="Start Guide",
         description="A guide to playing Majora's Mask Recompiled in MultiworldGG.",
         language="English",
-        file_name="setup_en.md",
-        link="setup/en",
+        file_name="guide_en.md",
+        link="guide/en",
         authors=["LittleCube"]
     )
-
+    
     tutorials = [setup_en]
 
 

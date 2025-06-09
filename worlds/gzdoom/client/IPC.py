@@ -15,7 +15,7 @@ import time
 from threading import Thread
 from typing import Any, Dict, List, Optional
 
-from CommonClient import CommonContext
+from CommonClient import CommonContext, logger
 from .util import ansi_to_gzdoom
 
 class IPCMessage:
@@ -56,7 +56,7 @@ class IPC:
     # We never await this, since we don't care about its return value, but we do need
     # to hang on to the thread handle for it to actually run.
     self.thread = asyncio.create_task(asyncio.to_thread(self._log_reading_thread, self.gzd_dir, loop))
-    print("Log reader started. Waiting for XON from gzDoom.")
+    logger.info("Log reader started. Waiting for XON from gzDoom.")
 
   # TODO: if there's an existing log file, we (re)process all events from it
   # on startup. This can be annoying if some of them are chat messages or the
@@ -72,7 +72,7 @@ class IPC:
       # Without this it just stays running in the background forever and I don't
       # even get to see the error until I kill it. :(
       # TODO: fix this
-      print(e)
+      logger.error(e)
       sys.exit(1)
 
   def _tuning_file_path(self, ipc_dir: str, wadname: str) -> str:
@@ -99,7 +99,12 @@ class IPC:
             payload = { "msg": line.removeprefix(self.nick + ": ").strip() }
           elif line.startswith("AP-"):
             [evt, payload] = line.split(" ", 1)
-            payload = json.loads(payload)
+            try:
+              payload = json.loads(payload)
+            except json.JSONDecodeError as e:
+              logger.error(f"Error decoding message from gzdoom: {line}")
+              logger.error(f"Error reported is: {e}")
+              continue
           else:
             continue
 
@@ -108,7 +113,7 @@ class IPC:
               tune.close()
             tune = open(self._tuning_file_path(ipc_dir, payload["wad"]), "a", encoding="utf-8")
 
-          if evt == "AP-CHECK" and tune:
+          if evt in {"AP-CHECK", "AP-KEY"} and tune:
             tune.write(line+"\n")
             tune.flush()
 
@@ -126,7 +131,7 @@ class IPC:
     """
     if fd.read().find("\nAP-XOFF") >= 0:
       # Dead log, wait for it to be truncated
-      print("Logfile is from a previous run of gzdoom. Waiting for a new one.")
+      logger.info("Logfile is from a previous run of gzdoom. Waiting for a new one.")
       while fd.tell() <= os.stat(fd.fileno()).st_size:
         time.sleep(1)
         if self.should_exit:
@@ -165,6 +170,8 @@ class IPC:
         await self.recv_chat(payload["msg"])
     elif evt == "AP-STATUS":
         await self.recv_status(**payload)
+    elif evt == "AP-DEATH":
+        await self.recv_death(**payload)
     elif evt == "AP-XOFF":
         await self.recv_xoff()
     else:
@@ -183,7 +190,7 @@ class IPC:
     """
     print("XON received. Opening channels to gzdoom and to AP host.")
     self.ipc_path = os.path.join(self.ipc_dir, lump)
-    assert size == self.ipc_size, "IPC size mismatch between gzdoom and AP -- please exit both, start then client, then gzdoom"
+    assert size == self.ipc_size, "IPC size mismatch between gzdoom and AP -- please exit both, start the client, then gzdoom"
     self.nick = nick
     self.flush()
     await self.ctx.on_xon(slot, seed)
@@ -218,6 +225,9 @@ class IPC:
   async def recv_status(self, victory: bool) -> None:
     if victory:
       await self.ctx.on_victory()
+
+  async def recv_death(self, reason: str) -> None:
+    await self.ctx.on_death(reason)
 
   async def recv_xoff(self) -> None:
     # Stop sending things to the client.
@@ -256,6 +266,9 @@ class IPC:
   def send_peek(self, map: str, location: str, player: str, item: str) -> None:
     """Send a peek to the game."""
     self._enqueue("PEEK", map, location, ansi_to_gzdoom(player), ansi_to_gzdoom(item))
+
+  def send_death(self, source: str, reason: str) -> None:
+    self._enqueue("DEATH", source, reason)
 
   #### Low-level outgoing IPC. ####
 

@@ -67,9 +67,9 @@ class ShapezWorld(World):
     generated patches on an infinite canvas, without the need to manage your infinite resources or to pay for building
     your factories.
     """
-    game = "shapez"
-    author = "Slimey"
-    igdb_id = 134826
+    game = OTHER.game_name
+    author = OTHER.author
+    igdb_id = OTHER.igdb_id
     options_dataclass = ShapezOptions
     options: ShapezOptions
     topology_present = True

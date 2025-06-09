@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Set
 
 from schema import Schema, And
 
@@ -7,7 +6,7 @@ from Options import Choice, DefaultOnToggle, OptionDict, PerGameCommonOptions, R
 
 
 class Goal(Choice):
-    """The victory condition for your MultiworldGG run. Goals involving the Prisoner require enable_eote_dlc to be true.
+    """The victory condition for your Archipelago run. Goals involving the Prisoner require enable_eote_dlc to be true.
 
     Song of Five:         Reach the Eye
     Song of the Nomai:    Reach the Eye after meeting Solanum
@@ -81,7 +80,7 @@ class Logsanity(Toggle):
 
 class ShuffleSpacesuit(Toggle):
     """
-    Puts the spacesuit into the MultiworldGG item pool, forcing you to play suitless until it's found.
+    Puts the spacesuit into the Archipelago item pool, forcing you to play suitless until it's found.
 
     This option is incompatible with non-vanilla spawns (i.e. generation will fail), since those imply playing "shipless" at first, and almost nothing can be done both shipless and suitless.
     """
@@ -272,7 +271,7 @@ class OuterWildsGameOptions(PerGameCommonOptions):
     enable_fq_mod: EnableFretsQuestMod
 
 
-def get_creation_settings(options: OuterWildsGameOptions) -> Set[str]:
+def get_creation_settings(options: OuterWildsGameOptions) -> set[str]:
     relevant_settings = set()
     if options.logsanity.value == 1:
         relevant_settings.add("logsanity")

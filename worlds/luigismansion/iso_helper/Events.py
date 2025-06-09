@@ -2,6 +2,7 @@ import re
 from io import BytesIO
 import random
 from pkgutil import get_data
+from typing import Optional
 
 from gclib.gcm import GCM
 from gclib.rarc import RARC, RARCNode, RARCFileEntry
@@ -23,8 +24,12 @@ def get_arc(gcm: GCM, arc_path):
     return arc
 
 
-def update_boo_gates(gcm: GCM, event_no: str, req_boo_count: int, boo_rando_enabled: bool) -> GCM:
+def update_boo_gates(gcm: GCM, event_no: str, req_boo_count: int, boo_rando_enabled: bool,
+    move_luigi: Optional[str]) -> GCM:
+
     lines = get_data(MAIN_PKG_NAME, "data/custom_events/event" + event_no + ".txt").decode('utf-8')
+    if move_luigi:
+        lines = lines.replace("{MoveType}", move_luigi)
     if boo_rando_enabled:
         str_begin_case = "not_enough"
         lines = lines.replace("{Count0}", str(0)).replace("{Count1}", str(0))
@@ -135,6 +140,8 @@ def update_intro_and_lab_events(gcm: GCM, hidden_mansion: bool, max_health: str,
 def randomize_music(gcm: GCM, seed: str) -> GCM:
     list_ignore_events = ["event00.szp"]
     event_dir = gcm.get_or_create_dir_file_entry("files/Event")
+    random.seed(seed)
+
     for lm_event in [event_file for event_file in event_dir.children if not event_file.is_dir]:
         if lm_event.name in list_ignore_events or not re.match(r"event\d+\.szp", lm_event.name):
             continue
@@ -155,7 +162,6 @@ def randomize_music(gcm: GCM, seed: str) -> GCM:
                 list_of_bad_music = [-1, 13, 17, 21, 24, 28, 41]
                 int_music_selection: int = -1
                 while int_music_selection in list_of_bad_music:
-                    random.seed(seed)
                     int_music_selection = random.randint(0, 52)
                 event_str = event_str.replace(music_match, "<BGM>(" + str(int_music_selection) + ")")
 
@@ -172,6 +178,8 @@ def randomize_music(gcm: GCM, seed: str) -> GCM:
 def write_portrait_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dict[str, dict[str,str]],
                         seed: str) -> GCM:
     csv_lines = get_data(MAIN_PKG_NAME, "data/custom_csvs/message78.csv").decode('utf-8')
+    random.seed(seed)
+
     for portrait_name, portrait_hint in all_hints.items():
         if portrait_name not in PORTRAIT_HINTS:
             continue
@@ -189,7 +197,6 @@ def write_portrait_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dic
                 csv_lines = csv_lines.replace(f"{portrait_name}", hintfo)
             case 1:
                 jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-                random.seed(seed)
                 joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", " ")
                 csv_lines = csv_lines.replace(f"{portrait_name}", joke_hint)
             case _:
@@ -211,6 +218,7 @@ def randomize_clairvoya(gcm: GCM, req_mario_count: str, hint_distribution_choice
     madame_hint: dict[str, str], seed: str) -> GCM:
     lines = get_data(MAIN_PKG_NAME, "data/custom_events/event36.txt").decode('utf-8')
     csv_lines = get_data(MAIN_PKG_NAME, "data/custom_csvs/message36.csv").decode('utf-8')
+    random.seed(seed)
 
     match hint_distribution_choice:
         case 4:
@@ -231,7 +239,6 @@ def randomize_clairvoya(gcm: GCM, req_mario_count: str, hint_distribution_choice
             case_type = "DisabledHint"
         case 1:
             jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-            random.seed(seed)
             joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\n")
             csv_lines = csv_lines.replace("{JokeText}", joke_hint)
             case_type = "JokeHint"
@@ -270,6 +277,7 @@ def randomize_clairvoya(gcm: GCM, req_mario_count: str, hint_distribution_choice
 def write_in_game_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dict[str, dict[str, str]], maxhp: str,
     seed: str) -> GCM:
     random.seed(seed)
+
     for hint_name in ALWAYS_HINT:
         if hint_name == "Madame Clairvoya":
             continue

@@ -22,9 +22,9 @@ from .Technologies import base_tech_table, recipe_sources, base_technology_table
 from .settings import FactorioSettings
 
 
-def launch_client():
+def launch_client(*args: str):
     from .Client import launch
-    launch_component(launch, name="FactorioClient")
+    launch_component(launch, name="Factorio Client", args=args)
 
 
 components.append(Component("Factorio Client", func=launch_client, component_type=Type.CLIENT))
@@ -237,7 +237,7 @@ class Factorio(World):
             else:
                 location.access_rule = lambda state, ingredient=ingredient: \
                     all(state.has(technology.name, player) for technology in required_technologies[ingredient])
-            assert self.multiworld.get_all_state(True).can_reach(location), f"Can never reach {location}."
+            assert self.multiworld.get_all_state(use_cache=True, allow_partial_entrances=True).can_reach(location), f"Can never reach {location}."
 
         for location in self.science_locations:
             Rules.set_rule(location, lambda state, ingredients=frozenset(location.ingredients):

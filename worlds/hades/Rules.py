@@ -419,4 +419,4 @@ def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, option
                 
 
 def item_is_plando(world: "HadesWorld", item: Item, player: int) -> bool:
-    return item in world.plando_items[player]
+    return item in world.worlds[player].options.plando_items

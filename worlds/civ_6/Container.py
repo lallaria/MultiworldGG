@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 import os
-import io
 from typing import TYPE_CHECKING, Dict, List, Optional, cast
 import zipfile
 from BaseClasses import Location
-from worlds.Files import APContainer, AutoPatchRegister
+from worlds.Files import APPlayerContainer
 
 from .Enum import CivVICheckType
 from .Locations import CivVILocation, CivVILocationData
@@ -26,22 +25,19 @@ class CivTreeItem:
     ui_tree_row: int
 
 
-class CivVIContainer(APContainer, metaclass=AutoPatchRegister):
+class CivVIContainer(APPlayerContainer):
     """
     Responsible for generating the dynamic mod files for the Civ VI multiworld
     """
     game: Optional[str] = "Civilization VI"
     patch_file_ending = ".apcivvi"
 
-    def __init__(self, patch_data: Dict[str, str] | io.BytesIO, base_path: str = "", output_directory: str = "",
+    def __init__(self, patch_data: Dict[str, str], base_path: str = "", output_directory: str = "",
                  player: Optional[int] = None, player_name: str = "", server: str = ""):
-        if isinstance(patch_data, io.BytesIO):
-            super().__init__(patch_data, player, player_name, server)
-        else:
-            self.patch_data = patch_data
-            self.file_path = base_path
-            container_path = os.path.join(output_directory, base_path + ".apcivvi")
-            super().__init__(container_path, player, player_name, server)
+        self.patch_data = patch_data
+        self.file_path = base_path
+        container_path = os.path.join(output_directory, base_path + ".apcivvi")
+        super().__init__(container_path, player, player_name, server)
 
     def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
         for filename, yml in self.patch_data.items():
@@ -107,7 +103,7 @@ def generate_new_items(world: 'CivVIWorld') -> str:
             civic in civics])}
   </Types>
   <Technologies>
-      <Row TechnologyType="TECH_BLOCKER" Name="TECH_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="MultiworldGG Tech created to prevent players from researching their own tech. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
+      <Row TechnologyType="TECH_BLOCKER" Name="TECH_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="Archipelago Tech created to prevent players from researching their own tech. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
 {"".join([f'{tab}<Row TechnologyType="{location.name}" '
                 f'Name="{get_formatted_player_name(world, location.item.player)} '
                 f'{sanitize_value(location.item.name)}" '
@@ -123,7 +119,7 @@ def generate_new_items(world: 'CivVIWorld') -> str:
   {"".join([f'{tab}<Row Technology="{location.name}" PrereqTech="TECH_BLOCKER" />{nl}' for location in boost_techs])}
   </TechnologyPrereqs>
   <Civics>
-      <Row CivicType="CIVIC_BLOCKER" Name="CIVIC_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="MultiworldGG Civic created to prevent players from researching their own civics. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
+      <Row CivicType="CIVIC_BLOCKER" Name="CIVIC_BLOCKER" EraType="ERA_ANCIENT" UITreeRow="0" Cost="99999" AdvisorType="ADVISOR_GENERIC" Description="Archipelago Civic created to prevent players from researching their own civics. If you can read this, then congrats you have reached the end of your tree before beating the game!"/>
 {"".join([f'{tab}<Row CivicType="{location.name}" '
                     f'Name="{get_formatted_player_name(world, location.item.player)} '
                     f'{sanitize_value(location.item.name)}" '

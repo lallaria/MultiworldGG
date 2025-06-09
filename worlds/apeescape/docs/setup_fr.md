@@ -1,52 +1,55 @@
-# Ape Escape Setup Guide
+# Ape Escape - Guide de configuration
 
-## Required Software
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases). Please use version 0.4.4 or later for integrated
-BizHawk support.
-- Ape Escape (USA) ISO or BIN/CUE.
-- [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later. Other emulators are not supported.
-- The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `Archipelago/custom_worlds` folder.
+## Logiciels Requis
 
-### Configuring BizHawk
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Veuillez utiliser la version 0.6.1 ou ultérieure pour le support intégré dans Bizhawk.
 
-Once you have installed BizHawk, open `EmuHawk.exe` and change the following settings:
+- Fichier ISO ou BIN/CUE Ape Escape (USA).
 
-- If you're using BizHawk 2.7 or 2.8, go to `Config > Customize`. On the Advanced tab, switch the Lua Core from
-`NLua+KopiLua` to `Lua+LuaInterface`, then restart EmuHawk. (If you're using BizHawk 2.9, you can skip this step.)
-- Under `Config > Customize`, check the "Run in background" option to prevent disconnecting from the client while you're
-tabbed out of EmuHawk.
-- Open any PlayStation game in EmuHawk and go to `Config > Controllers…` to configure your inputs. If you can't click
-`Controllers…`, it's because you need to load a game first.
-- Consider clearing keybinds in `Config > Hotkeys…` if you don't intend to use them. Select the keybind and press Esc to
-clear it.
+- [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) version 2.7 à 2.9.1. La version 2.10 de BizHawk ou tout autre émulateur n'est pas pris en charge.
 
-## Generating a Game
+- (N'est pas necessaire avec MWGG:) Le fichier `apeescape.apworld` le plus récent. Vous pouvez le trouver sur la [page GitHub](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Déposer le fichier dans le dossier `MultiworldGG/custom_worlds`.
 
-1. Create your options file (YAML). After installing the `apeescape.apworld` file, you can generate a template within the Archipelago Launcher by clicking `Generate Template Settings`.
-2. Follow the general Archipelago instructions for [generating a game](https://archipelago.gg/tutorial/Archipelago/setup/en#generating-a-game).
-3. Open `ArchipelagoLauncher.exe`
-4. Select "BizHawk Client" in the right-side column. On your first time opening BizHawk Client, you will also be asked to
-locate `EmuHawk.exe` in your BizHawk install.
+### Configuration de BizHawk
 
-## Connecting to a Server
+Après avoir installé BizHawk, ouvrez `EmuHawk.exe` et allez changer les configurations suivantes :
 
-1. If EmuHawk didn't launch automatically, open it manually.
-2. Open your Ape Escape (USA) ISO or CUE file in EmuHawk.
-3. In EmuHawk, go to `Tools > Lua Console`. This window must stay open while playing. Be careful to avoid clicking "TAStudio" below it in the menu, as this is known to delete your savefile.
-4. In the Lua Console window, go to `Script > Open Script…`.
-5. Navigate to your Archipelago install folder and open `data/lua/connector_bizhawk_generic.lua`.
-6. The emulator and client will eventually connect to each other. The BizHawk Client window should indicate that it
-connected and recognized Ape Escape.
-7. To connect the client to the server, enter your room's address and port (e.g. `archipelago.gg:38281`) into the
-top text field of the client and click Connect.
+- Si vous utilisez la version 2.7 ou 2.8 de Bizhawk, naviguez jusqu'à `Config > Customize`. Dans l'onglet `Advanced`, changez le paramètre Lua Core de `NLua+KopiLua` à `Lua+LuaInterface`, ensuite redémarrer EmuHawk. (Si vous utilisez la version 2.9 de BizHawk, vous pouvez passer cette étape.)
 
-You should now be able to receive and send items. You'll need to do these steps every time you want to reconnect. It is
-perfectly safe to make progress offline; everything will re-sync when you reconnect.
+- Sous `Config > Customize`, cochez la case "Run in background" pour empêcher la déconnexion du client quand Bizhawk s'exécute en arrière-plan.
 
-## Tips on joystick configuration for Ape Escape on Bizhawk
+- Ouvrez n'importe quel jeu PlayStation dans EmuHawk et allez dans `Config > Controllers…` pour configurer les entrées. Si vous ne pouvez pas cliquer sur `Controllers…`, c'est parce qu'il faut charger un jeu d'abord.
 
-Analog sensitivity in Bizhawk can be a bit of a pain to get working at first.
-You may need to bind them inverted to how you expect.
-The first time, you'll want to go up to the menu at the top of Bizhawk, click PSX, open the settings,
-go to the Sync Settings tab, scroll down a little bit, and make sure Virtual Port 1 is set to dualanalog.
-If you don't, analog sticks will be a little weird when running exactly to the right
+- Envisagez d'effacer les raccourcis clavier dans `Config > Hotkeys…` si vous ne prévoyez pas les utiliser. Sélectionnez le raccourci, puis appuyez sur Esc pour l'effacer.
+
+## Générer une partie
+
+1. Créez votre fichier de configuration (YAML). Après avoir installé le fichier `apeescape.apworld`, vous pouvez générer un modèle dans le menu MultiworldGG Launcher en cliquant sur l'option `Generate Template Settings`.
+
+2. Suivez les instructions générales d'MultiworldGG pour [Générer une partie](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game) (En anglais).
+
+3. Ouvrez `MultiworldGGLauncher.exe`
+
+4. Sélectionnez "BizHawk Client" dans la colonne de droite. À la première ouverture, on vous demandera également de repérer `EmuHawk.exe` dans votre installation de Bizhawk.
+
+## Se connecter à un Serveur
+
+1. Si EmuHawk n'a pas démarré automatiquement, ouvrez-le manuellement.
+
+2. Ouvrez votre fichier ISO ou CUE d'Ape Escape (USA) dans EmuHawk.
+
+3. Dans EmuHawk, allez à `Tools > Lua Console`. Cette fenêtre doit rester ouverte quand vous jouez. Faites attention de ne pas cliquer sur "TAStudio" directement en dessous, car cela est connu pour supprimer votre sauvegarde.
+
+4. Dans la fenêtre Lua Console, allez à `Script > Open Script…`.
+
+5. Naviguez jusqu'à votre répertoire d'installation MultiworldGG et ouvrez `data/lua/connector_bizhawk_generic.lua`.
+
+6. L'émulateur et le client vont éventuellement se connecter l'un à l'autre. La fenêtre Bizhawk Client devrait indiquer qu'il s'est connecté et a reconnu Ape Escape.
+
+7. Pour connecter le client au serveur, entrez l'adresse de la salle et le port (ex. `multiworld.gg:38281`) dans le champ situé en haut du client et appuyez sur Connect.
+
+Vous devriez maintenant être en mesure de recevoir et d'envoyer des objets. Vous devrez faire ces étapes chaque fois que vous voulez vous reconnecter.
+
+## Conseils sur la configuration des joysticks pour Ape Escape dans Bizhawk
+
+La sensibilité des joysticks dans Bizhawk peut être un peu difficile à faire fonctionner au début. Vous pourriez avoir besoin de les relier à l'inverse de ce à quoi vous pourriez vous attendre.La première fois, vous voudrez aller au menu en haut de Bizhawk, cliquer sur PSX, ouvrir Settings,aller à l'onglet Sync Settings, défiler légèrement vers le bas, et s'assurer que l'option Virtual Port 1 est réglée sur dualanalog. Si vous ne le faites pas, les joysticks vont être un peu étranges quand vous allez courir exactement vers la droite.

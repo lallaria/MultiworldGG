@@ -7,8 +7,8 @@ from kivy.core.window import Window
 from kivy.core.text import LabelBase
 from kivymd.app import MDApp
 from kivymd.theming import ThemableBehavior
-from kivy.metrics import sp
-from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, ColorProperty
+from kivy.metrics import sp, Metrics
+from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, BoundedNumericProperty
 from kivy.config import Config
 from kivy.lang import Builder
 from kivy.utils import hex_colormap
@@ -110,9 +110,11 @@ class DefaultTheme(ThemableBehavior):
     _primary_palette: StringProperty
     dynamic_scheme_name: StringProperty
     compact_mode: BooleanProperty
+    _font_scale: BoundedNumericProperty
     app_config: None
     def __init__(self, app_config):
         super().__init__()
+        self._font_scale = BoundedNumericProperty(1.0, min=0.8, max=1.2)
         self.app_config = app_config
         self.init_global_theme()
         self.markup_tags_theme = MarkupTagsTheme()
@@ -132,6 +134,16 @@ class DefaultTheme(ThemableBehavior):
     @primary_palette.setter
     def primary_palette(self, value):
         self._primary_palette = value
+
+    @property
+    def font_scale(self):
+        return self._font_scale
+    
+    @font_scale.setter
+    def font_scale(self, value):
+        self._font_scale = value
+        Metrics.fontscale = value
+        RegisterFonts(MDApp.get_running_app())
 
     def save_markup_color(self, color_name, color_value):
         """Save a single markup color to the config"""
@@ -224,6 +236,9 @@ class DefaultTheme(ThemableBehavior):
         compact_mode = self.app_config.getboolean('client', 'compact_mode', fallback=False)
         self.compact_mode = compact_mode
         
+        font_scale = self.app_config.get('client', 'font_scale', fallback='1.0')
+        self.font_scale = float(font_scale)
+
         # Save default markup colors if they don't exist
         if not self.app_config.has_section('markup_tags'):
             self.app_config.add_section('markup_tags')
@@ -242,18 +257,18 @@ def RegisterFonts(app: MDApp):
                         os.path.join("fonts","Inter-Italic.ttf"),
                         os.path.join("fonts","Inter-Bold.ttf"),
                         os.path.join("fonts","Inter-BoldItalic.ttf"))
-    LabelBase.register('NanumGothicCoding',
-                        os.path.join("fonts","NanumGothicCoding-Regular.ttf"),
-                        None,
-                        os.path.join("fonts","NanumGothicCoding-Bold.ttf"),
-                        None)
+    LabelBase.register('MonaspaceArgon',
+                        os.path.join("fonts","MonaspaceArgonFrozen-Regular.ttf"),
+                        os.path.join("fonts","MonaspaceArgonFrozen-Italic.ttf"),
+                        os.path.join("fonts","MonaspaceArgonFrozen-ExtraBold.ttf"),
+                        os.path.join("fonts","MonaspaceArgonFrozen-ExtraBoldItalic.ttf"))
     LabelBase.register('GothicA1',
                         os.path.join("fonts","GothicA1-Regular.ttf"),
                         None,
                         os.path.join("fonts","GothicA1-Bold.ttf"),
                         None)
-    LabelBase.register('Texturina',
-                       os.path.join("fonts","Texturina_14pt-Regular.ttf"),
+    LabelBase.register('Mincho',
+                       os.path.join("fonts","Mincho-Regular.ttf"),
                        )
     LabelBase.register('LibreFranklin',
                        os.path.join("fonts","LibreFranklin-ExtraBold.ttf"),
@@ -370,19 +385,19 @@ def RegisterFonts(app: MDApp):
         },
         "monospace": {
             "large": {
-                "line-height": 3,
-                "font-name": "NanumGothicCoding",
-                "font-size": sp(16),
-            },
-            "medium": {
-                "line-height": 2.5,
-                "font-name": "NanumGothicCoding",
+                "line-height": 2.0,
+                "font-name": "MonaspaceArgon",
                 "font-size": sp(14),
             },
-            "small": {
-                "line-height": 2,
-                "font-name": "NanumGothicCoding",
+            "medium": {
+                "line-height": 1.6,
+                "font-name": "MonaspaceArgon",
                 "font-size": sp(12),
+            },
+            "small": {
+                "line-height": 1.5,
+                "font-name": "MonaspaceArgon",
+                "font-size": sp(10),
             },
         },
     }
