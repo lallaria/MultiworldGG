@@ -2,34 +2,6 @@
 
     canvas.before:
         Clear
-        # Filled mode.
-        Color:
-            group: "fill-color"
-            rgba:
-                ( \
-                ( \
-                self.theme_cls.surfaceVariantColor \
-                if self.theme_bg_color == "Primary" else
-                ( \
-                self.fill_color_normal \
-                if self.fill_color_normal else \
-                self.theme_cls.surfaceVariantColor \
-                ) \
-                ) \
-                self.theme_cls.surfaceVariantColor \
-                if self.theme_bg_color == "Primary" else
-                ( \
-                self.fill_color_focus \
-                if self.fill_color_focus else \
-                self.theme_cls.onSurfaceVariantColor \
-                ) \
-                ) \
-                if self.mode == "filled" else self.theme_cls.transparentColor
-        RoundedRectangle:
-            group: "fill-color-rounded-rectangle"
-            pos: self.x, self.y
-            size: self.width, self.height
-            radius: self.radius[0], self.radius[1], 0, 0
 
         # Active indicator.
         Color:
@@ -68,91 +40,6 @@
                 self.x - dp(1) + self.width, \
                 self.y
 
-        # Helper text texture.
-        Color:
-            group: "helper-text-color"
-        Rectangle:
-            texture:
-                self._helper_text_label.texture \
-                if self._helper_text_label else \
-                None
-            size:
-                self._helper_text_label.texture_size \
-                if self._helper_text_label else \
-                (0, 0)
-            pos:
-                self.x + (dp(16) if self.mode == "filled" else \
-                (0 if self.mode == "filled" else dp(12))), \
-                self.y + dp(-18)
-
-        # Leading icon texture.
-        Color:
-            group: "leading-icons-color"
-        Rectangle:
-            texture:
-                self._leading_icon.texture if self._leading_icon else None
-            size:
-                self._leading_icon.texture_size \
-                if self._leading_icon else \
-                (0, 0)
-            pos:
-                ( \
-                ( \
-                self.x + \
-                ( \
-                ( \
-                0 if self.mode != "outlined" else dp(12) \
-                ) \
-                if self.mode != "filled" else \
-                ( \
-                dp(4) if not self._leading_icon else dp(16) \
-                ) \
-                ), \
-
-                self.center_y - self._leading_icon.texture_size[1] / 2 \
-                ) \
-                ) \
-                if self._leading_icon else (0, 0)
-
-        # Trailing icon texture.
-        Color:
-            group: "trailing-icons-color"
-        Rectangle:
-            texture:
-                self._trailing_icon.texture if self._trailing_icon else None
-            size:
-                self._trailing_icon.texture_size \
-                if self._trailing_icon else \
-                (0, 0)
-            pos:
-                ( \
-                (self.width + self.x) - \
-                (self._trailing_icon.texture_size[1]) - dp(14), \
-                self.center_y - self._trailing_icon.texture_size[1] / 2 \
-                ) \
-                if self._trailing_icon else (0, 0)
-
-        # Max length texture.
-        Color:
-            group: "max-length-color"
-        Rectangle:
-            group: "max-length-rect"
-            texture:
-                self._max_length_label.texture \
-                if self._max_length_label else \
-                None
-            size:
-                self._max_length_label.texture_size \
-                if self._max_length_label else \
-                (0, 0)
-            pos:
-                ( \
-                (self.x + self.width) \
-                - (self._max_length_label.texture_size[0] + dp(16)), \
-                self.y - dp(18) \
-                ) \
-                if self._max_length_label else (0, 0)
-
         # Cursor blink.
         Color:
             rgba:
@@ -175,6 +62,17 @@
         Clear
         # Outline
         Color:
+            #group: "fill-color"
+            rgba:
+                self.theme_cls.onTertiaryContainerColor
+                #self.theme_cls.surfaceContainerLowestColor
+        RoundedRectangle:
+            #group: "fill-color-rounded-rectangle"
+            pos: self.x, self.y
+            size: self.width, self.height
+            radius: self.radius[0], self.radius[1], 0, 0
+
+        Color:
             group: "rectangle-color"
             rgba:
                 ( \
@@ -195,6 +93,7 @@
                 [self.text_field_opacity_value_disabled_line]
                 ) \
                 if self.mode != "filled" else self.theme_cls.transparentColor
+
 
         # Top right corner.
         # ------------------------------------------------------─╮
@@ -298,43 +197,7 @@
         Color:
             group: "text-color"
             rgba:
-                self.theme_cls.disabled_hint_text_color \
-                if self.disabled else \
-                ( \
-                self.text_color_focus \
-                if self.text_color_focus and self.theme_text_color == "Custom" \
-                else self.theme_cls.onSurfaceColor \
-                )
-
-    # Hint texture.
-    canvas.after:
-        Color:
-            group: "hint-text-color"
-        Rectangle:
-            group: "hint-text-rectangle"
-            texture:
-                self._hint_text_label.texture \
-                if self._hint_text_label else \
-                None
-            size:
-                self._hint_text_label.texture_size \
-                if self._hint_text_label else \
-                (0, 0)
-            pos:
-                ( \
-                self.x + \
-                ( \
-                dp(16) \
-                if not self._leading_icon else \
-                self._leading_icon.texture_size[0] + dp(28) + self._hint_x \
-                ), \
-
-                self.y + self.height \
-                + (self._hint_text_label.texture_size[1] / 2) \
-                - (self.height / 2) \
-                - self._hint_y  \
-                ) \
-                if self._hint_text_label else (0, 0)
+                [1,1,1,1]
 
     padding:
         ( \
@@ -352,5 +215,6 @@
         dp(5) \
         )
     multiline: False
+    default_text_color: self.theme_cls.onSurfaceColor
     size_hint_y: None if not self.multiline else 1
     height: dp(56) if not self.multiline else 550

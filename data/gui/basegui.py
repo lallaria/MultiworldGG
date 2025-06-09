@@ -8,8 +8,10 @@ import pkgutil
 import asyncio
 import subprocess
 import time
+
 from collections import deque
 from PIL import Image as PILImage, ImageSequence
+
 
 # from worlds.alttp.Rom import text_addresses
 
@@ -17,11 +19,12 @@ assert "kivy" not in sys.modules, "gui needs instansiation first"
 sys.path.append(os.path.join(os.path.dirname(__file__), "kivydi"))
 
 if sys.platform == "win32":
-    import ctypes
+    #import ctypes
 
     # kivy 2.2.0 introduced DPI awareness on Windows, but it makes the UI enter an infinitely recursive re-layout
     # by setting the application to not DPI Aware, Windows handles scaling the entire window on its own, ignoring kivy's
-    ctypes.windll.shcore.SetProcessDpiAwareness(0)
+    from ctypes import windll, c_int64
+    windll.user32.SetProcessDpiAwarenessContext(c_int64(-4))
 
 #os.environ["KCFG_GRAPHICS_WINDOW_STATE"] = "visible"
 os.environ["KIVY_NO_CONSOLELOG"] = "0"
@@ -77,7 +80,7 @@ from kivy.base import ExceptionHandler, ExceptionManager, EventLoop
 from kivy.factory import Factory
 from kivy.clock import Clock
 from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty, DictProperty, ListProperty
-from kivy.metrics import dp
+from kivy.metrics import dp, sp, Metrics
 from kivy.uix.widget import Widget
 from kivy.uix.layout import Layout
 from kivy.utils import escape_markup
@@ -128,7 +131,7 @@ from console import ConsoleScreen
 from hintscreen import HintScreen
 from settings_screen import SettingsScreen
 from topappbar import TopAppBarLayout, TopAppBar
-from loading import LoadingAnimation
+from kivydi.loadinglayout import MWGGLoadingLayout
 
 class BottomAppBar(MDBottomAppBar):
     def hide_me(self, *args):
@@ -169,7 +172,7 @@ class KivyMDGUI(MDApp):
     title_bar: Titlebar
     main_layout: MainLayout
     navigation_layout: NavLayout
-    loading_layout: LoadingAnimation
+    loading_layout: MWGGLoadingLayout
     top_appbar_layout: TopAppBarLayout
     bottom_sheet: MainBottomSheet
     bottom_appbar: BottomAppBar
@@ -314,7 +317,7 @@ class KivyMDGUI(MDApp):
         Window.bind(on_restore=self.title_bar.tb_onres)
         Window.bind(on_maximize=self.title_bar.tb_onmax)
         Window.bind(on_close=lambda x: self.on_stop())
-        self.change_screen("settings")
+        self.change_screen("console")
         self.slides = self.bottom_sheet.bottom_carousel.slides
 
         def on_start(*args):
@@ -325,7 +328,7 @@ class KivyMDGUI(MDApp):
             self.bottom_sheet.bind(on_close=self.bottom_appbar.show_me)
             
             # Initialize and show loading animation
-            self.loading_layout = LoadingAnimation()
+            self.loading_layout = MWGGLoadingLayout()
             self.loading_layout.size = (self.root.width, self.root.height)
             self.loading_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
             self.root_layout.add_widget(self.loading_layout)

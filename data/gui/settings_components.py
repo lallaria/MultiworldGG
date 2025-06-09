@@ -1,29 +1,26 @@
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty, StringProperty, ColorProperty, BooleanProperty, NumericProperty
-from kivy.metrics import dp
+from kivy.metrics import dp, Metrics
 from kivy.utils import get_color_from_hex, get_hex_from_color
+from kivy.clock import Clock
+
+from dataclasses import fields
 import logging
 import os
 import sys
-import io
-from dataclasses import fields
-from kivy.clock import Clock
+
+from kivymd.app import MDApp
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.button import MDButton, MDButtonText
-from kivymd.uix.selectioncontrol import MDSwitch
-from kivymd.uix.slider import MDSlider
-from kivymd.uix.dropdownitem import MDDropDownItem
+from kivymd.uix.button import MDButton, MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.label import MDLabel
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.textfield import MDTextField, MDTextFieldHelperText
-from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.app import MDApp
-from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer, MDDialogButtonContainer 
-import weakref
+from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer 
 
-from mw_theme import THEME_OPTIONS, DEFAULT_TEXT_COLORS
+from mw_theme import THEME_OPTIONS, DEFAULT_TEXT_COLORS, RegisterFonts
 from kivydi.colorpicker import MWColorPicker
+
 # Set up logging
 log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")
 os.makedirs(log_dir, exist_ok=True)
@@ -589,19 +586,43 @@ class ThemingSettings(SettingsScrollBox):
 
             # Font size section
             font_section = SettingsSection(name="font_settings", title="Font Settings")
-            font_sizes = ["Small", "Medium", "Large", "Extra Large"]
-            font_section.add_widget(LabeledDropdown(
-                text="Font Size",
-                items=font_sizes,
-                current_item="Medium",
-                on_select=self.set_font_size
-            ))
+            font_box = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=dp(48), padding=dp(4), spacing=dp(4))
+            font_box.add_widget(MDLabel(text="Font Size", theme_text_color="Primary", size_hint_x=0.3))
+            
+            # Current scale label
+            self.font_scale_label = MDLabel(
+                text=f"{int(float(self.app.app_config.get('client', 'font_scale', fallback='1.0')) * 10)}0%",
+                theme_text_color="Primary",
+                size_hint_x=0.2
+            )
+            font_box.add_widget(self.font_scale_label)
+            
+            # Decrease button
+            decrease_btn = MDIconButton(icon="format-font-size-decrease", theme_icon_color="Primary",
+                on_release=lambda x: self.adjust_font_size(-0.1)
+            )
+            font_box.add_widget(decrease_btn)
+            
+            # Increase button
+            increase_btn = MDIconButton(icon="format-font-size-increase", theme_icon_color="Primary",
+                on_release=lambda x: self.adjust_font_size(0.1)
+            )
+            font_box.add_widget(increase_btn)
+            
+            # Reset button
+            reset_btn = MDIconButton(icon="refresh", theme_icon_color="Primary",
+                on_release=lambda x: self.reset_font_size()
+            )
+            font_box.add_widget(reset_btn)
+            
+            font_section.add_widget(font_box)
             
             # Add all sections to the layout
             self.layout.add_widget(theme_style_section)
             self.layout.add_widget(palette_section)
-            self.layout.add_widget(self.custom_colors_section)
             self.layout.add_widget(font_section)
+            self.layout.add_widget(self.custom_colors_section)
+
         except Exception as e:
             logger.error(f"Error initializing ThemingSettings: {e}", exc_info=True)
     
@@ -643,7 +664,7 @@ class ThemingSettings(SettingsScrollBox):
 
     def change_theme(self, instance, value):
         # Show loading with a delay first
-        Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(), 0)
+        Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(speed=0.033), 0)
         # Then make the changes
         Clock.schedule_once(lambda dt: self._do_theme_change(value), 1)
 
@@ -662,7 +683,7 @@ class ThemingSettings(SettingsScrollBox):
 
     def update_colors(self, instance, value):
         # Show loading with a delay first
-        Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(), 0)
+        Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(speed=0.033), 0)
         # Then make the changes
         Clock.schedule_once(lambda dt: self._do_color_update(value), 0.5)
 
@@ -673,10 +694,32 @@ class ThemingSettings(SettingsScrollBox):
         self.app.update_colors()
         self.app.loading_layout.hide_loading()
 
-    def set_font_size(self, size):
-        sizes = {"Small": 0.8, "Medium": 1.0, "Large": 1.2, "Extra Large": 1.5}
-        scale_factor = sizes.get(size, 1.0)
-        self.app.app_config.set('client', 'font_scale', str(scale_factor))
+    def reset_font_size(self):
+        """Reset font size to default (1.0)"""
+        self.set_font_size(1.0)
+        self.app.app_config.set('client', 'font_scale', '1.0')
+        self.app.app_config.write()
+        
+
+    def adjust_font_size(self, delta):
+        """Adjust font size by the given delta"""
+        current_scale = self.theme_mw.font_scale
+        new_scale = max(0.8, min(1.2, current_scale + delta))
+        self.set_font_size(new_scale)
+                
+    def set_font_size(self, scale):
+        """Set the font scale factor"""
+        # Ensure scale is within bounds
+        scale = max(0.5, min(2.0, scale))
+        
+        # Update the label
+        self.font_scale_label.text = f"{int(scale * 10)}0%"
+        
+        # Set the global font scale
+        self.theme_mw.font_scale = scale
+        
+        # Save to config
+        self.app.app_config.set('client', 'font_scale', str(scale))
         self.app.app_config.write()
 
 class InterfaceSettings(SettingsScrollBox):

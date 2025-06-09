@@ -104,9 +104,7 @@ Builder.load_string('''
 ''')
 sliver_appbar = r'''
 MDSliverAppbar:
-    width: "260dp"
     pos_hint: {"x": 0, "y": 0}
-    size_hint_x: None
     hide_appbar: True
     background_color: app.theme_cls.secondaryContainerColor
 
@@ -243,6 +241,7 @@ class ConsoleScreen(MDScreen):
 
     def init_important(self):
         self.important_appbar = Builder.load_string(sliver_appbar) #hint bar
+        self.important_appbar.size_hint_x = 260/Window.width
         self.console_hero_from = self.important_appbar.ids.console_hero_from
         self.heroes_from = [self.console_hero_from]
         self.ui_console = ConsoleView(pos_hint={"center_y": .5, "center_x": .5+(130/Window.width)},
