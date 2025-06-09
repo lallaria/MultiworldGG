@@ -82,7 +82,7 @@ class LethalCompanyWorld(World):
     monsters, which are often referred to as "anomalies", "entities", or "creatures", and the hostile fauna. 
     As employees of "The Company", players must sell enough scrap to meet a series of increasing profit quotas until they inevitably fail and the game starts over.
     """
-    game = f"Lethal Company{name}"
+    game = "Lethal Company"
     author: str = "T0r1nn"
     igdb_id: int = 212089
     options_dataclass = LCOptions
