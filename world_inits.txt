@@ -13,6 +13,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\blasphemous\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\bomb_rush_cyberfunk\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\brotato\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\bumpstik\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\candybox2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\cat_quest\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\celeste\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\celeste64\__init__.py
@@ -70,6 +71,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\lethal_company\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\lingo\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\lufia2ac\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\luigismansion\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\marioland2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\megamix\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\messenger\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\metroidprime\__init__.py
@@ -113,6 +115,8 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\seaofthieves\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shapez\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shivers\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shorthike\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sims4\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sly1\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sm64hacks\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smo\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sms\__init__.py
@@ -135,6 +139,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tloz_ooa\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tloz_oos\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\toontown\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tp\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\trackmania\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ttyd\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tunic\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tww\__init__.py

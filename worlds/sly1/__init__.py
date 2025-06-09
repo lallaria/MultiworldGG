@@ -45,6 +45,7 @@ class Sly1World(World):
 
     game = "Sly Cooper and the Thievius Raccoonus"
     author: str = "Philiard"
+    igdb_id: int = 1798
     item_name_to_id = {name: data.ap_code for name, data in item_table.items()}
     location_name_to_id = get_location_names()
     options_dataclass = Sly1Options
