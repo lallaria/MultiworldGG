@@ -84,7 +84,7 @@ class PokemonEmeraldWorld(World):
     of Team Magma and Team Aqua, challenge gyms, and become the Pokémon champion!
     """
     game = "Pokemon Emerald"
-    igdb_id = 331767
+    igdb_id = 1517
     author: str = "Zunawe"
     web = PokemonEmeraldWebWorld()
     topology_present = True

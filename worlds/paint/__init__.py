@@ -29,7 +29,6 @@ class PaintWorld(World):
     greatest image the world has ever seen.
     """
     game = "Paint"
-    igdb_id = 231309
     author: str = "MairoManTAW"
     options_dataclass = PaintOptions
     options = PaintOptions

@@ -62,7 +62,7 @@ class MegaMixWorld(World):
     # World Options
     game = "Hatsune Miku Project Diva Mega Mix+"
     author: str = "Cynichill"
-    igdb_id = 202864
+    igdb_id = 120278
 
     web = MegaMixWeb()
 

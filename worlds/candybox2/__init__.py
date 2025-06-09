@@ -32,6 +32,7 @@ class CandyBox2World(World):
 
     game = "Candy Box 2"
     author: str = "Victor Tran"
+    igdb_id: int = 62779
     web = CandyBox2WebWorld()
     base_id = 1
     location_name_to_id = {name.value: location.id for name, location in locations.items()}

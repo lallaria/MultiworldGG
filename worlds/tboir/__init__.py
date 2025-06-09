@@ -29,7 +29,7 @@ class TheBindingOfIsaacRepentanceWorld(World):
     to safety.
     """
     game = "The Binding of Isaac Repentance"
-    igdb_id = 321536
+    igdb_id = 310643
     author: str = "Cyb3R"
     options_dataclass = IsaacOptions
     options: IsaacOptions

@@ -13,6 +13,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\blasphemous\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\bomb_rush_cyberfunk\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\brotato\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\bumpstik\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\candybox2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\cat_quest\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\celeste\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\celeste64\__init__.py
@@ -48,7 +49,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\faxanadu\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ff4fe\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ffmq\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ffta\__init__.py
-C:\Users\Lindsay\source\repos\MultiworldGG\worlds\fm\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\fm\utils.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\getting_over_it\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\gstla\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\gzdoom\__init__.py
@@ -70,6 +71,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\lethal_company\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\lingo\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\lufia2ac\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\luigismansion\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\marioland2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\megamix\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\messenger\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\metroidprime\__init__.py
@@ -110,13 +112,16 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sadx\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\saving_princess\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sc2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\seaofthieves\__init__.py
-C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shapez\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shapez\data\strings.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shivers\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\shorthike\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sims4\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sly1\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sm64hacks\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smo\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sms\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smw\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\smz3\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\soe\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sonic_heroes\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\sotn\__init__.py
@@ -134,11 +139,12 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tloz_ooa\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tloz_oos\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\toontown\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tp\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\trackmania\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ttyd\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tunic\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tww\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\tyrian\__init__.py
-C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ufo50\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ufo50\constants.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\ultrakill\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\undertale\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\wargroove\__init__.py
@@ -150,8 +156,7 @@ C:\Users\Lindsay\source\repos\MultiworldGG\worlds\wordipelago\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\yachtdice\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\yoshisisland\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\yugioh06\__init__.py
-C:\Users\Lindsay\source\repos\MultiworldGG\worlds\yugiohddm\__init__.py
+C:\Users\Lindsay\source\repos\MultiworldGG\worlds\yugiohddm\utils.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\zelda2\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\zillion\__init__.py
 C:\Users\Lindsay\source\repos\MultiworldGG\worlds\zork_grand_inquisitor\world.py
-C:\Users\Lindsay\source\repos\MultiworldGG\worlds\_manual\Meta.py

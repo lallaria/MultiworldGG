@@ -90,7 +90,7 @@ class MinecraftWorld(World):
     victory!
     """
     game = "Minecraft"
-    igdb_id = 135400
+    igdb_id = 121
     author: str = "KonoTyran & espeon"
     options_dataclass = MinecraftOptions
     options: MinecraftOptions

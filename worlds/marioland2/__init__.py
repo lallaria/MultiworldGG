@@ -48,6 +48,8 @@ class MarioLand2World(World):
 
     game = "Super Mario Land 2"
 
+    igdb_id: int = 1071
+
     settings_key = "sml2_options"
     settings: MarioLand2Settings
 

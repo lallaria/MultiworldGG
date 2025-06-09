@@ -56,7 +56,7 @@ class TetrisAttackWorld(World):
     In Vs, perform Chains and Combos to attack."""
     game = "Tetris Attack"  # name of the game/world
     author: str = "AgStarRay"
-    igdb_id = 133313
+    igdb_id = 2739
     options_dataclass = TetrisAttackOptions  # options the player can set
     options: TetrisAttackOptions  # typing hints for option results
     settings: typing.ClassVar[TetrisAttackSettings]  # will be automatically assigned from type hint

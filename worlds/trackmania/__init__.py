@@ -42,6 +42,7 @@ class TrackmaniaWorld(World):
     Zoom through hundreds of thousands of user-made tracks as fast as you can!"""
     game = "Trackmania"  # name of the game/world
     author: str = "SerialBoxes"
+    igdb_id: int = 133807  # replace with actual IGDB ID if available
     options_dataclass = TrackmaniaOptions  # options the player can set
     options: TrackmaniaOptions  # typing hints for option results
     web = Webmania()

@@ -59,7 +59,7 @@ class CrossCodeWorld(World):
     gripping sci-fi story.
     """
 
-    game = NAME
+    game = "CrossCode"
     author: str = "CodeTriangle"
     igdb_id = 35282
     web = CrossCodeWebWorld()
