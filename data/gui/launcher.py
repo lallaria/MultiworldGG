@@ -34,8 +34,9 @@ from kivy.logger import Logger
 from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 
-from game_index import GameIndex
+from data.game_index import GameIndex
 
+game_index = GameIndex()
 logger = logging.getLogger(__name__)
 
 LauncherKV = '''
@@ -358,18 +359,21 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     important_appbar: MDSliverAppbar
     launcher_layout: LauncherLayout
     game_filter: list
+    game_tag_filter: StringProperty
     
     def __init__(self,**kwargs):
         logger.debug("Initializing LauncherScreen")
         super().__init__(**kwargs)
         self.game_filter = []
         self.games_mdlist = MDList(width=260)
-        self.game_tag_filter.text = "popular"
+        self.game_tag_filter = "popular"
 
         async def set_game_list():
-            for game_tag, tag_type in GameIndex.search(self.game_filter).items():
+            game_index = GameIndex()
+            matching_games = game_index.search(self.game_tag_filter)
+            for game_name, game_data in matching_games.items():
                 await asynckivy.sleep(0)
-                game = GameListPanel(game_tag=game_tag, tag_type=tag_type)
+                game = GameListPanel(game_tag=game_name, tag_type=game_data)
                 self.games_mdlist.add_widget(game)
 
         self.layoutgrid = MDBoxLayout()
@@ -385,7 +389,6 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.add_widget(self.layoutgrid)
 
         asynckivy.start(set_game_list())
-
 
     def _update_appbar_rect(self, instance, value):
         self.appbar_rect.pos = instance.pos

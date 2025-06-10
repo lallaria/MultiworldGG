@@ -20,6 +20,7 @@ def clean_value(value: Any) -> str:
 def clean_game_data(games_data: dict) -> dict:
     """
     Clean the game data, ensuring no null values and proper types.
+    Preserves original world_name as it's used for identification.
     
     Args:
         games_data: Raw game data dictionary
@@ -31,7 +32,10 @@ def clean_game_data(games_data: dict) -> dict:
     for game_name, game_data in games_data.items():
         cleaned_game = {}
         for field, value in game_data.items():
-            if value is None:
+            # Preserve original world_name
+            if field == "world_name":
+                cleaned_game[field] = value
+            elif value is None:
                 cleaned_game[field] = ""
             elif isinstance(value, list):
                 cleaned_game[field] = [clean_value(item) for item in value]
@@ -58,8 +62,11 @@ def build_search_index(games_data: dict) -> Dict[str, Set[str]]:
         # Index game name
         _add_to_index(search_index, game_name, game_name)
         
-        # Index all fields
+        # Index all fields except world_name (which we'll index separately)
         for field, value in game_data.items():
+            if field == "world_name":
+                continue
+                
             if isinstance(value, list):
                 for item in value:
                     if item:  # Only index non-empty values

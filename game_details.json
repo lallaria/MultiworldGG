@@ -268,8 +268,8 @@
             "monomyth",
             "buddy system",
             "retroachievements",
-            "fan translation - portuguese",
-            "bees"
+            "bees",
+            "popular"
         ],
         "release_date": 1991
     },
@@ -1257,8 +1257,7 @@
             "unstable platforms",
             "melee",
             "moving platforms",
-            "villain",
-            "fan translation - portuguese"
+            "villain"
         ],
         "release_date": 2001
     },
@@ -1401,8 +1400,7 @@
             "secret area",
             "time trials",
             "behind the waterfall",
-            "retroachievements",
-            "fan translation - portuguese"
+            "retroachievements"
         ],
         "release_date": 1997
     },
@@ -1563,8 +1561,7 @@
             "on-the-fly character switching",
             "ape",
             "buddy system",
-            "retroachievements",
-            "fan translation - portuguese"
+            "retroachievements"
         ],
         "release_date": 1995
     },
@@ -2010,8 +2007,7 @@
             "fire manipulation",
             "censored version",
             "status effects",
-            "retroachievements",
-            "fan translation - portuguese"
+            "retroachievements"
         ],
         "release_date": 1994
     },
@@ -2155,8 +2151,7 @@
             "backtracking",
             "save point",
             "temporary invincibility",
-            "merchants",
-            "fan translation - portuguese"
+            "merchants"
         ],
         "release_date": 1987
     },
@@ -2191,9 +2186,7 @@
         ],
         "storyline": "The story follows four youths called the Light Warriors, who each carry one of their world's four elemental orbs which have been darkened by the four Elemental Fiends. Together, they quest to defeat these evil forces, restore light to the orbs, and save their world.",
         "keywords": [
-            "jrpg",
-            "fan translation - portuguese",
-            "fan translation - latin"
+            "jrpg"
         ],
         "release_date": 1987
     },
@@ -2609,7 +2602,8 @@
             "merchants",
             "creature compendium",
             "the game awards 2017",
-            "interconnected-world"
+            "interconnected-world",
+            "popular"
         ],
         "release_date": 2017
     },
@@ -2896,10 +2890,10 @@
         ],
         "release_date": 2000
     },
-    "Kirby": {
+    "Kirby's Dream Land 3": {
         "igdb_id": "3720",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co25su.jpg",
-        "world_name": "Kirby",
+        "world_name": "Kirby's Dream Land 3",
         "igdb_name": "Kirby's Dream Land 3",
         "rating": [],
         "player_perspectives": [
@@ -3025,10 +3019,10 @@
         "keywords": [],
         "release_date": 2005
     },
-    "Link": {
+    "Link's Awakening DX": {
         "igdb_id": "1027",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4o47.jpg",
-        "world_name": "Link",
+        "world_name": "Link's Awakening DX",
         "igdb_name": "The Legend of Zelda: Link's Awakening DX",
         "rating": [],
         "player_perspectives": [
@@ -3205,10 +3199,10 @@
         ],
         "release_date": 1995
     },
-    "Luigi": {
+    "Luigi's Mansion": {
         "igdb_id": "2485",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1wr1.jpg",
-        "world_name": "Luigi",
+        "world_name": "Luigi's Mansion",
         "igdb_name": "Luigi's Mansion",
         "rating": [],
         "player_perspectives": [
@@ -3580,8 +3574,7 @@
             "italian accent",
             "battle screen",
             "wiggler",
-            "princess peach",
-            "fan translation - portuguese"
+            "princess peach"
         ],
         "release_date": 2003
     },
@@ -3627,8 +3620,7 @@
             "conveyor belt",
             "villain",
             "water level",
-            "monomyth",
-            "fan translation - portuguese"
+            "monomyth"
         ],
         "release_date": 1991
     },
@@ -3658,10 +3650,10 @@
         "keywords": [],
         "release_date": 2002
     },
-    "Majora": {
+    "Majora's Mask Recompiled": {
         "igdb_id": "1030",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3pah.jpg",
-        "world_name": "Majora",
+        "world_name": "Majora's Mask Recompiled",
         "igdb_name": "The Legend of Zelda: Majora's Mask",
         "rating": [
             "Animated Violence",
@@ -3704,8 +3696,7 @@
             "meme origin",
             "living inventory",
             "another world",
-            "retroachievements",
-            "fan translation - portuguese"
+            "retroachievements"
         ],
         "release_date": 2000
     },
@@ -3877,7 +3868,6 @@
             "completion percentage",
             "ambient music",
             "isolation",
-            "fan translation - portuguese",
             "interconnected-world"
         ],
         "release_date": 2004
@@ -3981,7 +3971,6 @@
             "auto-aim",
             "real-time combat",
             "underwater gameplay",
-            "a.i. companion",
             "walking through walls",
             "mercenary",
             "coming of age",
@@ -4003,8 +3992,7 @@
             "damage over time",
             "color cartridges",
             "retroachievements",
-            "fan translation - portuguese",
-            "fan translation - latin"
+            "popular"
         ],
         "release_date": 1998
     },
@@ -4303,8 +4291,7 @@
             "invisibility",
             "fire manipulation",
             "battle screen",
-            "retroachievements",
-            "fan translation - portuguese"
+            "retroachievements"
         ],
         "release_date": 2000
     },
@@ -4478,8 +4465,7 @@
             "creature compendium",
             "status effects",
             "damage over time",
-            "color cartridges",
-            "fan translation - portuguese"
+            "color cartridges"
         ],
         "release_date": 2004
     },
@@ -4510,7 +4496,8 @@
         "storyline": "",
         "keywords": [
             "monsters",
-            "collecting"
+            "collecting",
+            "popular"
         ],
         "release_date": 2004
     },
@@ -4541,8 +4528,7 @@
         ],
         "storyline": "The player character starts out in Pallet Town. When the player character tries to leave the town without a Pok\u00e9mon of their own, they are stopped in the nick of time by Professor Oak, who invites them to his lab. There, he gives them a Pok\u00e9mon of their own and a Pok\u00e9dex, telling them about his dream to make a complete guide on every Pok\u00e9mon in the world. After the player character battles their rival and leaves the lab, they are entitled to win every Gym Badge, compete in the Pok\u00e9mon League, and fulfill Oak's dream by catching every Pok\u00e9mon.",
         "keywords": [
-            "collecting",
-            "fan translation - portuguese"
+            "collecting"
         ],
         "release_date": 1996
     },
@@ -5277,10 +5263,10 @@
         ],
         "release_date": 1994
     },
-    "sm_map_rando/": {
+    "Super Metroid Map Rando": {
         "igdb_id": "1103",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5osy.jpg",
-        "world_name": "sm_map_rando/",
+        "world_name": "Super Metroid Map Rando",
         "igdb_name": "Super Metroid",
         "rating": [
             "Mild Violence"
@@ -5375,7 +5361,7 @@
             "entering world in a painting",
             "retroachievements",
             "princess peach",
-            "fan translation - portuguese"
+            "popular"
         ],
         "release_date": 1996
     },
@@ -5417,8 +5403,7 @@
             "wiggler",
             "entering world in a painting",
             "retroachievements",
-            "princess peach",
-            "fan translation - portuguese"
+            "princess peach"
         ],
         "release_date": 1996
     },
@@ -5574,7 +5559,7 @@
             "bonus stage",
             "damsel in distress",
             "retroachievements",
-            "fan translation - portuguese"
+            "popular"
         ],
         "release_date": 1990
     },
@@ -6316,9 +6301,7 @@
         "keywords": [
             "fairy",
             "overworld",
-            "meme origin",
-            "fan translation - portuguese",
-            "fan translation - latin"
+            "meme origin"
         ],
         "release_date": 1986
     },
@@ -6636,8 +6619,7 @@
             "day/night cycle",
             "sword & sorcery",
             "auto-aim",
-            "living inventory",
-            "fan translation - portuguese"
+            "living inventory"
         ],
         "release_date": 2002
     },
@@ -7057,8 +7039,7 @@
             "melee",
             "moving platforms",
             "sequence breaking",
-            "sliding down ladders",
-            "fan translation - portuguese"
+            "sliding down ladders"
         ],
         "release_date": 2001
     },
@@ -7152,10 +7133,10 @@
         ],
         "release_date": null
     },
-    "Yoshi": {
+    "Yoshi's Island": {
         "igdb_id": "1073",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2kn9.jpg",
-        "world_name": "Yoshi",
+        "world_name": "Yoshi's Island",
         "igdb_name": "Super Mario World 2: Yoshi's Island",
         "rating": [],
         "player_perspectives": [
@@ -7179,8 +7160,7 @@
             "dinosaurs",
             "side-scrolling",
             "digital distribution",
-            "kidnapping",
-            "fan translation - portuguese"
+            "kidnapping"
         ],
         "release_date": 1995
     },
@@ -7213,35 +7193,36 @@
         "release_date": 2006
     },
     "Yu-Gi-Oh! Dungeon Dice Monsters": {
-        "igdb_id": "4108",
-        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1ui5.jpg",
+        "igdb_id": "49211",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5ztw.jpg",
         "world_name": "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "igdb_name": "Yu-Gi-Oh! Forbidden Memories",
+        "igdb_name": "Yu-Gi-Oh! Dungeon Dice Monsters",
         "rating": [
-            "Violence"
+            "Mild Violence"
         ],
         "player_perspectives": [
-            "First person"
+            "First person",
+            "Bird view / Isometric"
         ],
         "genres": [
+            "Puzzle",
             "Strategy",
             "Turn-based strategy (TBS)",
             "Card & Board Game"
         ],
         "themes": [
-            "Fantasy",
-            "Historical"
+            "Fantasy"
         ],
         "platforms": [
-            "PlayStation"
+            "Game Boy Advance"
         ],
-        "storyline": "The game begins in ancient Egypt, with Prince Atem sneaking out of the palace to see his friends, Jono and Teana, at the dueling grounds. While there, they witness a ceremony performed by the mages, which is darker than the ceremonies that they normally perform. After the ceremony, Atem duels one of the priests, named Seto, and defeats him.\n\nWhen Atem returns to the palace, he is quickly sent to bed by Simon Muran, his tutor and advisor. As Simon walks away, he is informed by a guard that the high priest Heishin has invaded the palace, using a strange magic. Muran searches for Heishin. When Muran finds him, Heishin tells Muran that he has found the Dark Power, then uses the Millennium Rod to blast Muran. When Heishin finds Atem, he threatens to kill the Egyptian king and queen if he does not hand over the Millennium Puzzle. Muran appears behind Heishin and tells Atem to smash the puzzle. Atem obeys, and Muran seals himself and Atem inside the puzzle, to wait for someone to reassemble it.\n\nFive thousand years later, Yugi Mutou reassembles the puzzle. He speaks to Atem in the puzzle, and Atem gives Yugi six blank cards. Not sure what they are for, he carries them into a Dueling Tournament. After he defeats one of the duelists, one of the cards is filled with a Millennium item. Realizing what the cards are for, Yugi completes the tournament and fills all six cards with Millennium items. This allows Atem to return to his time.\n\nOnce in his own time, Muran tells Atem of what has happened since he was sealed away. Heishin and the mages have taken control of the kingdom with the Millennium items, and that the only way to free the kingdom is to recover the items from the mages guarding them. After passing this on, Muran dies.\n\nAfter he catches up with Jono and Teana, he goes to the destroyed palace and searches it. He finds Seto, who gives him a map with the locations of the mages and the Millennium items, and asks him to defeat the mages.\n\nAfter Atem recovers all of the Millennium items but one, Seto leads him to Heishin, who holds the Millennium Rod. Atem defeats Heishin, but discovers that Seto has the Millennium Rod, and merely wanted to use Atem to gather the items in one place. Atem duels Seto for the items and defeats him, but after the duel, Heishin grabs the items and uses them to summon the DarkNite. Hoping to use the DarkNite to destroy his enemies, he doesn't have the item to prove his authority and as a result, the DarkNite instead turns Heishin into a card. Heishin now turned into a playing card, DarkNite now mocks Heishin before incinerating the card. After Atem shows that he had the Millennium Items, DarkNite challenges him to a duel. Atem defeats him, and he transforms into Nitemare, who challenges Atem again. Atem defeats him again, and Nitemare begrudgingly returns from where he came. Atem then is able to take the throne and lead his people in peace.",
+        "storyline": "Dungeon Dice Monsters is the newest addition to the Yu-Gi-Oh! universe. As featured in the Dungeon Dice Monsters story arc in the animated television series, players collect and fight with dice inscribed with mystical powers and magic in order to defeat their opponents. Enter a dozen different tournaments and ultimately faceoff against the scheming creator of Dungeon Dice Monsters, Duke Devlin.",
         "keywords": [
             "anime",
-            "turn-based",
-            "summoning support"
+            "shopping",
+            "merchants"
         ],
-        "release_date": 1999
+        "release_date": 2001
     },
     "Zelda II: The Adventure of Link": {
         "igdb_id": "1025",
@@ -7305,8 +7286,7 @@
             "meme origin",
             "status effects",
             "monomyth",
-            "color cartridges",
-            "fan translation - latin"
+            "color cartridges"
         ],
         "release_date": 1987
     },

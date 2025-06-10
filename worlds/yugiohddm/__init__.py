@@ -35,7 +35,7 @@ class YGODDMWorld(World):
     featured in the Yu-Gi-Oh! storyline."""
     game: str = "Yu-Gi-Oh! Dungeon Dice Monsters"
     author: str = "Jumza"
-    igdb_id: int = 4108
+    igdb_id: int = 49211
     options_dataclass = YGODDMOptions
     options: YGODDMOptions
     required_client_version = (0, 5, 0)

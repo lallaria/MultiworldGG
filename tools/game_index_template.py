@@ -28,12 +28,12 @@ class GameIndex:
         
         # Get initial set of matching games
         for term in query_terms:
-            for indexed_term, games in self.search_index.items():
-                if term in indexed_term:
-                    if not matching_games:
-                        matching_games = games.copy()
-                    else:
-                        matching_games &= games
+            # Directly look up the term in the search index
+            if term in self.search_index:
+                if not matching_games:
+                    matching_games = set(self.search_index[term])
+                else:
+                    matching_games &= set(self.search_index[term])
         
         # Return only matching games
         return {name: self.games[name] for name in matching_games}
@@ -60,6 +60,6 @@ class GameIndex:
         return self.games.copy()
 
 # These constants will be generated during build
-GAMES_DATA = {GAMES_DATA_PLACEHOLDER}
+GAMES_DATA = GAMES_DATA_PLACEHOLDER
 
-SEARCH_INDEX = {SEARCH_INDEX_PLACEHOLDER} 
+SEARCH_INDEX = SEARCH_INDEX_PLACEHOLDER

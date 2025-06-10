@@ -61,6 +61,8 @@ def process_game_details():
         "fan translation - swedish",
         "fan translation - english",
         "fan translation - polish",
+        "fan translation - portuguese",
+        "fan translation - latin",
         "virtual console",
         "female antagonist",
         "nintendo gateway system",
