@@ -71,7 +71,6 @@ def get_game_and_igdb_id_from_world(init_path: str) -> Optional[Tuple[str, int]]
     """
     if not os.path.exists(init_path):
         return None
-        
     try:
         # Read the file content
         with open(init_path, 'r', encoding='utf-8') as f:
@@ -81,12 +80,18 @@ def get_game_and_igdb_id_from_world(init_path: str) -> Optional[Tuple[str, int]]
         game_patterns = [
             r'game\s*=\s*["\']([^"\']+)["\']',  # game = "name"
             r'game\s*:\s*[^=]*=\s*["\']([^"\']+)["\']',  # game: str = "name" or game: ClassVar[str] = "name"
+            r'game\s*:\s*[^=]*=\s*(\w+)\.GAME_NAME',  # game: str = Constants.GAME_NAME
+            r'game\s*=\s*(\w+)\.GAME_NAME',  # game = Constants.GAME_NAME
+            r'game\s*=\s*(\w+)\.game_name',  # game = OTHER.game_name
         ]
         
         # Look for igdb_id - can be defined in various ways
         id_patterns = [
             r'igdb_id\s*=\s*(\d+)',  # igdb_id = 123
             r'igdb_id\s*:\s*[^=]*=\s*(\d+)',  # igdb_id: int = 123 or igdb_id: ClassVar[int] = 123
+            r'igdb_id\s*:\s*[^=]*=\s*(\w+)\.IGDB_ID',  # igdb_id: int = Constants.IGDB_ID
+            r'igdb_id\s*=\s*(\w+)\.IGDB_ID',  # igdb_id = Constants.IGDB_ID
+            r'igdb_id\s*=\s*(\w+)\.igdb_id',  # igdb_id = OTHER.igdb_id
         ]
         
         # Try each pattern for game name
@@ -94,21 +99,88 @@ def get_game_and_igdb_id_from_world(init_path: str) -> Optional[Tuple[str, int]]
         for pattern in game_patterns:
             match = re.search(pattern, content)
             if match:
-                game_name = match.group(1)
-                break
+                if '.' in match.group(1):  # It's a constant reference
+                    # Look for the constant in the same directory
+                    const_name = match.group(1).split('.')[0]
+                    # Try different possible constant file names
+                    const_files = [
+                        os.path.join(os.path.dirname(init_path), f"{const_name.lower()}.py"),
+                        os.path.join(os.path.dirname(init_path), "constants.py"),
+                        os.path.join(os.path.dirname(init_path), "data", "strings.py"),
+                        os.path.join(os.path.dirname(init_path), "data", "strings", "other.py"),
+                    ]
+                    for const_file in const_files:
+                        if os.path.exists(const_file):
+                            with open(const_file, 'r', encoding='utf-8') as f:
+                                const_content = f.read()
+                                # Try different patterns for the constant
+                                const_patterns = [
+                                    r'GAME_NAME\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In class
+                                    r'game_name\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In class
+                                    r'GAME_NAME\s*=\s*["\']([^"\']+)["\']',  # Global
+                                    r'game_name\s*=\s*["\']([^"\']+)["\']',  # Global
+                                    r'GAME_NAME\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In dataclass
+                                    r'game_name\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In dataclass
+                                ]
+                                for const_pattern in const_patterns:
+                                    const_match = re.search(const_pattern, const_content)
+                                    if const_match:
+                                        game_name = const_match.group(1)
+                                        break
+                                if game_name:
+                                    break
+                else:
+                    game_name = match.group(1)
+                if game_name:
+                    break
                 
         # Try each pattern for igdb_id
         igdb_id = None
         for pattern in id_patterns:
             match = re.search(pattern, content)
-            try:
-                igdb_id = int(match.group(1))
-            except ValueError:
-                continue
-            if igdb_id is not None:
-                break
+            if match:
+                if '.' in match.group(1):  # It's a constant reference
+                    # Look for the constant in the same directory
+                    const_name = match.group(1).split('.')[0]
+                    # Try different possible constant file names
+                    const_files = [
+                        os.path.join(os.path.dirname(init_path), f"{const_name.lower()}.py"),
+                        os.path.join(os.path.dirname(init_path), "constants.py"),
+                        os.path.join(os.path.dirname(init_path), "data", "strings.py"),
+                        os.path.join(os.path.dirname(init_path), "data", "strings", "other.py"),
+                    ]
+                    for const_file in const_files:
+                        if os.path.exists(const_file):
+                            with open(const_file, 'r', encoding='utf-8') as f:
+                                const_content = f.read()
+                                # Try different patterns for the constant
+                                const_patterns = [
+                                    r'IGDB_ID\s*:\s*int\s*=\s*(\d+)',  # In class
+                                    r'igdb_id\s*:\s*int\s*=\s*(\d+)',  # In class
+                                    r'IGDB_ID\s*=\s*(\d+)',  # Global
+                                    r'igdb_id\s*=\s*(\d+)',  # Global
+                                    r'IGDB_ID\s*:\s*int\s*=\s*(\d+)',  # In dataclass
+                                    r'igdb_id\s*:\s*int\s*=\s*(\d+)',  # In dataclass
+                                ]
+                                for const_pattern in const_patterns:
+                                    const_match = re.search(const_pattern, const_content)
+                                    if const_match:
+                                        try:
+                                            igdb_id = int(const_match.group(1))
+                                            break
+                                        except ValueError:
+                                            continue
+                                if igdb_id is not None:
+                                    break
+                else:
+                    try:
+                        igdb_id = int(match.group(1))
+                    except ValueError:
+                        continue
+                if igdb_id is not None:
+                    break
                 
-        if game_name and igdb_id is not None:
+        if game_name:
             return game_name, igdb_id
                 
     except Exception as e:
@@ -227,11 +299,11 @@ def generate_game_details_json() -> dict:
                 'igdb_name': '',
                 'rating': '',
                 'player_perspectives': [],
-                'genres': [],
+                'genres': ["Multiplayer"],
                 'themes': [],
-                'platforms': [],
+                'platforms': ["Archipelago"],
                 'storyline': '',
-                'keywords': [],
+                'keywords': ["hints","archipelago","multiworld"],
                 'release_date': ''
             }
             print(f"Created empty entry for {game_name} (no IGDB ID)")
