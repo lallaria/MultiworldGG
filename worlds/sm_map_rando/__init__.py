@@ -139,6 +139,7 @@ class SMMapRandoWorld(World):
 
     game: str = "Super Metroid Map Rando"
     author: str = "lordlou"
+    igdb_id: int = 1103
     topology_present = True
     data_version = 0
     options_dataclass = SMMROptions

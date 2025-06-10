@@ -110,9 +110,9 @@ class UFO50World(World):
     Jump in and explore a variety of genres, from platformers and shoot 'em ups to puzzle games and RPGs.
     Our goal is to combine a familiar 8-bit aesthetic with new ideas and modern game design sensibilities.
     """  # Excerpt from https://50games.fun/
-    game = GAME_NAME
+    game = "UFO 50"
     author: str = "LeonarthCG & ScipioWright"
-    igdb_id = IGDB_ID
+    igdb_id = 54555
     web = UFO50Web()
     required_client_version = (0, 5, 0)
     topology_present = False

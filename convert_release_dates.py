@@ -72,54 +72,6 @@ def process_game_details():
     # Remove infrequent keywords (<= 3 times)
     remove_infrequent_keywords(data, min_count=3)
 
-    # List of keywords to remove
-    keywords_to_remove = [
-        "vore",
-        "male protagonist",
-        "protagonist's name in the title",
-        "boss fight",
-        "treasure chest",
-        "trilogy",
-        "greatest hits",
-        "collectibles",
-        "prequel",
-        "single-player only",
-        "platform exclusive",
-        "new game plus",
-        "the game awards - nominee",
-        "the game awards 2016",
-        "split-screen multiplayer",
-        "licensed game",
-        "steam trading cards",
-        "steam achievements",
-        "original soundtrack release",
-        "optional boss",
-        "crowdfunding - kickstarter",
-        "nintendo switch online",
-        "wii u virtual console",
-        "nintendo 3ds virtual console",
-        "fan translation - portuguese",
-        "fan translation - latin",
-        "fan translation - spanish",
-        "fan translation - german",
-        "fan translation - french",
-        "virtual console",
-        "female antagonist",
-        "nintendo gateway system",
-        "e3 2017",
-        "pax west 2017",
-        "nintendo switch online - expansion pack",
-        "wii virtual console",
-        "player's choice",
-        "4 player co-op",
-        "unlockable difficulty level",
-        "interquel",
-        "nintendo 64 exclusive",
-    ]
-    
-    if keywords_to_remove:
-        remove_specific_keywords(data, keywords_to_remove)
-
     # Write the updated data back to the file
     with open('game_details.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=4)

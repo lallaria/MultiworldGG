@@ -40,7 +40,7 @@ class FF1World(World):
     settings: typing.ClassVar[FF1Settings]
     settings_key = "ffr_options"
     game = "Final Fantasy"
-    igdb_id = 127879
+    igdb_id = 385
     author: str = "jtoyoda (currently unmaintained)"
     topology_present = False
 

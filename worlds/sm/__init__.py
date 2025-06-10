@@ -98,7 +98,7 @@ class SMWorld(World):
     """
     game: str = "Super Metroid"
     author: str = "lordlou"
-    igdb_id = 330214
+    igdb_id: int = 1103
     topology_present = True
     options_dataclass = SMOptions
     options: SMOptions

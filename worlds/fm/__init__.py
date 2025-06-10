@@ -45,9 +45,10 @@ MINIMUM_FARM_VIABILITY: typing.Final[int] = 3
 class FMWorld(World):
     """Yu-Gi-Oh! Forbidden Memories is a PlayStation RPG with card-battling mechanics. Assume the role of the Prince of
     Egypt who transcends time in order to thwart a cataclysmic evil."""
-    game: str = Constants.GAME_NAME
+    game: str = "Yu-Gi-Oh! Forbidden Memories"
     author: str = Constants.AUTHOR
-    igdb_id: int = Constants.IGDB_ID
+    igdb_id: int = 4108
+
     options_dataclass = FMOptions
     options: FMOptions
     required_client_version = (0, 4, 4)

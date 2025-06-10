@@ -28,7 +28,7 @@ class SWRWorld(World):
     Now THIS is podracing!
     """
     game: str = "Star Wars Episode I Racer"
-    igdb_id = 154
+    igdb_id: int = 154
     author: str = "Johnny Hamcobbler"
     topology_present = False
     options_dataclass = SWROptions
