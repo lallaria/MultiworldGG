@@ -25,16 +25,46 @@ class GameIndex:
             
         query_terms = query.lower().split()
         matching_games = set()
-
-
-        # Get initial set of matching games
+        
+        # First try exact matches from the search index
         for term in query_terms:
-            # Directly look up the term in the search index
             if term in self.search_index:
                 if not matching_games:
                     matching_games = set(self.search_index[term])
                 else:
                     matching_games &= set(self.search_index[term])
+        
+        # If no exact matches found, try partial matches
+        if not matching_games:
+            for game_name, game_data in self.games.items():
+                # First check if any query term is in the game title
+                if any(term in game_name.lower() for term in query_terms):
+                    matching_games.add(game_name)
+                    continue
+                
+                # Then check other searchable fields
+                searchable_fields = {
+                    'genres': game_data.get('genres', []),
+                    'themes': game_data.get('themes', []),
+                    'keywords': game_data.get('keywords', []),
+                    'player_perspectives': game_data.get('player_perspectives', []),
+                    'rating': [game_data.get('rating', '')],
+                    'release_date': [str(game_data.get('release_date', ''))]
+                }
+                
+                # Check if any query term is contained in any searchable field
+                for field_values in searchable_fields.values():
+                    if isinstance(field_values, list):
+                        for value in field_values:
+                            if isinstance(value, str) and any(term in value.lower() for term in query_terms):
+                                matching_games.add(game_name)
+                                break
+                    elif isinstance(field_values, str) and any(term in field_values.lower() for term in query_terms):
+                        matching_games.add(game_name)
+                        break
+                    
+                    if game_name in matching_games:
+                        break
         
         # Return only matching games
         return {name: self.games[name] for name in matching_games}
@@ -7416,271 +7446,569 @@ GAMES_DATA = {
 
 SEARCH_INDEX = {
     "adventure": [
-        "Super Mario Sunshine",
-        "Getting Over It",
-        "Pokemon Emerald",
-        "DLCQuest",
-        "A Hat in Time",
-        "Ender Lilies",
-        "Don",
-        "Castlevania - Circle of the Moon",
-        "Final Fantasy IV Free Enterprise",
-        "Super Mario World",
-        "Sea of Thieves",
-        "Faxanadu",
-        "SMZ3",
-        "Peaks of Yore",
-        "Symphony of the Night",
-        "A Short Hike",
-        "Resident Evil 3 Remake",
-        "An Untitled Story",
-        "The Wind Waker",
-        "Metroid Prime",
-        "Super Mario 64",
-        "Hollow Knight",
-        "Chained Echoes",
-        "A Link to the Past",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Red and Blue",
-        "Super Metroid",
-        "Mario & Luigi Superstar Saga",
-        "UFO 50",
-        "Castlevania 64",
-        "EarthBound",
-        "Subnautica",
-        "Kingdom Hearts 2",
-        "Monster Sanctuary",
-        "Ratchet & Clank 2",
-        "Cat Quest",
-        "Hylics 2",
-        "Mega Man 2",
-        "Final Fantasy Mystic Quest",
-        "Raft",
-        "Golden Sun The Lost Age",
-        "Minecraft",
-        "Luigi's Mansion",
-        "Spyro 3",
-        "The Witness",
-        "Cuphead",
         "Celeste",
-        "Super Metroid Map Rando",
-        "Sly Cooper and the Thievius Raccoonus",
-        "The Legend of Zelda - Oracle of Ages",
+        "Skyward Sword",
         "VVVVVV",
-        "Rogue Legacy",
-        "Terraria",
-        "Kingdom Hearts",
-        "Pseudoregalia",
+        "TUNIC",
+        "Shivers",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "Super Mario 64",
+        "Digimon World",
+        "Getting Over It",
+        "Twilight Princess",
+        "Sonic Adventure 2 Battle",
+        "Mega Man 2",
+        "Noita",
+        "Blasphemous",
+        "Super Mario World",
+        "Final Fantasy Mystic Quest",
+        "SM64 Romhack",
+        "Minecraft",
+        "Subnautica",
+        "Banjo-Tooie",
         "Aquaria",
-        "Metroid Zero Mission",
-        "Sonic Heroes",
-        "Inscryption",
+        "Luigi's Mansion",
         "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "SMZ3",
+        "Dark Souls Remastered",
+        "A Link Between Worlds",
+        "Resident Evil 3 Remake",
+        "Cuphead",
+        "Raft",
         "Bomb Rush Cyberfunk",
-        "Jak and Daxter: The Precursor Legacy",
-        "Super Mario Odyssey",
+        "Stardew Valley",
+        "Zork Grand Inquisitor",
+        "CrossCode",
+        "ANIMAL WELL",
+        "Hades",
+        "Risk of Rain 2",
+        "Castlevania 64",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
         "Ocarina of Time",
         "Link's Awakening DX",
+        "Pokemon Emerald",
+        "Sonic Heroes",
+        "Sea of Thieves",
         "The Legend of Zelda",
-        "Final Fantasy",
-        "CrossCode",
-        "Dark Souls III",
-        "Banjo-Tooie",
-        "Pokemon Crystal",
-        "Noita",
-        "Zelda II: The Adventure of Link",
-        "Lingo",
-        "Celeste 64",
-        "SM64 Romhack",
-        "Outer Wilds",
-        "Majora's Mask Recompiled",
-        "Adventure",
-        "Ori and the Blind Forest",
-        "Sonic Adventure 2 Battle",
-        "Skyward Sword",
-        "Zork Grand Inquisitor",
-        "Kirby 64 - The Crystal Shards",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
         "Momodora Moonlit Farewell",
-        "The Messenger",
-        "A Link Between Worlds",
-        "Old School Runescape",
-        "Digimon World",
-        "Dark Souls II",
-        "Timespinner",
-        "Risk of Rain 2",
-        "Blasphemous",
-        "TUNIC",
-        "Kirby's Dream Land 3",
-        "Shivers",
-        "Risk of Rain",
-        "ANIMAL WELL",
-        "Pokemon FireRed and LeafGreen",
-        "Resident Evil 2 Remake",
-        "Stardew Valley",
-        "Undertale",
-        "Twilight Princess",
+        "Hollow Knight",
         "Xenoblade X",
-        "Dark Souls Remastered",
+        "Final Fantasy",
+        "Super Mario Odyssey",
+        "EarthBound",
+        "Resident Evil 2 Remake",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Inscryption",
+        "Pokemon Crystal",
+        "Celeste 64",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "Old School Runescape",
+        "A Short Hike",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Super Mario Sunshine",
+        "Kirby's Dream Land 3",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Risk of Rain",
+        "Peaks of Yore",
+        "Super Metroid",
+        "An Untitled Story",
+        "Chained Echoes",
+        "Dark Souls III",
+        "Sly Cooper and the Thievius Raccoonus",
         "Donkey Kong Country 3",
-        "Hades"
-    ],
-    "12239": [
-        "Adventure"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/qzcqrjruhpuge5egkzgj.jpg": [
-        "Adventure"
+        "Ratchet & Clank 2",
+        "Lingo",
+        "Don",
+        "The Legend of Zelda - Oracle of Ages",
+        "Cat Quest",
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Outer Wilds",
+        "Super Metroid Map Rando",
+        "DLCQuest",
+        "Metroid Prime",
+        "The Wind Waker",
+        "Undertale",
+        "The Witness",
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Pseudoregalia",
+        "Dark Souls II",
+        "UFO 50",
+        "Jak and Daxter: The Precursor Legacy",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Adventure",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3"
     ],
     "bird view / isometric": [
-        "Pokemon Red and Blue",
-        "Super Mario Sunshine",
-        "Pokemon Emerald",
-        "UFO 50",
-        "Wargroove 2",
-        "Civilization VI",
-        "Balatro",
-        "EarthBound",
-        "Diddy Kong Racing",
-        "OpenRCT2",
-        "Wargroove",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Sonic Heroes",
-        "Inscryption",
-        "Old School Runescape",
-        "Factorio",
-        "Overcooked! 2",
-        "Don",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Secret of Evermore",
-        "Digimon World",
-        "Final Fantasy IV Free Enterprise",
-        "Hylics 2",
-        "Chrono Trigger Jets of Time",
-        "Final Fantasy Mystic Quest",
-        "MegaMan Battle Network 3",
-        "Starcraft 2",
-        "Link's Awakening DX",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "The Legend of Zelda - Oracle of Ages",
+        "The Legend of Zelda",
         "TUNIC",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Digimon World",
+        "Inscryption",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Not an idle game",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Undertale",
+        "The Binding of Isaac Repentance",
+        "Hylics 2",
+        "Old School Runescape",
+        "A Short Hike",
+        "MegaMan Battle Network 3",
+        "Pokemon Red and Blue",
+        "Hades",
+        "Super Mario Sunshine",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "Civilization VI",
+        "Wargroove 2",
         "Factorio - Space Age Without Space",
         "Tyrian",
-        "The Legend of Zelda",
-        "SMZ3",
-        "Final Fantasy",
-        "Golden Sun The Lost Age",
-        "Pokemon FireRed and LeafGreen",
-        "A Short Hike",
-        "Against the Storm",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Pokemon Crystal",
-        "Not an idle game",
-        "Spyro 3",
-        "Final Fantasy Tactics Advance",
-        "Cuphead",
-        "The Binding of Isaac Repentance",
         "The Sims 4",
-        "Brotato",
         "Yu-Gi-Oh! 2006",
-        "Landstalker - The Treasures of King Nole",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "Diddy Kong Racing",
         "Chained Echoes",
-        "A Link to the Past",
+        "Starcraft 2",
+        "UFO 50",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Sonic Heroes",
+        "Wargroove",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Adventure",
+        "Don",
+        "Brotato",
+        "Spyro 3",
+        "Secret of Evermore"
+    ],
+    "bird": [
         "The Legend of Zelda - Oracle of Ages",
-        "Hades",
+        "The Legend of Zelda",
+        "Banjo-Tooie",
+        "TUNIC",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Digimon World",
+        "Inscryption",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Stardew Valley",
         "Dungeon Clawler",
-        "Adventure"
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Not an idle game",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Undertale",
+        "The Binding of Isaac Repentance",
+        "Hylics 2",
+        "Old School Runescape",
+        "A Short Hike",
+        "MegaMan Battle Network 3",
+        "Pokemon Red and Blue",
+        "Hades",
+        "Super Mario Sunshine",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "Civilization VI",
+        "Wargroove 2",
+        "Factorio - Space Age Without Space",
+        "Tyrian",
+        "The Sims 4",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "An Untitled Story",
+        "Diddy Kong Racing",
+        "Chained Echoes",
+        "Starcraft 2",
+        "UFO 50",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Sonic Heroes",
+        "Wargroove",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Adventure",
+        "Don",
+        "Brotato",
+        "Spyro 3",
+        "Secret of Evermore"
+    ],
+    "view": [
+        "Celeste",
+        "VVVVVV",
+        "TUNIC",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "Digimon World",
+        "Getting Over It",
+        "Chrono Trigger Jets of Time",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "The Binding of Isaac Repentance",
+        "Mega Man 2",
+        "Noita",
+        "Blasphemous",
+        "The Sims 4",
+        "Super Mario World",
+        "Tyrian",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "Wario Land",
+        "Brotato",
+        "Aquaria",
+        "Wario Land 4",
+        "Donkey Kong Country",
+        "SMZ3",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "ANIMAL WELL",
+        "Hades",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
+        "Diddy Kong Racing",
+        "Starcraft 2",
+        "Link's Awakening DX",
+        "Pokemon Emerald",
+        "Sonic Heroes",
+        "The Legend of Zelda",
+        "Tetris Attack",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Final Fantasy IV Free Enterprise",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
+        "Final Fantasy",
+        "EarthBound",
+        "Terraria",
+        "Inscryption",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Pokemon Crystal",
+        "Castlevania - Circle of the Moon",
+        "Not an idle game",
+        "Old School Runescape",
+        "A Short Hike",
+        "MegaMan Battle Network 3",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Kirby's Dream Land 3",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Wargroove 2",
+        "Risk of Rain",
+        "Super Metroid",
+        "Yoshi's Island",
+        "An Untitled Story",
+        "Chained Echoes",
+        "Factorio",
+        "Donkey Kong Country 3",
+        "Don",
+        "The Legend of Zelda - Oracle of Ages",
+        "Slay the Spire",
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Super Metroid Map Rando",
+        "DLCQuest",
+        "Final Fantasy Tactics Advance",
+        "Against the Storm",
+        "Undertale",
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Muse Dash",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "Civilization VI",
+        "Factorio - Space Age Without Space",
+        "Zillion",
+        "Super Mario Land 2",
+        "UFO 50",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Landstalker - The Treasures of King Nole",
+        "Adventure",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3",
+        "Secret of Evermore"
+    ],
+    "/": [
+        "The Legend of Zelda - Oracle of Ages",
+        "The Legend of Zelda",
+        "TUNIC",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Digimon World",
+        "Inscryption",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Not an idle game",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Undertale",
+        "The Binding of Isaac Repentance",
+        "Hylics 2",
+        "Old School Runescape",
+        "A Short Hike",
+        "MegaMan Battle Network 3",
+        "Pokemon Red and Blue",
+        "Hades",
+        "Super Mario Sunshine",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "Civilization VI",
+        "Wargroove 2",
+        "Factorio - Space Age Without Space",
+        "Tyrian",
+        "The Sims 4",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "Diddy Kong Racing",
+        "Chained Echoes",
+        "Starcraft 2",
+        "UFO 50",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Sonic Heroes",
+        "Wargroove",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Adventure",
+        "Don",
+        "Brotato",
+        "Spyro 3",
+        "Secret of Evermore"
+    ],
+    "isometric": [
+        "The Legend of Zelda - Oracle of Ages",
+        "The Legend of Zelda",
+        "TUNIC",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Digimon World",
+        "Inscryption",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Not an idle game",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Undertale",
+        "The Binding of Isaac Repentance",
+        "Hylics 2",
+        "Old School Runescape",
+        "A Short Hike",
+        "MegaMan Battle Network 3",
+        "Pokemon Red and Blue",
+        "Hades",
+        "Super Mario Sunshine",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "Civilization VI",
+        "Wargroove 2",
+        "Factorio - Space Age Without Space",
+        "Tyrian",
+        "The Sims 4",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "Diddy Kong Racing",
+        "Chained Echoes",
+        "Starcraft 2",
+        "UFO 50",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Sonic Heroes",
+        "Wargroove",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Adventure",
+        "Don",
+        "Brotato",
+        "Spyro 3",
+        "Secret of Evermore"
     ],
     "fantasy": [
-        "Pokemon Emerald",
-        "Civilization VI",
-        "A Hat in Time",
-        "Ender Lilies",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Final Fantasy IV Free Enterprise",
-        "Yoshi's Island",
-        "Super Mario World",
-        "Sea of Thieves",
-        "Faxanadu",
-        "A Short Hike",
-        "The Sims 4",
-        "The Wind Waker",
-        "Super Mario 64",
-        "Landstalker - The Treasures of King Nole",
-        "Hollow Knight",
-        "Chained Echoes",
-        "A Link to the Past",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Red and Blue",
-        "Lufia II Ancient Cave",
-        "Mario & Luigi Superstar Saga",
-        "EarthBound",
-        "Kingdom Hearts 2",
-        "Monster Sanctuary",
-        "Cat Quest",
-        "Hylics 2",
-        "Final Fantasy Mystic Quest",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Golden Sun The Lost Age",
-        "Minecraft",
-        "Against the Storm",
-        "Cuphead",
         "Celeste",
-        "Dungeon Clawler",
+        "Skyward Sword",
         "VVVVVV",
-        "Rogue Legacy",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Terraria",
-        "Kingdom Hearts",
-        "Pseudoregalia",
-        "Wargroove",
+        "TUNIC",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "Super Mario 64",
+        "Digimon World",
+        "Twilight Princess",
+        "Chrono Trigger Jets of Time",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Noita",
+        "Blasphemous",
+        "The Sims 4",
+        "Super Mario World",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Wario Land",
+        "Brotato",
+        "SM64 Romhack",
+        "Minecraft",
+        "Subnautica",
+        "Banjo-Tooie",
         "Aquaria",
-        "Donkey Kong Country 2",
-        "Super Mario Odyssey",
+        "Majora's Mask Recompiled",
+        "Dark Souls Remastered",
+        "ULTRAKILL",
+        "Heretic",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Zork Grand Inquisitor",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "ANIMAL WELL",
+        "Hades",
+        "Risk of Rain 2",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
         "Ocarina of Time",
         "Link's Awakening DX",
+        "Pokemon Emerald",
+        "Sonic Heroes",
+        "Sea of Thieves",
         "The Legend of Zelda",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
         "Final Fantasy",
-        "Dark Souls III",
-        "Banjo-Tooie",
+        "Super Mario Odyssey",
+        "EarthBound",
+        "Terraria",
+        "Kingdom Hearts 2",
         "Pokemon Crystal",
-        "ULTRAKILL",
-        "Final Fantasy Tactics Advance",
-        "Noita",
-        "Zelda II: The Adventure of Link",
-        "Yu-Gi-Oh! 2006",
-        "SM64 Romhack",
-        "Wargroove 2",
-        "Majora's Mask Recompiled",
-        "Adventure",
-        "Ori and the Blind Forest",
-        "Skyward Sword",
-        "Zork Grand Inquisitor",
-        "Slay the Spire",
-        "A Link Between Worlds",
+        "A Hat in Time",
         "Old School Runescape",
-        "Dark Souls II",
-        "Heretic",
+        "A Short Hike",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
         "Timespinner",
-        "Chrono Trigger Jets of Time",
-        "Blasphemous",
-        "TUNIC",
-        "Hunie Pop",
+        "Wargroove 2",
         "Risk of Rain",
-        "Pokemon FireRed and LeafGreen",
-        "Stardew Valley",
+        "Hunie Pop",
+        "Yoshi's Island",
+        "Chained Echoes",
+        "Dark Souls III",
+        "Ratchet & Clank 2",
+        "Don",
+        "Slay the Spire",
+        "Cat Quest",
+        "A Link to the Past",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Outer Wilds",
+        "The Wind Waker",
+        "Final Fantasy Tactics Advance",
+        "Against the Storm",
         "Undertale",
-        "Twilight Princess",
-        "Dark Souls Remastered",
-        "Hades"
-    ],
-    "bbc microcomputer system": [
-        "Adventure"
-    ],
-    "acorn electron": [
-        "Adventure"
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Muse Dash",
+        "Pseudoregalia",
+        "Civilization VI",
+        "Dark Souls II",
+        "Jak and Daxter: The Precursor Legacy",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Star Wars Episode I Racer",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Landstalker - The Treasures of King Nole",
+        "Adventure",
+        "Mario & Luigi Superstar Saga"
     ],
     "1983": [
         "Adventure"
@@ -7688,2157 +8016,3503 @@ SEARCH_INDEX = {
     "against the storm": [
         "Against the Storm"
     ],
-    "147519": [
-        "Against the Storm"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7j13.jpg": [
-        "Against the Storm"
-    ],
     "mild blood": [
-        "Monster Sanctuary",
+        "Kingdom Hearts 2",
         "Muse Dash",
+        "Monster Sanctuary",
+        "Hollow Knight",
+        "Stardew Valley",
         "Brotato",
         "Risk of Rain",
-        "Hollow Knight",
         "Against the Storm",
+        "Undertale"
+    ],
+    "mild": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Celeste",
+        "Subnautica",
+        "The Legend of Zelda",
+        "VVVVVV",
+        "Monster Sanctuary",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "Hollow Knight",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "Faxanadu",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Cuphead",
+        "Final Fantasy Tactics Advance",
         "Stardew Valley",
+        "Castlevania - Circle of the Moon",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Sonic Adventure 2 Battle",
+        "ANIMAL WELL",
+        "Pokemon Mystery Dungeon Explorers of Sky",
         "Undertale",
-        "Kingdom Hearts 2"
+        "MegaMan Battle Network 3",
+        "Muse Dash",
+        "Hades",
+        "Donkey Kong Country 2",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Risk of Rain",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Super Metroid",
+        "Ape Escape",
+        "Final Fantasy Mystic Quest",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Star Wars Episode I Racer",
+        "Landstalker - The Treasures of King Nole",
+        "Wario Land",
+        "Ratchet & Clank 2",
+        "Sonic Heroes",
+        "Brotato",
+        "Secret of Evermore"
+    ],
+    "blood": [
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
+        "Xenoblade X",
+        "Shivers",
+        "Dark Souls Remastered",
+        "Resident Evil 2 Remake",
+        "ULTRAKILL",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Inscryption",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Resident Evil 3 Remake",
+        "Raft",
+        "Twilight Princess",
+        "Bomb Rush Cyberfunk",
+        "Stardew Valley",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Undertale",
+        "The Binding of Isaac Repentance",
+        "Ender Lilies",
+        "DOOM II",
+        "Muse Dash",
+        "Hades",
+        "Risk of Rain 2",
+        "Castlevania 64",
+        "Risk of Rain",
+        "Blasphemous",
+        "Dark Souls II",
+        "Dark Souls III",
+        "Starcraft 2",
+        "DOOM 1993",
+        "Factorio",
+        "Ratchet & Clank 2",
+        "Brotato"
     ],
     "alcohol reference": [
-        "Risk of Rain",
+        "The Witness",
+        "Outer Wilds",
+        "Celeste",
+        "Terraria",
+        "Hades",
         "Final Fantasy Tactics Advance",
-        "Terraria",
-        "Against the Storm",
-        "Outer Wilds",
-        "The Witness",
-        "Hades",
-        "Celeste"
-    ],
-    "use of tobacco": [
-        "Against the Storm",
-        "Stardew Valley",
-        "Undertale",
-        "Faxanadu"
-    ],
-    "language": [
-        "The Messenger",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk",
-        "CrossCode",
-        "Against the Storm",
-        "Starcraft 2"
-    ],
-    "fantasy violence": [
-        "Skyward Sword",
-        "Rogue Legacy",
-        "Momodora Moonlit Farewell",
-        "Subnautica",
-        "Wargroove",
-        "The Messenger",
-        "A Hat in Time",
-        "Monster Sanctuary",
-        "Ratchet & Clank 2",
-        "A Link Between Worlds",
-        "Metroid Zero Mission",
-        "Don",
-        "Cat Quest",
-        "Digimon World",
-        "Timespinner",
-        "Jak and Daxter: The Precursor Legacy",
-        "Risk of Rain 2",
-        "TUNIC",
-        "Muse Dash",
         "Risk of Rain",
-        "Minecraft",
-        "Against the Storm",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Twilight Princess",
-        "Cuphead",
-        "Celeste",
-        "Brotato",
-        "Hollow Knight",
-        "Outer Wilds",
-        "Wargroove 2"
-    ],
-    "real time strategy (rts)": [
-        "Against the Storm",
-        "Starcraft 2",
-        "OpenRCT2"
-    ],
-    "simulator": [
-        "Getting Over It",
-        "Terraria",
-        "Civilization VI",
-        "Hunie Pop 2",
-        "OpenRCT2",
-        "Factorio",
-        "Overcooked! 2",
-        "Don",
-        "Raft",
-        "Factorio - Space Age Without Space",
-        "Sea of Thieves",
-        "Hunie Pop",
-        "Minecraft",
-        "Against the Storm",
-        "Stardew Valley",
-        "DORONKO WANKO",
-        "Not an idle game",
-        "Noita",
-        "The Sims 4",
-        "Outer Wilds",
-        "Dungeon Clawler"
-    ],
-    "strategy": [
-        "Yu-Gi-Oh! Forbidden Memories",
-        "UFO 50",
-        "Terraria",
-        "Civilization VI",
-        "Balatro",
-        "Hunie Pop 2",
-        "OpenRCT2",
-        "Wargroove",
-        "Monster Sanctuary",
-        "Slay the Spire",
-        "Inscryption",
-        "Factorio",
-        "Overcooked! 2",
-        "Don",
-        "Starcraft 2",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Factorio - Space Age Without Space",
-        "Hunie Pop",
-        "Against the Storm",
-        "Stardew Valley",
-        "Not an idle game",
-        "Final Fantasy Tactics Advance",
-        "Yu-Gi-Oh! 2006",
-        "Chained Echoes",
-        "Dungeon Clawler",
-        "Wargroove 2"
-    ],
-    "indie": [
-        "Getting Over It",
-        "Rogue Legacy",
-        "UFO 50",
-        "Lethal Company",
-        "DLCQuest",
-        "Terraria",
-        "Balatro",
-        "Hunie Pop 2",
-        "Momodora Moonlit Farewell",
-        "osu!",
-        "Pseudoregalia",
-        "Subnautica",
-        "Wargroove",
-        "The Messenger",
-        "A Hat in Time",
-        "Monster Sanctuary",
-        "Aquaria",
-        "Slay the Spire",
-        "Inscryption",
-        "Ender Lilies",
-        "Factorio",
-        "Bomb Rush Cyberfunk",
-        "Don",
-        "Cat Quest",
-        "Overcooked! 2",
-        "Timespinner",
-        "Hylics 2",
-        "Risk of Rain 2",
-        "Raft",
-        "Blasphemous",
-        "TUNIC",
-        "Factorio - Space Age Without Space",
-        "Hunie Pop",
-        "Muse Dash",
-        "ANIMAL WELL",
-        "Risk of Rain",
-        "Shivers",
-        "Peaks of Yore",
-        "A Short Hike",
-        "Against the Storm",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Not an idle game",
-        "ULTRAKILL",
-        "The Witness",
-        "An Untitled Story",
-        "Cuphead",
-        "Celeste",
-        "Noita",
-        "The Binding of Isaac Repentance",
-        "Brotato",
-        "Hollow Knight",
-        "Celeste 64",
-        "Chained Echoes",
-        "Outer Wilds",
-        "Hades",
-        "Dungeon Clawler",
-        "Wargroove 2",
-        "VVVVVV"
-    ],
-    "xbox series x|s": [
-        "Balatro",
-        "Momodora Moonlit Farewell",
-        "Subnautica",
-        "Inscryption",
-        "Ender Lilies",
-        "Bomb Rush Cyberfunk",
-        "Trackmania",
-        "Risk of Rain 2",
-        "Raft",
-        "TUNIC",
-        "Sea of Thieves",
-        "ANIMAL WELL",
-        "Resident Evil 2 Remake",
-        "Against the Storm",
-        "Resident Evil 3 Remake",
-        "Brotato",
-        "Outer Wilds",
-        "Hades",
-        "Wargroove 2"
-    ],
-    "pc (microsoft windows)": [
-        "Getting Over It",
-        "DOOM II",
-        "DLCQuest",
-        "Civilization VI",
-        "A Hat in Time",
-        "Ender Lilies",
-        "Don",
-        "Starcraft 2",
-        "Sea of Thieves",
-        "Peaks of Yore",
-        "A Short Hike",
-        "Resident Evil 3 Remake",
-        "An Untitled Story",
-        "The Sims 4",
-        "Landstalker - The Treasures of King Nole",
-        "Hollow Knight",
-        "Chained Echoes",
-        "UFO 50",
-        "Lethal Company",
-        "Balatro",
-        "Subnautica",
-        "Monster Sanctuary",
-        "Factorio",
-        "Overcooked! 2",
-        "Cat Quest",
-        "Hylics 2",
-        "Raft",
-        "Factorio - Space Age Without Space",
-        "Minecraft",
-        "Against the Storm",
-        "DORONKO WANKO",
-        "The Witness",
-        "Cuphead",
-        "Celeste",
-        "Brotato",
-        "Dungeon Clawler",
-        "VVVVVV",
-        "Rogue Legacy",
-        "Terraria",
-        "Pseudoregalia",
-        "Wargroove",
-        "Aquaria",
-        "Sonic Heroes",
-        "Inscryption",
-        "Bomb Rush Cyberfunk",
-        "Trackmania",
-        "Muse Dash",
-        "CrossCode",
-        "Dark Souls III",
-        "Not an idle game",
-        "ULTRAKILL",
-        "Bumper Stickers",
-        "Noita",
-        "Lingo",
-        "Celeste 64",
-        "Outer Wilds",
-        "Wargroove 2",
-        "Ori and the Blind Forest",
-        "gzDoom",
-        "Sonic Adventure 2 Battle",
-        "Zork Grand Inquisitor",
-        "Hunie Pop 2",
-        "Momodora Moonlit Farewell",
-        "osu!",
-        "OpenRCT2",
-        "The Messenger",
-        "Slay the Spire",
-        "Toontown",
-        "Old School Runescape",
-        "Sonic Adventure DX",
-        "Dark Souls II",
-        "Heretic",
-        "Timespinner",
-        "Risk of Rain 2",
-        "Blasphemous",
-        "TUNIC",
-        "Hunie Pop",
-        "Risk of Rain",
-        "ANIMAL WELL",
-        "Shivers",
-        "Resident Evil 2 Remake",
-        "Stardew Valley",
-        "Undertale",
-        "Dark Souls Remastered",
-        "Tyrian",
-        "Star Wars Episode I Racer",
-        "Hades"
-    ],
-    "playstation 5": [
-        "Balatro",
-        "Momodora Moonlit Farewell",
-        "Subnautica",
-        "The Messenger",
-        "Inscryption",
-        "Bomb Rush Cyberfunk",
-        "Trackmania",
-        "Risk of Rain 2",
-        "Raft",
-        "TUNIC",
-        "Sea of Thieves",
-        "ANIMAL WELL",
-        "Resident Evil 2 Remake",
-        "Against the Storm",
-        "CrossCode",
-        "Resident Evil 3 Remake",
-        "Brotato",
-        "Outer Wilds",
-        "Hades"
-    ],
-    "nintendo switch": [
-        "Rogue Legacy",
-        "Terraria",
-        "Balatro",
-        "Momodora Moonlit Farewell",
-        "Subnautica",
-        "Wargroove",
-        "The Messenger",
-        "A Hat in Time",
-        "Monster Sanctuary",
-        "Inscryption",
-        "Ender Lilies",
-        "Factorio",
-        "Bomb Rush Cyberfunk",
-        "Don",
-        "Cat Quest",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Overcooked! 2",
-        "Timespinner",
-        "Risk of Rain 2",
-        "Super Mario Odyssey",
-        "Blasphemous",
-        "TUNIC",
-        "Muse Dash",
-        "Risk of Rain",
-        "ANIMAL WELL",
-        "A Short Hike",
-        "Against the Storm",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Cuphead",
-        "Celeste",
-        "The Binding of Isaac Repentance",
-        "Brotato",
-        "Hollow Knight",
-        "Chained Echoes",
-        "Dark Souls Remastered",
-        "Outer Wilds",
-        "Star Wars Episode I Racer",
-        "Hades",
-        "Wargroove 2",
-        "Ori and the Blind Forest",
-        "VVVVVV"
-    ],
-    "the rain is your ally and the greatest enemy. it cycles in three seasons requiring you to stay flexible and adapt to changing conditions. in drizzle, the season of regrowth, natural resources replenish themselves, and it\u2019s time for construction and planting crops. the clearance is the season of harvest, expansion, and preparations for the last, most unforgiving season of them all. a true test of your city\u2019s strength comes with the storm when bolts of lightning tear the sky, nothing grows and resources are scarce.": [
         "Against the Storm"
     ],
-    "roguelite": [
-        "Risk of Rain 2",
-        "Brotato",
+    "alcohol": [
+        "The Witness",
+        "Outer Wilds",
+        "Celeste",
+        "Starcraft 2",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Hades",
+        "Cuphead",
+        "Final Fantasy Tactics Advance",
+        "Xenoblade X",
+        "Stardew Valley",
+        "Zork Grand Inquisitor",
+        "Chrono Trigger Jets of Time",
         "Risk of Rain",
         "Against the Storm",
+        "Sea of Thieves"
+    ],
+    "reference": [
+        "The Witness",
+        "Outer Wilds",
+        "Celeste",
+        "Terraria",
+        "DOOM II",
+        "Rogue Legacy",
         "Hades",
+        "Monster Sanctuary",
+        "Donkey Kong Country 2",
+        "Ocarina of Time",
+        "Risk of Rain 2",
+        "Spyro 3",
+        "Final Fantasy Tactics Advance",
+        "Risk of Rain",
+        "Against the Storm"
+    ],
+    "use of tobacco": [
+        "Stardew Valley",
+        "Faxanadu",
+        "Against the Storm",
+        "Undertale"
+    ],
+    "use": [
+        "Faxanadu",
+        "Starcraft 2",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Cuphead",
+        "Xenoblade X",
+        "Zork Grand Inquisitor",
+        "Stardew Valley",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Sea of Thieves",
+        "Undertale"
+    ],
+    "of": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Star Fox 64",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Luigi's Mansion",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "Faxanadu",
+        "EarthBound",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Zork Grand Inquisitor",
+        "Stardew Valley",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Undertale",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Ori and the Blind Forest",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Sea of Thieves"
+    ],
+    "tobacco": [
+        "Faxanadu",
+        "Starcraft 2",
+        "Monster Sanctuary",
+        "Cuphead",
+        "Zork Grand Inquisitor",
+        "Stardew Valley",
+        "Against the Storm",
+        "Undertale"
+    ],
+    "language": [
+        "Celeste",
+        "Subnautica",
+        "VVVVVV",
+        "Xenoblade X",
+        "The Messenger",
+        "Resident Evil 2 Remake",
+        "Inscryption",
+        "Resident Evil 3 Remake",
+        "Cuphead",
+        "Bomb Rush Cyberfunk",
+        "Stardew Valley",
+        "CrossCode",
+        "Undertale",
+        "Against the Storm",
+        "Hades",
+        "Timespinner",
+        "Risk of Rain",
+        "Dark Souls II",
+        "Chained Echoes",
+        "Starcraft 2",
+        "Ratchet & Clank 2"
+    ],
+    "fantasy violence": [
+        "Celeste",
+        "Minecraft",
+        "Subnautica",
+        "Cat Quest",
+        "Skyward Sword",
+        "Monster Sanctuary",
+        "TUNIC",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
+        "The Messenger",
+        "Outer Wilds",
+        "Digimon World",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Twilight Princess",
+        "Stardew Valley",
+        "CrossCode",
+        "A Hat in Time",
+        "Against the Storm",
+        "Undertale",
+        "Metroid Zero Mission",
+        "Muse Dash",
+        "Risk of Rain 2",
+        "Timespinner",
+        "Wargroove 2",
+        "Risk of Rain",
+        "Jak and Daxter: The Precursor Legacy",
+        "Wargroove",
+        "Rogue Legacy",
+        "Ratchet & Clank 2",
+        "Don",
+        "Brotato"
+    ],
+    "violence": [
+        "Celeste",
+        "Star Fox 64",
+        "Skyward Sword",
+        "VVVVVV",
+        "TUNIC",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "Digimon World",
+        "Twilight Princess",
+        "Chrono Trigger Jets of Time",
+        "Sonic Adventure 2 Battle",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "The Binding of Isaac Repentance",
+        "Blasphemous",
+        "The Sims 4",
+        "Tyrian",
+        "Ape Escape",
+        "Final Fantasy Mystic Quest",
+        "Wario Land",
+        "Brotato",
+        "Minecraft",
+        "Subnautica",
+        "Banjo-Tooie",
+        "Majora's Mask Recompiled",
+        "Dark Souls Remastered",
+        "ULTRAKILL",
+        "Sonic Adventure DX",
+        "A Link Between Worlds",
+        "Resident Evil 3 Remake",
+        "Cuphead",
+        "Raft",
+        "Bomb Rush Cyberfunk",
+        "Stardew Valley",
+        "CrossCode",
+        "ANIMAL WELL",
+        "Hades",
+        "Risk of Rain 2",
+        "Castlevania 64",
+        "Zelda II: The Adventure of Link",
+        "Starcraft 2",
+        "DOOM 1993",
+        "Ocarina of Time",
+        "Toontown",
+        "Sonic Heroes",
+        "Sea of Thieves",
+        "The Legend of Zelda",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
+        "Xenoblade X",
+        "Final Fantasy",
+        "Super Mario Odyssey",
+        "Resident Evil 2 Remake",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Inscryption",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "MegaMan Battle Network 3",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Wargroove 2",
+        "Risk of Rain",
+        "Super Metroid",
+        "Dark Souls III",
+        "Factorio",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Ratchet & Clank 2",
+        "Don",
+        "The Legend of Zelda - Oracle of Ages",
+        "Cat Quest",
+        "A Link to the Past",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Outer Wilds",
+        "Super Metroid Map Rando",
+        "Metroid Prime",
+        "The Wind Waker",
+        "Final Fantasy Tactics Advance",
+        "Against the Storm",
+        "Undertale",
+        "DOOM II",
+        "Muse Dash",
+        "Civilization VI",
+        "Dark Souls II",
+        "Jak and Daxter: The Precursor Legacy",
+        "Wargroove",
+        "Star Wars Episode I Racer",
+        "Rogue Legacy",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Landstalker - The Treasures of King Nole",
+        "Secret of Evermore"
+    ],
+    "real time strategy (rts)": [
+        "Starcraft 2",
+        "OpenRCT2",
+        "Against the Storm"
+    ],
+    "real": [
+        "Starcraft 2",
+        "OpenRCT2",
+        "Against the Storm"
+    ],
+    "time": [
+        "The Legend of Zelda - Oracle of Ages",
+        "VVVVVV",
+        "A Link to the Past",
+        "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Outer Wilds",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "Pokemon Crystal",
+        "Metroid Prime",
+        "Final Fantasy Tactics Advance",
+        "A Hat in Time",
+        "Chrono Trigger Jets of Time",
+        "Against the Storm",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "The Witness",
+        "Mario Kart 64",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "OpenRCT2",
+        "Timespinner",
+        "Risk of Rain",
+        "Super Metroid",
+        "Ape Escape",
+        "Diddy Kong Racing",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Pokemon Emerald",
+        "Spyro 3"
+    ],
+    "strategy": [
+        "Slay the Spire",
+        "Monster Sanctuary",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "EarthBound",
+        "Terraria",
+        "Inscryption",
+        "Final Fantasy Tactics Advance",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "Against the Storm",
+        "Not an idle game",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Undertale",
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "Paper Mario",
+        "Civilization VI",
+        "Wargroove 2",
+        "Factorio - Space Age Without Space",
+        "Yu-Gi-Oh! 2006",
+        "Hunie Pop",
+        "Balatro",
+        "Chained Echoes",
+        "Hunie Pop 2",
+        "Starcraft 2",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "UFO 50",
+        "Wargroove",
+        "Pokemon Emerald",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Don"
+    ],
+    "(rts)": [
+        "Starcraft 2",
+        "OpenRCT2",
+        "Against the Storm"
+    ],
+    "simulator": [
+        "Minecraft",
+        "Outer Wilds",
+        "Terraria",
+        "Getting Over It",
+        "Raft",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "Not an idle game",
+        "Against the Storm",
+        "Overcooked! 2",
+        "OpenRCT2",
+        "DORONKO WANKO",
+        "Civilization VI",
         "Noita",
-        "Dungeon Clawler"
+        "Factorio - Space Age Without Space",
+        "The Sims 4",
+        "Hunie Pop",
+        "Hunie Pop 2",
+        "Factorio",
+        "Don",
+        "Sea of Thieves"
+    ],
+    "indie": [
+        "Slay the Spire",
+        "Celeste",
+        "Subnautica",
+        "Aquaria",
+        "Cat Quest",
+        "VVVVVV",
+        "Monster Sanctuary",
+        "TUNIC",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
+        "The Messenger",
+        "Shivers",
+        "Outer Wilds",
+        "ULTRAKILL",
+        "osu!",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Inscryption",
+        "Cuphead",
+        "Raft",
+        "Celeste 64",
+        "Bomb Rush Cyberfunk",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "A Hat in Time",
+        "Against the Storm",
+        "Not an idle game",
+        "ANIMAL WELL",
+        "Undertale",
+        "The Binding of Isaac Repentance",
+        "The Witness",
+        "Hylics 2",
+        "A Short Hike",
+        "Lethal Company",
+        "Ender Lilies",
+        "Muse Dash",
+        "Hades",
+        "Risk of Rain 2",
+        "Overcooked! 2",
+        "Pseudoregalia",
+        "Timespinner",
+        "Wargroove 2",
+        "Factorio - Space Age Without Space",
+        "Blasphemous",
+        "Noita",
+        "Peaks of Yore",
+        "Risk of Rain",
+        "Hunie Pop",
+        "Balatro",
+        "An Untitled Story",
+        "Chained Echoes",
+        "Hunie Pop 2",
+        "UFO 50",
+        "Factorio",
+        "Wargroove",
+        "Rogue Legacy",
+        "Don",
+        "Brotato"
+    ],
+    "roguelite": [
+        "Hades",
+        "Risk of Rain 2",
+        "Risk of Rain",
+        "Dungeon Clawler",
+        "Brotato",
+        "Noita",
+        "Against the Storm"
     ],
     "2023": [
-        "Brotato",
         "Lethal Company",
-        "Bomb Rush Cyberfunk",
         "Peaks of Yore",
-        "Against the Storm",
         "Pseudoregalia",
         "Bumper Stickers",
-        "Wargroove 2"
+        "Bomb Rush Cyberfunk",
+        "Wargroove 2",
+        "Brotato",
+        "Against the Storm"
     ],
     "a hat in time": [
         "A Hat in Time"
     ],
-    "6705": [
-        "A Hat in Time"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5pl5.jpg": [
-        "A Hat in Time"
-    ],
-    "blood": [
-        "Risk of Rain 2",
-        "A Hat in Time",
-        "Inscryption",
-        "Factorio",
-        "Ender Lilies",
-        "Bomb Rush Cyberfunk",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Terraria",
-        "Dark Souls III",
-        "Momodora Moonlit Farewell",
-        "Hades",
-        "Raft"
-    ],
     "first person": [
-        "Zork Grand Inquisitor",
-        "DOOM II",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Lethal Company",
-        "Castlevania 64",
-        "EarthBound",
-        "Hunie Pop 2",
-        "Subnautica",
-        "A Hat in Time",
-        "Inscryption",
-        "Trackmania",
-        "Hylics 2",
-        "Heretic",
-        "Raft",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Sea of Thieves",
-        "DOOM 1993",
-        "Hunie Pop",
-        "Shivers",
         "Minecraft",
-        "ULTRAKILL",
-        "The Witness",
-        "Lingo",
-        "The Sims 4",
-        "Metroid Prime",
+        "Subnautica",
         "Star Fox 64",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Shivers",
         "Outer Wilds",
-        "Star Wars Episode I Racer"
+        "EarthBound",
+        "ULTRAKILL",
+        "Trackmania",
+        "Heretic",
+        "Inscryption",
+        "Raft",
+        "Metroid Prime",
+        "Zork Grand Inquisitor",
+        "A Hat in Time",
+        "The Witness",
+        "Hylics 2",
+        "Lethal Company",
+        "DOOM II",
+        "Castlevania 64",
+        "The Sims 4",
+        "Hunie Pop",
+        "Hunie Pop 2",
+        "DOOM 1993",
+        "Star Wars Episode I Racer",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Lingo",
+        "Sea of Thieves"
+    ],
+    "first": [
+        "Minecraft",
+        "Subnautica",
+        "Star Fox 64",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Shivers",
+        "Outer Wilds",
+        "EarthBound",
+        "ULTRAKILL",
+        "Trackmania",
+        "Heretic",
+        "Inscryption",
+        "Raft",
+        "Metroid Prime",
+        "Zork Grand Inquisitor",
+        "A Hat in Time",
+        "The Witness",
+        "Hylics 2",
+        "Lethal Company",
+        "DOOM II",
+        "Castlevania 64",
+        "The Sims 4",
+        "Hunie Pop",
+        "Hunie Pop 2",
+        "DOOM 1993",
+        "Star Wars Episode I Racer",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Lingo",
+        "Sea of Thieves"
+    ],
+    "person": [
+        "Minecraft",
+        "Subnautica",
+        "Banjo-Tooie",
+        "Star Fox 64",
+        "Cat Quest",
+        "Skyward Sword",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Shivers",
+        "Dark Souls Remastered",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Outer Wilds",
+        "Resident Evil 2 Remake",
+        "Super Mario 64",
+        "Super Mario Odyssey",
+        "ULTRAKILL",
+        "Digimon World",
+        "Getting Over It",
+        "Kingdom Hearts 2",
+        "Heretic",
+        "Inscryption",
+        "A Link Between Worlds",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Resident Evil 3 Remake",
+        "Raft",
+        "Metroid Prime",
+        "Sonic Adventure DX",
+        "Twilight Princess",
+        "Celeste 64",
+        "Bomb Rush Cyberfunk",
+        "The Wind Waker",
+        "Zork Grand Inquisitor",
+        "A Hat in Time",
+        "Sonic Adventure 2 Battle",
+        "The Witness",
+        "Hylics 2",
+        "Lethal Company",
+        "Mario Kart 64",
+        "Trackmania",
+        "DOOM II",
+        "Risk of Rain 2",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Pseudoregalia",
+        "Paper Mario",
+        "The Sims 4",
+        "Dark Souls II",
+        "Hunie Pop",
+        "Ape Escape",
+        "Diddy Kong Racing",
+        "Hunie Pop 2",
+        "Dark Souls III",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "gzDoom",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Star Wars Episode I Racer",
+        "Ocarina of Time",
+        "Toontown",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Ratchet & Clank 2",
+        "Lingo",
+        "Sonic Heroes",
+        "SM64 Romhack",
+        "Spyro 3",
+        "Sea of Thieves",
+        "Secret of Evermore"
     ],
     "third person": [
-        "Sonic Adventure 2 Battle",
-        "Getting Over It",
-        "Super Mario Sunshine",
-        "Skyward Sword",
-        "Castlevania 64",
-        "Kingdom Hearts",
-        "Pseudoregalia",
-        "Mario Kart 64",
-        "Diddy Kong Racing",
-        "Kingdom Hearts 2",
-        "A Hat in Time",
-        "Ratchet & Clank 2",
-        "A Link Between Worlds",
-        "Toontown",
-        "Sonic Heroes",
-        "Sonic Adventure DX",
-        "Secret of Evermore",
-        "Bomb Rush Cyberfunk",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Cat Quest",
-        "Trackmania",
-        "Digimon World",
-        "Dark Souls II",
-        "Hylics 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Risk of Rain 2",
-        "Ocarina of Time",
-        "Raft",
-        "Super Mario Odyssey",
-        "Golden Sun The Lost Age",
         "Minecraft",
-        "Resident Evil 2 Remake",
-        "Dark Souls III",
         "Banjo-Tooie",
-        "Luigi's Mansion",
-        "Spyro 3",
-        "Twilight Princess",
-        "Resident Evil 3 Remake",
-        "The Sims 4",
-        "The Wind Waker",
-        "Xenoblade X",
-        "Super Mario 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Celeste 64",
-        "Ape Escape",
-        "Dark Souls Remastered",
-        "SM64 Romhack",
-        "Paper Mario",
         "Star Fox 64",
-        "Star Wars Episode I Racer",
+        "Cat Quest",
+        "Skyward Sword",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
         "Majora's Mask Recompiled",
-        "gzDoom"
+        "Xenoblade X",
+        "Dark Souls Remastered",
+        "Golden Sun The Lost Age",
+        "Resident Evil 2 Remake",
+        "Super Mario 64",
+        "Super Mario Odyssey",
+        "Digimon World",
+        "Getting Over It",
+        "Kingdom Hearts 2",
+        "Sonic Adventure DX",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "A Link Between Worlds",
+        "Resident Evil 3 Remake",
+        "Trackmania",
+        "Raft",
+        "Twilight Princess",
+        "The Wind Waker",
+        "Celeste 64",
+        "Bomb Rush Cyberfunk",
+        "A Hat in Time",
+        "Sonic Adventure 2 Battle",
+        "Hylics 2",
+        "Mario Kart 64",
+        "Risk of Rain 2",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Pseudoregalia",
+        "Paper Mario",
+        "The Sims 4",
+        "Dark Souls II",
+        "Ape Escape",
+        "Diddy Kong Racing",
+        "Dark Souls III",
+        "Jak and Daxter: The Precursor Legacy",
+        "gzDoom",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Star Wars Episode I Racer",
+        "Ocarina of Time",
+        "Toontown",
+        "Ratchet & Clank 2",
+        "Sonic Heroes",
+        "SM64 Romhack",
+        "Spyro 3",
+        "Secret of Evermore"
+    ],
+    "third": [
+        "Minecraft",
+        "Banjo-Tooie",
+        "Star Fox 64",
+        "Cat Quest",
+        "Skyward Sword",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Dark Souls Remastered",
+        "Golden Sun The Lost Age",
+        "Resident Evil 2 Remake",
+        "Super Mario 64",
+        "Super Mario Odyssey",
+        "Digimon World",
+        "Getting Over It",
+        "Kingdom Hearts 2",
+        "Sonic Adventure DX",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "A Link Between Worlds",
+        "Resident Evil 3 Remake",
+        "Trackmania",
+        "Raft",
+        "Twilight Princess",
+        "The Wind Waker",
+        "Celeste 64",
+        "Bomb Rush Cyberfunk",
+        "A Hat in Time",
+        "Sonic Adventure 2 Battle",
+        "Hylics 2",
+        "Mario Kart 64",
+        "Risk of Rain 2",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Pseudoregalia",
+        "Paper Mario",
+        "The Sims 4",
+        "Dark Souls II",
+        "Ape Escape",
+        "Diddy Kong Racing",
+        "Dark Souls III",
+        "Jak and Daxter: The Precursor Legacy",
+        "gzDoom",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Star Wars Episode I Racer",
+        "Ocarina of Time",
+        "Toontown",
+        "Ratchet & Clank 2",
+        "Sonic Heroes",
+        "SM64 Romhack",
+        "Spyro 3",
+        "Secret of Evermore"
     ],
     "platform": [
-        "Sonic Adventure 2 Battle",
-        "Getting Over It",
-        "Super Metroid",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Skyward Sword",
-        "Kirby 64 - The Crystal Shards",
-        "UFO 50",
-        "DLCQuest",
-        "Donkey Kong Country",
-        "Terraria",
-        "Super Mario Land 2",
-        "Castlevania 64",
-        "Zillion",
-        "Momodora Moonlit Farewell",
-        "Pseudoregalia",
-        "The Messenger",
-        "A Hat in Time",
-        "VVVVVV",
-        "Monster Sanctuary",
+        "Celeste",
+        "Banjo-Tooie",
         "Aquaria",
+        "Skyward Sword",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Momodora Moonlit Farewell",
+        "Kirby 64 - The Crystal Shards",
+        "Wario Land 4",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "The Messenger",
+        "SMZ3",
+        "Faxanadu",
+        "Super Mario Odyssey",
+        "Super Metroid Map Rando",
+        "Super Mario 64",
+        "ULTRAKILL",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Sonic Adventure DX",
+        "Cuphead",
+        "Metroid Prime",
+        "Celeste 64",
+        "Bomb Rush Cyberfunk",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "Sonic Adventure 2 Battle",
+        "ANIMAL WELL",
+        "Hylics 2",
+        "Ender Lilies",
         "Metroid Zero Mission",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Pseudoregalia",
+        "Kirby's Dream Land 3",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Mega Man 2",
+        "Risk of Rain",
+        "Blasphemous",
+        "Peaks of Yore",
+        "Super Mario World",
+        "Super Mario Land 2",
+        "Super Metroid",
+        "Ape Escape",
+        "Yoshi's Island",
+        "Zelda II: The Adventure of Link",
+        "An Untitled Story",
+        "Zillion",
+        "UFO 50",
+        "Jak and Daxter: The Precursor Legacy",
+        "gzDoom",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Donkey Kong Country 3",
+        "Wario Land",
         "Ratchet & Clank 2",
         "Sonic Heroes",
-        "Wario Land 4",
-        "Ender Lilies",
-        "Sonic Adventure DX",
-        "Bomb Rush Cyberfunk",
-        "Castlevania - Circle of the Moon",
-        "Donkey Kong Country 2",
-        "Timespinner",
-        "Hylics 2",
-        "Yoshi's Island",
-        "Jak and Daxter: The Precursor Legacy",
-        "Mega Man 2",
-        "Super Mario Odyssey",
-        "Blasphemous",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
-        "Faxanadu",
-        "SMZ3",
-        "Risk of Rain",
-        "ANIMAL WELL",
-        "Peaks of Yore",
-        "Symphony of the Night",
-        "Banjo-Tooie",
-        "Spyro 3",
-        "ULTRAKILL",
-        "An Untitled Story",
-        "Cuphead",
-        "Celeste",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "Metroid Prime",
-        "Super Mario 64",
-        "Hollow Knight",
-        "Celeste 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Wario Land",
-        "Ape Escape",
         "SM64 Romhack",
-        "Donkey Kong Country 3",
-        "Ori and the Blind Forest",
-        "gzDoom"
+        "Spyro 3"
     ],
     "action": [
-        "Super Mario Sunshine",
-        "Getting Over It",
-        "DOOM II",
-        "Pokemon Emerald",
-        "DLCQuest",
-        "Mario Kart 64",
-        "A Hat in Time",
-        "Ender Lilies",
-        "Don",
-        "Castlevania - Circle of the Moon",
-        "Final Fantasy IV Free Enterprise",
-        "Yoshi's Island",
-        "Starcraft 2",
-        "Super Mario World",
-        "Sea of Thieves",
-        "Faxanadu",
-        "SMZ3",
-        "Peaks of Yore",
-        "Symphony of the Night",
-        "Resident Evil 3 Remake",
-        "An Untitled Story",
-        "The Sims 4",
-        "The Wind Waker",
-        "Metroid Prime",
-        "Super Mario 64",
-        "Landstalker - The Treasures of King Nole",
-        "Hollow Knight",
-        "Wario Land",
-        "Chained Echoes",
-        "Star Fox 64",
-        "A Link to the Past",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Red and Blue",
-        "Super Metroid",
-        "Mario & Luigi Superstar Saga",
-        "UFO 50",
-        "Lethal Company",
-        "Donkey Kong Country",
-        "Castlevania 64",
-        "EarthBound",
-        "Kingdom Hearts 2",
-        "Monster Sanctuary",
-        "Ratchet & Clank 2",
-        "Overcooked! 2",
-        "Secret of Evermore",
-        "Cat Quest",
-        "Mega Man 2",
-        "Final Fantasy Mystic Quest",
-        "Golden Sun The Lost Age",
-        "DORONKO WANKO",
-        "Luigi's Mansion",
-        "Spyro 3",
-        "Cuphead",
         "Celeste",
-        "Super Metroid Map Rando",
-        "Brotato",
-        "Sly Cooper and the Thievius Raccoonus",
-        "The Legend of Zelda - Oracle of Ages",
-        "Dungeon Clawler",
+        "Star Fox 64",
+        "Skyward Sword",
         "VVVVVV",
-        "Rogue Legacy",
-        "Terraria",
-        "Kingdom Hearts",
-        "Pseudoregalia",
-        "Diddy Kong Racing",
-        "Metroid Zero Mission",
-        "Sonic Heroes",
-        "Wario Land 4",
-        "Bomb Rush Cyberfunk",
+        "TUNIC",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "Super Mario 64",
+        "Digimon World",
+        "Getting Over It",
         "Trackmania",
-        "Donkey Kong Country 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Super Mario Odyssey",
+        "Twilight Princess",
+        "Chrono Trigger Jets of Time",
+        "Sonic Adventure 2 Battle",
+        "DORONKO WANKO",
+        "Mega Man 2",
+        "Noita",
+        "Blasphemous",
+        "The Sims 4",
+        "Super Mario World",
+        "Tyrian",
+        "Ape Escape",
+        "Final Fantasy Mystic Quest",
+        "Wario Land",
+        "Brotato",
+        "SM64 Romhack",
+        "Banjo-Tooie",
+        "Luigi's Mansion",
+        "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country",
+        "SMZ3",
+        "Dark Souls Remastered",
+        "ULTRAKILL",
+        "Sonic Adventure DX",
+        "A Link Between Worlds",
+        "Resident Evil 3 Remake",
+        "Cuphead",
+        "Bomb Rush Cyberfunk",
+        "Dungeon Clawler",
+        "CrossCode",
+        "ANIMAL WELL",
+        "Hades",
+        "Risk of Rain 2",
+        "Castlevania 64",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
+        "Diddy Kong Racing",
+        "Starcraft 2",
+        "DOOM 1993",
+        "gzDoom",
         "Ocarina of Time",
         "Link's Awakening DX",
-        "The Legend of Zelda",
-        "Muse Dash",
-        "Final Fantasy",
-        "CrossCode",
-        "Dark Souls III",
-        "Banjo-Tooie",
-        "Pokemon Crystal",
-        "ULTRAKILL",
-        "Final Fantasy Tactics Advance",
-        "Noita",
-        "Zelda II: The Adventure of Link",
-        "Celeste 64",
-        "Ape Escape",
-        "SM64 Romhack",
-        "Outer Wilds",
-        "Majora's Mask Recompiled",
-        "Ori and the Blind Forest",
-        "gzDoom",
-        "Sonic Adventure 2 Battle",
-        "Skyward Sword",
-        "Kirby 64 - The Crystal Shards",
-        "Super Mario Land 2",
-        "Momodora Moonlit Farewell",
-        "osu!",
-        "The Messenger",
-        "A Link Between Worlds",
-        "Sonic Adventure DX",
-        "Digimon World",
-        "Dark Souls II",
-        "Timespinner",
-        "Tetris Attack",
-        "Risk of Rain 2",
-        "Chrono Trigger Jets of Time",
-        "MegaMan Battle Network 3",
-        "Blasphemous",
-        "TUNIC",
-        "Kirby's Dream Land 3",
-        "DOOM 1993",
-        "Risk of Rain",
-        "ANIMAL WELL",
-        "Pokemon FireRed and LeafGreen",
-        "Resident Evil 2 Remake",
-        "Twilight Princess",
-        "Xenoblade X",
-        "Dark Souls Remastered",
-        "Donkey Kong Country 3",
-        "Tyrian",
-        "Star Wars Episode I Racer",
-        "Hades"
-    ],
-    "playstation 4": [
-        "Rogue Legacy",
-        "Terraria",
-        "Balatro",
-        "Subnautica",
-        "Kingdom Hearts 2",
-        "Wargroove",
-        "The Messenger",
-        "A Hat in Time",
-        "Monster Sanctuary",
-        "Inscryption",
-        "Ender Lilies",
-        "Overcooked! 2",
-        "Bomb Rush Cyberfunk",
-        "Trackmania",
-        "Cat Quest",
-        "Timespinner",
-        "Jak and Daxter: The Precursor Legacy",
-        "Risk of Rain 2",
-        "Blasphemous",
-        "TUNIC",
-        "Risk of Rain",
-        "Resident Evil 2 Remake",
-        "A Short Hike",
-        "CrossCode",
-        "Dark Souls III",
-        "Stardew Valley",
-        "Undertale",
-        "Resident Evil 3 Remake",
-        "The Witness",
-        "Cuphead",
-        "Celeste",
-        "The Sims 4",
-        "Brotato",
-        "Hollow Knight",
-        "Chained Echoes",
-        "Dark Souls Remastered",
-        "Outer Wilds",
-        "Star Wars Episode I Racer",
-        "Hades",
-        "VVVVVV"
-    ],
-    "mac": [
-        "Zork Grand Inquisitor",
-        "Getting Over It",
-        "Rogue Legacy",
-        "DOOM II",
-        "DLCQuest",
-        "Terraria",
-        "Civilization VI",
-        "Balatro",
-        "Hunie Pop 2",
-        "osu!",
-        "Subnautica",
-        "OpenRCT2",
-        "A Hat in Time",
-        "Monster Sanctuary",
-        "Aquaria",
-        "Toontown",
-        "Inscryption",
-        "Old School Runescape",
-        "Factorio",
-        "Overcooked! 2",
-        "Don",
-        "Cat Quest",
-        "Timespinner",
-        "Heretic",
-        "Hylics 2",
-        "Starcraft 2",
-        "Blasphemous",
-        "TUNIC",
-        "Factorio - Space Age Without Space",
-        "Hunie Pop",
-        "Muse Dash",
-        "Risk of Rain",
-        "Minecraft",
-        "Resident Evil 2 Remake",
-        "A Short Hike",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Not an idle game",
-        "Resident Evil 3 Remake",
-        "The Witness",
-        "Cuphead",
-        "Celeste",
-        "The Sims 4",
-        "Brotato",
-        "Landstalker - The Treasures of King Nole",
-        "Hollow Knight",
-        "Chained Echoes",
-        "Tyrian",
-        "Star Wars Episode I Racer",
-        "Hades",
-        "Dungeon Clawler",
-        "VVVVVV"
-    ],
-    "xbox one": [
-        "Rogue Legacy",
-        "Terraria",
-        "Balatro",
-        "Subnautica",
-        "Wargroove",
-        "The Messenger",
-        "A Hat in Time",
-        "Monster Sanctuary",
-        "Inscryption",
-        "Ender Lilies",
-        "Overcooked! 2",
-        "Bomb Rush Cyberfunk",
-        "Trackmania",
-        "Timespinner",
-        "Risk of Rain 2",
-        "Blasphemous",
-        "TUNIC",
+        "Pokemon Emerald",
+        "Sonic Heroes",
         "Sea of Thieves",
-        "Risk of Rain",
-        "Resident Evil 2 Remake",
-        "A Short Hike",
-        "CrossCode",
-        "Dark Souls III",
-        "Stardew Valley",
-        "Undertale",
-        "Resident Evil 3 Remake",
-        "The Witness",
-        "Cuphead",
-        "Celeste",
-        "The Sims 4",
-        "Brotato",
+        "The Legend of Zelda",
+        "Tetris Attack",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
+        "Momodora Moonlit Farewell",
         "Hollow Knight",
+        "Xenoblade X",
+        "Final Fantasy",
+        "Super Mario Odyssey",
+        "EarthBound",
+        "Resident Evil 2 Remake",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Pokemon Crystal",
+        "Celeste 64",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "Lethal Company",
+        "MegaMan Battle Network 3",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Kirby's Dream Land 3",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Risk of Rain",
+        "Peaks of Yore",
+        "Super Metroid",
+        "Yoshi's Island",
+        "An Untitled Story",
         "Chained Echoes",
-        "Dark Souls Remastered",
+        "Dark Souls III",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Donkey Kong Country 3",
+        "Ratchet & Clank 2",
+        "Don",
+        "The Legend of Zelda - Oracle of Ages",
+        "Cat Quest",
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
         "Outer Wilds",
+        "Super Metroid Map Rando",
+        "osu!",
+        "DLCQuest",
+        "Metroid Prime",
+        "The Wind Waker",
+        "Final Fantasy Tactics Advance",
+        "Mario Kart 64",
+        "Pokemon Red and Blue",
+        "DOOM II",
+        "Muse Dash",
+        "Overcooked! 2",
+        "Pseudoregalia",
+        "Dark Souls II",
+        "Super Mario Land 2",
+        "UFO 50",
+        "Jak and Daxter: The Precursor Legacy",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
         "Star Wars Episode I Racer",
-        "Hades",
-        "Wargroove 2",
-        "Ori and the Blind Forest"
+        "Landstalker - The Treasures of King Nole",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3",
+        "Secret of Evermore"
     ],
     "time travel": [
-        "A Hat in Time",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Mystery Dungeon Explorers of Sky",
+        "The Legend of Zelda - Oracle of Ages",
         "Ape Escape",
         "EarthBound",
         "Outer Wilds",
         "Ocarina of Time",
+        "Majora's Mask Recompiled",
         "Timespinner",
-        "The Legend of Zelda - Oracle of Ages",
+        "A Hat in Time",
         "Chrono Trigger Jets of Time",
-        "Majora's Mask Recompiled"
+        "The Legend of Zelda - Oracle of Seasons",
+        "Pokemon Mystery Dungeon Explorers of Sky"
+    ],
+    "travel": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Ape Escape",
+        "EarthBound",
+        "Outer Wilds",
+        "DOOM II",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Ocarina of Time",
+        "Majora's Mask Recompiled",
+        "Timespinner",
+        "A Hat in Time",
+        "Chrono Trigger Jets of Time",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Pokemon Mystery Dungeon Explorers of Sky"
     ],
     "spaceship": [
-        "A Hat in Time",
+        "Star Fox 64",
         "Metroid Zero Mission",
+        "VVVVVV",
         "Metroid Prime",
         "Civilization VI",
-        "Star Fox 64",
-        "VVVVVV"
+        "A Hat in Time"
     ],
     "female protagonist": [
-        "Super Metroid Map Rando",
-        "A Hat in Time",
         "Super Metroid",
-        "Metroid Zero Mission",
-        "Metroid Prime",
-        "Rogue Legacy",
-        "Ender Lilies",
-        "Celeste 64",
-        "Castlevania 64",
+        "Celeste",
         "EarthBound",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
+        "Super Metroid Map Rando",
         "A Short Hike",
-        "Timespinner",
-        "Undertale",
-        "Celeste"
-    ],
-    "action-adventure": [
-        "Super Mario Sunshine",
-        "Skyward Sword",
-        "Super Metroid",
+        "Ender Lilies",
+        "Metroid Zero Mission",
         "Rogue Legacy",
-        "Terraria",
+        "Donkey Kong Country 2",
         "Castlevania 64",
-        "Zillion",
-        "Kingdom Hearts",
-        "A Hat in Time",
-        "Aquaria",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Don",
-        "Castlevania - Circle of the Moon",
-        "Dark Souls II",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Celeste 64",
         "Timespinner",
+        "A Hat in Time",
+        "Undertale"
+    ],
+    "female": [
+        "Super Metroid",
+        "Celeste",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "A Short Hike",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Rogue Legacy",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Celeste 64",
+        "Timespinner",
+        "A Hat in Time",
+        "Undertale"
+    ],
+    "protagonist": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Celeste",
+        "Skyward Sword",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "ULTRAKILL",
+        "Metroid Prime",
+        "Celeste 64",
+        "A Hat in Time",
+        "Undertale",
+        "A Short Hike",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Paper Mario",
+        "Timespinner",
+        "Blasphemous",
+        "Zelda II: The Adventure of Link",
+        "Super Metroid",
+        "Ape Escape",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "Rogue Legacy",
         "Ocarina of Time",
         "Link's Awakening DX",
-        "Sea of Thieves",
-        "Minecraft",
-        "Symphony of the Night",
-        "CrossCode",
-        "Dark Souls III",
-        "Banjo-Tooie",
-        "Luigi's Mansion",
-        "An Untitled Story",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "The Wind Waker",
-        "Xenoblade X",
-        "Metroid Prime",
-        "Landstalker - The Treasures of King Nole",
-        "Hollow Knight",
-        "A Link to the Past",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "action-adventure": [
         "The Legend of Zelda - Oracle of Ages",
-        "Majora's Mask Recompiled"
+        "Minecraft",
+        "Banjo-Tooie",
+        "Aquaria",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Luigi's Mansion",
+        "Hollow Knight",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Wind Waker",
+        "CrossCode",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Timespinner",
+        "Zelda II: The Adventure of Link",
+        "Zillion",
+        "Dark Souls II",
+        "Super Metroid",
+        "An Untitled Story",
+        "Dark Souls III",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Don",
+        "Sea of Thieves"
     ],
     "cute": [
-        "A Hat in Time",
-        "The Sims 4",
-        "TUNIC",
-        "Muse Dash",
-        "ANIMAL WELL",
+        "Celeste",
         "A Short Hike",
+        "Muse Dash",
+        "TUNIC",
+        "A Hat in Time",
         "Undertale",
-        "Celeste"
+        "The Sims 4",
+        "ANIMAL WELL"
     ],
     "snow": [
+        "Golden Sun The Lost Age",
+        "Celeste",
+        "Minecraft",
+        "Diddy Kong Racing",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "Terraria",
         "A Hat in Time",
         "A Link Between Worlds",
-        "Metroid Prime",
-        "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy",
-        "Minecraft",
-        "Donkey Kong Country",
-        "Terraria",
-        "Mario Kart 64",
         "Donkey Kong Country 3",
+        "Metroid Prime",
         "Final Fantasy Tactics Advance",
-        "Diddy Kong Racing",
-        "Celeste"
+        "Donkey Kong Country"
     ],
     "wall jump": [
-        "Super Metroid Map Rando",
-        "A Hat in Time",
-        "Super Mario Sunshine",
         "Super Metroid",
-        "Metroid Zero Mission",
-        "Castlevania - Circle of the Moon",
         "Super Mario Odyssey",
-        "Ori and the Blind Forest"
+        "Super Metroid Map Rando",
+        "Metroid Zero Mission",
+        "Super Mario Sunshine",
+        "Ori and the Blind Forest",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon"
+    ],
+    "wall": [
+        "Banjo-Tooie",
+        "Kingdom Hearts",
+        "Donkey Kong Country",
+        "Super Mario Odyssey",
+        "Super Metroid Map Rando",
+        "Final Fantasy Tactics Advance",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon",
+        "Undertale",
+        "Mario Kart 64",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Paper Mario",
+        "Ori and the Blind Forest",
+        "Super Metroid",
+        "Jak and Daxter: The Precursor Legacy",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "jump": [
+        "Super Metroid",
+        "Super Mario Odyssey",
+        "Super Metroid Map Rando",
+        "Metroid Zero Mission",
+        "Super Mario Sunshine",
+        "Ori and the Blind Forest",
+        "A Hat in Time",
+        "Castlevania - Circle of the Moon"
     ],
     "3d platformer": [
-        "A Hat in Time",
-        "Super Mario Sunshine",
-        "Sonic Heroes",
+        "Super Mario Odyssey",
         "Super Mario 64",
-        "Bomb Rush Cyberfunk",
         "A Short Hike",
+        "Sonic Heroes",
+        "Super Mario Sunshine",
+        "Bomb Rush Cyberfunk",
+        "A Hat in Time",
+        "SM64 Romhack"
+    ],
+    "3d": [
+        "Minecraft",
+        "Star Fox 64",
+        "Skyward Sword",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Kirby 64 - The Crystal Shards",
+        "TUNIC",
+        "Xenoblade X",
+        "Dark Souls Remastered",
+        "Super Mario Odyssey",
+        "Super Mario 64",
+        "Digimon World",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "Bomb Rush Cyberfunk",
+        "A Hat in Time",
+        "The Witness",
+        "Hylics 2",
+        "A Short Hike",
+        "Mario Kart 64",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Dark Souls II",
+        "Ape Escape",
+        "Dark Souls III",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Ocarina of Time",
+        "Lingo",
+        "Sonic Heroes",
         "SM64 Romhack",
-        "Super Mario Odyssey"
+        "Spyro 3"
+    ],
+    "platformer": [
+        "Super Mario Odyssey",
+        "Super Mario 64",
+        "Hylics 2",
+        "A Short Hike",
+        "Sonic Heroes",
+        "VVVVVV",
+        "Super Mario Sunshine",
+        "Hollow Knight",
+        "Bomb Rush Cyberfunk",
+        "A Hat in Time",
+        "SM64 Romhack",
+        "Blasphemous"
     ],
     "swimming": [
-        "Super Mario Sunshine",
-        "Donkey Kong Country",
-        "Terraria",
-        "Kingdom Hearts",
+        "The Legend of Zelda - Oracle of Ages",
+        "Minecraft",
         "Subnautica",
-        "A Hat in Time",
+        "Banjo-Tooie",
         "Aquaria",
-        "A Link Between Worlds",
+        "Kingdom Hearts",
+        "A Link to the Past",
         "Wario Land 4",
-        "Donkey Kong Country 2",
+        "Donkey Kong Country",
         "Super Mario Odyssey",
+        "Super Mario 64",
+        "Terraria",
+        "A Link Between Worlds",
+        "A Hat in Time",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
         "Jak and Daxter: The Precursor Legacy",
         "Ocarina of Time",
-        "Minecraft",
-        "Banjo-Tooie",
-        "Spyro 3",
-        "Super Mario 64",
-        "SM64 Romhack",
-        "A Link to the Past",
         "Donkey Kong Country 3",
-        "The Legend of Zelda - Oracle of Ages"
+        "SM64 Romhack",
+        "Spyro 3"
     ],
     "steam greenlight": [
         "A Hat in Time",
-        "Risk of Rain",
         "DLCQuest",
-        "Timespinner"
+        "Timespinner",
+        "Risk of Rain"
+    ],
+    "steam": [
+        "A Hat in Time",
+        "DLCQuest",
+        "Timespinner",
+        "Risk of Rain"
+    ],
+    "greenlight": [
+        "A Hat in Time",
+        "DLCQuest",
+        "Timespinner",
+        "Risk of Rain"
     ],
     "crowdfunding": [
         "A Hat in Time",
-        "Risk of Rain",
         "Hollow Knight",
+        "Timespinner",
         "CrossCode",
-        "Timespinner"
+        "Risk of Rain"
     ],
     "crowd funded": [
         "A Hat in Time",
-        "Risk of Rain",
         "Hollow Knight",
+        "Timespinner",
         "CrossCode",
-        "Timespinner"
+        "Risk of Rain"
+    ],
+    "crowd": [
+        "A Hat in Time",
+        "Hollow Knight",
+        "Timespinner",
+        "CrossCode",
+        "Risk of Rain"
+    ],
+    "funded": [
+        "A Hat in Time",
+        "Hollow Knight",
+        "Timespinner",
+        "CrossCode",
+        "Risk of Rain"
     ],
     "collection marathon": [
-        "A Hat in Time",
         "Kirby 64 - The Crystal Shards",
-        "Super Mario Sunshine",
-        "Banjo-Tooie"
+        "A Hat in Time",
+        "Banjo-Tooie",
+        "Super Mario Sunshine"
+    ],
+    "collection": [
+        "Kirby 64 - The Crystal Shards",
+        "A Hat in Time",
+        "Banjo-Tooie",
+        "Super Mario Sunshine"
+    ],
+    "marathon": [
+        "Kirby 64 - The Crystal Shards",
+        "A Hat in Time",
+        "Banjo-Tooie",
+        "Super Mario Sunshine"
     ],
     "2017": [
-        "A Hat in Time",
-        "Getting Over It",
-        "Hollow Knight",
-        "Cat Quest",
         "Super Mario Odyssey",
-        "Cuphead"
+        "Cat Quest",
+        "Getting Over It",
+        "Cuphead",
+        "Hollow Knight",
+        "A Hat in Time",
+        "Sea of Thieves"
     ],
     "a link between worlds": [
         "A Link Between Worlds"
     ],
-    "2909": [
-        "A Link Between Worlds"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3p0j.jpg": [
-        "A Link Between Worlds"
-    ],
-    "the legend of zelda: a link between worlds": [
-        "A Link Between Worlds"
-    ],
     "puzzle": [
-        "Paint",
-        "Paper Mario The Thousand Year Door",
-        "Skyward Sword",
-        "Zork Grand Inquisitor",
-        "Lufia II Ancient Cave",
-        "Rogue Legacy",
-        "DOOM II",
-        "UFO 50",
-        "Castlevania 64",
-        "Zillion",
-        "Hunie Pop 2",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Inscryption",
-        "Wario Land 4",
-        "Sudoku",
-        "Jigsaw",
+        "The Legend of Zelda - Oracle of Ages",
         "Tetris Attack",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Skyward Sword",
+        "VVVVVV",
+        "Sudoku",
         "TUNIC",
-        "Hunie Pop",
+        "A Link to the Past",
+        "Wario Land 4",
+        "Jigsaw",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Paint",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
         "Shivers",
-        "ANIMAL WELL",
-        "Candy Box 2",
+        "Outer Wilds",
+        "Inscryption",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Wind Waker",
+        "Zork Grand Inquisitor",
         "CrossCode",
-        "Undertale",
-        "Spyro 3",
         "Not an idle game",
+        "Undertale",
+        "ANIMAL WELL",
         "The Witness",
+        "DOOM II",
+        "Castlevania 64",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
+        "Zillion",
+        "Hunie Pop",
+        "Candy Box 2",
+        "Hunie Pop 2",
+        "UFO 50",
+        "Rogue Legacy",
+        "Ocarina of Time",
         "Bumper Stickers",
         "Lingo",
-        "The Wind Waker",
-        "Metroid Prime",
-        "A Link to the Past",
-        "Outer Wilds",
-        "The Legend of Zelda - Oracle of Ages",
-        "Ori and the Blind Forest",
-        "VVVVVV"
+        "Spyro 3",
+        "Paper Mario The Thousand Year Door"
     ],
     "role-playing (rpg)": [
-        "Pokemon Red and Blue",
-        "Skyward Sword",
-        "Lufia II Ancient Cave",
-        "Rogue Legacy",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
-        "UFO 50",
-        "Terraria",
-        "EarthBound",
-        "Kingdom Hearts",
-        "Kingdom Hearts 2",
-        "Monster Sanctuary",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Toontown",
-        "Old School Runescape",
-        "Ender Lilies",
-        "Secret of Evermore",
-        "Bomb Rush Cyberfunk",
-        "Castlevania - Circle of the Moon",
-        "Cat Quest",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Digimon World",
-        "Dark Souls II",
-        "Final Fantasy IV Free Enterprise",
-        "Hylics 2",
-        "Timespinner",
-        "Chrono Trigger Jets of Time",
-        "Final Fantasy Mystic Quest",
-        "MegaMan Battle Network 3",
-        "Ocarina of Time",
-        "Blasphemous",
-        "Link's Awakening DX",
-        "TUNIC",
+        "The Legend of Zelda - Oracle of Ages",
         "The Legend of Zelda",
-        "Faxanadu",
-        "Hunie Pop",
-        "Final Fantasy",
-        "Golden Sun The Lost Age",
-        "Pokemon FireRed and LeafGreen",
-        "Risk of Rain",
+        "Cat Quest",
+        "Skyward Sword",
         "Symphony of the Night",
-        "Candy Box 2",
-        "CrossCode",
-        "Dark Souls III",
-        "Stardew Valley",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
+        "TUNIC",
+        "Xenoblade X",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Final Fantasy",
+        "Dark Souls Remastered",
+        "Faxanadu",
+        "EarthBound",
+        "Golden Sun The Lost Age",
+        "Digimon World",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "A Link Between Worlds",
         "Pokemon Crystal",
         "Twilight Princess",
-        "Undertale",
-        "Final Fantasy Tactics Advance",
-        "Noita",
-        "Zelda II: The Adventure of Link",
-        "The Sims 4",
         "The Wind Waker",
-        "Xenoblade X",
-        "Brotato",
-        "Landstalker - The Treasures of King Nole",
-        "Chained Echoes",
-        "Dark Souls Remastered",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Ages",
-        "Hades",
-        "Dungeon Clawler",
-        "Wargroove 2"
-    ],
-    "historical": [
-        "Skyward Sword",
-        "A Link Between Worlds",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Secret of Evermore",
-        "Civilization VI",
-        "Candy Box 2",
-        "Heretic"
-    ],
-    "sandbox": [
-        "The Sims 4",
-        "Factorio - Space Age Without Space",
-        "Super Mario Sunshine",
-        "Faxanadu",
-        "A Link Between Worlds",
-        "Xenoblade X",
-        "Landstalker - The Treasures of King Nole",
-        "Minecraft",
-        "Factorio",
-        "Old School Runescape",
-        "Don",
-        "Terraria",
+        "Final Fantasy Tactics Advance",
+        "Bomb Rush Cyberfunk",
         "Stardew Valley",
-        "Not an idle game",
-        "Super Mario Odyssey",
-        "Noita",
-        "Ocarina of Time",
-        "Zelda II: The Adventure of Link"
-    ],
-    "open world": [
-        "Pokemon Red and Blue",
-        "Skyward Sword",
-        "Terraria",
-        "Subnautica",
-        "A Link Between Worlds",
-        "Metroid Zero Mission",
-        "Toontown",
+        "Dungeon Clawler",
+        "CrossCode",
+        "Castlevania - Circle of the Moon",
+        "Chrono Trigger Jets of Time",
+        "Undertale",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Hylics 2",
         "Old School Runescape",
-        "Don",
-        "Super Mario Odyssey",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Sea of Thieves",
-        "The Legend of Zelda",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "Minecraft",
-        "Symphony of the Night",
-        "A Short Hike",
-        "The Witness",
-        "Lingo",
-        "Xenoblade X",
-        "Metroid Prime",
-        "Super Mario 64",
-        "SM64 Romhack",
-        "Outer Wilds",
-        "Majora's Mask Recompiled"
-    ],
-    "nintendo 3ds": [
-        "Link's Awakening DX",
+        "MegaMan Battle Network 3",
+        "Ender Lilies",
         "Pokemon Red and Blue",
+        "Hades",
+        "Paper Mario",
+        "Lufia II Ancient Cave",
+        "Timespinner",
+        "Wargroove 2",
+        "Noita",
+        "Blasphemous",
+        "Risk of Rain",
+        "Dark Souls II",
+        "The Sims 4",
+        "Hunie Pop",
+        "Final Fantasy Mystic Quest",
+        "Zelda II: The Adventure of Link",
+        "Candy Box 2",
+        "Chained Echoes",
+        "Dark Souls III",
+        "UFO 50",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Toontown",
+        "Brotato",
+        "Mario & Luigi Superstar Saga",
+        "Secret of Evermore"
+    ],
+    "role-playing": [
+        "The Legend of Zelda - Oracle of Ages",
         "The Legend of Zelda",
-        "A Link Between Worlds",
+        "Cat Quest",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
+        "TUNIC",
+        "Xenoblade X",
         "The Legend of Zelda - Oracle of Seasons",
         "Final Fantasy",
-        "Wario Land 4",
+        "Dark Souls Remastered",
+        "Faxanadu",
+        "EarthBound",
+        "Golden Sun The Lost Age",
+        "Digimon World",
         "Terraria",
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Mario Land 2",
-        "Wario Land",
+        "Kingdom Hearts 2",
+        "A Link Between Worlds",
         "Pokemon Crystal",
-        "Mega Man 2",
+        "Twilight Princess",
+        "The Wind Waker",
+        "Final Fantasy Tactics Advance",
+        "Bomb Rush Cyberfunk",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "Castlevania - Circle of the Moon",
+        "Chrono Trigger Jets of Time",
+        "Undertale",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Hylics 2",
+        "Old School Runescape",
+        "MegaMan Battle Network 3",
+        "Ender Lilies",
+        "Pokemon Red and Blue",
+        "Hades",
+        "Paper Mario",
+        "Lufia II Ancient Cave",
+        "Timespinner",
+        "Wargroove 2",
+        "Noita",
+        "Blasphemous",
+        "Risk of Rain",
+        "Dark Souls II",
+        "The Sims 4",
+        "Hunie Pop",
+        "Final Fantasy Mystic Quest",
         "Zelda II: The Adventure of Link",
-        "VVVVVV"
+        "Candy Box 2",
+        "Chained Echoes",
+        "Dark Souls III",
+        "UFO 50",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Toontown",
+        "Brotato",
+        "Mario & Luigi Superstar Saga",
+        "Secret of Evermore"
     ],
-    "after capturing princess zelda and escaping through a rift into the parallel world of lorule, the evil sorcerer yuga plan to use the power of the seven mages to resurrect the demon king ganon. the young adventurer link is called out to restore peace to the kingdom of hyrule and is granted the ability to merge into walls after obtaining a magic bracelet from the eccentric merchant ravio, which allows him to reach previously inaccessible areas and travel between the worlds of hyrule and lorule.": [
-        "A Link Between Worlds"
+    "(rpg)": [
+        "The Legend of Zelda - Oracle of Ages",
+        "The Legend of Zelda",
+        "Cat Quest",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Kingdom Hearts",
+        "Final Fantasy IV Free Enterprise",
+        "TUNIC",
+        "Xenoblade X",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Final Fantasy",
+        "Dark Souls Remastered",
+        "Faxanadu",
+        "EarthBound",
+        "Golden Sun The Lost Age",
+        "Digimon World",
+        "Terraria",
+        "Kingdom Hearts 2",
+        "A Link Between Worlds",
+        "Pokemon Crystal",
+        "Twilight Princess",
+        "The Wind Waker",
+        "Final Fantasy Tactics Advance",
+        "Bomb Rush Cyberfunk",
+        "Stardew Valley",
+        "Dungeon Clawler",
+        "CrossCode",
+        "Castlevania - Circle of the Moon",
+        "Chrono Trigger Jets of Time",
+        "Undertale",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Hylics 2",
+        "Old School Runescape",
+        "MegaMan Battle Network 3",
+        "Ender Lilies",
+        "Pokemon Red and Blue",
+        "Hades",
+        "Paper Mario",
+        "Lufia II Ancient Cave",
+        "Timespinner",
+        "Wargroove 2",
+        "Noita",
+        "Blasphemous",
+        "Risk of Rain",
+        "Dark Souls II",
+        "The Sims 4",
+        "Hunie Pop",
+        "Final Fantasy Mystic Quest",
+        "Zelda II: The Adventure of Link",
+        "Candy Box 2",
+        "Chained Echoes",
+        "Dark Souls III",
+        "UFO 50",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Emerald",
+        "Toontown",
+        "Brotato",
+        "Mario & Luigi Superstar Saga",
+        "Secret of Evermore"
+    ],
+    "historical": [
+        "Candy Box 2",
+        "Skyward Sword",
+        "Heretic",
+        "A Link Between Worlds",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Civilization VI",
+        "Secret of Evermore"
+    ],
+    "sandbox": [
+        "Faxanadu",
+        "Super Mario Odyssey",
+        "Minecraft",
+        "Old School Runescape",
+        "Terraria",
+        "Factorio",
+        "Super Mario Sunshine",
+        "A Link Between Worlds",
+        "Noita",
+        "Landstalker - The Treasures of King Nole",
+        "Ocarina of Time",
+        "Zelda II: The Adventure of Link",
+        "Xenoblade X",
+        "Stardew Valley",
+        "Don",
+        "Factorio - Space Age Without Space",
+        "Not an idle game",
+        "The Sims 4"
+    ],
+    "open world": [
+        "Minecraft",
+        "Subnautica",
+        "The Legend of Zelda",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "Outer Wilds",
+        "Super Mario 64",
+        "Super Mario Odyssey",
+        "Terraria",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Witness",
+        "Old School Runescape",
+        "A Short Hike",
+        "Metroid Zero Mission",
+        "Pokemon Red and Blue",
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "Toontown",
+        "Lingo",
+        "Don",
+        "SM64 Romhack",
+        "Sea of Thieves"
+    ],
+    "open": [
+        "Minecraft",
+        "Subnautica",
+        "The Legend of Zelda",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "Outer Wilds",
+        "Super Mario 64",
+        "Super Mario Odyssey",
+        "Terraria",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Witness",
+        "Old School Runescape",
+        "A Short Hike",
+        "Metroid Zero Mission",
+        "Pokemon Red and Blue",
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "Toontown",
+        "Lingo",
+        "Don",
+        "SM64 Romhack",
+        "Sea of Thieves"
+    ],
+    "world": [
+        "Minecraft",
+        "Subnautica",
+        "The Legend of Zelda",
+        "Aquaria",
+        "Skyward Sword",
+        "VVVVVV",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "SMZ3",
+        "Golden Sun The Lost Age",
+        "Outer Wilds",
+        "EarthBound",
+        "Super Mario 64",
+        "Super Mario Odyssey",
+        "Terraria",
+        "A Link Between Worlds",
+        "Pokemon Crystal",
+        "Metroid Prime",
+        "The Witness",
+        "Old School Runescape",
+        "A Short Hike",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Pokemon Red and Blue",
+        "Donkey Kong Country 2",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Dark Souls III",
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Toontown",
+        "Donkey Kong Country 3",
+        "Lingo",
+        "Don",
+        "SM64 Romhack",
+        "Sea of Thieves"
     ],
     "medieval": [
-        "Skyward Sword",
-        "A Link Between Worlds",
-        "Rogue Legacy",
-        "Secret of Evermore",
-        "Dark Souls III",
         "Candy Box 2",
-        "Dark Souls II",
-        "Heretic"
+        "Dark Souls III",
+        "Secret of Evermore",
+        "Skyward Sword",
+        "Heretic",
+        "Rogue Legacy",
+        "A Link Between Worlds",
+        "Dark Souls II"
     ],
     "magic": [
-        "Zork Grand Inquisitor",
-        "Rogue Legacy",
-        "Terraria",
-        "Castlevania 64",
         "Aquaria",
-        "A Link Between Worlds",
-        "Castlevania - Circle of the Moon",
-        "Dark Souls II",
-        "Heretic",
-        "Chrono Trigger Jets of Time",
-        "Link's Awakening DX",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Dark Souls Remastered",
         "Faxanadu",
         "Golden Sun The Lost Age",
-        "Symphony of the Night",
-        "Candy Box 2",
-        "Final Fantasy Tactics Advance",
-        "Noita",
+        "Terraria",
+        "Heretic",
+        "A Link Between Worlds",
         "Cuphead",
+        "Final Fantasy Tactics Advance",
+        "Zork Grand Inquisitor",
+        "Castlevania - Circle of the Moon",
+        "Chrono Trigger Jets of Time",
+        "Castlevania 64",
+        "Noita",
         "Zelda II: The Adventure of Link",
-        "Dark Souls Remastered",
-        "A Link to the Past",
-        "The Legend of Zelda - Oracle of Seasons"
+        "Dark Souls II",
+        "Candy Box 2",
+        "Rogue Legacy",
+        "Link's Awakening DX"
     ],
     "minigames": [
-        "A Link Between Worlds",
-        "Pokemon Emerald",
-        "Rogue Legacy",
+        "The Legend of Zelda - Oracle of Ages",
         "Golden Sun The Lost Age",
+        "Ape Escape",
+        "Rogue Legacy",
+        "A Link Between Worlds",
+        "Kingdom Hearts",
         "Kirby 64 - The Crystal Shards",
-        "Spyro 3",
+        "Ocarina of Time",
+        "Donkey Kong Country 3",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
         "Toontown",
         "Wario Land 4",
-        "Ape Escape",
-        "Donkey Kong Country 3",
-        "Kingdom Hearts",
-        "Pokemon Crystal",
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
+        "Spyro 3"
     ],
     "2.5d": [
         "DOOM 1993",
-        "A Link Between Worlds",
         "DOOM II",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
+        "Heretic",
+        "A Link Between Worlds",
         "Donkey Kong Country 2",
+        "Kirby 64 - The Crystal Shards",
         "Donkey Kong Country 3",
-        "Heretic"
+        "Donkey Kong Country"
     ],
     "archery": [
         "Skyward Sword",
-        "The Wind Waker",
-        "A Link Between Worlds",
-        "A Link to the Past",
         "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Wind Waker",
         "Majora's Mask Recompiled"
     ],
     "fairy": [
-        "Link's Awakening DX",
-        "The Wind Waker",
-        "The Legend of Zelda",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Kirby 64 - The Crystal Shards",
-        "Landstalker - The Treasures of King Nole",
-        "Zelda II: The Adventure of Link",
-        "Terraria",
-        "A Link to the Past",
-        "Stardew Valley",
-        "Hunie Pop 2",
         "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time",
-        "Majora's Mask Recompiled"
-    ],
-    "bird": [
+        "The Legend of Zelda",
+        "Hunie Pop 2",
+        "Terraria",
         "A Link Between Worlds",
-        "Pokemon Emerald",
-        "Rogue Legacy",
-        "A Short Hike",
-        "Donkey Kong Country 3",
-        "Banjo-Tooie",
-        "An Untitled Story",
-        "Cuphead"
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "Ocarina of Time",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "Stardew Valley",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link"
     ],
     "princess": [
-        "Link's Awakening DX",
-        "Super Mario World",
-        "Skyward Sword",
-        "A Link Between Worlds",
-        "Mario & Luigi Superstar Saga",
-        "The Legend of Zelda - Oracle of Seasons",
-        "A Link to the Past",
-        "Paper Mario",
-        "Kingdom Hearts",
         "The Legend of Zelda - Oracle of Ages",
+        "Super Mario 64",
         "Mario Kart 64",
-        "Ocarina of Time"
+        "The Legend of Zelda - Oracle of Seasons",
+        "Skyward Sword",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "A Link Between Worlds",
+        "Ocarina of Time",
+        "Paper Mario",
+        "SM64 Romhack",
+        "Mario & Luigi Superstar Saga",
+        "Super Mario World"
     ],
     "sequel": [
-        "Super Mario Sunshine",
-        "DOOM II",
-        "Civilization VI",
-        "Mario Kart 64",
-        "A Link Between Worlds",
-        "Wario Land 4",
-        "Don",
-        "Donkey Kong Country 2",
-        "Digimon World",
-        "Dark Souls II",
-        "Hylics 2",
-        "Super Mario Odyssey",
-        "Mega Man 2",
-        "Ocarina of Time",
-        "Golden Sun The Lost Age",
-        "Dark Souls III",
         "Banjo-Tooie",
-        "Final Fantasy Tactics Advance",
-        "Zelda II: The Adventure of Link",
         "A Link to the Past",
-        "Majora's Mask Recompiled"
+        "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "Golden Sun The Lost Age",
+        "Super Mario Odyssey",
+        "Digimon World",
+        "A Link Between Worlds",
+        "Final Fantasy Tactics Advance",
+        "Hylics 2",
+        "Mario Kart 64",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Civilization VI",
+        "Mega Man 2",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Dark Souls III",
+        "Ocarina of Time",
+        "Don"
     ],
     "sword & sorcery": [
-        "Link's Awakening DX",
-        "Skyward Sword",
-        "The Wind Waker",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Spyro 3",
-        "Terraria",
-        "Dark Souls III",
-        "A Link to the Past",
-        "Kingdom Hearts",
-        "Dark Souls II",
-        "Heretic",
-        "Ocarina of Time",
         "The Legend of Zelda - Oracle of Ages",
         "Final Fantasy Mystic Quest",
-        "Majora's Mask Recompiled"
+        "Dark Souls III",
+        "Terraria",
+        "Skyward Sword",
+        "Heretic",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Kingdom Hearts",
+        "Link's Awakening DX",
+        "Ocarina of Time",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Spyro 3",
+        "Dark Souls II"
+    ],
+    "sword": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Final Fantasy Mystic Quest",
+        "Dark Souls III",
+        "Terraria",
+        "Skyward Sword",
+        "Heretic",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Kingdom Hearts",
+        "Link's Awakening DX",
+        "Ocarina of Time",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Spyro 3",
+        "Dark Souls II"
+    ],
+    "&": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Slay the Spire",
+        "Skyward Sword",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Yacht Dice",
+        "Majora's Mask Recompiled",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Terraria",
+        "Heretic",
+        "Inscryption",
+        "A Link Between Worlds",
+        "The Wind Waker",
+        "Dark Souls II",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "Dark Souls III",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Spyro 3"
+    ],
+    "sorcery": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Final Fantasy Mystic Quest",
+        "Dark Souls III",
+        "Terraria",
+        "Skyward Sword",
+        "Heretic",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Kingdom Hearts",
+        "Link's Awakening DX",
+        "Ocarina of Time",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Spyro 3",
+        "Dark Souls II"
     ],
     "darkness": [
+        "The Witness",
+        "Super Metroid",
+        "EarthBound",
+        "Minecraft",
         "Super Metroid Map Rando",
-        "Link's Awakening DX",
         "Aquaria",
-        "A Link Between Worlds",
+        "Terraria",
         "DOOM II",
         "Rogue Legacy",
-        "Super Metroid",
-        "Minecraft",
-        "Donkey Kong Country",
-        "Terraria",
+        "A Link Between Worlds",
         "A Link to the Past",
         "Donkey Kong Country 2",
+        "Link's Awakening DX",
         "Donkey Kong Country 3",
-        "EarthBound",
         "Luigi's Mansion",
-        "The Witness",
+        "Donkey Kong Country",
         "Zelda II: The Adventure of Link"
     ],
     "digital distribution": [
-        "Getting Over It",
-        "Rogue Legacy",
-        "DOOM II",
-        "Mario & Luigi Superstar Saga",
-        "UFO 50",
-        "DLCQuest",
-        "Donkey Kong Country",
-        "Terraria",
-        "Civilization VI",
-        "Hunie Pop 2",
-        "A Link Between Worlds",
-        "Wario Land 4",
-        "Factorio",
-        "Don",
-        "Donkey Kong Country 2",
-        "Timespinner",
-        "Heretic",
-        "Yoshi's Island",
-        "Link's Awakening DX",
-        "Super Mario World",
-        "TUNIC",
-        "Sea of Thieves",
-        "Muse Dash",
-        "Minecraft",
-        "Symphony of the Night",
-        "CrossCode",
-        "Banjo-Tooie",
-        "The Witness",
-        "Cuphead",
         "Celeste",
-        "Ape Escape",
+        "Minecraft",
+        "Banjo-Tooie",
+        "VVVVVV",
+        "Symphony of the Night",
+        "TUNIC",
+        "Wario Land 4",
+        "Donkey Kong Country",
         "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Heretic",
+        "A Link Between Worlds",
+        "Cuphead",
+        "CrossCode",
+        "The Witness",
+        "DOOM II",
+        "Muse Dash",
+        "Donkey Kong Country 2",
+        "Civilization VI",
         "Ori and the Blind Forest",
-        "VVVVVV"
+        "Timespinner",
+        "Super Mario World",
+        "Ape Escape",
+        "Yoshi's Island",
+        "Hunie Pop 2",
+        "UFO 50",
+        "Factorio",
+        "Rogue Legacy",
+        "Link's Awakening DX",
+        "Don",
+        "Mario & Luigi Superstar Saga",
+        "Sea of Thieves"
+    ],
+    "digital": [
+        "Celeste",
+        "Minecraft",
+        "Banjo-Tooie",
+        "VVVVVV",
+        "Symphony of the Night",
+        "TUNIC",
+        "Wario Land 4",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Heretic",
+        "A Link Between Worlds",
+        "Cuphead",
+        "CrossCode",
+        "The Witness",
+        "DOOM II",
+        "Muse Dash",
+        "Donkey Kong Country 2",
+        "Civilization VI",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Super Mario World",
+        "Ape Escape",
+        "Yoshi's Island",
+        "Hunie Pop 2",
+        "UFO 50",
+        "Factorio",
+        "Rogue Legacy",
+        "Link's Awakening DX",
+        "Don",
+        "Mario & Luigi Superstar Saga",
+        "Sea of Thieves"
+    ],
+    "distribution": [
+        "Celeste",
+        "Minecraft",
+        "Banjo-Tooie",
+        "VVVVVV",
+        "Symphony of the Night",
+        "TUNIC",
+        "Wario Land 4",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Heretic",
+        "A Link Between Worlds",
+        "Cuphead",
+        "CrossCode",
+        "The Witness",
+        "DOOM II",
+        "Muse Dash",
+        "Donkey Kong Country 2",
+        "Civilization VI",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Super Mario World",
+        "Ape Escape",
+        "Yoshi's Island",
+        "Hunie Pop 2",
+        "UFO 50",
+        "Factorio",
+        "Rogue Legacy",
+        "Link's Awakening DX",
+        "Don",
+        "Mario & Luigi Superstar Saga",
+        "Sea of Thieves"
     ],
     "anthropomorphism": [
-        "Super Mario Sunshine",
-        "Mario & Luigi Superstar Saga",
+        "The Legend of Zelda - Oracle of Ages",
+        "Banjo-Tooie",
+        "Star Fox 64",
+        "Kingdom Hearts",
+        "TUNIC",
         "Kirby 64 - The Crystal Shards",
         "Donkey Kong Country",
-        "Castlevania 64",
-        "Kingdom Hearts",
-        "Mario Kart 64",
-        "Diddy Kong Racing",
-        "A Link Between Worlds",
         "The Legend of Zelda - Oracle of Seasons",
-        "Sonic Heroes",
-        "Donkey Kong Country 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "TUNIC",
-        "Banjo-Tooie",
-        "Undertale",
-        "Spyro 3",
+        "A Link Between Worlds",
         "Cuphead",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Ape Escape",
-        "Star Fox 64",
-        "Donkey Kong Country 3",
+        "Undertale",
+        "Mario Kart 64",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
         "Paper Mario",
-        "The Legend of Zelda - Oracle of Ages"
+        "Ape Escape",
+        "Diddy Kong Racing",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3"
     ],
     "polygonal 3d": [
-        "Super Mario Sunshine",
-        "Skyward Sword",
-        "Kirby 64 - The Crystal Shards",
-        "Castlevania 64",
-        "Kingdom Hearts",
-        "Mario Kart 64",
-        "A Link Between Worlds",
-        "Digimon World",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
         "Minecraft",
+        "Star Fox 64",
+        "Skyward Sword",
         "Symphony of the Night",
+        "Kingdom Hearts",
         "Luigi's Mansion",
-        "Spyro 3",
-        "The Witness",
+        "Kirby 64 - The Crystal Shards",
         "Xenoblade X",
+        "Digimon World",
+        "A Link Between Worlds",
         "Metroid Prime",
-        "Sly Cooper and the Thievius Raccoonus",
+        "The Witness",
+        "Mario Kart 64",
+        "Super Mario Sunshine",
+        "Castlevania 64",
         "Ape Escape",
-        "Star Fox 64"
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Ocarina of Time",
+        "Spyro 3"
+    ],
+    "polygonal": [
+        "Minecraft",
+        "Star Fox 64",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Kirby 64 - The Crystal Shards",
+        "Xenoblade X",
+        "Digimon World",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Witness",
+        "Mario Kart 64",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Ape Escape",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Ocarina of Time",
+        "Spyro 3"
     ],
     "bow and arrow": [
-        "Link's Awakening DX",
-        "Skyward Sword",
-        "A Link Between Worlds",
-        "Rogue Legacy",
-        "Risk of Rain",
-        "The Legend of Zelda - Oracle of Seasons",
         "Minecraft",
+        "The Legend of Zelda - Oracle of Seasons",
         "Terraria",
+        "Skyward Sword",
+        "Rogue Legacy",
+        "A Link Between Worlds",
         "A Link to the Past",
+        "Link's Awakening DX",
+        "Cuphead",
         "Ocarina of Time",
-        "Dark Souls II",
         "Final Fantasy Tactics Advance",
-        "Cuphead"
+        "Risk of Rain",
+        "Dark Souls II"
+    ],
+    "bow": [
+        "Minecraft",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Skyward Sword",
+        "Rogue Legacy",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "Cuphead",
+        "Ocarina of Time",
+        "Final Fantasy Tactics Advance",
+        "Risk of Rain",
+        "Dark Souls II"
+    ],
+    "and": [
+        "Minecraft",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Shivers",
+        "Dark Souls Remastered",
+        "Resident Evil 2 Remake",
+        "ULTRAKILL",
+        "Terraria",
+        "A Link Between Worlds",
+        "Resident Evil 3 Remake",
+        "Cuphead",
+        "Final Fantasy Tactics Advance",
+        "Zork Grand Inquisitor",
+        "Stardew Valley",
+        "The Binding of Isaac Repentance",
+        "DOOM II",
+        "Hades",
+        "Castlevania 64",
+        "OpenRCT2",
+        "Civilization VI",
+        "Risk of Rain",
+        "Blasphemous",
+        "Dark Souls II",
+        "Starcraft 2",
+        "DOOM 1993",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX"
+    ],
+    "arrow": [
+        "Minecraft",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Skyward Sword",
+        "Rogue Legacy",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "Cuphead",
+        "Ocarina of Time",
+        "Final Fantasy Tactics Advance",
+        "Risk of Rain",
+        "Dark Souls II"
     ],
     "damsel in distress": [
-        "Super Metroid Map Rando",
-        "Super Mario World",
-        "Super Mario Sunshine",
-        "Skyward Sword",
+        "The Legend of Zelda - Oracle of Ages",
         "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "Skyward Sword",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Paper Mario",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Super Mario World"
+    ],
+    "damsel": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "Skyward Sword",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Paper Mario",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Super Mario World"
+    ],
+    "in": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Skyward Sword",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Mario Odyssey",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "Super Mario 64",
         "A Link Between Worlds",
         "Metroid Prime",
-        "The Legend of Zelda - Oracle of Seasons",
-        "A Link to the Past",
-        "EarthBound",
+        "Super Mario Sunshine",
         "Paper Mario",
-        "Kingdom Hearts",
-        "The Legend of Zelda - Oracle of Ages",
+        "Zelda II: The Adventure of Link",
+        "Super Mario World",
+        "Super Metroid",
+        "Dark Souls III",
         "Ocarina of Time",
-        "Zelda II: The Adventure of Link"
+        "SM64 Romhack"
+    ],
+    "distress": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "Skyward Sword",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Paper Mario",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Super Mario World"
     ],
     "upgradeable weapons": [
-        "A Link Between Worlds",
-        "Metroid Prime",
         "Metroid Zero Mission",
+        "A Link Between Worlds",
         "Castlevania 64",
-        "Dark Souls II",
-        "Mega Man 2"
+        "Metroid Prime",
+        "Mega Man 2",
+        "Dark Souls II"
+    ],
+    "upgradeable": [
+        "Metroid Zero Mission",
+        "A Link Between Worlds",
+        "Castlevania 64",
+        "Metroid Prime",
+        "Mega Man 2",
+        "Dark Souls II"
+    ],
+    "weapons": [
+        "Metroid Zero Mission",
+        "A Link Between Worlds",
+        "Castlevania 64",
+        "Metroid Prime",
+        "Mega Man 2",
+        "Dark Souls II"
     ],
     "disorientation zone": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Ocarina of Time",
+        "A Link to the Past",
         "Link's Awakening DX",
         "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "A Link to the Past",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "disorientation": [
         "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "A Link Between Worlds",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "zone": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "A Link Between Worlds",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "descendants of other characters": [
-        "Super Mario Sunshine",
-        "A Link Between Worlds",
-        "Rogue Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country",
-        "Symphony of the Night",
-        "Castlevania 64",
+        "The Legend of Zelda - Oracle of Ages",
         "EarthBound",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Luigi's Mansion",
         "Star Fox 64",
         "Jak and Daxter: The Precursor Legacy",
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time",
-        "Majora's Mask Recompiled"
-    ],
-    "save point": [
-        "Super Metroid",
-        "Mario & Luigi Superstar Saga",
-        "Donkey Kong Country",
-        "Castlevania 64",
-        "EarthBound",
-        "Kingdom Hearts",
-        "Aquaria",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
         "A Link Between Worlds",
-        "Metroid Zero Mission",
-        "Castlevania - Circle of the Moon",
         "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Luigi's Mansion",
+        "Donkey Kong Country 3",
+        "Ocarina of Time",
+        "Symphony of the Night",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country"
+    ],
+    "descendants": [
+        "The Legend of Zelda - Oracle of Ages",
+        "EarthBound",
+        "Star Fox 64",
         "Jak and Daxter: The Precursor Legacy",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "A Link Between Worlds",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Luigi's Mansion",
+        "Donkey Kong Country 3",
+        "Ocarina of Time",
+        "Symphony of the Night",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country"
+    ],
+    "other": [
+        "The Legend of Zelda - Oracle of Ages",
+        "EarthBound",
+        "Star Fox 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "A Link Between Worlds",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Luigi's Mansion",
+        "Donkey Kong Country 3",
+        "Ocarina of Time",
+        "Symphony of the Night",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country"
+    ],
+    "characters": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Star Fox 64",
         "Symphony of the Night",
         "Luigi's Mansion",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "EarthBound",
+        "Terraria",
+        "A Link Between Worlds",
+        "Stardew Valley",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Dark Souls II",
+        "Dark Souls III",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Donkey Kong Country 3"
+    ],
+    "save point": [
+        "Aquaria",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Donkey Kong Country",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "EarthBound",
         "Super Metroid Map Rando",
+        "A Link Between Worlds",
         "Metroid Prime",
-        "Donkey Kong Country 3",
+        "Castlevania - Circle of the Moon",
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
         "Paper Mario",
-        "VVVVVV"
+        "Super Metroid",
+        "Jak and Daxter: The Precursor Legacy",
+        "Donkey Kong Country 3",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "save": [
+        "Aquaria",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Donkey Kong Country",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "Castlevania - Circle of the Moon",
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Paper Mario",
+        "Super Metroid",
+        "Jak and Daxter: The Precursor Legacy",
+        "Donkey Kong Country 3",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "point": [
+        "Aquaria",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Luigi's Mansion",
+        "Donkey Kong Country",
+        "Faxanadu",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "Castlevania - Circle of the Moon",
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Paper Mario",
+        "Super Metroid",
+        "Jak and Daxter: The Precursor Legacy",
+        "Donkey Kong Country 3",
+        "Mario & Luigi Superstar Saga"
     ],
     "stereoscopic 3d": [
-        "A Link Between Worlds",
         "Minecraft",
         "Sly Cooper and the Thievius Raccoonus",
-        "Luigi's Mansion",
-        "VVVVVV"
+        "VVVVVV",
+        "A Link Between Worlds",
+        "Luigi's Mansion"
+    ],
+    "stereoscopic": [
+        "Minecraft",
+        "Sly Cooper and the Thievius Raccoonus",
+        "VVVVVV",
+        "A Link Between Worlds",
+        "Luigi's Mansion"
     ],
     "side quests": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Starcraft 2",
+        "Ocarina of Time",
+        "A Link to the Past",
         "Link's Awakening DX",
         "A Link Between Worlds",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Xenoblade X",
         "Pokemon Crystal",
-        "A Link to the Past",
-        "Dark Souls II",
+        "Pokemon Emerald",
+        "Xenoblade X",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Dark Souls II"
+    ],
+    "side": [
         "The Legend of Zelda - Oracle of Ages",
+        "Slay the Spire",
+        "Celeste",
+        "Aquaria",
+        "Tetris Attack",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "Kirby 64 - The Crystal Shards",
+        "Momodora Moonlit Farewell",
+        "Wario Land 4",
+        "Hollow Knight",
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Final Fantasy",
+        "SMZ3",
+        "Faxanadu",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Dungeon Clawler",
+        "Castlevania - Circle of the Moon",
+        "ANIMAL WELL",
+        "Zillion",
+        "Hylics 2",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Muse Dash",
+        "Pokemon Red and Blue",
+        "Donkey Kong Country 2",
+        "Kirby's Dream Land 3",
+        "Paper Mario",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
+        "Timespinner",
+        "Mega Man 2",
+        "Wargroove 2",
+        "Noita",
+        "Blasphemous",
+        "Risk of Rain",
+        "Dark Souls II",
+        "Super Mario Land 2",
+        "Super Metroid",
+        "Final Fantasy Mystic Quest",
+        "Super Mario World",
+        "Yoshi's Island",
+        "An Untitled Story",
+        "Zelda II: The Adventure of Link",
+        "Starcraft 2",
+        "UFO 50",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
         "Ocarina of Time",
-        "Starcraft 2"
+        "Link's Awakening DX",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Wario Land",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "quests": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Starcraft 2",
+        "A Link Between Worlds",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Xenoblade X",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
     ],
     "potion": [
-        "Link's Awakening DX",
-        "Skyward Sword",
-        "A Link Between Worlds",
-        "Pokemon Emerald",
-        "Rogue Legacy",
         "Golden Sun The Lost Age",
-        "The Legend of Zelda - Oracle of Seasons",
         "Minecraft",
-        "A Link to the Past",
+        "Skyward Sword",
+        "Rogue Legacy",
         "Kingdom Hearts",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "A Link Between Worlds",
         "Pokemon Crystal",
+        "Pokemon Emerald",
+        "The Legend of Zelda - Oracle of Seasons",
         "Zelda II: The Adventure of Link"
     ],
     "real-time combat": [
-        "Super Mario Sunshine",
+        "The Legend of Zelda - Oracle of Ages",
+        "Minecraft",
         "Skyward Sword",
-        "Super Metroid",
-        "DOOM II",
-        "Donkey Kong Country",
-        "Castlevania 64",
+        "Symphony of the Night",
         "Kingdom Hearts",
-        "A Link Between Worlds",
+        "A Link to the Past",
+        "Xenoblade X",
+        "Donkey Kong Country",
         "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Super Mario 64",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Zelda II: The Adventure of Link",
         "Dark Souls II",
+        "Super Metroid",
+        "DOOM 1993",
         "Ocarina of Time",
         "Link's Awakening DX",
-        "DOOM 1993",
-        "Minecraft",
-        "Symphony of the Night",
-        "Spyro 3",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "Xenoblade X",
-        "Metroid Prime",
-        "Super Mario 64",
         "Landstalker - The Treasures of King Nole",
         "SM64 Romhack",
+        "Spyro 3"
+    ],
+    "real-time": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Minecraft",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Kingdom Hearts",
         "A Link to the Past",
-        "The Legend of Zelda - Oracle of Ages"
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Super Mario 64",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Super Metroid",
+        "DOOM 1993",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "SM64 Romhack",
+        "Spyro 3"
+    ],
+    "combat": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Minecraft",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Super Mario 64",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Super Metroid",
+        "DOOM 1993",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Landstalker - The Treasures of King Nole",
+        "SM64 Romhack",
+        "Spyro 3"
     ],
     "self-referential humor": [
-        "A Link Between Worlds",
-        "Mario & Luigi Superstar Saga",
         "EarthBound",
+        "A Link Between Worlds",
         "Donkey Kong Country 2",
-        "Paper Mario"
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "self-referential": [
+        "EarthBound",
+        "A Link Between Worlds",
+        "Donkey Kong Country 2",
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "humor": [
+        "The Binding of Isaac Repentance",
+        "EarthBound",
+        "Banjo-Tooie",
+        "The Sims 4",
+        "Rogue Legacy",
+        "A Link Between Worlds",
+        "Donkey Kong Country 2",
+        "Paper Mario",
+        "Don",
+        "The Messenger",
+        "Mario & Luigi Superstar Saga",
+        "Sea of Thieves"
     ],
     "multiple gameplay perspectives": [
-        "The Legend of Zelda - Oracle of Seasons",
-        "Metroid Prime",
-        "A Link Between Worlds",
+        "The Legend of Zelda - Oracle of Ages",
         "Minecraft",
-        "The Legend of Zelda - Oracle of Ages"
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "multiple": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Minecraft",
+        "Star Fox 64",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Wario Land 4",
+        "Kirby 64 - The Crystal Shards",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "EarthBound",
+        "A Link Between Worlds",
+        "Cuphead",
+        "Metroid Prime",
+        "Undertale",
+        "The Witness",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Civilization VI",
+        "Ape Escape",
+        "Rogue Legacy",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3"
+    ],
+    "gameplay": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Super Mario Odyssey",
+        "Minecraft",
+        "Super Mario 64",
+        "Banjo-Tooie",
+        "Subnautica",
+        "Aquaria",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Super Mario Sunshine",
+        "A Link Between Worlds",
+        "Donkey Kong Country 2",
+        "Kingdom Hearts",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Mega Man 2",
+        "Donkey Kong Country",
+        "SM64 Romhack"
+    ],
+    "perspectives": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Minecraft",
+        "A Link Between Worlds",
+        "Metroid Prime",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "rpg elements": [
-        "A Link Between Worlds",
-        "Mario & Luigi Superstar Saga",
-        "Metroid Zero Mission",
         "Minecraft",
-        "Symphony of the Night",
         "Banjo-Tooie",
-        "Dark Souls II",
+        "Metroid Zero Mission",
+        "Symphony of the Night",
+        "A Link Between Worlds",
+        "Ori and the Blind Forest",
+        "Mario & Luigi Superstar Saga",
         "Zelda II: The Adventure of Link",
-        "Ori and the Blind Forest"
+        "Dark Souls II"
+    ],
+    "rpg": [
+        "Minecraft",
+        "Banjo-Tooie",
+        "Metroid Zero Mission",
+        "Symphony of the Night",
+        "A Link Between Worlds",
+        "Ori and the Blind Forest",
+        "Mario & Luigi Superstar Saga",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
+    ],
+    "elements": [
+        "Minecraft",
+        "Banjo-Tooie",
+        "Metroid Zero Mission",
+        "Symphony of the Night",
+        "A Link Between Worlds",
+        "Ori and the Blind Forest",
+        "Mario & Luigi Superstar Saga",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
     ],
     "mercenary": [
-        "Super Metroid Map Rando",
-        "Skyward Sword",
         "Super Metroid",
+        "Super Metroid Map Rando",
+        "Starcraft 2",
+        "Skyward Sword",
+        "Ocarina of Time",
+        "A Link to the Past",
         "A Link Between Worlds",
         "Metroid Prime",
-        "A Link to the Past",
-        "Dark Souls II",
-        "Ocarina of Time",
-        "Starcraft 2"
+        "Dark Souls II"
     ],
     "coming of age": [
-        "A Link Between Worlds",
-        "Pokemon Emerald",
         "Jak and Daxter: The Precursor Legacy",
-        "A Link to the Past",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
         "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Final Fantasy Tactics Advance",
+        "Ori and the Blind Forest"
+    ],
+    "coming": [
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Final Fantasy Tactics Advance",
+        "Ori and the Blind Forest"
+    ],
+    "age": [
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Final Fantasy Tactics Advance",
         "Ori and the Blind Forest"
     ],
     "dimension travel": [
-        "DOOM II",
         "A Link to the Past",
+        "DOOM II",
+        "Majora's Mask Recompiled",
+        "A Link Between Worlds"
+    ],
+    "dimension": [
+        "A Link to the Past",
+        "DOOM II",
         "Majora's Mask Recompiled",
         "A Link Between Worlds"
     ],
     "androgyny": [
-        "Skyward Sword",
-        "A Link Between Worlds",
         "Golden Sun The Lost Age",
+        "Skyward Sword",
         "Symphony of the Night",
-        "Final Fantasy Tactics Advance",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "A Link Between Worlds",
+        "Final Fantasy Tactics Advance"
     ],
     "fast traveling": [
-        "A Link Between Worlds",
-        "Pokemon Emerald",
+        "Ocarina of Time",
         "A Link to the Past",
-        "Undertale",
-        "Ocarina of Time"
+        "Pokemon Emerald",
+        "A Link Between Worlds",
+        "Undertale"
+    ],
+    "fast": [
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Pokemon Emerald",
+        "A Link Between Worlds",
+        "Undertale"
+    ],
+    "traveling": [
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Pokemon Emerald",
+        "A Link Between Worlds",
+        "Undertale"
     ],
     "context sensitive": [
-        "Skyward Sword",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons",
-        "A Link to the Past",
         "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
+        "Skyward Sword",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "context": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Skyward Sword",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "sensitive": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Skyward Sword",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "living inventory": [
         "Skyward Sword",
-        "The Wind Waker",
-        "A Link Between Worlds",
-        "A Link to the Past",
         "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Wind Waker",
+        "Majora's Mask Recompiled"
+    ],
+    "living": [
+        "Skyward Sword",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Wind Waker",
+        "Majora's Mask Recompiled"
+    ],
+    "inventory": [
+        "Skyward Sword",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "A Link Between Worlds",
+        "The Wind Waker",
         "Majora's Mask Recompiled"
     ],
     "bees": [
-        "A Link Between Worlds",
         "Minecraft",
         "Terraria",
-        "Don",
+        "A Link Between Worlds",
         "A Link to the Past",
-        "Raft"
+        "Raft",
+        "Don"
     ],
     "2013": [
+        "Candy Box 2",
+        "Old School Runescape",
         "Rogue Legacy",
         "A Link Between Worlds",
-        "Risk of Rain",
-        "Old School Runescape",
-        "Candy Box 2"
+        "Risk of Rain"
     ],
     "a link to the past": [
         "A Link to the Past"
     ],
-    "1026": [
-        "A Link to the Past"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3vzn.jpg": [
-        "A Link to the Past"
-    ],
-    "the legend of zelda: a link to the past": [
-        "A Link to the Past"
-    ],
     "mild violence": [
-        "Super Metroid Map Rando",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Super Metroid",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Castlevania - Circle of the Moon",
-        "A Link to the Past",
         "The Legend of Zelda - Oracle of Ages",
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "MegaMan Battle Network 3",
+        "Sly Cooper and the Thievius Raccoonus",
+        "A Link to the Past",
         "Final Fantasy Tactics Advance",
-        "MegaMan Battle Network 3"
+        "Castlevania - Circle of the Moon",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
     ],
     "mild animated violence": [
-        "Ape Escape",
         "A Link to the Past",
+        "Ape Escape",
         "Lufia II Ancient Cave",
         "Secret of Evermore"
     ],
-    "satellaview": [
-        "Yoshi's Island",
-        "A Link to the Past"
-    ],
-    "super nintendo entertainment system": [
-        "Super Metroid Map Rando",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
-        "Lufia II Ancient Cave",
-        "Super Metroid",
-        "SMZ3",
-        "Donkey Kong Country",
-        "Secret of Evermore",
-        "EarthBound",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Final Fantasy IV Free Enterprise",
-        "Tetris Attack",
-        "Final Fantasy Mystic Quest",
-        "Yoshi's Island"
-    ],
-    "wii": [
+    "animated": [
+        "Ape Escape",
+        "Banjo-Tooie",
+        "DOOM 1993",
+        "Sonic Adventure DX",
+        "Symphony of the Night",
         "Skyward Sword",
-        "Super Metroid",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "Mario Kart 64",
-        "Donkey Kong Country 2",
-        "Final Fantasy IV Free Enterprise",
-        "Ocarina of Time",
-        "Final Fantasy Mystic Quest",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
-        "The Legend of Zelda",
-        "Faxanadu",
-        "Final Fantasy",
-        "Twilight Princess",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "Super Mario 64",
-        "Landstalker - The Treasures of King Nole",
-        "SM64 Romhack",
         "A Link to the Past",
-        "Star Fox 64",
-        "Donkey Kong Country 3",
-        "Paper Mario",
-        "Majora's Mask Recompiled"
-    ],
-    "wii u": [
-        "Skyward Sword",
-        "Super Metroid",
-        "Mario & Luigi Superstar Saga",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "Terraria",
-        "EarthBound",
-        "Mario Kart 64",
-        "Metroid Zero Mission",
-        "Wario Land 4",
+        "Castlevania 64",
         "Castlevania - Circle of the Moon",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Donkey Kong Country 2",
-        "MegaMan Battle Network 3",
-        "Ocarina of Time",
-        "Final Fantasy Mystic Quest",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
-        "The Legend of Zelda",
-        "Final Fantasy",
-        "Golden Sun The Lost Age",
-        "Stardew Valley",
-        "Final Fantasy Tactics Advance",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "Xenoblade X",
-        "Super Mario 64",
-        "Hollow Knight",
-        "SM64 Romhack",
-        "A Link to the Past",
-        "Star Fox 64",
-        "Donkey Kong Country 3",
-        "Paper Mario",
-        "Majora's Mask Recompiled"
-    ],
-    "new nintendo 3ds": [
-        "Super Metroid Map Rando",
-        "Super Mario World",
-        "Super Metroid",
-        "Donkey Kong Country",
-        "EarthBound",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
-    ],
-    "super famicom": [
-        "Super Metroid Map Rando",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
+        "Twilight Princess",
         "Lufia II Ancient Cave",
-        "Super Metroid",
-        "Donkey Kong Country",
-        "EarthBound",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Yoshi's Island",
-        "Final Fantasy Mystic Quest"
-    ],
-    "the wizard agahnim has been abducting descendants of the seven sages, intent on using their power to obliterate the barrier leading to the dark world. one of the descendants happens to be princess zelda, who informs link of her plight. armed with a trusty sword and shield, link begins a journey that will take him through treacherous territory.": [
-        "A Link to the Past"
+        "Majora's Mask Recompiled",
+        "Ratchet & Clank 2",
+        "Xenoblade X",
+        "Chrono Trigger Jets of Time",
+        "Tyrian",
+        "Secret of Evermore"
     ],
     "ghosts": [
-        "Final Fantasy Mystic Quest",
-        "Super Mario Sunshine",
-        "Rogue Legacy",
-        "Metroid Prime",
-        "Mario & Luigi Superstar Saga",
-        "Wario Land 4",
-        "Sly Cooper and the Thievius Raccoonus",
         "The Legend of Zelda - Oracle of Ages",
-        "Symphony of the Night",
-        "Castlevania 64",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
+        "Final Fantasy Mystic Quest",
         "EarthBound",
-        "Luigi's Mansion",
-        "Paper Mario",
         "An Untitled Story",
+        "Sly Cooper and the Thievius Raccoonus",
+        "VVVVVV",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Castlevania 64",
         "Cuphead",
-        "VVVVVV"
+        "Donkey Kong Country 2",
+        "Luigi's Mansion",
+        "Metroid Prime",
+        "Paper Mario",
+        "Wario Land 4",
+        "Mario & Luigi Superstar Saga"
     ],
     "mascot": [
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
         "Link's Awakening DX",
         "Kirby's Dream Land 3",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Kirby 64 - The Crystal Shards",
-        "Sly Cooper and the Thievius Raccoonus",
-        "A Link to the Past",
         "Paper Mario",
-        "Spyro 3",
-        "Jak and Daxter: The Precursor Legacy",
-        "Mega Man 2"
+        "Mega Man 2",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Spyro 3"
     ],
     "death": [
-        "Super Mario Sunshine",
-        "Rogue Legacy",
-        "DOOM II",
-        "Donkey Kong Country",
-        "Terraria",
-        "Castlevania 64",
-        "Kingdom Hearts",
-        "OpenRCT2",
-        "Metroid Zero Mission",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Castlevania - Circle of the Moon",
-        "Dark Souls II",
-        "Heretic",
-        "Mega Man 2",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Golden Sun The Lost Age",
-        "Minecraft",
-        "Symphony of the Night",
-        "Dark Souls III",
-        "Luigi's Mansion",
-        "Final Fantasy Tactics Advance",
-        "Zelda II: The Adventure of Link",
-        "Metroid Prime",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Star Fox 64",
-        "A Link to the Past",
-        "Paper Mario",
         "The Legend of Zelda - Oracle of Ages",
-        "VVVVVV"
+        "Minecraft",
+        "Star Fox 64",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Luigi's Mansion",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Golden Sun The Lost Age",
+        "Terraria",
+        "Heretic",
+        "Metroid Prime",
+        "Final Fantasy Tactics Advance",
+        "Castlevania - Circle of the Moon",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "OpenRCT2",
+        "Paper Mario",
+        "Mega Man 2",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Dark Souls III",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX"
     ],
     "maze": [
-        "Link's Awakening DX",
+        "The Witness",
         "Metroid Zero Mission",
         "DOOM 1993",
-        "Castlevania 64",
         "A Link to the Past",
-        "Paper Mario",
-        "The Witness",
-        "OpenRCT2"
+        "Castlevania 64",
+        "Link's Awakening DX",
+        "OpenRCT2",
+        "Paper Mario"
     ],
     "backtracking": [
-        "Link's Awakening DX",
-        "Faxanadu",
-        "Metroid Prime",
-        "Metroid Zero Mission",
-        "Jak and Daxter: The Precursor Legacy",
-        "Castlevania - Circle of the Moon",
-        "Castlevania 64",
-        "A Link to the Past",
-        "Symphony of the Night",
-        "Banjo-Tooie",
-        "Kingdom Hearts",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Undertale",
         "The Witness",
+        "Faxanadu",
+        "Banjo-Tooie",
+        "Jak and Daxter: The Precursor Legacy",
+        "Metroid Zero Mission",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Link's Awakening DX",
+        "Metroid Prime",
+        "Ocarina of Time",
         "Final Fantasy Tactics Advance",
-        "Ocarina of Time"
+        "Castlevania - Circle of the Moon",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Undertale"
     ],
     "undead": [
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Mario & Luigi Superstar Saga",
-        "Terraria",
-        "Symphony of the Night",
-        "Dark Souls Remastered",
-        "Castlevania 64",
-        "A Link to the Past",
-        "Paper Mario",
-        "Ocarina of Time",
-        "Dark Souls II",
-        "Heretic",
         "The Legend of Zelda - Oracle of Ages",
-        "Final Fantasy Mystic Quest"
+        "Dark Souls Remastered",
+        "Final Fantasy Mystic Quest",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Terraria",
+        "Heretic",
+        "Symphony of the Night",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Link's Awakening DX",
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga",
+        "Dark Souls II"
     ],
     "campaign": [
-        "Link's Awakening DX",
-        "Skyward Sword",
-        "The Legend of Zelda - Oracle of Seasons",
-        "A Link to the Past",
         "The Legend of Zelda - Oracle of Ages",
+        "Skyward Sword",
         "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "The Legend of Zelda - Oracle of Seasons",
         "Zelda II: The Adventure of Link"
     ],
     "pixel art": [
-        "Super Metroid",
-        "Rogue Legacy",
-        "Terraria",
-        "Wargroove",
-        "Metroid Zero Mission",
-        "The Legend of Zelda - Oracle of Seasons",
+        "Celeste",
+        "VVVVVV",
+        "Symphony of the Night",
+        "A Link to the Past",
         "Wario Land 4",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Stardew Valley",
+        "CrossCode",
+        "Undertale",
+        "ANIMAL WELL",
+        "Metroid Zero Mission",
         "Timespinner",
         "Mega Man 2",
-        "Blasphemous",
-        "Link's Awakening DX",
         "Risk of Rain",
-        "ANIMAL WELL",
-        "Symphony of the Night",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Celeste",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "A Link to the Past",
         "Tyrian",
-        "VVVVVV"
+        "Blasphemous",
+        "Zelda II: The Adventure of Link",
+        "Super Metroid",
+        "Wargroove",
+        "Rogue Legacy",
+        "Link's Awakening DX"
+    ],
+    "pixel": [
+        "Celeste",
+        "VVVVVV",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Momodora Moonlit Farewell",
+        "Wario Land 4",
+        "The Messenger",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Stardew Valley",
+        "CrossCode",
+        "Undertale",
+        "ANIMAL WELL",
+        "A Short Hike",
+        "Metroid Zero Mission",
+        "Timespinner",
+        "Mega Man 2",
+        "Risk of Rain",
+        "Noita",
+        "Blasphemous",
+        "Tyrian",
+        "Zelda II: The Adventure of Link",
+        "Super Metroid",
+        "Wargroove",
+        "Rogue Legacy",
+        "Link's Awakening DX"
+    ],
+    "art": [
+        "Celeste",
+        "VVVVVV",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Wario Land 4",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Stardew Valley",
+        "CrossCode",
+        "Undertale",
+        "ANIMAL WELL",
+        "Metroid Zero Mission",
+        "Timespinner",
+        "Mega Man 2",
+        "Risk of Rain",
+        "Tyrian",
+        "Blasphemous",
+        "Zelda II: The Adventure of Link",
+        "Super Metroid",
+        "Wargroove",
+        "Rogue Legacy",
+        "Link's Awakening DX"
     ],
     "easter egg": [
-        "Link's Awakening DX",
-        "Rogue Legacy",
-        "DOOM II",
         "Ape Escape",
-        "A Link to the Past",
         "Banjo-Tooie",
-        "Paper Mario",
-        "OpenRCT2"
+        "DOOM II",
+        "Rogue Legacy",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "OpenRCT2",
+        "Paper Mario"
+    ],
+    "easter": [
+        "Ape Escape",
+        "Banjo-Tooie",
+        "DOOM II",
+        "Rogue Legacy",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "OpenRCT2",
+        "Paper Mario"
+    ],
+    "egg": [
+        "Ape Escape",
+        "Banjo-Tooie",
+        "DOOM II",
+        "Rogue Legacy",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "OpenRCT2",
+        "Paper Mario"
     ],
     "teleportation": [
-        "Rogue Legacy",
-        "DOOM II",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Castlevania 64",
-        "A Link to the Past",
         "EarthBound",
-        "Pokemon Crystal",
         "Jak and Daxter: The Precursor Legacy",
-        "VVVVVV"
+        "Terraria",
+        "DOOM II",
+        "Rogue Legacy",
+        "VVVVVV",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "giant insects": [
         "Super Mario Sunshine",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "Secret of Evermore",
         "A Link to the Past",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga",
+        "Secret of Evermore"
+    ],
+    "giant": [
+        "Super Mario Sunshine",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga",
+        "Secret of Evermore"
+    ],
+    "insects": [
+        "Super Mario Sunshine",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga",
+        "Secret of Evermore"
     ],
     "silent protagonist": [
+        "The Legend of Zelda - Oracle of Ages",
         "Skyward Sword",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
+        "A Link to the Past",
         "Kirby 64 - The Crystal Shards",
+        "Hollow Knight",
         "Donkey Kong Country",
-        "Donkey Kong Country 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Blasphemous",
-        "Link's Awakening DX",
-        "DOOM 1993",
+        "The Legend of Zelda - Oracle of Seasons",
         "Golden Sun The Lost Age",
         "ULTRAKILL",
-        "The Legend of Zelda - Oracle of Ages",
-        "Zelda II: The Adventure of Link",
-        "Hollow Knight",
-        "A Link to the Past",
+        "Donkey Kong Country 2",
         "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons"
+        "Zelda II: The Adventure of Link",
+        "Blasphemous",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Pokemon Emerald",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "silent": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Skyward Sword",
+        "A Link to the Past",
+        "Kirby 64 - The Crystal Shards",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Golden Sun The Lost Age",
+        "ULTRAKILL",
+        "Donkey Kong Country 2",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
+        "Blasphemous",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Pokemon Emerald",
+        "Mario & Luigi Superstar Saga"
     ],
     "explosion": [
-        "Super Mario Sunshine",
-        "Super Metroid",
-        "Rogue Legacy",
-        "DOOM II",
-        "Terraria",
-        "Castlevania 64",
-        "Mario Kart 64",
-        "OpenRCT2",
-        "Metroid Zero Mission",
-        "Sonic Heroes",
-        "Donkey Kong Country 2",
-        "Mega Man 2",
-        "Final Fantasy Mystic Quest",
+        "The Legend of Zelda - Oracle of Ages",
         "Minecraft",
         "Symphony of the Night",
-        "Final Fantasy Tactics Advance",
-        "Cuphead",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "Metroid Prime",
         "A Link to the Past",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Cuphead",
+        "Metroid Prime",
+        "Final Fantasy Tactics Advance",
+        "Mario Kart 64",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "OpenRCT2",
+        "Mega Man 2",
+        "Zelda II: The Adventure of Link",
+        "Super Metroid",
+        "Final Fantasy Mystic Quest",
+        "Rogue Legacy",
         "Donkey Kong Country 3",
-        "The Legend of Zelda - Oracle of Ages"
+        "Sonic Heroes"
     ],
     "block puzzle": [
         "A Link to the Past",
-        "Ocarina of Time",
         "The Legend of Zelda - Oracle of Seasons",
-        "The Legend of Zelda - Oracle of Ages"
+        "The Legend of Zelda - Oracle of Ages",
+        "Ocarina of Time"
+    ],
+    "block": [
+        "A Link to the Past",
+        "The Legend of Zelda - Oracle of Seasons",
+        "The Legend of Zelda - Oracle of Ages",
+        "Ocarina of Time"
     ],
     "monkey": [
-        "Link's Awakening DX",
-        "Donkey Kong Country",
         "Ape Escape",
+        "Diddy Kong Racing",
+        "Mario Kart 64",
         "A Link to the Past",
         "Donkey Kong Country 2",
+        "Link's Awakening DX",
         "Donkey Kong Country 3",
-        "Mario Kart 64",
-        "Diddy Kong Racing"
+        "Donkey Kong Country"
     ],
     "nintendo power": [
-        "Super Metroid Map Rando",
         "Super Metroid",
-        "Donkey Kong Country",
         "EarthBound",
+        "Super Metroid Map Rando",
         "A Link to the Past",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "nintendo": [
+        "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "power": [
+        "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
     ],
     "world map": [
-        "Link's Awakening DX",
         "Aquaria",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Metroid Prime",
-        "Donkey Kong Country",
+        "Jak and Daxter: The Precursor Legacy",
+        "VVVVVV",
+        "Ocarina of Time",
         "A Link to the Past",
         "Donkey Kong Country 2",
+        "Link's Awakening DX",
         "Donkey Kong Country 3",
+        "Metroid Prime",
         "Pokemon Crystal",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "map": [
+        "Aquaria",
         "Jak and Daxter: The Precursor Legacy",
+        "VVVVVV",
         "Ocarina of Time",
-        "VVVVVV"
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Link's Awakening DX",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Pokemon Crystal",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "human": [
-        "Link's Awakening DX",
-        "Super Mario Sunshine",
+        "Golden Sun The Lost Age",
+        "Ape Escape",
+        "Dark Souls III",
+        "Starcraft 2",
         "Skyward Sword",
         "DOOM II",
-        "Golden Sun The Lost Age",
-        "Terraria",
         "Symphony of the Night",
-        "Ape Escape",
+        "Super Mario Sunshine",
+        "Terraria",
         "A Link to the Past",
-        "Dark Souls III",
         "Castlevania 64",
+        "Link's Awakening DX",
         "Paper Mario",
-        "Dark Souls II",
-        "Starcraft 2",
-        "Zelda II: The Adventure of Link"
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
     ],
     "shopping": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
-        "Symphony of the Night",
-        "Castlevania 64",
-        "A Link to the Past",
-        "Digimon World",
-        "Pokemon Crystal",
         "The Legend of Zelda - Oracle of Ages",
-        "Cuphead"
+        "Digimon World",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Mario & Luigi Superstar Saga",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
     ],
     "ice stage": [
-        "Metroid Prime",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "Terraria",
-        "Castlevania 64",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
         "Banjo-Tooie",
-        "Donkey Kong Country 3",
         "Mario Kart 64",
         "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time"
+        "Terraria",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Wario Land 4",
+        "Donkey Kong Country"
+    ],
+    "ice": [
+        "Banjo-Tooie",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "Terraria",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Wario Land 4",
+        "Donkey Kong Country"
+    ],
+    "stage": [
+        "Banjo-Tooie",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "Terraria",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Wario Land 4",
+        "Sonic Heroes",
+        "Donkey Kong Country",
+        "Spyro 3",
+        "Super Mario World"
     ],
     "saving the world": [
         "A Link to the Past",
@@ -9846,790 +11520,1152 @@ SEARCH_INDEX = {
         "Zelda II: The Adventure of Link",
         "Dark Souls II"
     ],
-    "secret area": [
-        "Super Metroid Map Rando",
-        "Super Metroid",
-        "Rogue Legacy",
-        "DOOM II",
-        "Donkey Kong Country",
+    "saving": [
+        "A Link to the Past",
+        "EarthBound",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
+    ],
+    "the": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Banjo-Tooie",
+        "Skyward Sword",
         "Symphony of the Night",
+        "A Link to the Past",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "Golden Sun The Lost Age",
+        "Super Mario Odyssey",
+        "EarthBound",
+        "Terraria",
+        "Cuphead",
+        "Final Fantasy Tactics Advance",
+        "Undertale",
+        "DOOM II",
+        "Hades",
+        "Donkey Kong Country 2",
+        "Overcooked! 2",
+        "Paper Mario",
+        "Blasphemous",
+        "The Sims 4",
+        "Dark Souls II",
+        "Zelda II: The Adventure of Link",
+        "Diddy Kong Racing",
+        "Jak and Daxter: The Precursor Legacy",
+        "Rogue Legacy",
+        "Link's Awakening DX",
+        "Donkey Kong Country 3",
+        "Mario & Luigi Superstar Saga",
+        "Sea of Thieves"
+    ],
+    "secret area": [
+        "The Witness",
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Diddy Kong Racing",
         "Star Fox 64",
+        "DOOM II",
+        "Heretic",
+        "Rogue Legacy",
+        "Symphony of the Night",
         "A Link to the Past",
         "Donkey Kong Country 2",
         "Donkey Kong Country 3",
+        "Donkey Kong Country",
         "The Legend of Zelda - Oracle of Seasons",
-        "Heretic",
+        "Zelda II: The Adventure of Link"
+    ],
+    "secret": [
         "The Witness",
+        "Super Metroid",
+        "Super Metroid Map Rando",
         "Diddy Kong Racing",
+        "Star Fox 64",
+        "DOOM II",
+        "Heretic",
+        "Rogue Legacy",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link"
+    ],
+    "area": [
+        "The Witness",
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Diddy Kong Racing",
+        "Star Fox 64",
+        "DOOM II",
+        "Heretic",
+        "Rogue Legacy",
+        "Symphony of the Night",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons",
         "Zelda II: The Adventure of Link"
     ],
     "shielded enemies": [
+        "The Legend of Zelda - Oracle of Ages",
         "Rogue Legacy",
-        "Hollow Knight",
         "A Link to the Past",
         "Donkey Kong Country 3",
-        "The Legend of Zelda - Oracle of Ages"
+        "Hollow Knight"
+    ],
+    "shielded": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Rogue Legacy",
+        "A Link to the Past",
+        "Donkey Kong Country 3",
+        "Hollow Knight"
+    ],
+    "enemies": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Rogue Legacy",
+        "A Link to the Past",
+        "Donkey Kong Country 3",
+        "Hollow Knight"
     ],
     "walking through walls": [
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons",
-        "DOOM II",
-        "A Link to the Past",
         "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
+        "DOOM II",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "walking": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DOOM II",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "through": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DOOM II",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "walls": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DOOM II",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "liberation": [
-        "Super Metroid Map Rando",
         "A Link to the Past",
+        "Super Metroid",
         "Donkey Kong Country 2",
-        "Super Metroid"
+        "Super Metroid Map Rando"
     ],
     "conveyor belt": [
         "A Link to the Past",
-        "Cuphead",
         "Mega Man 2",
+        "Cuphead",
+        "The Legend of Zelda - Oracle of Ages"
+    ],
+    "conveyor": [
+        "A Link to the Past",
+        "Mega Man 2",
+        "Cuphead",
+        "The Legend of Zelda - Oracle of Ages"
+    ],
+    "belt": [
+        "A Link to the Past",
+        "Mega Man 2",
+        "Cuphead",
         "The Legend of Zelda - Oracle of Ages"
     ],
     "villain": [
-        "The Legend of Zelda - Oracle of Seasons",
         "The Legend of Zelda - Oracle of Ages",
-        "Castlevania - Circle of the Moon",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Star Fox 64",
+        "Golden Sun The Lost Age",
         "Banjo-Tooie",
+        "Star Fox 64",
+        "Symphony of the Night",
         "Kingdom Hearts",
+        "A Link to the Past",
+        "Ocarina of Time",
         "Paper Mario",
         "Mega Man 2",
-        "Ocarina of Time",
+        "Donkey Kong Country",
+        "Castlevania - Circle of the Moon",
+        "The Legend of Zelda - Oracle of Seasons",
         "Zelda II: The Adventure of Link"
     ],
     "recurring boss": [
-        "Pokemon Emerald",
-        "Donkey Kong Country",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
         "Banjo-Tooie",
         "Kingdom Hearts",
-        "Paper Mario"
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Paper Mario",
+        "Donkey Kong Country"
+    ],
+    "recurring": [
+        "Banjo-Tooie",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Donkey Kong Country 3",
+        "Paper Mario",
+        "Donkey Kong Country"
+    ],
+    "boss": [
+        "Banjo-Tooie",
+        "DOOM II",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Cuphead",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Ocarina of Time",
+        "Majora's Mask Recompiled",
+        "Paper Mario",
+        "Pokemon Emerald",
+        "Donkey Kong Country",
+        "Dark Souls II"
     ],
     "been here before": [
-        "Super Mario Sunshine",
         "Golden Sun The Lost Age",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
         "A Link to the Past",
         "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Ocarina of Time"
+        "Final Fantasy Tactics Advance"
+    ],
+    "been": [
+        "Golden Sun The Lost Age",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance"
+    ],
+    "here": [
+        "Golden Sun The Lost Age",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance"
+    ],
+    "before": [
+        "Golden Sun The Lost Age",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance"
     ],
     "sleeping": [
-        "Super Mario Sunshine",
         "Golden Sun The Lost Age",
         "Minecraft",
+        "Super Mario Sunshine",
         "A Link to the Past",
-        "Paper Mario",
-        "Pokemon Crystal"
+        "Pokemon Crystal",
+        "Paper Mario"
     ],
     "merchants": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
         "Faxanadu",
-        "Hollow Knight",
+        "Candy Box 2",
         "Terraria",
         "A Link to the Past",
-        "Candy Box 2",
-        "Timespinner"
+        "Hollow Knight",
+        "Timespinner",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
     ],
     "fetch quests": [
+        "A Link to the Past",
         "Link's Awakening DX",
         "Metroid Prime",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link"
+    ],
+    "fetch": [
         "A Link to the Past",
+        "Link's Awakening DX",
+        "Metroid Prime",
         "The Legend of Zelda - Oracle of Seasons",
         "Zelda II: The Adventure of Link"
     ],
     "kidnapping": [
-        "Super Mario Sunshine",
-        "A Link to the Past",
         "EarthBound",
         "Yoshi's Island",
+        "Super Mario Sunshine",
+        "A Link to the Past",
         "OpenRCT2"
     ],
     "poisoning": [
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Emerald",
-        "Castlevania 64",
         "A Link to the Past",
+        "Castlevania 64",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
         "Paper Mario",
-        "Pokemon Crystal"
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "time paradox": [
-        "Castlevania 64",
-        "A Link to the Past",
         "The Legend of Zelda - Oracle of Ages",
         "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64"
+    ],
+    "paradox": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64"
     ],
     "status effects": [
-        "Link's Awakening DX",
-        "Dark Souls II",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Emerald",
-        "A Link to the Past",
-        "EarthBound",
-        "Pokemon Crystal",
         "The Legend of Zelda - Oracle of Ages",
-        "Zelda II: The Adventure of Link"
+        "EarthBound",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
+    ],
+    "status": [
+        "The Legend of Zelda - Oracle of Ages",
+        "EarthBound",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
+    ],
+    "effects": [
+        "The Legend of Zelda - Oracle of Ages",
+        "EarthBound",
+        "A Link to the Past",
+        "Link's Awakening DX",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II"
     ],
     "hidden room": [
-        "DOOM II",
         "A Link to the Past",
+        "DOOM II",
+        "Heretic",
+        "Dark Souls II"
+    ],
+    "hidden": [
+        "A Link to the Past",
+        "DOOM II",
+        "Heretic",
+        "Dark Souls II"
+    ],
+    "room": [
+        "A Link to the Past",
+        "DOOM II",
         "Heretic",
         "Dark Souls II"
     ],
     "another world": [
-        "DOOM II",
-        "Link's Awakening DX",
         "A Link to the Past",
-        "Majora's Mask Recompiled"
+        "DOOM II",
+        "Majora's Mask Recompiled",
+        "Link's Awakening DX"
+    ],
+    "another": [
+        "A Link to the Past",
+        "DOOM II",
+        "Majora's Mask Recompiled",
+        "Link's Awakening DX"
     ],
     "damage over time": [
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Emerald",
         "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
         "A Link to the Past",
+        "Pokemon Emerald",
         "Pokemon Crystal",
         "Final Fantasy Tactics Advance",
-        "Ocarina of Time"
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "damage": [
+        "Minecraft",
+        "Jak and Daxter: The Precursor Legacy",
+        "Terraria",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Castlevania 64",
+        "Pokemon Crystal",
+        "Metroid Prime",
+        "Pokemon Emerald",
+        "Final Fantasy Tactics Advance",
+        "The Legend of Zelda - Oracle of Seasons"
+    ],
+    "over": [
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM II",
+        "Symphony of the Night",
+        "Ocarina of Time",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Pokemon Crystal",
+        "Donkey Kong Country 3",
+        "Pokemon Emerald",
+        "Final Fantasy Tactics Advance",
+        "Donkey Kong Country",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "monomyth": [
         "A Link to the Past",
-        "Skyward Sword",
         "Mega Man 2",
+        "Skyward Sword",
         "Zelda II: The Adventure of Link"
     ],
     "buddy system": [
         "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "retroachievements": [
-        "Lufia II Ancient Cave",
-        "Kirby 64 - The Crystal Shards",
         "Donkey Kong Country",
-        "Castlevania 64",
-        "EarthBound",
-        "Mario Kart 64",
-        "Diddy Kong Racing",
-        "Sonic Heroes",
         "Donkey Kong Country 2",
-        "Final Fantasy IV Free Enterprise",
-        "Tetris Attack",
-        "Ocarina of Time",
-        "Final Fantasy Mystic Quest",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
-        "Banjo-Tooie",
-        "Super Mario 64",
-        "SM64 Romhack",
+        "Donkey Kong Country 3"
+    ],
+    "buddy": [
         "A Link to the Past",
-        "Star Fox 64",
+        "Donkey Kong Country",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3"
+    ],
+    "system": [
+        "Golden Sun The Lost Age",
+        "Final Fantasy Mystic Quest",
+        "EarthBound",
+        "Kingdom Hearts",
+        "A Link to the Past",
+        "Donkey Kong Country 2",
+        "Pokemon Crystal",
         "Donkey Kong Country 3",
         "Paper Mario",
-        "Majora's Mask Recompiled"
+        "Pokemon Emerald",
+        "Final Fantasy Tactics Advance",
+        "Xenoblade X",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "retroachievements": [
+        "Banjo-Tooie",
+        "Star Fox 64",
+        "Tetris Attack",
+        "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
+        "Kirby 64 - The Crystal Shards",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country",
+        "EarthBound",
+        "Super Mario 64",
+        "Mario Kart 64",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Kirby's Dream Land 3",
+        "Paper Mario",
+        "Lufia II Ancient Cave",
+        "Super Mario World",
+        "Final Fantasy Mystic Quest",
+        "Diddy Kong Racing",
+        "Ocarina of Time",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "SM64 Romhack"
     ],
     "popular": [
-        "Super Mario World",
-        "Pokemon FireRed and LeafGreen",
         "Super Mario 64",
-        "Hollow Knight",
+        "Pokemon FireRed and LeafGreen",
+        "Ocarina of Time",
         "A Link to the Past",
-        "Ocarina of Time"
+        "Hollow Knight",
+        "Super Mario World"
     ],
     "1991": [
-        "Final Fantasy IV Free Enterprise",
         "A Link to the Past",
+        "Final Fantasy IV Free Enterprise",
         "Mega Man 2"
     ],
     "animal well": [
         "ANIMAL WELL"
     ],
-    "191435": [
-        "ANIMAL WELL"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4hdh.jpg": [
-        "ANIMAL WELL"
-    ],
     "mild fantasy violence": [
-        "Final Fantasy Mystic Quest",
-        "Star Wars Episode I Racer",
-        "The Legend of Zelda",
         "Faxanadu",
-        "Final Fantasy",
         "ANIMAL WELL",
+        "Final Fantasy Mystic Quest",
+        "The Legend of Zelda",
         "Sonic Heroes",
+        "Star Wars Episode I Racer",
+        "VVVVVV",
+        "Donkey Kong Country 2",
+        "Final Fantasy IV Free Enterprise",
         "Landstalker - The Treasures of King Nole",
         "Wario Land",
-        "Donkey Kong Country 2",
-        "Final Fantasy IV Free Enterprise",
+        "Ori and the Blind Forest",
         "Chrono Trigger Jets of Time",
         "Zelda II: The Adventure of Link",
-        "Ori and the Blind Forest",
-        "VVVVVV"
+        "Final Fantasy"
     ],
     "side view": [
-        "Pokemon Red and Blue",
-        "Getting Over It",
-        "Lufia II Ancient Cave",
-        "Rogue Legacy",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
-        "Kirby 64 - The Crystal Shards",
-        "Super Metroid",
-        "UFO 50",
-        "DLCQuest",
-        "Donkey Kong Country",
-        "Terraria",
-        "Super Mario Land 2",
-        "Zillion",
-        "Momodora Moonlit Farewell",
-        "Wargroove",
-        "The Messenger",
-        "Monster Sanctuary",
-        "Aquaria",
-        "Metroid Zero Mission",
         "Slay the Spire",
-        "Wario Land 4",
-        "Ender Lilies",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Castlevania - Circle of the Moon",
-        "Donkey Kong Country 2",
-        "Timespinner",
-        "Final Fantasy IV Free Enterprise",
-        "Hylics 2",
+        "Celeste",
+        "Aquaria",
         "Tetris Attack",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Monster Sanctuary",
+        "Final Fantasy IV Free Enterprise",
+        "Kirby 64 - The Crystal Shards",
+        "Momodora Moonlit Farewell",
+        "Wario Land 4",
+        "Hollow Knight",
+        "Donkey Kong Country",
+        "The Messenger",
+        "Final Fantasy",
+        "SMZ3",
+        "Faxanadu",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Getting Over It",
+        "DLCQuest",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Cuphead",
+        "Pokemon Crystal",
+        "Dungeon Clawler",
+        "Castlevania - Circle of the Moon",
+        "ANIMAL WELL",
+        "Hylics 2",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Muse Dash",
+        "Pokemon Red and Blue",
+        "Donkey Kong Country 2",
+        "Kirby's Dream Land 3",
+        "Paper Mario",
+        "Lufia II Ancient Cave",
+        "Ori and the Blind Forest",
+        "Timespinner",
         "Mega Man 2",
+        "Wargroove 2",
+        "Noita",
+        "Blasphemous",
+        "Risk of Rain",
+        "Super Mario World",
+        "Super Mario Land 2",
+        "Super Metroid",
         "Final Fantasy Mystic Quest",
         "Yoshi's Island",
-        "Blasphemous",
-        "Link's Awakening DX",
-        "Super Mario World",
-        "Kirby's Dream Land 3",
-        "Faxanadu",
-        "Muse Dash",
-        "Final Fantasy",
-        "ANIMAL WELL",
-        "Pokemon FireRed and LeafGreen",
-        "Risk of Rain",
-        "SMZ3",
-        "Symphony of the Night",
-        "Pokemon Crystal",
-        "An Untitled Story",
-        "Cuphead",
-        "Celeste",
-        "Noita",
         "Zelda II: The Adventure of Link",
-        "Super Metroid Map Rando",
-        "Hollow Knight",
-        "Wario Land",
+        "An Untitled Story",
+        "Zillion",
+        "UFO 50",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Rogue Legacy",
+        "Link's Awakening DX",
+        "Pokemon Emerald",
         "Donkey Kong Country 3",
-        "Paper Mario",
-        "Dungeon Clawler",
-        "Wargroove 2",
-        "Ori and the Blind Forest",
-        "VVVVVV"
+        "Wario Land",
+        "Mario & Luigi Superstar Saga"
     ],
     "horror": [
-        "Blasphemous",
-        "Getting Over It",
+        "Shivers",
+        "Resident Evil 2 Remake",
+        "Lethal Company",
+        "Terraria",
         "DOOM 1993",
         "DOOM II",
-        "Shivers",
-        "ANIMAL WELL",
+        "Getting Over It",
         "Inscryption",
-        "Lethal Company",
-        "Resident Evil 2 Remake",
-        "Terraria",
-        "Don",
-        "Castlevania - Circle of the Moon",
+        "Resident Evil 3 Remake",
+        "Luigi's Mansion",
         "Castlevania 64",
         "Symphony of the Night",
-        "Luigi's Mansion",
+        "Majora's Mask Recompiled",
         "Undertale",
-        "Resident Evil 3 Remake",
-        "Majora's Mask Recompiled"
+        "Don",
+        "Castlevania - Circle of the Moon",
+        "Blasphemous",
+        "ANIMAL WELL"
     ],
     "survival": [
-        "Factorio - Space Age Without Space",
-        "Risk of Rain",
-        "ANIMAL WELL",
         "Yu-Gi-Oh! 2006",
-        "Minecraft",
-        "Factorio",
-        "Resident Evil 2 Remake",
-        "Don",
-        "Terraria",
-        "Subnautica",
-        "Resident Evil 3 Remake",
-        "Risk of Rain 2",
         "Dungeon Clawler",
-        "Raft"
+        "Minecraft",
+        "Resident Evil 2 Remake",
+        "Subnautica",
+        "Lethal Company",
+        "Terraria",
+        "Factorio",
+        "Risk of Rain 2",
+        "Resident Evil 3 Remake",
+        "Raft",
+        "Risk of Rain",
+        "Don",
+        "Factorio - Space Age Without Space",
+        "ANIMAL WELL"
     ],
     "mystery": [
         "The Witness",
-        "ANIMAL WELL",
+        "Outer Wilds",
         "Inscryption",
-        "Outer Wilds"
-    ],
-    "it is dark. it is lonely. you don't belong in this world. it's not that it\u2019s a hostile world... it's just... not yours. as you uncover its secrets, the world grows on you. it takes on a feel of familiarity, yet you know that you've only probed the surface. the more you discover, the more you realize how much more there is to discover. secrets leading to more secrets. you recall the feeling of zooming closer and closer in on a very high-resolution photo. as you hone your focus, the world betrays its secrets.": [
         "ANIMAL WELL"
     ],
     "exploration": [
-        "Super Metroid",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Lethal Company",
-        "DLCQuest",
-        "Terraria",
-        "Castlevania 64",
+        "Celeste",
         "Subnautica",
         "Aquaria",
-        "Hylics 2",
-        "Jak and Daxter: The Precursor Legacy",
+        "VVVVVV",
         "TUNIC",
-        "Sea of Thieves",
-        "ANIMAL WELL",
-        "A Short Hike",
-        "Pokemon Crystal",
-        "The Witness",
-        "Celeste",
-        "Super Metroid Map Rando",
-        "Lingo",
-        "Metroid Prime",
         "Outer Wilds",
-        "VVVVVV"
+        "Super Metroid Map Rando",
+        "Terraria",
+        "DLCQuest",
+        "Pokemon Crystal",
+        "Metroid Prime",
+        "ANIMAL WELL",
+        "The Witness",
+        "Hylics 2",
+        "A Short Hike",
+        "Lethal Company",
+        "Castlevania 64",
+        "Super Metroid",
+        "Jak and Daxter: The Precursor Legacy",
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Lingo",
+        "Sea of Thieves"
     ],
     "retro": [
-        "Blasphemous",
-        "The Messenger",
-        "ANIMAL WELL",
+        "Super Mario Odyssey",
         "Celeste",
+        "Minecraft",
         "Undertale",
         "Hylics 2",
+        "UFO 50",
+        "Terraria",
+        "VVVVVV",
+        "DLCQuest",
         "Cuphead",
-        "VVVVVV"
+        "Timespinner",
+        "Stardew Valley",
+        "The Messenger",
+        "Blasphemous",
+        "ANIMAL WELL"
     ],
     "2d": [
-        "Blasphemous",
-        "The Messenger",
-        "Super Metroid Map Rando",
-        "Super Metroid",
-        "Muse Dash",
-        "ANIMAL WELL",
-        "Hollow Knight",
-        "Terraria",
-        "Don",
-        "Symphony of the Night",
         "Celeste",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Hollow Knight",
+        "The Messenger",
+        "Super Mario Odyssey",
         "EarthBound",
+        "Super Metroid Map Rando",
+        "Terraria",
+        "Cuphead",
         "Stardew Valley",
         "Undertale",
-        "Cuphead",
+        "ANIMAL WELL",
+        "Hylics 2",
+        "Muse Dash",
         "Zelda II: The Adventure of Link",
-        "VVVVVV"
+        "Blasphemous",
+        "Super Metroid",
+        "Don"
     ],
     "metroidvania": [
-        "Super Metroid",
-        "Rogue Legacy",
-        "Zillion",
-        "Momodora Moonlit Farewell",
-        "Pseudoregalia",
-        "The Messenger",
-        "Monster Sanctuary",
         "Aquaria",
-        "Metroid Zero Mission",
-        "Ender Lilies",
-        "Castlevania - Circle of the Moon",
-        "Dark Souls II",
-        "Timespinner",
-        "Blasphemous",
-        "Faxanadu",
-        "ANIMAL WELL",
+        "VVVVVV",
         "Symphony of the Night",
-        "An Untitled Story",
-        "Zelda II: The Adventure of Link",
+        "Monster Sanctuary",
+        "Momodora Moonlit Farewell",
+        "Hollow Knight",
+        "The Messenger",
+        "Faxanadu",
         "Super Metroid Map Rando",
         "Metroid Prime",
-        "Hollow Knight",
+        "Castlevania - Circle of the Moon",
+        "ANIMAL WELL",
+        "Ender Lilies",
+        "Metroid Zero Mission",
+        "Pseudoregalia",
         "Ori and the Blind Forest",
-        "VVVVVV"
+        "Timespinner",
+        "Blasphemous",
+        "Zelda II: The Adventure of Link",
+        "Dark Souls II",
+        "Zillion",
+        "Super Metroid",
+        "An Untitled Story",
+        "Rogue Legacy"
     ],
     "atmospheric": [
+        "Celeste",
+        "Hylics 2",
         "TUNIC",
-        "ANIMAL WELL",
         "Hollow Knight",
         "Don",
-        "Hylics 2",
-        "Celeste"
+        "ANIMAL WELL"
     ],
     "pixel graphics": [
-        "The Messenger",
-        "Rogue Legacy",
-        "ANIMAL WELL",
-        "A Short Hike",
-        "Momodora Moonlit Farewell",
-        "Undertale",
-        "Noita",
         "Celeste",
-        "VVVVVV"
+        "A Short Hike",
+        "VVVVVV",
+        "Rogue Legacy",
+        "Momodora Moonlit Farewell",
+        "The Messenger",
+        "Noita",
+        "Undertale",
+        "ANIMAL WELL"
+    ],
+    "graphics": [
+        "Celeste",
+        "A Short Hike",
+        "VVVVVV",
+        "Rogue Legacy",
+        "Momodora Moonlit Farewell",
+        "The Messenger",
+        "Noita",
+        "Undertale",
+        "ANIMAL WELL"
     ],
     "relaxing": [
-        "ANIMAL WELL",
-        "The Sims 4",
         "Stardew Valley",
-        "A Short Hike"
+        "The Sims 4",
+        "A Short Hike",
+        "ANIMAL WELL"
     ],
     "2024": [
-        "Factorio - Space Age Without Space",
-        "UFO 50",
-        "ANIMAL WELL",
-        "Celeste 64",
         "Balatro",
+        "UFO 50",
         "Momodora Moonlit Farewell",
         "DORONKO WANKO",
-        "Dungeon Clawler"
+        "Celeste 64",
+        "Dungeon Clawler",
+        "Factorio - Space Age Without Space",
+        "ANIMAL WELL"
     ],
     "ape escape": [
         "Ape Escape"
     ],
-    "3762": [
-        "Ape Escape"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2gzc.jpg": [
-        "Ape Escape"
-    ],
-    "playstation 3": [
-        "Sonic Adventure 2 Battle",
-        "Rogue Legacy",
-        "Spyro 3",
-        "Sonic Adventure DX",
-        "Terraria",
-        "Symphony of the Night",
-        "Ape Escape",
-        "Dark Souls II",
-        "Kingdom Hearts 2"
-    ],
-    "playstation": [
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Symphony of the Night",
-        "Ape Escape",
-        "Spyro 3"
-    ],
-    "playstation portable": [
-        "Symphony of the Night",
-        "Ape Escape",
-        "Spyro 3"
-    ],
-    "the doctors trustfull test apes have escaped and it's up to you to get out there and retrieve all of them.": [
-        "Ape Escape"
-    ],
     "anime": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Yu-Gi-Oh! Forbidden Memories",
         "Hunie Pop",
+        "Ape Escape",
         "Golden Sun The Lost Age",
+        "osu!",
+        "Hunie Pop 2",
+        "Digimon World",
         "Muse Dash",
         "Pokemon Emerald",
-        "Wario Land 4",
-        "Ape Escape",
-        "Digimon World",
-        "Hunie Pop 2",
-        "osu!",
+        "Yu-Gi-Oh! Forbidden Memories",
         "Pokemon Crystal",
-        "Zillion"
+        "Wario Land 4",
+        "Zillion",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
     ],
     "dinosaurs": [
-        "Super Mario World",
-        "Super Mario Sunshine",
         "Ape Escape",
         "EarthBound",
+        "Super Mario Odyssey",
         "Banjo-Tooie",
         "Yoshi's Island",
-        "Super Mario Odyssey"
+        "Super Mario Sunshine",
+        "Super Mario World"
     ],
     "collecting": [
-        "Pokemon Red and Blue",
-        "Metroid Zero Mission",
-        "Pokemon Emerald",
-        "Pokemon FireRed and LeafGreen",
         "Ape Escape",
         "Banjo-Tooie",
+        "Metroid Zero Mission",
+        "Pokemon FireRed and LeafGreen",
+        "Pokemon Red and Blue",
+        "Pokemon Emerald",
         "Pokemon Crystal",
         "Zelda II: The Adventure of Link"
     ],
     "multiple endings": [
+        "The Witness",
+        "Ape Escape",
+        "Star Fox 64",
         "Metroid Zero Mission",
         "DOOM II",
-        "Metroid Prime",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Cuphead",
         "Kirby 64 - The Crystal Shards",
-        "The Legend of Zelda - Oracle of Seasons",
+        "Metroid Prime",
         "Wario Land 4",
         "Civilization VI",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Undertale"
+    ],
+    "endings": [
+        "The Witness",
         "Ape Escape",
-        "Castlevania 64",
-        "Donkey Kong Country 2",
+        "Star Fox 64",
+        "Metroid Zero Mission",
+        "DOOM II",
         "Symphony of the Night",
         "Kingdom Hearts",
-        "Star Fox 64",
-        "Undertale",
-        "The Witness",
-        "Cuphead"
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Cuphead",
+        "Kirby 64 - The Crystal Shards",
+        "Metroid Prime",
+        "Wario Land 4",
+        "Civilization VI",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Undertale"
     ],
     "amnesia": [
+        "The Witness",
+        "Ape Escape",
         "Aquaria",
         "Xenoblade X",
-        "Sonic Heroes",
-        "Ape Escape",
-        "The Witness"
+        "Sonic Heroes"
     ],
     "voice acting": [
-        "Super Mario Sunshine",
-        "Xenoblade X",
-        "DOOM II",
-        "Sonic Heroes",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Civilization VI",
-        "Ape Escape",
-        "Castlevania 64",
-        "Digimon World",
-        "Hunie Pop 2",
-        "Kingdom Hearts",
-        "Star Fox 64",
         "The Witness",
+        "Ape Escape",
+        "Star Fox 64",
+        "Hunie Pop 2",
+        "Digimon World",
         "Jak and Daxter: The Precursor Legacy",
-        "Cuphead"
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Cuphead",
+        "Civilization VI",
+        "Sonic Heroes",
+        "Xenoblade X"
+    ],
+    "voice": [
+        "The Witness",
+        "Ape Escape",
+        "Star Fox 64",
+        "Hunie Pop 2",
+        "Digimon World",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Cuphead",
+        "Civilization VI",
+        "Sonic Heroes",
+        "Xenoblade X"
+    ],
+    "acting": [
+        "The Witness",
+        "Ape Escape",
+        "Star Fox 64",
+        "Hunie Pop 2",
+        "Digimon World",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Cuphead",
+        "Civilization VI",
+        "Sonic Heroes",
+        "Xenoblade X"
     ],
     "psone classics": [
-        "Symphony of the Night",
-        "Ape Escape",
         "Mega Man 2",
+        "Ape Escape",
+        "Symphony of the Night",
+        "Spyro 3"
+    ],
+    "psone": [
+        "Mega Man 2",
+        "Ape Escape",
+        "Symphony of the Night",
+        "Spyro 3"
+    ],
+    "classics": [
+        "Mega Man 2",
+        "Ape Escape",
+        "Symphony of the Night",
         "Spyro 3"
     ],
     "moving platforms": [
-        "Super Mario Sunshine",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Wario Land 4",
         "Kirby 64 - The Crystal Shards",
         "Donkey Kong Country",
-        "Castlevania 64",
-        "Sonic Heroes",
-        "Wario Land 4",
+        "Metroid Prime",
         "Castlevania - Circle of the Moon",
-        "Jak and Daxter: The Precursor Legacy",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Paper Mario",
         "Mega Man 2",
         "Blasphemous",
-        "Link's Awakening DX",
-        "Symphony of the Night",
-        "Spyro 3",
-        "Metroid Prime",
-        "Sly Cooper and the Thievius Raccoonus",
         "Ape Escape",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Link's Awakening DX",
         "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Spyro 3"
+    ],
+    "moving": [
+        "VVVVVV",
+        "Symphony of the Night",
+        "Wario Land 4",
+        "Kirby 64 - The Crystal Shards",
+        "Donkey Kong Country",
+        "Metroid Prime",
+        "Castlevania - Circle of the Moon",
+        "Super Mario Sunshine",
+        "Castlevania 64",
         "Paper Mario",
-        "VVVVVV"
+        "Mega Man 2",
+        "Blasphemous",
+        "Ape Escape",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Link's Awakening DX",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Spyro 3"
+    ],
+    "platforms": [
+        "VVVVVV",
+        "Symphony of the Night",
+        "Wario Land 4",
+        "Kirby 64 - The Crystal Shards",
+        "Donkey Kong Country",
+        "Super Metroid Map Rando",
+        "Metroid Prime",
+        "Castlevania - Circle of the Moon",
+        "DOOM II",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Paper Mario",
+        "Ori and the Blind Forest",
+        "Mega Man 2",
+        "Blasphemous",
+        "Zelda II: The Adventure of Link",
+        "Super Metroid",
+        "Ape Escape",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Link's Awakening DX",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Spyro 3"
     ],
     "spiky-haired protagonist": [
-        "Sonic Heroes",
         "Ape Escape",
+        "Sonic Heroes",
+        "Jak and Daxter: The Precursor Legacy",
+        "Kingdom Hearts"
+    ],
+    "spiky-haired": [
+        "Ape Escape",
+        "Sonic Heroes",
         "Jak and Daxter: The Precursor Legacy",
         "Kingdom Hearts"
     ],
     "time trials": [
-        "Sly Cooper and the Thievius Raccoonus",
         "Ape Escape",
-        "Spyro 3",
-        "Mario Kart 64",
         "Diddy Kong Racing",
-        "VVVVVV"
+        "Mario Kart 64",
+        "Sly Cooper and the Thievius Raccoonus",
+        "VVVVVV",
+        "Spyro 3"
+    ],
+    "trials": [
+        "Ape Escape",
+        "Diddy Kong Racing",
+        "Mario Kart 64",
+        "Sly Cooper and the Thievius Raccoonus",
+        "VVVVVV",
+        "Spyro 3"
     ],
     "1999": [
-        "Yu-Gi-Oh! Forbidden Memories",
         "Ape Escape",
+        "Star Wars Episode I Racer",
         "Castlevania 64",
-        "Tyrian",
-        "Star Wars Episode I Racer"
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Tyrian"
     ],
     "sudoku": [
         "Sudoku"
     ],
     "multiplayer": [
-        "ChecksFinder",
-        "Paint",
+        "ArchipIDLE",
         "Clique",
-        "Wordipelago",
         "Sudoku",
-        "Yacht Dice",
+        "Wordipelago",
         "Jigsaw",
-        "ArchipIDLE"
-    ],
-    "archipelago": [
+        "Yacht Dice",
         "ChecksFinder",
-        "Paint",
-        "Clique",
-        "Wordipelago",
-        "Sudoku",
-        "Yacht Dice",
-        "Jigsaw",
-        "ArchipIDLE"
+        "Paint"
     ],
     "hints": [
         "ChecksFinder",
         "Sudoku"
     ],
-    "multiworld": [
-        "ChecksFinder",
-        "Paint",
+    "archipelago": [
+        "ArchipIDLE",
         "Clique",
-        "Wordipelago",
         "Sudoku",
-        "Yacht Dice",
+        "Wordipelago",
         "Jigsaw",
-        "ArchipIDLE"
+        "Yacht Dice",
+        "ChecksFinder",
+        "Paint"
+    ],
+    "multiworld": [
+        "ArchipIDLE",
+        "Clique",
+        "Sudoku",
+        "Wordipelago",
+        "Jigsaw",
+        "Yacht Dice",
+        "ChecksFinder",
+        "Paint"
     ],
     "aquaria": [
         "Aquaria"
     ],
-    "7406": [
-        "Aquaria"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1r7r.jpg": [
-        "Aquaria"
-    ],
     "drama": [
-        "Hades",
+        "Aquaria",
         "EarthBound",
         "Undertale",
-        "Aquaria"
-    ],
-    "linux": [
-        "Getting Over It",
-        "Rogue Legacy",
-        "Terraria",
-        "osu!",
-        "OpenRCT2",
-        "Monster Sanctuary",
-        "Aquaria",
-        "Inscryption",
-        "Factorio",
-        "Overcooked! 2",
-        "Don",
-        "Cat Quest",
-        "Timespinner",
-        "Blasphemous",
-        "Factorio - Space Age Without Space",
-        "DOOM 1993",
-        "Hunie Pop",
-        "Risk of Rain",
-        "Minecraft",
-        "A Short Hike",
-        "CrossCode",
-        "Stardew Valley",
-        "Undertale",
-        "Not an idle game",
-        "Bumper Stickers",
-        "Celeste",
-        "Landstalker - The Treasures of King Nole",
-        "Hollow Knight",
-        "Celeste 64",
-        "Chained Echoes",
-        "Dungeon Clawler",
-        "VVVVVV"
-    ],
-    "android": [
-        "Blasphemous",
-        "Getting Over It",
-        "Aquaria",
-        "Muse Dash",
-        "Brotato",
-        "Old School Runescape",
-        "Terraria",
-        "Cat Quest",
-        "Balatro",
-        "Stardew Valley",
-        "osu!",
-        "Not an idle game",
-        "Dungeon Clawler",
-        "VVVVVV"
-    ],
-    "ios": [
-        "Blasphemous",
-        "The Witness",
-        "Getting Over It",
-        "Aquaria",
-        "Muse Dash",
-        "Brotato",
-        "Old School Runescape",
-        "Resident Evil 2 Remake",
-        "Terraria",
-        "Cat Quest",
-        "Balatro",
-        "Stardew Valley",
-        "osu!",
-        "Not an idle game",
-        "Resident Evil 3 Remake",
-        "Hades",
-        "Dungeon Clawler",
-        "VVVVVV"
-    ],
-    "the world of aquaria hides the secrets of creation within its depths. the currents that buffet the many diverse plants and animals that live there also carry with them stories of long lost civilizations; of love and war, change and loss.\n\nfrom lush, green kelp forests to dark caves, exploring will be no easy task. but the splendor of the undersea world awaits naija... and you.\n\nopen waters\ncrystalline blue\n\nthe glassy waters of the open sea let you peer far into the distance, and fish and other creatures play beneath the wide canopies of giant, undersea mushrooms.\n\nhere, ruins serve as a clue to aquaria's long past. will they lead naija to the truth?\n\nthe kelp forest\nthe natural world\n\nthe kelp forest teems with life. as light from above pours across the multitudes of strange plants and animals that live here, one cannot help but marvel at the dynamic landscape.\n\nbut beware, its beauty belies the inherent danger inside. careful not to lose your way.\n\nthe abyss\ndarkness\n\nas you swim deeper, to where sight cannot reach, the abyss begins to swallow you whole. the deeper waters of aquaria have spawned legends of frightening monstrosities that lurk where few things can survive. are they true?\n\nbeyond\n???\n\nwhat lies beyond? are there areas deeper than the abyss? or as we swim ever upward, can we find the source of the light?\n\nonly those with great fortitude will come to know and understand the mysteries of aquaria.": [
-        "Aquaria"
+        "Hades"
     ],
     "alternate costumes": [
-        "Super Mario Sunshine",
+        "Super Mario Odyssey",
         "Aquaria",
-        "Castlevania 64",
+        "Super Mario Sunshine",
         "Kingdom Hearts",
-        "Super Mario Odyssey"
+        "Castlevania 64"
+    ],
+    "alternate": [
+        "Super Mario Odyssey",
+        "Aquaria",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Castlevania 64"
+    ],
+    "costumes": [
+        "Super Mario Odyssey",
+        "Aquaria",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Castlevania 64"
     ],
     "humble bundle": [
-        "Minecraft",
-        "Getting Over It",
         "Aquaria",
+        "Getting Over It",
+        "Minecraft",
+        "VVVVVV"
+    ],
+    "humble": [
+        "Aquaria",
+        "Getting Over It",
+        "Minecraft",
+        "VVVVVV"
+    ],
+    "bundle": [
+        "Aquaria",
+        "Getting Over It",
+        "Minecraft",
         "VVVVVV"
     ],
     "underwater gameplay": [
-        "Super Mario Sunshine",
-        "Aquaria",
-        "Metroid Prime",
-        "Super Mario 64",
-        "Donkey Kong Country",
-        "Terraria",
-        "SM64 Romhack",
-        "Donkey Kong Country 2",
-        "Banjo-Tooie",
-        "Kingdom Hearts",
-        "Subnautica",
         "Super Mario Odyssey",
+        "Super Mario 64",
+        "Subnautica",
+        "Banjo-Tooie",
+        "Aquaria",
+        "Terraria",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Donkey Kong Country 2",
+        "Ocarina of Time",
+        "Metroid Prime",
         "Mega Man 2",
-        "Ocarina of Time"
+        "Donkey Kong Country",
+        "SM64 Romhack"
+    ],
+    "underwater": [
+        "Super Mario Odyssey",
+        "Super Mario 64",
+        "Subnautica",
+        "Banjo-Tooie",
+        "Aquaria",
+        "Terraria",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Donkey Kong Country 2",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Mega Man 2",
+        "Donkey Kong Country",
+        "SM64 Romhack"
     ],
     "shape-shifting": [
-        "Kirby's Dream Land 3",
-        "Aquaria",
-        "Metroid Prime",
-        "Kirby 64 - The Crystal Shards",
-        "Symphony of the Night",
         "Banjo-Tooie",
+        "Aquaria",
+        "Symphony of the Night",
+        "Kirby 64 - The Crystal Shards",
+        "Kirby's Dream Land 3",
+        "Metroid Prime",
         "Majora's Mask Recompiled"
     ],
     "plot twist": [
         "Aquaria",
-        "Castlevania 64",
-        "Undertale",
+        "Ocarina of Time",
         "Kingdom Hearts",
-        "Ocarina of Time"
+        "Castlevania 64",
+        "Undertale"
+    ],
+    "plot": [
+        "Aquaria",
+        "Ocarina of Time",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Undertale"
+    ],
+    "twist": [
+        "Aquaria",
+        "Ocarina of Time",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Undertale"
     ],
     "2007": [
+        "Aquaria",
         "An Untitled Story",
-        "osu!",
-        "Aquaria"
+        "osu!"
     ],
     "archipidle": [
         "ArchipIDLE"
@@ -10637,236 +12673,412 @@ SEARCH_INDEX = {
     "an untitled story": [
         "An Untitled Story"
     ],
-    "72926": [
-        "An Untitled Story"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2nok.jpg": [
-        "An Untitled Story"
-    ],
     "balatro": [
         "Balatro"
     ],
-    "251833": [
-        "Balatro"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co9f4g.jpg": [
-        "Balatro"
-    ],
     "simulated gambling": [
+        "Stardew Valley",
         "Balatro",
+        "Undertale"
+    ],
+    "simulated": [
+        "Stardew Valley",
+        "Balatro",
+        "Undertale"
+    ],
+    "gambling": [
+        "Balatro",
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Paper Mario",
         "Stardew Valley",
         "Undertale"
     ],
     "turn-based strategy (tbs)": [
-        "Pokemon Red and Blue",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Pokemon Emerald",
-        "Civilization VI",
-        "EarthBound",
-        "Balatro",
-        "Wargroove",
         "Monster Sanctuary",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
         "Yu-Gi-Oh! Dungeon Dice Monsters",
         "Final Fantasy",
-        "Pokemon FireRed and LeafGreen",
-        "Undertale",
+        "EarthBound",
         "Final Fantasy Tactics Advance",
-        "Yu-Gi-Oh! 2006",
-        "Chained Echoes",
-        "Paper Mario",
         "Dungeon Clawler",
-        "Wargroove 2"
-    ],
-    "card & board game": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Slay the Spire",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Inscryption",
+        "Undertale",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Paper Mario",
+        "Civilization VI",
+        "Wargroove 2",
         "Yu-Gi-Oh! 2006",
         "Balatro",
-        "Yacht Dice"
+        "Chained Echoes",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Pokemon Emerald",
+        "Yu-Gi-Oh! Forbidden Memories"
+    ],
+    "turn-based": [
+        "Monster Sanctuary",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Dungeon Clawler",
+        "Undertale",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Paper Mario",
+        "Civilization VI",
+        "Wargroove 2",
+        "Yu-Gi-Oh! 2006",
+        "Final Fantasy Mystic Quest",
+        "Balatro",
+        "Chained Echoes",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Pokemon Emerald",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "(tbs)": [
+        "Monster Sanctuary",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "Final Fantasy",
+        "EarthBound",
+        "Final Fantasy Tactics Advance",
+        "Dungeon Clawler",
+        "Undertale",
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Hylics 2",
+        "Pokemon Red and Blue",
+        "Paper Mario",
+        "Civilization VI",
+        "Wargroove 2",
+        "Yu-Gi-Oh! 2006",
+        "Balatro",
+        "Chained Echoes",
+        "Wargroove",
+        "Pokemon FireRed and LeafGreen",
+        "Pokemon Emerald",
+        "Yu-Gi-Oh! Forbidden Memories"
+    ],
+    "card & board game": [
+        "Yu-Gi-Oh! 2006",
+        "Slay the Spire",
+        "Balatro",
+        "Inscryption",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Yacht Dice",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
+    ],
+    "card": [
+        "Yu-Gi-Oh! 2006",
+        "Slay the Spire",
+        "Balatro",
+        "Inscryption",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Yacht Dice",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
+    ],
+    "board": [
+        "Yu-Gi-Oh! 2006",
+        "Slay the Spire",
+        "Balatro",
+        "Inscryption",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Yacht Dice",
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
+    ],
+    "game": [
+        "The Witness",
+        "Yu-Gi-Oh! 2006",
+        "Super Mario Odyssey",
+        "Balatro",
+        "Slay the Spire",
+        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "DOOM II",
+        "Rogue Legacy",
+        "Inscryption",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Cuphead",
+        "Yacht Dice",
+        "Hollow Knight",
+        "Spyro 3",
+        "Sea of Thieves"
     ],
     "roguelike": [
         "Slay the Spire",
-        "Rogue Legacy",
-        "Risk of Rain",
-        "Pokemon Mystery Dungeon Explorers of Sky",
         "Balatro",
+        "Rogue Legacy",
         "Hades",
-        "Dungeon Clawler"
+        "Dungeon Clawler",
+        "Risk of Rain",
+        "Pokemon Mystery Dungeon Explorers of Sky"
     ],
     "banjo-tooie": [
         "Banjo-Tooie"
     ],
-    "3418": [
-        "Banjo-Tooie"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6c1w.jpg": [
-        "Banjo-Tooie"
-    ],
     "crude humor": [
-        "The Messenger",
         "The Binding of Isaac Repentance",
+        "Banjo-Tooie",
         "The Sims 4",
-        "Sea of Thieves",
         "Rogue Legacy",
         "Don",
-        "Banjo-Tooie"
+        "The Messenger",
+        "Sea of Thieves"
+    ],
+    "crude": [
+        "The Binding of Isaac Repentance",
+        "Banjo-Tooie",
+        "The Sims 4",
+        "Rogue Legacy",
+        "Don",
+        "The Messenger",
+        "Sea of Thieves"
     ],
     "animated violence": [
+        "Banjo-Tooie",
         "DOOM 1993",
         "Sonic Adventure DX",
         "Symphony of the Night",
         "Castlevania 64",
-        "Banjo-Tooie",
-        "Tyrian",
-        "Majora's Mask Recompiled"
+        "Majora's Mask Recompiled",
+        "Tyrian"
     ],
     "comic mischief": [
-        "Super Mario Sunshine",
+        "Super Mario Odyssey",
+        "Banjo-Tooie",
         "Skyward Sword",
-        "Ratchet & Clank 2",
-        "Zork Grand Inquisitor",
+        "Super Mario Sunshine",
         "Toontown",
         "Wario Land 4",
         "Paper Mario",
+        "Ratchet & Clank 2",
+        "Zork Grand Inquisitor",
+        "Spyro 3"
+    ],
+    "comic": [
+        "Super Mario Odyssey",
         "Banjo-Tooie",
-        "Spyro 3",
-        "Super Mario Odyssey"
+        "Skyward Sword",
+        "Super Mario Sunshine",
+        "Toontown",
+        "Wario Land 4",
+        "Paper Mario",
+        "Ratchet & Clank 2",
+        "Zork Grand Inquisitor",
+        "Spyro 3"
+    ],
+    "mischief": [
+        "Super Mario Odyssey",
+        "Banjo-Tooie",
+        "Skyward Sword",
+        "Super Mario Sunshine",
+        "Toontown",
+        "Wario Land 4",
+        "Paper Mario",
+        "Ratchet & Clank 2",
+        "Zork Grand Inquisitor",
+        "Spyro 3"
     ],
     "cartoon violence": [
-        "Toontown",
+        "Super Mario Odyssey",
+        "Banjo-Tooie",
         "Terraria",
         "Symphony of the Night",
-        "Banjo-Tooie",
         "Kingdom Hearts",
-        "Super Mario Odyssey",
+        "Toontown",
         "Majora's Mask Recompiled"
+    ],
+    "cartoon": [
+        "Super Mario Odyssey",
+        "Banjo-Tooie",
+        "Terraria",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Toontown",
+        "Majora's Mask Recompiled",
+        "Pokemon Mystery Dungeon Explorers of Sky"
     ],
     "quiz/trivia": [
         "Banjo-Tooie"
     ],
     "comedy": [
-        "Zork Grand Inquisitor",
-        "Getting Over It",
-        "Rogue Legacy",
-        "Mario & Luigi Superstar Saga",
-        "Lethal Company",
-        "DLCQuest",
+        "Banjo-Tooie",
         "Kingdom Hearts",
-        "Diddy Kong Racing",
-        "The Messenger",
-        "Ratchet & Clank 2",
-        "Toontown",
-        "Overcooked! 2",
-        "Donkey Kong Country 2",
-        "Digimon World",
-        "Jak and Daxter: The Precursor Legacy",
-        "Hunie Pop",
-        "Muse Dash",
-        "Candy Box 2",
-        "Banjo-Tooie",
-        "DORONKO WANKO",
         "Luigi's Mansion",
-        "Spyro 3",
-        "Undertale",
+        "The Messenger",
+        "Digimon World",
+        "Getting Over It",
+        "DLCQuest",
         "Cuphead",
-        "The Sims 4",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Paper Mario"
-    ],
-    "nintendo 64": [
-        "Kirby 64 - The Crystal Shards",
-        "Super Mario 64",
-        "Castlevania 64",
-        "SM64 Romhack",
-        "Star Fox 64",
-        "Banjo-Tooie",
+        "Zork Grand Inquisitor",
+        "Undertale",
+        "Lethal Company",
+        "Muse Dash",
+        "Donkey Kong Country 2",
+        "Overcooked! 2",
         "Paper Mario",
-        "Star Wars Episode I Racer",
-        "Mario Kart 64",
+        "DORONKO WANKO",
+        "The Sims 4",
+        "Hunie Pop",
         "Diddy Kong Racing",
-        "Ocarina of Time",
-        "Majora's Mask Recompiled"
+        "Candy Box 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Rogue Legacy",
+        "Toontown",
+        "Ratchet & Clank 2",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3"
     ],
     "aliens": [
-        "Super Metroid Map Rando",
-        "Factorio - Space Age Without Space",
         "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "Banjo-Tooie",
+        "Lethal Company",
+        "Starcraft 2",
+        "Factorio",
         "Metroid Zero Mission",
         "Metroid Prime",
         "Xenoblade X",
-        "Lethal Company",
-        "Factorio",
-        "EarthBound",
-        "Banjo-Tooie",
-        "Starcraft 2"
+        "Factorio - Space Age Without Space"
     ],
     "flight": [
+        "Banjo-Tooie",
+        "Hylics 2",
         "Diddy Kong Racing",
-        "Rogue Legacy",
-        "Xenoblade X",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "Terraria",
         "A Short Hike",
         "Star Fox 64",
-        "Banjo-Tooie",
-        "Spyro 3",
-        "Hylics 2",
-        "Mega Man 2"
+        "Terraria",
+        "Rogue Legacy",
+        "Wario Land 4",
+        "Xenoblade X",
+        "Mega Man 2",
+        "Donkey Kong Country",
+        "Spyro 3"
     ],
     "witches": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Banjo-Tooie",
         "Ender Lilies",
         "Castlevania 64",
-        "Banjo-Tooie",
-        "The Legend of Zelda - Oracle of Seasons",
-        "The Legend of Zelda - Oracle of Ages"
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "achievements": [
-        "Blasphemous",
-        "DOOM II",
-        "Muse Dash",
-        "Sonic Heroes",
         "Minecraft",
-        "Symphony of the Night",
         "Banjo-Tooie",
         "Hunie Pop 2",
-        "Dark Souls II",
+        "Sonic Heroes",
+        "DOOM II",
+        "Muse Dash",
+        "Symphony of the Night",
+        "VVVVVV",
         "Cuphead",
         "Ori and the Blind Forest",
-        "VVVVVV"
+        "Blasphemous",
+        "Dark Souls II"
     ],
     "talking animals": [
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country",
+        "Banjo-Tooie",
+        "Diddy Kong Racing",
         "Star Fox 64",
+        "Sly Cooper and the Thievius Raccoonus",
         "Donkey Kong Country 2",
         "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "talking": [
         "Banjo-Tooie",
-        "Diddy Kong Racing"
+        "Diddy Kong Racing",
+        "Star Fox 64",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "animals": [
+        "Banjo-Tooie",
+        "Diddy Kong Racing",
+        "Star Fox 64",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
     ],
     "breaking the fourth wall": [
-        "Link's Awakening DX",
-        "Rogue Legacy",
-        "DOOM II",
-        "Mario & Luigi Superstar Saga",
-        "Jak and Daxter: The Precursor Legacy",
-        "Donkey Kong Country",
-        "Donkey Kong Country 2",
         "Banjo-Tooie",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM II",
+        "Rogue Legacy",
+        "Donkey Kong Country 2",
+        "Link's Awakening DX",
         "Paper Mario",
+        "Final Fantasy Tactics Advance",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga",
+        "Undertale"
+    ],
+    "breaking": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Banjo-Tooie",
+        "Symphony of the Night",
+        "Wario Land 4",
+        "Donkey Kong Country",
+        "Super Metroid Map Rando",
+        "Metroid Prime",
+        "Final Fantasy Tactics Advance",
         "Undertale",
-        "Final Fantasy Tactics Advance"
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Donkey Kong Country 2",
+        "Paper Mario",
+        "Super Metroid",
+        "Jak and Daxter: The Precursor Legacy",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Link's Awakening DX",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "fourth": [
+        "Banjo-Tooie",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM II",
+        "Rogue Legacy",
+        "Donkey Kong Country 2",
+        "Link's Awakening DX",
+        "Paper Mario",
+        "Final Fantasy Tactics Advance",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga",
+        "Undertale"
     ],
     "cameo appearance": [
-        "Donkey Kong Country 2",
         "Banjo-Tooie",
-        "Spyro 3",
         "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Spyro 3"
+    ],
+    "cameo": [
+        "Banjo-Tooie",
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Spyro 3"
+    ],
+    "appearance": [
+        "Banjo-Tooie",
+        "Jak and Daxter: The Precursor Legacy",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Spyro 3"
     ],
     "invisible wall": [
         "Mario Kart 64",
@@ -10874,505 +13086,679 @@ SEARCH_INDEX = {
         "Banjo-Tooie",
         "Kingdom Hearts"
     ],
+    "invisible": [
+        "Mario Kart 64",
+        "Ocarina of Time",
+        "Banjo-Tooie",
+        "Kingdom Hearts"
+    ],
     "temporary invincibility": [
         "Faxanadu",
+        "Banjo-Tooie",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
         "DOOM II",
         "Rogue Legacy",
-        "Sonic Heroes",
-        "Mario Kart 64",
         "Donkey Kong Country 2",
-        "Banjo-Tooie",
+        "Cuphead",
         "Paper Mario",
+        "Sonic Heroes"
+    ],
+    "temporary": [
+        "Faxanadu",
+        "Banjo-Tooie",
+        "Mario Kart 64",
         "Jak and Daxter: The Precursor Legacy",
-        "Cuphead"
+        "DOOM II",
+        "Rogue Legacy",
+        "Donkey Kong Country 2",
+        "Cuphead",
+        "Paper Mario",
+        "Sonic Heroes"
+    ],
+    "invincibility": [
+        "Faxanadu",
+        "Banjo-Tooie",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM II",
+        "Rogue Legacy",
+        "Donkey Kong Country 2",
+        "Cuphead",
+        "Paper Mario",
+        "Sonic Heroes"
     ],
     "gliding": [
-        "Super Mario Sunshine",
-        "Sly Cooper and the Thievius Raccoonus",
         "Banjo-Tooie",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Super Mario Sunshine",
         "Kingdom Hearts",
         "Spyro 3"
     ],
     "lgbtq+": [
-        "The Sims 4",
+        "Celeste",
+        "Banjo-Tooie",
         "Rogue Legacy",
         "Celeste 64",
-        "Banjo-Tooie",
         "Timespinner",
-        "Celeste"
+        "The Sims 4"
     ],
     "2000": [
-        "Kirby 64 - The Crystal Shards",
-        "Spyro 3",
-        "Paper Mario",
         "Banjo-Tooie",
+        "Kirby 64 - The Crystal Shards",
         "Pokemon Crystal",
-        "Majora's Mask Recompiled"
+        "Paper Mario",
+        "Majora's Mask Recompiled",
+        "Spyro 3"
     ],
     "blasphemous": [
         "Blasphemous"
     ],
-    "26820": [
-        "Blasphemous"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2eyn.jpg": [
-        "Blasphemous"
-    ],
     "blood and gore": [
-        "Blasphemous",
+        "Dark Souls Remastered",
         "The Binding of Isaac Repentance",
-        "DOOM 1993",
-        "DOOM II",
-        "ULTRAKILL",
         "Resident Evil 2 Remake",
-        "Terraria",
-        "Symphony of the Night",
-        "Dark Souls Remastered",
-        "Dark Souls II",
-        "Resident Evil 3 Remake",
-        "Starcraft 2"
-    ],
-    "violence": [
-        "Sonic Adventure 2 Battle",
-        "DOOM II",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Terraria",
-        "Civilization VI",
-        "Kingdom Hearts",
-        "Kingdom Hearts 2",
-        "Inscryption",
-        "Ender Lilies",
-        "Factorio",
-        "Bomb Rush Cyberfunk",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Dark Souls II",
-        "Ocarina of Time",
-        "Raft",
-        "Starcraft 2",
-        "Blasphemous",
-        "Sea of Thieves",
-        "DOOM 1993",
-        "Golden Sun The Lost Age",
-        "Symphony of the Night",
-        "Dark Souls III",
         "ULTRAKILL",
-        "The Binding of Isaac Repentance",
-        "The Sims 4",
-        "The Wind Waker",
-        "Xenoblade X",
-        "Metroid Prime",
+        "Starcraft 2",
+        "Terraria",
+        "DOOM 1993",
+        "DOOM II",
+        "Symphony of the Night",
+        "Resident Evil 3 Remake",
+        "Blasphemous",
+        "Dark Souls II"
+    ],
+    "gore": [
+        "Shivers",
         "Dark Souls Remastered",
-        "Star Fox 64",
-        "Hades"
+        "The Binding of Isaac Repentance",
+        "Resident Evil 2 Remake",
+        "ULTRAKILL",
+        "Starcraft 2",
+        "Terraria",
+        "DOOM 1993",
+        "DOOM II",
+        "Symphony of the Night",
+        "Resident Evil 3 Remake",
+        "Blasphemous",
+        "Dark Souls II"
     ],
     "nudity": [
-        "Blasphemous",
-        "Muse Dash",
+        "Dark Souls Remastered",
         "Hunie Pop",
+        "Hunie Pop 2",
+        "Muse Dash",
         "Symphony of the Night",
-        "Hunie Pop 2"
+        "Blasphemous",
+        "Dark Souls II"
     ],
     "hack and slash/beat 'em up": [
-        "Blasphemous",
-        "Risk of Rain",
         "Castlevania 64",
+        "Risk of Rain",
+        "Blasphemous",
         "Hades"
     ],
-    "a foul curse has fallen upon the land of cvstodia and all its inhabitants - it is simply known as the miracle.\n\nplay as the penitent one - a sole survivor of the massacre of the \u2018silent sorrow\u2019. trapped in an endless cycle of death and rebirth, it\u2019s down to you to free the world from this terrible fate and reach the origin of your anguish.": [
-        "Blasphemous"
+    "hack": [
+        "Castlevania 64",
+        "Risk of Rain",
+        "Blasphemous",
+        "Hades"
+    ],
+    "slash/beat": [
+        "Castlevania 64",
+        "Risk of Rain",
+        "Blasphemous",
+        "Hades"
+    ],
+    "'em": [
+        "Castlevania 64",
+        "Risk of Rain",
+        "Blasphemous",
+        "Hades"
+    ],
+    "up": [
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Digimon World",
+        "Symphony of the Night",
+        "Hades",
+        "Kingdom Hearts",
+        "Pokemon Emerald",
+        "Castlevania 64",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Undertale",
+        "Zelda II: The Adventure of Link",
+        "Castlevania - Circle of the Moon",
+        "Risk of Rain",
+        "Blasphemous",
+        "Dark Souls II"
     ],
     "bloody": [
-        "Blasphemous",
-        "DOOM II",
-        "Metroid Prime",
         "Resident Evil 2 Remake",
+        "ULTRAKILL",
+        "DOOM II",
+        "Heretic",
         "Symphony of the Night",
         "Castlevania 64",
-        "Heretic",
-        "ULTRAKILL"
+        "Metroid Prime",
+        "Blasphemous"
     ],
     "difficult": [
-        "Blasphemous",
-        "The Messenger",
-        "TUNIC",
-        "Getting Over It",
-        "Risk of Rain",
-        "Don",
-        "Hades",
         "Celeste",
-        "Zelda II: The Adventure of Link"
+        "Getting Over It",
+        "Hades",
+        "TUNIC",
+        "Zelda II: The Adventure of Link",
+        "Don",
+        "The Messenger",
+        "Risk of Rain",
+        "Blasphemous"
     ],
     "side-scrolling": [
-        "Blasphemous",
-        "Super Metroid Map Rando",
-        "Kirby's Dream Land 3",
         "Super Metroid",
+        "Super Metroid Map Rando",
+        "Yoshi's Island",
+        "Hylics 2",
         "Metroid Zero Mission",
         "Muse Dash",
         "Rogue Legacy",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
         "Symphony of the Night",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Hylics 2",
-        "Yoshi's Island",
-        "Mega Man 2",
+        "Kirby 64 - The Crystal Shards",
         "Cuphead",
-        "Zelda II: The Adventure of Link"
+        "Donkey Kong Country 3",
+        "Kirby's Dream Land 3",
+        "Zelda II: The Adventure of Link",
+        "Mega Man 2",
+        "Donkey Kong Country",
+        "Blasphemous"
     ],
     "crossover": [
-        "Blasphemous",
         "Mario Kart 64",
+        "Blasphemous",
         "Diddy Kong Racing",
         "Kingdom Hearts"
     ],
     "religion": [
-        "Blasphemous",
-        "Civilization VI",
-        "Castlevania 64",
         "EarthBound",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "Castlevania 64",
+        "Civilization VI",
+        "Blasphemous"
     ],
     "2d platformer": [
-        "Blasphemous",
-        "Hollow Knight",
-        "Hylics 2",
         "Super Mario Odyssey",
-        "VVVVVV"
+        "Hylics 2",
+        "VVVVVV",
+        "Hollow Knight",
+        "Blasphemous"
     ],
     "great soundtrack": [
-        "Blasphemous",
-        "TUNIC",
-        "Getting Over It",
-        "Bomb Rush Cyberfunk",
-        "A Short Hike",
-        "Undertale",
-        "Hylics 2",
+        "Celeste",
         "ULTRAKILL",
-        "Celeste"
+        "Hylics 2",
+        "A Short Hike",
+        "Getting Over It",
+        "TUNIC",
+        "Bomb Rush Cyberfunk",
+        "Blasphemous",
+        "Undertale"
+    ],
+    "great": [
+        "Celeste",
+        "ULTRAKILL",
+        "Hylics 2",
+        "A Short Hike",
+        "Getting Over It",
+        "TUNIC",
+        "Bomb Rush Cyberfunk",
+        "Blasphemous",
+        "Undertale"
+    ],
+    "soundtrack": [
+        "Celeste",
+        "ULTRAKILL",
+        "Hylics 2",
+        "A Short Hike",
+        "Getting Over It",
+        "TUNIC",
+        "Bomb Rush Cyberfunk",
+        "Blasphemous",
+        "Undertale"
     ],
     "parrying": [
-        "Blasphemous",
-        "Hollow Knight",
         "Dark Souls III",
-        "Dark Souls II",
-        "Cuphead"
+        "Cuphead",
+        "Hollow Knight",
+        "Blasphemous",
+        "Dark Souls II"
     ],
     "soulslike": [
-        "Blasphemous",
-        "TUNIC",
-        "Ender Lilies",
         "Dark Souls Remastered",
         "Dark Souls III",
+        "Ender Lilies",
+        "TUNIC",
+        "Blasphemous",
         "Dark Souls II"
     ],
     "you can pet the dog": [
-        "Blasphemous",
-        "The Sims 4",
-        "Sea of Thieves",
-        "Overcooked! 2",
         "Terraria",
+        "Hades",
+        "Overcooked! 2",
+        "The Sims 4",
+        "Blasphemous",
+        "Sea of Thieves",
+        "Undertale"
+    ],
+    "you": [
+        "Terraria",
+        "Hades",
+        "Overcooked! 2",
+        "The Sims 4",
+        "Blasphemous",
+        "Sea of Thieves",
+        "Undertale"
+    ],
+    "can": [
+        "Terraria",
+        "Hades",
+        "Overcooked! 2",
+        "The Sims 4",
+        "Blasphemous",
+        "Sea of Thieves",
+        "Undertale"
+    ],
+    "pet": [
+        "Terraria",
+        "Hades",
+        "Overcooked! 2",
+        "The Sims 4",
+        "Blasphemous",
+        "Sea of Thieves",
+        "Undertale"
+    ],
+    "dog": [
+        "Super Mario Odyssey",
+        "Star Fox 64",
+        "Terraria",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Hades",
+        "Ocarina of Time",
+        "Castlevania 64",
+        "Overcooked! 2",
+        "DORONKO WANKO",
         "Undertale",
-        "Hades"
+        "The Sims 4",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Blasphemous",
+        "Sea of Thieves",
+        "Secret of Evermore"
     ],
     "interconnected-world": [
-        "Blasphemous",
-        "Super Metroid Map Rando",
-        "Super Metroid",
-        "Metroid Zero Mission",
-        "Hollow Knight",
-        "Symphony of the Night",
         "Dark Souls Remastered",
+        "Super Metroid",
+        "Super Metroid Map Rando",
         "Dark Souls III",
+        "Metroid Zero Mission",
+        "Symphony of the Night",
         "Luigi's Mansion",
+        "Hollow Knight",
+        "Blasphemous",
         "Dark Souls II"
     ],
     "2019": [
-        "Blasphemous",
+        "Outer Wilds",
         "Resident Evil 2 Remake",
         "A Short Hike",
-        "Outer Wilds",
+        "Wargroove",
         "Risk of Rain 2",
-        "Wargroove"
+        "Blasphemous"
     ],
     "bomb rush cyberfunk": [
         "Bomb Rush Cyberfunk"
     ],
-    "135940": [
-        "Bomb Rush Cyberfunk"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6ya8.jpg": [
-        "Bomb Rush Cyberfunk"
-    ],
     "suggestive themes": [
-        "Zork Grand Inquisitor",
-        "Xenoblade X",
-        "Muse Dash",
-        "Terraria",
-        "Bomb Rush Cyberfunk",
         "Chained Echoes",
-        "Momodora Moonlit Farewell",
+        "Starcraft 2",
+        "Terraria",
+        "Muse Dash",
         "Hades",
+        "Momodora Moonlit Farewell",
+        "Xenoblade X",
+        "Bomb Rush Cyberfunk",
+        "Zork Grand Inquisitor",
+        "Chrono Trigger Jets of Time"
+    ],
+    "suggestive": [
+        "Chained Echoes",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "Terraria",
+        "Muse Dash",
+        "Hades",
+        "Final Fantasy IV Free Enterprise",
+        "Momodora Moonlit Farewell",
+        "Xenoblade X",
+        "Bomb Rush Cyberfunk",
+        "Zork Grand Inquisitor",
+        "Chrono Trigger Jets of Time"
+    ],
+    "themes": [
+        "Timespinner",
+        "Chained Echoes",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "Terraria",
+        "Muse Dash",
+        "Hades",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Final Fantasy IV Free Enterprise",
+        "Momodora Moonlit Farewell",
+        "Xenoblade X",
+        "Bomb Rush Cyberfunk",
+        "Zork Grand Inquisitor",
         "Chrono Trigger Jets of Time",
-        "Starcraft 2"
+        "The Sims 4"
     ],
     "sport": [
-        "Bomb Rush Cyberfunk",
-        "Trackmania"
-    ],
-    "science fiction": [
-        "Super Metroid",
-        "DOOM II",
-        "Lethal Company",
-        "Terraria",
-        "EarthBound",
-        "Zillion",
-        "Subnautica",
-        "Ratchet & Clank 2",
-        "Metroid Zero Mission",
-        "Factorio",
-        "Secret of Evermore",
-        "Bomb Rush Cyberfunk",
-        "Jak and Daxter: The Precursor Legacy",
-        "Mega Man 2",
-        "MegaMan Battle Network 3",
-        "Chrono Trigger Jets of Time",
-        "Risk of Rain 2",
-        "Starcraft 2",
-        "Factorio - Space Age Without Space",
-        "DOOM 1993",
-        "Risk of Rain",
-        "Pokemon FireRed and LeafGreen",
-        "CrossCode",
-        "ULTRAKILL",
-        "The Witness",
-        "Super Metroid Map Rando",
-        "Xenoblade X",
-        "Metroid Prime",
-        "Brotato",
-        "Star Fox 64",
-        "Outer Wilds",
-        "Tyrian",
-        "Star Wars Episode I Racer",
-        "VVVVVV"
-    ],
-    "start your own cypher and dance, paint, trick, face off with the cops and stake your claim to the extrusions and cavities of a sprawling metropolis in an alternate future set to the musical brainwaves of hideki naganuma.": [
+        "Trackmania",
         "Bomb Rush Cyberfunk"
     ],
-    "spiritual successor": [
+    "science fiction": [
+        "Subnautica",
+        "Star Fox 64",
+        "VVVVVV",
+        "Xenoblade X",
+        "Outer Wilds",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "ULTRAKILL",
+        "Terraria",
+        "Metroid Prime",
         "Bomb Rush Cyberfunk",
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "The Witness",
+        "Lethal Company",
+        "MegaMan Battle Network 3",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Risk of Rain 2",
+        "Mega Man 2",
+        "Risk of Rain",
+        "Factorio - Space Age Without Space",
+        "Tyrian",
+        "Zillion",
+        "Super Metroid",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Star Wars Episode I Racer",
+        "Ratchet & Clank 2",
+        "Brotato",
+        "Secret of Evermore"
+    ],
+    "science": [
+        "Subnautica",
+        "Star Fox 64",
+        "VVVVVV",
+        "Xenoblade X",
+        "Outer Wilds",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "ULTRAKILL",
+        "Terraria",
+        "Metroid Prime",
+        "Bomb Rush Cyberfunk",
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "The Witness",
+        "Lethal Company",
+        "MegaMan Battle Network 3",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Risk of Rain 2",
+        "Mega Man 2",
+        "Risk of Rain",
+        "Factorio - Space Age Without Space",
+        "Tyrian",
+        "Zillion",
+        "Super Metroid",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Star Wars Episode I Racer",
+        "Ratchet & Clank 2",
+        "Brotato",
+        "Secret of Evermore"
+    ],
+    "fiction": [
+        "Subnautica",
+        "Star Fox 64",
+        "VVVVVV",
+        "Xenoblade X",
+        "Outer Wilds",
+        "EarthBound",
+        "Super Metroid Map Rando",
+        "ULTRAKILL",
+        "Terraria",
+        "Metroid Prime",
+        "Bomb Rush Cyberfunk",
+        "CrossCode",
+        "Chrono Trigger Jets of Time",
+        "The Witness",
+        "Lethal Company",
+        "MegaMan Battle Network 3",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Risk of Rain 2",
+        "Mega Man 2",
+        "Risk of Rain",
+        "Factorio - Space Age Without Space",
+        "Tyrian",
+        "Zillion",
+        "Super Metroid",
+        "Starcraft 2",
+        "Jak and Daxter: The Precursor Legacy",
+        "DOOM 1993",
+        "Factorio",
+        "Pokemon FireRed and LeafGreen",
+        "Star Wars Episode I Racer",
+        "Ratchet & Clank 2",
+        "Brotato",
+        "Secret of Evermore"
+    ],
+    "spiritual successor": [
         "Paper Mario",
         "Mario & Luigi Superstar Saga",
-        "Xenoblade X"
+        "Xenoblade X",
+        "Bomb Rush Cyberfunk"
+    ],
+    "spiritual": [
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga",
+        "Xenoblade X",
+        "Bomb Rush Cyberfunk"
+    ],
+    "successor": [
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga",
+        "Xenoblade X",
+        "Bomb Rush Cyberfunk"
     ],
     "brotato": [
-        "Brotato"
-    ],
-    "199116": [
-        "Brotato"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4pcj.jpg": [
         "Brotato"
     ],
     "fighting": [
         "Brotato"
     ],
     "shooter": [
-        "Super Metroid",
-        "DOOM II",
-        "UFO 50",
-        "Ratchet & Clank 2",
-        "Metroid Zero Mission",
-        "Heretic",
-        "Risk of Rain 2",
-        "DOOM 1993",
-        "Risk of Rain",
-        "Resident Evil 2 Remake",
-        "CrossCode",
-        "Resident Evil 3 Remake",
-        "ULTRAKILL",
-        "Noita",
-        "Cuphead",
-        "Super Metroid Map Rando",
-        "The Binding of Isaac Repentance",
-        "Metroid Prime",
-        "Brotato",
         "Star Fox 64",
-        "Tyrian"
-    ],
-    "arcade": [
-        "The Messenger",
-        "Super Mario World",
-        "Brotato",
-        "UFO 50",
-        "Overcooked! 2",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Trackmania",
-        "Cuphead",
-        "osu!",
-        "Tyrian",
+        "Resident Evil 2 Remake",
+        "Super Metroid Map Rando",
         "ULTRAKILL",
-        "Mario Kart 64",
+        "Heretic",
+        "Resident Evil 3 Remake",
+        "Cuphead",
+        "Metroid Prime",
+        "CrossCode",
+        "The Binding of Isaac Repentance",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Risk of Rain 2",
+        "Risk of Rain",
         "Noita",
-        "Dungeon Clawler",
-        "VVVVVV"
-    ],
-    "a spaceship from potato world crashes onto an alien planet. the sole survivor: brotato, the only potato capable of handling 6 weapons at the same time. waiting to be rescued by his mates, brotato must survive in this hostile environment.": [
+        "Tyrian",
+        "Super Metroid",
+        "UFO 50",
+        "DOOM 1993",
+        "Ratchet & Clank 2",
         "Brotato"
     ],
+    "arcade": [
+        "ULTRAKILL",
+        "osu!",
+        "Mario Kart 64",
+        "UFO 50",
+        "Trackmania",
+        "VVVVVV",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Overcooked! 2",
+        "Cuphead",
+        "Dungeon Clawler",
+        "The Messenger",
+        "Brotato",
+        "Noita",
+        "Tyrian"
+    ],
     "bumper stickers": [
-        "Bumper Stickers"
-    ],
-    "271950": [
-        "Bumper Stickers"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co78k5.jpg": [
-        "Bumper Stickers"
-    ],
-    "bumper stickers archipelago edition": [
         "Bumper Stickers"
     ],
     "candy box 2": [
         "Candy Box 2"
     ],
-    "62779": [
-        "Candy Box 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3tqk.jpg": [
-        "Candy Box 2"
-    ],
     "text": [
-        "Hunie Pop",
         "Yu-Gi-Oh! 2006",
+        "Hunie Pop",
         "Old School Runescape",
-        "Candy Box 2",
-        "Hunie Pop 2"
-    ],
-    "web browser": [
-        "Paper Mario The Thousand Year Door",
+        "Hunie Pop 2",
         "Candy Box 2"
     ],
     "management": [
-        "Civilization VI",
+        "The Sims 4",
         "Final Fantasy Tactics Advance",
-        "Candy Box 2",
-        "The Sims 4"
+        "Civilization VI",
+        "Candy Box 2"
     ],
     "cat quest": [
-        "Cat Quest"
-    ],
-    "36597": [
-        "Cat Quest"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1qlq.jpg": [
         "Cat Quest"
     ],
     "celeste": [
         "Celeste"
     ],
-    "26226": [
-        "Celeste"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3byy.jpg": [
-        "Celeste"
-    ],
     "mild language": [
-        "Ratchet & Clank 2",
-        "Risk of Rain",
-        "Timespinner",
         "Celeste",
-        "Stardew Valley",
         "Subnautica",
-        "Dark Souls II",
-        "Undertale",
+        "VVVVVV",
         "Hades",
         "Cuphead",
-        "VVVVVV"
-    ],
-    "google stadia": [
-        "Risk of Rain 2",
-        "Celeste",
-        "Terraria"
-    ],
-    "set on a fictional version of mount celeste, it follows a young woman named madeline who attempts to climb the mountain, and must face her inner demons in her quest to reach the summit.": [
-        "Celeste"
+        "Ratchet & Clank 2",
+        "Timespinner",
+        "Stardew Valley",
+        "Risk of Rain",
+        "Undertale",
+        "Dark Souls II"
     ],
     "story rich": [
-        "Getting Over It",
-        "Undertale",
+        "Celeste",
         "Hylics 2",
+        "Getting Over It",
         "Hades",
-        "Celeste"
+        "Undertale"
+    ],
+    "story": [
+        "Celeste",
+        "Hylics 2",
+        "Getting Over It",
+        "Hades",
+        "Undertale"
+    ],
+    "rich": [
+        "Celeste",
+        "Hylics 2",
+        "Getting Over It",
+        "Hades",
+        "Undertale"
     ],
     "conversation": [
-        "Celeste",
-        "Undertale",
+        "VVVVVV",
         "Ender Lilies",
-        "VVVVVV"
+        "Celeste",
+        "Undertale"
     ],
     "2018": [
-        "The Messenger",
-        "Sea of Thieves",
-        "Muse Dash",
-        "SMZ3",
-        "Overcooked! 2",
         "Dark Souls Remastered",
-        "CrossCode",
+        "Celeste",
         "Subnautica",
+        "Muse Dash",
+        "The Messenger",
+        "Overcooked! 2",
         "Timespinner",
-        "Celeste"
+        "CrossCode",
+        "Sea of Thieves",
+        "SMZ3"
     ],
     "celeste 64": [
-        "Celeste 64"
-    ],
-    "284430": [
-        "Celeste 64"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7oz4.jpg": [
-        "Celeste 64"
-    ],
-    "celeste 64: fragments of the mountain": [
         "Celeste 64"
     ],
     "chained echoes": [
         "Chained Echoes"
     ],
-    "117271": [
-        "Chained Echoes"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co544u.jpg": [
-        "Chained Echoes"
-    ],
     "strong language": [
-        "Resident Evil 3 Remake",
         "Chained Echoes",
+        "Resident Evil 2 Remake",
         "Inscryption",
-        "Resident Evil 2 Remake"
+        "Resident Evil 3 Remake"
+    ],
+    "strong": [
+        "Chained Echoes",
+        "Resident Evil 2 Remake",
+        "Inscryption",
+        "Resident Evil 3 Remake"
     ],
     "sexual themes": [
-        "The Sims 4",
+        "Chained Echoes",
         "Muse Dash",
         "Hatsune Miku Project Diva Mega Mix+",
-        "Chained Echoes",
-        "Timespinner"
+        "Timespinner",
+        "The Sims 4"
     ],
-    "follow a group of heroes as they explore a land filled to the brim with charming characters, fantastic landscapes and vicious foes. can you bring peace to a continent where war has been waged for generations and betrayal lurks around every corner?": [
-        "Chained Echoes"
+    "sexual": [
+        "Chained Echoes",
+        "Muse Dash",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Timespinner",
+        "The Sims 4"
     ],
     "jrpg": [
-        "Final Fantasy",
+        "Final Fantasy Mystic Quest",
         "Hylics 2",
         "Chained Echoes",
-        "Pokemon Mystery Dungeon Explorers of Sky",
         "Final Fantasy IV Free Enterprise",
         "Final Fantasy Tactics Advance",
-        "Final Fantasy Mystic Quest"
+        "Pokemon Mystery Dungeon Explorers of Sky",
+        "Final Fantasy"
     ],
     "2022": [
         "Chained Echoes",
-        "TUNIC",
-        "Raft"
+        "Raft",
+        "TUNIC"
     ],
     "checksfinder": [
         "ChecksFinder"
@@ -11380,141 +13766,194 @@ SEARCH_INDEX = {
     "civilization vi": [
         "Civilization VI"
     ],
-    "293": [
-        "Civilization VI"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1rjp.jpg": [
-        "Civilization VI"
-    ],
-    "sid meier's civilization iv": [
-        "Civilization VI"
-    ],
     "educational": [
         "Civilization VI"
     ],
     "4x (explore, expand, exploit, and exterminate)": [
-        "Civilization VI",
-        "OpenRCT2"
+        "OpenRCT2",
+        "Civilization VI"
+    ],
+    "4x": [
+        "OpenRCT2",
+        "Civilization VI"
+    ],
+    "(explore,": [
+        "OpenRCT2",
+        "Civilization VI"
+    ],
+    "expand,": [
+        "OpenRCT2",
+        "Civilization VI"
+    ],
+    "exploit,": [
+        "OpenRCT2",
+        "Civilization VI"
+    ],
+    "exterminate)": [
+        "OpenRCT2",
+        "Civilization VI"
     ],
     "construction": [
-        "Civilization VI",
-        "Xenoblade X",
+        "Terraria",
         "Minecraft",
-        "Terraria"
-    ],
-    "turn-based": [
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Mario & Luigi Superstar Saga",
-        "Golden Sun The Lost Age",
-        "Pokemon Emerald",
         "Civilization VI",
-        "EarthBound",
-        "Paper Mario",
-        "Undertale",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Final Fantasy Mystic Quest"
+        "Xenoblade X"
     ],
     "mining": [
-        "Civilization VI",
         "Stardew Valley",
+        "Terraria",
         "Minecraft",
-        "Terraria"
+        "Civilization VI"
     ],
     "loot gathering": [
-        "Civilization VI",
         "Castlevania 64",
-        "Xenoblade X",
-        "Terraria"
+        "Terraria",
+        "Civilization VI",
+        "Xenoblade X"
+    ],
+    "loot": [
+        "Castlevania 64",
+        "Terraria",
+        "Civilization VI",
+        "Xenoblade X"
+    ],
+    "gathering": [
+        "Castlevania 64",
+        "Terraria",
+        "Civilization VI",
+        "Xenoblade X"
     ],
     "royalty": [
-        "Mario & Luigi Superstar Saga",
-        "Civilization VI",
         "EarthBound",
-        "Rogue Legacy"
+        "Mario & Luigi Superstar Saga",
+        "Rogue Legacy",
+        "Civilization VI"
     ],
     "ambient music": [
         "Metroid Zero Mission",
-        "Metroid Prime",
-        "Donkey Kong Country",
-        "Secret of Evermore",
-        "Civilization VI",
-        "Castlevania 64",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
+        "Castlevania 64",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Civilization VI",
+        "Donkey Kong Country",
+        "Secret of Evermore"
+    ],
+    "ambient": [
+        "Metroid Zero Mission",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Civilization VI",
+        "Donkey Kong Country",
+        "Secret of Evermore"
+    ],
+    "music": [
+        "Golden Sun The Lost Age",
+        "Final Fantasy Mystic Quest",
+        "ULTRAKILL",
+        "osu!",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Muse Dash",
+        "Hatsune Miku Project Diva Mega Mix+",
+        "Sonic Heroes",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Symphony of the Night",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Civilization VI",
+        "Final Fantasy Tactics Advance",
+        "Donkey Kong Country",
+        "Secret of Evermore"
     ],
     "2005": [
-        "Civilization VI",
+        "Digimon World",
         "Kingdom Hearts 2",
-        "Digimon World"
+        "Civilization VI"
     ],
     "clique": [
         "Clique"
     ],
     "meme origin": [
-        "Clique",
-        "The Legend of Zelda",
-        "Metroid Prime",
         "Minecraft",
-        "Symphony of the Night",
+        "The Legend of Zelda",
         "Star Fox 64",
-        "Zelda II: The Adventure of Link",
-        "Majora's Mask Recompiled"
+        "Symphony of the Night",
+        "Metroid Prime",
+        "Majora's Mask Recompiled",
+        "Clique",
+        "Zelda II: The Adventure of Link"
+    ],
+    "meme": [
+        "Minecraft",
+        "The Legend of Zelda",
+        "Star Fox 64",
+        "Symphony of the Night",
+        "Metroid Prime",
+        "Majora's Mask Recompiled",
+        "Clique",
+        "Zelda II: The Adventure of Link"
+    ],
+    "origin": [
+        "Minecraft",
+        "The Legend of Zelda",
+        "Star Fox 64",
+        "Symphony of the Night",
+        "Metroid Prime",
+        "Majora's Mask Recompiled",
+        "Clique",
+        "Zelda II: The Adventure of Link"
     ],
     "crosscode": [
         "CrossCode"
     ],
-    "35282": [
-        "CrossCode"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co28wy.jpg": [
-        "CrossCode"
-    ],
     "16-bit": [
-        "Super Metroid Map Rando",
         "Super Metroid",
+        "EarthBound",
+        "Super Metroid Map Rando",
         "Rogue Legacy",
-        "CrossCode",
-        "EarthBound"
+        "CrossCode"
     ],
     "a.i. companion": [
-        "Symphony of the Night",
-        "Star Fox 64",
         "CrossCode",
+        "Star Fox 64",
+        "Symphony of the Night",
+        "Kingdom Hearts"
+    ],
+    "a.i.": [
+        "CrossCode",
+        "Star Fox 64",
+        "Symphony of the Night",
+        "Kingdom Hearts"
+    ],
+    "companion": [
+        "CrossCode",
+        "Star Fox 64",
+        "Symphony of the Night",
         "Kingdom Hearts"
     ],
     "chrono trigger jets of time": [
         "Chrono Trigger Jets of Time"
     ],
-    "20398": [
-        "Chrono Trigger Jets of Time"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co54iw.jpg": [
-        "Chrono Trigger Jets of Time"
-    ],
-    "chrono trigger": [
-        "Chrono Trigger Jets of Time"
-    ],
     "animated blood": [
         "Skyward Sword",
-        "Ratchet & Clank 2",
-        "Xenoblade X",
-        "Castlevania - Circle of the Moon",
         "Castlevania 64",
         "Twilight Princess",
-        "Chrono Trigger Jets of Time"
-    ],
-    "use of alcohol": [
-        "Sea of Thieves",
+        "Ratchet & Clank 2",
         "Xenoblade X",
         "Chrono Trigger Jets of Time",
-        "Terraria",
-        "Stardew Valley",
-        "Kingdom Hearts 2"
+        "Castlevania - Circle of the Moon"
     ],
-    "nintendo ds": [
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Chrono Trigger Jets of Time"
+    "use of alcohol": [
+        "Terraria",
+        "Kingdom Hearts 2",
+        "Xenoblade X",
+        "Stardew Valley",
+        "Chrono Trigger Jets of Time",
+        "Sea of Thieves"
     ],
     "2008": [
         "Chrono Trigger Jets of Time"
@@ -11522,783 +13961,1095 @@ SEARCH_INDEX = {
     "cuphead": [
         "Cuphead"
     ],
-    "9061": [
-        "Cuphead"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co62ao.jpg": [
-        "Cuphead"
-    ],
     "use of alcohol and tobacco": [
-        "Zork Grand Inquisitor",
         "Stardew Valley",
+        "Starcraft 2",
         "Cuphead",
-        "Starcraft 2"
+        "Zork Grand Inquisitor"
     ],
     "pirates": [
-        "Sea of Thieves",
-        "Metroid Zero Mission",
-        "Metroid Prime",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Donkey Kong Country 2",
-        "Kingdom Hearts",
         "The Legend of Zelda - Oracle of Ages",
+        "Metroid Zero Mission",
+        "Kingdom Hearts",
+        "Donkey Kong Country 2",
         "Cuphead",
-        "Wargroove 2"
+        "Metroid Prime",
+        "Wargroove 2",
+        "The Legend of Zelda - Oracle of Seasons",
+        "Sea of Thieves"
     ],
     "shark": [
-        "Jak and Daxter: The Precursor Legacy",
-        "Cuphead",
         "Raft",
+        "Cuphead",
+        "Jak and Daxter: The Precursor Legacy",
         "Donkey Kong Country"
     ],
     "robots": [
+        "EarthBound",
+        "ULTRAKILL",
+        "Star Fox 64",
+        "Star Wars Episode I Racer",
         "Super Mario Sunshine",
+        "Cuphead",
         "Xenoblade X",
         "Sonic Heroes",
-        "Star Fox 64",
-        "EarthBound",
-        "Star Wars Episode I Racer",
-        "ULTRAKILL",
-        "Mega Man 2",
-        "Cuphead"
+        "Mega Man 2"
     ],
     "dancing": [
+        "Donkey Kong Country 2",
         "Cuphead",
         "Donkey Kong Country 3",
-        "Donkey Kong Country 2",
         "The Legend of Zelda - Oracle of Ages"
     ],
     "cat": [
         "Minecraft",
-        "Wario Land 4",
-        "Donkey Kong Country 2",
         "Kingdom Hearts",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Cuphead"
+        "Donkey Kong Country 2",
+        "Wario Land 4",
+        "Cuphead",
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "violent plants": [
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Rogue Legacy",
-        "Metroid Prime",
         "Terraria",
-        "Cuphead"
+        "Skyward Sword",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Cuphead",
+        "Metroid Prime"
+    ],
+    "violent": [
+        "Terraria",
+        "Skyward Sword",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Cuphead",
+        "Metroid Prime"
+    ],
+    "plants": [
+        "Terraria",
+        "Skyward Sword",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Cuphead",
+        "Metroid Prime"
     ],
     "auto-scrolling levels": [
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
         "Star Fox 64",
+        "VVVVVV",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
+        "Kirby 64 - The Crystal Shards",
         "Cuphead",
-        "VVVVVV"
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "auto-scrolling": [
+        "Star Fox 64",
+        "VVVVVV",
+        "Donkey Kong Country 2",
+        "Kirby 64 - The Crystal Shards",
+        "Cuphead",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "levels": [
+        "Star Fox 64",
+        "VVVVVV",
+        "Donkey Kong Country 2",
+        "Kirby 64 - The Crystal Shards",
+        "Cuphead",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
     ],
     "boss assistance": [
-        "Super Mario Sunshine",
-        "Rogue Legacy",
         "DOOM II",
-        "Metroid Prime",
-        "Donkey Kong Country",
-        "Donkey Kong Country 2",
-        "Paper Mario",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
         "Ocarina of Time",
-        "Dark Souls II",
+        "Donkey Kong Country 2",
         "Cuphead",
-        "Majora's Mask Recompiled"
+        "Metroid Prime",
+        "Paper Mario",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country",
+        "Dark Souls II"
+    ],
+    "assistance": [
+        "DOOM II",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Cuphead",
+        "Metroid Prime",
+        "Paper Mario",
+        "Majora's Mask Recompiled",
+        "Donkey Kong Country",
+        "Dark Souls II"
     ],
     "the game awards 2017": [
-        "Super Mario Odyssey",
         "Cuphead",
-        "Sea of Thieves",
-        "Hollow Knight"
+        "Super Mario Odyssey",
+        "Hollow Knight",
+        "Sea of Thieves"
+    ],
+    "awards": [
+        "Cuphead",
+        "Super Mario Odyssey",
+        "Hollow Knight",
+        "Sea of Thieves"
     ],
     "castlevania 64": [
         "Castlevania 64"
     ],
-    "1130": [
-        "Castlevania 64"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5geb.jpg": [
-        "Castlevania 64"
-    ],
-    "castlevania": [
-        "Castlevania 64"
-    ],
-    "castlevania games debut on the n64 this is the first castlevania game in 3d. however, the goal of the game remains the same: defeat dracula and his monsters. the player can choose to be reinhardt schneider with traditional whip or carrie fernandez who uses magic. a new feature is the presence of an in-game clock that switches time from day to night.": [
-        "Castlevania 64"
-    ],
     "summoning support": [
-        "Yu-Gi-Oh! Forbidden Memories",
         "Golden Sun The Lost Age",
-        "Castlevania 64",
         "Kingdom Hearts",
+        "Castlevania 64",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Final Fantasy Tactics Advance"
+    ],
+    "summoning": [
+        "Golden Sun The Lost Age",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Yu-Gi-Oh! Forbidden Memories",
+        "Final Fantasy Tactics Advance"
+    ],
+    "support": [
+        "Golden Sun The Lost Age",
+        "Kingdom Hearts",
+        "Castlevania 64",
+        "Yu-Gi-Oh! Forbidden Memories",
         "Final Fantasy Tactics Advance"
     ],
     "horse": [
-        "Rogue Legacy",
         "Minecraft",
-        "Castlevania - Circle of the Moon",
-        "Castlevania 64",
+        "Rogue Legacy",
         "Symphony of the Night",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "Castlevania 64",
+        "Castlevania - Circle of the Moon"
     ],
     "multiple protagonists": [
+        "EarthBound",
         "Rogue Legacy",
-        "Mario & Luigi Superstar Saga",
+        "Symphony of the Night",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Donkey Kong Country 3",
         "Sonic Heroes",
         "Donkey Kong Country",
-        "Symphony of the Night",
-        "Castlevania 64",
+        "Mario & Luigi Superstar Saga",
+        "Spyro 3"
+    ],
+    "protagonists": [
         "EarthBound",
+        "Rogue Legacy",
+        "Symphony of the Night",
         "Donkey Kong Country 2",
+        "Castlevania 64",
         "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Donkey Kong Country",
+        "Mario & Luigi Superstar Saga",
         "Spyro 3"
     ],
     "traps": [
-        "Rogue Legacy",
-        "DOOM II",
         "Minecraft",
+        "DOOM II",
+        "Rogue Legacy",
         "Castlevania 64",
         "Dark Souls II"
     ],
-    "dog": [
-        "Sly Cooper and the Thievius Raccoonus",
-        "Secret of Evermore",
-        "Castlevania 64",
-        "Star Fox 64",
-        "DORONKO WANKO",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Mario Odyssey",
-        "Ocarina of Time"
-    ],
     "bats": [
+        "Mario Kart 64",
         "Terraria",
         "Symphony of the Night",
-        "Castlevania - Circle of the Moon",
         "Castlevania 64",
         "Pokemon Crystal",
-        "Mario Kart 64",
+        "Castlevania - Circle of the Moon",
         "Zelda II: The Adventure of Link"
     ],
     "day/night cycle": [
-        "Skyward Sword",
-        "The Wind Waker",
-        "Xenoblade X",
         "Minecraft",
+        "Jak and Daxter: The Precursor Legacy",
+        "Skyward Sword",
         "Terraria",
         "Symphony of the Night",
-        "Castlevania 64",
-        "Stardew Valley",
-        "Pokemon Crystal",
-        "Jak and Daxter: The Precursor Legacy",
         "Ocarina of Time",
-        "Majora's Mask Recompiled"
+        "Castlevania 64",
+        "Pokemon Crystal",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Stardew Valley"
+    ],
+    "day/night": [
+        "Minecraft",
+        "Jak and Daxter: The Precursor Legacy",
+        "Skyward Sword",
+        "Terraria",
+        "Symphony of the Night",
+        "Ocarina of Time",
+        "Castlevania 64",
+        "Pokemon Crystal",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Stardew Valley"
+    ],
+    "cycle": [
+        "Minecraft",
+        "Jak and Daxter: The Precursor Legacy",
+        "Skyward Sword",
+        "Terraria",
+        "Symphony of the Night",
+        "Ocarina of Time",
+        "Castlevania 64",
+        "Pokemon Crystal",
+        "The Wind Waker",
+        "Majora's Mask Recompiled",
+        "Xenoblade X",
+        "Stardew Valley"
     ],
     "skeletons": [
-        "Sea of Thieves",
-        "Sly Cooper and the Thievius Raccoonus",
         "Terraria",
-        "Castlevania - Circle of the Moon",
-        "Castlevania 64",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Heretic",
         "Symphony of the Night",
+        "Castlevania 64",
+        "Castlevania - Circle of the Moon",
         "Undertale",
-        "Heretic"
+        "Sea of Thieves"
     ],
     "falling damage": [
-        "Metroid Prime",
         "Minecraft",
         "Terraria",
+        "Ocarina of Time",
         "Castlevania 64",
-        "Ocarina of Time"
+        "Metroid Prime"
+    ],
+    "falling": [
+        "Minecraft",
+        "Terraria",
+        "Ocarina of Time",
+        "Castlevania 64",
+        "Metroid Prime"
     ],
     "unstable platforms": [
-        "Super Metroid Map Rando",
-        "Super Mario Sunshine",
         "Super Metroid",
-        "DOOM II",
-        "Metroid Prime",
+        "Super Metroid Map Rando",
         "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "VVVVVV",
+        "Super Mario Sunshine",
+        "Castlevania 64",
+        "Metroid Prime",
+        "Ori and the Blind Forest",
         "Donkey Kong Country",
         "Castlevania - Circle of the Moon",
+        "Zelda II: The Adventure of Link"
+    ],
+    "unstable": [
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "VVVVVV",
+        "Super Mario Sunshine",
         "Castlevania 64",
-        "Zelda II: The Adventure of Link",
+        "Metroid Prime",
         "Ori and the Blind Forest",
-        "VVVVVV"
+        "Donkey Kong Country",
+        "Castlevania - Circle of the Moon",
+        "Zelda II: The Adventure of Link"
     ],
     "melee": [
-        "Kirby's Dream Land 3",
+        "Golden Sun The Lost Age",
+        "Terraria",
+        "Symphony of the Night",
         "DOOM 1993",
         "DOOM II",
-        "Pokemon Emerald",
-        "Golden Sun The Lost Age",
-        "Kirby 64 - The Crystal Shards",
-        "Wario Land 4",
-        "Pokemon Crystal",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Terraria",
-        "Castlevania - Circle of the Moon",
-        "Castlevania 64",
-        "Symphony of the Night",
-        "Paper Mario",
-        "Kingdom Hearts",
-        "Dark Souls II",
         "Heretic",
-        "Final Fantasy Tactics Advance"
+        "Sly Cooper and the Thievius Raccoonus",
+        "Kingdom Hearts",
+        "Pokemon Emerald",
+        "Castlevania 64",
+        "Kirby 64 - The Crystal Shards",
+        "Kirby's Dream Land 3",
+        "Paper Mario",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance",
+        "Wario Land 4",
+        "Castlevania - Circle of the Moon",
+        "Dark Souls II"
     ],
     "male antagonist": [
+        "Mega Man 2",
         "Castlevania 64",
         "EarthBound",
-        "Super Mario Sunshine",
-        "Mega Man 2"
+        "Super Mario Sunshine"
+    ],
+    "male": [
+        "Mega Man 2",
+        "Castlevania 64",
+        "EarthBound",
+        "Super Mario Sunshine"
+    ],
+    "antagonist": [
+        "Mega Man 2",
+        "Castlevania 64",
+        "EarthBound",
+        "Super Mario Sunshine"
     ],
     "instant kill": [
-        "Donkey Kong Country",
-        "Castlevania 64",
+        "VVVVVV",
         "Donkey Kong Country 2",
+        "Castlevania 64",
         "Mega Man 2",
-        "VVVVVV"
+        "Donkey Kong Country"
+    ],
+    "instant": [
+        "VVVVVV",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Mega Man 2",
+        "Donkey Kong Country"
+    ],
+    "kill": [
+        "VVVVVV",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Mega Man 2",
+        "Donkey Kong Country"
     ],
     "difficulty level": [
+        "Minecraft",
+        "osu!",
+        "Star Fox 64",
+        "Mario Kart 64",
         "Metroid Zero Mission",
         "DOOM II",
-        "Metroid Prime",
         "Muse Dash",
-        "Minecraft",
         "Castlevania 64",
-        "Star Fox 64",
-        "osu!",
-        "Mario Kart 64",
+        "Metroid Prime",
         "Mega Man 2"
+    ],
+    "difficulty": [
+        "Minecraft",
+        "osu!",
+        "Star Fox 64",
+        "Mario Kart 64",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Muse Dash",
+        "Castlevania 64",
+        "Metroid Prime",
+        "Mega Man 2"
+    ],
+    "level": [
+        "Minecraft",
+        "osu!",
+        "Star Fox 64",
+        "Mario Kart 64",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Muse Dash",
+        "Super Mario Sunshine",
+        "Kingdom Hearts",
+        "Donkey Kong Country 2",
+        "Castlevania 64",
+        "Ocarina of Time",
+        "Metroid Prime",
+        "Mega Man 2",
+        "Donkey Kong Country"
     ],
     "castlevania - circle of the moon": [
         "Castlevania - Circle of the Moon"
     ],
-    "1132": [
-        "Castlevania - Circle of the Moon"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2zq1.jpg": [
-        "Castlevania - Circle of the Moon"
-    ],
-    "castlevania: circle of the moon": [
-        "Castlevania - Circle of the Moon"
-    ],
-    "game boy advance": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Metroid Zero Mission",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
-        "Golden Sun The Lost Age",
-        "Pokemon FireRed and LeafGreen",
-        "Yu-Gi-Oh! 2006",
-        "Wario Land 4",
-        "Castlevania - Circle of the Moon",
-        "EarthBound",
-        "Final Fantasy Tactics Advance",
-        "MegaMan Battle Network 3"
-    ],
-    "taking place in 1830, circle of the moon is set in one of the fictional universes of the castlevania series. the premise of the original series is the eternal conflict between the vampire hunters of the belmont clan and the immortal vampire dracula. circle of the moon's protagonist, however, is nathan graves, whose parents died a decade ago to banish dracula. morris baldwin, who helped in dracula's banishment, trained him to defeat dracula and the monsters; morris ultimately chose him as his successor and gave him the \"hunter whip\", to the displeasure of hugh, morris' son who trained alongside him.\n\nat an old castle, camilla, a minion of dracula, revives him, only to be interrupted by the arrival of morris, nathan, and hugh. before they are able to banish him again, dracula destroys the floor under nathan and hugh, causing them to plummet down a long tunnel. surviving the fall and wishing to find his father, hugh leaves nathan behind. nathan proceeds to search the castle for his mentor. along the way, he learns that at the next full moon, morris' soul will be used to return dracula to full power. he also periodically encounters hugh, who becomes more hostile as the game progresses. eventually, nathan encounters camilla, who hints that she and dracula are responsible for the changes in his personality. nathan vanquishes camilla in her true form and meets up with hugh once more. upon seeing him, hugh immediately attacks him with the goal of proving himself to his father through nathan's defeat; nathan, however, realizes that dracula is controlling hugh. nathan defeats him, and dracula's control over hugh breaks. confessing that he doubted his self-worth when nathan was chosen as successor, hugh tasks him with morris' rescue.\n\narriving at the ceremonial room, nathan confronts dracula, who confirms that he had tampered with hugh's soul to cause the changes in his personality. they begin to fight and halfway through, dracula teleports away to gain his full power. hugh then frees his father and tasks nathan with dracula's banishment. nathan continues the battle and defeats dracula; escaping the collapsing castle, he reunites with morris and hugh. nathan is declared a master vampire hunter by morris. hugh vows to retrain under morris due to his failure.": [
-        "Castlevania - Circle of the Moon"
-    ],
     "gravity": [
-        "Metroid Zero Mission",
-        "Metroid Prime",
-        "Donkey Kong Country",
-        "Castlevania - Circle of the Moon",
-        "Symphony of the Night",
         "Star Fox 64",
+        "Metroid Zero Mission",
+        "VVVVVV",
+        "Symphony of the Night",
+        "Ocarina of Time",
         "Donkey Kong Country 2",
         "Donkey Kong Country 3",
+        "Metroid Prime",
         "Paper Mario",
-        "Ocarina of Time",
-        "VVVVVV"
+        "Donkey Kong Country",
+        "Castlevania - Circle of the Moon"
     ],
     "wolf": [
-        "Rogue Legacy",
         "Minecraft",
+        "Star Fox 64",
         "Symphony of the Night",
-        "Castlevania - Circle of the Moon",
-        "Star Fox 64"
+        "Rogue Legacy",
+        "Castlevania - Circle of the Moon"
     ],
     "leveling up": [
-        "Pokemon Emerald",
         "Golden Sun The Lost Age",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Crystal",
-        "Castlevania - Circle of the Moon",
-        "Symphony of the Night",
         "EarthBound",
         "Digimon World",
-        "Paper Mario",
+        "Symphony of the Night",
         "Kingdom Hearts",
-        "Dark Souls II",
+        "Pokemon Emerald",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
+        "Castlevania - Circle of the Moon",
         "Undertale",
-        "Zelda II: The Adventure of Link"
+        "Dark Souls II"
+    ],
+    "leveling": [
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Digimon World",
+        "Symphony of the Night",
+        "Kingdom Hearts",
+        "Pokemon Emerald",
+        "Landstalker - The Treasures of King Nole",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Zelda II: The Adventure of Link",
+        "Castlevania - Circle of the Moon",
+        "Undertale",
+        "Dark Souls II"
     ],
     "2001": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "The Legend of Zelda - Oracle of Ages",
+        "Jak and Daxter: The Precursor Legacy",
+        "Luigi's Mansion",
         "Wario Land 4",
         "Castlevania - Circle of the Moon",
-        "Luigi's Mansion",
         "The Legend of Zelda - Oracle of Seasons",
-        "Jak and Daxter: The Precursor Legacy",
-        "The Legend of Zelda - Oracle of Ages"
+        "Yu-Gi-Oh! Dungeon Dice Monsters"
     ],
     "dark souls ii": [
-        "Dark Souls II"
-    ],
-    "2368": [
-        "Dark Souls II"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2eoo.jpg": [
         "Dark Souls II"
     ],
     "partial nudity": [
         "Dark Souls Remastered",
         "Dark Souls II"
     ],
-    "xbox 360": [
-        "Sonic Adventure 2 Battle",
-        "Sonic Adventure DX",
-        "DLCQuest",
-        "Terraria",
-        "Symphony of the Night",
-        "Dark Souls II"
-    ],
-    "3d": [
-        "Lingo",
-        "TUNIC",
-        "Sonic Heroes",
+    "partial": [
         "Dark Souls Remastered",
-        "Dark Souls III",
-        "Luigi's Mansion",
-        "Dark Souls II",
-        "Hylics 2",
-        "Super Mario Odyssey"
+        "Dark Souls II"
     ],
     "spider": [
         "Minecraft",
         "Sly Cooper and the Thievius Raccoonus",
         "Donkey Kong Country 2",
-        "Dark Souls II",
+        "Ori and the Blind Forest",
         "Zelda II: The Adventure of Link",
-        "Ori and the Blind Forest"
+        "Dark Souls II"
     ],
     "customizable characters": [
-        "Xenoblade X",
-        "Terraria",
         "Dark Souls III",
+        "Terraria",
+        "Xenoblade X",
+        "Stardew Valley",
+        "Dark Souls II"
+    ],
+    "customizable": [
+        "Dark Souls III",
+        "Terraria",
+        "Xenoblade X",
         "Stardew Valley",
         "Dark Souls II"
     ],
     "checkpoints": [
-        "Sonic Heroes",
+        "Super Mario Odyssey",
+        "Jak and Daxter: The Precursor Legacy",
         "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country",
+        "VVVVVV",
         "Donkey Kong Country 2",
         "Donkey Kong Country 3",
-        "Dark Souls II",
-        "Jak and Daxter: The Precursor Legacy",
+        "Sonic Heroes",
         "Mega Man 2",
-        "Super Mario Odyssey",
-        "VVVVVV"
+        "Donkey Kong Country",
+        "Dark Souls II"
     ],
     "sliding down ladders": [
-        "Kirby 64 - The Crystal Shards",
-        "Dark Souls III",
         "Wario Land 4",
+        "Dark Souls III",
+        "Kirby 64 - The Crystal Shards",
+        "Dark Souls II"
+    ],
+    "sliding": [
+        "Wario Land 4",
+        "Dark Souls III",
+        "Kirby 64 - The Crystal Shards",
+        "Dark Souls II"
+    ],
+    "down": [
+        "Wario Land 4",
+        "Dark Souls III",
+        "Kirby 64 - The Crystal Shards",
+        "Dark Souls II"
+    ],
+    "ladders": [
+        "Wario Land 4",
+        "Dark Souls III",
+        "Kirby 64 - The Crystal Shards",
         "Dark Souls II"
     ],
     "fire manipulation": [
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Minecraft",
         "Rogue Legacy",
         "Pokemon Emerald",
-        "Golden Sun The Lost Age",
-        "Minecraft",
         "Pokemon Crystal",
-        "EarthBound",
         "Paper Mario",
         "Dark Souls II"
     ],
+    "fire": [
+        "Golden Sun The Lost Age",
+        "EarthBound",
+        "Minecraft",
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Dark Souls II"
+    ],
+    "manipulation": [
+        "Golden Sun The Lost Age",
+        "Super Metroid",
+        "EarthBound",
+        "Minecraft",
+        "Super Metroid Map Rando",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Timespinner",
+        "Dark Souls II"
+    ],
     "2014": [
-        "The Sims 4",
         "OpenRCT2",
+        "The Sims 4",
         "Dark Souls II"
     ],
     "dark souls iii": [
         "Dark Souls III"
     ],
-    "11133": [
-        "Dark Souls III"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1vcf.jpg": [
-        "Dark Souls III"
-    ],
-    "set in the kingdom of lothric, a bell has rung to signal that the first flame, responsible for maintaining the age of fire, is dying out. as has happened many times before, the coming of the age of dark produces the undead: cursed beings that rise after death. the age of fire can be prolonged by linking the fire, a ritual in which great lords and heroes sacrifice their souls to rekindle the first flame. however, prince lothric, the chosen linker for this age, abandoned his duty and decided to watch the flame die from afar. the bell is the last hope for the age of fire, resurrecting previous lords of cinder (heroes who linked the flame in past ages) to attempt to link the fire again; however, all but one lord shirk their duty. meanwhile, sulyvahn, a sorcerer from the painted world of ariandel, wrongfully proclaims himself pontiff and seizes power over irithyll of the boreal valley and the returning anor londo cathedral from dark souls as a tyrant.\n\nthe ashen one, an undead who failed to become a lord of cinder and thus called an unkindled, rises and must link the fire by returning prince lothric and the defiant lords of cinder to their thrones in firelink shrine. the lords include the abyss watchers, a legion of warriors sworn by the old wolf's blood which linked their souls into one to protect the land from the abyss and ultimately locked in an endless battle between each other; yhorm the giant, who sacrificed his life for a nation conquered by his ancestor; and aldrich, who became a lord of cinder despite his ravenous appetite for both men and gods. lothric was raised to link the first flame but neglected his duties and chose to watch the fire fade instead.\n\nonce the ashen one succeeds in returning lothric and the lords of cinder to their thrones, they travel to the ruins of the kiln of the first flame. there, they encounter the soul of cinder, an amalgamation of all the former lords of cinder. upon defeat, the player can attempt to link the fire or access three other optional endings unlocked by the player's in-game decisions. these include summoning the fire keeper to extinguish the flame and begin an age of dark or killing her in a sudden change of heart. a fourth ending consists of the ashen one taking the flame for their own, becoming the lord of hollows.": [
-        "Dark Souls III"
-    ],
     "pick your gender": [
         "Pokemon Emerald",
         "Dark Souls III",
-        "Terraria",
-        "Pokemon Crystal"
+        "Pokemon Crystal",
+        "Terraria"
+    ],
+    "pick": [
+        "Pokemon Emerald",
+        "Dark Souls III",
+        "Pokemon Crystal",
+        "Terraria"
+    ],
+    "your": [
+        "Pokemon Emerald",
+        "Dark Souls III",
+        "Pokemon Crystal",
+        "Terraria"
+    ],
+    "gender": [
+        "Pokemon Emerald",
+        "Dark Souls III",
+        "Pokemon Crystal",
+        "Terraria"
     ],
     "entering world in a painting": [
-        "Super Mario 64",
         "Dark Souls III",
         "Super Mario Odyssey",
+        "Super Mario 64",
+        "SM64 Romhack"
+    ],
+    "entering": [
+        "Dark Souls III",
+        "Super Mario Odyssey",
+        "Super Mario 64",
+        "SM64 Romhack"
+    ],
+    "a": [
+        "Dark Souls III",
+        "Super Mario Odyssey",
+        "Super Mario 64",
+        "SM64 Romhack"
+    ],
+    "painting": [
+        "Dark Souls III",
+        "Super Mario Odyssey",
+        "Super Mario 64",
         "SM64 Romhack"
     ],
     "2016": [
-        "Don",
-        "The Witness",
+        "Stardew Valley",
         "Dark Souls III",
-        "Stardew Valley"
+        "Don",
+        "The Witness"
     ],
     "diddy kong racing": [
         "Diddy Kong Racing"
     ],
-    "2723": [
-        "Diddy Kong Racing"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1wgj.jpg": [
-        "Diddy Kong Racing"
-    ],
     "racing": [
-        "Trackmania",
+        "Diddy Kong Racing",
         "Mario Kart 64",
-        "Star Wars Episode I Racer",
         "Jak and Daxter: The Precursor Legacy",
-        "Diddy Kong Racing"
-    ],
-    "timber the tiger's parents picked a fine time to go on vacation. when they come back they're going to be faced with an island trashed by the spiteful space bully wizpig - unless the local animals can do something about it! so join diddy kong as he teams up with timber the tiger pipsy the mouse and taj the genie in an epic racing adventure unlike anything you've ever experienced before! this unique game blends adventure and racing like no other game! roam anywhere you want on the island by car plane or hovercraft! an enormous amount of single-player and multi-player modes! feel the action when you use the n64 rumble pak and save your times on the n64 controller pak!": [
-        "Diddy Kong Racing"
+        "Trackmania",
+        "Star Wars Episode I Racer"
     ],
     "behind the waterfall": [
-        "Skyward Sword",
-        "Golden Sun The Lost Age",
-        "Symphony of the Night",
-        "Donkey Kong Country 3",
         "The Legend of Zelda - Oracle of Ages",
+        "Golden Sun The Lost Age",
         "Super Mario Odyssey",
-        "Diddy Kong Racing"
+        "Diddy Kong Racing",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Donkey Kong Country 3"
+    ],
+    "behind": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Golden Sun The Lost Age",
+        "Super Mario Odyssey",
+        "Diddy Kong Racing",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Donkey Kong Country 3"
+    ],
+    "waterfall": [
+        "The Legend of Zelda - Oracle of Ages",
+        "Golden Sun The Lost Age",
+        "Super Mario Odyssey",
+        "Diddy Kong Racing",
+        "Skyward Sword",
+        "Symphony of the Night",
+        "Donkey Kong Country 3"
     ],
     "1997": [
-        "Zork Grand Inquisitor",
-        "Kirby's Dream Land 3",
-        "Symphony of the Night",
+        "Diddy Kong Racing",
         "Star Fox 64",
-        "Diddy Kong Racing"
+        "Symphony of the Night",
+        "Kirby's Dream Land 3",
+        "Zork Grand Inquisitor"
     ],
     "donkey kong country": [
         "Donkey Kong Country"
     ],
-    "1090": [
-        "Donkey Kong Country"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co70qn.jpg": [
-        "Donkey Kong Country"
-    ],
-    "on a dark and stormy night in donkey kong island, diddy kong, donkey kong's nephew has taken the weighty responsibility of guarding dk's precious banana hoard for one night, as a part of his \"hero training\". dk entrusts diddy with protecting the hoard until midnight, when he would be relieved, while dk himself goes to sleep as he is tired.\n\neverything seems to go smoothly in the hoard until diddy hears some noises. diddy hears some voices outside and gets scared, asking who's there. king k. rool, who had commanded his kremling minions to steal the bananas. two ropes drop from above and suddenly two kritters appear. diddy cartwheels them both easily, but then a krusha (klump in the instruction booklet) comes in as backup. as diddy is not strong enough to defeat krusha by himself, he is overpowered and defeated by the kremling. the lizars seal diddy inside a barrel and then throw it in the bushes.\ndonkey's grandfather, cranky kong, rushes inside the treehouse to tell donkey kong to wake up so he may tell him what happened. he then tells donkey to check his banana cave. donkey kong is infuriated, exclaiming that the kremlings will pay for stealing his banana hoard and kidnapping his little buddy. donkey goes on to say that he will hunt every corner of the island for his bananas back.": [
-        "Donkey Kong Country"
-    ],
     "frog": [
-        "Jak and Daxter: The Precursor Legacy",
         "Donkey Kong Country 2",
-        "Star Fox 64",
-        "Donkey Kong Country"
+        "Donkey Kong Country",
+        "Jak and Daxter: The Precursor Legacy",
+        "Star Fox 64"
     ],
     "overworld": [
-        "The Legend of Zelda",
         "Golden Sun The Lost Age",
-        "Donkey Kong Country",
+        "Final Fantasy Mystic Quest",
+        "The Legend of Zelda",
         "Donkey Kong Country 2",
         "Donkey Kong Country 3",
         "Final Fantasy Tactics Advance",
-        "Final Fantasy Mystic Quest",
+        "Donkey Kong Country",
         "Zelda II: The Adventure of Link"
     ],
     "bonus stage": [
-        "Super Mario World",
-        "Sonic Heroes",
-        "Donkey Kong Country",
         "Donkey Kong Country 2",
         "Donkey Kong Country 3",
-        "Spyro 3"
+        "Sonic Heroes",
+        "Donkey Kong Country",
+        "Spyro 3",
+        "Super Mario World"
+    ],
+    "bonus": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Sonic Heroes",
+        "Donkey Kong Country",
+        "Spyro 3",
+        "Super Mario World"
     ],
     "crocodile": [
         "Donkey Kong Country 2",
+        "Donkey Kong Country",
         "Donkey Kong Country 3",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country"
+        "Sly Cooper and the Thievius Raccoonus"
     ],
     "water level": [
         "Super Mario Sunshine",
-        "Donkey Kong Country",
+        "Ocarina of Time",
         "Donkey Kong Country 2",
         "Kingdom Hearts",
         "Mega Man 2",
-        "Ocarina of Time"
-    ],
-    "western games based on japanese ips": [
-        "Metroid Prime",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
         "Donkey Kong Country"
     ],
-    "speedrun": [
-        "Metroid Prime",
-        "Super Mario 64",
+    "water": [
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Kingdom Hearts",
+        "Mega Man 2",
+        "Donkey Kong Country"
+    ],
+    "western games based on japanese ips": [
+        "Donkey Kong Country 2",
         "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "western": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "games": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "based": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "on": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "japanese": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "ips": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Metroid Prime"
+    ],
+    "speedrun": [
+        "Super Mario 64",
         "Symphony of the Night",
+        "Metroid Prime",
+        "Donkey Kong Country",
         "SM64 Romhack"
     ],
     "villain turned good": [
-        "Symphony of the Night",
         "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Donkey Kong Country"
+        "Donkey Kong Country",
+        "Symphony of the Night",
+        "Kingdom Hearts"
+    ],
+    "turned": [
+        "Golden Sun The Lost Age",
+        "Donkey Kong Country",
+        "Symphony of the Night",
+        "Kingdom Hearts"
+    ],
+    "good": [
+        "Golden Sun The Lost Age",
+        "Donkey Kong Country",
+        "Symphony of the Night",
+        "Kingdom Hearts"
     ],
     "over 100% completion": [
         "DOOM II",
-        "Donkey Kong Country",
         "Symphony of the Night",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "100%": [
+        "DOOM II",
+        "Symphony of the Night",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Donkey Kong Country"
+    ],
+    "completion": [
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Symphony of the Night",
+        "Donkey Kong Country 2",
+        "Donkey Kong Country 3",
+        "Metroid Prime",
+        "Donkey Kong Country"
     ],
     "resized enemy": [
-        "Rogue Legacy",
         "Donkey Kong Country 2",
-        "Ocarina of Time",
-        "Donkey Kong Country"
+        "Donkey Kong Country",
+        "Rogue Legacy",
+        "Ocarina of Time"
+    ],
+    "resized": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Rogue Legacy",
+        "Ocarina of Time"
+    ],
+    "enemy": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Rogue Legacy",
+        "Ocarina of Time"
     ],
     "on-the-fly character switching": [
-        "Sonic Heroes",
         "Donkey Kong Country 2",
+        "Donkey Kong Country",
         "Donkey Kong Country 3",
-        "Donkey Kong Country"
+        "Sonic Heroes"
+    ],
+    "on-the-fly": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Sonic Heroes"
+    ],
+    "character": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Sonic Heroes"
+    ],
+    "switching": [
+        "Donkey Kong Country 2",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3",
+        "Sonic Heroes"
     ],
     "ape": [
-        "Mario Kart 64",
         "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
+        "Mario Kart 64",
+        "Donkey Kong Country",
+        "Donkey Kong Country 3"
     ],
     "1994": [
-        "Super Metroid Map Rando",
         "Super Metroid",
-        "DOOM II",
-        "Donkey Kong Country",
-        "Wario Land",
         "EarthBound",
-        "Heretic"
+        "Super Metroid Map Rando",
+        "DOOM II",
+        "Heretic",
+        "Wario Land",
+        "Donkey Kong Country"
     ],
     "donkey kong country 2": [
         "Donkey Kong Country 2"
     ],
-    "1092": [
-        "Donkey Kong Country 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co217m.jpg": [
-        "Donkey Kong Country 2"
-    ],
-    "donkey kong country 2: diddy's kong quest": [
-        "Donkey Kong Country 2"
-    ],
-    "it was a relaxing, sunny day on donkey kong island. funky kong is seen surfing and then falling off his board. he asked for donkey kong to join him, but the hero simply continues lounging. cranky kong goes up to him and complains how he never took breaks, \"whisking off maidens and throwing barrels seven days a week\", but donkey ignores him, confident that he is a hero and that king k. rool is gone for good. cranky soon leaves.\n\nmeanwhile, above, kaptain k. rool, aboard his vessel, the flying krock, commands his minions to invade the island and take donkey captive so that his next attempt at stealing the banana hoard will not be a failure and the hero will never mess with his plans again. donkey, still lounging, did not notice the attack until kutlasses ambushed him and took him prisoner. kaptain k. rool assures donkey kong that he will never see his precious island or his friends again.\n\nlater and back on the island, diddy, dixie and cranky kong find donkey missing, along with a note. it reads:\nhah-arrrrh! we have got the big monkey! if you want him back, you scurvy dogs, you'll have to hand over the banana hoard!\nkaptain k. rool\nat this point, wrinkly, funky and swanky kong come to the scene. cranky suggests to give up the hoard, but diddy insists that donkey kong would be furious if he lost his bananas after all trouble recovering them at the last time. diddy and dixie kong ride to crocodile isle via enguarde the swordfish, and then start their quest.": [
-        "Donkey Kong Country 2"
-    ],
     "climbing": [
-        "Super Mario Sunshine",
-        "The Legend of Zelda - Oracle of Seasons",
+        "The Legend of Zelda - Oracle of Ages",
+        "Jak and Daxter: The Precursor Legacy",
         "Sly Cooper and the Thievius Raccoonus",
         "Terraria",
+        "Super Mario Sunshine",
         "Donkey Kong Country 2",
-        "The Legend of Zelda - Oracle of Ages",
-        "Jak and Daxter: The Precursor Legacy"
+        "The Legend of Zelda - Oracle of Seasons"
     ],
     "game reference": [
-        "Rogue Legacy",
-        "DOOM II",
-        "Donkey Kong Country 2",
-        "Spyro 3",
         "The Witness",
-        "Ocarina of Time"
+        "DOOM II",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Spyro 3"
     ],
     "sprinting mechanics": [
-        "Super Mario Sunshine",
-        "Pokemon Emerald",
         "Super Mario 64",
-        "Wario Land 4",
-        "Secret of Evermore",
-        "SM64 Romhack",
-        "Donkey Kong Country 2",
-        "Pokemon Crystal",
+        "Super Mario Sunshine",
         "Ocarina of Time",
-        "Majora's Mask Recompiled"
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "SM64 Romhack",
+        "Secret of Evermore"
+    ],
+    "sprinting": [
+        "Super Mario 64",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "SM64 Romhack",
+        "Secret of Evermore"
+    ],
+    "mechanics": [
+        "Super Mario 64",
+        "Super Mario Sunshine",
+        "Ocarina of Time",
+        "Donkey Kong Country 2",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Wario Land 4",
+        "Majora's Mask Recompiled",
+        "SM64 Romhack",
+        "Secret of Evermore"
     ],
     "completion percentage": [
-        "Metroid Prime",
-        "Symphony of the Night",
         "Donkey Kong Country 2",
-        "Metroid Zero Mission"
+        "Metroid Zero Mission",
+        "Metroid Prime",
+        "Symphony of the Night"
+    ],
+    "percentage": [
+        "Donkey Kong Country 2",
+        "Metroid Zero Mission",
+        "Metroid Prime",
+        "Symphony of the Night"
     ],
     "fireworks": [
-        "Mario & Luigi Superstar Saga",
-        "Kirby 64 - The Crystal Shards",
         "Donkey Kong Country 2",
-        "Sly Cooper and the Thievius Raccoonus"
+        "Kirby 64 - The Crystal Shards",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Mario & Luigi Superstar Saga"
     ],
     "1995": [
-        "Lufia II Ancient Cave",
         "Shivers",
-        "Secret of Evermore",
+        "Yoshi's Island",
         "Donkey Kong Country 2",
-        "Yoshi's Island"
+        "Lufia II Ancient Cave",
+        "Secret of Evermore"
     ],
     "donkey kong country 3": [
         "Donkey Kong Country 3"
     ],
-    "1094": [
-        "Donkey Kong Country 3"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co217n.jpg": [
-        "Donkey Kong Country 3"
-    ],
-    "donkey kong country 3: dixie kong's double trouble!": [
-        "Donkey Kong Country 3"
-    ],
-    "months after the kongs' second triumph over the kremling krew, they continue to celebrate. one day, dk and diddy suddenly disappear, and a letter from diddy says they were out exploring the island again.\n\nhowever, several days pass without their return, and dixie knows something is up. she takes matters into her own hands, and made her way to the southern shores of donkey kong island, to the northern kremisphere, a canadian and northern european-inspired landmass. there she meets wrinkly kong, and wrinkly confirmed that the kongs had passed by. dixie then makes her way to funky's rentals. funky suggests her to take her baby cousin kiddy kong along with her in the search. funky lends them a boat and the two venture off to find donkey and diddy kong.": [
-        "Donkey Kong Country 3"
-    ],
     "snowman": [
-        "Paper Mario",
         "SM64 Romhack",
         "Super Mario 64",
-        "Donkey Kong Country 3"
+        "Donkey Kong Country 3",
+        "Paper Mario"
     ],
     "1996": [
-        "Pokemon Red and Blue",
         "Super Mario 64",
-        "SM64 Romhack",
-        "Donkey Kong Country 3",
+        "Mario Kart 64",
         "Tetris Attack",
-        "Mario Kart 64"
+        "Pokemon Red and Blue",
+        "Donkey Kong Country 3",
+        "SM64 Romhack"
     ],
     "dlcquest": [
         "DLCQuest"
     ],
-    "3004": [
-        "DLCQuest"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2105.jpg": [
-        "DLCQuest"
-    ],
-    "dlc quest": [
-        "DLCQuest"
-    ],
     "deliberately retro": [
-        "UFO 50",
-        "Minecraft",
-        "DLCQuest",
-        "Terraria",
-        "Stardew Valley",
-        "Timespinner",
         "Super Mario Odyssey",
-        "VVVVVV"
+        "Minecraft",
+        "UFO 50",
+        "Terraria",
+        "VVVVVV",
+        "DLCQuest",
+        "Timespinner",
+        "Stardew Valley"
+    ],
+    "deliberately": [
+        "Super Mario Odyssey",
+        "Minecraft",
+        "UFO 50",
+        "Terraria",
+        "VVVVVV",
+        "DLCQuest",
+        "Timespinner",
+        "Stardew Valley"
     ],
     "punctuation mark above head": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DLCQuest",
         "Rogue Legacy",
         "Pokemon Emerald",
+        "Pokemon Crystal"
+    ],
+    "punctuation": [
+        "The Legend of Zelda - Oracle of Ages",
         "DLCQuest",
-        "Pokemon Crystal",
-        "The Legend of Zelda - Oracle of Ages"
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Pokemon Crystal"
+    ],
+    "mark": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DLCQuest",
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Pokemon Crystal"
+    ],
+    "above": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DLCQuest",
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Pokemon Crystal"
+    ],
+    "head": [
+        "The Legend of Zelda - Oracle of Ages",
+        "DLCQuest",
+        "Rogue Legacy",
+        "Pokemon Emerald",
+        "Pokemon Crystal"
     ],
     "2011": [
         "Skyward Sword",
+        "Terraria",
         "Minecraft",
-        "DLCQuest",
-        "Terraria"
+        "DLCQuest"
     ],
     "don": [
         "Don"
     ],
-    "17832": [
-        "Don"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6la0.jpg": [
-        "Don"
-    ],
-    "don't starve together": [
-        "Don"
-    ],
-    "discover and explore a massive procedurally generated and biome-rich world with countless resources and threats. whether you stick to the surface world, go spelunking in the caves, dive deeper into the ancient archive, or set sail for the lunar islands, it will be a long time before you run out of things to do.\n\nseasonal bosses, wandering menaces, lurking shadow creatures, and plenty of flora and fauna ready to turn you into a spooky ghost.\n\nplow fields and sow seeds to grow the farm of your dreams. tend to your crops to help your fellow survivors stay fed and ready for the challenges to come.\n\nprotect yourself, your friends, and everything you have managed to gather, because you can be sure, somebody or something is going to want it back.\n\nenter a strange and unexplored world full of odd creatures, hidden dangers, and ancient secrets. gather resources to craft items and build structures that match your survival style. play your way as you unravel the mysteries of \"the constant\".\n\ncooperate with your friends in a private game, or find new friends online. work with other players to survive the harsh environment, or strike out on your own.\n\ndo whatever it takes, but most importantly, don't starve.": [
-        "Don"
-    ],
     "crafting": [
-        "Factorio - Space Age Without Space",
-        "Sea of Thieves",
         "Minecraft",
-        "Factorio",
         "Terraria",
-        "Don",
+        "Factorio",
+        "Raft",
         "Stardew Valley",
-        "Raft"
+        "Don",
+        "Factorio - Space Age Without Space",
+        "Sea of Thieves"
     ],
     "funny": [
-        "The Sims 4",
-        "Getting Over It",
-        "Don",
         "A Short Hike",
         "Hunie Pop 2",
-        "Undertale"
+        "Getting Over It",
+        "Don",
+        "Undertale",
+        "The Sims 4"
     ],
     "survival horror": [
-        "Don",
-        "Resident Evil 3 Remake",
         "Lethal Company",
-        "Resident Evil 2 Remake"
+        "Don",
+        "Resident Evil 2 Remake",
+        "Resident Evil 3 Remake"
     ],
     "doom 1993": [
         "DOOM 1993"
     ],
-    "673": [
-        "DOOM 1993"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5rav.jpg": [
-        "DOOM 1993"
-    ],
-    "doom": [
-        "DOOM 1993"
-    ],
     "intense violence": [
-        "Resident Evil 3 Remake",
         "Resident Evil 2 Remake",
-        "DOOM 1993"
+        "DOOM 1993",
+        "Resident Evil 3 Remake"
+    ],
+    "intense": [
+        "Resident Evil 2 Remake",
+        "DOOM 1993",
+        "Resident Evil 3 Remake"
     ],
     "animated blood and gore": [
-        "Symphony of the Night",
-        "DOOM 1993"
-    ],
-    "windows mobile": [
-        "DOOM 1993"
-    ],
-    "pc-9800 series": [
-        "DOOM II",
-        "DOOM 1993"
-    ],
-    "dos": [
-        "DOOM II",
-        "Tyrian",
-        "Heretic",
-        "DOOM 1993"
-    ],
-    "the player takes the role of a marine (unnamed to further represent the person playing), \"one of earth's toughest, hardened in combat and trained for action\", who has been incarcerated on mars after assaulting a senior officer when ordered to fire upon civilians. there, he works alongside the union aerospace corporation (uac), a multi-planetary conglomerate and military contractor performing secret experiments on interdimensional travel. recently, the teleportation has shown signs of anomalies and instability, but the research continues nonetheless.\n\nsuddenly, something goes wrong and creatures from hell swarm out of the teleportation gates on deimos and phobos. a defensive response from base security fails to halt the invasion, and the bases are quickly overrun by monsters; all personnel are killed or turned into zombies\n\na military detachment from mars travels to phobos to investigate the incident. the player is tasked with securing the perimeter, as the assault team and their heavy weapons are brought inside. radio contact soon ceases and the player realizes that he is the only survivor. being unable to pilot the shuttle off of phobos by himself, the only way to escape is to go inside and fight through the complexes of the moon base.": [
-        "DOOM 1993"
+        "DOOM 1993",
+        "Symphony of the Night"
     ],
     "invisibility": [
-        "DOOM II",
         "Paper Mario",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM 1993"
+        "DOOM 1993",
+        "DOOM II",
+        "Sly Cooper and the Thievius Raccoonus"
     ],
     "1993": [
         "DOOM 1993"
@@ -12306,275 +15057,207 @@ SEARCH_INDEX = {
     "doom ii": [
         "DOOM II"
     ],
-    "312": [
-        "DOOM II"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6iip.jpg": [
-        "DOOM II"
-    ],
-    "doom ii: hell on earth": [
-        "DOOM II"
-    ],
-    "tapwave zodiac": [
-        "DOOM II"
-    ],
-    "immediately following the events in doom, the player once again assumes the role of the unnamed space marine. after defeating the demon invasion of the mars moon bases and returning from hell, doomguy finds that earth has also been invaded by the demons, who have killed billions of people.\n\nthe humans who survived the attack have developed a plan to build massive spaceships which will carry the remaining survivors into space. once the ships are ready, the survivors prepare to evacuate earth. unfortunately, earth's only ground spaceport gets taken over by the demons, who place a flame barrier over it, preventing any ships from leaving.": [
-        "DOOM II"
-    ],
     "artificial intelligence": [
-        "DOOM II",
-        "Metroid Prime",
-        "Sly Cooper and the Thievius Raccoonus",
         "Star Fox 64",
         "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy"
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "Metroid Prime"
+    ],
+    "artificial": [
+        "Star Fox 64",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "Metroid Prime"
+    ],
+    "intelligence": [
+        "Star Fox 64",
+        "Mario Kart 64",
+        "Jak and Daxter: The Precursor Legacy",
+        "Sly Cooper and the Thievius Raccoonus",
+        "DOOM II",
+        "Metroid Prime"
     ],
     "stat tracking": [
-        "Rogue Legacy",
-        "DOOM II",
-        "osu!",
-        "Kingdom Hearts",
         "The Witness",
+        "osu!",
+        "DOOM II",
+        "Rogue Legacy",
+        "Kingdom Hearts",
+        "Final Fantasy Tactics Advance"
+    ],
+    "stat": [
+        "The Witness",
+        "osu!",
+        "DOOM II",
+        "Rogue Legacy",
+        "Kingdom Hearts",
+        "Final Fantasy Tactics Advance"
+    ],
+    "tracking": [
+        "The Witness",
+        "osu!",
+        "DOOM II",
+        "Rogue Legacy",
+        "Kingdom Hearts",
         "Final Fantasy Tactics Advance"
     ],
     "rock music": [
-        "DOOM II",
         "Golden Sun The Lost Age",
-        "Sonic Heroes",
-        "Symphony of the Night",
+        "Final Fantasy Mystic Quest",
         "ULTRAKILL",
+        "DOOM II",
+        "Symphony of the Night",
         "Final Fantasy Tactics Advance",
-        "Final Fantasy Mystic Quest"
+        "Sonic Heroes"
+    ],
+    "rock": [
+        "Golden Sun The Lost Age",
+        "Final Fantasy Mystic Quest",
+        "ULTRAKILL",
+        "DOOM II",
+        "Symphony of the Night",
+        "Final Fantasy Tactics Advance",
+        "Sonic Heroes"
     ],
     "sequence breaking": [
-        "Super Metroid Map Rando",
+        "The Legend of Zelda - Oracle of Ages",
         "Super Metroid",
+        "Super Metroid Map Rando",
         "Metroid Zero Mission",
         "DOOM II",
-        "Metroid Prime",
-        "Wario Land 4",
         "Symphony of the Night",
+        "Ocarina of Time",
+        "Wario Land 4",
+        "Metroid Prime"
+    ],
+    "sequence": [
         "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Metroid Zero Mission",
+        "DOOM II",
+        "Symphony of the Night",
+        "Ocarina of Time",
+        "Wario Land 4",
+        "Metroid Prime"
     ],
     "doronko wanko": [
-        "DORONKO WANKO"
-    ],
-    "290647": [
-        "DORONKO WANKO"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7zj5.jpg": [
         "DORONKO WANKO"
     ],
     "dark souls remastered": [
         "Dark Souls Remastered"
     ],
-    "81085": [
-        "Dark Souls Remastered"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2uro.jpg": [
-        "Dark Souls Remastered"
-    ],
-    "dark souls: remastered": [
-        "Dark Souls Remastered"
-    ],
     "dungeon clawler": [
-        "Dungeon Clawler"
-    ],
-    "290897": [
-        "Dungeon Clawler"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7ygu.jpg": [
         "Dungeon Clawler"
     ],
     "digimon world": [
         "Digimon World"
     ],
-    "3878": [
-        "Digimon World"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2dyy.jpg": [
-        "Digimon World"
-    ],
-    "digimon world 4": [
-        "Digimon World"
-    ],
-    "xbox": [
-        "Sonic Heroes",
-        "Digimon World"
-    ],
-    "nintendo gamecube": [
-        "Super Mario Sunshine",
-        "The Wind Waker",
-        "Metroid Prime",
-        "Sonic Heroes",
-        "Digimon World",
-        "Luigi's Mansion"
-    ],
-    "playstation 2": [
-        "Ratchet & Clank 2",
-        "Sonic Heroes",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Digimon World",
-        "Kingdom Hearts",
-        "Jak and Daxter: The Precursor Legacy",
-        "Kingdom Hearts 2"
-    ],
-    "the yamato server disappears after the x-virus attacks, and the doom server has taken it's place. it's up to the you and up to 3 of your friends, the digital security guard (d.s.g.) to venture into the doom server, discover the source of the virus and deal with the infection before it can infect the home server.\n\nyou will venture into the dry lands stop the virus from spreading, into the venom jungle to stop the dread note from launching and then the machine pit to destroy the final boss.\n\nafter finishing the game for the first time, you unlock hard mode, where the enemies are stronger, but you keep all of your levels, equipment and digivolutions. do it again, and you unlock the hardest difficulty, very hard.": [
-        "Digimon World"
-    ],
     "earthbound": [
         "EarthBound"
     ],
-    "2899": [
-        "EarthBound"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6v07.jpg": [
-        "EarthBound"
-    ],
-    "the story begins when ness is awakened by a meteor that has plummeted to the earth near his home, whereupon he proceeds to investigate the crash site. when ness gets to the crash site he discovers a police roadblock and pokey minch, his friend and neighbor, who tells him to go home. later, ness is woken up again by pokey knocking at his door, demanding help to find his brother picky.\n\nthey find him near the meteor sleeping behind a tree and wake him up. then the three encounter an insect from the meteor named buzz buzz who informs ness that he is from the future where the \"universal cosmic destroyer\", giygas, dominates the planet. buzz buzz senses great potential in ness and instructs him to embark on a journey to seek out and record the melodies of eight \"sanctuaries,\" unite his own powers with the earth's and gain the strength required to confront giygas.": [
-        "EarthBound"
-    ],
     "party system": [
-        "Xenoblade X",
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
         "Golden Sun The Lost Age",
+        "Final Fantasy Mystic Quest",
         "EarthBound",
-        "Paper Mario",
         "Kingdom Hearts",
+        "Pokemon Emerald",
         "Pokemon Crystal",
+        "Paper Mario",
         "Final Fantasy Tactics Advance",
-        "Final Fantasy Mystic Quest"
+        "Xenoblade X",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "party": [
+        "Golden Sun The Lost Age",
+        "Final Fantasy Mystic Quest",
+        "EarthBound",
+        "Mario Kart 64",
+        "Kingdom Hearts",
+        "Pokemon Emerald",
+        "Overcooked! 2",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Final Fantasy Tactics Advance",
+        "Xenoblade X",
+        "Mario & Luigi Superstar Saga"
     ],
     "censored version": [
-        "EarthBound",
-        "Ocarina of Time",
         "Resident Evil 2 Remake",
-        "Xenoblade X"
+        "EarthBound",
+        "Xenoblade X",
+        "Ocarina of Time"
+    ],
+    "censored": [
+        "Resident Evil 2 Remake",
+        "EarthBound",
+        "Xenoblade X",
+        "Ocarina of Time"
+    ],
+    "version": [
+        "Resident Evil 2 Remake",
+        "EarthBound",
+        "Xenoblade X",
+        "Ocarina of Time"
     ],
     "ender lilies": [
         "Ender Lilies"
     ],
-    "138858": [
-        "Ender Lilies"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co9s9e.jpg": [
-        "Ender Lilies"
-    ],
-    "ender lilies: quietus of the knights": [
-        "Ender Lilies"
-    ],
-    "once upon a time, in the end's kingdom, the dying rain suddenly started to fall, transforming all living things it touched into bloodthirsty corpses. following this tragedy, the kingdom quickly fell into chaos and soon, no one remained. the rain, as if cursed, would never stop falling on the land. in the depths of a forsaken church, lily opens her eyes...": [
-        "Ender Lilies"
-    ],
     "2021": [
-        "Lingo",
         "The Binding of Isaac Repentance",
-        "Inscryption",
+        "Hunie Pop 2",
         "Ender Lilies",
-        "Hunie Pop 2"
+        "Inscryption",
+        "Lingo"
     ],
     "factorio": [
         "Factorio"
     ],
-    "7046": [
-        "Factorio"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1tfy.jpg": [
-        "Factorio"
-    ],
-    "you crash land on an alien planet and must research a way to get yourself a rocket out of the planet. defend yourself from the natives who dislike the pollution your production generates.": [
-        "Factorio"
-    ],
     "2020": [
-        "Monster Sanctuary",
         "ULTRAKILL",
-        "Factorio",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Trackmania",
-        "Not an idle game",
         "Hylics 2",
-        "Resident Evil 3 Remake",
+        "Factorio",
+        "Trackmania",
+        "Hatsune Miku Project Diva Mega Mix+",
         "Hades",
-        "Noita"
+        "Monster Sanctuary",
+        "Resident Evil 3 Remake",
+        "Noita",
+        "Not an idle game"
     ],
     "factorio - space age without space": [
-        "Factorio - Space Age Without Space"
-    ],
-    "263344": [
-        "Factorio - Space Age Without Space"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co91k3.jpg": [
-        "Factorio - Space Age Without Space"
-    ],
-    "factorio: space age": [
         "Factorio - Space Age Without Space"
     ],
     "faxanadu": [
         "Faxanadu"
     ],
-    "1974": [
-        "Faxanadu"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5jif.jpg": [
-        "Faxanadu"
-    ],
-    "family computer": [
-        "Final Fantasy",
-        "The Legend of Zelda",
-        "Faxanadu"
-    ],
-    "nintendo entertainment system": [
-        "Final Fantasy",
-        "Zelda II: The Adventure of Link",
-        "The Legend of Zelda",
-        "Faxanadu"
-    ],
-    "the player-controlled protagonist of is an unidentified wanderer. he has no name, though the japanese version allows the player to choose one. the game begins when he approaches eolis, his hometown, after an absence to find it in disrepair and virtually abandoned. worse still, the town is under attack by dwarves.the elven king explains that the elf fountain water, their life source, has stopped and provides the protagonist with 1500 golds, the games currency, to prepare for his journey to uncover the cause.as the story unfolds, it is revealed that elves and dwarfs lived in harmony among the world tree until the evil one emerged from a fallen meteorite. the evil one then transformed the dwarves into monsters against their will and set them against the elves. the dwarf king, grieve, swallowed his magical sword before he was transformed, hiding it in his own body to prevent the evil one from acquiring it. it is only with this sword that the evil one can be destroyed.his journey takes him to four overworld areas: the tree's buttress, the inside of the trunk, the tree's branches and finally the dwarves' mountain stronghold.": [
-        "Faxanadu"
-    ],
     "1987": [
-        "Final Fantasy",
         "Zillion",
+        "Faxanadu",
         "Zelda II: The Adventure of Link",
-        "Faxanadu"
+        "Final Fantasy"
     ],
     "final fantasy": [
         "Final Fantasy"
     ],
-    "385": [
-        "Final Fantasy"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2xv8.jpg": [
-        "Final Fantasy"
-    ],
     "kids": [
-        "Pokemon Red and Blue",
-        "Pokemon Emerald",
-        "Final Fantasy",
-        "Pokemon FireRed and LeafGreen",
         "Minecraft",
-        "Overcooked! 2",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Pokemon Crystal",
-        "Tetris Attack",
+        "Yoshi's Island",
         "Mario Kart 64",
-        "Yoshi's Island"
-    ],
-    "the story follows four youths called the light warriors, who each carry one of their world's four elemental orbs which have been darkened by the four elemental fiends. together, they quest to defeat these evil forces, restore light to the orbs, and save their world.": [
-        "Final Fantasy"
+        "Tetris Attack",
+        "Pokemon Red and Blue",
+        "Pokemon FireRed and LeafGreen",
+        "Pokemon Emerald",
+        "Overcooked! 2",
+        "Pokemon Crystal",
+        "Final Fantasy",
+        "Pokemon Mystery Dungeon Explorers of Sky"
     ],
     "final fantasy iv free enterprise": [
-        "Final Fantasy IV Free Enterprise"
-    ],
-    "387": [
-        "Final Fantasy IV Free Enterprise"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2y6s.jpg": [
-        "Final Fantasy IV Free Enterprise"
-    ],
-    "final fantasy ii": [
         "Final Fantasy IV Free Enterprise"
     ],
     "mild suggestive themes": [
@@ -12585,100 +15268,84 @@ SEARCH_INDEX = {
     "final fantasy mystic quest": [
         "Final Fantasy Mystic Quest"
     ],
-    "415": [
-        "Final Fantasy Mystic Quest"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2y0b.jpg": [
-        "Final Fantasy Mystic Quest"
-    ],
-    "final fantasy: mystic quest": [
-        "Final Fantasy Mystic Quest"
-    ],
     "casual": [
-        "The Sims 4",
+        "Final Fantasy Mystic Quest",
+        "A Short Hike",
         "Getting Over It",
         "Muse Dash",
-        "A Short Hike",
-        "Final Fantasy Mystic Quest"
+        "The Sims 4"
     ],
     "ninja": [
-        "The Messenger",
-        "Final Fantasy Tactics Advance",
         "Final Fantasy Mystic Quest",
-        "Rogue Legacy"
+        "Rogue Legacy",
+        "Final Fantasy Tactics Advance",
+        "The Messenger"
     ],
     "1992": [
-        "Landstalker - The Treasures of King Nole",
         "Super Mario Land 2",
+        "Landstalker - The Treasures of King Nole",
         "Final Fantasy Mystic Quest"
     ],
     "final fantasy tactics advance": [
         "Final Fantasy Tactics Advance"
     ],
-    "414": [
-        "Final Fantasy Tactics Advance"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1wyp.jpg": [
-        "Final Fantasy Tactics Advance"
-    ],
     "tactical": [
-        "Final Fantasy Tactics Advance",
+        "Overcooked! 2",
         "Wargroove",
-        "Overcooked! 2"
+        "Final Fantasy Tactics Advance"
     ],
     "grinding": [
-        "Sea of Thieves",
         "Old School Runescape",
         "Kingdom Hearts",
+        "Final Fantasy Tactics Advance",
         "The Legend of Zelda - Oracle of Seasons",
-        "Final Fantasy Tactics Advance"
+        "Sea of Thieves"
     ],
     "random encounter": [
-        "Pokemon Emerald",
         "Golden Sun The Lost Age",
         "Kingdom Hearts",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance"
+    ],
+    "random": [
+        "Golden Sun The Lost Age",
+        "Kingdom Hearts",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Final Fantasy Tactics Advance"
+    ],
+    "encounter": [
+        "Golden Sun The Lost Age",
+        "Kingdom Hearts",
+        "Pokemon Emerald",
         "Pokemon Crystal",
         "Final Fantasy Tactics Advance"
     ],
     "2003": [
-        "Ratchet & Clank 2",
-        "Mario & Luigi Superstar Saga",
         "Toontown",
+        "Ratchet & Clank 2",
+        "Final Fantasy Tactics Advance",
         "Sonic Heroes",
-        "Final Fantasy Tactics Advance"
+        "Mario & Luigi Superstar Saga"
     ],
     "yu-gi-oh! forbidden memories": [
-        "Yu-Gi-Oh! Forbidden Memories"
-    ],
-    "4108": [
-        "Yu-Gi-Oh! Forbidden Memories"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1ui5.jpg": [
-        "Yu-Gi-Oh! Forbidden Memories"
-    ],
-    "the game begins in ancient egypt, with prince atem sneaking out of the palace to see his friends, jono and teana, at the dueling grounds. while there, they witness a ceremony performed by the mages, which is darker than the ceremonies that they normally perform. after the ceremony, atem duels one of the priests, named seto, and defeats him.\n\nwhen atem returns to the palace, he is quickly sent to bed by simon muran, his tutor and advisor. as simon walks away, he is informed by a guard that the high priest heishin has invaded the palace, using a strange magic. muran searches for heishin. when muran finds him, heishin tells muran that he has found the dark power, then uses the millennium rod to blast muran. when heishin finds atem, he threatens to kill the egyptian king and queen if he does not hand over the millennium puzzle. muran appears behind heishin and tells atem to smash the puzzle. atem obeys, and muran seals himself and atem inside the puzzle, to wait for someone to reassemble it.\n\nfive thousand years later, yugi mutou reassembles the puzzle. he speaks to atem in the puzzle, and atem gives yugi six blank cards. not sure what they are for, he carries them into a dueling tournament. after he defeats one of the duelists, one of the cards is filled with a millennium item. realizing what the cards are for, yugi completes the tournament and fills all six cards with millennium items. this allows atem to return to his time.\n\nonce in his own time, muran tells atem of what has happened since he was sealed away. heishin and the mages have taken control of the kingdom with the millennium items, and that the only way to free the kingdom is to recover the items from the mages guarding them. after passing this on, muran dies.\n\nafter he catches up with jono and teana, he goes to the destroyed palace and searches it. he finds seto, who gives him a map with the locations of the mages and the millennium items, and asks him to defeat the mages.\n\nafter atem recovers all of the millennium items but one, seto leads him to heishin, who holds the millennium rod. atem defeats heishin, but discovers that seto has the millennium rod, and merely wanted to use atem to gather the items in one place. atem duels seto for the items and defeats him, but after the duel, heishin grabs the items and uses them to summon the darknite. hoping to use the darknite to destroy his enemies, he doesn't have the item to prove his authority and as a result, the darknite instead turns heishin into a card. heishin now turned into a playing card, darknite now mocks heishin before incinerating the card. after atem shows that he had the millennium items, darknite challenges him to a duel. atem defeats him, and he transforms into nitemare, who challenges atem again. atem defeats him again, and nitemare begrudgingly returns from where he came. atem then is able to take the throne and lead his people in peace.": [
         "Yu-Gi-Oh! Forbidden Memories"
     ],
     "getting over it": [
         "Getting Over It"
     ],
-    "72373": [
-        "Getting Over It"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3wl5.jpg": [
-        "Getting Over It"
-    ],
-    "getting over it with bennett foddy": [
-        "Getting Over It"
-    ],
-    "climb up an enormous mountain with nothing but a hammer and a pot.": [
-        "Getting Over It"
-    ],
     "psychological horror": [
         "Lethal Company",
-        "Majora's Mask Recompiled",
         "Getting Over It",
-        "Undertale"
+        "Undertale",
+        "Majora's Mask Recompiled"
+    ],
+    "psychological": [
+        "Lethal Company",
+        "Getting Over It",
+        "Undertale",
+        "Majora's Mask Recompiled"
     ],
     "space": [
         "Super Mario Land 2",
@@ -12689,172 +15356,143 @@ SEARCH_INDEX = {
     "golden sun the lost age": [
         "Golden Sun The Lost Age"
     ],
-    "1173": [
-        "Golden Sun The Lost Age"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co25rt.jpg": [
-        "Golden Sun The Lost Age"
-    ],
-    "golden sun: the lost age": [
-        "Golden Sun The Lost Age"
-    ],
-    "\"it is the dawn of a new age...and the heroes of golden sun have been abandoned. now, the world is falling into darkness. a new band of adventurers is the world's final hope...but they may also be its doom. pursued by the heroes of the original golden sun, they must race to complete their quest before the world becomes lost to the ages.\"": [
-        "Golden Sun The Lost Age"
-    ],
     "ancient advanced civilization technology": [
-        "Metroid Prime",
         "Skyward Sword",
         "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy"
+        "Jak and Daxter: The Precursor Legacy",
+        "Metroid Prime"
+    ],
+    "ancient": [
+        "Skyward Sword",
+        "Golden Sun The Lost Age",
+        "Jak and Daxter: The Precursor Legacy",
+        "Metroid Prime"
+    ],
+    "advanced": [
+        "Skyward Sword",
+        "Golden Sun The Lost Age",
+        "Jak and Daxter: The Precursor Legacy",
+        "Metroid Prime"
+    ],
+    "civilization": [
+        "Skyward Sword",
+        "Golden Sun The Lost Age",
+        "Jak and Daxter: The Precursor Legacy",
+        "Metroid Prime"
+    ],
+    "technology": [
+        "Skyward Sword",
+        "Golden Sun The Lost Age",
+        "Jak and Daxter: The Precursor Legacy",
+        "Metroid Prime"
     ],
     "battle screen": [
-        "Mario & Luigi Superstar Saga",
-        "Pokemon Emerald",
         "Golden Sun The Lost Age",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
         "Paper Mario",
-        "Pokemon Crystal"
+        "Mario & Luigi Superstar Saga"
+    ],
+    "battle": [
+        "Golden Sun The Lost Age",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga"
+    ],
+    "screen": [
+        "Golden Sun The Lost Age",
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Paper Mario",
+        "Mario & Luigi Superstar Saga"
     ],
     "2002": [
-        "Super Mario Sunshine",
-        "The Wind Waker",
-        "Metroid Prime",
         "Golden Sun The Lost Age",
+        "MegaMan Battle Network 3",
         "Sly Cooper and the Thievius Raccoonus",
+        "Super Mario Sunshine",
         "Kingdom Hearts",
-        "MegaMan Battle Network 3"
+        "Metroid Prime",
+        "The Wind Waker"
     ],
     "gzdoom": [
-        "gzDoom"
-    ],
-    "307741": [
-        "gzDoom"
-    ],
-    "gzdoom sm64": [
         "gzDoom"
     ],
     "hades": [
         "Hades"
     ],
-    "113112": [
-        "Hades"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co39vc.jpg": [
-        "Hades"
-    ],
-    "zagreus, the son of hades, has discovered that his mother, which he was led to believe was nyx, night incarnate, is actually someone else, and is outside hell. he is now attempting to escape his father's domain, with the help of the other gods of olympus, in an attempt to find his real mother.": [
-        "Hades"
-    ],
     "stylized": [
-        "Hylics 2",
         "ULTRAKILL",
+        "Hylics 2",
         "Hades",
         "TUNIC"
     ],
     "heretic": [
         "Heretic"
     ],
-    "6362": [
-        "Heretic"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1mwz.jpg": [
-        "Heretic"
-    ],
     "hollow knight": [
         "Hollow Knight"
     ],
-    "14593": [
-        "Hollow Knight"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co93cr.jpg": [
-        "Hollow Knight"
-    ],
     "creature compendium": [
-        "Metroid Prime",
         "Pokemon Emerald",
         "Symphony of the Night",
+        "Metroid Prime",
+        "Hollow Knight"
+    ],
+    "creature": [
+        "Pokemon Emerald",
+        "Symphony of the Night",
+        "Metroid Prime",
+        "Hollow Knight"
+    ],
+    "compendium": [
+        "Pokemon Emerald",
+        "Symphony of the Night",
+        "Metroid Prime",
         "Hollow Knight"
     ],
     "hunie pop": [
         "Hunie Pop"
     ],
-    "9655": [
-        "Hunie Pop"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2sor.jpg": [
-        "Hunie Pop"
-    ],
-    "huniepop": [
-        "Hunie Pop"
-    ],
     "visual novel": [
-        "Hunie Pop",
-        "Hunie Pop 2"
+        "Hunie Pop 2",
+        "Hunie Pop"
+    ],
+    "visual": [
+        "Hunie Pop 2",
+        "Hunie Pop"
+    ],
+    "novel": [
+        "Hunie Pop 2",
+        "Hunie Pop"
     ],
     "erotic": [
-        "Hunie Pop",
-        "Hunie Pop 2"
+        "Hunie Pop 2",
+        "Hunie Pop"
     ],
     "romance": [
+        "Hunie Pop 2",
         "Hunie Pop",
         "The Sims 4",
-        "Stardew Valley",
-        "Hunie Pop 2"
+        "Stardew Valley"
     ],
     "2015": [
         "Hunie Pop",
         "Undertale",
-        "Ori and the Blind Forest",
-        "Xenoblade X"
+        "Xenoblade X",
+        "Ori and the Blind Forest"
     ],
     "hunie pop 2": [
-        "Hunie Pop 2"
-    ],
-    "72472": [
-        "Hunie Pop 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5x87.jpg": [
-        "Hunie Pop 2"
-    ],
-    "huniepop 2: double date": [
-        "Hunie Pop 2"
-    ],
-    "an era of darkness and destruction draws near as an ancient evil of limitless lechery, the nymphojinn, will soon be awoken by a cosmic super-period of unspeakable pms. reunite with kyu, your old love fairy sidekick, and travel to the island of inna de poona to develop your double dating prowess and overcome the insatiable lust of the demonic pair.": [
         "Hunie Pop 2"
     ],
     "hylics 2": [
         "Hylics 2"
     ],
-    "98469": [
-        "Hylics 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co290q.jpg": [
-        "Hylics 2"
-    ],
-    "the tyrant gibby\u2019s minions seek to reconstitute their long-presumed-annihilated master. it\u2019s up to our crescent headed protagonist wayne to assemble a crew and put a stop to that sort of thing.": [
-        "Hylics 2"
-    ],
     "inscryption": [
         "Inscryption"
     ],
-    "139090": [
-        "Inscryption"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co401c.jpg": [
-        "Inscryption"
-    ],
-    "from the creator of pony island and the hex comes the latest mind melting, self-destructing love letter to video games. inscryption is an inky black card-based odyssey that blends the deckbuilding roguelike, escape-room style puzzles, and psychological horror into a blood-laced smoothie. darker still are the secrets inscrybed upon the cards...\nin inscryption you will...\n\nacquire a deck of woodland creature cards by draft, surgery, and self mutilation\nunlock the secrets lurking behind the walls of leshy's cabin\nembark on an unexpected and deeply disturbing odyssey": [
-        "Inscryption"
-    ],
     "jak and daxter: the precursor legacy": [
-        "Jak and Daxter: The Precursor Legacy"
-    ],
-    "1528": [
-        "Jak and Daxter: The Precursor Legacy"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1w7q.jpg": [
-        "Jak and Daxter: The Precursor Legacy"
-    ],
-    "the opening sequence of the game features jak and daxter in a speedboat headed for misty island, an area prohibited by their watch over samos. upon arriving to the island, daxter had second thoughts about straying from the village. the two perch on a large skeleton to observe a legion of lurkers crowded around two dark figures, gol and maia, who were commanding the lurkers to \"deal harshly with anyone who strays from the village,\" and to search for any precursor artifacts and eco near sandover village.[4] after the secret observation, jak and daxter continue searching the island. daxter trips on a dark eco canister which he tosses to jak after expressing his dislike for the item, and as jak caught the object it lit up. shortly afterwards a bone armor lurker suddenly confronted the two, where jak threw the dark eco canister at the lurker, killing it, but inadvertently knocked daxter into a dark eco silo behind him. when daxter reemerged, he was in the form of an ottsel, and upon realizing the transformation he began to panic.": [
         "Jak and Daxter: The Precursor Legacy"
     ],
     "auto-saving": [
@@ -12869,23 +15507,23 @@ SEARCH_INDEX = {
     "kirby 64 - the crystal shards": [
         "Kirby 64 - The Crystal Shards"
     ],
-    "2713": [
-        "Kirby 64 - The Crystal Shards"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1wcz.jpg": [
-        "Kirby 64 - The Crystal Shards"
-    ],
-    "kirby 64: the crystal shards": [
-        "Kirby 64 - The Crystal Shards"
-    ],
-    "on the planet of ripple star, lives a group of kind and peaceful fairies. the planet itself is protected from danger by the power of the great crystal, which watches over ripple star. this power, however, draws the attention of dark matter, who wishes to use the great crystal for its own evil agenda. its gigantic mass attacks and searches for the crystal, blackening the sky and sending the fairies into panic. in response to the threat dark matter presents, the queen of ripple star orders a fairy named ribbon to take the crystal to a safe place. ribbon tries to fly away with the crystal in tow, but is stopped by three orbs sent by dark matter. the crystal shatters into 74 shards, scattered throughout several planets, and ribbon crashes onto planet popstar. kirby finds one shard and gives it to ribbon, whereupon the two set out to find the others. once kirby and his friends collect every crystal shard and defeat miracle matter, dark matter flees ripple star and explodes. the victory is cut short, however, as the crystal detects a powerful presence of dark matter energy within the fairy queen and expels it from her, manifesting over the planet to create dark star. kirby and his friends infiltrate dark star, and king dedede launches them up to challenge 02. kirby and ribbon, armed with their shard gun, destroyed 02 and the dark star.": [
-        "Kirby 64 - The Crystal Shards"
-    ],
     "kid friendly": [
         "Pokemon Emerald",
         "Kirby 64 - The Crystal Shards",
-        "OpenRCT2",
-        "Pokemon Crystal"
+        "Pokemon Crystal",
+        "OpenRCT2"
+    ],
+    "kid": [
+        "Pokemon Emerald",
+        "Kirby 64 - The Crystal Shards",
+        "Pokemon Crystal",
+        "OpenRCT2"
+    ],
+    "friendly": [
+        "Pokemon Emerald",
+        "Kirby 64 - The Crystal Shards",
+        "Pokemon Crystal",
+        "OpenRCT2"
     ],
     "whale": [
         "Super Mario Land 2",
@@ -12896,81 +15534,48 @@ SEARCH_INDEX = {
     "kirby's dream land 3": [
         "Kirby's Dream Land 3"
     ],
-    "3720": [
-        "Kirby's Dream Land 3"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co25su.jpg": [
-        "Kirby's Dream Land 3"
-    ],
     "kingdom hearts": [
-        "Kingdom Hearts"
-    ],
-    "1219": [
-        "Kingdom Hearts"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co30zf.jpg": [
-        "Kingdom Hearts"
-    ],
-    "when his world is destroyed and his friends mysteriously disappear, a young boy named sora is thrust into a quest to find his missing friends and prevent the armies of darkness from destroying many other worlds. during his quest, he meets many characters from classic disney films and a handful from the final fantasy video game series.": [
         "Kingdom Hearts"
     ],
     "kingdom hearts 2": [
         "Kingdom Hearts 2"
     ],
-    "1221": [
-        "Kingdom Hearts 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co30t1.jpg": [
-        "Kingdom Hearts 2"
-    ],
-    "kingdom hearts ii": [
-        "Kingdom Hearts 2"
-    ],
-    "one year after the events of kingdom hearts: chain of memories, sora, donald and goofy awaken in twilight town. bent on the quest to find riku and king mickey mouse, the three begin their journey. however, they soon discover that while they have been asleep, the heartless are back. not only that, but new enemies also showed up during their absence. sora, donald and goofy set off on a quest to rid the world of the heartless once more, uncovering the many secrets that linger about ansem and the mysterious organization xiii.": [
-        "Kingdom Hearts 2"
-    ],
     "link's awakening dx": [
         "Link's Awakening DX"
     ],
-    "1027": [
-        "Link's Awakening DX"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4o47.jpg": [
-        "Link's Awakening DX"
-    ],
-    "the legend of zelda: link's awakening dx": [
-        "Link's Awakening DX"
-    ],
-    "game boy color": [
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Crystal"
-    ],
-    "after the events of a link to the past, the hero link travels by ship to other countries to train for further threats. after being attacked at sea, link's ship sinks and he finds himself stranded on koholint island. he awakens to see a beautiful woman looking down at him and soon learns the island has a giant egg on top of a mountain that the wind fish inhabits deep inside. link is told to awaken the wind fish and all will be answered, so he sets out on another quest.": [
-        "Link's Awakening DX"
-    ],
     "fishing": [
-        "Link's Awakening DX",
         "Minecraft",
-        "Terraria",
         "A Short Hike",
+        "Terraria",
+        "Link's Awakening DX",
         "Stardew Valley"
     ],
     "tentacles": [
-        "Link's Awakening DX",
         "Super Mario Sunshine",
-        "Metroid Prime",
-        "Mario & Luigi Superstar Saga",
+        "Link's Awakening DX",
         "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Metroid Prime",
         "Paper Mario",
-        "Pokemon Crystal"
+        "Mario & Luigi Superstar Saga"
     ],
     "animal cruelty": [
-        "Pokemon Emerald",
         "Link's Awakening DX",
-        "Ocarina of Time",
-        "Pokemon Crystal"
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Ocarina of Time"
+    ],
+    "animal": [
+        "Link's Awakening DX",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Ocarina of Time"
+    ],
+    "cruelty": [
+        "Link's Awakening DX",
+        "Pokemon Crystal",
+        "Pokemon Emerald",
+        "Ocarina of Time"
     ],
     "1998": [
         "Link's Awakening DX",
@@ -12979,204 +15584,169 @@ SEARCH_INDEX = {
     "landstalker - the treasures of king nole": [
         "Landstalker - The Treasures of King Nole"
     ],
-    "15072": [
-        "Landstalker - The Treasures of King Nole"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2kb9.jpg": [
-        "Landstalker - The Treasures of King Nole"
-    ],
-    "landstalker": [
-        "Landstalker - The Treasures of King Nole"
-    ],
-    "sega mega drive/genesis": [
-        "Landstalker - The Treasures of King Nole"
-    ],
     "lethal company": [
         "Lethal Company"
     ],
-    "212089": [
-        "Lethal Company"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5ive.jpg": [
-        "Lethal Company"
-    ],
-    "you are a contracted worker for the company. your job is to collect scrap from abandoned, industrialized moons to meet the company's profit quota. you can use the cash you earn to travel to new moons with higher risks and rewards--or you can buy fancy suits and decorations for your ship. experience nature, scanning any creature you find to add them to your bestiary. explore the wondrous outdoors and rummage through their derelict, steel and concrete underbellies. just never miss the quota.": [
-        "Lethal Company"
-    ],
     "monsters": [
-        "Yu-Gi-Oh! 2006",
         "Lethal Company",
-        "Pokemon FireRed and LeafGreen",
-        "Minecraft"
+        "Yu-Gi-Oh! 2006",
+        "Minecraft",
+        "Pokemon FireRed and LeafGreen"
     ],
     "lingo": [
-        "Lingo"
-    ],
-    "189169": [
-        "Lingo"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5iy5.jpg": [
         "Lingo"
     ],
     "lufia ii ancient cave": [
         "Lufia II Ancient Cave"
     ],
-    "1178": [
-        "Lufia II Ancient Cave"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co9mg3.jpg": [
-        "Lufia II Ancient Cave"
-    ],
-    "lufia ii: rise of the sinistrals": [
-        "Lufia II Ancient Cave"
-    ],
     "luigi's mansion": [
         "Luigi's Mansion"
     ],
-    "2485": [
-        "Luigi's Mansion"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1wr1.jpg": [
-        "Luigi's Mansion"
-    ],
-    "one day, luigi received an unexpected message: you've won a huge mansion! naturally, he[sic] got very excited and called his brother, mario. \"mario? it's me, luigi. i won myself a big mansion! meet me there and we'll celebrate, what do you say?\"\n\nluigi tried to follow the map to his new mansion, but the night was dark, and he became hopelessly lost in an eerie forest along the way. finally, he came upon a gloomy mansion on the edge of the woods. according to the map, this mansion seemed to be the one luigi was looking for. as soon as luigi set foot in the mansion, he started to feel nervous. mario, who should have arrived first, was nowhere to be seen. not only that, but there were ghosts in the mansion!\n\nsuddenly, a ghost lunged at luigi! \"mario! help meee!\" that's when a strange old man with a vacuum cleaner on his back appeared out of nowhere! this strange fellow managed to rescue luigi from the ghosts, then the two of them escaped...\n\nit just so happened that the old man, professor elvin gadd, who lived near the house, was researching his favorite subject, ghosts. luigi told professor e. gadd that his brother mario was missing, so the professor decided to give luigi two inventions that would help him search for his brother.\n\nluigi's not exactly known for his bravery. can he get rid of all the prank-loving ghosts and find mario?": [
-        "Luigi's Mansion"
-    ],
     "italian accent": [
-        "Mario & Luigi Superstar Saga",
+        "Luigi's Mansion",
         "Mario Kart 64",
-        "Super Mario Sunshine",
-        "Luigi's Mansion"
+        "Mario & Luigi Superstar Saga",
+        "Super Mario Sunshine"
+    ],
+    "italian": [
+        "Luigi's Mansion",
+        "Mario Kart 64",
+        "Mario & Luigi Superstar Saga",
+        "Super Mario Sunshine"
+    ],
+    "accent": [
+        "Luigi's Mansion",
+        "Mario Kart 64",
+        "Mario & Luigi Superstar Saga",
+        "Super Mario Sunshine"
     ],
     "super mario land 2": [
         "Super Mario Land 2"
     ],
-    "1071": [
-        "Super Mario Land 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7gxg.jpg": [
-        "Super Mario Land 2"
-    ],
-    "super mario land 2: 6 golden coins": [
-        "Super Mario Land 2"
-    ],
-    "game boy": [
-        "Super Mario Land 2",
-        "Mega Man 2",
-        "Pokemon Red and Blue",
-        "Wario Land"
-    ],
-    "danger! danger!\n\nwhile i was away crusading against the mystery alien tatanga in sarasa land, an evil creep took over my castle and put the people of mario land under his control with a magic spell. this intruder goes by the name of wario. he mimics my appearance, and has tried to steal my castle many times. it seems he has succeeded this time.\n\nwario has scattered the 6 golden coins from my castle all over mario land. these golden coins are guarded by those under wario's spell. without these coins, we can't get into the castle to deal with wario. we must collect the 6 coins, attack wario in the castle, and save everybody!\n\nit\u2019s time to set out on our mission!!": [
-        "Super Mario Land 2"
-    ],
     "mario": [
-        "Mario & Luigi Superstar Saga",
         "Super Mario Land 2",
         "Super Mario World",
+        "Mario & Luigi Superstar Saga",
         "Super Mario Sunshine"
     ],
     "turtle": [
-        "Super Mario Sunshine",
-        "Mario & Luigi Superstar Saga",
-        "Sly Cooper and the Thievius Raccoonus",
         "Super Mario Land 2",
+        "Mario Kart 64",
+        "Sly Cooper and the Thievius Raccoonus",
+        "Super Mario Sunshine",
         "Paper Mario",
-        "Mario Kart 64"
+        "Mario & Luigi Superstar Saga"
     ],
     "hatsune miku project diva mega mix+": [
         "Hatsune Miku Project Diva Mega Mix+"
     ],
-    "120278": [
-        "Hatsune Miku Project Diva Mega Mix+"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co991n.jpg": [
-        "Hatsune Miku Project Diva Mega Mix+"
-    ],
-    "hatsune miku: project diva mega mix": [
-        "Hatsune Miku Project Diva Mega Mix+"
-    ],
-    "music": [
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Muse Dash",
-        "osu!"
-    ],
     "the messenger": [
-        "The Messenger"
-    ],
-    "71628": [
-        "The Messenger"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2hr9.jpg": [
         "The Messenger"
     ],
     "metroid prime": [
         "Metroid Prime"
     ],
-    "1105": [
-        "Metroid Prime"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3w4w.jpg": [
-        "Metroid Prime"
-    ],
     "time limit": [
-        "Super Metroid Map Rando",
-        "Super Mario Sunshine",
+        "The Witness",
         "Super Metroid",
+        "Super Metroid Map Rando",
         "Rogue Legacy",
-        "Metroid Prime",
-        "Risk of Rain",
+        "Super Mario Sunshine",
         "Wario Land 4",
-        "The Witness"
+        "Metroid Prime",
+        "Risk of Rain"
+    ],
+    "limit": [
+        "The Witness",
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Rogue Legacy",
+        "Super Mario Sunshine",
+        "Wario Land 4",
+        "Metroid Prime",
+        "Risk of Rain"
     ],
     "countdown timer": [
-        "Super Metroid Map Rando",
         "Super Metroid",
-        "Rogue Legacy",
-        "Metroid Prime",
+        "Super Metroid Map Rando",
         "Metroid Zero Mission",
+        "Rogue Legacy",
+        "Ocarina of Time",
         "Wario Land 4",
-        "Ocarina of Time"
+        "Metroid Prime"
+    ],
+    "countdown": [
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Metroid Zero Mission",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Wario Land 4",
+        "Metroid Prime"
+    ],
+    "timer": [
+        "Super Metroid",
+        "Super Metroid Map Rando",
+        "Metroid Zero Mission",
+        "Rogue Legacy",
+        "Ocarina of Time",
+        "Wario Land 4",
+        "Metroid Prime"
     ],
     "auto-aim": [
         "Skyward Sword",
-        "The Wind Waker",
-        "Metroid Prime",
         "Ocarina of Time",
+        "Metroid Prime",
+        "The Wind Waker",
         "Majora's Mask Recompiled"
     ],
     "linear gameplay": [
+        "Super Mario 64",
         "Metroid Prime",
         "SM64 Romhack",
+        "Super Mario Sunshine"
+    ],
+    "linear": [
         "Super Mario 64",
+        "Metroid Prime",
+        "SM64 Romhack",
         "Super Mario Sunshine"
     ],
     "isolation": [
-        "Super Metroid Map Rando",
         "Super Metroid",
+        "Super Metroid Map Rando",
         "Metroid Zero Mission",
-        "Metroid Prime",
-        "Symphony of the Night"
+        "Symphony of the Night",
+        "Metroid Prime"
     ],
     "minecraft": [
-        "Minecraft"
-    ],
-    "121": [
-        "Minecraft"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co8fu6.jpg": [
-        "Minecraft"
-    ],
-    "minecraft: java edition": [
         "Minecraft"
     ],
     "virtual reality": [
         "Minecraft",
         "Subnautica"
     ],
-    "minecraft: java edition (previously known as minecraft) is the original version of minecraft, developed by mojang studios for windows, macos, and linux. notch began development on may 10, 2009, publicly releasing minecraft on may 17, 2009. the full release of the game was on november 18, 2011, at minecon 2011.": [
-        "Minecraft"
+    "virtual": [
+        "Minecraft",
+        "Subnautica"
+    ],
+    "reality": [
+        "Minecraft",
+        "Subnautica"
     ],
     "procedural generation": [
+        "The Witness",
+        "Terraria",
+        "Minecraft",
+        "Rogue Legacy"
+    ],
+    "procedural": [
+        "The Witness",
+        "Terraria",
+        "Minecraft",
+        "Rogue Legacy"
+    ],
+    "generation": [
         "The Witness",
         "Terraria",
         "Minecraft",
@@ -13185,115 +15755,47 @@ SEARCH_INDEX = {
     "mario kart 64": [
         "Mario Kart 64"
     ],
-    "2342": [
-        "Mario Kart 64"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co67hm.jpg": [
-        "Mario Kart 64"
-    ],
-    "party": [
-        "Mario Kart 64",
-        "Overcooked! 2"
-    ],
     "mario & luigi superstar saga": [
         "Mario & Luigi Superstar Saga"
     ],
-    "3351": [
-        "Mario & Luigi Superstar Saga"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co21rg.jpg": [
-        "Mario & Luigi Superstar Saga"
-    ],
-    "mario & luigi: superstar saga": [
-        "Mario & Luigi Superstar Saga"
-    ],
     "super-ness": [
-        "Mario & Luigi Superstar Saga",
         "SM64 Romhack",
         "Super Mario 64",
+        "Mario & Luigi Superstar Saga",
         "Super Mario Sunshine"
     ],
     "wiggler": [
+        "Super Mario Odyssey",
+        "Super Mario 64",
         "Super Mario Sunshine",
         "Mario & Luigi Superstar Saga",
-        "Super Mario 64",
-        "SM64 Romhack",
-        "Super Mario Odyssey"
+        "SM64 Romhack"
     ],
     "princess peach": [
-        "Mario & Luigi Superstar Saga",
         "SM64 Romhack",
         "Super Mario 64",
+        "Mario & Luigi Superstar Saga",
+        "Super Mario Sunshine"
+    ],
+    "peach": [
+        "SM64 Romhack",
+        "Super Mario 64",
+        "Mario & Luigi Superstar Saga",
         "Super Mario Sunshine"
     ],
     "mega man 2": [
         "Mega Man 2"
     ],
-    "1734": [
-        "Mega Man 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5572.jpg": [
-        "Mega Man 2"
-    ],
-    "mega man ii": [
-        "Mega Man 2"
-    ],
-    "even after his crushing defeat at the hands of mega man during the events of mega man: dr. wily's revenge, dr. wily was already planning his next scheme. if he could get his hands on the time machine (named time skimmer in the american manual) that was being developed at the time-space research laboratory (named chronos institute in the american manual), he thought he just might be able to change the past.\n\nafter stealing the time machine, wily had wanted to set out immediately on a trip across time, but had to put an emergency brake down on his plans when he discovered that the time machine had a serious flaw.\n\nmeanwhile, dr. light had been dispatched to the time-space laboratory to investigate. with the help of rush\u2019s super-sense of smell, he was able to deduce that it was none other than dr. wily behind the theft. having a bad feeling about the incident, dr. light quickly called upon mega man and rush to search out dr. wily\u2019s whereabouts.": [
-        "Mega Man 2"
-    ],
     "megaman battle network 3": [
-        "MegaMan Battle Network 3"
-    ],
-    "1758": [
-        "MegaMan Battle Network 3"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co203k.jpg": [
-        "MegaMan Battle Network 3"
-    ],
-    "mega man battle network 3 blue": [
         "MegaMan Battle Network 3"
     ],
     "majora's mask recompiled": [
         "Majora's Mask Recompiled"
     ],
-    "1030": [
-        "Majora's Mask Recompiled"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3pah.jpg": [
-        "Majora's Mask Recompiled"
-    ],
-    "the legend of zelda: majora's mask": [
-        "Majora's Mask Recompiled"
-    ],
-    "64dd": [
-        "Ocarina of Time",
-        "Majora's Mask Recompiled"
-    ],
-    "after the events of the legend of zelda: ocarina of time, link departs on his horse epona in the lost woods and is assaulted by an imp named skull kid who dons a mysterious mask, accompanied by the fairies tael and tatl. skull kid turns link into a small plant-like creature known as deku scrub and takes away his horse and his magical ocarina. shortly afterward, tatl joins link and agrees to help him revert to his native form. a meeting with a wandering mask salesman reveals that the skull kid is wearing majora's mask, an ancient item used in hexing rituals, which calls forth a menacing moon hovering over the land of termina. link has exactly three days to find a way to prevent this from happening.": [
-        "Majora's Mask Recompiled"
-    ],
     "momodora moonlit farewell": [
         "Momodora Moonlit Farewell"
     ],
-    "188088": [
-        "Momodora Moonlit Farewell"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7mxs.jpg": [
-        "Momodora Moonlit Farewell"
-    ],
-    "momodora: moonlit farewell": [
-        "Momodora Moonlit Farewell"
-    ],
-    "momodora: moonlit farewell presents the account of the greatest calamity to befall the village of koho, five years after the events of momodora iii. once the toll of an ominous bell is heard, the village is soon threatened by a demon invasion.\n\nthe village's matriarch sends momo reinol, their most capable priestess, to investigate the bell and find the bellringer responsible for summoning demons. it is their hope that by finding the culprit, they will also be able to secure the village's safety, and most importantly, the sacred lun tree's, a source of life and healing for koho...": [
-        "Momodora Moonlit Farewell"
-    ],
     "monster sanctuary": [
-        "Monster Sanctuary"
-    ],
-    "89594": [
-        "Monster Sanctuary"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1q3q.jpg": [
         "Monster Sanctuary"
     ],
     "tobacco reference": [
@@ -13302,78 +15804,55 @@ SEARCH_INDEX = {
     "muse dash": [
         "Muse Dash"
     ],
-    "86316": [
-        "Muse Dash"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6h43.jpg": [
-        "Muse Dash"
-    ],
     "mild lyrics": [
+        "Muse Dash",
+        "Sonic Adventure 2 Battle"
+    ],
+    "lyrics": [
         "Muse Dash",
         "Sonic Adventure 2 Battle"
     ],
     "metroid zero mission": [
         "Metroid Zero Mission"
     ],
-    "1107": [
-        "Metroid Zero Mission"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1vci.jpg": [
-        "Metroid Zero Mission"
-    ],
-    "metroid: zero mission": [
-        "Metroid Zero Mission"
-    ],
     "2004": [
         "Pokemon Emerald",
-        "Paper Mario The Thousand Year Door",
+        "Metroid Zero Mission",
         "Pokemon FireRed and LeafGreen",
-        "Metroid Zero Mission"
+        "Paper Mario The Thousand Year Door"
     ],
     "noita": [
-        "Noita"
-    ],
-    "52006": [
-        "Noita"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1qp1.jpg": [
         "Noita"
     ],
     "ocarina of time": [
         "Ocarina of Time"
     ],
-    "1029": [
-        "Ocarina of Time"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3nnx.jpg": [
-        "Ocarina of Time"
-    ],
-    "the legend of zelda: ocarina of time": [
-        "Ocarina of Time"
-    ],
-    "a young boy named link was raised in the village of the elf-like kokiri people. one day a fairy named navi introduces him to the village's guardian, the great deku tree. it appears that a mysterious man has cursed the tree, and link is sent to the hyrule castle to find out more. princess zelda tells link that ganondorf, the leader of the gerudo tribe, seeks to obtain the triforce, a holy relic that grants immense power to the one who possesses it. link must do everything in his power to obtain the triforce before ganondorf does, and save hyrule.": [
-        "Ocarina of Time"
-    ],
     "time manipulation": [
-        "Super Metroid Map Rando",
         "Super Metroid",
+        "Super Metroid Map Rando",
         "Rogue Legacy",
-        "Timespinner",
-        "Ocarina of Time"
+        "Ocarina of Time",
+        "Timespinner"
     ],
     "color cartridges": [
         "Pokemon Emerald",
-        "Ocarina of Time",
+        "Pokemon Crystal",
         "Zelda II: The Adventure of Link",
-        "Pokemon Crystal"
+        "Ocarina of Time"
+    ],
+    "color": [
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Zelda II: The Adventure of Link",
+        "Ocarina of Time"
+    ],
+    "cartridges": [
+        "Pokemon Emerald",
+        "Pokemon Crystal",
+        "Zelda II: The Adventure of Link",
+        "Ocarina of Time"
     ],
     "openrct2": [
-        "OpenRCT2"
-    ],
-    "80720": [
-        "OpenRCT2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1ngq.jpg": [
         "OpenRCT2"
     ],
     "business": [
@@ -13383,36 +15862,15 @@ SEARCH_INDEX = {
     "ori and the blind forest": [
         "Ori and the Blind Forest"
     ],
-    "7344": [
-        "Ori and the Blind Forest"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1y41.jpg": [
-        "Ori and the Blind Forest"
-    ],
     "thriller": [
-        "Super Metroid Map Rando",
         "Super Metroid",
-        "Ori and the Blind Forest"
-    ],
-    "ori, the protagonist of the game, falls from the spirit tree and is adopted by naru, who raises ori as her own. when a disastrous event occurs causing the forest to wither and naru to die, ori is left to explore the forest. ori eventually encounters sein, who begins to guide ori on an adventure to restore the forest through the recovery of the light of three main elements supporting the balance of the forest: waters, winds and warmth.": [
+        "Super Metroid Map Rando",
         "Ori and the Blind Forest"
     ],
     "old school runescape": [
         "Old School Runescape"
     ],
-    "79824": [
-        "Old School Runescape"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1mo1.jpg": [
-        "Old School Runescape"
-    ],
     "osu!": [
-        "osu!"
-    ],
-    "3012": [
-        "osu!"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co8a4m.jpg": [
         "osu!"
     ],
     "auditory": [
@@ -13421,22 +15879,7 @@ SEARCH_INDEX = {
     "outer wilds": [
         "Outer Wilds"
     ],
-    "11737": [
-        "Outer Wilds"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co65ac.jpg": [
-        "Outer Wilds"
-    ],
-    "welcome to the space program! you're the newest recruit of outer wilds ventures, a fledgling space program searching for answers in a strange, constantly evolving solar system. what lurks in the heart of the ominous dark bramble? who built the alien ruins on the moon? can the endless time loop be stopped? answers await you in the most dangerous reaches of space.\n\nthe planets of outer wilds are packed with hidden locations that change with the passage of time. visit an underground city of before it's swallowed by sand, or explore the surface of a planet as it crumbles beneath your feet. every secret is guarded by hazardous environments and natural catastrophes.\n\nstrap on your hiking boots, check your oxygen levels, and get ready to venture into space. use a variety of unique gadgets to probe your surroundings, track down mysterious signals, decipher ancient alien writing, and roast the perfect marshmallow.": [
-        "Outer Wilds"
-    ],
     "overcooked! 2": [
-        "Overcooked! 2"
-    ],
-    "103341": [
-        "Overcooked! 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1usu.jpg": [
         "Overcooked! 2"
     ],
     "paint": [
@@ -13445,37 +15888,10 @@ SEARCH_INDEX = {
     "paper mario": [
         "Paper Mario"
     ],
-    "3340": [
-        "Paper Mario"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1qda.jpg": [
-        "Paper Mario"
-    ],
-    "gambling": [
-        "Pokemon Emerald",
-        "Rogue Legacy",
-        "Paper Mario",
-        "Pokemon Crystal"
-    ],
     "peaks of yore": [
         "Peaks of Yore"
     ],
-    "238690": [
-        "Peaks of Yore"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co8zzc.jpg": [
-        "Peaks of Yore"
-    ],
     "pokemon mystery dungeon explorers of sky": [
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "2323": [
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7ovf.jpg": [
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "pok\u00e9mon mystery dungeon: explorers of sky": [
         "Pokemon Mystery Dungeon Explorers of Sky"
     ],
     "mild cartoon violence": [
@@ -13487,178 +15903,46 @@ SEARCH_INDEX = {
     "pokemon crystal": [
         "Pokemon Crystal"
     ],
-    "1514": [
-        "Pokemon Crystal"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5pil.jpg": [
-        "Pokemon Crystal"
-    ],
-    "pok\u00e9mon crystal version": [
-        "Pokemon Crystal"
-    ],
     "pokemon emerald": [
-        "Pokemon Emerald"
-    ],
-    "1517": [
-        "Pokemon Emerald"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1zhr.jpg": [
-        "Pokemon Emerald"
-    ],
-    "pok\u00e9mon emerald version": [
-        "Pokemon Emerald"
-    ],
-    "both team magma and team aqua are featured as the villainous teams, each stirring trouble at different stages in the game. the objective of each team, to awaken groudon and kyogre, respectively, is eventually fulfilled.\nrayquaza is prominent plot-wise, awakened in order to stop the destructive battle between groudon and kyogre. it is now the one out of the three ancient pok\u00e9mon that can be caught prior to the elite four challenge, while still at the same place and at the same high level as in ruby and sapphire.": [
         "Pokemon Emerald"
     ],
     "pokemon firered and leafgreen": [
         "Pokemon FireRed and LeafGreen"
     ],
-    "1516": [
-        "Pokemon FireRed and LeafGreen"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1zip.jpg": [
-        "Pokemon FireRed and LeafGreen"
-    ],
-    "pok\u00e9mon leafgreen version": [
-        "Pokemon FireRed and LeafGreen"
-    ],
     "pokemon red and blue": [
-        "Pokemon Red and Blue"
-    ],
-    "1561": [
-        "Pokemon Red and Blue"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5pi4.jpg": [
-        "Pokemon Red and Blue"
-    ],
-    "pok\u00e9mon red version": [
-        "Pokemon Red and Blue"
-    ],
-    "the player character starts out in pallet town. when the player character tries to leave the town without a pok\u00e9mon of their own, they are stopped in the nick of time by professor oak, who invites them to his lab. there, he gives them a pok\u00e9mon of their own and a pok\u00e9dex, telling them about his dream to make a complete guide on every pok\u00e9mon in the world. after the player character battles their rival and leaves the lab, they are entitled to win every gym badge, compete in the pok\u00e9mon league, and fulfill oak's dream by catching every pok\u00e9mon.": [
         "Pokemon Red and Blue"
     ],
     "pseudoregalia": [
         "Pseudoregalia"
     ],
-    "259465": [
-        "Pseudoregalia"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6vcy.jpg": [
-        "Pseudoregalia"
-    ],
-    "pseudoregalia: jam ver.": [
-        "Pseudoregalia"
-    ],
     "ratchet & clank 2": [
-        "Ratchet & Clank 2"
-    ],
-    "1770": [
-        "Ratchet & Clank 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co230n.jpg": [
-        "Ratchet & Clank 2"
-    ],
-    "ratchet & clank: going commando": [
-        "Ratchet & Clank 2"
-    ],
-    "having defeated chairman drek in their last intergalactic adventure, ratchet and clank find themselves returning to a more sedate lifestyle. that is, until they are approached by abercrombie fizzwidget, the cro of megacorp, who needs the duo to track down the company\u2019s most promising experimental project, which has been stolen by a mysterious masked figure. initially, the mission seemed like a sunday stroll in the park, but we soon find our heroes entangled in a colossal struggle for control of the galaxy. along the way, the duo unleashes some of the coolest weapons and gadgets ever invented upon the most dangerous foes they have ever faced. ratchet and clanks set out to destroy anything and anyone who stands in their way of discovering the secrets that lie behind \u201cthe experiment.\u201d": [
         "Ratchet & Clank 2"
     ],
     "raft": [
         "Raft"
     ],
-    "27082": [
-        "Raft"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1xdc.jpg": [
-        "Raft"
-    ],
-    "trapped on a small raft with nothing but a hook made of old plastic, players awake on a vast, blue ocean totally alone and with no land in sight! with a dry throat and an empty stomach, survival will not be easy!\n\nresources are tough to come by at sea: players will have to make sure to catch whatever debris floats by using their trusty hook and when possible, scavenge the reefs beneath the waves and the islands above. however, thirst and hunger is not the only danger in the ocean\u2026 watch out for the man-eating shark determined to end your voyage!": [
-        "Raft"
-    ],
     "resident evil 2 remake": [
-        "Resident Evil 2 Remake"
-    ],
-    "19686": [
-        "Resident Evil 2 Remake"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1ir3.jpg": [
-        "Resident Evil 2 Remake"
-    ],
-    "resident evil 2": [
-        "Resident Evil 2 Remake"
-    ],
-    "players join rookie police officer leon kennedy and college student claire redfield, who are thrust together by a disastrous outbreak in raccoon city that transformed its population into deadly zombies. both leon and claire have their own separate playable campaigns, allowing players to see the story from both characters\u2019 perspectives. the fate of these two fan favorite characters is in the player's hands as they work together to survive and get to the bottom of what is behind the terrifying attack on the city.": [
         "Resident Evil 2 Remake"
     ],
     "resident evil 3 remake": [
         "Resident Evil 3 Remake"
     ],
-    "115115": [
-        "Resident Evil 3 Remake"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co22l7.jpg": [
-        "Resident Evil 3 Remake"
-    ],
-    "resident evil 3": [
-        "Resident Evil 3 Remake"
-    ],
-    "a series of strange disappearances have been occurring in the american midwest within a place called racoon city. a specialist squad of the police force known as s.t.a.r.s. has been investigating the case, and have determined that the pharmaceutical company umbrella and their biological weapon, the t-virus, are behind the incidents. jill valentine and the other surviving s.t.a.r.s. members try to make this truth known, but find that the police department itself is under umbrella's sway and their reports are rejected out of hand. with the viral plague spreading through the town and to her very doorstep, jill is determined to survive. however, an extremely powerful pursuer has already been dispatched to eliminate her.": [
-        "Resident Evil 3 Remake"
-    ],
     "rogue legacy": [
         "Rogue Legacy"
     ],
-    "3221": [
-        "Rogue Legacy"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co27fi.jpg": [
-        "Rogue Legacy"
-    ],
-    "playstation vita": [
-        "Rogue Legacy",
-        "Risk of Rain",
-        "Terraria",
-        "Stardew Valley",
-        "Undertale",
-        "Timespinner",
-        "VVVVVV"
-    ],
     "risk of rain": [
-        "Risk of Rain"
-    ],
-    "3173": [
-        "Risk of Rain"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2k2z.jpg": [
         "Risk of Rain"
     ],
     "risk of rain 2": [
         "Risk of Rain 2"
     ],
-    "28512": [
-        "Risk of Rain 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2eu7.jpg": [
-        "Risk of Rain 2"
-    ],
     "drug reference": [
         "Risk of Rain 2"
     ],
-    "risk of rain 2 follows the crew of ues: safe travels as they try to find ues: contact light and any survivors along their path. they have to try and survive the hostile wildlife and environment as difficulty increases over time, navigating petrichor v via the teleporters strewn across the entire planet. the crew loop endlessly through many distinct environments, but end upon the moon to defeat the final boss.\n\nwith each run, you\u2019ll learn the patterns of your foes, and even the longest odds can be overcome with enough skill. a unique scaling system means both you and your foes limitlessly increase in power over the course of a game\u2013what once was a bossfight will in time become a common enemy.\n\nmyriad survivors, items, enemies, and bosses return to risk 2, and many new ones are joining the fight. brand new survivors like the artificer and mul-t debut alongside classic survivors such as the engineer, huntress, and\u2013of course\u2013the commando. with over 75 items to unlock and exploit, each run will keep you cleverly strategizing your way out of sticky situations.": [
+    "drug": [
         "Risk of Rain 2"
     ],
     "sonic adventure 2 battle": [
-        "Sonic Adventure 2 Battle"
-    ],
-    "192194": [
-        "Sonic Adventure 2 Battle"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5p3o.jpg": [
-        "Sonic Adventure 2 Battle"
-    ],
-    "sonic adventure 2: battle": [
         "Sonic Adventure 2 Battle"
     ],
     "2012": [
@@ -13667,71 +15951,32 @@ SEARCH_INDEX = {
     "sonic adventure dx": [
         "Sonic Adventure DX"
     ],
-    "192114": [
-        "Sonic Adventure DX"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4iln.jpg": [
-        "Sonic Adventure DX"
-    ],
-    "sonic adventure: sonic adventure dx upgrade": [
-        "Sonic Adventure DX"
-    ],
-    "doctor robotnik seeks a new way to defeat his longtime nemesis sonic and conquer the world. during his research, he learns about an entity called chaos\u2014a creature that, thousands of years ago, helped to protect the chao and the all-powerful master emerald, which balances the power of the seven chaos emeralds. when a tribe of echidnas sought to steal the power of the emeralds, breaking the harmony they had with the chao, chaos retaliated by using the emeralds' power to transform into a monstrous beast, perfect chaos, and wipe them out. before it could destroy the world, tikal, a young echidna who befriended chaos, imprisoned it in the master emerald along with herself. eggman releases chaos and sonic and his friends must act against eggman's plans and prevent the monster from becoming more powerful.": [
-        "Sonic Adventure DX"
-    ],
     "2010": [
         "Starcraft 2",
-        "Sonic Adventure DX",
-        "VVVVVV"
+        "VVVVVV",
+        "Sonic Adventure DX"
     ],
     "starcraft 2": [
         "Starcraft 2"
     ],
-    "239": [
-        "Starcraft 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1tnn.jpg": [
-        "Starcraft 2"
-    ],
-    "starcraft ii: wings of liberty": [
-        "Starcraft 2"
-    ],
     "warfare": [
-        "Starcraft 2",
         "Wargroove 2",
+        "Starcraft 2",
         "Wargroove"
     ],
     "sea of thieves": [
         "Sea of Thieves"
     ],
-    "11137": [
-        "Sea of Thieves"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2558.jpg": [
-        "Sea of Thieves"
-    ],
     "not an idle game": [
-        "Not an idle game"
-    ],
-    "134826": [
-        "Not an idle game"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4tfx.jpg": [
-        "Not an idle game"
-    ],
-    "shapez": [
         "Not an idle game"
     ],
     "shivers": [
         "Shivers"
     ],
-    "12477": [
-        "Shivers"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7a5z.jpg": [
-        "Shivers"
-    ],
     "realistic blood and gore": [
+        "Shivers"
+    ],
+    "realistic": [
         "Shivers"
     ],
     "realistic blood": [
@@ -13744,84 +15989,31 @@ SEARCH_INDEX = {
     "a short hike": [
         "A Short Hike"
     ],
-    "116753": [
-        "A Short Hike"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co6e83.jpg": [
-        "A Short Hike"
-    ],
-    "the main character is claire, a young anthropomorphic bird who travels to hawk peak provincial park, where her aunt may works as a ranger, to spend days off. however, claire cannot get cellphone reception unless she reaches the top of the peak, and is expecting an important call. for this reason, she decides to reach the highest point in the park.": [
-        "A Short Hike"
-    ],
     "the sims 4": [
-        "The Sims 4"
-    ],
-    "3212": [
-        "The Sims 4"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3h3l.jpg": [
-        "The Sims 4"
-    ],
-    "choose how sims look, act, and dress. determine how they\u2019ll live out each day. design and build incredible homes for every family, then decorate with your favorite furnishings and d\u00e9cor. travel to different neighborhoods where you can meet other sims and learn about their lives. discover beautiful locations with distinctive environments, and go on spontaneous adventures. manage the ups and downs of sims\u2019 everyday lives and see what happens when you play out realistic or fantastical scenarios. tell your stories your way while developing relationships, pursuing careers and life aspirations, and immersing yourself in an extraordinary game where the possibilities are endless.": [
         "The Sims 4"
     ],
     "sly cooper and the thievius raccoonus": [
         "Sly Cooper and the Thievius Raccoonus"
     ],
-    "1798": [
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1p0r.jpg": [
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
     "stealth": [
         "Sly Cooper and the Thievius Raccoonus"
     ],
-    "sly cooper comes from a long line of master thieves (the cooper clan) who only steal from other criminals, thus making them vigilantes. the cooper family's heirloom, an ancient book by the name the thievius raccoonus, records all the secret moves and techniques from every member in the clan. on his 8th birthday, sly was supposed to inherit the book and learn all of his family's ancient secrets which was supposed to help him become a master thief, however, a group of thugs by the name \"the fiendish five\" (led by clockwerk, who is the arch-nemesis of the family clan) attack the cooper household and kills sly's parents and stole all of the pages from the thievius raccoonus. after that, the ruthless gang go their separate ways to commit dastardly crimes around the world. sly is sent to an orphanage where he meets and teams up and forms a gang with two guys who become his lifelong best friends, bentley, a technician, inventor and a talented mathematical hacker with encyclopedic knowledge who plays the role as the brains of the gang, and murray, a huge husky cowardly guy with a ginormous appetite who plays the role as the brawns and the getaway driver of the gang. the three leave the orphanage together at age 16 to start their lives becoming international vigilante criminals together, naming themselves \"the cooper gang\". sly swears one day to avenge his family and track down the fiendish five and steal back the thievius raccoonus. two years later, the cooper gang head to paris, france, to infiltrate itnerpol (a police headquarters) in order to find the secret police file which stores details and information about the fiendish five but during the heist they are ambushed by inspector carmelita fox (towards whom sly develops a romantic attraction), a police officer who is affiliated with interpol and is after the cooper gang. the gang manage to steal the police file and successfully escapes from her and the rest of the cops. with the secret police file finally in their hands, the cooper gang manage to track down the fiendish five.": [
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
     "super metroid": [
-        "Super Metroid Map Rando",
-        "Super Metroid"
-    ],
-    "1103": [
-        "Super Metroid Map Rando",
-        "Super Metroid"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5osy.jpg": [
-        "Super Metroid Map Rando",
-        "Super Metroid"
-    ],
-    "after samus completed her mission and eradicated the entire metroid population on sr388 as commanded by the galactic federation (sans the metroid hatchling, which she nicknamed \"baby\"), she brought the hatchling to the ceres space colony for research. however, shortly after she left, she received a distress signal from the station and returned to investigate.\n\nwhen samus arrives at the space science academy where the baby was being studied, she finds all the scientists slaughtered and the containment unit that held the baby missing. upon further exploration of the station, she finds the baby in a small capsule. as she approaches, ridley appears and grabs the capsule. after a brief battle, samus repels ridley, and he activates a self-destruct sequence to destroy ceres.\n\nafter escaping the explosion, ridley flees to zebes, and samus goes after him.": [
-        "Super Metroid Map Rando",
         "Super Metroid"
     ],
     "super metroid map rando": [
         "Super Metroid Map Rando"
     ],
     "super mario 64": [
-        "SM64 Romhack",
-        "Super Mario 64"
-    ],
-    "1074": [
-        "SM64 Romhack",
-        "Super Mario 64"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co721v.jpg": [
-        "SM64 Romhack",
-        "Super Mario 64"
-    ],
-    "\u201cmario, please come to the castle. i've baked a cake for you. yours truly, princess toadstool.\u201d\n\n\u201cwow, an invitation from peach! i'll head out right away. i hope she can wait for me!\u201d\n\nmario is so excited to receive the invitation from the princess, who lives in the mushroom castle that he quickly dresses in his best and leaves right away.\n\n\u201chmmm, something's not quite right here... it's so quiet...\u201d\n\nshaking off his uneasy premonition, mario steps into the silent castle, where he is greeted by the gruff words, \u201cno one's home! now scram! bwa, ha, ha.\u201d\n\nthe sound seems to come from everywhere.\n\n\u201cwho's there?! i've heard that voice somewhere before...\u201d\n\nmario begins searching all over the castle. most of the doors are locked, but finding one open, he peeks inside. hanging on the wall is the largest painting he has ever seen, and from behind the painting comes the strangest sound that he has ever heard...\n\n\u201ci think i hear someone calling. what secrets does this painting hold?\u201d\n\nwithout a second thought, mario jumps at the painting. as he is drawn into it, another world opens before his very eyes.\n\nonce inside the painting, mario finds himself in the midst of battling bob-ombs. according to the bob-omb buddies, someone...or something...has suddenly attacked the castle and stolen the \u201cpower stars.\u201d these stars protect the castle. with the stars in his control, the beast plans to take over the mushroom castle.\n\nto help him accomplish this, he plans to convert the residents of the painting world into monsters as well. if nothing is done, all those monsters will soon begin to overflow from inside the painting.\n\n\u201ca plan this maniacal, this cunning...this must be the work of bowser!\u201d\n\nprincess toadstool and toad are missing, too. bowser must have taken them and sealed them inside the painting. unless mario recovers the power stars immediately, the inhabitants of this world will become bowser's army.\n\n\u201cwell, bowser's not going to get away with it, not as long as i'm around!\u201d\n\nstolen power stars are hidden throughout the painting world. use your wisdom and strength to recover the power stars and restore peace to the mushroom castle.\n\n\u201cmario! you are the only one we can count on.\u201d": [
-        "SM64 Romhack",
         "Super Mario 64"
     ],
     "rabbit": [
-        "Sonic Heroes",
+        "The Legend of Zelda - Oracle of Ages",
+        "Super Mario Odyssey",
         "Super Mario 64",
         "Terraria",
-        "SM64 Romhack",
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Mario Odyssey"
+        "Sonic Heroes",
+        "SM64 Romhack"
     ],
     "sm64 romhack": [
         "SM64 Romhack"
@@ -13829,261 +16021,79 @@ SEARCH_INDEX = {
     "super mario odyssey": [
         "Super Mario Odyssey"
     ],
-    "26758": [
-        "Super Mario Odyssey"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1mxf.jpg": [
-        "Super Mario Odyssey"
-    ],
-    "nintendo switch 2": [
-        "Super Mario Odyssey"
-    ],
     "super mario sunshine": [
-        "Super Mario Sunshine"
-    ],
-    "1075": [
-        "Super Mario Sunshine"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co21rh.jpg": [
-        "Super Mario Sunshine"
-    ],
-    "close your eyes and imagine\u2026soothing sunshine accompanied by the sound of waves gently breaking on the shore. high above, seagulls turn lazy circles in a clear blue sky. this is isle delfino.\n\nfar from the hustle and bustle of the mushroom kingdom, this island resort glitters like a gem in the waters of a southern sea.\n\nmario, peach, and an entourage of toads have come to isle delfino to relax and unwind. at least, that\u2019s their plan\u2026but when they arrive, they find things have gone horribly wrong...\n\naccording to the island inhabitants, the person responsible for the mess has a round nose, a thick mustache, and a cap\u2026\n\nwhat? but\u2026that sounds like mario!!\n\nthe islanders are saying that mario's mess has polluted the island and caused their energy source, the shine sprites, to vanish.\n\nnow the falsely accused mario has promised to clean up the island, but...how?\n\nnever fear! fludd, the latest invention from gadd science, inc., can help mario tidy up the island, take on baddies, and lend a nozzle in all kinds of sticky situations.\n\ncan mario clean the island, capture the villain, and clear his good name? it\u2019s time for another mario adventure to get started!": [
         "Super Mario Sunshine"
     ],
     "super mario world": [
         "Super Mario World"
     ],
-    "1070": [
-        "Super Mario World"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co8lo8.jpg": [
-        "Super Mario World"
-    ],
-    "mario is having a vacation in dinosaur land when he learns that princess peach toadstool has been kidnapped by the evil king koopa bowser. when mario starts searching for her he finds a giant egg with a dinosaur named yoshi hatching out of it. yoshi tells mario that his fellow dinosaurs have been imprisoned in eggs by bowser's underlings. the intrepid plumber has to travel to their castles, rescue the dinosaurs, and eventually face king koopa himself, forcing him to release the princess.": [
-        "Super Mario World"
-    ],
     "1990": [
-        "Super Mario World",
-        "VVVVVV"
+        "Super Mario World"
     ],
     "smz3": [
-        "SMZ3"
-    ],
-    "210231": [
-        "SMZ3"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5zep.jpg": [
-        "SMZ3"
-    ],
-    "super metroid and a link to the past crossover randomizer": [
         "SMZ3"
     ],
     "secret of evermore": [
         "Secret of Evermore"
     ],
-    "1359": [
-        "Secret of Evermore"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co8kz6.jpg": [
-        "Secret of Evermore"
-    ],
-    "in dr. sidney ruffleberg's old, decaying mansion, a boy and his dog stumble upon a mysterious machine. by sheer accident they are propelled into evermore, a one-time utopia that now has become a confounding and deadly world. a world of prehistoric jungles, ancient civilizations, medieval kingdoms and futuristic cities. during his odyssey, the boy must master a variety of weapons, learn to harness the forces of alchemy, and make powerful allies to battle evermore's diabolical monsters. what's more, his dog masters shape-changing to aid the quest. but even if they can muster enough skill and courage, even if they can uncover the mysterious clues, they can only find their way home by discovering the secret of evermore.": [
-        "Secret of Evermore"
-    ],
     "sonic heroes": [
-        "Sonic Heroes"
-    ],
-    "4156": [
-        "Sonic Heroes"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co9olx.jpg": [
-        "Sonic Heroes"
-    ],
-    "dr. eggman has come back to challenge sonic and crew again to defeat his new scheme. sonic the hedgehog, miles \"tails\" prower, and knuckles the echidna gladly accept and race off to tackle the doctor's latest plan. meanwhile, rouge the bat swings in on one of eggman's old fortresses and discovers shadow the hedgehog encapsuled. after an odd encounter, rouge, shadow, and e-123 omega join up to find out what happened to shadow and to get revenge on eggman.\nat a resort, amy rose looks at an ad that shows sonic in it with chocola and froggy, cheese's and big's best friends respectively. after getting over boredom, amy, cream the rabbit, and big the cat decide to find sonic and get what they want back. elsewhere, in a run down building, the chaotix detective agency receive a package that contains a walkie-talkie. tempting them, vector the crocodile, espio the chameleon and charmy bee decide to work for this mysterious person, so they can earn some money.": [
         "Sonic Heroes"
     ],
     "symphony of the night": [
         "Symphony of the Night"
     ],
-    "1128": [
-        "Symphony of the Night"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co53m8.jpg": [
-        "Symphony of the Night"
-    ],
-    "castlevania: symphony of the night": [
-        "Symphony of the Night"
-    ],
-    "the game's story takes place during the year 1797, 5 years after the events of rondo of blood and begins with richter belmont's defeat of count dracula, mirroring the end of the former game. however, despite dracula being defeated, richter vanishes without a trace. castlevania rises again five years later, and while there are no belmonts to storm the castle, alucard, the son of dracula, awakens from his self-induced sleep, and decides to investigate what transpired during his slumber.\n\nmeanwhile, maria renard, richter's sister-in-law, enters castlevania herself to search for the missing richter. she assists alucard multiple times throughout the game.": [
-        "Symphony of the Night"
-    ],
     "playstation plus": [
-        "Symphony of the Night",
-        "VVVVVV",
+        "Spyro 3",
         "Terraria",
-        "Spyro 3"
+        "VVVVVV",
+        "Symphony of the Night"
+    ],
+    "playstation": [
+        "Spyro 3",
+        "Terraria",
+        "VVVVVV",
+        "Symphony of the Night"
+    ],
+    "plus": [
+        "Spyro 3",
+        "Terraria",
+        "VVVVVV",
+        "Symphony of the Night"
     ],
     "slay the spire": [
-        "Slay the Spire"
-    ],
-    "296831": [
-        "Slay the Spire"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co82c5.jpg": [
-        "Slay the Spire"
-    ],
-    "slay the spire ii": [
         "Slay the Spire"
     ],
     "spyro 3": [
         "Spyro 3"
     ],
-    "1578": [
-        "Spyro 3"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7t4m.jpg": [
-        "Spyro 3"
-    ],
-    "spyro: year of the dragon": [
-        "Spyro 3"
-    ],
-    "the game follows the titular purple dragon spyro as he travels to the forgotten worlds after 150 magical dragon eggs are stolen from the land of the dragons by an evil sorceress.": [
-        "Spyro 3"
-    ],
     "skyward sword": [
-        "Skyward Sword"
-    ],
-    "534": [
-        "Skyward Sword"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5wrj.jpg": [
-        "Skyward Sword"
-    ],
-    "the legend of zelda: skyward sword": [
-        "Skyward Sword"
-    ],
-    "born on an island suspended in the sky, a young man called link accepts his destiny to venture to the world below to save his childhood friend zelda after being kidnapped and brought to an abandoned land.": [
         "Skyward Sword"
     ],
     "stardew valley": [
         "Stardew Valley"
     ],
-    "17000": [
-        "Stardew Valley"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/xrpmydnu9rpxvxfjkiu7.jpg": [
-        "Stardew Valley"
-    ],
-    "you\u2019ve inherited your grandfather\u2019s old farm plot in stardew valley. armed with hand-me-down tools and a few coins, you set out to begin your new life. can you learn to live off the land and turn these overgrown fields into a thriving home? it won\u2019t be easy. ever since joja corporation came to town, the old ways of life have all but disappeared. the community center, once the town\u2019s most vibrant hub of activity, now lies in shambles. but the valley seems full of opportunity. with a little dedication, you might just be the one to restore stardew valley to greatness!": [
-        "Stardew Valley"
-    ],
     "star fox 64": [
-        "Star Fox 64"
-    ],
-    "2591": [
-        "Star Fox 64"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2e4k.jpg": [
-        "Star Fox 64"
-    ],
-    "mad scientist andross arises as the emperor of venom and declares war on the entire lylat system, starting with corneria. general pepper sends in the star fox team to protect the key planets of the lylat system and stop dr. andross.": [
         "Star Fox 64"
     ],
     "subnautica": [
         "Subnautica"
     ],
-    "9254": [
-        "Subnautica"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1iqw.jpg": [
-        "Subnautica"
-    ],
-    "steamvr": [
-        "Subnautica"
-    ],
-    "oculus rift": [
-        "Subnautica"
-    ],
-    "you have crash-landed on an alien ocean world, and the only way to go is down. subnautica's oceans range from sun drenched shallow coral reefs to treacherous deep-sea trenches, lava fields, and bio-luminescent underwater rivers. manage your oxygen supply as you explore kelp forests, plateaus, reefs, and winding cave systems. the water teems with life: some of it helpful, much of it harmful.\n\nafter crash landing in your life pod, the clock is ticking to find water, food, and to develop the equipment you need to explore. collect resources from the ocean around you. craft diving gear, lights, habitat modules, and submersibles. venture deeper and further form to find rarer resources, allowing you to craft more advanced items.": [
-        "Subnautica"
-    ],
     "star wars episode i racer": [
-        "Star Wars Episode I Racer"
-    ],
-    "154": [
-        "Star Wars Episode I Racer"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3wj7.jpg": [
-        "Star Wars Episode I Racer"
-    ],
-    "star wars: episode i - racer": [
-        "Star Wars Episode I Racer"
-    ],
-    "dreamcast": [
         "Star Wars Episode I Racer"
     ],
     "the binding of isaac repentance": [
         "The Binding of Isaac Repentance"
     ],
-    "310643": [
-        "The Binding of Isaac Repentance"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co8kxf.jpg": [
-        "The Binding of Isaac Repentance"
-    ],
-    "the binding of isaac: repentance": [
-        "The Binding of Isaac Repentance"
-    ],
     "terraria": [
-        "Terraria"
-    ],
-    "1879": [
-        "Terraria"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1rbo.jpg": [
-        "Terraria"
-    ],
-    "windows phone": [
         "Terraria"
     ],
     "tetris attack": [
         "Tetris Attack"
     ],
-    "2739": [
-        "Tetris Attack"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2w6k.jpg": [
-        "Tetris Attack"
-    ],
-    "the story mode takes place in the world of yoshi's island, where bowser and his minions have cursed all of yoshi's friends. playing as yoshi, the player must defeat each of his friends in order to remove the curse. once all friends have been freed, the game proceeds to a series of bowser's minions, and then to bowser himself. during these final matches, the player can select yoshi or any of his friends to play out the stage.": [
-        "Tetris Attack"
-    ],
     "timespinner": [
         "Timespinner"
     ],
-    "28952": [
-        "Timespinner"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co24ag.jpg": [
-        "Timespinner"
-    ],
-    "with her family murdered in front of her and the ancient timespinner device destroyed, lunais is suddenly transported into a unknown world, stranded with seemingly no hope of return. using her power to control time, lunais vows to take her revenge on the evil lachiem empire, but sometimes the course of history isn\u2019t quite as black and white as it seems...": [
-        "Timespinner"
-    ],
     "the legend of zelda": [
-        "The Legend of Zelda"
-    ],
-    "1022": [
-        "The Legend of Zelda"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1uii.jpg": [
-        "The Legend of Zelda"
-    ],
-    "family computer disk system": [
-        "Zelda II: The Adventure of Link",
-        "The Legend of Zelda"
-    ],
-    "in one of the darkest times in the kingdom of hyrule, a young boy named link takes on an epic quest to restore the fragmented triforce of wisdom and save the princess zelda from the clutches of the evil ganon.": [
         "The Legend of Zelda"
     ],
     "1986": [
@@ -14092,61 +16102,13 @@ SEARCH_INDEX = {
     "the legend of zelda - oracle of ages": [
         "The Legend of Zelda - Oracle of Ages"
     ],
-    "1041": [
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2tw1.jpg": [
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "the legend of zelda: oracle of ages": [
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "a pall of darkness has fallen over the land of labrynna. the sorceress of shadows has captured the oracle of ages and is using her power to do evil. link has been summoned to help and must travel back and forth in time to stop the sorceress of shadows and return labrynna to its former glory.": [
-        "The Legend of Zelda - Oracle of Ages"
-    ],
     "the legend of zelda - oracle of seasons": [
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "1032": [
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2tw0.jpg": [
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "the legend of zelda: oracle of seasons": [
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "the land of holodrum is slowly withering. onox, the general of darkness, has imprisoned the oracle of seasons and is draining the very life out of the land. with the seasons in tumult and the forces of evil running rampant, the world looks for a hero... and finds link. his quest won't be easy - he'll have to master the seasons themselves if he's to turn back the evil tide.": [
         "The Legend of Zelda - Oracle of Seasons"
     ],
     "toontown": [
         "Toontown"
     ],
-    "25326": [
-        "Toontown"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co28yv.jpg": [
-        "Toontown"
-    ],
-    "toontown online": [
-        "Toontown"
-    ],
-    "toontown online's story centers on an ongoing battle between a population of cartoon animals known as the toons and a collection of business-minded robots known as the cogs who are trying to take over the town. players would choose and customize their own toon and go on to complete toontasks, play mini-games, and fight the cogs.": [
-        "Toontown"
-    ],
     "twilight princess": [
-        "Twilight Princess"
-    ],
-    "134014": [
-        "Twilight Princess"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3w1h.jpg": [
-        "Twilight Princess"
-    ],
-    "the legend of zelda: twilight princess": [
-        "Twilight Princess"
-    ],
-    "link, a young farm boy whose tasks consist of herding goats to watching children in ordon village, is asked by the mayor to run an errand in castle town. but things went strange that day: the land becomes dark and strange creatures appear from another world called the twilight realm which turns most people into ghosts. unlike the others, link transforms into a wolf but is captured. a mysterious figure named midna helps him break free, and with the aid of her magic, they set off to free the land from the shadows. link must explore the vast land of hyrule and uncover the mystery behind its plunge into darkness.": [
         "Twilight Princess"
     ],
     "2006": [
@@ -14156,163 +16118,43 @@ SEARCH_INDEX = {
     "trackmania": [
         "Trackmania"
     ],
-    "133807": [
-        "Trackmania"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2fe9.jpg": [
-        "Trackmania"
-    ],
     "paper mario the thousand year door": [
-        "Paper Mario The Thousand Year Door"
-    ],
-    "328663": [
-        "Paper Mario The Thousand Year Door"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co9p1w.jpg": [
-        "Paper Mario The Thousand Year Door"
-    ],
-    "paper mario: the thousand-year door": [
         "Paper Mario The Thousand Year Door"
     ],
     "tunic": [
         "TUNIC"
     ],
-    "23733": [
-        "TUNIC"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/td1t8kb33gyo8mvhl2pc.jpg": [
-        "TUNIC"
-    ],
-    "tunic is an action adventure game about a small fox in a big world, who must explore the countryside, fight monsters, and discover secrets. crafted to evoke feelings of classic action adventure games, tunic will challenge the player with unique items, skillful combat techniques, and arcane mysteries as our hero forges their way through an intriguing new world.": [
-        "TUNIC"
-    ],
     "the wind waker": [
-        "The Wind Waker"
-    ],
-    "1033": [
-        "The Wind Waker"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3ohz.jpg": [
-        "The Wind Waker"
-    ],
-    "the legend of zelda: the wind waker": [
-        "The Wind Waker"
-    ],
-    "set hundreds of years after the events of ocarina of time, the wind waker finds the hero link living with his grandmother on the outset island, one of the many small islands lost amidst the waters of the great sea. on his tenth birthday, link encounters a giant bird carrying a girl. he rescues the girl, but as a result his own sister is taken away by the bird. the girl is a pirate captain named tetra, who agrees to help link find and rescue his sister. during the course of their journey, the two of them realize that a powerful, legendary evil is active again, and must find a way to stop him.": [
         "The Wind Waker"
     ],
     "tyrian": [
         "Tyrian"
     ],
-    "14432": [
-        "Tyrian"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2zg1.jpg": [
-        "Tyrian"
-    ],
-    "tyrian 2000": [
-        "Tyrian"
-    ],
     "ufo 50": [
-        "UFO 50"
-    ],
-    "54555": [
-        "UFO 50"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co24v0.jpg": [
         "UFO 50"
     ],
     "ultrakill": [
         "ULTRAKILL"
     ],
-    "124333": [
-        "ULTRAKILL"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co46s3.jpg": [
-        "ULTRAKILL"
-    ],
-    "mankind has gone extinct and the only beings left on earth are machines fueled by blood.\nbut now that blood is starting to run out on the surface...\n\nmachines are racing to the depths of hell in search of more.": [
-        "ULTRAKILL"
-    ],
     "undertale": [
-        "Undertale"
-    ],
-    "12517": [
-        "Undertale"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2855.jpg": [
-        "Undertale"
-    ],
-    "\"a long time ago, two races ruled peacefully over the earth: humans and monsters. one day, a terrible war broke out between the two races. after a long battle, the humans were victorious. they sealed the monsters underground with a magical spell.\n\nin the year 201x, a small child scales mt. ebott. it is said that those who climb the mountain never return.\n\nseeking refuge from the rainy weather, the child enters a cave and discovers an enormous hole.\n\nmoving closer to get a better look... the child falls in.\n\nnow, our story begins.\"": [
         "Undertale"
     ],
     "vvvvvv": [
         "VVVVVV"
     ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4ieg.jpg": [
-        "VVVVVV"
-    ],
-    "ouya": [
-        "VVVVVV"
-    ],
-    "a spaceship with six crew members - viridian, victoria, vitellary, vermillion, verdigris, and violet - suddenly encountered mysterious trouble while underway.\nthe group escapes by means of a teleportation device, but for some reason all the crew members are sent to different places.\nviridian, the protagonist, must find the other crew members and escape from this mysterious labyrinth...": [
-        "VVVVVV"
-    ],
     "wargroove": [
-        "Wargroove"
-    ],
-    "27441": [
-        "Wargroove"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co4hgb.jpg": [
-        "Wargroove"
-    ],
-    "wargroove is a modern take on the simple yet deep turn-based tactical gameplay popularised in the 2000s by handheld games such as advance wars. as big fans of those games we were disappointed to find that nothing in this genre was available on current generation platforms and set out to fill the gap ourselves. wargroove aims to recreate the charm and accessibility of the titles that inspired it whilst bringing modern technology into the formula. this modern focus allows for higher resolution pixel art, robust online play and deep modding capability, ultimately creating the most complete experience for advance wars and tbs fans.": [
         "Wargroove"
     ],
     "wargroove 2": [
         "Wargroove 2"
     ],
-    "241149": [
-        "Wargroove 2"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co731u.jpg": [
-        "Wargroove 2"
-    ],
-    "three years have passed since queen mercia and her allies defeated the ancient adversaries and restored peace to aurania. now, an ambitious foreign faction is unearthing forbidden technologies that could have catastrophic consequences for the land and its people. battle your way through 3 campaigns following 1 interweaving story. only bold decisions, smart resourcing, and tactical know-how can repair a fractured realm\u2026": [
-        "Wargroove 2"
-    ],
     "the witness": [
-        "The Witness"
-    ],
-    "5601": [
-        "The Witness"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co3hih.jpg": [
-        "The Witness"
-    ],
-    "you wake up, alone, on a strange island full of puzzles that will challenge and surprise you.\n\nyou don't remember who you are, and you don't remember how you got here, but there's one thing you can do: explore the island in hope of discovering clues, regaining your memory, and somehow finding your way home.": [
         "The Witness"
     ],
     "wario land": [
         "Wario Land"
     ],
-    "1072": [
-        "Wario Land"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co216h.jpg": [
-        "Wario Land"
-    ],
-    "wario land: super mario land 3": [
-        "Wario Land"
-    ],
     "wario land 4": [
-        "Wario Land 4"
-    ],
-    "1699": [
-        "Wario Land 4"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1wpx.jpg": [
         "Wario Land 4"
     ],
     "wordipelago": [
@@ -14321,97 +16163,25 @@ SEARCH_INDEX = {
     "xenoblade x": [
         "Xenoblade X"
     ],
-    "2366": [
-        "Xenoblade X"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1nwh.jpg": [
-        "Xenoblade X"
-    ],
-    "xenoblade chronicles x": [
-        "Xenoblade X"
-    ],
-    "xenoblade chronicles x opens as humanity, warned of its impending destruction in the crossfire between two warring alien races, constructs interstellar arks to escape earth. however, only a few arks escape the destruction, including the white whale ark. two years after launching, the white whale is attacked and transported to mira. during the crash-landing, the lifehold\u2014a device containing the majority of the human colonists\u2014is separated from the white whale, with lifepods containing colonists being scattered across mira. the avatar is awoken from a lifepod by elma and brought back to new los angeles. while suffering from amnesia, the avatar joins blade, working with elma and lin to recover more lifepods and search for the lifehold. during their missions across mira, blade encounters multiple alien races, learning that those attacking them are part of the ganglion coalition, an alliance of races led by the ganglion race, who are intent on destroying humanity.": [
-        "Xenoblade X"
-    ],
     "yacht dice": [
         "Yacht Dice"
     ],
     "yoshi's island": [
         "Yoshi's Island"
     ],
-    "1073": [
-        "Yoshi's Island"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2kn9.jpg": [
-        "Yoshi's Island"
-    ],
-    "super mario world 2: yoshi's island": [
-        "Yoshi's Island"
-    ],
-    "a stork carrying the infant mario brothers is attacked by kamek the magikoopa, who steals baby luigi and knocks baby mario out of the sky. baby mario lands on yoshi's island on the back of yoshi himself. with the help of his seven other yoshi friends, yoshi must traverse the island to safely reunite baby mario with his brother and get the babies to their parents.": [
-        "Yoshi's Island"
-    ],
     "yu-gi-oh! 2006": [
-        "Yu-Gi-Oh! 2006"
-    ],
-    "49377": [
-        "Yu-Gi-Oh! 2006"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7yau.jpg": [
-        "Yu-Gi-Oh! 2006"
-    ],
-    "yu-gi-oh! ultimate masters: world championship tournament 2006": [
         "Yu-Gi-Oh! 2006"
     ],
     "yu-gi-oh! dungeon dice monsters": [
         "Yu-Gi-Oh! Dungeon Dice Monsters"
     ],
-    "49211": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co5ztw.jpg": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "dungeon dice monsters is the newest addition to the yu-gi-oh! universe. as featured in the dungeon dice monsters story arc in the animated television series, players collect and fight with dice inscribed with mystical powers and magic in order to defeat their opponents. enter a dozen different tournaments and ultimately faceoff against the scheming creator of dungeon dice monsters, duke devlin.": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
     "zelda ii: the adventure of link": [
-        "Zelda II: The Adventure of Link"
-    ],
-    "1025": [
-        "Zelda II: The Adventure of Link"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co1uje.jpg": [
-        "Zelda II: The Adventure of Link"
-    ],
-    "several years after the events of the legend of zelda, link has just turned sixteen and discovers a strange birthmark on his hand. with the help of impa, zelda's nursemaid, link learns that this mark is the key to unlock a secret room where princess zelda lies sleeping. when young, princess zelda was given knowledge of the triforce of power which was used to rule the kingdom of hyrule, but when a magician unsuccessfully tried to find out about the triforce from zelda, he put her into an eternal sleep. in his grief, the prince placed zelda in this room hoping she may wake some day. he ordered all female children in the royal household to be named zelda from this point on, so the tragedy would not be forgotten. now, to bring princess zelda back, link must locate all the pieces of the triforce which have been hidden throughout the land.": [
         "Zelda II: The Adventure of Link"
     ],
     "zillion": [
         "Zillion"
     ],
-    "18141": [
-        "Zillion"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co7xxj.jpg": [
-        "Zillion"
-    ],
-    "sega master system/mark iii": [
-        "Zillion"
-    ],
-    "are you ready for the ultimate danger? you're alone, outnumbered and there's no guarantee you'll make it alive. you're j.j. your objective: secretly infiltrate the underground labyrinth of the norsa empire and steal their plans for domination. armed with the ultra speed and power of the zillion laser, your mission is complex. and sheer strength will not win this one alone. you'll need more brains than brawn in this sophisticated operation. so, how will you think your way to victory? with cunning strategy and memory to guide you successfully through the maze which awaits. where once inside, you'll find the information needed to destroy the norsas and restore peace forever.": [
-        "Zillion"
-    ],
     "zork grand inquisitor": [
-        "Zork Grand Inquisitor"
-    ],
-    "1955": [
-        "Zork Grand Inquisitor"
-    ],
-    "https://images.igdb.com/igdb/image/upload/t_thumb/co2kql.jpg": [
-        "Zork Grand Inquisitor"
-    ],
-    "zork: grand inquisitor": [
         "Zork Grand Inquisitor"
     ]
 }

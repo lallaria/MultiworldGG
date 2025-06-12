@@ -131,6 +131,7 @@ from console import ConsoleScreen
 from hintscreen import HintScreen
 from settings_screen import SettingsScreen
 from topappbar import TopAppBarLayout, TopAppBar
+from launcher import LauncherScreen
 from kivydi.loadinglayout import MWGGLoadingLayout
 
 class BottomAppBar(MDBottomAppBar):
@@ -181,6 +182,7 @@ class KivyMDGUI(MDApp):
     console_screen: ConsoleScreen
     hint_screen: HintScreen
     settings_screen: SettingsScreen
+    launcher_screen: LauncherScreen
     theme_mw: DefaultTheme
     top_appbar_menu: MDDropdownMenu
     splash_process = None
@@ -317,7 +319,7 @@ class KivyMDGUI(MDApp):
         Window.bind(on_restore=self.title_bar.tb_onres)
         Window.bind(on_maximize=self.title_bar.tb_onmax)
         Window.bind(on_close=lambda x: self.on_stop())
-        self.change_screen("console")
+        self.change_screen("launcher")
         self.slides = self.bottom_sheet.bottom_carousel.slides
 
         def on_start(*args):
@@ -446,6 +448,10 @@ class KivyMDGUI(MDApp):
             self.hint_screen = HintScreen()
             self.screen_manager.add_widget(self.hint_screen)
             self.screen_manager.current = "hint"
+        elif item == "launcher":
+            self.launcher_screen = LauncherScreen()
+            self.screen_manager.add_widget(self.launcher_screen)
+            self.screen_manager.current = "launcher"
 
     def _create_menu_item(self, item):
         """Create a menu item with proper binding

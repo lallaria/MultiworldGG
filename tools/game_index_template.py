@@ -26,14 +26,45 @@ class GameIndex:
         query_terms = query.lower().split()
         matching_games = set()
         
-        # Get initial set of matching games
+        # First try exact matches from the search index
         for term in query_terms:
-            # Directly look up the term in the search index
             if term in self.search_index:
                 if not matching_games:
                     matching_games = set(self.search_index[term])
                 else:
                     matching_games &= set(self.search_index[term])
+        
+        # If no exact matches found, try partial matches
+        if not matching_games:
+            for game_name, game_data in self.games.items():
+                # First check if any query term is in the game title
+                if any(term in game_name.lower() for term in query_terms):
+                    matching_games.add(game_name)
+                    continue
+                
+                # Then check other searchable fields
+                searchable_fields = {
+                    'genres': game_data.get('genres', []),
+                    'themes': game_data.get('themes', []),
+                    'keywords': game_data.get('keywords', []),
+                    'player_perspectives': game_data.get('player_perspectives', []),
+                    'rating': [game_data.get('rating', '')],
+                    'release_date': [str(game_data.get('release_date', ''))]
+                }
+                
+                # Check if any query term is contained in any searchable field
+                for field_values in searchable_fields.values():
+                    if isinstance(field_values, list):
+                        for value in field_values:
+                            if isinstance(value, str) and any(term in value.lower() for term in query_terms):
+                                matching_games.add(game_name)
+                                break
+                    elif isinstance(field_values, str) and any(term in field_values.lower() for term in query_terms):
+                        matching_games.add(game_name)
+                        break
+                    
+                    if game_name in matching_games:
+                        break
         
         # Return only matching games
         return {name: self.games[name] for name in matching_games}

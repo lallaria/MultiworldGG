@@ -58,28 +58,39 @@ def build_search_index(games_data: dict) -> Dict[str, Set[str]]:
     """
     search_index = {}
     
+    # Fields that should be indexed
+    searchable_fields = {
+        'genres',
+        'themes',
+        'keywords',
+        'player_perspectives',
+        'rating',
+        'release_date'
+    }
+    
     for game_name, game_data in games_data.items():
         # Index game name
         _add_to_index(search_index, game_name, game_name)
         
-        # Index all fields except world_name (which we'll index separately)
+        # Index only searchable fields
         for field, value in game_data.items():
-            if field == "world_name":
+            if field not in searchable_fields:
                 continue
                 
             if isinstance(value, list):
                 for item in value:
                     if item:  # Only index non-empty values
+                        # Add both the full term and individual words
                         _add_to_index(search_index, clean_value(item), game_name)
+                        for word in clean_value(item).split():
+                            _add_to_index(search_index, word, game_name)
             elif isinstance(value, (str, int, float, bool)):
                 if value:  # Only index non-empty values
-                    _add_to_index(search_index, clean_value(value), game_name)
-            elif isinstance(value, dict):
-                for k, v in value.items():
-                    if k:  # Only index non-empty keys
-                        _add_to_index(search_index, clean_value(k), game_name)
-                    if v:  # Only index non-empty values
-                        _add_to_index(search_index, clean_value(v), game_name)
+                    value_str = clean_value(value)
+                    _add_to_index(search_index, value_str, game_name)
+                    # Add individual words for multi-word values
+                    for word in value_str.split():
+                        _add_to_index(search_index, word, game_name)
     
     return search_index
 

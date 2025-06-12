@@ -14,20 +14,6 @@ from kivy.clock import Clock
 
 __all__ = ('TextConsole', 'ConsoleView',)
 
-# Builder.load_string('''
-# #:import MDApp kivymd.app
-# <TextConsole>:
-#     multiline: True
-#     cursor_color: self.theme_cls.primaryColor
-#     background_normal: ""
-#     background_active: ""
-#     use_menu: True
-#     readonly: True
-#     do_wrap: True
-#     auto_indent: True
-#     use_handles: True
-#     #scroll_from_swipe: True
-# ''')
 
 class TextConsole(MarkupTextField, ThemableBehavior):
     #text_color: ColorProperty
