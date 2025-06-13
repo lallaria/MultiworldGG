@@ -72,6 +72,7 @@ Currently, the following games are supported:
 * GZDoom
 * Hades
 * Hatsune Miku: Project Diva Mega Mix+
+* Here comes Niko!
 * Heretic
 * Hollow Knight
 * HuniePop
