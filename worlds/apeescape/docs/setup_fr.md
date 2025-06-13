@@ -2,7 +2,7 @@
 
 ## Logiciels Requis
 
-- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Veuillez utiliser la version 0.6.1 ou ultérieure pour le support intégré dans Bizhawk.
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Veuillez utiliser la version 0.7.80 ou ultérieure pour le support intégré dans Bizhawk.
 
 - Fichier ISO ou BIN/CUE Ape Escape (USA).
 

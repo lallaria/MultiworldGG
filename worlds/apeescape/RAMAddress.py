@@ -1492,20 +1492,20 @@ class RAM:
     colortable = {
         "vanilla" : 0x1030,
         "white" : 0x7617,
-        "grey" : 0x4c00,
-        "purple" : 0x1C00,
+        "grey" : 0x5E03,
+        "purple" : 0x1000,
         "orange" : 0x2F2F,
         "green" : 0x35F6,
         "red" : 0x2F00,
         "yellow": 0x1065,
-        "darkgreen": 0x0131,
-        "darkblue" : 0x2600,
-        "voidwhite" : 0x2E2E,
-        "voidpurple": 0x4DFF,
+        "darkblue" : 0x2600,#6F65
+        "voidwhite" : 0x2E05,
+        "voidpurple": 0x4DFA,#
         "voidorange" : 0x0007,
-        "voidred" : 0x7595,
+        #"voidred" : 0x372E, #More like voidbrown sometimes
         "neonpink" : 0x3BFF,
         "neongreen": 0x2EF6,
+        "greenskin": 0x0131,
         "blueskin": 0x75D8,
         "purpleskin" : 0x75D7,
         "alien" : 0x3300,
