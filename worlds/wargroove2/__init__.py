@@ -77,6 +77,7 @@ class Wargroove2World(World):
     settings: typing.ClassVar[Wargroove2Settings]
     game = "Wargroove 2"
     topology_present = True
+    author: str = "Fly Hyping"
     web = Wargroove2Web()
     level_list: typing.List[Wargroove2Level] = []
     final_levels: typing.List[Wargroove2Level] = []

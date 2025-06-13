@@ -47,6 +47,7 @@ class MarioLand2World(World):
     arch-rival."""  # -ChatGPT
 
     game = "Super Mario Land 2"
+    author: str = " Alchav"
 
     settings_key = "sml2_options"
     settings: MarioLand2Settings

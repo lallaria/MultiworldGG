@@ -163,14 +163,24 @@ class EOSWorld(World):
                                   "Ultra Rank": 6, "Hyper Rank": 7, "Master Rank": 8, "Master ★ Rank": 9,
                                   "Master ★★ Rank": 10, "Master ★★★ Rank": 11, "Guildmaster Rank": 12}
                 if rank_toid_dict[location.name] > self.options.max_rank:
-                    self.excluded_locations += 1
-                    continue
-                # if dialga is the goal, we can't add master star rank+
-                if self.options.goal.value == 0 and rank_toid_dict[location.name] > 8:
-                    self.excluded_locations += 1
-                    continue
+                    # self.excluded_locations += 1
+                    # continue
+                    early_dungeon = EOSLocation(self.player, location.name,
+                                                                       location.id, early_dungeons_region)
+                    early_dungeon.progress_type = LocationProgressType.EXCLUDED
+                    early_dungeons_region.locations.append(early_dungeon)
 
-                if rank_toid_dict[location.name] <= 8:
+                # if dialga is the goal, we can't add master star rank+
+                elif self.options.goal.value == 0 and rank_toid_dict[location.name] > 8:
+                    # self.excluded_locations += 1
+                    # continue
+
+                    late_dungeon = EOSLocation(self.player, location.name,
+                                               location.id, late_dungeons_region)
+                    late_dungeon.progress_type = LocationProgressType.EXCLUDED
+                    late_dungeons_region.locations.append(late_dungeon)
+
+                elif rank_toid_dict[location.name] <= 8:
                     early_dungeons_region.locations.append(EOSLocation(self.player, location.name,
                                                                        location.id, early_dungeons_region))
                 else:
@@ -369,6 +379,7 @@ class EOSWorld(World):
             "ExtraInstruments": self.options.total_instruments.value,
             "HeroEvolution": self.options.hero_evolution.value,
             "Deathlink": self.options.deathlink.value,
+            "DeathlinkType": self.options.deathlink_type.value,
             "LegendaryAmount": self.options.legendaries.value,
             "AllowedLegendaries": self.options.allowed_legendaries.value,
             "SkyPeakType": self.options.sky_peak_type.value,
@@ -382,6 +393,11 @@ class EOSWorld(World):
             "DrinkEvents": self.options.drink_events.value,
             "SpindaDrinks": self.options.spinda_drinks.value,
             "ExcludeSpecial": self.options.exclude_special.value,
+            "AllowMissionsEarly": self.options.early_mission_floors.value,
+            "MaxRank": self.options.max_rank.value,
+            "GuestScaling": self.options.guest_scaling.value,
+            "MoveShortcuts": self.options.move_shortcuts.value,
+            "StartInventoryFromPool": self.options.start_inventory_from_pool.value,
         }
 
     def create_items(self) -> None:

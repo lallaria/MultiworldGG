@@ -72,7 +72,7 @@ class OracleOfSeasonsWeb(WebWorld):
     theme = "grass"
     setup_en = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Oracle of Seasons for Archipelago on your computer.",
+        "A guide to setting up Oracle of Seasons for MultiworldGG on your computer.",
         "English",
         "oos_setup_en.md",
         "oos_setup/en",
@@ -81,7 +81,7 @@ class OracleOfSeasonsWeb(WebWorld):
 
     setup_fr = Tutorial(
         "Guide de configuration MultiWorld",
-        "Un guide pour configurer Oracle of Seasons d'Archipelago sur votre PC.",
+        "Un guide pour configurer Oracle of Seasons de MultiworldGG sur votre PC.",
         "Français",
         "oos_setup_fr.md",
         "oos_setup/fr",
@@ -97,6 +97,7 @@ class OracleOfSeasonsWorld(World):
     Gather the Essences of Nature, confront Onox and rescue Din to give nature some rest in Holodrum.
     """
     game = "The Legend of Zelda - Oracle of Seasons"
+    author: str = "Dinopony"
     options_dataclass = OracleOfSeasonsOptions
     options: OracleOfSeasonsOptions
     required_client_version = (0, 5, 1)
@@ -766,6 +767,7 @@ class OracleOfSeasonsWorld(World):
                 items.append(self.create_item(item_name))
         self.filter_confined_dungeon_items_from_pool(items)
         self.multiworld.itempool.extend(items)
+        self.pre_fill_items.extend([Item(seed_name, ItemClassification.progression, None, self.player) for seed_name in SEED_ITEMS])
 
     def get_pre_fill_items(self):
         return self.pre_fill_items
@@ -927,7 +929,7 @@ class OracleOfSeasonsWorld(World):
                 if portal_connections["horon village portal"] not in bad_portals:
                     possible_items.append(["Progressive Boomerang", "Progressive Boomerang"])
                 else:
-                    possible_items.append(["Progressive Boomerang", "Progressive Boomerang"])
+                    bush_breakers.append(["Progressive Boomerang", "Progressive Boomerang"])
 
             if portal_connections["eyeglass lake portal"] not in bad_portals and world.options.default_seed == "pegasus":
                 items = ["Progressive Feather", "Progressive Feather", "Seed Satchel", "Bush Breaker"]
@@ -941,6 +943,10 @@ class OracleOfSeasonsWorld(World):
 
             if world.options.animal_companion == "dimitri":
                 possible_items.append(["Dimitri's Flute"])
+            elif world.options.animal_companion == "ricky":
+                bush_breakers.append(["Ricky's Flute"])
+            else:
+                bush_breakers.append(["Moosh's Flute"])
 
             if not world.options.remove_d0_alt_entrance:
                 if world.dungeon_entrances["d2 entrance"] == "enter d0" \
@@ -1067,7 +1073,7 @@ class OracleOfSeasonsWorld(World):
         return True
 
     def remove(self, state: CollectionState, item: Item) -> bool:
-        change = super().collect(state, item)
+        change = super().remove(state, item)
         if not change or self.options.logic_difficulty < OracleOfSeasonsLogicDifficulty.option_hell:
             return change
         if item.code is None or item.code >= 0x2100 and item.code != 0x2e00:  # Not usable item nor ember nor flippers
