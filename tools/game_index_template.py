@@ -91,6 +91,6 @@ class GameIndex:
         return self.games.copy()
 
 # These constants will be generated during build
-GAMES_DATA = GAMES_DATA_PLACEHOLDER
+GAMES_DATA = GAMES_DATA_PLACEHOLDER # type: ignore
 
-SEARCH_INDEX = SEARCH_INDEX_PLACEHOLDER
+SEARCH_INDEX = SEARCH_INDEX_PLACEHOLDER # type: ignore

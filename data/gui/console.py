@@ -31,180 +31,70 @@ from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelContent
 from kivymd.uix.list import MDList, MDListItem
 from testdict import testdict
 from expansionpanel import OpacityExpansionPanel
+from dataclasses import dataclass
+from textwrap import wrap
+from kivydi.expansionlist import *
 
 Builder.load_string('''
-<HintItem>
-    id: panel
-    MDExpansionPanelHeader:
-        size_hint_x: .9
-        pos_hint: {"center_x": 0.5}
-        ripple_effect: False
-        MDCard:
-            padding: "6dp"
-            style: "elevated"
-            size_hint_y: None
-            height: "50dp"
-            theme_shadow_softness: "Custom"
-            shadow_softness: 1
-            theme_elevation_level: "Custom"
-            elevation_level: 2
-            theme_shadow_color: "Custom"
-            shadow_color: root.shadow_color
-            theme_bg_color: "Custom"
-            md_bg_color: self.theme_cls.secondaryContainerColor
-            ripple_effect: False
+<ConsoleLayout>:
+    id: console_layout
+    width: Window.width
+    height: Window.height-185
+    size_hint: None,None
+    pos: 0,82
 
-            MDRelativeLayout:
-                MDLabel:
-                    markup: True
-                    padding: 5,0,0,0
-                    text: root.formatted_text
-                    pos_hint: {"left": 0, "top": 1}
-                TrailingPressedIconButton:
-                    pos_hint: {"top":1, "right":1}
-                    id: chevron
-                    icon: "chevron-right"
-                    on_release: root.tap_expansion_chevron(root, chevron)
-
-                    
-    MDExpansionPanelContent:
-        md_bg_color: self.theme_cls.surfaceContainerLowColor
-        MDLabel:
-            text: "Hint"
-            adaptive_height: True
-            padding_x: "4dp"
-            padding_y: "4dp"
-
-        MDListItem:
-            theme_bg_color: "Custom"
-            md_bg_color: self.theme_cls.surfaceContainerLowColor
-                    
-            MDListItemLeadingIcon:
-                icon: "earth-box"
-                    
-            MDListItemHeadlineText:
-                text: root.location
-                    
-            MDListItemSupportingText:
-                text: root.entrance
-                    
-        MDListItem:
-            theme_bg_color: "Custom"
-            md_bg_color: self.theme_cls.surfaceContainerLowColor
-                    
-            MDListItemLeadingIcon:
-                icon: "account-search"
-                    
-            MDListItemHeadlineText:
-                text: root.finding_player
-                    
-            MDListItemSupportingText:
-                text: root.receiving_player
-                                
-''')
-sliver_appbar = r'''
-MDSliverAppbar:
-    pos_hint: {"x": 0, "y": 0}
+<ConsoleSliverAppbar>:
+    pos_hint: {"x": 0}
+    y: 82
+    adaptive_height: True
     hide_appbar: True
     background_color: app.theme_cls.secondaryContainerColor
 
     MDTopAppBar:
         type: "small"
+        pos_hint: {"center_x": 0.5, "top": .95}
+        padding: dp(4)
         MDTopAppBarLeadingButtonContainer:
-
             MDActionTopAppBarButton:
                 icon: "refresh"
+                on_release: root.refresh()
         MDTopAppBarTitle:
             text: "Flags"
             halign: "center"
             font_style: "Body"
             role: "medium"
         MDTopAppBarTrailingButtonContainer:
-
             MDActionTopAppBarButton:
                 icon: "food"
-
+                on_release: root.set_bk()
             MDActionTopAppBarButton:
                 icon: "headphones"
-
-            MDActionTopAppBarButton:
-                icon: "dots-vertical"
+                on_release: root.set_deafen()
 
     MDSliverAppbarHeader:
         MDHeroFrom:   #### ok the herofrom size/loc is the transition size
             id: console_hero_from
             tag: "logo"
             size_hint: 1,1
-            pos_hint: {"right": .9}
+            pos_hint: {"right": .9, "top": 1}
             Image:
                 source: "data/logo_bg.png"
                 pos_hint: {"top": 1}
                 fit_mode: "scale-down"
 
-'''
-console_layout = f'''
-MDRelativeLayout:
-    id: console_layout
-    width: Window.width
-    height: Window.height-185
-    size_hint: None,None
-    pos: 0,82
-'''
+''')
 
-class TrailingPressedIconButton(RotateBehavior, MDIconButton):
+class ConsoleLayout(MDRelativeLayout):
     pass
 
-class HintItem(OpacityExpansionPanel):
-    location = StringProperty()
-    entrance = StringProperty()
-    item_flag = StringProperty()
-    status = StringProperty()
-    item = StringProperty()
-    receiving_player = StringProperty()
-    finding_player = StringProperty()
-    shadow_color = ColorProperty()
-    found = StringProperty()
-    chevron = ObjectProperty(None)
-    formatted_text = StringProperty()
+class ConsoleSliverAppbar(MDSliverAppbar):
+    content: MDSliverAppbarContent
 
-    def __init__(self, receiving_player="", finding_player="", item="", location="", 
-                 entrance="", shadow_color="", found="", **kwargs):
-        # Initialize _bound_children before calling super().__init__
-        self._bound_children = set()
-        super(HintItem, self).__init__(**kwargs)
-        self.found = found
-        self.receiving_player = receiving_player
-        self.finding_player = finding_player
-        self.item = item
-        self.location = location
-        self.entrance = entrance
-        self.shadow_color = shadow_color
-        self.opening_transition = "out_expo"
-        self.bind(location=self.update_formatted_text)
-        self.bind(receiving_player=self.update_formatted_text)
-        self.update_formatted_text()
-
-    def update_formatted_text(self, *args):
-        app = MDApp.get_running_app()
-        theme_style = 0 if app.theme_cls.theme_style == "Dark" else 1
-        location_color = app.theme_mw.markup_tags_theme.location_color[theme_style]
-        player_color = app.theme_mw.markup_tags_theme.player2_color[theme_style]
-        self.formatted_text = f"[color=#{location_color}]{self.location}[/color] for [color=#{player_color}]{self.receiving_player}[/color]"
-
-    def tap_expansion_chevron(self, panel: MDExpansionPanel, chevron: TrailingPressedIconButton):
-        # Store chevron reference for later use
-        panel._chevron = chevron
-        
-        Animation(
-            padding=[0, dp(12), 0, dp(12)]
-            if not panel.is_open
-            else [0, 0, 0, 0],
-            d=0.2,
-        ).start(panel)
-        panel.open() if not panel.is_open else panel.close()
-        panel.set_chevron_down(
-            chevron
-        ) if not panel.is_open else panel.set_chevron_up(chevron)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.content = MDSliverAppbarContent(orientation="vertical")
+        self.content.id = "content"
+        self.add_widget(self.content)
 
 class SideBarContent(MDSliverAppbarContent):
     def __init__(self, **kwargs):
@@ -218,12 +108,9 @@ class SideBarContent(MDSliverAppbarContent):
                 if prog_level == "Useful": shadow_color = app.theme_mw.markup_tags_theme.useful_item_color[theme_style]
                 if prog_level == "Trash": shadow_color = app.theme_mw.markup_tags_theme.regular_item_color[theme_style]
                 if prog_level == "Trap": shadow_color = app.theme_mw.markup_tags_theme.trap_item_color[theme_style]
-                self.add_widget(HintItem(
-                    receiving_player=f"{hint_items[prog_level][i]['receiving_player']}",
-                    finding_player=f"{hint_items[prog_level][i]['finding_player']}",
-                    item=f"{hint_items[prog_level][i]['item']}", 
-                    location=f"{hint_items[prog_level][i]['location']}",
-                    entrance=f"{hint_items[prog_level][i]['entrance']}",
+                self.add_widget(GameListPanel(
+                    game_tag=f"{hint_items[prog_level][i]['item']}",
+                    tag_type=hint_items[prog_level][i],
                     shadow_color=get_color_from_hex(shadow_color)))
         self.bind(minimum_height=self.setter('height'))
 
@@ -236,11 +123,11 @@ class ConsoleScreen(MDScreen):
     ui_console: ConsoleView
 
     def init_console_grid(self):
-        self.consolegrid = Builder.load_string(console_layout)#app grid
+        self.consolegrid = ConsoleLayout()#app grid
         self.add_widget(self.consolegrid, len(self.children))
 
     def init_important(self):
-        self.important_appbar = Builder.load_string(sliver_appbar) #hint bar
+        self.important_appbar = ConsoleSliverAppbar()
         self.important_appbar.size_hint_x = 260/Window.width
         self.console_hero_from = self.important_appbar.ids.console_hero_from
         self.heroes_from = [self.console_hero_from]

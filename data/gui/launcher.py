@@ -28,7 +28,7 @@ from kivymd.uix.list import *
 from kivymd.uix.expansionpanel import *
 from kivymd.uix.textfield import MDTextField, MDTextFieldLeadingIcon, MDTextFieldHelperText
 from kivymd.uix.tooltip import MDTooltip
-from kivymd.uix.behaviors import HoverBehavior
+
 import os
 import json
 import logging
@@ -37,11 +37,13 @@ from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from data.game_index import GameIndex
+from kivydi.expansionlist import *
+from bottomappbar import BottomAppBar
 
 game_index = GameIndex()
 logger = logging.getLogger(__name__)
 
-LauncherKV = '''
+Builder.load_string('''
 <LauncherLayout>:
     id: launcher_layout
     pos: 0,82
@@ -120,7 +122,7 @@ LauncherKV = '''
                 theme_text_color: "Custom"
                 text_color_focus: app.theme_cls.onSurfaceVariantColor
                 MDTextFieldLeadingIcon:
-                    icon: 'slot-machine'
+                    icon: 'ticket-account'
                 MDTextFieldHelperText:
                     text: app.app_config.get("client", "slot", fallback="")
             MDTextField:
@@ -150,66 +152,10 @@ LauncherKV = '''
     MDChipText:
         text: root.text
         icon: root.icon
-
-<GameListPanel>:
-    id: game_item
-    MDExpansionPanelHeader:
-        MDListItem:
-            id: game_item_header
-            MDListItemSupportingText:
-                text: root.game_tag
-                text_color: app.theme_cls.onSurfaceColor
-                theme_text_color: "Custom"
-                theme_font_style: "Label"
-                role: "medium"
-                shorten: False
-            TrailingPressedIconButton:
-                id: chevron
-                icon: "gamepad-round-right"
-                on_release: root.toggle_expansion(self)
-    MDExpansionPanelContent:
-        id: game_item_content
-        orientation: 'vertical'
-        padding: "12dp", 0, "12dp", "12dp"
-        spacing: 4
-        MDLabel:
-            adaptive_height: True
-            padding: 16, 0, 12, 0
-
-<GameListItemTooltip>:
-    MDTooltipPlain:
-        text: root.tooltip_text
-        do_wrap: True
-        adaptive_height: True
-        theme_text_color: "Custom"
-        theme_bg_color: "Custom"
-        md_bg_color: app.theme_cls.secondaryContainerColor
-        text_color: app.theme_cls.onSecondaryContainerColor
-
-<GameListItem>:
-    tooltip_text: ""
-    MDListItemLeadingIcon:
-        icon: root.icon
-
-<GameListItemLongText>:
-    ripple_behavior: False
-    text: root.text
-    tooltip_text: root.tooltip_text
-    shorten: False
-    do_wrap: False
-    adaptive_height: True
-    role: "small"
-
-<GameListItemShortText>:
-    ripple_behavior: False
-    text: root.text
-    shorten: False
-    do_wrap: False
-    adaptive_height: True
-    role: "small"    
         
 <SliverAppbar>:
-    pos_hint: {"x": 0, "y": 0}
+    pos_hint: {"x": 0}
+    y: 82
     adaptive_height: True
     hide_appbar: True
     background_color: app.theme_cls.secondaryContainerColor
@@ -218,14 +164,14 @@ LauncherKV = '''
         type: "small"
         id: games_search_bar
         padding: 4
-        pos_hint: {"top": 1}
+        pos_hint: {"center_x": 0.5, "top": .95}
 
     MDSliverAppbarHeader:
         MDHeroFrom:   #### ok the herofrom size/loc is the transition size
             id: launcher_hero_from
             tag: "logo"
             size_hint: 1,1
-            pos_hint: {"right": .9}
+            pos_hint: {"right": .9, "top": 1}
             Image:
                 source: "data/logo_bg.png"
                 pos_hint: {"top": 1}
@@ -243,131 +189,7 @@ LauncherKV = '''
         font_name: app.theme_cls.font_styles[self.font_style][self.role]["font-name"]
         font_size: app.theme_cls.font_styles[self.font_style][self.role]["font-size"]
 
-'''
-
-class GameListItemTooltip(MDTooltip):
-    '''Base class for tooltip behavior.'''
-    pass
-
-class GameListItemLongText(GameListItemTooltip, MDListItemSupportingText):
-    '''Implements a list item with tooltip behavior.'''
-    text = StringProperty("")
-    tooltip_text = StringProperty("")
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = kwargs.get('text', '')
-        self.tooltip_text = kwargs.get('tooltip_text', '')
-
-class GameListItemShortText(MDListItemSupportingText):
-    '''Implements a list item with no tooltip behavior.'''
-    text = StringProperty("")
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.text = kwargs.get('text', '')
-
-class GameListItem(MDListItem):
-    '''
-    This displays a single item from the game's
-    dictionary (genre, theme, etc)'''
-    text = StringProperty("")
-    icon = StringProperty("")
-    tooltip_text = StringProperty("")
-    
-    def __init__(self, text, icon, tooltip_text="", **kwargs):
-        super().__init__(**kwargs)
-        self.text = text
-        self.icon = icon
-        self.tooltip_text = tooltip_text
-        self.width = 256
-        self.pos_hint = {"center_y": 0.5}
-        
-        # Create and add the text widget
-        if "..." in text:
-            text_widget = GameListItemLongText()
-            text_widget.tooltip_text = tooltip_text
-        else:
-            text_widget = GameListItemShortText()
-        text_widget.text = text
-        self.add_widget(text_widget)
-        
-        Clock.schedule_once(lambda x: self.remove_trailing_icon())
-
-    def remove_trailing_icon(self):
-        for id in self.ids:
-            if id == "trailing_container":
-                self.remove_widget(self.ids[id])
-
-
-class GameListPanel(MDExpansionPanel):
-    '''
-    This class is used to display a game item in the game list.
-    It is a subclass of MDExpansionPanel.
-    '''
-    game_tag: StringProperty
-    tag_type: DictProperty
-    icon = StringProperty("game-controller")
-    leading_avatar: MDListItemLeadingAvatar
-    game_item_header: MDListItem
-    game_item_content: MDExpansionPanelContent
-    
-    def __init__(self, game_tag, tag_type, **kwargs):
-        self.game_tag = game_tag
-        self.tag_type = tag_type
-        super().__init__(**kwargs)
-        self.leading_avatar = MDListItemLeadingAvatar()
-        self.width = 256
-        self.pos_hint = {"center_y": 0.5}
-        Clock.schedule_once(lambda x: self.populate_game_item())
-
-    def populate_game_item(self):
-        self.game_item_header = self.ids.game_item_header
-        self.game_item_content = self.ids.game_item_content
-        self.game_item_header.add_widget(self.leading_avatar)
-        self.leading_avatar.source = self.tag_type['cover_url']
-        for item in self.tag_type:
-            if item == "genres" and self.tag_type['genres']:
-                list_tooltip = self.list_tooltip(self.tag_type['genres'])
-                self.game_item_content.add_widget(GameListItem(text=list_tooltip['label'], icon="dice-multiple", tooltip_text=list_tooltip['tooltip']))
-            elif item == "themes" and self.tag_type['themes']:
-                list_tooltip = self.list_tooltip(self.tag_type['themes'])
-                self.game_item_content.add_widget(GameListItem(text=list_tooltip['label'], icon="sword", tooltip_text=list_tooltip['tooltip']))
-            elif item == "keywords" and self.tag_type['keywords']:
-                list_tooltip = self.list_tooltip(self.tag_type['keywords'])
-                self.game_item_content.add_widget(GameListItem(text=list_tooltip['label'], icon="tag-outline", tooltip_text=list_tooltip['tooltip']))
-            elif item == "player_perspectives" and self.tag_type['player_perspectives']:
-                list_tooltip = self.list_tooltip(self.tag_type['player_perspectives'])
-                self.game_item_content.add_widget(GameListItem(text=list_tooltip['label'], icon="eye-outline", tooltip_text=list_tooltip['tooltip']))
-            elif item == "rating" and self.tag_type['rating']:
-                list_tooltip = self.list_tooltip(self.tag_type['rating'])
-                self.game_item_content.add_widget(GameListItem(text=list_tooltip['label'], icon="alert-box-outline", tooltip_text=list_tooltip['tooltip']))
-            elif item == "release_date" and self.tag_type['release_date']:
-                self.game_item_content.add_widget(GameListItem(text=str(self.tag_type['release_date']), icon="calendar-month", tooltip_text=str(self.tag_type['release_date'])))
-
-    def list_tooltip(self, item_list: list[str]) -> dict[str, str]:
-        full_list = ", ".join(item_list).rstrip(", ")
-        wrapped_list = wrap(full_list, width=17, break_on_hyphens=False, max_lines=3)
-        item_dict = {
-            "label": "\n".join(wrapped_list).rstrip("\n"),
-            "tooltip": "\n".join(wrap(full_list, width=40, break_on_hyphens=False)).rstrip("\n")
-        }
-        return item_dict
-
-    def toggle_expansion(self, instance):
-        Animation(
-            padding=[0, dp(12), 0, dp(12)]
-            if not self.is_open
-            else [0,0,0,0],
-            d=0.2,
-        ).start(self)
-        self.open() if not self.is_open else self.close()
-        self.set_chevron_up(instance) if self.is_open else self.set_chevron_down(instance)
-
-class TrailingPressedIconButton(
-    ButtonBehavior, RotateBehavior, MDListItemTrailingIcon
-):
-    ...
+''')
 
 class SliverAppbar(MDSliverAppbar):
     content: MDSliverAppbarContent
@@ -441,6 +263,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     launcher_layout: LauncherLayout
     game_filter: list
     game_tag_filter: StringProperty
+    bottom_appbar: BottomAppBar
     
     def __init__(self,**kwargs):
         logger.debug("Initializing LauncherScreen")
@@ -449,16 +272,18 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.games_mdlist = MDList(width=260)
         self.game_tag_filter = "popular"
 
+        self.bottom_appbar = BottomAppBar(screen_name="launcher")
         self.layoutgrid = MDGridLayout(cols=2,
-                                        height=Window.height-185,
-                                        width=Window.width,
-                                        size_hint=(None, None),
-                                        pos=(0,82))
-        self.important_appbar = SliverAppbar(size_hint_x=None, width=260)
+                                        pos=(0,82),
+                                        size_hint_x=1,
+                                        size_hint_y=1-(185/Window.height)
+                                        )
+        self.important_appbar = SliverAppbar(size_hint=(None, 1), y=82, width=260)
         self.launcher_layout = LauncherLayout(pos_hint={"center_y": .5, "center_x": .5+(130/Window.width)},
-                                                size_hint_x=1-(264/Window.width), 
+                                                size_hint_x=1, 
                                                 size_hint_y=1-(8/Window.height))
         self.important_appbar.ids.scroll.scroll_wheel_distance = 40
+        self.important_appbar.ids.scroll.y = 82
         logger.debug("Loading game list")
         self.important_appbar.width = 260
         self.important_appbar.content.add_widget(self.games_mdlist)
@@ -466,6 +291,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.layoutgrid.add_widget(self.important_appbar)
         self.layoutgrid.add_widget(self.launcher_layout)
         self.add_widget(self.layoutgrid)
+        self.add_widget(self.bottom_appbar)
 
         asynckivy.start(self.set_game_list())
 
@@ -489,5 +315,3 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     
     def connect(self):
         pass
-
-Builder.load_string(LauncherKV)

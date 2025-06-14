@@ -1,0 +1,57 @@
+<GameListPanel>:
+    padding: 4
+    id: game_item
+    MDExpansionPanelHeader:
+        MDListItem:
+            id: game_item_header
+            ripple_effect: False
+            spacing: 4
+            MDListItemTertiaryText:
+                text: root.game_tag
+                text_color: app.theme_cls.onSurfaceColor
+                theme_text_color: "Custom"
+                shorten: False
+            GameTrailingPressedIconButton:
+                id: chevron
+                icon: "gamepad-round-right"
+                on_release: root.toggle_expansion(self)
+    MDExpansionPanelContent:
+        id: game_item_content
+        orientation: 'vertical'
+        y: 82
+        padding: "12dp", 0, "12dp", "12dp"
+        spacing: 4
+        MDLabel:
+            adaptive_height: True
+            padding: 16, 0, 12, 0
+
+<GameListItemTooltip>:
+    MDTooltipPlain:
+        text: root.tooltip_text
+        do_wrap: True
+        adaptive_height: True
+        theme_text_color: "Custom"
+        theme_bg_color: "Custom"
+        md_bg_color: app.theme_cls.secondaryContainerColor
+        text_color: app.theme_cls.onSecondaryContainerColor
+
+<GameListItem>:
+    tooltip_text: ""
+    ripple_effect: False
+    MDListItemLeadingIcon:
+        icon: root.icon
+
+<GameListItemLongText>:
+    text: root.text
+    tooltip_text: root.tooltip_text
+    shorten: False
+    do_wrap: False
+    adaptive_height: True
+    role: "small"
+
+<GameListItemShortText>:
+    text: root.text
+    shorten: False
+    do_wrap: False
+    adaptive_height: True
+    role: "small"    

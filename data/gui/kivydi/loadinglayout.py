@@ -21,6 +21,7 @@ DEFAULT_SPEED = 0.040  # Default speed (40ms)
 img_path = os.path.join(os.getenv("KIVY_HOME"),"images","loading_animation.png")
 
 class MWGGLoadingLayout(MDRelativeLayout):
+    ripple_effect = BooleanProperty(False)
     frames = ListProperty([])
     img_box: MDBoxLayout
     loading = BooleanProperty(False)

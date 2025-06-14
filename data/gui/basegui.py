@@ -124,8 +124,7 @@ from kivy.uix.effectwidget import EffectWidget, PixelateEffect
 # from Utils import async_start, get_input_text_from_response
 from mw_theme import RegisterFonts, DefaultTheme
 
-from bottomsheet import BottomSheetKV, MainBottomSheet, ChipsOptionsKV, BottomChipLayout
-from bottomcontent import BottomBarKV
+from bottomsheet import MainBottomSheet, BottomChipLayout
 from titlebar import Titlebar, TitleBarButton, TitlebarKV
 from console import ConsoleScreen
 from hintscreen import HintScreen
@@ -320,14 +319,9 @@ class KivyMDGUI(MDApp):
         Window.bind(on_maximize=self.title_bar.tb_onmax)
         Window.bind(on_close=lambda x: self.on_stop())
         self.change_screen("launcher")
-        self.slides = self.bottom_sheet.bottom_carousel.slides
 
         def on_start(*args):
             self.root.md_bg_color = self.theme_cls.surfaceColor
-            self.bottom_chips = Builder.load_string(ChipsOptionsKV())
-            self.bottom_sheet.ids.bs_tab_container.add_widget(self.bottom_chips), len(self.bottom_sheet.ids.bs_tab_container.ids)
-            self.bottom_sheet.bind(on_open=self.bottom_appbar.hide_me)
-            self.bottom_sheet.bind(on_close=self.bottom_appbar.show_me)
             
             # Initialize and show loading animation
             self.loading_layout = MWGGLoadingLayout()
@@ -369,8 +363,7 @@ class KivyMDGUI(MDApp):
 
         #TODO: Fix this - it won't change colors correctly
         #Needs to be done in the module, not here.
-        self.bottom_sheet = Builder.load_string(BottomSheetKV())
-        Builder.load_string(BottomBarKV())
+        self.bottom_sheet = MainBottomSheet()
         self.bottom_chips = BottomChipLayout()
 
         self.bottom_appbar = BottomAppBar(theme_bg_color = "Custom", md_bg_color = self.theme_cls.secondaryContainerColor)
