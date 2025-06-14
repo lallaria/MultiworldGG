@@ -151,6 +151,8 @@ def get_region_rules(player, options):
             lambda state: state.has("Goron Mask", player) or state.has("Hookshot", player),
         "Pirates' Fortress Sewers -> Pirates' Fortress (Interior)":
             lambda state: True,
+        "Zora Cape -> Zora Hall":
+            lambda state: state.has("Zora Mask", player),
         "Zora Cape -> Great Bay Temple":
             lambda state: can_play_song("New Wave Bossa Nova", state, player) and state.has("Hookshot", player) and state.has("Zora Mask", player),
         "Road to Ikana -> Ikana Graveyard":
@@ -280,7 +282,7 @@ def get_location_rules(player, options):
         "North Clock Town Great Fairy Reward":
             lambda state: state.has("Stray Fairy (Clock Town)", player),
         "Tingle Clock Town Map Purchase":
-            lambda state: has_projectiles(state, player),
+            lambda state: has_projectiles(state, player), # could also check for upper ikana, but you literally get this in clock town lmao
         "West Clock Town Swordsman Expert Course":
             lambda state: state.has("Progressive Sword", player),
         "West Clock Town Postman Counting":
@@ -349,11 +351,11 @@ def get_location_rules(player, options):
         "Milk Road Gorman Ranch Purchase":
             lambda state: True,
         "Tingle Romani Ranch Map Purchase":
-            lambda state: has_projectiles(state, player) or state.can_reach("Twin Islands", 'Region', player),
+            lambda state: has_projectiles(state, player) or (state.can_reach("Milk Road", 'Region', player) or state.can_reach("Twin Islands", 'Region', player)),
         "Road to Swamp Tree HP":
             lambda state: has_projectiles(state, player),
         "Tingle Woodfall Map Purchase":
-            lambda state: has_projectiles(state, player),
+            lambda state: has_projectiles(state, player) or (state.can_reach("Southern Swamp", 'Region', player) or state.can_reach("Clock Town", 'Region', player)),
         "Swamp Shooting Gallery 2120 Points":
             lambda state: state.has("Progressive Bow", player),
         "Swamp Shooting Gallery 2180 Points":
@@ -485,7 +487,7 @@ def get_location_rules(player, options):
         "Woodfall Temple Wooden Flower Bubble SF":
             lambda state: (state.has("Progressive Bow", player) and state.has("Great Fairy Mask", player)) or can_use_fire_arrows(state, player),
         "Woodfall Temple Moving Flower Platform Room Beehive SF":
-            lambda state: has_projectiles(state, player) or state.has("Progressive Bow", player),
+            lambda state: (state.has("Progressive Bow", player) or (state.has("Deku Mask", player) and state.has("Progressive Magic", player))) or (state.has("Great Fairy Mask", player) and (state.has("Hookshot", player) or state.has("Zora Mask", player))),
         "Woodfall Temple Push Block Skulltula SF":
             lambda state: (state.has("Small Key (Woodfall)", player) and can_smack(state, player)) or state.has("Progressive Bow", player),
         "Woodfall Temple Push Block Bubble SF":
@@ -527,7 +529,7 @@ def get_location_rules(player, options):
             lambda state: state.can_reach("Mountain Village Smithy Upgrade", 'Location', player) and state.can_reach("Goron Racetrack Prize", 'Location', player) and has_bottle(state, player),
             
         "Tingle Snowhead Map Purchase":
-            lambda state: has_projectiles(state, player) and state.can_reach("Southern Swamp", 'Region', player),    
+            lambda state: has_projectiles(state, player) and (state.can_reach("Twin Islands", 'Region', player) or state.can_reach("Southern Swamp", 'Region', player)),
         "Twin Islands Ramp Grotto Chest":
             lambda state: has_explosives(state, player) and (state.has("Goron Mask", player) or state.has("Hookshot", player)),
         "Twin Islands Goron Elder Request":
@@ -660,7 +662,7 @@ def get_location_rules(player, options):
         "Great Bay Scarecrow Ledge HP":
             lambda state: can_plant_beans(state, player) and can_reach_scarecrow(state, player) and state.has("Hookshot", player),
         "Tingle Great Bay Map Purchase":
-            lambda state: has_projectiles(state, player) and state.can_reach("Clock Town", 'Region', player),
+            lambda state: has_projectiles(state, player) and (state.can_reach("Great Bay", 'Region', player) or state.can_reach("Milk Road", 'Region', player)),
         "Great Bay Ledge Grotto Left Cow":
             lambda state: state.has("Hookshot", player) and can_play_song("Epona's Song", state, player),
         "Great Bay Ledge Grotto Right Cow":
@@ -797,7 +799,7 @@ def get_location_rules(player, options):
         "Zora Hall Piano Zora Song":
             lambda state: state.has("Zora Mask", player),
         "Zora Hall Torches Reward":
-            lambda state: can_use_fire_arrows(state, player),
+            lambda state: state.has("Zora Mask", player) and can_use_fire_arrows(state, player),
         "Zora Hall Good Picture of Lulu":
            lambda state: state.has("Pictograph Box", player) and state.has("Zora Mask", player),
         "Zora Hall Bad Picture of Lulu":
@@ -881,7 +883,7 @@ def get_location_rules(player, options):
         "Graveyard Day 2 Dampe Bats":
             lambda state: has_projectiles(state, player), # has_explosives does work, but seems unintuitive
         "Graveyard Day 2 Iron Knuckle Chest":
-            lambda state: state.has("Captain's Hat", player) and can_smack_hard(state, player) and has_explosives(state, player),
+            lambda state: state.has("Captain's Hat", player) and can_smack_hard(state, player) and has_explosives(state, player) and can_use_lens(state, player),
         "Graveyard Day 3 Dampe Big Poe Chest":
             lambda state: (state.has("Captain's Hat", player) and state.has("Progressive Bow", player)) or (state.has("Captain's Hat", player) and state.has("Zora Mask", player)),
         "Graveyard Sonata To Wake Sleeping Skeleton Chest":
@@ -891,7 +893,7 @@ def get_location_rules(player, options):
 
 
         "Tingle Stone Tower Map Purchase":
-            lambda state: has_projectiles(state, player) and state.can_reach("Great Bay", 'Region', player),
+            lambda state: has_projectiles(state, player) and ((state.can_reach("Ikana Canyon", 'Region', player) and can_use_ice_arrows(state, player) and state.has("Hookshot", player)) or state.can_reach("Great Bay", 'Region', player)),
         "Ikana Canyon Spirit House":
             lambda state: can_use_ice_arrows(state, player) and state.has("Hookshot", player),
         "Ikana Canyon Music Box Mummy":
@@ -1020,6 +1022,8 @@ def get_location_rules(player, options):
             lambda state: state.can_reach("Moon Link Trial Garo Master Chest", 'Location', player),
         "Moon Link Trial HP":
             lambda state: state.can_reach("Moon Link Trial Garo Master Chest", 'Location', player) and has_bombchus(state, player) and state.has("Progressive Bow", player),
+        "Moon Trade All Masks":
+            lambda state: state.can_reach("Moon Deku Trial HP", 'Location', player) and state.can_reach("Moon Goron Trial HP", 'Location', player) and state.can_reach("Moon Zora Trial HP", 'Location', player) and state.can_reach("Moon Link Trial HP", 'Location', player) and can_use_fire_arrows(state, player) and state.has("Captain's Hat", player) and state.has("Giant's Mask", player) and state.has("All-Night Mask", player) and state.has("Bunny Hood", player) and state.has("Keaton Mask", player) and state.has("Garo Mask", player) and state.has("Romani Mask", player) and state.has("Circus Leader's Mask", player) and state.has("Postman's Hat", player) and state.has("Couple's Mask", player) and state.has("Great Fairy Mask", player) and state.has("Gibdo Mask", player) and state.has("Don Gero Mask", player) and state.has("Kamaro Mask", player) and state.has("Mask of Truth", player) and state.has("Stone Mask", player) and state.has("Bremen Mask", player) and state.has("Blast Mask", player) and state.has("Mask of Scents", player) and state.has("Kafei's Mask", player),
         "Defeat Majora":
             lambda state: can_smack_hard(state, player) and (((state.has("Zora Mask", player) or has_mirror_shield(state, player)) and can_use_light_arrows(state, player)) or (state.has("Fierce Deity's Mask", player) and state.has("Progressive Magic", player))) and has_enough_remains(state, player, options.majora_remains_required.value),
     }
