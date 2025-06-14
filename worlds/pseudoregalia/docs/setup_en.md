@@ -1,13 +1,13 @@
 # Pseudoregalia Setup Guide
 
 ## Requirements
-* [Pseudoregalia AP Mod](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases)
+* [Pseudoregalia AP Mod](https://github.com/qwint/pseudoregalia-archipelago/releases)
 
 ## Optional
 * [Poptracker Bundle](https://github.com/Br00ty/pseudoregalia_brooty)
 
 ## Mod Installation
-* Go to the [Mod Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of pseudoregalia-archipelago.zip.
+* Go to the [Mod Releases page](https://github.com/qwint/pseudoregalia-archipelago/releases/latest) and download the latest version of pseudoregalia-archipelago.zip.
 * In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
 * Extract the contents of pseudoregalia-archipelago.zip directly into "Pseudoregalia_AP". You should see README.md appear in the folder.
 * Create a shortcut to Pseudoregalia_AP/pseudoregalia.exe and rename it "Pseudoregalia_AP" (or whatever else you like). Place it on your desktop or in your games folder or whatever.

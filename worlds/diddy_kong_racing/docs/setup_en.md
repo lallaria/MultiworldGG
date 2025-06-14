@@ -29,7 +29,7 @@ Double-click `diddy_kong_racing.apworld`, or manually copy it into the `custom_w
 - Copy `data/lua/connector_diddy_kong_racing.lua` into the `lua` folder in your existing MultiworldGG folder (`data/lua`).
 - Run the Archipelago launcher and select Diddy Kong Racing Client.
 - Connect the MultiworldGG client with the server.
-- Open Bizhawk (2.9.1+) and open your Diddy Kong Racing ROM.
+- Open Bizhawk (2.10+) and open your Diddy Kong Racing ROM.
 - Run the `diddy_kong_racing.lua` script (drag and drop it into Bizhawk).
 
 ## Generating Your World

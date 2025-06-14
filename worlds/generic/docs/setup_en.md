@@ -11,8 +11,7 @@ Some steps also assume use of Windows, so may vary with your OS.
 
 ## Installing the MultiworldGG software
 
-The most recent public release of MultiworldGG on this website:
-[MultiworldGG Latest Release](https://multiworld.gg/downloads/MultiworldGG_latest.zip).
+The most recent public release of MultiworldGG from the [Client page](/downloads)
 
 Run the exe file, and after accepting the license agreement you will be asked which components you would like to
 install.
