@@ -41,7 +41,7 @@
         "The End... Again...",
         "Acquire Hardware",
         "Not Quite \"Nine\" Lives",
-        "Cover Me with Diamonds",
+        "Cover Me With Diamonds",
         "Sky's the Limit",
         "Hired Help",
         "Return to Sender",
@@ -113,7 +113,15 @@
         "Sneak 100",
         "When the Squad Hops into Town",
         "With Our Powers Combined!",
-        "You've Got a Friend in Me"
+        "You've Got a Friend in Me",
+        "Smells Interesting",
+        "Little Sniffs",
+        "Planting the Past",
+        "Crafting a New Look",
+        "Smithing with Style",
+        "Respecting the Remnants",
+        "Careful Restoration",
+        "The Power of Books"
     ],
     "locations_by_region": {
         "Overworld": [
@@ -138,7 +146,7 @@
             "Total Beelocation",
             "Arbalistic",
             "Acquire Hardware",
-            "Cover Me with Diamonds",
+            "Cover Me With Diamonds",
             "Hired Help",
             "Sweet Dreams",
             "Adventure",
@@ -180,7 +188,14 @@
             "Bukkit Bukkit",
             "It Spreads",
             "Sneak 100",
-            "When the Squad Hops into Town"
+            "When the Squad Hops into Town",
+            "Smells Interesting",
+            "Little Sniffs",
+            "Planting the Past",
+            "Crafting a New Look",
+            "Smithing with Style",
+            "Respecting the Remnants",
+            "Careful Restoration"
         ],
         "The Nether": [
             "Hot Tourist Destinations",
@@ -190,13 +205,16 @@
             "We Need to Go Deeper",
             "Not Quite \"Nine\" Lives",
             "Return to Sender",
+            "Serious Dedication",
             "Hidden in the Depths",
             "Subspace Bubble",
             "Country Lode, Take Me Home",
             "Uneasy Alliance",
+            "Cover Me in Debris",
             "Is It a Balloon?",
             "Feels Like Home",
-            "With Our Powers Combined!"
+            "With Our Powers Combined!",
+            "The Power of Books"
         ],
         "The End": [
             "Free the End",
@@ -236,9 +254,7 @@
         ],
         "Bastion Remnant": [
             "War Pigs",
-            "Serious Dedication",
             "Those Were the Days",
-            "Cover Me in Debris",
             "Overpowered"
         ],
         "End City": [
