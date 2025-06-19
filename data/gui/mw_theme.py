@@ -12,6 +12,7 @@ from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, Bou
 from kivy.config import Config
 from kivy.lang import Builder
 from kivy.utils import hex_colormap
+from kivydi import md_icons
 from PIL import Image
 import numpy as np
 
@@ -272,6 +273,9 @@ def RegisterFonts(app: MDApp):
                        )
     LabelBase.register('LibreFranklin',
                        os.path.join("fonts","LibreFranklin-ExtraBold.ttf"),
+                       )
+    LabelBase.register('Icons',
+                       fn_regular=os.path.join("fonts","materialdesignicons-fa-webfont.ttf"),
                        )
     app.theme_cls.font_styles = {
         "Icon": {

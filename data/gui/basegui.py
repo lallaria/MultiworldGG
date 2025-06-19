@@ -366,8 +366,6 @@ class KivyMDGUI(MDApp):
         self.bottom_sheet = MainBottomSheet()
         self.bottom_chips = BottomChipLayout()
 
-        self.bottom_appbar = BottomAppBar(theme_bg_color = "Custom", md_bg_color = self.theme_cls.secondaryContainerColor)
-        
         self.navigation_layout.add_widget(self.screen_manager)
         self.navigation_layout.add_widget(self.bottom_sheet)
 
@@ -430,7 +428,6 @@ class KivyMDGUI(MDApp):
         '''
         if item == "console":
             self.console_screen = ConsoleScreen()
-            self.console_screen.add_widget(self.bottom_appbar)
             self.screen_manager.add_widget(self.console_screen)
             self.screen_manager.current = "console"
         elif item == "settings":

@@ -15,6 +15,8 @@ from .expansionlist import (
     GameListItemLongText,
     GameListItemShortText,
     GameTrailingPressedIconButton,
+    SlotListItemHeader,
+    SlotListItem,
 )
 
 from .loadinglayout import (
@@ -28,4 +30,8 @@ from .markuptextfield import (
     MDTextFieldLeadingIcon,
     MDTextFieldTrailingIcon,
     MarkupTextFieldCutCopyPaste,
+)
+
+from .fa_icons import (
+    md_icons,
 )

@@ -4,12 +4,14 @@ from kivymd.uix.appbar import MDTopAppBar, MDTopAppBarLeadingButtonContainer, MD
                               MDTopAppBarTitle, MDTopAppBarTrailingButtonContainer
 from kivy.lang import Builder
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, StringProperty
+from kivy.clock import Clock
+import time
 
 __all__ = ["TopAppBarLayout", "TopAppBar"]
 
-client_appbar = '''
-TopAppBar:
+Builder.load_string('''
+<TopAppBar>:
     type: "small"
     padding: 0,0,0,0
     md_bg_color: app.theme_cls.backgroundColor
@@ -20,11 +22,12 @@ TopAppBar:
             on_release: app.open_top_appbar_menu(self)
 
     MDTopAppBarTitle:
-        text: app.title
+        text: root.timer
         font_style: "Title"
         bold: True
         theme_font_style: "Custom"
-        pos_hint: {"center_x": .5}
+        pos_hint: {"x": .05}
+        size_hint_x: .1
 
     MDTopAppBarTrailingButtonContainer:
 
@@ -32,11 +35,18 @@ TopAppBar:
             text: "Profile"
         MDActionTopAppBarButton:
             icon: "account-circle-outline"
-'''
+''')
 
 class TopAppBar(MDTopAppBar):
-    pass
-        
+    timer: StringProperty
+
+    def __init__(self, **kwargs):
+        self.timer = "00:00:00"
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.update_timer, 1)
+
+    def update_timer(self, dt):
+        self.timer = time.strftime("%H:%M:%S", time.gmtime(time.time()))
 
 class TopAppBarLayout(AnchorLayout):
     top_appbar: ObjectProperty
@@ -47,7 +57,7 @@ class TopAppBarLayout(AnchorLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.top_appbar = Builder.load_string(client_appbar)
+        self.top_appbar = TopAppBar()
         self.top_appbar.id = "top_appbar"
         self.add_widget(self.top_appbar)
 

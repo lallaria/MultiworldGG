@@ -2,28 +2,87 @@
     padding: 4
     id: game_item
     MDExpansionPanelHeader:
-        MDListItem:
-            id: game_item_header
-            ripple_effect: False
-            spacing: 4
-            MDListItemTertiaryText:
-                text: root.game_tag
-                text_color: app.theme_cls.onSurfaceColor
-                theme_text_color: "Custom"
-                shorten: False
-            GameTrailingPressedIconButton:
-                id: chevron
-                icon: "gamepad-round-right"
-                on_release: root.toggle_expansion(self)
+        id: panel_header
     MDExpansionPanelContent:
-        id: game_item_content
+        id: panel_content
         orientation: 'vertical'
         y: 82
         padding: "12dp", 0, "12dp", "12dp"
-        spacing: 4
+        spacing: "8dp"
         MDLabel:
             adaptive_height: True
             padding: 16, 0, 12, 0
+
+<SlotListItemHeader>:
+    id: slot_item_header
+    spacing: dp(4)
+    padding: 12, 12, 12, 12
+    orientation: "horizontal"
+    height: dp(70)
+    size_hint_y: None
+    theme_bg_color: "Custom"
+    MDListItemLeadingAvatar:
+        width: dp(40)
+        id: leading_avatar
+        source: root.game_data['avatar']
+        pos_hint: {"center_y": 0.5, "center_x": 0.5}
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: dp(4)
+        size_hint_x: 1
+        MDBoxLayout:
+            id: slot_item_container
+            orientation: "horizontal"
+            size_hint_y: .5
+            MDListItemHeadlineText:
+                text: root.slot_name
+                theme_text_color: "Custom"
+                pos_hint: {"center_y": 0.5}
+                text_color: app.theme_cls.onSurfaceColor
+        MDBoxLayout:
+            id: game_item_container
+            orientation: "horizontal"
+            size_hint_y: .5
+            MDListItemTertiaryText:
+                text: root.game
+                theme_text_color: "Custom"
+                text_color: app.theme_cls.onSurfaceColor
+    GameTrailingPressedIconButton:
+        width: dp(40)
+        id: chevron
+        icon: "gamepad-round-right"
+        pos_hint: {"center_y": 0.5, "center_x": 0.5}
+        on_release: root.panel.toggle_expansion(self)
+
+
+<GameListItemHeader>:
+    id: game_item_header
+    ripple_effect: False
+    theme_bg_color: "Custom"
+    spacing: "8dp"
+    height: dp(50)
+    size_hint_y: None
+    padding: 16, 0, 12, 0
+    theme_bg_color: "Custom"
+    MDListItemLeadingAvatar:
+        id: leading_avatar
+        source: root.game_data['cover_url']
+        width: dp(40)
+        pos_hint: {"center_y": 0.5, "center_x": 0.5}
+    MDListItemSupportingText:
+        id: game_item_header_text
+        text: root.game_tag
+        text_color: app.theme_cls.onSurfaceColor
+        theme_text_color: "Custom"
+        role: "medium"
+        shorten: False
+        pos_hint: {"center_y": 0.5, "center_x": 0.5}
+    GameTrailingPressedIconButton:
+        width: dp(40)
+        id: chevron
+        icon: "gamepad-round-right"
+        pos_hint: {"center_y": 0.5, "center_x": 0.5}
+        on_release: root.panel.toggle_expansion(self)
 
 <GameListItemTooltip>:
     MDTooltipPlain:
@@ -43,6 +102,7 @@
 
 <GameListItemLongText>:
     text: root.text
+    size_hint_x: 1
     tooltip_text: root.tooltip_text
     shorten: False
     do_wrap: False
@@ -51,7 +111,76 @@
 
 <GameListItemShortText>:
     text: root.text
+    size_hint_x: 1
     shorten: False
     do_wrap: False
     adaptive_height: True
     role: "small"    
+
+<SlotListItem>:
+    spacing: dp(8)
+    padding: 12, 12, 12, 12
+    orientation: "vertical"
+    id: slot_item
+    ripple_effect: False
+    height: dp(70)
+    size_hint_y: None
+    theme_bg_color: "Custom"
+    MDBoxLayout:
+        id: slot_item_top_container
+        orientation: "horizontal"
+        spacing: dp(4)
+        size_hint_y: .5
+        MDListItemLeadingIcon:
+            id: slot_icon_location
+            icon: "map-marker"
+            pos_hint: {"center_y": 0.5}
+        MDListItemSupportingText:
+            id: slot_text_location
+            text: root.location_name
+            pos_hint: {"center_y": 0.5}
+            do_wrap: False
+            text_color: app.theme_cls.onSurfaceColor
+    MDBoxLayout:
+        id: slot_item_bottom_container
+        orientation: "horizontal"
+        spacing: dp(4)
+        size_hint_y: .5
+        MDListItemLeadingIcon:
+            id: slot_icon_item
+            icon: "treasure-chest"
+            pos_hint: {"center_y": 0.5}
+        MDListItemSupportingText:
+            id: slot_text_item
+            text: root.item_name
+            pos_hint: {"center_y": 0.5}
+            do_wrap: False
+            text_color: app.theme_cls.onSurfaceColor
+        MDListItemTrailingIcon:
+            id: slot_icon_goal
+            icon: "flag_checkered"
+            pos_hint: {"center_y": 0.5}
+
+<IconBadge>:
+    text: ""
+    theme_font_style: "Custom"
+    role: "large"
+    font_style: "Icon"
+    theme_font_size: "Custom"
+    font_size: dp(11)
+
+<ShopBadge>:
+    text: "\uee18"
+    theme_font_style: "Custom"
+    role: "large"
+    font_style: "Icon"
+    theme_font_size: "Custom"
+    font_size: dp(11)
+
+<GoalBadge>:
+    text: "\uf11e"
+    theme_font_style: "Custom"
+    role: "large"
+    font_style: "Icon"
+    theme_font_size: "Custom"
+    font_size: dp(11)

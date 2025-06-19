@@ -47,8 +47,8 @@ LAUNCHER_ACTIONS = [
 },
 {
     "id":           "host",
-    "buttonicon":   "account-tie-hat",
-    "icon":         "account-tie-hat",
+    "buttonicon":   "hand-extended",
+    "icon":         "hand-extended",
     "prefill":      "",
     "label":        "Host",
     "indicator":    "blank",

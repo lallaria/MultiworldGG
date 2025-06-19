@@ -17,6 +17,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 #from console import ConsoleView, UIRecycleView
 from textconsole import ConsoleView, TextConsole
 from launcher import LauncherScreen, LauncherLayout
+import asynckivy
 
 # from kivy.core.window import Window
 from kivy.clock import Clock
@@ -34,25 +35,26 @@ from expansionpanel import OpacityExpansionPanel
 from dataclasses import dataclass
 from textwrap import wrap
 from kivydi.expansionlist import *
+from kivymd.theming import ThemableBehavior
+from bottomappbar import BottomAppBar
 
 Builder.load_string('''
 <ConsoleLayout>:
     id: console_layout
-    width: Window.width
-    height: Window.height-185
     size_hint: None,None
     pos: 0,82
 
 <ConsoleSliverAppbar>:
     pos_hint: {"x": 0}
-    y: 82
+    width: 260
+    size_hint_x: None
     adaptive_height: True
     hide_appbar: True
     background_color: app.theme_cls.secondaryContainerColor
 
     MDTopAppBar:
         type: "small"
-        pos_hint: {"center_x": 0.5, "top": .95}
+        pos_hint: {"center_x": 0.5, "top": 1}
         padding: dp(4)
         MDTopAppBarLeadingButtonContainer:
             MDActionTopAppBarButton:
@@ -72,15 +74,11 @@ Builder.load_string('''
                 on_release: root.set_deafen()
 
     MDSliverAppbarHeader:
-        MDHeroFrom:   #### ok the herofrom size/loc is the transition size
-            id: console_hero_from
+        MDHeroTo:   #### ok the herofrom size/loc is the transition size
+            id: console_hero_to
             tag: "logo"
             size_hint: 1,1
-            pos_hint: {"right": .9, "top": 1}
-            Image:
-                source: "data/logo_bg.png"
-                pos_hint: {"top": 1}
-                fit_mode: "scale-down"
+            pos: root.x, root.y
 
 ''')
 
@@ -96,53 +94,63 @@ class ConsoleSliverAppbar(MDSliverAppbar):
         self.content.id = "content"
         self.add_widget(self.content)
 
-class SideBarContent(MDSliverAppbarContent):
-    def __init__(self, **kwargs):
-        super(SideBarContent, self).__init__(**kwargs)
-        hint_items = testdict
-        app = MDApp.get_running_app()
-        theme_style = 0 if app.theme_cls.theme_style == "Dark" else 1
-        for prog_level in hint_items:
-            for i in range(len(hint_items[prog_level])):
-                shadow_color = app.theme_mw.markup_tags_theme.progression_item_color[theme_style]
-                if prog_level == "Useful": shadow_color = app.theme_mw.markup_tags_theme.useful_item_color[theme_style]
-                if prog_level == "Trash": shadow_color = app.theme_mw.markup_tags_theme.regular_item_color[theme_style]
-                if prog_level == "Trap": shadow_color = app.theme_mw.markup_tags_theme.trap_item_color[theme_style]
-                self.add_widget(GameListPanel(
-                    game_tag=f"{hint_items[prog_level][i]['item']}",
-                    tag_type=hint_items[prog_level][i],
-                    shadow_color=get_color_from_hex(shadow_color)))
-        self.bind(minimum_height=self.setter('height'))
-
-class ConsoleScreen(MDScreen):
+class ConsoleScreen(MDScreen, ThemableBehavior):
+    '''
+    This is the main screen for the console.
+    Left side has the players, with expansion for hints
+    Right contains the console
+    '''
     name = "console"
-    console_hero_from: ObjectProperty
+    console_hero_to: ObjectProperty
     consolegrid: MDBoxLayout
     important_appbar: MDSliverAppbar
-    sidebar_content: SideBarContent
     ui_console: ConsoleView
+    bottom_appbar: BottomAppBar
 
-    def init_console_grid(self):
-        self.consolegrid = ConsoleLayout()#app grid
-        self.add_widget(self.consolegrid, len(self.children))
-
-    def init_important(self):
-        self.important_appbar = ConsoleSliverAppbar()
-        self.important_appbar.size_hint_x = 260/Window.width
-        self.console_hero_from = self.important_appbar.ids.console_hero_from
-        self.heroes_from = [self.console_hero_from]
-        self.ui_console = ConsoleView(pos_hint={"center_y": .5, "center_x": .5+(130/Window.width)},
-                                      size_hint_x=1-(264/Window.width), 
-                                      size_hint_y=1-(8/Window.height))
-        self.important_appbar.add_widget(SideBarContent(orientation="vertical", spacing="12dp", padding=(0,"16dp",0,0)))
-        self.important_appbar.adaptive_height = True
-        self.consolegrid.add_widget(self.important_appbar)
-        self.consolegrid.add_widget(self.ui_console, len(self.consolegrid.children))
 
     def __init__(self, **kwargs):
         self.size_hint = (1,1)
         self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         super().__init__(**kwargs)
-        self.init_console_grid()
-        self.init_important()
- 
+        self.slots_mdlist = MDList(width=260)
+
+        self.bottom_appbar = BottomAppBar(screen_name="console")
+
+        self.important_appbar = ConsoleSliverAppbar()
+        
+        self.console_hero_to = self.important_appbar.ids.console_hero_to
+        self.heroes_to = [self.console_hero_to]
+
+        Clock.schedule_once(lambda x: self.init_important())
+
+        asynckivy.start(self.set_slots_list())
+
+
+    def init_important(self):
+
+        self.consolegrid = ConsoleLayout(width=Window.width, height=Window.height-185)
+        self.add_widget(self.consolegrid)
+        self.add_widget(self.bottom_appbar)
+
+
+        self.important_appbar.size_hint_x = 260/Window.width
+        self.important_appbar.size_hint_y=1-(8/Window.height)
+
+        self.ui_console = ConsoleView(pos_hint={"center_y": .5, "center_x": .5+(130/Window.width)},
+                                      size_hint_x=1-(264/Window.width), 
+                                      size_hint_y=1-(8/Window.height))
+        self.important_appbar.ids.scroll.scroll_wheel_distance = 40
+        #self.important_appbar.ids.scroll.y = 82
+
+        self.important_appbar.content.add_widget(self.slots_mdlist)
+
+        self.consolegrid.add_widget(self.important_appbar)
+        self.consolegrid.add_widget(self.ui_console)
+
+    async def set_slots_list(self):
+
+        self.slots_mdlist.clear_widgets()
+        for slot_name, slot_data in testdict.items():
+            await asynckivy.sleep(0)
+            slot = GameListPanel(game_tag=slot_name, game_data=slot_data)
+            self.slots_mdlist.add_widget(slot)

@@ -46,6 +46,11 @@ logger = logging.getLogger(__name__)
 Builder.load_string('''
 <LauncherLayout>:
     id: launcher_layout
+    size_hint: None,None
+    pos: 0,82
+
+<LauncherView>:
+    id: launcher_view
     pos: 0,82
     game_name: "test"
     orientation: 'vertical'
@@ -153,25 +158,27 @@ Builder.load_string('''
         text: root.text
         icon: root.icon
         
-<SliverAppbar>:
+<LauncherSliverAppbar>:
     pos_hint: {"x": 0}
-    y: 82
+    width: 260
+    size_hint_x: None
     adaptive_height: True
     hide_appbar: True
     background_color: app.theme_cls.secondaryContainerColor
+    launcher_hero_from: launcher_hero_from
 
     SearchBar:
         type: "small"
         id: games_search_bar
-        padding: 4
-        pos_hint: {"center_x": 0.5, "top": .95}
+        padding: dp(4)
+        pos_hint: {"center_x": 0.5, "top": 1}
 
     MDSliverAppbarHeader:
         MDHeroFrom:   #### ok the herofrom size/loc is the transition size
             id: launcher_hero_from
             tag: "logo"
             size_hint: 1,1
-            pos_hint: {"right": .9, "top": 1}
+            pos: root.x, root.y
             Image:
                 source: "data/logo_bg.png"
                 pos_hint: {"top": 1}
@@ -190,8 +197,13 @@ Builder.load_string('''
         font_size: app.theme_cls.font_styles[self.font_style][self.role]["font-size"]
 
 ''')
+class LauncherLayout(MDRelativeLayout):
+    pass
 
-class SliverAppbar(MDSliverAppbar):
+class LauncherView(MDBoxLayout):
+    pass
+
+class LauncherSliverAppbar(MDSliverAppbar):
     content: MDSliverAppbarContent
 
     def __init__(self, **kwargs):
@@ -211,9 +223,10 @@ class SearchBar(MDTopAppBar):
         super().__init__(**kwargs)
         self.search_box = LauncherTextField(
             id="game_tag_filter",
-            padding=16,
+            padding=dp(16),
             font_style = "Body",
-            helper_text = "Game Search"
+            helper_text = "Game Search",
+            pos_hint = {"center_x": 0.5, "top": 1}
         )
         self.add_widget(self.search_box)
         Clock.schedule_once(lambda x: self.remove_widgets())
@@ -246,8 +259,6 @@ class SearchBar(MDTopAppBar):
             screen.game_tag_filter = instance.text
             asynckivy.start(screen.set_game_list())
 
-class LauncherLayout(MDFloatLayout):
-    pass
 
 class LauncherScreen(MDScreen, ThemableBehavior):
     '''
@@ -258,42 +269,50 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     '''
     name = "launcher"
     launcher_hero_from: ObjectProperty
-    layoutgrid: MDGridLayout
+    layoutgrid: MDBoxLayout
     important_appbar: MDSliverAppbar
-    launcher_layout: LauncherLayout
+    launcher_layout: LauncherView
     game_filter: list
     game_tag_filter: StringProperty
     bottom_appbar: BottomAppBar
     
     def __init__(self,**kwargs):
-        logger.debug("Initializing LauncherScreen")
         super().__init__(**kwargs)
+        self.size_hint = (1, 1)
+        self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         self.game_filter = []
         self.games_mdlist = MDList(width=260)
         self.game_tag_filter = "popular"
 
         self.bottom_appbar = BottomAppBar(screen_name="launcher")
-        self.layoutgrid = MDGridLayout(cols=2,
-                                        pos=(0,82),
-                                        size_hint_x=1,
-                                        size_hint_y=1-(185/Window.height)
-                                        )
-        self.important_appbar = SliverAppbar(size_hint=(None, 1), y=82, width=260)
-        self.launcher_layout = LauncherLayout(pos_hint={"center_y": .5, "center_x": .5+(130/Window.width)},
-                                                size_hint_x=1, 
-                                                size_hint_y=1-(8/Window.height))
-        self.important_appbar.ids.scroll.scroll_wheel_distance = 40
-        self.important_appbar.ids.scroll.y = 82
-        logger.debug("Loading game list")
-        self.important_appbar.width = 260
-        self.important_appbar.content.add_widget(self.games_mdlist)
+        self.important_appbar = LauncherSliverAppbar()
 
-        self.layoutgrid.add_widget(self.important_appbar)
-        self.layoutgrid.add_widget(self.launcher_layout)
-        self.add_widget(self.layoutgrid)
-        self.add_widget(self.bottom_appbar)
+        Clock.schedule_once(lambda x: self.init_important())
 
         asynckivy.start(self.set_game_list())
+
+    def init_important(self):
+        self.launchergrid = LauncherLayout(width=Window.width, height=Window.height-185)
+        self.add_widget(self.launchergrid)
+        self.add_widget(self.bottom_appbar)
+
+        self.launcher_hero_from = self.important_appbar.launcher_hero_from
+        self.heroes_from = [self.launcher_hero_from]
+
+        self.important_appbar.size_hint_x = 260/Window.width
+        self.important_appbar.size_hint_y=1-(8/Window.height)
+
+        self.launcher_view = LauncherView(pos_hint={"center_y": .5, "center_x": .5+(130/Window.width)},
+                                      size_hint_x=1-(264/Window.width), 
+                                      size_hint_y=1-(8/Window.height))
+        
+        self.important_appbar.ids.scroll.scroll_wheel_distance = 40
+        #self.important_appbar.ids.scroll.y = 82
+
+        self.important_appbar.content.add_widget(self.games_mdlist)
+
+        self.launchergrid.add_widget(self.important_appbar)  
+        self.launchergrid.add_widget(self.launcher_view)
 
     async def set_game_list(self):
         game_index = GameIndex()
@@ -301,7 +320,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.games_mdlist.clear_widgets()
         for game_name, game_data in matching_games.items():
             await asynckivy.sleep(0)
-            game = GameListPanel(game_tag=game_name, tag_type=game_data)
+            game = GameListPanel(game_tag=game_name, game_data=game_data)
             self.games_mdlist.add_widget(game)
 
     def set_filter(self, active, tag):
