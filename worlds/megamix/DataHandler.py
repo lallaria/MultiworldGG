@@ -186,8 +186,6 @@ def extract_mod_data_to_json() -> list[Any]:
     user_path = Utils.user_path(Utils.get_settings()["generator"]["player_files_path"])
     folder_path = sys.argv[sys.argv.index("--player_files_path") + 1] if "--player_files_path" in sys.argv else user_path
 
-    logger.debug(f"Checking YAMLs for megamix_mod_data at {folder_path}")
-
     # Search text for the specific game
     search_text = "Hatsune Miku Project Diva Mega Mix+"
 
@@ -223,7 +221,6 @@ def extract_mod_data_to_json() -> list[Any]:
                                 all_mod_data.append(json.loads(mod_data_content))
 
     total = sum(len(pack) for packList in all_mod_data for pack in packList.values())
-    logger.debug(f"Found {total} songs")
 
     return all_mod_data
 

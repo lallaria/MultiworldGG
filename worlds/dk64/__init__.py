@@ -67,12 +67,10 @@ if baseclasses_loaded:
                     # Write the ZIP file to the destination
                     with open(zip_dest, "wb") as f:
                         f.write(zip_data)
-                    print(f"Copied {zip_path} to {zip_dest}")
 
                     # Extract the ZIP file
                     with zipfile.ZipFile(zip_dest, "r") as zip_ref:
                         zip_ref.extractall(temp_dir)
-                    print(f"Extracted {zip_dest} into {temp_dir}")
 
         except PermissionError:
             display_error_box("Permission Error", "Unable to install Dependencies to AP, please try to install AP as an admin.")
@@ -112,27 +110,24 @@ if baseclasses_loaded:
         raise Exception(f"Unsupported platform: {platform_type}")
 
     sys.path.append("worlds/dk64/")
-    sys.path.append("worlds/dk64/archipelago/")
-    sys.path.append("custom_worlds/dk64.apworld/dk64/")
-    sys.path.append("custom_worlds/dk64.apworld/dk64/archipelago/")
 
     import randomizer.ItemPool as DK64RItemPool
 
     from randomizer.Enums.Items import Items as DK64RItems
     from randomizer.SettingStrings import decrypt_settings_string_enum
-    from archipelago.Items import DK64Item, full_item_table, setup_items
-    from archipelago.Options import DK64Options, Goal
-    from archipelago.Regions import all_locations, create_regions, connect_regions
-    from archipelago.Rules import set_rules
-    from archipelago.client.common import check_version
+    from .Items import DK64Item, full_item_table, setup_items
+    from .Options import DK64Options, Goal
+    from .Regions import all_locations, create_regions, connect_regions
+    from .Rules import set_rules
+    from client.common import check_version
     from worlds.AutoWorld import WebWorld, World, AutoLogicRegister
-    from archipelago.Logic import LogicVarHolder
+    from .Logic import LogicVarHolder
     from randomizer.Spoiler import Spoiler
     from randomizer.Settings import Settings
     from randomizer.ShuffleWarps import LinkWarps
     from randomizer.Enums.Settings import LogicType, ShuffleLoadingZones
     from randomizer.Patching.ApplyRandomizer import patching_response
-    from version import version
+    from .version import version
     from randomizer.Patching.EnemyRando import randomize_enemies_0
     from randomizer.Fill import ShuffleItems, ItemReference, IdentifyMajorItems
     from randomizer.CompileHints import compileMicrohints
@@ -177,12 +172,12 @@ if baseclasses_loaded:
 
     def launch_client():
         """Launch the DK64 client."""
-        from archipelago.DK64Client import launch
+        from DK64Client import launch
         from worlds.LauncherComponents import launch as launch_component
 
         launch_component(launch, name="DK64 Client")
 
-    components.append(Component("DK64 Client", "DK64Client", func=launch_client, component_type=Type.CLIENT, icon="dk64"))
+    components.append(Component("DK64 Client", func=launch_client, component_type=Type.CLIENT, icon="dk64"))
     icon_paths["dk64"] = f"ap:{__name__}/base-hack/assets/DKTV/logo3.png"
 
     class DK64CollectionState(metaclass=AutoLogicRegister):
@@ -219,6 +214,7 @@ if baseclasses_loaded:
         """
 
         game: str = "Donkey Kong 64"
+        author: str = "2dos, Killklli, & Ballaam"
         options_dataclass = DK64Options
         options: DK64Options
         topology_present = False
