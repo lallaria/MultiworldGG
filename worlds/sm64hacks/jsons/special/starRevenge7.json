@@ -279,7 +279,7 @@
         },
         "Troll Star": {
             "exists": true
-        }
+        },
         "StarRequirement": "0",
         "Requirements": [],
         "ConditionalRequirements": [
@@ -1443,9 +1443,10 @@
                 ]
             }
         ],
-        "Settings": [
-            "cannons",
-            "sr7"
-        ]
+        "Settings": {
+            "prog_key": 0,
+            "cannons": true,
+            "sr7": true
+        }
     }
 }
