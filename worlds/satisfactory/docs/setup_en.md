@@ -150,11 +150,11 @@ although this will never lock you out of progression.
 ### Verifying Connection Success
 
 After you have created your new world,
-you should see in-game chat messages confirming that you have connected to the MultiworldGG Server.
+you should see in-game chat messages confirming that you have connected to the Archipelago Server.
 
 You can issue the `/help` command in the game's chat to list available commands, such as `/hint`.
 For more information about the commands you can use, see the [Commands Guide](/tutorial/Archipelago/commands/en).
-Note that MultiworldGG commands are not prefixed with `!` inside of Satisfactory.
+Note that Archipelago commands are not prefixed with `!` inside of Satisfactory.
 You may wish to use the Text Client to run commands since Satisfactory's in game chat is not very user friendly.
 
 Check out the HUB to get started!

@@ -6,7 +6,7 @@ class SatisfactoryWebWorld(WebWorld):
     theme = "dirt"
     setup = Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Satisfactory Archipelago mod and connect it to an MultiworldGG world",
+        "A guide to setting up the Satisfactory Archipelago mod and connect it to a MultiworldGG world",
         "English",
         "setup_en.md",
         "setup/en",

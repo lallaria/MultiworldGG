@@ -319,12 +319,24 @@ class SplitterLogic(PlacementLogic):
 
 _skip_tutorial_starting_items = [
     # https://satisfactory.wiki.gg/wiki/Onboarding
-    "Bundle: Portable Miner",
+    "Single: Portable Miner",
+    "Single: Portable Miner",
+    "Single: Portable Miner",
+    "Single: Portable Miner",
     "Bundle: Iron Plate",
     "Bundle: Concrete",
     "Bundle: Iron Rod",
     "Bundle: Wire",
-    "Bundle: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
+    "Single: Reinforced Iron Plate",
     "Bundle: Cable",
     "Bundle: Iron Ore"
 ]
@@ -519,10 +531,10 @@ option_presets: dict[str, dict[str, Any]] = {
         "hard_drive_progression_limit": 20,
         "starting_inventory_preset": 3, # "Foundations"
         "randomize_starter_recipes": False,
-        "mam_logic_placement": int(Placement.starting_inventory.value),
-        "awesome_logic_placement": int(Placement.starting_inventory.value),
-        "energy_link_logic_placement": int(Placement.starting_inventory.value),
-        "splitter_placement": int(Placement.starting_inventory.value),
+        "mam_logic_placement": Placement.starting_inventory.value,
+        "awesome_logic_placement": Placement.starting_inventory.value,
+        "energy_link_logic_placement": Placement.starting_inventory.value,
+        "splitter_placement": Placement.starting_inventory.value,
         "milestone_cost_multiplier": 50,
         "trap_selection_preset": 1 # Gentle
     },
@@ -532,10 +544,10 @@ option_presets: dict[str, dict[str, Any]] = {
         "goal_requirement": GoalRequirement.option_require_all_goals,
         "goal_awesome_sink_points_per_minute": 100000, # ~10 heavy modular frame/min
         "hard_drive_progression_limit": 60,
-        "mam_logic_placement": int(Placement.somewhere.value),
-        "awesome_logic_placement": int(Placement.somewhere.value),
-        "energy_link_logic_placement": int(Placement.somewhere.value),
-        "splitter_placement": int(Placement.somewhere.value),
+        "mam_logic_placement": Placement.somewhere.value,
+        "awesome_logic_placement": Placement.somewhere.value,
+        "energy_link_logic_placement": Placement.somewhere.value,
+        "splitter_placement": Placement.somewhere.value,
         "trap_selection_preset": 3 # Harder
     },
     "Extra Long": {
@@ -544,10 +556,10 @@ option_presets: dict[str, dict[str, Any]] = {
         "goal_requirement": GoalRequirement.option_require_all_goals,
         "goal_awesome_sink_points_per_minute": 625000, # ~10 fused modular frame/min
         "hard_drive_progression_limit": 100,
-        "mam_logic_placement": int(Placement.somewhere.value),
-        "awesome_logic_placement": int(Placement.somewhere.value),
-        "energy_link_logic_placement": int(Placement.somewhere.value),
-        "splitter_placement": int(Placement.somewhere.value),
+        "mam_logic_placement": Placement.somewhere.value,
+        "awesome_logic_placement": Placement.somewhere.value,
+        "energy_link_logic_placement": Placement.somewhere.value,
+        "splitter_placement": Placement.somewhere.value,
         "milestone_cost_multiplier": 300,
         "trap_selection_preset": 4 # All
     }

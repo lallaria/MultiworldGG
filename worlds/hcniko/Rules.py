@@ -220,7 +220,8 @@ def get_location_rules(player, world):
                           and state.has("Turbine Town Ticket", player)
                           and state.has("Salmon Creek Forest Ticket", player)
                           and state.has("Public Pool Ticket", player)
-                          and state.has("Bathhouse Ticket", player),
+                          and state.has("Bathhouse Ticket", player)
+                          and (world.options.textbox.value != 1 or state.has("Textbox", player)),
         "Achievement - Volley Dreams":
             lambda state: has_all_tickets(state, player)
                           and (state.has("Contact List 2", player)
@@ -248,7 +249,8 @@ def get_location_rules(player, world):
                           and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Hairball City - Above Frog Statue":
             lambda state: state.has("Key", player, 7)
-                          or state.has("Hairball City Key", player),
+                          or state.has("Hairball City Key", player)
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Salmon Creek Forest - Inside Locked Cave":
             lambda state: state.has("Key", player, 7)
                           or state.has("Salmon Creek Forest Key", player),
@@ -259,7 +261,8 @@ def get_location_rules(player, world):
             lambda state: (state.has("Contact List 1", player)
                            or state.has("Progressive Contact List", player, 1))
                            and (world.options.fishsanity.value != 2 or state.has("Salmon Creek Forest Fish", player, 5))
-                           and (world.options.textbox.value != 1 or state.has("Textbox", player)),
+                           and (world.options.textbox.value != 1 or state.has("Textbox", player))
+                           and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Salmon Creek Forest - SPORTVIVAL":
             lambda state: (state.has("Contact List 1", player)
                            or state.has("Progressive Contact List", player, 1))
@@ -840,7 +843,7 @@ def get_location_rules(player, world):
             lambda state: (world.options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
         "Public Pool - Breakable Boxes Near Frogtective":
             lambda state: (world.options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
-        "Public Pool - Cassette Rocks in Ocean":
+        "Public Pool - Above Small Island":
             lambda state: (world.options.bonk_permit.value != 1 or state.has("Safety Helmet", player))
                           and (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
         "Tadpole HQ - Breakable Boxes near Blessley":
@@ -851,13 +854,17 @@ def get_location_rules(player, world):
         "Turbine Town - Stone Pillar Behind Wind Turbine":
             lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
         "Salmon Creek Forest - Apple 11":
-            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player))
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Salmon Creek Forest - Apple 56":
-            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player))
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Salmon Creek Forest - Apple 41":
-            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player))
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Salmon Creek Forest - Apple 50":
-            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: (world.options.parasols.value != 1 or state.has("Parasol Repair", player))
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
 
         "Public Pool - Far Away Island":
             lambda state: (world.options.soda_cans.value != 1 or state.has("Soda Repair", player)),
@@ -938,6 +945,8 @@ def get_location_rules(player, world):
             lambda state: (world.options.soda_cans.value != 1 or state.has("Soda Repair", player))
                           and (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
 
+        "Turbine Town - Near Fishing Containers":
+            lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
         "Bathhouse - Fan to Fan":
             lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
         "Bathhouse - Apple 30":
@@ -955,6 +964,12 @@ def get_location_rules(player, world):
         "Bathhouse - Apple 72":
             lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
         "Bathhouse - Apple 23":
+            lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
+        "Bathhouse - Seed 7":
+            lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
+        "Bathhouse - Seed 8":
+            lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
+        "Bathhouse - Seed 10":
             lambda state: (world.options.ac_repair.value != 1 or state.has("AC Repair", player)),
 
         "Achievement - Lost at Sea":
@@ -1027,6 +1042,26 @@ def get_location_rules(player, world):
         "Salmon Creek Forest - Bone 5":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Salmon Creek Forest - Hasselhop (Chatsanity)":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Woodisch (Chatsanity)":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Divin' Doe (Chatsanity)":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Apple 113":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Apple 112":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Apple 58":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Bug 79":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Bug 65":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Bug 12":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Bug 16":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+        "Salmon Creek Forest - Bug 62":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
 
         "Public Pool - Inside BIG Pool":
@@ -1415,7 +1450,10 @@ def get_location_rules(player, world):
             lambda state: state.has("Tadpole HQ Ticket", player),
         "Chatsanity - Britney":
             lambda state: state.has("Hairball City Ticket", player)
-                          or state.has("Turbine Town Ticket", player)
+                          or (state.has("Turbine Town Ticket", player)
+                              and (world.options.swimming.value != 1
+                              or world.options.precisejumps.value == 1
+                              or state.has("Swim Course", player)))
                           or state.has("Public Pool Ticket", player),
         "Chatsanity - Brooklyn Frog":
             lambda state: state.has("Hairball City Ticket", player),
@@ -1592,7 +1630,7 @@ def get_location_rules(player, world):
         "Chatsanity - Maggie":
             lambda state: state.has("Hairball City Ticket", player)
                           or state.has("Party Invitation", player),
-        "Chatsanity - Mahjong Frogs":
+        "Chatsanity - Mahjong Frog":
             lambda state: (state.has("Bathhouse Ticket", player)
                            and (state.has("Key", player, 7)
                                 or state.has("Bathhouse Key", player, 2)))
@@ -1813,7 +1851,37 @@ def get_location_rules(player, world):
         "Chatsanity - Wind Dragon":
             lambda state: state.has("Turbine Town Ticket", player),
         "Chatsanity - Woodisch":
-            lambda state: state.has("Salmon Creek Forest Ticket", player),
+            lambda state: state.has("Salmon Creek Forest Ticket", player)
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Public Pool - Niko & 2D(Thought)":
             lambda state: has_access_to(state, player, "Public Pool - Far Away Island Right Side"),
+        "Turbine Town - Inside Partially Sunken Shipping Container":
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
+                          or world.options.precisejumps.value == 1,
+        "Turbine Town - Above Partially Sunken Shipping Container":
+            lambda state: (world.options.swimming.value != 1
+                          or world.options.precisejumps.value == 1
+                          or state.has("Swim Course", player)),
+        "Turbine Town - Bug 48":
+            lambda state: (world.options.swimming.value != 1
+                           or world.options.precisejumps.value == 1
+                           or state.has("Swim Course", player)),
+        "Turbine Town - Bug 10":
+            lambda state: (world.options.swimming.value != 1
+                           or world.options.precisejumps.value == 1
+                           or state.has("Swim Course", player)),
+        "Turbine Town - Bug 2":
+            lambda state: (world.options.swimming.value != 1
+                           or world.options.precisejumps.value == 1
+                           or state.has("Swim Course", player)),
+        "Turbine Town - Bug 32":
+            lambda state: (world.options.swimming.value != 1
+                           or world.options.precisejumps.value == 1
+                           or state.has("Swim Course", player)),
+        "Turbine Town - Bug 52":
+            lambda state: (world.options.swimming.value != 1
+                           or world.options.precisejumps.value == 1
+                           or state.has("Swim Course", player)),
+        "Tadpole HQ - Borbie (Chatsanity)":
+            lambda state: can_talk_to_peper(state, player, world.kiosk_cost["Elevator"]),
     }

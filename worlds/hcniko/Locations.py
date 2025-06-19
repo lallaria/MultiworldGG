@@ -164,7 +164,7 @@ location_data_table: Dict[str, HereComesNikoLocationData] = {
     "Public Pool - Frog Statue": HereComesNikoLocationData(region="Public Pool",id=base_id + 134),
     "Public Pool - On Springboard": HereComesNikoLocationData(region="Public Pool",id=base_id + 135),
     "Public Pool - Behind Palm Tree On Small Island": HereComesNikoLocationData(region="Public Pool",id=base_id + 136),
-    "Public Pool - Cassette Rocks in Ocean": HereComesNikoLocationData(region="Public Pool",id=base_id + 137),
+    "Public Pool - Above Floaties Behind Palm Tree": HereComesNikoLocationData(region="Public Pool",id=base_id + 137),
     "Public Pool - Inside Pool": HereComesNikoLocationData(region="Public Pool",id=base_id + 138),
     "Public Pool - Inside BIG Pool": HereComesNikoLocationData(region="Public Pool",id=base_id + 139),
     "Public Pool - Behind Frog Statue": HereComesNikoLocationData(region="Public Pool",id=base_id + 140),

@@ -2,6 +2,7 @@ from typing import List, Dict, TextIO, Any
 
 from BaseClasses import MultiWorld
 from BaseClasses import Region, Tutorial, ItemClassification
+from Utils import visualize_regions
 from worlds.AutoWorld import World, WebWorld
 from .Items import item_data_table, HereComesNikoItem, item_table, item_name_groups
 from .Locations import location_data_table, HereComesNikoLocation, locked_locations, location_table, \
@@ -110,6 +111,7 @@ class HereComesNikoWorld(World):
                 self.options.textbox.value = self.passthrough["textbox"]
                 self.options.ac_repair.value = self.passthrough["ac_repair"]
                 self.options.applebasket.value = self.passthrough["applebasket"]
+                self.options.precisejumps.value = self.passthrough["precisejumps"]
                 self.options.fishsanity.value = self.passthrough["fishsanity"]
                 self.options.seedsanity.value = self.passthrough["seedsanity"]
                 self.options.flowersanity.value = self.passthrough["flowersanity"]
@@ -339,6 +341,7 @@ class HereComesNikoWorld(World):
             "textbox": self.options.textbox.value,
             "ac_repair": self.options.ac_repair.value,
             "applebasket": self.options.applebasket.value,
+            "precisejumps": self.options.precisejumps.value,
             "bonesanity": self.options.bonesanity.value,
             "death_link": self.options.death_link.value,
             "trap_link": self.options.trap_link.value,

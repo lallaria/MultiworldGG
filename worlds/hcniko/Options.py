@@ -24,6 +24,9 @@ def adjust_options(world):
     if world.options.min_elevator_cost > tot_coins:
         world.options.min_elevator_cost.value = min(79, tot_coins)
 
+    if world.options.swimming.value == 0:
+        world.options.precisejumps.value = 0
+
 def total_coins(world) -> int:
     count: int = 76
     if world.options.shuffle_garys_garden.value:
@@ -198,6 +201,12 @@ class AppleBasket(Toggle):
     display_name = "Apple Basket"
 
 
+class PreciseJumps(Toggle):
+    """Only available when Swimming is enabled.
+    When this option is enabled, the logic will expect you to reach locations that require precise jumps"""
+    display_name = "Precise Jumps"
+
+
 class Fishsanity(Choice):
     """Need more checks or are you just insane?
     Vanilla: Normal Here Comes Niko! behaviour
@@ -324,6 +333,7 @@ class HereComesNikoOptions(PerGameCommonOptions):
     textbox: Textbox
     ac_repair: AirConditioning
     applebasket: AppleBasket
+    precisejumps: PreciseJumps
     fishsanity: Fishsanity
     seedsanity: Seedsanity
     flowersanity: Flowerbedsanity

@@ -190,7 +190,7 @@ when you install it using the Satisfactory Mod Manager:
 
 ### Certified Compatible Mods
 
-The following mods are known to work with MultiworldGG:
+The following mods are known to work with Archipelago:
 
 <!-- Nog's Chat currently broken -->
 <!-- - [Nog's Chat](https://ficsit.app/mod/NogsChat) - Easily repeat past chat messages, improving the user experience of running Archipelago commands in the game's chat window. -->
@@ -200,7 +200,7 @@ The following mods are known to work with MultiworldGG:
 <!-- - [Infinite Zoop](https://ficsit.app/mod/InfiniteZoop) - Adds a research tree in the MAM where you can improve your Zoop capacity. Also enables multi-row & column Wall and Foundation construction.  -->
 <!-- - [Nog's Research](https://ficsit.app/mod/NogsResearch/) - Queue Milestones and MAM Nodes for automatic research in the style of Factorio's research queue. Queue type might need to be changed to soft class reference to save CL schematics. -->
 
-The following mods have been used successfully by other players but have not been thoroughly tested with MultiworldGG:
+The following mods have been used successfully by other players but have not been thoroughly tested with Archipelago:
 
 - [Resource Roulette](https://ficsit.app/mod/ResourceRoulette) - Randomize the location of resource nodes
 - [Infinite Zoop](https://ficsit.app/mod/InfiniteZoop) - Adds a research tree in the MAM where you can improve your Zoop capacity. Also enables multi-row & column Wall and Foundation construction.

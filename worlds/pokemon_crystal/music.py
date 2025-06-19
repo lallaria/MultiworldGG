@@ -9,6 +9,8 @@ EXCLUDED_MUSIC = ["MUSIC_NONE", "MUSIC_LAKE_OF_RAGE_ROCKET_RADIO", "MUSIC_PRINTE
 
 
 def randomize_music(world: "PokemonCrystalWorld"):
+    if not world.options.randomize_music: return
+    
     music_pool_loop = [music_name for music_name, music_data in data.music.consts.items() if
                        music_name not in EXCLUDED_MUSIC and music_data.loop]
     music_pool_no_loop = [music_name for music_name, music_data in data.music.consts.items() if
