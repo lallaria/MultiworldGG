@@ -38,7 +38,6 @@ def launch_json_generator():
 
 components.append(Component(
     "Mega Mix JSON Generator",
-    "MegamixJSONGenerator",
     func=launch_json_generator,
     component_type=Type.ADJUSTER
 ))
