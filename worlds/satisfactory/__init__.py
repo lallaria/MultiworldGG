@@ -18,6 +18,7 @@ class SatisfactoryWorld(World):
     """
 
     game = "Satisfactory"
+    author: str = "Jarno"
     options_dataclass = SatisfactoryOptions
     options: SatisfactoryOptions
     topology_present = False
