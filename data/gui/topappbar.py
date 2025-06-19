@@ -4,13 +4,17 @@ from kivymd.uix.appbar import MDTopAppBar, MDTopAppBarLeadingButtonContainer, MD
                               MDTopAppBarTitle, MDTopAppBarTrailingButtonContainer
 from kivy.lang import Builder
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.properties import ObjectProperty, StringProperty
+from kivy.properties import ObjectProperty, StringProperty, NumericProperty, BooleanProperty
 from kivy.clock import Clock
-import time
+from kivy.animation import Animation
+
+from time import time, strftime, gmtime
 
 __all__ = ["TopAppBarLayout", "TopAppBar"]
 
 Builder.load_string('''
+<Timer>:
+
 <TopAppBar>:
     type: "small"
     padding: 0,0,0,0
@@ -20,33 +24,108 @@ Builder.load_string('''
             icon: "menu"
             id: menu_button
             on_release: app.open_top_appbar_menu(self)
-
-    MDTopAppBarTitle:
-        text: root.timer
+    Timer:
+        id: timer
+        text: "00:00:00"
         font_style: "Title"
         bold: True
         theme_font_style: "Custom"
         pos_hint: {"x": .05}
-        size_hint_x: .1
 
     MDTopAppBarTrailingButtonContainer:
-
+        MDActionTopAppBarButton:
+            icon: "timer-outline"
+            on_release: root.toggle_timer()
         MDActionTopAppBarButton:
             text: "Profile"
         MDActionTopAppBarButton:
             icon: "account-circle-outline"
 ''')
 
-class TopAppBar(MDTopAppBar):
-    timer: StringProperty
-
+class Timer(MDTopAppBarTitle):
+    # Properly declare properties
+    start_time = NumericProperty(0)
+    elapsed_time = NumericProperty(0)
+    is_running = BooleanProperty(False)
+    slot_data = ObjectProperty(None)
+    has_been_started = BooleanProperty(False)  # Track if timer has ever been started
+    
     def __init__(self, **kwargs):
-        self.timer = "00:00:00"
         super().__init__(**kwargs)
-        Clock.schedule_interval(self.update_timer, 1)
+        self.text = "00:00:00"
+        # Bind the elapsed_time property to update the display
+        self.bind(elapsed_time=self.on_elapsed_time)
+    
+    def start(self):
+        """Start the timer (initial start or resume from pause)"""
+        if not self.is_running:
+            if not self.has_been_started:
+                # Initial start - set the start time
+                self.start_time = time()
+                self.has_been_started = True
+            else:
+                # Resume from pause - adjust start time to account for elapsed time
+                self.start_time = time() - self.elapsed_time
+            
+            self.is_running = True
+            Clock.schedule_interval(self.update_timer, 0.1)  # Update every 100ms for smoother display
+
+    def stop(self):
+        """Pause the timer (doesn't reset)"""
+        if self.is_running:
+            self.is_running = False
+            Clock.unschedule(self.update_timer)
+
+    def reset(self):
+        """Reset the timer to 00:00:00 and set new start time"""
+        self.stop()
+        self.elapsed_time = 0
+        self.text = "00:00:00"
+        self.has_been_started = False
+        self.start_time = 0
 
     def update_timer(self, dt):
-        self.timer = time.strftime("%H:%M:%S", time.gmtime(time.time()))
+        """Update the elapsed time and check for goal condition"""
+        if self.is_running:
+            self.elapsed_time = time() - self.start_time
+            
+            # Check if game has reached goal state
+            if self.slot_data and self.slot_data.get('game_status') == "GOAL":
+                self.stop()
+
+    def on_elapsed_time(self, instance, value):
+        """Called when elapsed_time property changes"""
+
+        # Format as HH:MM:SS
+        self.text = strftime("%H:%M:%S", gmtime(value))
+    
+    def set_slot_data(self, slot_data):
+        """Set the slot_data and check if timer should stop"""
+        self.slot_data = slot_data
+        if self.slot_data and self.slot_data.get('game_status') == "GOAL":
+            self.stop()
+
+class TopAppBar(MDTopAppBar):
+    timer: ObjectProperty
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.timer = self.ids.timer
+        
+    def toggle_timer(self):
+        """Toggle timer on/off (pause/resume)"""
+        if self.timer.is_running:
+            self.timer.stop()  # Pause
+        else:
+            self.timer.start()  # Start or resume
+    
+    def reset(self):
+        """Reset the timer (called on long press)"""
+        self.timer.reset()
+    
+    def update_slot_data(self, slot_data):
+        """Update slot_data in the timer"""
+        self.timer.set_slot_data(slot_data)
 
 class TopAppBarLayout(AnchorLayout):
     top_appbar: ObjectProperty

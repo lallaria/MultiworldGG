@@ -1,26 +1,29 @@
 <GameListPanel>:
-    padding: 4
+    padding: dp(8),dp(4),dp(8),dp(4)
     id: game_item
     MDExpansionPanelHeader:
+        padding: dp(8),0,dp(8),0
+        radius: dp(8),0,dp(8),0
         id: panel_header
     MDExpansionPanelContent:
         id: panel_content
         orientation: 'vertical'
         y: 82
-        padding: "12dp", 0, "12dp", "12dp"
-        spacing: "8dp"
+        padding: dp(12), 0, dp(12), dp(12)
+        spacing: dp(8)
         MDLabel:
             adaptive_height: True
-            padding: 16, 0, 12, 0
+            padding: 0
 
 <SlotListItemHeader>:
     id: slot_item_header
     spacing: dp(4)
-    padding: 12, 12, 12, 12
+    padding: dp(8),dp(4),dp(8),dp(4)
     orientation: "horizontal"
     height: dp(70)
     size_hint_y: None
     theme_bg_color: "Custom"
+    md_bg_color: app.theme_cls.secondaryContainerColor
     MDListItemLeadingAvatar:
         width: dp(40)
         id: leading_avatar
@@ -28,8 +31,8 @@
         pos_hint: {"center_y": 0.5, "center_x": 0.5}
     MDBoxLayout:
         orientation: "vertical"
-        spacing: dp(4)
         size_hint_x: 1
+        padding: 0,dp(10),0,dp(10)
         MDBoxLayout:
             id: slot_item_container
             orientation: "horizontal"
@@ -37,8 +40,8 @@
             MDListItemHeadlineText:
                 text: root.slot_name
                 theme_text_color: "Custom"
+                text_color: app.theme_cls.onSecondaryContainerColor
                 pos_hint: {"center_y": 0.5}
-                text_color: app.theme_cls.onSurfaceColor
         MDBoxLayout:
             id: game_item_container
             orientation: "horizontal"
@@ -46,7 +49,8 @@
             MDListItemTertiaryText:
                 text: root.game
                 theme_text_color: "Custom"
-                text_color: app.theme_cls.onSurfaceColor
+                pos_hint: {"center_y": 0.5}
+                text_color: app.theme_cls.onSecondaryContainerColor
     GameTrailingPressedIconButton:
         width: dp(40)
         id: chevron
@@ -57,13 +61,12 @@
 
 <GameListItemHeader>:
     id: game_item_header
-    ripple_effect: False
-    theme_bg_color: "Custom"
-    spacing: "8dp"
-    height: dp(50)
+    spacing: dp(4)
+    padding: dp(8),dp(4),dp(8),dp(4)
+    height: dp(60)
     size_hint_y: None
-    padding: 16, 0, 12, 0
     theme_bg_color: "Custom"
+    md_bg_color: app.theme_cls.secondaryContainerColor
     MDListItemLeadingAvatar:
         id: leading_avatar
         source: root.game_data['cover_url']
@@ -125,7 +128,10 @@
     ripple_effect: False
     height: dp(70)
     size_hint_y: None
+    theme_shadow_color: "Custom"
     theme_bg_color: "Custom"
+    md_bg_color: app.theme_cls.surfaceContainerColor
+    theme_elevation_level: "Custom"
     MDBoxLayout:
         id: slot_item_top_container
         orientation: "horizontal"
@@ -140,6 +146,7 @@
             text: root.location_name
             pos_hint: {"center_y": 0.5}
             do_wrap: False
+            theme_text_color: "Custom"
             text_color: app.theme_cls.onSurfaceColor
     MDBoxLayout:
         id: slot_item_bottom_container
@@ -155,6 +162,7 @@
             text: root.item_name
             pos_hint: {"center_y": 0.5}
             do_wrap: False
+            theme_text_color: "Custom"
             text_color: app.theme_cls.onSurfaceColor
         MDListItemTrailingIcon:
             id: slot_icon_goal
@@ -163,22 +171,6 @@
 
 <IconBadge>:
     text: ""
-    theme_font_style: "Custom"
-    role: "large"
-    font_style: "Icon"
-    theme_font_size: "Custom"
-    font_size: dp(11)
-
-<ShopBadge>:
-    text: "\uee18"
-    theme_font_style: "Custom"
-    role: "large"
-    font_style: "Icon"
-    theme_font_size: "Custom"
-    font_size: dp(11)
-
-<GoalBadge>:
-    text: "\uf11e"
     theme_font_style: "Custom"
     role: "large"
     font_style: "Icon"

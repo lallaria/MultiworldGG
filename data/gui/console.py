@@ -55,7 +55,7 @@ Builder.load_string('''
     MDTopAppBar:
         type: "small"
         pos_hint: {"center_x": 0.5, "top": 1}
-        padding: dp(4)
+        padding: dp(4),0,dp(4),dp(4)
         MDTopAppBarLeadingButtonContainer:
             MDActionTopAppBarButton:
                 icon: "refresh"

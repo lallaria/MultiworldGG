@@ -15,7 +15,7 @@ from kivy.metrics import dp
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, DictProperty, ObjectProperty
 from kivy.uix.behaviors import ButtonBehavior
-from kivymd.uix.behaviors import RotateBehavior, CommonElevationBehavior, SlideBehavior
+from kivymd.uix.behaviors import RotateBehavior, CommonElevationBehavior
 from kivymd.uix.label import MDLabel
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.badge import MDBadge
@@ -127,7 +127,7 @@ class GameListItemHeader(MDBoxLayout, ButtonBehavior, CommonElevationBehavior):
         }
         return item_dict
 
-class SlotListItem(MDBoxLayout, CommonElevationBehavior, SlideBehavior):
+class SlotListItem(MDBoxLayout, CommonElevationBehavior):
     """
     Widget for displaying individual slot items in the slot list.
     
@@ -168,8 +168,9 @@ class SlotListItem(MDBoxLayout, CommonElevationBehavior, SlideBehavior):
     from_shop: StringProperty
     prog_level: StringProperty
     assigned_level: StringProperty
+    found: StringProperty
 
-    def __init__(self, game_status, game_data, **kwargs):
+    def __init__(self, game_data, game_status, shadow_colors, **kwargs):
         """
         Initialize the SlotListItem.
         
@@ -196,6 +197,8 @@ class SlotListItem(MDBoxLayout, CommonElevationBehavior, SlideBehavior):
                 self.for_goal = self.game_data[item]
             elif item == "from_shop":
                 self.from_shop = self.game_data[item]
+            elif item == "found":
+                self.found = self.game_data[item]
 
         super().__init__(**kwargs)
 
@@ -214,6 +217,7 @@ class SlotListItem(MDBoxLayout, CommonElevationBehavior, SlideBehavior):
         if badge_text != "":
             self.slot_icon_item.add_widget(IconBadge(text=badge_text.rstrip()))
         Clock.schedule_once(lambda x: self.populate_slot_item())
+        Clock.schedule_once(lambda x: self.set_prio_behavior(shadow_colors), .5)
 
     def populate_slot_item(self):
         """
@@ -222,7 +226,6 @@ class SlotListItem(MDBoxLayout, CommonElevationBehavior, SlideBehavior):
         This method sets up the visual elements of the slot item including
         entrance information, location text, item text, and goal icon.
         """
-        print(f'***{self.entrance_name}***')
         if self.entrance_name != "":
             self.slot_text_entrance = (MDListItemSupportingText(text=self.entrance_name, do_wrap=False))
             self.slot_icon_entrance = (MDListItemLeadingIcon(icon="door-open", pos_hint={"center_y": 0.5}))
@@ -232,8 +235,21 @@ class SlotListItem(MDBoxLayout, CommonElevationBehavior, SlideBehavior):
         self.slot_text_item.text = self.item_name
         self.slot_icon_goal.icon = "flag_checkered" if self.game_status == "GOAL" else "blank"
 
-        if self.game_status == "Found":
-            self.disabled = True
+    def set_prio_behavior(self, item_colors: dict[str, list[str]]):
+        if self.assigned_level == "Avoid" or self.prog_level == "Trap":
+            self.elevation_level = 1
+            self.shadow_color = item_colors["trap"]
+        if self.assigned_level == "Unassigned" or self.prog_level == "Trash":
+            self.elevation_level = 2
+            self.shadow_color = item_colors["regular"]
+        if self.assigned_level == "Useful" or self.prog_level == "Useful":
+            self.elevation_level = 3
+            self.shadow_color = item_colors["useful"]
+        if self.assigned_level == "Priority" or self.prog_level == "Important":
+            self.elevation_level = 4
+            self.shadow_color = item_colors["progression"]
+        if self.found == "Found":
+            self.elevation_level = 0
 
     def list_tooltip(self, item_list: list[str]) -> dict[str, str]:
         """
@@ -390,6 +406,7 @@ class GameListPanel(MDExpansionPanel):
     panel_header: MDExpansionPanelHeader
     panel_content: MDExpansionPanelContent
     panel_header_layout: ObjectProperty
+    app: MDApp
     
     def __init__(self, game_tag, game_data, **kwargs):
         """
@@ -401,6 +418,7 @@ class GameListPanel(MDExpansionPanel):
             **kwargs: Additional keyword arguments for MDExpansionPanel
         """
         super().__init__(**kwargs)
+        self.app = MDApp.get_running_app()
         self.game_tag = game_tag
         self.game_data = game_data
         self.width = 256
@@ -431,7 +449,14 @@ class GameListPanel(MDExpansionPanel):
             elif item == "game_status" and data == "GOAL":
                 self.panel_header_layout.ids.game_item_container.add_widget(BaseListItemIcon(icon="flag_checkered", theme_font_size="Custom", font_size=dp(14), pos_hint={"center_y": 0.5}),1)
         for item in self.game_data["hints"]:
-            self.panel_content.add_widget(SlotListItem(game_status=self.game_data['game_status'], game_data=item))
+            i = 1 if self.app.theme_cls.theme_style == "Dark" else 0
+            item_colors = {
+                "trap": self.app.theme_mw.markup_tags_theme.trap_item_color[i],
+                "regular": self.app.theme_mw.markup_tags_theme.regular_item_color[i],
+                "useful": self.app.theme_mw.markup_tags_theme.useful_item_color[i],
+                "progression": self.app.theme_mw.markup_tags_theme.progression_item_color[i],
+            }
+            self.panel_content.add_widget(SlotListItem(game_data=item, game_status=self.game_data['game_status'], shadow_colors=item_colors))
 
     def populate_game_item(self):
         """
@@ -499,9 +524,9 @@ class GameListPanel(MDExpansionPanel):
             instance: The widget instance that triggered the toggle
         """
         Animation(
-            padding=[0, dp(12), 0, dp(12)]
+            padding=[dp(4), dp(12), dp(4), dp(12)]
             if not self.is_open
-            else [0,0,0,0],
+            else [dp(8),dp(4),dp(8),dp(4)],
             d=0.2,
         ).start(self)
         self.open() if not self.is_open else self.close()
