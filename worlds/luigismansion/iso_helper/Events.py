@@ -122,14 +122,14 @@ def update_intro_and_lab_events(gcm: GCM, hidden_mansion: bool, max_health: str,
 
     include_radar = ""
     if any("Boo Radar" in key for key in start_inv):
-        include_radar = "<FLAGON>(73)\n<FLAGON>(75)"
+        include_radar = "<FLAGON>(73)\r\n<FLAGON>(75)"
     lines = lines.replace("{BOO RADAR}", include_radar)
 
     event_door_list: list[str] = []
     door_list: dict[int, int] = doors_to_open
 
     for event_door in door_list:
-        event_door_list.append(("<KEYLOCK>" if door_list.get(event_door) == 0 else "<KEYUNLOCK>")+f"({event_door})\n")
+        event_door_list.append(("<KEYLOCK>" if door_list.get(event_door) == 0 else "<KEYUNLOCK>")+f"({event_door})\r\n")
 
     lines = lines.replace("{DOOR_LIST}", ''.join(event_door_list))
     lines = lines.replace("{LUIGIMAXHP}", max_health)
@@ -182,7 +182,7 @@ def write_portrait_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dic
     if hint_distribution_choice == 1:
         for portrait_name in PORTRAIT_HINTS:
             jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\n")
+            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\r\n")
             csv_lines = csv_lines.replace(f"{portrait_name}", joke_hint)
     else:
         for portrait_name, portrait_hint in all_hints.items():
@@ -240,7 +240,7 @@ def randomize_clairvoya(gcm: GCM, req_mario_count: str, hint_distribution_choice
             case_type = "DisabledHint"
         case 1:
             jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\n")
+            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\r\n")
             csv_lines = csv_lines.replace("{JokeText}", joke_hint)
             case_type = "JokeHint"
         case _:
@@ -326,7 +326,7 @@ def write_in_game_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dict
                 case_type = "DisabledHint"
             case 1:
                 jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-                joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\n")
+                joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\r\n")
                 csv_lines = csv_lines.replace("{JokeText}", joke_hint)
                 case_type = "JokeHint"
             case _:
@@ -401,18 +401,3 @@ def __update_custom_event(gcm: GCM, event_number: str, delete_all_other_files: b
 
     gcm.changed_files["files/Event/event" + event_number + ".szp"] = Yay0.compress(custom_event.data)
     return gcm
-
-# Small function to identify all files that need to be deleted within a given event.
-def __get_all_files_to_delete(custom_rarc: RARC, curr_dir_node: RARCNode, keep_file_list: list[str]) -> {RARCFileEntry}:
-    files_to_delete: {RARCFileEntry} = set()
-    directories_to_ignore = [".", ".."]
-    for sub_path in curr_dir_node.files:
-        if sub_path.name in directories_to_ignore:
-            continue
-
-        if sub_path.is_dir:
-            __get_all_files_to_delete(custom_rarc, sub_path.node, keep_file_list)
-
-        if sub_path.name not in keep_file_list:
-            files_to_delete.difference_update([sub_path])
-    return files_to_delete
