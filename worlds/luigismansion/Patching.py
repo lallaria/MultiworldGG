@@ -6,14 +6,13 @@ from .Regions import spawn_locations
 from .Items import ALL_ITEMS_TABLE, filler_items
 from .Locations import FLIP_BALCONY_BOO_EVENT_LIST
 
-#TODO remove this in favor of JMP entries?
-speedy_observer_index: [int] = [183, 182, 179, 178, 177, 101, 100, 99, 98, 97, 21, 19]
-speedy_enemy_index: [int] = [128, 125, 115, 114, 113, 67, 66, 60, 59, 58, 7, 6]
-money_item_names: [str] = ["Bills", "Coin", "Gold Bar", "Rupee", "Leaf", "Green", "Gold", "Jewel"]
-explode_item_names: [str] = ["Bomb", "Missile", "Glove", "Red", "Tunic", "Cloth", "Armor", "Boot", "Shoe"]
-icy_item_names: [str] = ["Ice Trap", "White", "Ice Beam", "Icy", "Freeze"]
-light_item_names: [str] = ["Light", "Big Key", "Yellow", "Banana", "Boss Key", "Sun", "Laser"]
-blueish_item_names: [str] = ["Small Key", "Blue", "Ocean", "Sea", "Magic"]
+speedy_observer_index: list[int] = [183, 182, 179, 178, 177, 101, 100, 99, 98, 97, 21, 19]
+speedy_enemy_index: list[int] = [128, 125, 115, 114, 113, 67, 66, 60, 59, 58, 7, 6]
+money_item_names: list[str] = ["Bills", "Coin", "Gold Bar", "Rupee", "Leaf", "Green", "Gold", "Jewel"]
+explode_item_names: list[str] = ["Bomb", "Missile", "Glove", "Red", "Tunic", "Cloth", "Armor", "Boot", "Shoe"]
+icy_item_names: list[str] = ["Ice Trap", "White", "Ice Beam", "Icy", "Freeze"]
+light_item_names: list[str] = ["Light", "Big Key", "Yellow", "Banana", "Boss Key", "Sun", "Laser"]
+blueish_item_names: list[str] = ["Small Key", "Blue", "Ocean", "Sea", "Magic"]
 
 
 # Converts AP readable name to in-game name
@@ -24,6 +23,8 @@ def __get_item_name(item_data, slot: int):
     if item_data["door_id"] != 0:
         return "key_" + str(item_data["door_id"])
     elif "Bills" in item_data["name"] or "Coins" in item_data["name"] or "Gold Bars" in item_data["name"]:
+        if item_data["type"] == "Freestanding":
+            return "nothing" # Do not spawn the money physically let it be handled remotely
         return "money"
 
     match item_data["name"]:
@@ -46,14 +47,24 @@ def __get_item_name(item_data, slot: int):
             return "mstar"
 
         case "Gold Diamond":
+            if item_data["type"] == "Freestanding":
+                return "nothing"  # Do not spawn the gem physically let it be handled remotely
             return "rdiamond"
         case "Sapphire":
+            if item_data["type"] == "Freestanding":
+                return "nothing"  # Do not spawn the gem physically let it be handled remotely
             return "sapphire"
         case "Emerald":
+            if item_data["type"] == "Freestanding":
+                return "nothing"  # Do not spawn the gem physically let it be handled remotely
             return "emerald"
         case "Ruby":
+            if item_data["type"] == "Freestanding":
+                return "nothing"  # Do not spawn the gem physically let it be handled remotely
             return "ruby"
         case "Diamond":
+            if item_data["type"] == "Freestanding":
+                return "nothing"  # Do not spawn the gem physically let it be handled remotely
             return "diamond"
 
         case "Poison Mushroom":
@@ -80,7 +91,7 @@ def __get_item_name(item_data, slot: int):
 def update_event_info(event_info, boo_checks: bool, output_data):
     # Removes events that we don't want to trigger at all in the mansion, such as some E. Gadd calls, warps after
     # boss battles / grabbing boss keys, and various cutscenes etc. Also remove Mario Items/Elemental Item events
-    events_to_remove = [7, 11, 12, 15, 18, 19, 20, 21, 41, 42, 45, 54, 69, 70, 73, 80, 81, 85, 91]
+    events_to_remove = [7, 12, 15, 18, 19, 20, 21, 41, 42, 45, 54, 69, 70, 73, 80, 81, 85, 91]
 
     # Only remove the boo checks if the player does not want them.
     if not boo_checks:
@@ -127,10 +138,6 @@ def update_event_info(event_info, boo_checks: bool, output_data):
         # This prevents being soft locked in Boolossus and having to reset the game without saving.
         if x["EventNo"] == 71:
             x["EventFlag"] = 45
-
-        # Cause the Chauncey spawn event to only load once, preventing later warps to map10
-        if x["EventNo"] == 50:
-            x["EventLoad"] = 1
 
         # Since we have a custom blackout event, we need to update event 44's trigger condition to be A-pressed based.
         # We also update the area ad trigger location to be the same as event45
@@ -210,6 +217,23 @@ def update_event_info(event_info, boo_checks: bool, output_data):
             x["PlayerStop"] = 1
             x["EventLoad"] = 0
 
+        # Update the Into event to talk about save anywhere and healing.
+        if x["EventNo"] == 11:
+            x["EventFlag"] = 0
+            x["disappear_flag"] = 0
+            x["EventArea"] = 65535
+            x["EventLoad"] = 1
+            x["EventIf"] = 2
+            x["PlayerStop"] = 1
+            x["EventLock"] = 1
+            x["event_parameter"] = 0
+
+            spawn_region: dict[str, int] = spawn_locations[output_data["Options"]["spawn"]]
+            x["room_no"] = spawn_region["room_no"]
+            x["pos_y"] = spawn_region["pos_y"]
+            x["pos_x"] = spawn_region["pos_x"]
+            x["pos_z"] = spawn_region["pos_z"]
+
 
 def update_character_info(character_info, output_data):
     # Removes useless cutscene objects and the vacuum in the Parlor under the closet.
@@ -257,20 +281,21 @@ def update_character_info(character_info, output_data):
             x["pos_z"] = spawn_region["pos_z"]
 
 
-def update_teiden_observer_info(observer_info, teiden_observer_info):
-    for entry_no in speedy_observer_index:
-        x = observer_info.info_file_field_entries[entry_no]
-        teiden_observer_info.info_file_field_entries.append(x)
-        observer_info.info_file_field_entries.remove(x)
+def update_teiden_observer_info(observer_info, teiden_observer_info, update_speedy_spirits: bool):
+    if update_speedy_spirits:
+        for entry_no in speedy_observer_index:
+            x = observer_info.info_file_field_entries[entry_no]
+            teiden_observer_info.info_file_field_entries.append(x)
+            observer_info.info_file_field_entries.remove(x)
 
     # Adds an observer in Blackout Breaker room (event44) to turn on spikes on the doors when room flag 115 is on.
-    observer_info.info_file_field_entries.append({
+    teiden_observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
         "string_arg0": "(null)",
         "cond_string_arg0": "(null)",
         "pos_x": 3250.000000,
-        "pos_y": -290.000000,
+        "pos_y": -500.000000,
         "pos_z": -1480.000000,
         "dir_x": 0.000000,
         "dir_y": 0.000000,
@@ -293,14 +318,14 @@ def update_teiden_observer_info(observer_info, teiden_observer_info):
         "invisible": 1,
         "(Undocumented)": 0,
     })
-    # Adds a teiden observer in Blackout Breaker room (event44) to turn off spikes on the doors when room flag 120 on.
+    # Adds a teiden observer in Blackout Breaker room (event44) to turn off spikes on the doors when room flag 123 on.
     teiden_observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
         "string_arg0": "(null)",
         "cond_string_arg0": "(null)",
         "pos_x": 3250.000000,
-        "pos_y": -290.000000,
+        "pos_y": -500.000000,
         "pos_z": -1480.000000,
         "dir_x": 0.000000,
         "dir_y": 0.000000,
@@ -357,577 +382,6 @@ def update_observer_info(observer_info):
         # if x["string_arg0"] in ["57_1", "57_2", "57_3", "57_4", "57_5", "57_6", "57_7"]:
         #    x["string_arg0"] = "(null)"
 
-    # Add our new custom events for turning on hallway lights
-    # This one enables the hallway after beating Chauncey
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -3000.000000,
-        "pos_y": 550.000000,
-        "pos_z": -815.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 29,
-        "cond_arg0": 46,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 46,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Dining 1F hallway after beating Bogmire
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1200.000000,
-        "pos_y": 0.000000,
-        "pos_z": -1800.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 53,
-        "cond_arg0": 67,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 67,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Conservatory 1F hallway after catching Shivers / Butler
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1400.000000,
-        "pos_y": 0.000000,
-        "pos_z": -4100.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 18,
-        "cond_arg0": 60,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 60,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # Check that Shivers / Butler is caught to turn on Conservatory Hallway Light
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -3500.000000,
-        "pos_y": 0.000000,
-        "pos_z": -100.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 0,
-        "cond_arg0": 0,
-        "arg0": 60,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 0,
-        "disappear_flag": 0,
-        "cond_type": 13,
-        "do_type": 7,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the 1F Washroom/Bathroom hallway after beating Bogmire
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -1250.000000,
-        "pos_y": 0.000000,
-        "pos_z": -4900.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 7,
-        "cond_arg0": 67,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 67,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Laundry 1F hallway after beating Bogmire
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -1300.000000,
-        "pos_y": 0.000000,
-        "pos_z": -1000.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 6,
-        "cond_arg0": 67,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 67,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the 1F/2F Stairwell after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 3000.000000,
-        "pos_y": 0.000000,
-        "pos_z": -4100.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 6,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Astral 2F hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1250.000000,
-        "pos_y": 550.000000,
-        "pos_z": -3600.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 26,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Sitting Room 2F hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 2250.000000,
-        "pos_y": 550.000000,
-        "pos_z": -980.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 31,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Sealed Room 2F hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1350.000000,
-        "pos_y": 550.000000,
-        "pos_z": -2000.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 64,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Area 3 Entrance 2F hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1750.000000,
-        "pos_y": 550.000000,
-        "pos_z": -4000.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 43,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Nana's 2F hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -1300.000000,
-        "pos_y": 550.000000,
-        "pos_z": -5000.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 44,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the 2F to Attic Stairwell after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 3900.000000,
-        "pos_y": 880.000000,
-        "pos_z": -980.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 32,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Safari's North hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 2500.000000,
-        "pos_y": 1200.000000,
-        "pos_z": -900.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 15,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Safari's West hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1800.000000,
-        "pos_y": 1200.000000,
-        "pos_z": -300.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 51,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Artist's hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 1800.000000,
-        "pos_y": 1200.000000,
-        "pos_z": -2600.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 58,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Ceramics hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -1800.000000,
-        "pos_y": 1200.000000,
-        "pos_z": -2600.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 54,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Armory/Telephone hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -1800.000000,
-        "pos_y": 1200.000000,
-        "pos_z": -300.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 49,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # This one enables the Basement Stairwell hallway after beating Boolossus
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": 3900.000000,
-        "pos_y": -200.000000,
-        "pos_z": -1050.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 65,
-        "cond_arg0": 81,
-        "arg0": 0,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 81,
-        "disappear_flag": 0,
-        "cond_type": 18,
-        "do_type": 1,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
     # This one checks for the candles being lit in the Fortune-Teller's Room, flagging that key spawn
     observer_info.info_file_field_entries.append({
         "name": "observer",
@@ -1177,7 +631,7 @@ def update_observer_info(observer_info):
         "string_arg0": "(null)",
         "cond_string_arg0": "(null)",
         "pos_x": 3250.000000,
-        "pos_y": -290.000000,
+        "pos_y": -500.000000,
         "pos_z": -1480.000000,
         "dir_x": 0.000000,
         "dir_y": 0.000000,
@@ -1207,7 +661,7 @@ def update_observer_info(observer_info):
         "string_arg0": "(null)",
         "cond_string_arg0": "(null)",
         "pos_x": 3250.000000,
-        "pos_y": -290.000000,
+        "pos_y": -500.000000,
         "pos_z": -1480.000000,
         "dir_x": 0.000000,
         "dir_y": 0.000000,
@@ -1231,93 +685,33 @@ def update_observer_info(observer_info):
         "(Undocumented)": 0,
     })
 
-    # Adds an observer on Balcony 3F to turn on Boolossus Flag if lights are on, preventing the event again.
+    # This one enables the Conservatory 1F hallway after catching Shivers / Butler
     observer_info.info_file_field_entries.append({
         "name": "observer",
         "code_name": "(null)",
         "string_arg0": "(null)",
         "cond_string_arg0": "(null)",
-        "pos_x": 220.000000,
-        "pos_y": 1350.000000,
-        "pos_z": -3180.000000,
+        "pos_x": 1400.000000,
+        "pos_y": 0.000000,
+        "pos_z": -4100.000000,
         "dir_x": 0.000000,
         "dir_y": 0.000000,
         "dir_z": 0.000000,
         "scale_x": 0.000000,
         "scale_y": 0.000000,
         "scale_z": 0.000000,
-        "room_no": 59,
-        "cond_arg0": 0,
-        "arg0": 81,
+        "room_no": 18,
+        "cond_arg0": 60,
+        "arg0": 0,
         "arg1": 0,
         "arg2": 0,
         "arg3": 0,
         "arg4": 0,
         "arg5": 0,
-        "appear_flag": 0,
+        "appear_flag": 60,
         "disappear_flag": 0,
-        "cond_type": 13,
-        "do_type": 7,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # Adds an observer in Nursery to turn on Chauncey Flag if lights are on, preventing the event again.
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -3300.000000,
-        "pos_y": 575.000000,
-        "pos_z": 30.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 24,
-        "cond_arg0": 0,
-        "arg0": 46,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 0,
-        "disappear_flag": 0,
-        "cond_type": 13,
-        "do_type": 7,
-        "invisible": 1,
-        "(Undocumented)": 0,
-    })
-    # Adds an observer in Graveyard to turn on Bogmire Flag if lights are on, preventing the event again.
-    observer_info.info_file_field_entries.append({
-        "name": "observer",
-        "code_name": "(null)",
-        "string_arg0": "(null)",
-        "cond_string_arg0": "(null)",
-        "pos_x": -3300.000000,
-        "pos_y": 25.000000,
-        "pos_z": -5300.000000,
-        "dir_x": 0.000000,
-        "dir_y": 0.000000,
-        "dir_z": 0.000000,
-        "scale_x": 0.000000,
-        "scale_y": 0.000000,
-        "scale_z": 0.000000,
-        "room_no": 16,
-        "cond_arg0": 0,
-        "arg0": 67,
-        "arg1": 0,
-        "arg2": 0,
-        "arg3": 0,
-        "arg4": 0,
-        "arg5": 0,
-        "appear_flag": 0,
-        "disappear_flag": 0,
-        "cond_type": 13,
-        "do_type": 7,
+        "cond_type": 18,
+        "do_type": 1,
         "invisible": 1,
         "(Undocumented)": 0,
     })

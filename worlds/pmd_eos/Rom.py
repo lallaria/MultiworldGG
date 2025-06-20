@@ -43,14 +43,14 @@ class EOSProcedurePatch(APProcedurePatch, APTokenMixin):
 
 def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[Location],
                  dimensional_screams: list[Location], starting_se: int) -> None:
-    ov36_mem_loc = 2722304  # find_ov36_mem_location()
+    ov36_mem_loc = 2723840  # find_ov36_mem_location()
     seed_offset = 0x36F90
     player_name_offset = 0x36F80
     ap_settings_offset = 0x36F98
     # mission_max_offset = 0x36F9A
     # macguffin_max_offset = 0x36F9E
     # spinda_drinks_offset = 0x37146
-    hintable_items_offset = 3299840  # number from Heckas makefile code
+    hintable_items_offset = 3301888  # number from Heckas makefile code
     custom_save_area_offset = ov36_mem_loc + 0x8F80
     # main_game_unlocked_offset = ov36_mem_loc + 0x37148  # custom_save_area_offset + 0x2A7
     dimensional_scream_who_offset = hintable_items_offset + 0x4
@@ -112,7 +112,7 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
 
     # Bake names of previewable items into ROM
     for i in range(len(hint_items)):
-        hint_player = world.multiworld.player_name[hint_items[i].player].translate(trans_table)
+        hint_player = world.multiworld.player_name[hint_items[i].item.player].translate(trans_table)
         patch.write_token(APTokenTypes.WRITE, dimensional_scream_who_offset + 17 * i,
                           hint_player[0:15].encode("latin1", "xmlcharrefreplace"))
 
@@ -206,7 +206,7 @@ def write_tokens(world: "EOSWorld", patch: EOSProcedurePatch, hint_items: list[L
 
     # if world.options.special_episode_sanity.value == 0:
     #    write_byte = write_byte | (0x1 << 16)
-    if starting_se != 0:
+    if world.options.special_episode_sanity.value == 1 and starting_se != 0:
         write_byte = write_byte | (starting_se << 32)
 
 

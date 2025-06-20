@@ -418,7 +418,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/Leon_common/2F/2FW/ShowerRoom/Locker_CAP_sm70_101_ShotgunB"
     },
     {
-        "name": "Locker Past Steam",
+        "name": "Locker past Steam",
         "region": "Shower Room",
         "original_item": "Gunpowder",
         "condition": {},    
@@ -458,7 +458,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/LocationFsm_RPD/S02_0200/Leon_S02_0200/2FW/StarsOffice/WeskerDesk_LEON"
     },
     {
-        "name": "Boxes By Door",
+        "name": "Boxes by Door",
         "region": "STARS Office",
         "original_item": "Red Herb",
         "condition": {},    
@@ -476,7 +476,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FW/StarsOffice"
     },
     {
-        "name": "Northeastern Desk",
+        "name": "Desk near Armory",
         "region": "STARS Office",
         "original_item": "Shotgun Shells",
         "condition": {},    
@@ -485,7 +485,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/Leon_common/2F/2FW/StarsOffice"
     },
     {
-        "name": "Box Between Desks",
+        "name": "Box between Desks",
         "region": "STARS Office",
         "original_item": "Flash Grenade",
         "condition": {},    
@@ -494,7 +494,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FW/StarsOffice"
     },
     {
-        "name": "First Aid On Wall",
+        "name": "First Aid on Wall",
         "region": "STARS Office",
         "original_item": "First Aid Spray",
         "condition": {},    
@@ -503,7 +503,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FW/StarsOffice"
     },
     {
-        "name": "Southeastern Desk",
+        "name": "Desk near First Aid Kit",
         "region": "STARS Office",
         "original_item": "High-Grade Gunpowder - Yellow",
         "condition": {},    
@@ -511,7 +511,7 @@
         "parent_object": "LEON_sm70_207_Leonyakueki",
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/Leon_common/2F/2FW/StarsOffice"
     },
-	{
+    {
         "name": "On Cart by Armory",
         "region": "STARS Office",
         "original_item": "High-Grade Gunpowder - Yellow",
@@ -575,7 +575,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FW/Library"
     },
     {
-        "name": "Table By Front Door",
+        "name": "Table by Front Door",
         "region": "Library",
         "original_item": "Red Book",
         "condition": {},    
@@ -602,7 +602,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FE/WaitingRoom"
     },
     {
-        "name": "Safe Behind Desk",
+        "name": "Safe behind Desk",
         "region": "Waiting Room",
         "original_item": "Muzzle Brake - Matilda",
         "condition": {},    
@@ -611,7 +611,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/LocationFsm_RPD/S02_0000/Leon_S02_0000/2FE/2FWaitingRoom/IronSafe_2FE"
     },
     {
-        "name": "Table Near Door",
+        "name": "Table near Door",
         "region": "Art Room",
         "original_item": "Weapons Locker Key Card",
         "condition": {},    
@@ -620,7 +620,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FE/ArtRoom"
     },
     {
-        "name": "Table By Statue",
+        "name": "Table by Statue",
         "region": "Art Room",
         "original_item": "Statue Left Arm",
         "condition": {},    
@@ -665,7 +665,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorS"
     },
     {
-        "name": "Table By Door",
+        "name": "Table by Door",
         "region": "East Office",
         "original_item": "Green Herb",
         "condition": {},    
@@ -674,7 +674,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/1F/1FE/OfficeE"
     },
     {
-        "name": "Desk By Downed Zombie",
+        "name": "Desk by Downed Zombie",
         "region": "East Office",
         "original_item": "Flash Grenade",
         "condition": {},    
@@ -692,7 +692,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/1F/1FE/OfficeE"
     },
     {
-        "name": "Right Side of Desks",
+        "name": "Middle of Long Desk",
         "region": "East Office",
         "original_item": "Gunpowder",
         "condition": {},    
@@ -783,7 +783,7 @@
         "randomized": 0
     },
     {
-        "name": "Furniture By Door",
+        "name": "Furniture by Door",
         "region": "West Storage Room",
         "original_item": "Gunpowder",
         "condition": {},    
@@ -792,7 +792,7 @@
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/3FHigher/3FW/LickerRoom"
     },
     {
-        "name": "Floor By Furniture",
+        "name": "Floor by Furniture",
         "region": "West Storage Room",
         "original_item": "Wooden Boards",
         "condition": {},    
@@ -859,7 +859,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/Environments/st4_750_0/gimmick_leon"
     },
     {
-        "name": "Northwest 1",
+        "name": "On Tarped Machinery",
         "region": "Machinery Room",
         "original_item": "Handgun Ammo",
         "condition": {},    
@@ -868,7 +868,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/HundGun"
     },
     {
-        "name": "Northwest 2",
+        "name": "Near Tarped Machinery",
         "region": "Machinery Room",
         "original_item": "Hand Grenade",
         "condition": {},    
@@ -877,7 +877,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/Weapon/Granade"
     },
     {
-        "name": "Northwest 3",
+        "name": "On Containers near Tarped Machinery",
         "region": "Machinery Room",
         "original_item": "Green Herb",
         "condition": {},    
@@ -886,7 +886,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/green_herb"
     },
     {
-        "name": "Southwest 1",
+        "name": "On Barrel by Steamy Machinery",
         "region": "Machinery Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -895,7 +895,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/HundGun"
     },
     {
-        "name": "Southwest 2",
+        "name": "On Pallets near Steamy Machinery",
         "region": "Machinery Room",
         "original_item": "Red Herb",
         "condition": {},    
@@ -904,7 +904,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/RedHerb"
     },
     {
-        "name": "Southeast 1",
+        "name": "Barrel by Forklift",
         "region": "Machinery Room",
         "original_item": "Green Herb",
         "condition": {},    
@@ -913,7 +913,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/green_herb"
     },
     {
-        "name": "Southeast 2",
+        "name": "Boxes by Forklift",
         "region": "Machinery Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -987,7 +987,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/KeyItem"
     },
     {
-        "name": "Cart Inside Range",
+        "name": "Cart inside Range",
         "region": "Firing Range",
         "original_item": "Shotgun Shells",
         "condition": {},    
@@ -1027,7 +1027,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/BlueHerb"
     },
     {
-        "name": "Baskets Near Door",
+        "name": "Baskets near Door",
         "region": "Kennel",
         "original_item": "High-Grade Gunpowder - Yellow",
         "condition": {},    
@@ -1147,13 +1147,14 @@
         "name": "Chair",
         "region": "Break Room",
         "original_item": "Fuse - Main Hall",
+        "force_item": "Combat Knife",
         "condition": {},    
         "item_object": "sm73_723",
         "parent_object": "sm73_723_fuse2",
         "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/1F/1FE/NightDutyRoom"
     },
     {
-        "name": "Locker",
+        "name": "Locker near Observation Room",
         "region": "Side Stairs",
         "original_item": "High-Grade Gunpowder - Yellow",
         "condition": {},    
@@ -1258,7 +1259,8 @@
         "condition": {},    
         "item_object": "sm70_111",
         "parent_object": "sm70_111_handgunB_2nd",
-        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN"
+        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN",
+        "forbid_item": ["Square Crank"]
     },
     {
         "name": "Outside by Stairs 1",
@@ -1267,7 +1269,8 @@
         "condition": {},    
         "item_object": "sm70_001",
         "parent_object": "sm70_001_GreenHerb",
-        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN"
+        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN",
+        "forbid_item": ["Square Crank"]
     },
     {
         "name": "Outside by Stairs 2",
@@ -1276,7 +1279,8 @@
         "condition": {},    
         "item_object": "sm70_001",
         "parent_object": "sm70_001_GreenHerb",
-        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN"
+        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN",
+        "forbid_item": ["Square Crank"]
     },
     {
         "name": "Desk",
@@ -1285,7 +1289,8 @@
         "condition": {},    
         "item_object": "sm70_205",
         "parent_object": "sm70_205_gunpowder",
-        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN"
+        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN",
+        "forbid_item": ["Square Crank"]
     },
     {
         "name": "Whiteboard",
@@ -1295,7 +1300,8 @@
         "condition": {},    
         "item_object": "sm73_300",
         "parent_object": "sm73_300_ClubKey",
-        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN"
+        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/OutdoorN",
+        "forbid_item": ["Square Crank"]
     },
     {
         "name": "Room with Helicopter Crash",
@@ -1309,7 +1315,8 @@
         },
         "item_object": "sm70_002",
         "parent_object": "sm70_002_RedHerb",
-        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FE/Corrider"
+        "folder_path": "RopewayContents/World/Location_RPD/LocationLevel_RPD/Item/common/2F/2FE/Corrider",
+        "forbid_item": ["Square Crank"]
     },
     {
         "name": "Printer",
@@ -1399,7 +1406,7 @@
         "folder_path": "RopewayContents/World/Location_RPD_B1/LocationLevel_RPD_B1/Item/common/EmergencySpray"
     },
     {
-        "name": "Just Outside Gate",
+        "name": "Just outside Gate",
         "region": "RPD Streets",
         "original_item": "Green Herb",
         "condition": {},    
@@ -1444,7 +1451,7 @@
         "folder_path": "RopewayContents/World/Location_CrocodiliaArea/LocationLevel_CrocodiliaArea/Item/common/Leon_common"
     },
     {
-        "name": "Barrels Before Alligator Cutscene",
+        "name": "Barrels before Alligator Cutscene",
         "region": "Sewers Entrance",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -1462,7 +1469,7 @@
         "folder_path": "RopewayContents/World/Location_CrocodiliaArea/LocationLevel_CrocodiliaArea/Item/common/Leon_common"
     },
     {
-        "name": "At Water Gate",
+        "name": "Trash by Wall of Water",
         "region": "Upper Waterway",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -1471,7 +1478,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/HundGun"
     },
     {
-        "name": "In Front of Gate",
+        "name": "Trash beside Gate",
         "region": "Upper Waterway",
         "original_item": "Shotgun Shells",
         "condition": {},    
@@ -1481,7 +1488,7 @@
     },
     {
         "name": "Downed Zombie",
-        "region": "Upper Waterway",
+        "region": "Waterway Overpass",
         "original_item": "USS Digital Video Cassette",
         "condition": {},    
         "item_object": "sm73_405",
@@ -1507,7 +1514,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/Gunpowder"
     },
     {
-        "name": "Down Elevator",
+        "name": "Ride the Elevator",
         "region": "Workers Break Room",
         "original_item": "MAG Ammo",
         "condition": {},    
@@ -1535,7 +1542,7 @@
     },
     {
         "name": "Before the Waterslide",
-        "region": "Lower Waterway",
+        "region": "Waterway Overpass",
         "original_item": "Combat Knife",
         "condition": {},    
         "item_object": "WP4500",
@@ -1583,8 +1590,8 @@
         "region": "Monitor Room",
         "original_item": "Knight Plug",
         "condition": {},    
-        "item_object": "sm73_154",
-        "parent_object": "ItemPositions_4",
+        "item_object": "Knight_sm42_215_PlugPlace02A_control",
+        "parent_object": "Knight_sm42_215_PlugPlace02A_control",
         "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_632_0/gimmick"
     },
     {
@@ -1592,8 +1599,8 @@
         "region": "Monitor Room",
         "original_item": "Bishop Plug",
         "condition": {},    
-        "item_object": "sm73_114",
-        "parent_object": "ItemPositions_0",
+        "item_object": "Bishop_sm42_215_PlugPlace02A_control",
+        "parent_object": "Bishop_sm42_215_PlugPlace02A_control",
         "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_632_0/gimmick"
     },
     {
@@ -1601,8 +1608,8 @@
         "region": "Monitor Room",
         "original_item": "Pawn Plug",
         "condition": {},    
-        "item_object": "sm73_155",
-        "parent_object": "ItemPositions_5",
+        "item_object": "Pawn_sm42_215_PlugPlace02A_control",
+        "parent_object": "Pawn_sm42_215_PlugPlace02A_control",
         "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_632_0/gimmick"
     },
     {
@@ -1642,8 +1649,8 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/KeyItem"
     },
     {
-        "name": "Downstairs Location",
-        "region": "Treatment Pool Room",
+        "name": "On Boxes near Stairs",
+        "region": "Central Hub",
         "original_item": "Green Herb",
         "condition": {},    
         "item_object": "sm70_001",
@@ -1651,8 +1658,8 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/green_herb"
     },
     {
-        "name": "End of Left Path",
-        "region": "Lower Waterway",
+        "name": "On Ledge in Water by Trash",
+        "region": "Central Hub",
         "original_item": "Hand Grenade",
         "condition": {},    
         "item_object": "WP6200",
@@ -1696,15 +1703,6 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/KeyItem"
     },
     {
-        "name": "Rook Panel Outside",
-        "region": "Workroom",
-        "original_item": "Rook Plug",
-        "condition": {},    
-        "item_object": "sm73_115",
-        "parent_object": "ItemPositions_1",
-        "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_611_0/gimmick"
-    },
-    {
         "name": "Right Table",
         "region": "Workroom",
         "original_item": "Large-Caliber Handgun Ammo",
@@ -1714,8 +1712,17 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/HundGun"
     },
     {
+        "name": "Rook Panel",
+        "region": "Waterway Overpass",
+        "original_item": "Rook Plug",
+        "condition": {},    
+        "item_object": "sm42_208_PlugPlace01A_control",
+        "parent_object": "sm42_208_PlugPlace01A_control",
+        "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_611_0/gimmick"
+    },
+    {
         "name": "Keys Panel",
-        "region": "Treatment Pool Room",
+        "region": "Bottom Waterway",
         "original_item": "Sewers Key",
         "condition": {},    
         "item_object": "sm73_429",
@@ -1732,7 +1739,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/green_herb"
     },
     {
-        "name": "Left of 2nd Mutant",
+        "name": "Ledge after 2nd Mutant",
         "region": "Bottom Waterway",
         "original_item": "MAG Ammo",
         "condition": {},    
@@ -1754,8 +1761,8 @@
         "region": "Supplies Storage Room",
         "original_item": "Queen Plug",
         "condition": {},    
-        "item_object": "sm73_156",
-        "parent_object": "ItemPositions_3",
+        "item_object": "QueenA_sm42_208_PlugPlace01A_control",
+        "parent_object": "QueenA_sm42_208_PlugPlace01A_control",
         "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_625_0/gimmick"
     },
     {
@@ -1763,8 +1770,8 @@
         "region": "Supplies Storage Room",
         "original_item": "King Plug",
         "condition": {},    
-        "item_object": "sm73_116",
-        "parent_object": "ItemPositions_2",
+        "item_object": "KingB_sm42_208_PlugPlace01A_control",
+        "parent_object": "KingB_sm42_208_PlugPlace01A_control",
         "folder_path": "RopewayContents/World/Location_WasteWater/Environments/st3_625_0/gimmick",
         "randomized": 0
     },
@@ -1787,7 +1794,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/Leon_common"
     },
     {
-        "name": "Stairs After Chess Puzzle",
+        "name": "Stairs after Chess Puzzle",
         "region": "Main Power Room",
         "original_item": "Blue Herb",
         "condition": {},    
@@ -1814,7 +1821,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/G2Area"
     },
     {
-        "name": "Location 1",
+        "name": "Pile of Metal",
         "region": "Proposed Water Purification Room",
         "original_item": "MAG Ammo",
         "condition": {},    
@@ -1823,7 +1830,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/Leon_common/G2Area_Leon"
     },
     {
-        "name": "Location 2",
+        "name": "Next to Crane Switch",
         "region": "Proposed Water Purification Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -1832,7 +1839,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/G2Area"
     },
     {
-        "name": "Location 3",
+        "name": "On Barrel",
         "region": "Proposed Water Purification Room",
         "original_item": "Flash Grenade",
         "condition": {},    
@@ -1841,7 +1848,7 @@
         "folder_path": "RopewayContents/World/Location_WasteWater/LocationLevel_WasteWater/Item/common/G2Area"
     },
     {
-        "name": "Location 4",
+        "name": "Stabbed into Sack",
         "region": "Proposed Water Purification Room",
         "original_item": "Combat Knife",
         "condition": {},    
@@ -1962,7 +1969,7 @@
         "folder_path": "RopewayContents/World/Location_Laboratory/LocationLevel_Laboratory/Item/common/StartArea/NapRoom",
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
-	{
+    {
         "name": "Next to Soldier",
         "region": "Main Shaft",
         "original_item": "Signal Modulator",
@@ -1993,7 +2000,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Ivy Room Before",
+        "name": "Ivy Area before Control Room",
         "region": "Greenhouse Control Room",
         "original_item": "High-Grade Gunpowder - Yellow",
         "condition": {},    
@@ -2020,8 +2027,7 @@
         "item_object": "sm42_222_SprayingMachine01A_control",
         "parent_object": "",
         "folder_path": "RopewayContents/World/Location_Laboratory/LocationLevel_Laboratory/LocationFsm_Laboratory/S05_0100/T_Area/ControlRoom/SanpuSouchiTrue_CONV366,367,368_CF707",
-        "forbid_item": ["Sewers Key", "T-Bar Handle"],
-        "randomized": 0
+        "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
         "name": "Before Drug Testing Lab",
@@ -2064,7 +2070,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Down Ladder Before Lounge",
+        "name": "Down Ladder before Lounge",
         "region": "Lounge - Labs",
         "original_item": "Gunpowder - Large",
         "condition": {},    
@@ -2074,7 +2080,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Bench By Entrance",
+        "name": "Bench by Entrance",
         "region": "Lounge - Labs",
         "original_item": "Shotgun Shells",
         "condition": {},    
@@ -2084,7 +2090,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Benches Across the Room",
+        "name": "Benches across the Room",
         "region": "Lounge - Labs",
         "original_item": "Green Herb",
         "condition": {},    
@@ -2094,7 +2100,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Boxes By Door",
+        "name": "Boxes by Door",
         "region": "Lobby Storage",
         "original_item": "High-Grade Gunpowder - Yellow",
         "condition": {},    
@@ -2114,7 +2120,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Table Across from Robot Arm",
+        "name": "Table across from Robot Arm",
         "region": "Low-Temp Testing Lab",
         "original_item": "Gunpowder",
         "condition": {},    
@@ -2123,7 +2129,7 @@
         "folder_path": "RopewayContents/World/Location_Laboratory/LocationLevel_Laboratory/Item/common/T_Area/LowTempatureRoom",
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
-	{
+    {
         "name": "Table near Entrance",
         "region": "Low-Temp Testing Lab",
         "original_item": "Trophy B",
@@ -2144,7 +2150,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "On Cart By Laptop",
+        "name": "On Cart by Laptop",
         "region": "Server Room",
         "original_item": "Combat Knife",
         "condition": {},    
@@ -2154,7 +2160,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Shelves Left of Typewriter",
+        "name": "Shelves left of Typewriter",
         "region": "Server Room",
         "original_item": "Flamethrower Fuel",
         "condition": {},    
@@ -2217,7 +2223,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Cart By Doorway",
+        "name": "Cart by Doorway",
         "region": "P-4 Level Testing Lab",
         "original_item": "Gunpowder - Large",
         "condition": {},    
@@ -2247,7 +2253,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Table Right of Elevator 1",
+        "name": "Table right of Elevator 1",
         "region": "Bioreactors Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -2267,7 +2273,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "1st Table Left of Entrance",
+        "name": "1st Table left of Entrance",
         "region": "Bioreactors Room",
         "original_item": "First Aid Spray",
         "condition": {},    
@@ -2277,7 +2283,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "2nd Table Left of Entrance",
+        "name": "2nd Table left of Entrance",
         "region": "Bioreactors Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -2287,7 +2293,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "1st Table Right of Entrance",
+        "name": "1st Table right of Entrance",
         "region": "Bioreactors Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -2297,7 +2303,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Table Right of Elevator 2",
+        "name": "Table right of Elevator 2",
         "region": "Bioreactors Room",
         "original_item": "Large-Caliber Handgun Ammo",
         "condition": {},    
@@ -2327,7 +2333,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "2nd Table Right of Entrance",
+        "name": "2nd Table right of Entrance",
         "region": "Bioreactors Room",
         "original_item": "MAG Ammo",
         "condition": {},    
@@ -2417,7 +2423,7 @@
         "forbid_item": ["Sewers Key", "T-Bar Handle"]
     },
     {
-        "name": "Final Battle By Item Box",
+        "name": "Final Battle by Item Box",
         "region": "Path to Super Tyrant",
         "original_item": "Red Herb",
         "condition": {},    
@@ -2474,7 +2480,7 @@
         "condition": {
             "items": [
                 "Courtyard Key", "Spade Key", "Club Key", "Diamond Key",
-                "Bolt Cutters", "Fuse - Main Hall", "Lion Medallion", "Unicorn Medallion", "Maiden Medallion",
+                "Bolt Cutters", "Valve Handle", "Fuse - Main Hall", "Lion Medallion", "Unicorn Medallion", "Maiden Medallion",
                 "Square Crank", "Mechanic Jack Handle", "Small Gear", "Large Gear", 
                 "Boxed Electronic Part 1", "Boxed Electronic Part 2", "Parking Garage Key Card",
                 "T-Bar Handle", "Pawn Plug", "Knight Plug", "Bishop Plug", "Rook Plug", "Queen Plug", "King Plug", 

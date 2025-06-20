@@ -47,6 +47,7 @@ class MarioLand2World(World):
     arch-rival."""  # -ChatGPT
 
     game = "Super Mario Land 2"
+    author: str = " Alchav"
 
     igdb_id: int = 1071
 

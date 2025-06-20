@@ -43,44 +43,37 @@ If you would like to validate your config file to make sure it works,
 you may do so on the YAML Validator page.
 YAML Validator page: [Yaml Validation Page](/mysterycheck)
 
-> ⚠ Pre-Release Note: The above link does not work because it would go to the live Archipelago site.
-> Manually construct a yaml yourself from the one pinned in the Discord:
-> <https://discord.com/channels/731205301247803413/1018853131859267656>
-
 ### Starting Inventory
 
 The Player Settings page provides a few options for controlling what materials you start with
 and when certain key technologies are unlocked.
 
 Advanced users can use Plando, Weighted Options, and manual yaml editing to further configure the starting inventory.
-If you don't wish to use these techniques, consider using a Satisfactory's Advanced Game Settings to spawn the items you desire.
+If you don't wish to use these techniques, consider using Satisfactory's
+[Advanced Game Settings](https://satisfactory.wiki.gg/wiki/Advanced_Game_Settings)
+to spawn the items you desire.
 
 ### Advanced Configuration
 
 Advanced users can utilize the
 [Weighted Options Page](/weighted-options)
-and [Plando](/tutorial/MultiworldGG/plando)
+and [Plando](/tutorial/Archipelago/plando)
 to futher customize their experience.
 
-> ⚠ Pre-Release Note: The above links do not work because it would go to the live Archipelago site.
-> See these links instead:
->
-> - <https://multiworld.gg/tutorial/MultiworldGG/advanced_settings/en>
-> - <https://multiworld.gg/tutorial/MultiworldGG/plando/en>
 
 ## Prepare to Host Your Own Satisfactory Game
 
 ### Defining Some Terms
 
-In Archipelago, multiple Satisfactory worlds may be played simultaneously.
-Each of these worlds must be hosted by a Satisfactory Server which is connected to the Archipelago Server via the Archipelago mod.
+In MultiworldGG, multiple Satisfactory worlds may be played simultaneously.
+Each of these worlds must be hosted by a Satisfactory Server which is connected to the MultiworldGG Server via the Archipelago mod.
 
 This guide uses the following terms to refer to the software:
 
-- **Archipelago Server** - The central Archipelago server, which connects all games to each other.
+- **MultiworldGG Server** - The central MultiworldGG server, which connects all games to each other.
 - **Satisfactory Server** - The Satisfactory instance (game client or dedicated server) which will be used to host the game.
-  It must be supplied with the Archipelago Server connection details.
-  Any number of Satisfactory Clients may connect to this server.
+  It must be supplied with the MultiworldGG Server connection details.
+  *Any number of Satisfactory Clients may connect to this server.*
 - **Satisfactory Client** - The Satisfactory instance (game client) with which additional players can use to connect to the same Satisfactory world.
   They must also have the Archipelago mod installed, but require no configuration.
 
@@ -92,7 +85,7 @@ is not yet compatible with Linux dedicated servers - only Windows dedicated serv
 Purchase and install Satisfactory via one the sources linked [above](#required-software).
 Launch the game at least once to ensure that the Mod Manager can detect the game's install location.
 
-Make sure that you are running the correct branch of the game (Release or Experimental) that Archipelago supports.
+Make sure that you are running the correct branch of the game (Release or Experimental) that MultiworldGG supports.
 Learn how to switch branches here:
 [Satisfactory Modding Documentation FAQ: Switching Branches](https://docs.ficsit.app/satisfactory-modding/latest/faq.html#_how_do_i_get_the_experimental_or_early_access_branch_of_the_game)
 
@@ -124,51 +117,53 @@ desktop shortcuts, Steam, Epic. etc. will all launch the game with mods still lo
 ### Installing Additional Mods
 
 You may also wish to install some of the suggested mods mentioned on the
-[Archipelago Info page for Satisfactory](/games/Satisfactory/info/en#additional-mods).
-
-> ⚠ Pre-Release Note: The above link does not work because it would go to the live Archipelago site.
-> Use this link instead:
-> <https://github.com/Jarno458/Archipelago/blob/Satisfactory/worlds/satisfactory/docs/en_Satisfactory.md#additional-mods>
-
-### Entering Connection Details
-
-After you have installed the mods, launch the game via the Mod Manager or via your preferred method.
-Once the game has launched, click on the 'Mods' button on the main menu and open the Archipelago entry.
-
-Next, enter the connection details in the relevant fields.
-You can hover over the fields in the menu for more information and example values.
-
-- **URI**: Archipelago Server URI and port, for example, `multiworld.gg:49236`
-- **Username**: The name you entered as your Player Name when you created your config file. It's also listed in the Name column of your room page.
-- **Password**: The password for your slot, blank if you did not assign one.
-- **Archipelago Enabled**: Make sure this is checked, otherwise no server connection will be attempted.
-- **Debug Mode**: Don't enable it unless the developers ask you to when reporting problems.
-- **Force override settings in save**: Leave false for now. It is useful when the server changed ports. Read its tooltip for more info.
-
-Note that the Satisfactory Server/Client does _not_ need a copy of your Archipelago config file.
-The mod communicates with the Archipelago Server, which already has your config file,
-to generate the required content at runtime.
+[MultiworldGG Info page for Satisfactory](/games/Satisfactory/info/en#additional-mods).
 
 ### Creating a New World
 
-Once you have entered connection details, create a new world using the game's New Game menu.
-Make sure to check 'Skip Intro' if you don't want to deal with the game's tutorial sequence.
+After you have installed the mods, launch the game via the Mod Manager or via your preferred method.
+Once the game has launched, start creating a new game.
+
+Select your starting location and Skip Intro if you wish to skip the tutorial sequence,
+then click the "Mod Savegame Settings" button in the bottom right corner of the screen.
+Next, enter the connection details in the relevant fields.
+
+- **Server URI**: MultiworldGG Server URI and port, for example, `multiworld.gg:49236`
+- **User Name**: The name you entered as your Player Name when you created your config file. It's also listed in the Name column of your room page.
+- **Password**: The password for your slot, blank if you did not assign one.
+
+Note that the Satisfactory Server/Client does *not* need a copy of your MultiworldGG config file.
+The mod communicates with the MultiworldGG Server, which already has your config file,
+to generate the required content at runtime.
+
 Consider enabling Advanced Game Settings to allow dealing with bugs that may arise.
 Within the Advanced Game Settings menus,
 you may wish to switch the "Keep Inventory" setting to "Keep Everything" to avoid dropping items on death,
 although this will never lock you out of progression.
 
+> Note: Satisfactory dedicated servers do not currently have a user interface for the Mod Savegame Setting system.
+> and [the starting inventory feature does not currently work on dedicated servers](https://github.com/Jarno458/SatisfactoryArchipelagoMod/issues/105).
+> If you are setting up a dedicated server as your Satisfactory Server, to work around these limitations,
+> create the save locally in your Satisfactory Client first,
+> then upload the save file to your Satisfactory Server using the [Server Manager](https://satisfactory.wiki.gg/wiki/Dedicated_servers#Loading_a_save_file).
+
 ### Verifying Connection Success
 
-Once connected to the AP server,
-you can issue the `/help` command in the game's chat to list available commands, such as `/hint`.
-For more information about the commands you can use, see the [Commands Guide](/tutorial/MultiworldGG/commands/en).
+After you have created your new world,
+you should see in-game chat messages confirming that you have connected to the Archipelago Server.
+
+You can issue the `/help` command in the game's chat to list available commands, such as `/hint`.
+For more information about the commands you can use, see the [Commands Guide](/tutorial/Archipelago/commands/en).
 Note that Archipelago commands are not prefixed with `!` inside of Satisfactory.
 You may wish to use the Text Client to run commands since Satisfactory's in game chat is not very user friendly.
 
-> ⚠ Pre-Release Note: The above link does not work because it would go to the live Archipelago site.
-> Use this link instead:
-> <https://multiworld.gg/tutorial/MultiworldGG/commands/en>
+Check out the HUB to get started!
+
+> ⚠ IMPORTANT: Check your HUB immediately upon joining to ensure your save file has been set up correctly!
+> Make sure that you see multiple HUB milestones from MultiworldGG in Tier 1 and Tier 2.
+> If you don't, ensure your connection details are correct.
+> If that doesn't work, contact the team in the MultiworldGG discord.
+> See more information about this bug on the [GitHub issue tracker](https://github.com/Jarno458/SatisfactoryArchipelagoMod/issues/120).
 
 <!-- ## Other Settings
 
@@ -176,11 +171,11 @@ TODO implement filter_item_sends and bridge_chat_out mentioned in the Factorio g
 
 ## Troubleshooting
 
-- If you are having trouble connecting to the Archipelago server,
+- If you are having trouble connecting to the MultiworldGG server,
   make sure you have entered the correct server address and port.
   The server port may have changed if the room went to sleep.
   If you need to enter a new port,
-  use the "Force override settings in save" option on the mod options menu before loading into a save.
+  access the save's settings via the Mod Savegame Settings button in the pause menu.
 - If you are having trouble using the Satisfactory Mod Manager, join the [Satisfactory Modding Discord](https://discord.ficsit.app) for support.
 - If you encounter a game crash, please report it to us via the [Satisfactory Modding Discord](https://discord.ficsit.app).
   Please include the following information:
@@ -188,7 +183,7 @@ TODO implement filter_item_sends and bridge_chat_out mentioned in the Factorio g
   - If you were a Satisfactory multiplayer host or client, and if you were playing on a dedicated server.
   - Use the Mod Manager to generate a debug zip and attach that file.
    [Satisfactory Modding Documentation FAQ: Generating a debug zip](https://docs.ficsit.app/satisfactory-modding/latest/faq.html#_where_can_i_find_the_games_log_files)
-  - Attach your Archipelago config file and spoiler to your report.
+  - Attach your MultiworldGG config file and spoiler to your report.
 
 ## Additional Resources
 

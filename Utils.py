@@ -61,11 +61,9 @@ def get_config_file_path() -> str:
         # When frozen, the executable's directory is the base path.
         base_path = os.path.dirname(sys.executable)
     else:
-        # In a normal run, use the directory of this file.
         base_path = os.path.dirname(__file__)
     return os.path.join(base_path, "application.yaml")
 
-# Now use this function to load the config:
 config_file = get_config_file_path()
 
 if os.path.exists(config_file):
@@ -204,6 +202,10 @@ def home_path(*path: str) -> str:
                 os.symlink(home_path.cached_path, legacy_home_path)
             else:
                 os.makedirs(home_path.cached_path, 0o700, exist_ok=True)
+    elif sys.platform == 'darwin':
+        import platformdirs
+        home_path.cached_path = platformdirs.user_data_dir("Archipelago", False)
+        os.makedirs(home_path.cached_path, 0o700, exist_ok=True)
     else:
         # not implemented
         home_path.cached_path = local_path()  # this will generate the same exceptions we got previously
@@ -215,7 +217,7 @@ def user_path(*path: str) -> str:
     """Returns either local_path or home_path based on write permissions."""
     if hasattr(user_path, "cached_path"):
         pass
-    elif os.access(local_path(), os.W_OK):
+    elif os.access(local_path(), os.W_OK) and not (is_macos and is_frozen()):
         user_path.cached_path = local_path()
     else:
         user_path.cached_path = home_path()

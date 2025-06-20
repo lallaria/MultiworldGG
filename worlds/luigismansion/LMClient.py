@@ -5,7 +5,6 @@ import traceback
 
 import NetUtils
 import Utils
-apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from typing import Any
 
 import dolphin_memory_engine as dme
@@ -74,11 +73,11 @@ LAST_RECV_ITEM_ADDR = 0x803CDEBA
 
 # These addresses are related to displaying text in game.
 RECV_DEFAULT_TIMER_IN_HEX = "5A" # 3 Seconds
-RECV_ITEM_DISPLAY_TIMER_ADDR = 0x804DD958
-RECV_ITEM_DISPLAY_VIZ_ADDR = 0x804DD95C
-RECV_ITEM_NAME_ADDR = 0x804DE08C
-RECV_ITEM_LOC_ADDR = 0x804DE0B0
-RECV_ITEM_SENDER_ADDR = 0x804DE0D0
+RECV_ITEM_DISPLAY_TIMER_ADDR = 0x804DDA68
+RECV_ITEM_DISPLAY_VIZ_ADDR = 0x804DDA6C
+RECV_ITEM_NAME_ADDR = 0x804DE1F8
+RECV_ITEM_LOC_ADDR = 0x804DE220
+RECV_ITEM_SENDER_ADDR = 0x804DE240
 RECV_MAX_STRING_LENGTH = 24
 RECV_LINE_STRING_LENGTH = 27
 FRAME_AVG_COUNT = 30
@@ -361,7 +360,7 @@ class LMContext(CommonContext):
             ui.base_title += f" | Universal Tracker {UT_VERSION}"
 
         # AP version is added behind this automatically
-        ui.base_title += f" | {apname}"
+        ui.base_title += " | Archipelago"
         return ui
 
     async def update_boo_count_label(self):
@@ -619,17 +618,13 @@ class LMContext(CommonContext):
         # Always adjust Pickup animation issues if the user turned pick up animations off.
         if self.pickup_anim_off:
             crown_helper_val = "00000001"
-            dme.write_bytes(0x804DE028, bytes.fromhex(crown_helper_val))
+            dme.write_bytes(0x804DE16C, bytes.fromhex(crown_helper_val))
 
         # Make it so the displayed Boo counter always appears even if you dont have boo radar or if you haven't caught
         # a boo in-game yet.
         if self.boosanity:
             # This allows the in-game display to work correctly.
             dme.write_bytes(0x803D5E0B, bytes.fromhex("01"))
-
-            # This allows the player to finish the game as expected in King Boo's fight.
-            if self.pickup_anim_off:
-                dme.write_bytes(0x804DE028, bytes.fromhex("00000001"))
 
             # Update the in-game counter to reflect how many boos you got.
             boo_received_list = [item.item for item in self.items_received if item.item in BOO_AP_ID_LIST]
@@ -741,18 +736,18 @@ async def give_player_items(ctx: LMContext):
             lm_item_name = ctx.item_names.lookup_in_game(item.item)
             lm_item = ALL_ITEMS_TABLE[lm_item_name]
 
-            item_name_display = lm_item_name[0:min(len(lm_item_name), RECV_MAX_STRING_LENGTH)].replace("&", "")
+            item_name_display = lm_item_name[:RECV_MAX_STRING_LENGTH].replace("&", "")
             dme.write_bytes(RECV_ITEM_NAME_ADDR, sbf.string_to_bytes(item_name_display, RECV_LINE_STRING_LENGTH))
 
             if item.player == ctx.slot:
                 loc_name_display = ctx.location_names.lookup_in_game(item.location)
             else:
                 loc_name_display = ctx.location_names.lookup_in_slot(item.location, item.player)
-            loc_name_display = loc_name_display[0:min(len(loc_name_display), SLOT_NAME_STR_LENGTH)].replace("&", "")
+            loc_name_display = loc_name_display[:SLOT_NAME_STR_LENGTH].replace("&", "")
             dme.write_bytes(RECV_ITEM_LOC_ADDR, sbf.string_to_bytes(loc_name_display, RECV_LINE_STRING_LENGTH))
 
             recv_name_display = ctx.player_names[item.player].replace("&", "")
-            recv_name_display = recv_name_display[0:min(len(recv_name_display), SLOT_NAME_STR_LENGTH)] + "'s Game"
+            recv_name_display = recv_name_display[:SLOT_NAME_STR_LENGTH] + "'s Game"
             dme.write_bytes(RECV_ITEM_SENDER_ADDR, sbf.string_to_bytes(recv_name_display, RECV_LINE_STRING_LENGTH))
 
             dme.write_word(RECV_ITEM_DISPLAY_TIMER_ADDR, int(RECV_DEFAULT_TIMER_IN_HEX, 16))

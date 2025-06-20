@@ -72,6 +72,7 @@ Currently, the following games are supported:
 * GZDoom
 * Hades
 * Hatsune Miku: Project Diva Mega Mix+
+* Here comes Niko!
 * Heretic
 * Hollow Knight
 * HuniePop
@@ -89,6 +90,7 @@ Currently, the following games are supported:
 * Lingo
 * Lufia II Ancient Cave
 * Luigi's Mansion
+* Mario Kart Double Dash
 * Mario Kart 64
 * Mario & Luigi Superstar Saga
 * Mega Man 2

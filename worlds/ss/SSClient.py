@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, List, Optional
 import dolphin_memory_engine
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from CommonClient import (
     ClientCommandProcessor,
     CommonContext,
@@ -188,7 +189,7 @@ class SSContext(CommonContext):
         :return: The client's GUI.
         """
         ui = super().make_gui()
-        ui.base_title = "Archipelago Skyward Sword Client"
+        ui.base_title = f"{apname} Skyward Sword Client"
         return ui
 
     async def update_visited_stages(self, newly_visited_stage_name: str) -> None:

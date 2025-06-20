@@ -122,14 +122,14 @@ def update_intro_and_lab_events(gcm: GCM, hidden_mansion: bool, max_health: str,
 
     include_radar = ""
     if any("Boo Radar" in key for key in start_inv):
-        include_radar = "<FLAGON>(73)\n<FLAGON>(75)"
+        include_radar = "<FLAGON>(73)\r\n<FLAGON>(75)"
     lines = lines.replace("{BOO RADAR}", include_radar)
 
     event_door_list: list[str] = []
     door_list: dict[int, int] = doors_to_open
 
     for event_door in door_list:
-        event_door_list.append(("<KEYLOCK>" if door_list.get(event_door) == 0 else "<KEYUNLOCK>")+f"({event_door})\n")
+        event_door_list.append(("<KEYLOCK>" if door_list.get(event_door) == 0 else "<KEYUNLOCK>")+f"({event_door})\r\n")
 
     lines = lines.replace("{DOOR_LIST}", ''.join(event_door_list))
     lines = lines.replace("{LUIGIMAXHP}", max_health)
@@ -179,37 +179,38 @@ def write_portrait_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dic
                         seed: str) -> GCM:
     csv_lines = get_data(MAIN_PKG_NAME, "data/custom_csvs/message78.csv").decode('utf-8')
     random.seed(seed)
-
-    for portrait_name, portrait_hint in all_hints.items():
-        if portrait_name not in PORTRAIT_HINTS:
-            continue
-        match hint_distribution_choice:
-            case 4:
-                match portrait_hint["Class"]:
-                    case "Prog":
-                        item_color = "5"
-                    case "Trap":
-                        item_color = "2"
-                    case _:
-                        item_color = "6"
-                hintfo = ("'"+portrait_hint["Rec Player"]+"'s<COLOR>("+item_color+")"+portrait_hint["Item"]+
-                          "<COLOR>(0)is somewhere in<COLOR>(3)"+portrait_hint["Send Player"]+"'s"+portrait_hint["Game"])
-                csv_lines = csv_lines.replace(f"{portrait_name}", hintfo)
-            case 1:
-                jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-                joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", " ")
-                csv_lines = csv_lines.replace(f"{portrait_name}", joke_hint)
-            case _:
-                match portrait_hint["Class"]:
-                    case "Prog":
-                        item_color = "5"
-                    case "Trap":
-                        item_color = "2"
-                    case _:
-                        item_color = "6"
-                hintfo = (portrait_hint["Rec Player"]+"'s<COLOR>("+item_color+")"+portrait_hint["Item"]+
-                          "<COLOR>(0)can be found at<COLOR>(1)"+portrait_hint["Send Player"]+"'s"+portrait_hint["Location"])
-                csv_lines = csv_lines.replace(f"{portrait_name}", hintfo)
+    if hint_distribution_choice == 1:
+        for portrait_name in PORTRAIT_HINTS:
+            jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
+            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\r\n")
+            csv_lines = csv_lines.replace(f"{portrait_name}", joke_hint)
+    else:
+        for portrait_name, portrait_hint in all_hints.items():
+            if portrait_name not in PORTRAIT_HINTS:
+                continue
+            match hint_distribution_choice:
+                case 4:
+                    match portrait_hint["Class"]:
+                        case "Prog":
+                            item_color = "5"
+                        case "Trap":
+                            item_color = "2"
+                        case _:
+                            item_color = "6"
+                    hintfo = (portrait_hint["Rec Player"]+"'s \n<COLOR>("+item_color+") "+portrait_hint["Item"]+
+                              "\n<COLOR>(0) is somewhere in \n<COLOR>(3)"+portrait_hint["Send Player"]+"'s \n"+portrait_hint["Game"])
+                    csv_lines = csv_lines.replace(f"{portrait_name}", hintfo)
+                case _:
+                    match portrait_hint["Class"]:
+                        case "Prog":
+                            item_color = "5"
+                        case "Trap":
+                            item_color = "2"
+                        case _:
+                            item_color = "6"
+                    hintfo = (portrait_hint["Rec Player"]+"'s \n<COLOR>("+item_color+")"+portrait_hint["Item"]+
+                              "\n<COLOR>(0) can be found at \n<COLOR>(1)"+portrait_hint["Send Player"]+"'s \n"+portrait_hint["Location"])
+                    csv_lines = csv_lines.replace(f"{portrait_name}", hintfo)
 
     return __update_custom_event(gcm, "78", True, None, csv_lines)
 
@@ -239,7 +240,7 @@ def randomize_clairvoya(gcm: GCM, req_mario_count: str, hint_distribution_choice
             case_type = "DisabledHint"
         case 1:
             jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\n")
+            joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\r\n")
             csv_lines = csv_lines.replace("{JokeText}", joke_hint)
             case_type = "JokeHint"
         case _:
@@ -325,7 +326,7 @@ def write_in_game_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dict
                 case_type = "DisabledHint"
             case 1:
                 jokes = get_data(MAIN_PKG_NAME, "data/jokes.txt").decode('utf-8')
-                joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\n")
+                joke_hint = random.choice(str.splitlines(jokes)).replace("\\\\n", "\r\n")
                 csv_lines = csv_lines.replace("{JokeText}", joke_hint)
                 case_type = "JokeHint"
             case _:
@@ -353,6 +354,11 @@ def write_in_game_hints(gcm: GCM, hint_distribution_choice: int, all_hints: dict
         else:
             gcm = __update_custom_event(gcm, str(event_no), True, lines, csv_lines)
     return gcm
+
+# Update the spawn event info
+def update_spawn_events(gcm: GCM) -> GCM:
+    lines = get_data(MAIN_PKG_NAME, "data/custom_events/event11.txt").decode('utf-8')
+    return __update_custom_event(gcm, "11", True, lines, None)
 
 # Using the provided txt or csv lines for a given event file, updates the actual szp file in memory with this data.
 def __update_custom_event(gcm: GCM, event_number: str, delete_all_other_files: bool,
@@ -395,18 +401,3 @@ def __update_custom_event(gcm: GCM, event_number: str, delete_all_other_files: b
 
     gcm.changed_files["files/Event/event" + event_number + ".szp"] = Yay0.compress(custom_event.data)
     return gcm
-
-# Small function to identify all files that need to be deleted within a given event.
-def __get_all_files_to_delete(custom_rarc: RARC, curr_dir_node: RARCNode, keep_file_list: list[str]) -> {RARCFileEntry}:
-    files_to_delete: {RARCFileEntry} = set()
-    directories_to_ignore = [".", ".."]
-    for sub_path in curr_dir_node.files:
-        if sub_path.name in directories_to_ignore:
-            continue
-
-        if sub_path.is_dir:
-            __get_all_files_to_delete(custom_rarc, sub_path.node, keep_file_list)
-
-        if sub_path.name not in keep_file_list:
-            files_to_delete.difference_update([sub_path])
-    return files_to_delete

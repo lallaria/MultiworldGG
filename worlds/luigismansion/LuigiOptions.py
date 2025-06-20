@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from Options import Toggle, Range, PerGameCommonOptions, Choice, StartInventoryPool, DeathLinkMixin, OptionSet
+from Options import Toggle, Range, PerGameCommonOptions, Choice, StartInventoryPool, DeathLinkMixin, OptionSet, \
+    DefaultOnToggle
 
 
 class LuigiWalkSpeed(Choice):
@@ -177,10 +178,10 @@ class HintDistribution(Choice):
     option_disabled = 5
     default = 0
 
-class PickupAnim(Toggle):
-    """Disable Luigi's pickup animations"""
-    display_name = "Pickup Animation"
-    internal_name = "pickup_animation"
+class PickupAnim(DefaultOnToggle):
+    """Turn on Luigi's pickup animations"""
+    display_name = "Enable Pickup Animation"
+    internal_name = "enable_pickup_animation"
 
 
 class Toadsanity(Toggle):
@@ -206,13 +207,14 @@ class Furnisanity(OptionSet):
     Adds interactable objects, such as dressers, paintings, candles, and light fixtures, to the location pool.
 
     Different sets of locations can be added within the list. Valid strings are:
+
     "Hangables" includes items on walls such as paintings and other decor
 
     "Decor" includes items such as instruments and suits of armor
 
     "Ceiling" includes ceiling fans and lights attached to the ceiling
 
-    "Candles" includes any candles tat can be interacted with
+    "Candles" includes any candles that can be interacted with
 
     "Seating" includes chairs, stools and other typs of seating
 
@@ -333,10 +335,10 @@ class DoorRando(Toggle):
     internal_name = "door_rando"
 
 
-class LuigiFearAnim(Toggle):
-    """Turn off Luigi being scared by ghosts if they spawn close to him"""
-    display_name = "Courageous Luigi"
-    internal_name = "fear_animation"
+class LuigiFearAnim(DefaultOnToggle):
+    """Turn on Luigi being scared by ghosts if they spawn close to him"""
+    display_name = "Enable Fear Animation"
+    internal_name = "enable_fear_animation"
 
 
 class ChestTypes(Choice):
@@ -523,7 +525,7 @@ class PossTrapWeight(Range):
     internal_name = "poss_trap_weight"
     range_start = 0
     range_end = 100
-    default = 15
+    default = 5
 
 class BonkTrapWeight(Range):
     """
@@ -570,8 +572,8 @@ class LMOptions(DeathLinkMixin, PerGameCommonOptions):
     good_vacuum: BetterVacuum
     boo_radar: StartWithBooRadar
     hidden_mansion: StartHiddenMansion
-    fear_animation: LuigiFearAnim
-    pickup_animation: PickupAnim
+    enable_fear_animation: LuigiFearAnim
+    enable_pickup_animation: PickupAnim
     luigi_max_health: LuigiMaxHealth
     random_music: RandomMusic
     door_model_rando: DoorModelRando

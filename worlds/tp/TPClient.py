@@ -16,6 +16,7 @@ from .ClientUtils import (
 from .Items import ITEM_TABLE, LOOKUP_ID_TO_NAME
 from .Locations import LOCATION_TABLE, TPLocation, TPLocationType
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 from CommonClient import (
     ClientCommandProcessor,
     CommonContext,
@@ -274,7 +275,7 @@ class TPContext(CommonContext):
         :return: The client's GUI.
         """
         ui = super().make_gui()
-        ui.base_title = "Archipelago Twilight Princess Client"
+        ui.base_title = f"{apname} Twilight Princess Client"
         return ui
 
 

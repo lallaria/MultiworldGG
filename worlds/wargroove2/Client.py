@@ -8,6 +8,7 @@ import pkgutil
 import random
 import typing
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 import json
 import logging
 import ModuleUpdate
@@ -380,7 +381,7 @@ class Wargroove2Context(CommonContext):
                 ("Client", "Archipelago"),
                 ("WG2", "WG2 Console"),
             ]
-            base_title = "Archipelago Wargroove 2 Client"
+            base_title = f"{apname} Wargroove 2 Client"
             ctx: Wargroove2Context
             unit_tracker: ItemTracker
             level_tracker: LevelTracker

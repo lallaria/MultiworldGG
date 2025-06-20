@@ -5,7 +5,6 @@ import yaml
 from collections import Counter
 from CommonClient import logger
 
-
 def counter_constructor(loader, node):
     args = loader.construct_sequence(node)
     return Counter(*args)
@@ -16,7 +15,7 @@ yaml.SafeLoader.add_constructor(
     counter_constructor
 )
 
-from worlds.luigismansion.iso_helper.DOL_Updater import update_dol_offsets
+from .iso_helper.DOL_Updater import update_dol_offsets
 from .iso_helper.Update_GameUSA import update_game_usa
 from .JMP_Info_File import JMPInfoFile
 from .Patching import *
@@ -95,9 +94,9 @@ class LuigisMansionRandomizer:
         self.jmp_generator_info_table = self.load_maptwo_info_table("generatorinfo")
         self.jmp_enemy_info_table = self.load_maptwo_info_table("enemyinfo")
         self.jmp_boo_table = self.load_maptwo_info_table("telesa")
+        self.jmp_teiden_observer_info_table = self.load_maptwo_info_table("teidenobserverinfo")
         if self.output_data["Options"]["speedy_spirits"]:
             self.jmp_teiden_enemy_info_table = self.load_maptwo_info_table("teidenenemyinfo")
-            self.jmp_teiden_observer_info_table = self.load_maptwo_info_table("teidenobserverinfo")
         self.jmp_teiden_character_info_table = self.load_maptwo_info_table("teidencharacterinfo")
         self.jmp_iyapoo_table = self.load_maptwo_info_table("iyapootable")
 
@@ -167,6 +166,7 @@ class LuigisMansionRandomizer:
     def update_maptwo_jmp_tables(self):
         # Get Output data required information
         bool_boo_checks = True if self.output_data["Options"]["boo_gates"] == 1 else False
+        bool_speedy_spirits = True if self.output_data["Options"]["speedy_spirits"] == 1 else False
 
         # Updates all data entries for each jmp table in memory first.
         update_character_info(self.jmp_character_info_table, self.output_data)
@@ -181,9 +181,10 @@ class LuigisMansionRandomizer:
         update_obj_info(self.jmp_obj_info_table)
         update_generator_info(self.jmp_generator_info_table)
         update_enemy_info(self.jmp_enemy_info_table, self.output_data)
-        if self.output_data["Options"]["speedy_spirits"]:
+        update_teiden_observer_info(self.jmp_observer_info_table,
+            self.jmp_teiden_observer_info_table, bool_speedy_spirits)
+        if bool_speedy_spirits:
             update_teiden_enemy_info(self.jmp_enemy_info_table, self.jmp_teiden_enemy_info_table)
-            update_teiden_observer_info(self.jmp_observer_info_table, self.jmp_teiden_observer_info_table)
         update_boo_table(self.jmp_boo_table, self.output_data)
         update_iyapoo_table(self.jmp_iyapoo_table, self.output_data)
 
@@ -200,9 +201,9 @@ class LuigisMansionRandomizer:
         self.update_maptwo_info_table(self.jmp_obj_info_table)
         self.update_maptwo_info_table(self.jmp_generator_info_table)
         self.update_maptwo_info_table(self.jmp_enemy_info_table)
+        self.update_maptwo_info_table(self.jmp_teiden_observer_info_table)
         if self.output_data["Options"]["speedy_spirits"]:
             self.update_maptwo_info_table(self.jmp_teiden_enemy_info_table)
-            self.update_maptwo_info_table(self.jmp_teiden_observer_info_table)
         self.update_maptwo_info_table(self.jmp_boo_table)
         self.update_maptwo_info_table(self.jmp_iyapoo_table)
 
@@ -217,8 +218,8 @@ class LuigisMansionRandomizer:
         bool_randomize_mice: bool = True if int(self.output_data["Options"]["gold_mice"]) == 1 else False
         bool_hidden_mansion: bool = True if int(self.output_data["Options"]["hidden_mansion"]) == 1 else False
         walk_speed: int = int(self.output_data["Options"]["walk_speed"])
-        bool_pickup_anim_enabled: bool = True if int(self.output_data["Options"]["pickup_animation"]) == 1 else False
-        bool_fear_anim_disabled: bool = True if int(self.output_data["Options"]["fear_animation"]) == 1 else False
+        bool_pickup_anim_enabled: bool = True if int(self.output_data["Options"]["enable_fear_animation"]) == 0 else False
+        bool_fear_anim_disabled: bool = True if int(self.output_data["Options"]["enable_pickup_animation"]) == 0 else False
         player_name: str = str(self.output_data["Name"])
         king_boo_health: int = int(self.output_data["Options"]["king_boo_health"])
         random_spawn: str = str(self.output_data["Options"]["spawn"])
@@ -277,6 +278,9 @@ class LuigisMansionRandomizer:
 
         logger.info("Updating common events with the generated in-game hints.")
         self.gcm = write_in_game_hints(self.gcm, hint_dist, hint_list, max_health, self.seed)
+
+        logger.info("Updating the spawn event...")
+        self.gcm = update_spawn_events(self.gcm)
 
         if bool_portrait_hints:
             logger.info("Portrait Hints are enabled, updating portrait ghost hearts with the generated in-game hints.")

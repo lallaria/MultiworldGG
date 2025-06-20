@@ -18,6 +18,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 from NetUtils import ClientStatus
 from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, server_loop
@@ -327,7 +328,7 @@ class ManualContext(SuperContext):
             background_color = ColorProperty()
 
         class ManualManager(ui):
-            base_title = "Archipelago Manual Client"
+            base_title = f"{apname} Manual Client"
             listed_items = {"(No Category)": []}
             item_categories = ["(No Category)"]
             listed_locations = {"(No Category)": []}

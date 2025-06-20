@@ -62,6 +62,12 @@ def fortress_loot(world: "MinecraftWorld", state: CollectionState, player: int) 
     return state.can_reach_region('Nether Fortress', player) and basic_combat(world, state, player)
 
 
+def can_excavate(world: "MinecraftWorld", state: CollectionState, player: int) -> bool:
+    return (has_copper_ingots(world, state, player) and state.has('Brush', player)
+            and can_adventure(world, state, player)
+           )
+
+
 def can_brew_potions(world: "MinecraftWorld", state: CollectionState, player: int) -> bool:
     return state.has('Blaze Rods', player) and state.has('Brewing', player) and has_bottle(world, state, player)
 
@@ -89,6 +95,11 @@ def overworld_villager(world: "MinecraftWorld", state: CollectionState, player: 
 
 def enter_stronghold(world: "MinecraftWorld", state: CollectionState, player: int) -> bool:
     return state.has('Blaze Rods', player) and state.has('Brewing', player) and state.has('3 Ender Pearls', player)
+
+
+def has_explorer_maps(world: "MinecraftWorld", state: CollectionState, player: int) -> bool:
+    return (overworld_villager(world, state, player) and state.has("Progressive Tools", player, 2) and
+            has_iron_ingots(world, state, player))
 
 
 # Difficulty-dependent functions
@@ -121,6 +132,33 @@ def basic_combat(world: "MinecraftWorld", state: CollectionState, player: int) -
                     or state.has('Shield', player)
             )
             and has_iron_ingots(world, state, player)
+           )
+
+
+def ominous_vaults(world: "MinecraftWorld", state: CollectionState, player: int) -> bool:
+    trial_chambers = (has_explorer_maps(world, state, player) and can_adventure(world, state, player))
+    if combat_difficulty(world, state, player) == 'easy':
+        return (trial_chambers
+                and state.has('Progressive Weapons', player, 3)
+                and state.has('Progressive Armor', player, 2)
+                and state.has('Shield', player)
+                and state.has('Progressive Tools', player, 2)
+                and has_iron_ingots(world, state, player)
+               )
+    elif combat_difficulty(world, state, player) == 'hard':
+        return (trial_chambers
+                and state.has('Progressive Weapons', player, 2)
+                and has_iron_ingots(world, state, player)
+                and (
+                        state.has('Progressive Armor', player)
+                        or state.has('Shield', player)
+                )
+               )
+    return (trial_chambers
+            and state.has('Progressive Weapons', player, 2)
+            and has_iron_ingots(world, state, player)
+            and state.has('Progressive Armor', player)
+            and state.has('Shield', player)
            )
 
 
@@ -256,7 +294,9 @@ def get_rules_lookup(world, player: int):
                                                  and state.has("Fishing Rod", player)  # Water Breathing
                                                  and state.can_reach_region("The Nether", player)  # Regeneration, Fire Resistance, gold nuggets
                                                  and state.can_reach_region("Village", player)  # Night Vision, Invisibility
-                                                 and state.can_reach_location("Bring Home the Beacon", player)),
+                                                 and state.can_reach_location("Bring Home the Beacon", player)
+                                                 and can_adventure(world, state, player)
+                                                 and has_explorer_maps(world, state, player)),  # Wind Charged
             # Resistance
             "Bring Home the Beacon": lambda state: can_kill_wither(world, state, player)
                                                    and has_diamond_pickaxe(world, state, player)
@@ -281,17 +321,18 @@ def get_rules_lookup(world, player: int):
                                                    and has_gold_ingots(world, state, player)  # Absorption
                                                    and state.can_reach_region('End City', player)  # Levitation
                                                    and state.can_reach_region('The Nether', player)  # potion ingredients
-                                                   and state.has("Fishing Rod", player)  # Pufferfish, Nautilus Shells; spectral arrows
-                                                   and state.has("Archery", player)
+                                                   and state.has("Fishing Rod", player) # Pufferfish, Nautilus Shells
+                                                   and state.has("Archery",player)  # Spectral Arrows
                                                    and state.can_reach_location("Bring Home the Beacon", player)  # Haste
                                                    and state.can_reach_location("Hero of the Village", player)),  # Bad Omen, Hero of the Village
             "Bullseye": lambda state: state.has("Archery", player)
-                                      and state.has("Progressive Tools", player, 2)
-                                      and has_iron_ingots(world, state, player),
+                                       and state.has("Progressive Tools", player, 2)
+                                       and has_iron_ingots(world, state, player),
             "Spooky Scary Skeleton": lambda state: basic_combat(world, state, player),
             "Two by Two": lambda state: has_iron_ingots(world, state, player)
                                         and state.has("Bucket", player)
-                                        and can_adventure(world, state, player),
+                                        and state.can_reach_region("Village", player)
+                                        and state.has("Brush", player),
             "Two Birds, One Arrow": lambda state: craft_crossbow(world, state, player)
                                                   and can_enchant(world, state, player),
             "Who's the Pillager Now?": lambda state: craft_crossbow(world, state, player),
@@ -317,7 +358,7 @@ def get_rules_lookup(world, player: int):
             "Acquire Hardware": lambda state: has_iron_ingots(world, state, player),
             "Not Quite \"Nine\" Lives": lambda state: can_piglin_trade(world, state, player)
                                                       and state.has("Progressive Resource Crafting", player, 2),
-            "Cover Me With Diamonds": lambda state: state.has("Progressive Armor", player, 2)
+            "Cover Me with Diamonds": lambda state: state.has("Progressive Armor", player, 2)
                                                     and state.has("Progressive Tools", player, 2)
                                                     and has_iron_ingots(world, state, player),
             "Sky's the Limit": lambda state: basic_combat(world, state, player),
@@ -327,19 +368,23 @@ def get_rules_lookup(world, player: int):
                                           or state.can_reach_region('Village', player),
             "You Need a Mint": lambda state: can_respawn_ender_dragon(world, state, player)
                                              and has_bottle(world, state, player),
-            "Monsters Hunted": lambda state: (can_respawn_ender_dragon(world, state, player)
-                                              and can_kill_ender_dragon(world, state, player)
-                                              and can_kill_wither(world, state, player)
-                                              and state.has("Fishing Rod", player)),
+            "Monsters Hunted": lambda state: (can_respawn_ender_dragon(world, state, player)  # Ender Dragon; Nether
+                                              and can_kill_ender_dragon(world, state, player)  # Ender Dragon
+                                              and can_kill_wither(world, state, player)  # Wither; Nether Fortresses
+                                              and complete_raid(world, state, player)  # Ravagers; Pillager Outposts
+                                              and state.can_reach_region("Bastion Remnant", player)  # Piglin Brutes
+                                              and state.can_reach_region("End City", player)  # Shulkers
+                                              and state.has("Lead", player)),  # Zoglins
             "Enchanter": lambda state: can_enchant(world, state, player),
             "Voluntary Exile": lambda state: basic_combat(world, state, player),
             "Eye Spy": lambda state: enter_stronghold(world, state, player),
-            "Serious Dedication": lambda state: (can_brew_potions(world, state, player)
-                                                 and state.has("Bed", player)
-                                                 and has_diamond_pickaxe(world, state, player)
+            "Serious Dedication": lambda state: (state.can_reach_location("Hidden in the Depths", player)
+                                                 and state.has("8 Netherite Scrap", player)
                                                  and has_gold_ingots(world, state, player)),
             "Postmortal": lambda state: complete_raid(world, state, player),
-            "Adventuring Time": lambda state: can_adventure(world, state, player),
+            "Adventuring Time": lambda state: can_adventure(world, state, player)
+                                              and has_iron_ingots(world, state, player)
+                                              and state.has("Progressive Tools", player, 2),
             "Hero of the Village": lambda state: complete_raid(world, state, player),
             "Hidden in the Depths": lambda state: can_brew_potions(world, state, player)
                                                   and state.has("Bed", player)
@@ -348,14 +393,14 @@ def get_rules_lookup(world, player: int):
                                          and has_diamond_pickaxe(world, state, player)
                                          and state.has("Progressive Resource Crafting", player, 2)),
             "Withering Heights": lambda state: can_kill_wither(world, state, player),
-            "A Balanced Diet": lambda state: (has_bottle(world, state, player)
-                                              and has_gold_ingots(world, state, player)
-                                              and state.has("Progressive Resource Crafting", player, 2)
-                                              and state.can_reach_region('The End', player)),
-            # notch apple, chorus fruit
+            "A Balanced Diet": lambda state: (has_bottle(world, state, player)  # honey bottle
+                                              and state.has("Campfire", player)  # honey bottle
+                                              and state.has("Fishing Rod", player)
+                                              and state.can_reach_location("Overpowered", player)  # gapple, notch apple
+                                              and state.can_reach_region('The End', player)),  # chorus fruit
             "Subspace Bubble": lambda state: has_diamond_pickaxe(world, state, player),
-            "Country Lode, Take Me Home": lambda state: state.can_reach_location("Hidden in the Depths", player)
-                                                        and has_gold_ingots(world, state, player),
+            "Country Lode, Take Me Home": lambda state: state.has("Progressive Tools", player, 2)
+                                                        and has_iron_ingots(world, state, player),
             "Bee Our Guest": lambda state: state.has("Campfire", player)
                                            and has_bottle(world, state, player),
             "Uneasy Alliance": lambda state: has_diamond_pickaxe(world, state, player)
@@ -368,11 +413,7 @@ def get_rules_lookup(world, player: int):
             "Ol' Betsy": lambda state: craft_crossbow(world, state, player),
             "Cover Me in Debris": lambda state: state.has("Progressive Armor", player, 2)
                                                 and state.has("8 Netherite Scrap", player, 2)
-                                                and state.has("Progressive Resource Crafting", player)
-                                                and has_diamond_pickaxe(world, state, player)
-                                                and has_iron_ingots(world, state, player)
-                                                and can_brew_potions(world, state, player)
-                                                and state.has("Bed", player),
+                                                and state.can_reach_location("Hidden in the Depths", player),
             "Hot Topic": lambda state: state.has("Progressive Resource Crafting", player),
             "The Lie": lambda state: has_iron_ingots(world, state, player)
                                      and state.has("Bucket", player),
@@ -385,11 +426,17 @@ def get_rules_lookup(world, player: int):
                                             and state.has("Saddle", player)
                                             and state.has("Fishing Rod", player)
                                             and can_adventure(world, state, player),
-            "Overkill": lambda state: can_brew_potions(world, state, player)
+            "Overkill": lambda state: (
+                                       can_brew_potions(world, state, player)
                                        and (
                                                state.has("Progressive Weapons", player)
                                                or state.can_reach_region('The Nether', player)
-                                       ),
+                                       )
+                                      )
+                                      or (
+                                           state.can_reach_location("Over-Overkill", player)
+                                           and world.options.include_hard_advancements
+                                      ),
             "Librarian": lambda state: state.has("Enchanting", player),
             "Overpowered": lambda state: has_iron_ingots(world, state, player)
                                          and state.has('Progressive Tools', player, 2)
@@ -400,9 +447,11 @@ def get_rules_lookup(world, player: int):
             "Wax Off": lambda state: has_copper_ingots(world, state, player)
                                      and state.has('Campfire', player)
                                      and state.has('Progressive Resource Crafting', player, 2),
-            "The Cutest Predator": lambda state: has_iron_ingots(world, state, player)
+            "The Cutest Predator": lambda state: can_adventure(world, state, player)
+                                                 and has_iron_ingots(world, state, player)
                                                  and state.has('Bucket', player),
-            "The Healing Power of Friendship": lambda state: has_iron_ingots(world, state, player)
+            "The Healing Power of Friendship": lambda state: can_adventure(world, state, player)
+                                                             and has_iron_ingots(world, state, player)
                                                              and state.has('Bucket', player),
             "Is It a Bird?": lambda state: has_spyglass(world, state, player)
                                            and can_adventure(world, state, player),
@@ -421,7 +470,7 @@ def get_rules_lookup(world, player: int):
             "Caves & Cliffs": lambda state: has_iron_ingots(world, state, player)
                                             and state.has('Bucket', player)
                                             and state.has('Progressive Tools', player, 2),
-            "Feels like home": lambda state: has_iron_ingots(world, state, player)
+            "Feels Like Home": lambda state: has_iron_ingots(world, state, player)
                                               and state.has('Bucket', player)
                                               and state.has('Fishing Rod', player)
                                               and (
@@ -456,6 +505,78 @@ def get_rules_lookup(world, player: int):
                                                            and state.has("Lead", player),
             "With Our Powers Combined!": lambda state: can_adventure(world, state, player)
                                                        and state.has("Lead", player),
+            "Smells Interesting": lambda state: can_excavate(world, state, player),
+            "Little Sniffs": lambda state: can_excavate(world, state, player),
+            "Planting the Past": lambda state: can_excavate(world, state, player),
+            "Crafting a New Look": lambda state: has_iron_ingots(world, state, player)
+                                                 and (
+                                                   fortress_loot(world, state, player)
+                                                   or (
+                                                    state.can_reach_region("Pillager Outpost", player)
+                                                    and basic_combat(world, state, player)
+                                                   )
+                                                   or (
+                                                    state.can_reach_region("Bastion Remnant", player)
+                                                    and basic_combat(world, state, player)
+                                                   )
+                                                   or (
+                                                    state.can_reach_region("End City", player)
+                                                    and basic_combat(world, state, player)
+                                                   )
+                                                 ),
+            "Smithing with Style": lambda state: can_excavate(world, state, player)  # Wayfinder Armor Trim
+                                                 and fortress_loot(world, state, player)  # Rib Armor Trim
+                                                 and has_explorer_maps(world, state, player)  # Vex and Tide Armor Trims
+                                                 and state.can_reach_region("Bastion Remnant", player)  # Snout Armor Trim
+                                                 and state.can_reach_region("End City", player)  # Spire Armor Trim
+                                                 and state.has("Progressive Tools", player, 2)  # Ward and Silence Armor Trims; Compass for Explorer Maps
+                                                 and (
+                                                   (  # Water Breathing Potions
+                                                    state.has("Fishing Rod", player)
+                                                    and can_brew_potions(world, state, player)
+                                                   )
+                                                   or (
+                                                    state.has("Bucket", player)  # Milk/Axolotls
+                                                    and can_enchant(world, state, player)  # Respiration
+                                                   )
+                                                 ),
+            "Respecting the Remnants": lambda state: can_excavate(world, state, player),
+            "Careful Restoration": lambda state: can_excavate(world, state, player),
+            "The Power of Books": lambda state: state.has("Progressive Tools", player, 2),
+            "Isn't It Scute?": lambda state: can_adventure(world, state, player)
+                                             and has_copper_ingots(world, state, player)
+                                             and state.has("Brush", player),
+            "Shear Brilliance": lambda state: can_adventure(world, state, player)
+                                              and has_copper_ingots(world, state, player)
+                                              and state.has("Brush", player),
+            "Good as New": lambda state: can_adventure(world, state, player)
+                                         and has_copper_ingots(world, state, player)
+                                         and state.has("Brush", player),
+            "The Whole Pack": lambda state: can_adventure(world, state, player),
+            "Minecraft: Trial(s) Edition": lambda state: can_adventure(world, state, player)
+                                                         and has_explorer_maps(world, state, player),
+            "Under Lock and Key": lambda state: can_adventure(world, state, player)
+                                                and has_explorer_maps(world, state, player)
+                                                and basic_combat(world, state, player),
+            "Blowback": lambda state: can_adventure(world, state, player)
+                                      and has_explorer_maps(world, state, player)
+                                      and basic_combat(world, state, player),
+            "Who Needs Rockets?": lambda state: can_adventure(world, state, player)
+                                                and has_explorer_maps(world, state, player)
+                                                and basic_combat(world, state, player),
+            "Crafters Crafting Crafters": lambda state: has_iron_ingots(world, state, player)
+                                                        and state.has("Progressive Tools", player, 2),
+            "Lighten Up": lambda state: (
+                                         fortress_loot(world, state, player)
+                                         and state.has("Progressive Tools", player, 2)
+                                         and state.has("Progressive Resource Crafting", player, 2)
+                                        )
+                                        or (
+                                         can_adventure(world, state, player)
+                                         and has_explorer_maps(world, state, player)
+                                        ),
+            "Over-Overkill": lambda state: ominous_vaults(world, state, player),
+            "Revaulting": lambda state: ominous_vaults(world, state, player)
         }
     }
     return rules_lookup

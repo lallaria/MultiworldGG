@@ -2,14 +2,14 @@
 
 ## Required Software
 
-- [Oracle of Seasons .apworld](https://github.com/Dinopony/ArchipelagoOoS/releases/latest)
+- [Oracle of Seasons .apworld](https://github.com/Dinopony/ArchipelagoOoS/releases/latest) (not needed with MWGG)
 - [Bizhawk 2.9.1 (x64)](https://tasvideos.org/BizHawk/ReleaseHistory)
 - Your legally obtained Oracle of Seasons US ROM file
 
 ## Installation Instructions
 
 1. Put your **Oracle of Seasons US ROM** inside your MultiworldGG install folder (named "Legend of Zelda, The - Oracle of Seasons (USA).gbc")
-2. Download the **Oracle of Seasons .apworld file** and double-click it to install it the "custom_worlds/" subdirectory of your MultiworldGG install directory (not needed with the MWGG Client)
+2. Download the **Oracle of Seasons .apworld file** and double-click it to install it the "custom_worlds/" subdirectory of your MultiworldGG install directory (not needed with MWGG)
 3. Generate a seed using your .yaml settings file (see below if you don't know how to get the template)
 4. Download the .apoos patch file that was built by the server while generating, this will be used to generate your modified ROM
 5. Open this patch file using the MultiworldGG Launcher

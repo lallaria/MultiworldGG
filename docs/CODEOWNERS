@@ -125,6 +125,9 @@
 # Donkey Kong Country 3
 /worlds/dkc3/ @PoryGone
 
+# Donkey Kong 64
+/worlds/dk64/ @2dos @killklli @theballaam96
+
 # Don't Starve Together
 /worlds/dontstarvetogether/ @DragonWolfLeo
 
@@ -173,6 +176,9 @@
 
 # Hatsune Miku Project Diva Mega Mix+
 /worlds/megamix/ @Cynichill
+
+# Here comes Niko!
+/worlds/hcniko/ @niieli
 
 # Heretic
 /worlds/heretic/ @Daivuk @KScl
@@ -232,6 +238,9 @@
 # Majora's Mask (Recompiled)
 /worlds/mm_recomp/ @LittleCube-hax
 
+# Mario Kart: Double Dash
+/worlds/mario_kart_double_dash/ @aXu-AP
+
 # Mario Kart 64
 /worlds/mk64/ @Edsploration
 
@@ -260,7 +269,7 @@
 /worlds/messenger/ @alwaysintreble
 
 # Minecraft
-/worlds/minecraft/ @KonoTyran @espeon65536
+/worlds/minecraft/ @KonoTyran @espeon65536 (currently unmaintained)
 
 # Monster Sanctuary
 /worlds/monster_sanctuary/ @Gtaray

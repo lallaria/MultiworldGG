@@ -1,5 +1,6 @@
 import asyncio
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 import websockets
 import functools
 from copy import deepcopy
@@ -163,7 +164,7 @@ class TrackmaniaContext(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Trackmania Client"
+            base_title = f"{apname} Trackmania Client"
 
         self.ui = TrackmaniaManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

@@ -79,6 +79,7 @@ class Wargroove2World(World):
     author = "Fly Sniper"
     igdb_id = 241149
     topology_present = True
+    author: str = "Fly Hyping"
     web = Wargroove2Web()
     level_list: typing.List[Wargroove2Level] = []
     final_levels: typing.List[Wargroove2Level] = []

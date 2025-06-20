@@ -1,11 +1,11 @@
 # Ape Escape - Setup Guide
 
 ## Required Software
-- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Please use version 0.4.4 or later for integrated
+- [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Please use version 0.7.70 or later for integrated
 BizHawk support.
 - Ape Escape (USA) ISO or BIN/CUE.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 to 2.9.1. Bizhawk version 2.10 or other emulators are **not** supported.
-- (Only if you are not using the MWGG client:) The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `Archipelago/custom_worlds` folder.
+- (Only if you are not using the MWGG client:) The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `MultiworldGG/custom_worlds` folder.
 
 ### Configuring BizHawk
 

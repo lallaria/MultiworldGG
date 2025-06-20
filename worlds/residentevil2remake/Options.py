@@ -22,10 +22,11 @@ class Scenario(Choice):
 class Difficulty(Choice):
     """Standard: Most people should play on this.
     Hardcore: Good luck, and thanks for testing deaths. Kappa
-    Assisted: No. Do Standard."""
+    Assisted: ... Okay, fine. No judgment here. :)"""
     display_name = "Difficulty to Play On"
     option_standard = 0
     option_hardcore = 1
+    option_assisted = 2
     default = 0
 
 class UnlockedTypewriters(OptionList):
@@ -141,8 +142,10 @@ class CrossScenarioWeapons(Choice):
     All Ammo: Same as All (adds every weapon from all 4 scenarios), and randomizes how much ammo is placed for each in the world.
     Troll: Same as AllAmmo (every weapon + random ammo), except the randomizer removes all but a few weapons. 
             Ammo and upgrades for the removed weapons are still included to troll you.
-            
-    NOTE: The options for "Full Ammo", "All Ammo", and "Troll" are not guaranteed to be reasonably beatable. Especially Troll. >:)"""
+    Troll Starting: Same as Troll, except the randomizer removes all weapons except for your starting weapon.
+            Ammo and upgrades for the removed weapons are still included as in Troll.
+
+    NOTE: The options for "Full Ammo", "All Ammo", and "Troll" / "Troll Starting" are not guaranteed to be reasonably beatable. Especially the Troll ones. >:)"""
     display_name = "Cross-Scenario Weapons"
     option_none = 0
     option_starting = 1
@@ -152,6 +155,7 @@ class CrossScenarioWeapons(Choice):
     option_full_ammo = 5
     option_all_ammo = 6   
     option_troll = 7
+    option_troll_starting = 8
     default = 0
 
 class AmmoPackModifier(Choice):
@@ -190,6 +194,14 @@ class OopsAllRockets(Choice):
     option_true = 1
     default = 0
 
+class OopsAllMiniguns(Choice):
+    """Enabling this swaps all weapons, weapon ammo, and subweapons to Miniguns. 
+    (Except progression weapons, of course.)"""
+    display_name = "Oops! All Miniguns"
+    option_false = 0
+    option_true = 1
+    default = 0
+
 class OopsAllGrenades(Choice):
     """Enabling this swaps all weapons, weapon ammo, and subweapons to Grenades. 
     (Except progression weapons, of course.)"""
@@ -205,6 +217,7 @@ class OopsAllKnives(Choice):
     option_false = 0
     option_true = 1
     default = 0
+
 
 class NoFirstAidSpray(Choice):
     """Enabling this swaps all first aid sprays to filler or less useful items. 
@@ -312,6 +325,7 @@ class RE2ROptions(StartInventoryFromPoolMixin, DeathLinkMixin, PerGameCommonOpti
     cross_scenario_weapons: CrossScenarioWeapons
     ammo_pack_modifier: AmmoPackModifier
     oops_all_rockets: OopsAllRockets
+    oops_all_miniguns: OopsAllMiniguns
     oops_all_grenades: OopsAllGrenades
     oops_all_knives: OopsAllKnives
     no_first_aid_spray: NoFirstAidSpray

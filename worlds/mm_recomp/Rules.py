@@ -188,6 +188,8 @@ def get_baby_region_rules(player, options):
             lambda state: state.has("Zora Mask", player),
         "Pirates' Fortress -> Pirates' Fortress (Interior)":
             lambda state: state.has("Goron Mask", player) and state.has("Hookshot", player),
+        "Zora Cape -> Zora Hall":
+            lambda state: state.has("Zora Mask", player),
         "Zora Cape -> Great Bay Temple":
             lambda state: can_play_song("New Wave Bossa Nova", state, player) and state.has("Hookshot", player) and state.has("Zora Mask", player) and state.has("Small Key (Great Bay)", player) and state.has("Boss Key (Great Bay)", player),
         "Road to Ikana -> Ikana Graveyard":
@@ -823,9 +825,9 @@ def get_baby_location_rules(player, options):
             
             
         "Zora Hall Piano Zora Song":
-            lambda state: state.has("Zora Mask", player),
+            lambda state: state.has("Zora Mask", player) and state.has("Hookshot", player),
         "Zora Hall Torches Reward":
-           lambda state: can_use_fire_arrows(state, player),
+           lambda state: state.has("Zora Mask", player) and can_use_fire_arrows(state, player),
         "Zora Hall Good Picture of Lulu":
            lambda state: state.has("Pictograph Box", player) and state.has("Zora Mask", player),
         "Zora Hall Bad Picture of Lulu":
@@ -909,7 +911,7 @@ def get_baby_location_rules(player, options):
         "Graveyard Day 2 Dampe Bats":
             lambda state: baby_has_projectiles(state, player) and baby_can_smack(state, player) and baby_has_explosives(state, player),
         "Graveyard Day 2 Iron Knuckle Chest":
-            lambda state: state.has("Captain's Hat", player) and baby_can_smack_hard(state, player) and baby_has_explosives(state, player),
+            lambda state: state.has("Captain's Hat", player) and baby_can_smack_hard(state, player) and baby_has_explosives(state, player) and can_use_lens(state, player),
         "Graveyard Day 3 Dampe Big Poe Chest":
             lambda state: state.has("Captain's Hat", player) and state.has("Progressive Bow", player),
         "Graveyard Sonata To Wake Sleeping Skeleton Chest":
@@ -1050,6 +1052,8 @@ def get_baby_location_rules(player, options):
             lambda state: state.can_reach("Moon Link Trial Garo Master Chest", 'Location', player),
         "Moon Link Trial HP":
             lambda state: state.can_reach("Moon Link Trial Garo Master Chest", 'Location', player) and can_play_song("Song of Healing", state, player) and can_play_song("Epona's Song", state, player),
+        "Moon Trade All Masks":
+            lambda state: state.can_reach("Moon Deku Trial HP", 'Location', player) and state.can_reach("Moon Goron Trial HP", 'Location', player) and state.can_reach("Moon Zora Trial HP", 'Location', player) and state.can_reach("Moon Link Trial HP", 'Location', player) and can_use_fire_arrows(state, player) and state.has("Captain's Hat", player) and state.has("Giant's Mask", player) and state.has("All-Night Mask", player) and state.has("Bunny Hood", player) and state.has("Keaton Mask", player) and state.has("Garo Mask", player) and state.has("Romani Mask", player) and state.has("Circus Leader's Mask", player) and state.has("Postman's Hat", player) and state.has("Couple's Mask", player) and state.has("Great Fairy Mask", player) and state.has("Gibdo Mask", player) and state.has("Don Gero Mask", player) and state.has("Kamaro Mask", player) and state.has("Mask of Truth", player) and state.has("Stone Mask", player) and state.has("Bremen Mask", player) and state.has("Blast Mask", player) and state.has("Mask of Scents", player) and state.has("Kafei's Mask", player),
         "Defeat Majora":
             lambda state: state.has("Fierce Deity's Mask", player) and state.has("Progressive Magic", player) and state.has("Great Fairy Sword", player) and has_gilded_sword(state, player) and state.has("Progressive Bow", player) and can_use_light_arrows(state, player)
     }
