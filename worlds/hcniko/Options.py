@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from Options import Toggle, StartInventoryPool, DeathLink, PerGameCommonOptions, Choice, Range, DefaultOnToggle
+from Options import Toggle, StartInventoryPool, DeathLink, PerGameCommonOptions, Choice, Range, DefaultOnToggle, \
+    OptionGroup
 
 
 def adjust_options(world):
@@ -305,16 +306,118 @@ class Thoughtsanity(Toggle):
     display_name = "Thoughtsanity"
 
 
+class TrapChance(Range):
+    """The chance for any junk item in the pool to be replaced by a trap."""
+    display_name = "Trap Chance"
+    range_start = 0
+    range_end = 100
+    default = 50
+
+
+class FreezeTrapWeight(Range):
+    """The weight of Freeze Traps in the trap pool.
+    Freeze Traps will temporarily make Niko unable to move."""
+    display_name = "Freeze Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class IronBootsTrapWeight(Range):
+    """The weight of Iron Boots Traps in the trap pool.
+    Iron Boots Traps will make Niko slow & heavy."""
+    display_name = "Iron Boots Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class WhoopsTrapWeight(Range):
+    """The weight of Whoops! Traps in the trap pool.
+    Whoops! Traps will send Niko way up in the sky."""
+    display_name = "Whoops! Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class MyTurnTrapWeight(Range):
+    """The weight of My Turn! Traps in the trap pool.
+    My Turn! Traps will make Niko jump, dive and move in random directions."""
+    display_name = "My Turn! Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class GravityTrapWeight(Range):
+    """The weight of Gravity Traps in the trap pool.
+    Gravity Traps will temporarily remove gravity."""
+    display_name = "Gravity Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 20
+
+
+class HomeTrapWeight(Range):
+    """The weight of Home Traps in the trap pool.
+    Home Traps will send Niko back to Home."""
+    display_name = "Home Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 10
+
+
+class WideTrapWeight(Range):
+    """The weight of W I D E Traps in the trap pool.
+    W I D E Traps will make Niko very wide."""
+    display_name = "W I D E Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class PhoneTrapWeight(Range):
+    """The weight of Phone Traps in the trap pool.
+    Phone Traps will force Niko to receive an unskippable phone call."""
+    display_name = "Phone Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class TinyTrapWeight(Range):
+    """The weight of Tiny Traps in the trap pool.
+    Tiny Traps will make Niko very tiny."""
+    display_name = "Tiny Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
+class JumpingJacksTrapWeight(Range):
+    """The weight of Jumping Jacks Traps in the trap pool.
+    Jumping Jacks Traps will make Niko jump continuously."""
+    display_name = "Jumping Jacks Trap Weight"
+    range_start = 0
+    range_end = 100
+    default = 40
+
+
 class HCNDeathLink(DeathLink):
     """When somebody dies the level will be reloaded"""
 
 
 class TrapLink(Toggle):
     """Traps with other TrapLink players are shared."""
+    display_name = "Trap Link"
 
 
 @dataclass
 class HereComesNikoOptions(PerGameCommonOptions):
+    death_link: HCNDeathLink
+    trap_link: TrapLink
+
     shuffle_kiosk_reward: ShuffleKioskReward
     start_with_ticket: StartWithTicket
     enable_achievements: EnableAchievements
@@ -330,10 +433,11 @@ class HereComesNikoOptions(PerGameCommonOptions):
     soda_cans: SodaCans
     parasols: Parasols
     swimming: Swimming
+    precisejumps: PreciseJumps
     textbox: Textbox
     ac_repair: AirConditioning
     applebasket: AppleBasket
-    precisejumps: PreciseJumps
+
     fishsanity: Fishsanity
     seedsanity: Seedsanity
     flowersanity: Flowerbedsanity
@@ -342,11 +446,78 @@ class HereComesNikoOptions(PerGameCommonOptions):
     bugsanity: Bugsanity
     chatsanity: Chatsanity
     thoughtsanity: Thoughtsanity
+
     goal_completion: GoalCompletion
     min_kiosk_cost: MinKioskCost
     max_kiosk_cost: MaxKioskCost
     min_elevator_cost: MinElevatorCost
     max_elevator_cost: MaxElevatorCost
+
+    trapchance: TrapChance
+    freeze_trapweight: FreezeTrapWeight
+    ironboots_trapweight: IronBootsTrapWeight
+    whoops_trapweight: WhoopsTrapWeight
+    myturn_trapweight: MyTurnTrapWeight
+    gravity_trapweight: GravityTrapWeight
+    home_trapweight: HomeTrapWeight
+    wide_trapweight: WideTrapWeight
+    phone_trapweight: PhoneTrapWeight
+    tiny_trapweight: TinyTrapWeight
+    jumpingjacks_trapweight: JumpingJacksTrapWeight
     start_inventory_from_pool: StartInventoryPool
-    death_link: HCNDeathLink
-    trap_link: TrapLink
+
+hcniko_option_groups = [
+    OptionGroup("Goal Options", [
+        GoalCompletion,
+        MinKioskCost,
+        MaxKioskCost,
+        MinElevatorCost,
+        MaxElevatorCost
+    ]),
+    OptionGroup("General Options", [
+        ShuffleKioskReward,
+        StartWithTicket,
+        CassetteLogic,
+        EnableAchievements,
+        ShuffleHandsomeFrog,
+        ShuffleGarysGarden,
+        GarysGardenAccess,
+        SnailShopLocations
+    ]),
+    OptionGroup("Item & Logic Options", [
+        KeysLevelBased,
+        ProgressiveContactList,
+        BonkPermit,
+        BugNet,
+        SodaCans,
+        Parasols,
+        Swimming,
+        PreciseJumps,
+        Textbox,
+        AirConditioning,
+        AppleBasket
+    ]),
+    OptionGroup("Location Options", [
+        Fishsanity,
+        Seedsanity,
+        Flowerbedsanity,
+        Bonesanity,
+        Applesanity,
+        Bugsanity,
+        Chatsanity,
+        Thoughtsanity
+    ]),
+    OptionGroup("Trap Options", [
+        TrapChance,
+        FreezeTrapWeight,
+        IronBootsTrapWeight,
+        WhoopsTrapWeight,
+        MyTurnTrapWeight,
+        GravityTrapWeight,
+        HomeTrapWeight,
+        WideTrapWeight,
+        PhoneTrapWeight,
+        TinyTrapWeight,
+        JumpingJacksTrapWeight
+    ])
+]

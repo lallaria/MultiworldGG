@@ -250,7 +250,8 @@ def get_location_rules(player, world):
         "Hairball City - Above Frog Statue":
             lambda state: state.has("Key", player, 7)
                           or state.has("Hairball City Key", player)
-                          and (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and (world.options.swimming.value != 1 or state.has("Swim Course", player))
+                          and (world.options.soda_cans.value != 1 or state.has("Soda Repair", player)),
         "Salmon Creek Forest - Inside Locked Cave":
             lambda state: state.has("Key", player, 7)
                           or state.has("Salmon Creek Forest Key", player),
@@ -991,7 +992,8 @@ def get_location_rules(player, world):
         "Hairball City - Bone 1":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Hairball City - Bone 2":
-            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
+                          and (world.options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
         "Hairball City - Bone 3":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
         "Hairball City - Bone 4":
@@ -1098,16 +1100,26 @@ def get_location_rules(player, world):
 
         "Bathhouse - Bone 1":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
+                          and (world.options.parasols.value != 1 or state.has("Parasol Repair", player))
+                          and (state.has("Contact List 2", player)
+                          or state.has("Progressive Contact List", player, 2)),
         "Bathhouse - Bone 2":
-            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
+                          and (state.has("Contact List 2", player)
+                          or state.has("Progressive Contact List", player, 2)),
         "Bathhouse - Bone 3":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (world.options.parasols.value != 1 or state.has("Parasol Repair", player)),
+                          and (world.options.parasols.value != 1 or state.has("Parasol Repair", player))
+                          and (state.has("Contact List 2", player)
+                          or state.has("Progressive Contact List", player, 2)),
         "Bathhouse - Bone 4":
-            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
+                          and (state.has("Contact List 2", player)
+                          or state.has("Progressive Contact List", player, 2)),
         "Bathhouse - Bone 5":
-            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player))
+                          and (state.has("Contact List 2", player)
+                          or state.has("Progressive Contact List", player, 2)),
         "Bathhouse - Hasselhop (Chatsanity)":
             lambda state: (world.options.swimming.value != 1 or state.has("Swim Course", player)),
 
