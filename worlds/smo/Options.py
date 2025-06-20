@@ -10,10 +10,10 @@ class Goal(Choice):
     option_lake = 5
     option_metro = 9
     option_luncheon = 12
-    option_moon = 15
-    option_dark = 17
-    option_darker = 18
-    default = 15  # default to moon
+    option_moon = 14
+    option_dark = 16
+    option_darker = 17
+    default = 14  # default to moon
 
 class StorySanity(Choice):
     """Adds story progression moons to the pool."""
@@ -26,7 +26,7 @@ class StorySanity(Choice):
 
 class ShopSanity(Choice):
     """Adds various shop items to the pool.
-    shuffle: shuffles items only into shop locations in your game."""
+    shuffle: shuffles outfits amongst themselves keeping them in your game."""
     display_name = "Randomize Shops"
     option_shuffle = 1
     option_outfits  = 2
@@ -34,16 +34,6 @@ class ShopSanity(Choice):
     option_all = 4
     option_off = 0
     default = 0  # default to off
-
-# class ReplaceUnneededMoons(Toggle):
-#     """Replaces moons from kingdoms not required to reach the win condition with filler items (Coins)."""
-#     display_name = "Replace Unnecessary Moons"
-
-class RomFSLocation(FreeText):
-    """The Directory of an extracted RomFS folder for Super Mario Odyssey.
-    Used to generate a RomFS folder to patch in special options."""
-    display_name = "Extracted RomFS Directory"
-    #visibility = 0b1101
 
 class RandomizeMoonColors(Toggle):
     """Randomizes each kingdom's moon color."""
@@ -57,7 +47,7 @@ class RandomizeMoonCount(Choice):
     moderate: Up to +25% and down to -20% of normal per kingdom counts.
     extreme: Up to 200% of normal count.
     """
-    display_name = "Randomize Moon Count"
+    display_name = "Randomize Moon Requirements"
     #visibility = 0b1101
     option_same_total = 1
     option_same_total_lock_ruined = 2
@@ -70,10 +60,9 @@ class RandomizeMoonCount(Choice):
 class SMOOptions(PerGameCommonOptions):
     goal: Goal
     story : StorySanity
-    shop_sanity: ShopSanity
+    shop_sanity : ShopSanity
     # replace: ReplaceUnneededMoons
-    romFS:RomFSLocation
-    colors: RandomizeMoonColors
-    counts:RandomizeMoonCount
+    colors : RandomizeMoonColors
+    counts : RandomizeMoonCount
 
 

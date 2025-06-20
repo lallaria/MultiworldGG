@@ -163,7 +163,10 @@ def fill_wild_encounter_locations(world: "PokemonCrystalWorld"):
                               and region.key.encounter_type is not EncounterType.Static}
 
         other_wild_regions = {loc.parent_region for loc in world.multiworld.get_locations(world.player) if
-                              "wild encounter" in loc.tags and loc.parent_region.key.encounter_type is not EncounterType.Static}
+                              "wild encounter" in loc.tags
+                              and loc.parent_region not in early_wild_regions
+                              and world.generated_wild_region_logic[loc.parent_region.key] is LogicalAccess.InLogic
+                              and loc.parent_region.key.encounter_type is not EncounterType.Static}
 
         if early_wild_regions and other_wild_regions:
 
@@ -173,6 +176,12 @@ def fill_wild_encounter_locations(world: "PokemonCrystalWorld"):
                 starter = evo_line[0]
                 source_region = None
                 source_encounters = None
+
+                if any(encounter
+                       for region in early_wild_regions
+                       for encounter in world.generated_wild[region.key]
+                       if encounter.pokemon == starter):
+                    continue
 
                 for region in other_wild_regions:
                     source_encounters = world.generated_wild[region.key]
@@ -393,8 +402,8 @@ def get_random_types(random):
 # palettes stuff
 def get_random_colors(random):
     return [
-        c for c in convert_color(random.randint(0, 31), random.randint(0, 31), random.randint(0, 31))
-        for _ in range(4)
+        c for _ in range(4)
+        for c in convert_color(random.randint(0, 31), random.randint(0, 31), random.randint(0, 31))
     ]
 
 

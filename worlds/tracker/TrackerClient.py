@@ -13,6 +13,7 @@ from typing import Union, Any, TYPE_CHECKING
 
 from BaseClasses import CollectionState, MultiWorld, LocationProgressType, ItemClassification
 from worlds.generic.Rules import exclusion_rules
+from Options import PerGameCommonOptions
 from Utils import __version__, output_path, open_filename
 from worlds import AutoWorld
 from worlds.tracker import TrackerWorld, UTMapTabData, CurrentTrackerState
@@ -258,6 +259,7 @@ class TrackerGameContext(CommonContext):
         self.location_icon = None
         self.root_pack_path = None
         self.map_id = None
+        self.common_option_overrides = {}
 
     def load_pack(self):
         self.maps = []
@@ -416,10 +418,11 @@ class TrackerGameContext(CommonContext):
 
     def build_gui(self, manager: "GameManager"):
         from kivy.uix.boxlayout import BoxLayout
-        from kvui import MDTabsItem, MDTabsItemText, MDRecycleView, HoverBehavior
+        from kvui import MDRecycleView, HoverBehavior
         from kivymd.uix.tooltip import MDTooltip
         from kivy.uix.widget import Widget
         from kivy.properties import StringProperty, NumericProperty, BooleanProperty
+        from kivy.metrics import dp
         from kvui import ApAsyncImage, ToolTip
         from .TrackerKivy import SomethingNeatJustToMakePythonHappy
 
@@ -595,21 +598,36 @@ class TrackerGameContext(CommonContext):
                 self.ids.location_canvas.add_widget(self.location_icon)
                 return returnDict
 
-        tracker_page = MDTabsItem(MDTabsItemText(text="Tracker Page"))
-        map_page = MDTabsItem(MDTabsItemText(text="Map Page"))
 
         try:
-            tracker = TrackerLayout(orientation="horizontal")
+            tracker = TrackerLayout(orientation="vertical")
             tracker_view = TrackerView()
+
+            # Creates a header
+            tracker_header = BoxLayout(orientation="horizontal", size_hint_y=None, height=dp(36))
+            tracker_divider = MDDivider(size_hint_y=None, height=dp(1))
+            self.tracker_total_locs_label = MDLabel(text="Locations: 0/0", halign="center")
+            self.tracker_logic_locs_label = MDLabel(text="In Logic: 0", halign="center")
+            self.tracker_glitched_locs_label = MDLabel(text=f"Glitched: [color={get_ut_color("glitched")}]0[/color]",  halign="center")
+            self.tracker_hinted_locs_label = MDLabel(text=f"Hinted: [color={get_ut_color("hinted_in_logic")}]0[/color]", halign="center")
+            self.tracker_glitched_locs_label.markup = True
+            self.tracker_hinted_locs_label.markup = True
+            tracker_header.add_widget(self.tracker_total_locs_label)
+            tracker_header.add_widget(self.tracker_logic_locs_label)
+            tracker_header.add_widget(self.tracker_glitched_locs_label)
+            tracker_header.add_widget(self.tracker_hinted_locs_label)
+
+            # Adds the tracker list at the bottom
+            tracker.add_widget(tracker_header)
+            tracker.add_widget(tracker_divider)
             tracker.add_widget(tracker_view)
+
             self.tracker_page = tracker_view
-            tracker_page.content = tracker
             self.location_icon = ApLocationIcon()
-            map = VisualTracker()
-            map.location_icon = self.location_icon
-            self.map_page_coords_func = map.load_coords
-            self.map_page = map_page
-            map_page.content = map
+
+            map_content = VisualTracker()
+            map_content.location_icon = self.location_icon
+            self.map_page_coords_func = map_content.load_coords
             if self.gen_error is not None:
                 for line in self.gen_error.split("\n"):
                     self.log_to_tab(line, False)
@@ -618,26 +636,25 @@ class TrackerGameContext(CommonContext):
             self.map_page_coords_func = lambda *args: None
             tb = traceback.format_exc()
             print(tb)
-        manager.tabs.add_widget(tracker_page)
-        manager.tabs.carousel.add_widget(tracker_page.content)
+        manager.add_client_tab("Tracker Page", tracker)
 
         @staticmethod
-        def set_map_tab(self, value, *args, map_page=map_page):
+        def set_map_tab(self, value, *args, map_content=map_content, test=[]):
             if value:
-                self.add_widget(map_page)
-                self.carousel.add_widget(map_page.content)
-                self._set_slides_attributes()
-                self.on_size(self, self.size)
+                test.append(self.add_client_tab("Map Page", map_content))
+                # self.add_widget(map_content)
+                # self.carousel.add_widget(map_content)
+                # self._set_slides_attributes()
+                # self.on_size(self, self.size)
             else:
-                self.remove_tab(map_page)
+                if test:
+                    self.remove_client_tab(test.pop())
 
-        # hopefully there's a better way in the future but I had to add and then remove the tab so it
-        # wouldn't croak trying to set width with no parent carousel
-        manager.tabs.add_widget(map_page)
-        manager.tabs.carousel.add_widget(map_page.content)
-        manager.tabs.apply_property(show_map=BooleanProperty(True))
-        manager.tabs.fbind("show_map",set_map_tab)
-        manager.tabs.show_map = False
+
+        manager.apply_property(show_map=BooleanProperty(True))
+        manager.fbind("show_map",set_map_tab)
+        manager.show_map = False
+
 
     def make_gui(self):
         ui = super().make_gui()  # before the kivy imports so kvui gets loaded first
@@ -809,7 +826,7 @@ class TrackerGameContext(CommonContext):
                     self.tracker_world = UTMapTabData(self.slot, self.team, **connected_cls.tracker_world)
                     self.load_pack()
                     if self.tracker_world:  # don't show the map if loading failed
-                        self.ui.tabs.show_map = True
+                        self.ui.show_map = True
                         if self.tracker_world.map_page_index:
                             key = self.tracker_world.map_page_setting_key or f"{self.slot}_{self.team}_{UT_MAP_TAB_KEY}"
                             self.set_notify(key)
@@ -886,7 +903,7 @@ class TrackerGameContext(CommonContext):
             self.game = ""
             self.re_gen_passthrough = None
             if self.ui:
-                self.ui.tabs.show_map = False
+                self.ui.show_map = False
             if self.tracker_world:
                 if "load_map" in self.command_processor.commands:
                     self.command_processor.commands["load_map"] = None
@@ -901,6 +918,14 @@ class TrackerGameContext(CommonContext):
             self.ignored_locations.clear()
             self.location_alias_map = {}
             self.set_page("Connect to a slot to start tracking!")
+            if hasattr(self, "tracker_total_locs_label"):
+                self.tracker_total_locs_label.text = f"Locations: 0/0"
+            if hasattr(self, "tracker_logic_locs_label"):
+                self.tracker_logic_locs_label.text = f"In Logic: 0"
+            if hasattr(self, "tracker_glitched_locs_label"):
+                self.tracker_glitched_locs_label.text = f"Glitched: [color={get_ut_color("glitched")}]0[/color]"
+            if hasattr(self, "tracker_hinted_locs_label"):
+                self.tracker_hinted_locs_label.text = f"Hinted: [color={get_ut_color("hinted_in_logic")}]0[/color]"
         self.local_items.clear()
 
         await super().disconnect(allow_autoreconnect)
@@ -927,11 +952,31 @@ class TrackerGameContext(CommonContext):
             """
             player = {name: i for i, name in args.name.items()}[slot_name]
             if player == 1:
+                if slot_name in self.common_option_overrides:
+                    vars(args).update({
+                        option_name: {player: option_value}
+                        for option_name, option_value in self.common_option_overrides[slot_name].items()
+                    })
                 return args
             for option_name, option_value in args._get_kwargs():
                 if isinstance(option_value, dict) and player in option_value:
-                    setattr(args, option_name, {1: option_value[player]})
+                    set_value = self.common_option_overrides.get(slot_name, {}).get(option_name, False) or option_value[player]
+                    setattr(args, option_name, {1: set_value})
             return args
+
+        def stash_generic_options(args: dict[str, dict[int, Any]]) -> None:
+            ap_slots = {slot: args["name"][slot] for slot, game in args["game"].items() if game == "Archipelago"}
+            override_dict = {
+                option_name: {slot: option_class.from_any(option_class.default) for slot in ap_slots.keys()}
+                for option_name, option_class in PerGameCommonOptions.type_hints.items()
+            }
+            per_player_overrides = {
+                slot_name: {option_name: args[option_name][slot] for option_name in override_dict.keys()}
+                for slot, slot_name in ap_slots.items()
+            }
+            self.common_option_overrides.update(per_player_overrides)
+            for option_name, player_mapping in override_dict.items():
+                args[option_name].update(player_mapping)
 
         try:
             yaml_path, self.output_format, self.hide_excluded, self.use_split = self._set_host_settings()
@@ -974,7 +1019,8 @@ class TrackerGameContext(CommonContext):
                     slot: game if game not in REGEN_WORLDS else "Archipelago"
                     for slot, game in g_args.game.items()
                     }
-                # TODO empty out generic options for slots we moved to "Archipelago"
+
+                stash_generic_options(vars(g_args))
                 self.launch_multiworld = self.TMain(g_args, seed)
                 self.multiworld = self.launch_multiworld
 
@@ -1095,9 +1141,12 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
     callback_list = []
 
     item_id_to_name = ctx.multiworld.worlds[ctx.player_id].item_id_to_name
-    for item_name, item_flags in [(item_id_to_name[item.item],item.flags) for item in ctx.tracker_items_received] + [(name,ItemClassification.progression) for name in ctx.manual_items]:
+    location_id_to_name = ctx.multiworld.worlds[ctx.player_id].location_id_to_name
+    for item_name, item_flags, item_loc in [(item_id_to_name[item.item],item.flags,item.location) for item in ctx.tracker_items_received] + [(name,ItemClassification.progression,-1) for name in ctx.manual_items]:
         try:
             world_item = ctx.multiworld.create_item(item_name, ctx.player_id)
+            if item_loc>0 and item_loc in location_id_to_name:
+                world_item.location = ctx.multiworld.get_location(location_id_to_name[item_loc],ctx.player_id)
             world_item.classification = world_item.classification | item_flags
             state.collect(world_item, True)
             if world_item.advancement:
@@ -1115,6 +1164,7 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
     readable_locations = []
     glitches_locations = []
     hints = []
+    hinted_locations = []
     if f"_read_hints_{ctx.team}_{ctx.slot}" in ctx.stored_data:
         from NetUtils import HintStatus
         hints = [ hint["location"] for hint in ctx.stored_data[f"_read_hints_{ctx.team}_{ctx.slot}"] if hint["status"] != HintStatus.HINT_FOUND and ctx.slot_concerns_self(hint["finding_player"]) ]
@@ -1139,6 +1189,7 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
                         ctx.log_to_tab("[color="+get_ut_color("excluded") + "]" +region + " | " + temp_name+"[/color]", True)
                     elif temp_loc.address in hints:
                         ctx.log_to_tab("[color="+get_ut_color("hinted") + "]" +region + " | " + temp_name+"[/color]", True)
+                        hinted_locations.append(temp_loc)
                     else:
                         ctx.log_to_tab(region + " | " + temp_name, True)
                     readable_locations.append(region + " | " + temp_name)
@@ -1147,6 +1198,7 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
                         ctx.log_to_tab("[color="+get_ut_color("excluded") + "]" +temp_name+"[/color]", True)
                     elif temp_loc.address in hints:
                         ctx.log_to_tab("[color="+get_ut_color("hinted") + "]" +temp_name+"[/color]", True)
+                        hinted_locations.append(temp_loc)
                     else:
                         ctx.log_to_tab(temp_name, True)
                     readable_locations.append(temp_name)
@@ -1196,6 +1248,7 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
                                 ctx.log_to_tab("[color="+get_ut_color("out_of_logic_glitched") + "]" +region + " | " + temp_name+"[/color]", True)
                             elif temp_loc.address in hints:
                                 ctx.log_to_tab("[color="+get_ut_color("hinted_glitched") + "]" +region + " | " + temp_name+"[/color]", True)
+                                hinted_locations.append(temp_loc)
                             else:
                                 ctx.log_to_tab("[color="+get_ut_color("glitched") + "]" +region + " | " + temp_name+"[/color]", True)
                             readable_locations.append(region + " | " + temp_name)
@@ -1204,6 +1257,7 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
                                 ctx.log_to_tab("[color="+get_ut_color("out_of_logic_glitched") + "]" +temp_name+"[/color]", True)
                             elif temp_loc.address in hints:
                                 ctx.log_to_tab("[color="+get_ut_color("hinted_glitched") + "]" +temp_name+"[/color]", True)
+                                hinted_locations.append(temp_loc)
                             else:
                                 ctx.log_to_tab("[color="+get_ut_color("glitched") + "]" +temp_name+"[/color]", True)
                             readable_locations.append(temp_name)
@@ -1255,6 +1309,15 @@ def updateTracker(ctx: TrackerGameContext) -> CurrentTrackerState:
             for i in readable_locations:
                 logger.error(i)
         ctx.exit_event.set()
+
+    if hasattr(ctx, "tracker_total_locs_label"):
+        ctx.tracker_total_locs_label.text = f"Locations: {len(ctx.checked_locations)}/{ctx.total_locations}"
+    if hasattr(ctx, "tracker_logic_locs_label"):
+        ctx.tracker_logic_locs_label.text = f"In Logic: {len(locations)}"
+    if hasattr(ctx, "tracker_glitched_locs_label"):
+        ctx.tracker_glitched_locs_label.text = f"Glitched: [color={get_ut_color("glitched")}]{len(glitches_locations)}[/color]"
+    if hasattr(ctx, "tracker_hinted_locs_label"):
+        ctx.tracker_hinted_locs_label.text = f"Hinted: [color={get_ut_color("hinted_in_logic")}]{len(hinted_locations)}[/color]"
 
     return CurrentTrackerState(all_items, prog_items, glitches_locations, events, state)
 

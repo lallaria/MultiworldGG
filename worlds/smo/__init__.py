@@ -1,37 +1,48 @@
 import random
 import os
 from typing import Mapping, Any
-
-from .Items import item_table, SMOItem, filler_item_table, outfits, shop_items, multi_moons, moon_item_table, moon_types, story_moons \
-    #Cap, Cascade, Sand, Lake, Wooded, Cloud, Lost, Metro, Snow, Seaside, Luncheon, Ruined, \
-    #Bowser, Moon, Mushroom, Dark, Darker, moon_item_list
-from .Locations import locations_table, SMOLocation, loc_Cascade, loc_Cascade_Revisit, \
-    loc_Cap, loc_Sand, loc_Lake, loc_Wooded, loc_Cloud, loc_Lost, loc_Metro, loc_Snow, \
-    loc_Seaside, loc_Luncheon, loc_Ruined, loc_Bowser, post_game_locations_table, \
-    loc_Moon, loc_Dark, loc_Darker, loc_Mushroom, locations_list, post_game_locations_list, \
-    loc_Lake_Post_Seaside, loc_Cascade_Post_Snow, loc_Mushroom_Post_Luncheon, shop_locations_table
+from .Items import item_table, SMOItem, filler_item_table, outfits, shop_items, multi_moons, \
+    moon_item_table, moon_types, story_moons, world_list
+from .Locations import locations_table, SMOLocation, locations_list, post_game_locations_list, \
+    special_locations_table, full_moon_locations_list, goals_table
 from .Options import SMOOptions
 from .Rules import set_rules
 from .Regions import create_regions
-from BaseClasses import Item, Region, ItemClassification, Tutorial
+from BaseClasses import Item, ItemClassification, Tutorial
 from worlds.AutoWorld import World, WebWorld
+from worlds.LauncherComponents import (Component, components, Type as component_type, SuffixIdentifier, launch as launch_component)
+from .Patch import SMOProcedurePatch, make_output, write_patch
+from settings import Group, UserFolderPath
+from Utils import output_path
 
-from .Patch import make_output
 
+def launch_client(*args: str):
+    from .Connector.Client import launch
+    print(len(args))
+    if len(args) > 0:
+        make_output(args[0])
+        launch_component(launch, name="SMOClient", args=args[1:])
+    else:
+        launch_component(launch, name="SMOClient", args=args)
 
-"""
-class MyGameSettings(settings.Group):
-    class RomFile(settings.SNESRomPath):
-        Insert help text for host.yaml here.
+component = Component("Super Mario Odyssey Client", component_type=component_type.CLIENT,
+                      game_name="Super Mario Odyssey", file_identifier=SuffixIdentifier(".apsmo"), func=launch_client)
+components.append(component)
 
-    rom_file: RomFile = RomFile("MyGame.sfc")
-"""
+class SMOSettings(Group):
+    class SMORomFS(UserFolderPath):
+        """Folder location of your dumped Super Mario Odyssey RomFS."""
+        description = "Super Mario Odyssey RomFS"
+        copy_to = "SMO_RomFs"
+
+    romFS_folder: SMORomFS = SMORomFS(SMORomFS.copy_to)
+
 
 class SMOWebWorld(WebWorld):
     theme = "ocean"
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up the Super Mario Odyssey randomizer connected to an MultiworldGG world",
+        "A guide to setting up the Super Mario Odyssey randomizer connected to a MultiworldGG world",
         "English",
         "setup_en.md",
         "setup/en",
@@ -42,13 +53,13 @@ class SMOWorld(World):
     """Super Mario Odyssey is a 3-D Platformer where Mario sets off across the world with his companion Cappy to save Princess Peach and Cappy's sister Tiara from Bowser's wedding plans."""
     game = "Super Mario Odyssey"
     author: str = "Kgamer77"
-    
-    web = SMOWebWorld()
-    # this gives the generator all the definitions for our options
-    options_dataclass = SMOOptions
-    # this gives us typing hints for all the options we defined
-    options: SMOOptions
 
+    settings_key = "smo_settings"
+    settings : SMOSettings
+
+    options_dataclass = SMOOptions
+    options: SMOOptions
+    web = SMOWebWorld()
     topology_present = True  # show path to required location checks in spoiler
 
     # ID of first item and location, could be hard-coded but code may be easier
@@ -60,7 +71,6 @@ class SMOWorld(World):
     item_name_to_id = {**item_table, **moon_types}
 
     location_name_to_id = locations_table
-    unrequired_kingdoms = []
     # Number of Power Moons required to leave each kingdom
     moon_counts = {
         "cascade": 5,
@@ -81,24 +91,24 @@ class SMOWorld(World):
     # Number of Power Moons required to unlock post game outfits.
     outfit_moon_counts = {
         "Luigi Cap" : 160,
-        "Luigi Clothes" : 180,
-        "Doctor Cap" : 220,
-        "Doctor Clothes" : 240,
+        "Luigi Suit" : 180,
+        "Doctor Headwear" : 220,
+        "Doctor Outfit" : 240,
         "Waluigi Cap" : 260,
-        "Waluigi Clothes" : 280,
-        "Diddy Kong Cap" : 300,
-        "Diddy Kong Clothes" : 320,
+        "Waluigi Suit" : 280,
+        "Diddy Kong Hat" : 300,
+        "Diddy Kong Suit" : 320,
         "Wario Cap" : 340,
-        "Wario Clothes" : 360,
-        "Hakama Clothes" : 380,
-        "Koopa Cap" : 420,
-        "Koopa Clothes" : 440,
-        "Peach Cap" : 460,
-        "Peach Clothes" : 480,
-        "Gold Cap" : 500,
-        "Gold Clothes" : 500,
-        "64 Metal Cap" : 500,
-        "64 Metal Clothes" : 500
+        "Wario Suit" : 360,
+        "Hakama" : 380,
+        "Bowser's Top Hat" : 420,
+        "Bowser's Tuxedo" : 440,
+        "Bridal Veil" : 460,
+        "Bridal Gown" : 480,
+        "Gold Mario Cap" : 500,
+        "Gold Mario Suit" : 500,
+        "Metal Mario Cap" : 500,
+        "Metal Mario Suit" : 500
     }
 
     # Maximum number of Power Moons for any given kingdom's progression
@@ -118,45 +128,45 @@ class SMOWorld(World):
         "darker": 750
     }
     # Number of Power Moons in the pool for each kingdom
-    pool_counts = {
-        "Cap" : 31,
-        "Cascade" : 38,
-        "Sand" : 85,
-        "Lake" : 41,
-        "Wooded" : 72,
-        "Cloud" : 9,
-        "Lost" : 35,
-        "Metro" : 74,
-        "Snow" : 50,
-        "Seaside" : 66,
-        "Luncheon" : 63,
-        "Ruined" : 9,
-        "Bowser" : 58,
-        "Moon" : 38,
-        "Mushroom" : 37,
-        "Dark Side" : 23,
-        "Cascade Story" : 1,
-        "Sand Story" : 2,
-        "Wooded Story" : 2,
-        "Metro Story" : 5,
-        "Snow Story" : 4,
-        "Seaside Story" : 4,
-        "Luncheon Story" : 3,
-        "Bowser Story" : 3,
-        "Cascade Multi" : 1,
-        "Sand Multi" : 2,
-        "Lake Multi" : 1,
-        "Wooded Multi" : 2,
-        "Metro Multi" : 2,
-        "Snow Multi" : 1,
-        "Seaside Multi" : 1,
-        "Luncheon Multi" : 2,
-        "Ruined Multi" : 1,
-        "Bowser Multi" : 1,
-        "Mushroom Multi" : 6,
-        "Dark Side Multi" : 1,
-        "Darker Side Multi" : 1
-    }
+    # pool_counts = {
+    #     "Cap" : 31,
+    #     "Cascade" : 38,
+    #     "Sand" : 85,
+    #     "Lake" : 41,
+    #     "Wooded" : 72,
+    #     "Cloud" : 9,
+    #     "Lost" : 35,
+    #     "Metro" : 74,
+    #     "Snow" : 50,
+    #     "Seaside" : 66,
+    #     "Luncheon" : 63,
+    #     "Ruined" : 9,
+    #     "Bowser" : 58,
+    #     "Moon" : 38,
+    #     "Mushroom" : 37,
+    #     "Dark Side" : 23,
+    #     "Cascade Story" : 1,
+    #     "Sand Story" : 2,
+    #     "Wooded Story" : 2,
+    #     "Metro Story" : 5,
+    #     "Snow Story" : 4,
+    #     "Seaside Story" : 4,
+    #     "Luncheon Story" : 3,
+    #     "Bowser Story" : 3,
+    #     "Cascade Multi" : 1,
+    #     "Sand Multi" : 2,
+    #     "Lake Multi" : 1,
+    #     "Wooded Multi" : 2,
+    #     "Metro Multi" : 2,
+    #     "Snow Multi" : 1,
+    #     "Seaside Multi" : 1,
+    #     "Luncheon Multi" : 2,
+    #     "Ruined Multi" : 1,
+    #     "Bowser Multi" : 1,
+    #     "Mushroom Multi" : 6,
+    #     "Dark Side Multi" : 1,
+    #     "Darker Side Multi" : 1
+    # }
 
     placed_counts = {
         "cascade": 0,
@@ -196,8 +206,9 @@ class SMOWorld(World):
         "Darker": ["Darker Side Multi-Moon"]
     }
 
+    # Change regionals to be dependent on the option
     def fill_slot_data(self) -> Mapping[str, Any]:
-        return {**(self.options.as_dict("goal")), "clash" : self.moon_counts["lost"], "raid" : self.moon_counts["ruined"]}
+        return {**(self.options.as_dict("goal")), "clash" : self.moon_counts["lost"], "raid" : self.moon_counts["ruined"], "regionals" : False}
 
     def create_regions(self):
         if self.options.counts > 0:
@@ -221,42 +232,21 @@ class SMOWorld(World):
         if name in filler_item_table.keys():
             classification = ItemClassification.filler
         else:
-            if name == "Beat the Game" and self.options.goal == 15:
+            if name == "Beat the Game" and self.options.goal == "moon":
                 classification = ItemClassification.progression_skip_balancing
             elif name in outfits:
-                """self.options.goal > 4 and outfits.index(name) <= 2) or \
-                                        (self.options.goal > 5 and outfits.index(name) <= 7) or \
-                                        (self.options.goal > 9 and outfits.index(name) < 10) or \
-                                        (self.options.goal > 12 and outfits.index(name) <= 17) or \
-                                        (self.options.goal > 15 and"""
                 if outfits.index(name) <= 33:
                     classification = ItemClassification.progression_skip_balancing
             elif name in shop_items:
                 # Until achievements implemented if possible
                 classification = ItemClassification.filler
-
             else:
-                # if (self.options.goal == 17 and self.placed_counts["dark"] >= self.moon_counts["dark"]) or (
-                #         self.options.goal == 18 and self.placed_counts["darker"] > self.moon_counts["darker"]):
-                #     classification = ItemClassification.filler
-                # else:
-                #     classification = ItemClassification.progression_skip_balancing
                 if name in moon_types:
                     if (name in self.item_name_groups["Dark"] and self.options.goal < 18) or name in self.item_name_groups["Darker"]:
                         classification = ItemClassification.filler
                     if "Story" in name or "Multi" in name:
-                        # if (self.options.goal >= 4 and "Sand" in name) or \
-                        #         (self.options.goal >= 5 and "Lake" in name) or \
-                        #         (self.options.goal >= 9 and "Wooded" in name) or \
-                        #         (self.options.goal >= 9 and "Metro" in name) or \
-                        #         (self.options.goal > 9 and "Snow" in name) or \
-                        #         (self.options.goal > 9 and "Seaside" in name) or \
-                        #         (self.options.goal >= 12 and "Luncheon" in name) or \
-                        #         (self.options.goal >= 15 and "Bowser" in name) or \
-                        #         (self.options.goal == 17 and "Dark Side" in name) or \
-                        #         (self.options.goal == 18 and "Darker Side" in name):
                         classification = ItemClassification.progression_skip_balancing
-                    if self.placed_counts["dark"] < self.moon_counts["dark"] and name not in self.item_name_groups["Dark"]:
+                    if self.placed_counts["dark"] < self.moon_counts["dark"] and name not in self.item_name_groups["Dark"] and name not in self.item_name_groups["Darker"]:
                         self.placed_counts["dark"] += 3 if "Multi" in name else 1
                         classification = ItemClassification.progression_skip_balancing
                     if self.placed_counts["darker"] < self.moon_counts["darker"] and name not in self.item_name_groups["Darker"]:
@@ -282,115 +272,100 @@ class SMOWorld(World):
         return item
 
     def create_items(self):
-        pool = list(item_table.keys() - filler_item_table.keys())
-        pool.remove("Beat the Game")
+        pool : list = []
 
-        if not self.options.goal == 15:
+        # Beat the Game
+        if self.options.goal > 14:
             pool.append("1000 Coins")
 
-        pool.remove("Beat Bowser in Cloud")
-        if self.options.goal < 9:
-            self.multiworld.get_location("Beat Bowser in Cloud", self.player).place_locked_item(
-                self.create_item("1000 Coins"))
-        else:
+        # Beat Bowser in Cloud
+        if self.options.goal >= 9:
             pool.append("1000 Coins")
 
-        if self.options.shop_sanity == "off" or self.options.shop_sanity == "non_outfits":
-            for key in outfits:
-                pool.remove(key)
-                self.multiworld.get_location(key, self.player).place_locked_item(self.create_item(key))
+        # Additively build pool
+        # moons
 
-        # Shuffle outfits amongst themselves
-        elif self.options.shop_sanity == "shuffle":
-            loc_names = outfits
-            item_names = outfits.copy()
-            for i in range(len(loc_names)):
-                pool.remove(loc_names[i])
-                self.multiworld.get_location(loc_names[i], self.player).place_locked_item(
-                    self.create_item(item_names.pop(random.randint(0, len(item_names) - 1))))
-        # Non outfits
-        if self.options.shop_sanity < 3:
-            for key in shop_items:
-                pool.remove(key)
-                self.multiworld.get_location(key, self.player).place_locked_item(self.create_item(key))
 
-        for item in self.pool_counts.keys():
-            for i in range(self.pool_counts[item]):
-                if "Story" in item:
-                    pool.append(item + " Moon")
-                elif "Multi" in item:
-                    pool.append(item + "-Moon")
-                else:
-                    if item == "Mushroom":
-                        pool.append("Power Star")
+        locations: list = []
+        for location in self.get_locations():
+            if location.name in outfits or location.name in shop_items:
+                continue
+            else:
+                locations += [location.name]
+        # print(locations)
+
+        for location in locations:
+            # found : bool = False
+            for index in range(len(world_list)):
+                if location in full_moon_locations_list[index]:
+                    # found = True
+                    item: str = world_list[index]
+                    place : bool = False
+                    if "Dark" in item:
+                        item += " Side"
+                    # Multi
+                    if world_list[index] in multi_moons and location in multi_moons[world_list[index]]:
+                        item += " Multi-Moon"
+                        # Prevent placement of duplicate goal Multi-Moon
+                        if location == goals_table[self.options.goal.value]:
+                            break
+                        place = not self.options.story >= 2
+                    elif world_list[index] in story_moons and location in story_moons[world_list[index]]:
+                        item += " Story Moon"
+                        place = not (self.options.story == 1 or self.options.story == 3)
                     else:
-                        pool.append(item + " Power Moon")
+                        if world_list[index] == "Mushroom":
+                            item = "Power Star"
+                        else:
+                            item += " Power Moon"
 
-        filler = 0
+                    if place:
+                        self.get_location(location).place_locked_item(self.create_item(item))
+                        break
 
-        # Remove Story and Multi Moons if the respective options aren't enabled
-        if self.options.story < 3:
-            for item in moon_types.keys():
-                if self.options.story != 1 and "Story" in item and item in pool:
-                    for moon in story_moons[item.split(" ")[0]]:
-                        self.multiworld.get_location(moon,
-                                                     self.player).place_locked_item(self.create_item(item))
-                        pool.remove(item)
-                if self.options.story != 2 and "Multi" in item and item in pool:
-                    for moon in multi_moons[item.split(" ")[0]]:
-                        self.multiworld.get_location(moon,
-                                                     self.player).place_locked_item(self.create_item(item))
-                        pool.remove(item)
+                    pool.append(item)
+                    break
+            # if not found:
+            #     print(location)
 
-        # Remove possible duplicate goal completion Multi Moons
-        if self.options.story > 1:
-            if self.options.goal == "sand":
-                pool.remove("Sand Multi-Moon")
-            if self.options.goal == "lake":
-                pool.remove("Lake Multi-Moon")
-            if self.options.goal == "metro":
-                pool.remove("Metro Multi-Moon")
-            if self.options.goal == "luncheon":
-                pool.remove("Luncheon Multi-Moon")
-            if self.options.goal == "dark":
-                pool.remove("Dark Side Multi-Moon")
-            if self.options.goal == "darker":
-                pool.remove("Darker Side Multi-Moon")
+        locations : list = []
+
+        for location in self.get_locations():
+            if location.name in outfits or location.name in shop_items:
+                locations += [location.name]
+
+        # shops
+        item_names : list = []
+        # Outfits
+        for location in outfits:
+            if location in locations:
+                if self.options.shop_sanity == "outfits" or self.options.shop_sanity == "all":
+                    pool.append(location)
+                elif self.options.shop_sanity == "shuffle":
+                    item_names.append(location)
+                else:
+                    self.get_location(location).place_locked_item(self.create_item(location))
+
+        # Souvenirs and stickers
+        for location in shop_items:
+            if location in locations:
+                if self.options.shop_sanity == "non_outfits" or self.options.shop_sanity == "all":
+                    pool.append(location)
+                else:
+                    self.get_location(location).place_locked_item(self.create_item(location))
+
+        # Shop sanity shuffle
+        if self.options.shop_sanity == "shuffle":
+            while len(item_names) > 0:
+                item = item_names.pop(random.randint(0, len(item_names) - 1))
+                self.get_location(item).place_locked_item(self.create_item(item))
 
         for i in pool:
             self.multiworld.itempool += [self.create_item(i)]
 
-        # print(self.placed_counts)
-        #
-        # total = 0
-        # for item in self.multiworld.itempool:
-        #     if item.player == self.player and item.classification == ItemClassification.progression_skip_balancing:
-        #         total += 3 if "Multi" in item.name else 1 if "Moon" in item.name else 0
-        #         #print(item.name)
-        #
-        # for location in self.multiworld.get_filled_locations(self.player):
-        #     if location.player == self.player and location.item.classification == ItemClassification.progression_skip_balancing:
-        #         total += 3 if "Multi" in location.item.name else 1 if "Moon" in location.item.name else 0
-        #         #print(location.item.name)
-        #
-        # print(total)
-
-        # Reset placed counts so multiworlds support more than one SMO instance
+        # Reset placed counts so multi worlds support more than one SMO instance
         for key in self.placed_counts.keys():
             self.placed_counts[key] = 0
-
-        if filler > 0:
-            for i in range(filler):
-                if i < filler * 0.45:
-                    self.multiworld.itempool += [self.create_item("50 Coins")]
-                elif i < filler * 0.70:
-                    self.multiworld.itempool += [self.create_item("100 Coins")]
-                elif i < filler * 0.85:
-                    self.multiworld.itempool += [self.create_item("250 Coins")]
-                elif i < filler * 0.95:
-                    self.multiworld.itempool += [self.create_item("500 Coins")]
-                elif i < filler:
-                    self.multiworld.itempool += [self.create_item("1000 Coins")]
 
 
     def randomize_moon_amounts(self):
@@ -453,15 +428,18 @@ class SMOWorld(World):
             if count != 124:
                 raise Exception("Moon count exception! Moons required to beat the game is not 124, was " + str(count))
         # Change all outfit moon requirements to a proportion based on random Dark Side count
-        for key in self.outfit_moon_counts.keys():
-            self.outfit_moon_counts[key] = 124 #int(self.outfit_moon_counts[key] * (self.moon_counts["dark"]/250))
+        # for key in self.outfit_moon_counts.keys():
+        #     self.outfit_moon_counts[key] = int(self.outfit_moon_counts[key] * (self.moon_counts["dark"]/250))
             # if self.outfit_moon_counts[key] > self.moon_counts["dark"]:
             #     self.outfit_moon_counts[key] = self.moon_counts["dark"] - 1
 
 
 
     def generate_output(self, output_directory: str):
-        if self.options.romFS.value != "" and os.path.exists(self.options.romFS.value):
-            make_output(self, output_directory)
+        if self.options.colors.value == "true" or self.options.counts != "off" or self.options.shop_sanity != "off":
+            out_base = output_path(output_directory, self.multiworld.get_out_file_name_base(self.player))
+            patch = SMOProcedurePatch(player=self.player, player_name=self.multiworld.get_player_name(self.player))
+            write_patch(self, patch)
+            patch.write(os.path.join(output_directory, f"{out_base}{patch.patch_file_ending}"))
 
 

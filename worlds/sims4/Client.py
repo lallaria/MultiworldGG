@@ -9,6 +9,9 @@ from pathlib import Path
 from CommonClient import ClientCommandProcessor, gui_enabled, get_base_parser, server_loop, logger, ClientStatus
 from MultiServer import mark_raw
 
+import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
+
 tracker_loaded = False
 try:
     from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext
@@ -108,7 +111,7 @@ class SimsContext(SuperContext):
 
     def make_gui(self):
         ui = super().make_gui()
-        ui.base_title = "Archipelago The Sims 4 Client"
+        ui.base_title = f"{apname} The Sims 4 Client"
         return ui
 
     def on_package(self, cmd: str, args: dict):

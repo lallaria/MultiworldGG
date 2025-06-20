@@ -1,9 +1,12 @@
 """
 Classes and functions related to creating a romfs patch
 """
+import json
 import os
 import random
 import re
+
+from settings import get_settings
 
 from .byml import byml
 from .sarc import sarc
@@ -12,28 +15,116 @@ from .sarc import sarc
 from .yaz0 import yaz0
 from .MsbtEditor import Msbt
 
-import zipfile
-
 from BaseClasses import ItemClassification
-from worlds.Files import APContainer
+from worlds.Files import APProcedurePatch
 
 
-class SMOPatch(APContainer):
-    game: str = "Super Mario Odyssey"
+class SMOProcedurePatch(APProcedurePatch):
+    game = "Super Mario Odyssey"
+    patch_file_ending = ".apsmo"
+    procedure = [("apply_romfs_patch", ["options.json", "location_data.json", "moon_counts.json", "player_names.json"])]
+    hash = "N/A"
 
-    def __init__(self, patch_data : dict, base_path: str, output_directory: str, player=None, player_name: str = "", server: str = ""):
-        self.patch_data = patch_data
-        self.file_path = base_path
-        container_path = os.path.join(output_directory, base_path + ".zip")
-        super().__init__(container_path, player, player_name, server)
+    def apply_romfs_patch(self, options_file : str, location_file : str, counts_file : str, names_file : str):
+        rom_fs = get_settings().smo_settings.romFS_folder
+        if not os.path.exists(rom_fs):
+            raise Exception("Super Mario Odyssey romfs is invalid: path to romfs does not exist.")
 
-    def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
-        for filename, bin_io in self.patch_data.items():
-            file = opened_zipfile.open(filename, "w")
-            file.write(bin_io)
+        patch_data = {}
+
+        options = json.loads(self.get_file(options_file))
+
+        moon_counts = json.loads(self.get_file(counts_file))
+
+
+
+        if options["counts"] != 0:
+            patch_data["atmosphere/contents/0100000000010000/romfs/SystemData/WorldList.szs"] = set_moon_counts(rom_fs, moon_counts)
+
+        location_data = json.loads(self.get_file(location_file))
+        player_names = json.loads(self.get_file(names_file))
+
+        if options["shop_sanity"] != 0:
+            patch_data[
+                "atmosphere/contents/0100000000010000/romfs/LocalizedData/USen/MessageData/SystemMessage.szs"] = patch_shop_text(rom_fs, location_data, self.player, player_names)
+
+        patch_data["atmosphere/contents/0100000000010000/romfs/SystemData/ItemList.szs"] = patch_items(rom_fs, options)
+
+        patch_dir = os.path.join(self.path[:self.path.rindex("/")], "atmosphere/contents/0100000000010000/romfs/")
+        os.makedirs(os.path.join(patch_dir, "LocalizedData/USen/MessageData/"))
+        os.mkdir(os.path.join(patch_dir, "SystemData"))
+        os.mkdir(os.path.join(patch_dir, "StageData"))
+        for archive in patch_data:
+            file = open(os.path.join(self.path[:self.path.rindex("/")], archive), "wb")
+            file.write(patch_data[archive])
             file.close()
 
-        super().write_contents(opened_zipfile)
+def write_patch(self, patch : SMOProcedurePatch) -> None:
+    data = {}
+    for location in self.get_locations():
+        data[location.name] = [location.item.game , location.item.name, location.item.classification, location.item.player]
+
+    out = json.dumps(data)
+    patch.write_file("location_data.json", out.encode())
+
+    data = {}
+    for i in range(1, self.multiworld.players + 1):
+        data[i] = self.multiworld.get_player_name(i)
+
+    out = json.dumps(data)
+    patch.write_file("player_names.json", out.encode())
+
+    out = json.dumps(self.moon_counts)
+    patch.write_file("moon_counts.json", out.encode())
+
+    data = {}
+    data["counts"] = self.options.counts.value
+    data["shop_sanity"] = self.options.shop_sanity.value
+    data["colors"] = self.options.colors.value
+
+    out = json.dumps(data)
+    patch.write_file("options.json", out.encode())
+
+
+
+# class SMOPatch(APContainer):
+#     game: str = "Super Mario Odyssey"
+#
+#     def __init__(self, patch_data : dict, base_path: str, output_directory: str, player=None, player_name: str = "", server: str = ""):
+#         self.patch_data = patch_data
+#         self.file_path = base_path
+#         container_path = os.path.join(output_directory, base_path + ".zip")
+#         super().__init__(container_path, player, player_name, server)
+#
+#     def write_contents(self, opened_zipfile: zipfile.ZipFile) -> None:
+#         for filename, bin_io in self.patch_data.items():
+#             file = opened_zipfile.open(filename, "w")
+#             file.write(bin_io)
+#             file.close()
+#
+#         super().write_contents(opened_zipfile)
+
+outfit_moon_counts = {
+        "Luigi Cap" : 160,
+        "Luigi Suit" : 180,
+        "Doctor Headwear" : 220,
+        "Doctor Outfit" : 240,
+        "Waluigi Cap" : 260,
+        "Waluigi Suit" : 280,
+        "Diddy Kong Hat" : 300,
+        "Diddy Kong Suit" : 320,
+        "Wario Cap" : 340,
+        "Wario Suit" : 360,
+        "Hakama" : 380,
+        "Bowser's Top Hat" : 420,
+        "Bowser's Tuxedo" : 440,
+        "Bridal Veil" : 460,
+        "Bridal Gown" : 480,
+        "Gold Mario Cap" : 500,
+        "Gold Mario Suit" : 500,
+        "Metal Mario Cap" : 500,
+        "Metal Mario Suit" : 500
+    }
 
 regular_kingdoms = [
 "cascade",
@@ -49,160 +140,159 @@ regular_kingdoms = [
 "bowser"
 ]
 
-caps = [
-    "Poncho Cap",
-    "Gunman Cap",
-    "Explorer Cap",
-    "Tail Coat Cap",
-    "Golf Cap",
-    "Aloha Cap",
-    "Sailor Cap",
-    "Swimwear Cap",
-    "Cook Cap",
-    "Armor Cap",
-    "Happi Cap",
-    "Tuxedo Cap",
-    "64 Cap",
-    "Luigi Cap",
-    "Football Cap",
-    "Mechanic Cap",
-    "New 3DS Cap",
-    "Painter Cap",
-    "Suit Cap",
-    "Maker Cap",
-    "Skip", # Racing
-    "Doctor Cap",
-    "Classic Cap",
-    "Gold Cap",
-    "Skip", # Link
-    "King Cap",
-    "Skip", # Mario
-    "Scientist Cap",
-    "Primitive Man Cap",
-    "Shopman Cap",
-    "Pilot Cap",
-    "Snow Suit Cap",
-    "Space Suit Cap",
-    "Diddy Kong Cap",
-    "Skip", # Batting
-    "Captain Cap",
-    "Wario Cap",
-    "Waluigi Cap",
-    "Skip", # Satellaview
-    "Skip", # conductor
-    "Skip", # Santa
-    "Skip", # Zombie
-    "Clown Cap",
-    "Pirate Cap",
-    "Peach Cap",
-    "Koopa Cap",
-    "Skip", # Knight
-    "64 Metal Cap",
-    "Invisible Cap"
-]
+caps = {
+    "Poncho Cap": "Sombrero",
+    "Gunman Cap": "Cowboy Hat",
+    "Explorer Cap": "Explorer Hat",
+    "Tail Coat Cap": "Black Top Hat",
+    "Golf Cap": "Golf Cap",
+    "Aloha Cap": "Resort Hat",
+    "Sailor Cap": "Sailor Hat",
+    "Swimwear Cap": "Swim Goggles",
+    "Cook Cap": "Chef Hat",
+    "Armor Cap": "Samurai Helmet",
+    "Happi Cap": "Happi Headband",
+    "Tuxedo Cap": "Mario's Top Hat",
+    "64 Cap": "Mario 64 Cap",
+    "Luigi Cap": "Luigi Cap",
+    "Football Cap": "Football Helmet",
+    "Mechanic Cap": "Mechanic Cap",
+    "New 3DS Cap": "Fashionable Cap",
+    "Painter Cap": "Painter's Cap",
+    "Suit Cap": "Black Fedora",
+    "Maker Cap": "Builder Helmet",
+    "Skip1": "", # Racing
+    "Doctor Cap": "Doctor Headwear",
+    "Classic Cap": "Classic Cap",
+    "Gold Cap": "Gold Mario Cap",
+    "Skip2": "", # Link
+    "King Cap": "King's Crown",
+    "Skip3": "", # Mario
+    "Scientist Cap": "Scientist Visor",
+    "Primitive Man Cap": "Caveman Headwear",
+    "Shopman Cap": "Employee Cap",
+    "Pilot Cap": "Aviator Cap",
+    "Snow Suit Cap": "Snow Hood",
+    "Space Suit Cap": "Space Helmet",
+    "Diddy Kong Cap": "Diddy Kong Hat",
+    "Skip4": "", # Batting
+    "Captain Cap": "Captain's Hat",
+    "Wario Cap": "Wario Cap",
+    "Waluigi Cap": "Waluigi Cap",
+    "Skip5": "", # Satellaview
+    "Skip6": "", # conductor
+    "Skip7": "", # Santa
+    "Skip8": "", # Zombie
+    "Clown Cap": "Clown Hat",
+    "Pirate Cap": "Pirate Hat",
+    "Peach Cap": "Bridal Veil",
+    "Koopa Cap": "Bowser's Top Hat",
+    "Skip9": "", # Knight
+    "64 Metal Cap": "Metal Mario Cap",
+    "Invisible Cap": "Invisibility Hat"
+}
 
-clothes = [
-    "Poncho Clothes",
-    "Gunman Clothes",
-    "Explorer Clothes",
-    "Tail Coat Clothes",
-    "Golf Clothes",
-    "Aloha Clothes",
-    "Sailor Clothes",
-    "Swimwear Clothes",
-    "Cook Clothes",
-    "Armor Clothes",
-    "Happi Clothes",
-    "Tuxedo Clothes",
-    "64 Clothes",
-    "Luigi Clothes",
-    "Football Clothes",
-    "Underwear",
-    "Mechanic Clothes",
-    "New 3DS Clothes",
-    "Painter Clothes",
-    "Suit Clothes",
-    "Maker Clothes",
-    "Skip", # Racing
-    "Doctor Clothes",
-    "Hakama Clothes",
-    "Classic Clothes",
-    "Gold Clothes",
-    "Skip", # Link
-    "Bone Clothes",
-    "King Clothes",
-    "Skip", # Mario
-    "Scientist Clothes",
-    "Primitive Man Clothes",
-    "Shopman Clothes",
-    "Pilot Clothes",
-    "Snow Suit Clothes",
-    "Space Suit Clothes",
-    "Diddy Kong Clothes",
-    "Skip", # Baseball
-    "Wario Clothes",
-    "Waluigi Clothes",
-    "Skip", # Satellaview
-    "Skip", # conductor
-    "Skip", # Santa
-    "Skip", # Zombie
-    "Clown Clothes",
-    "Pirate Clothes",
-    "Peach Clothes",
-    "Koopa Clothes",
-    "Skip", # Knight
-    "64 Metal Clothes"
-]
+clothes = {
+    "Poncho Clothes": "Poncho",
+    "Gunman Clothes": "Cowboy Outfit",
+    "Explorer Clothes": "Explorer Outfit",
+    "Tail Coat Clothes": "Black Tuxedo",
+    "Golf Clothes": "Golf Outfit",
+    "Aloha Clothes": "Resort Outfit",
+    "Sailor Clothes": "Sailor Suit",
+    "Swimwear Clothes": "Swimwear",
+    "Cook Clothes": "Chef Suit",
+    "Armor Clothes": "Samurai Armor",
+    "Happi Clothes": "Happi Outfit",
+    "Tuxedo Clothes": "Mario's Tuxedo",
+    "64 Clothes": "Mario 64 Suit",
+    "Luigi Clothes": "Luigi Suit",
+    "Football Clothes": "Football Uniform",
+    "Underwear": "Boxer Shorts",
+    "Mechanic Clothes": "Mechanic Outfit",
+    "New 3DS Clothes": "Fashionable Outfit",
+    "Painter Clothes": "Painter Outfit",
+    "Suit Clothes": "Black Suit",
+    "Maker Clothes": "Builder Outfit",
+    "Skip1": "", # Racing
+    "Doctor Clothes": "Doctor Outfit",
+    "Hakama Clothes": "Hakama",
+    "Classic Clothes": "Classic Suit",
+    "Gold Clothes": "Gold Mario Suit",
+    "Skip2": "", # Link
+    "Bone Clothes": "Skeleton Suit",
+    "King Clothes": "King's Outfit",
+    "Skip3": "", # Mario
+    "Scientist Clothes": "Scientist Outfit",
+    "Primitive Man Clothes": "Caveman Outfit",
+    "Shopman Clothes": "Employee Uniform",
+    "Pilot Clothes": "Aviator Outfit",
+    "Snow Suit Clothes": "Snow Suit",
+    "Space Suit Clothes": "Space Suit",
+    "Diddy Kong Clothes": "Diddy Kong Suit",
+    "Skip4": "", # Batting
+    "Wario Clothes": "Wario Suit",
+    "Waluigi Clothes": "Waluigi Suit",
+    "Skip5": "", # Satellaview
+    "Skip6": "", # conductor
+    "Skip7": "", # Santa
+    "Skip8": "", # Zombie
+    "Clown Clothes": "Clown Suit",
+    "Pirate Clothes": "Pirate Outfit",
+    "Peach Clothes": "Bridal Gown",
+    "Koopa Clothes": "Bowser's Tuxedo",
+    "Skip9": "", # Knight
+    "64 Metal Clothes": "Metal Mario Suit"
+}
 # Technically filler until achievements implemented
-stickers = [
-    "Sticker Cap",
-    "Sticker Waterfall",
-    "Sticker Sand",
-    "Sticker Forest",
-    "Sticker City",
-    "Sticker Clash",
-    "Sticker Lake",
-    "Sticker Sea",
-    "Sticker Lava",
-    "Sticker Snow",
-    "Sticker Sky",
-    "Sticker Moon",
-    "Sticker Peach",
-    "Sticker Peach Dokan",
-    "Sticker Peach Coin",
-    "Sticker Peach Block",
-    "Sticker Peach Block Question"
-]
+stickers = {
+    "Sticker Cap": "Cap Kingdom Sticker",
+    "Sticker Waterfall": "Cascade Kingdom Sticker",
+    "Sticker Sand": "Sand Kingdom Sticker",
+    "Sticker Forest": "Wooded Kingdom Sticker",
+    "Sticker City": "Metro Kingdom Sticker",
+    "Sticker Clash": "Lost Kingdom Sticker",
+    "Sticker Lake": "Lake Kingdom Sticker",
+    "Sticker Sea": "Seaside Kingdom Sticker",
+    "Sticker Lava": "Luncheon Kingdom Sticker",
+    "Sticker Snow": "Snow Kingdom Sticker",
+    "Sticker Sky": "Bowser's Kingdom Sticker",
+    "Sticker Moon": "Moon Kingdom Sticker",
+    "Sticker Peach": "Mushroom Kingdom Sticker",
+    "Sticker Peach Dokan": "Pipe Sticker",
+    "Sticker Peach Coin": "Coin Sticker",
+    "Sticker Peach Block": "Block Sticker",
+    "Sticker Peach Block Question": "? Block Sticker"
+}
 
-gifts = [
-    "Souvenir Hat 1",
-    "Souvenir Hat 2",
-    "Souvenir Fall 1",
-    "Souvenir Fall 2",
-    "Souvenir Sand 2",
-    "Souvenir Sand 1",
-    "Souvenir Forest 1",
-    "Souvenir Forest 2",
-    "Souvenir City 2",
-    "Souvenir City 1",
-    "Souvenir Crash 1",
-    "Souvenir Crash 1",
-    "Souvenir Crash 2",
-    "Souvenir Lake 2",
-    "Souvenir Lake 1",
-    "Souvenir Lava 1",
-    "Souvenir Lava 2",
-    "Souvenir Sea 2",
-    "Souvenir Sea 1",
-    "Souvenir Snow 1",
-    "Souvenir Snow 2",
-    "Souvenir Sky1",
-    "Souvenir Sky2",
-    "Souvenir Moon 1",
-    "Souvenir Moon 2",
-    "Souvenir Peach 1",
-    "Souvenir Peach 2"
-]
+gifts = {
+    "Souvenir Hat 1": "Plush Frog",
+    "Souvenir Hat 2": "Bonneton Tower Model",
+    "Souvenir Fall 1": "T-Rex Model",
+    "Souvenir Fall 2": "Triceratops Trophy",
+    "Souvenir Sand 2": "Jaxi Statue",
+    "Souvenir Sand 1": "Inverted Pyramid Model",
+    "Souvenir Forest 1": "Flowers from Steam Gardens",
+    "Souvenir Forest 2": "Steam Gardener Watering Can",
+    "Souvenir City 2": "New Donk City Hall Model",
+    "Souvenir City 1": "Pauline Statue",
+    "Souvenir Crash 1": "Potted Palm Tree",
+    "Souvenir Crash 2": "Butterfly Mobile",
+    "Souvenir Lake 2": "Rubber Dorrie",
+    "Souvenir Lake 1": "Underwater Dome",
+    "Souvenir Lava 1": "Souvenir Forks",
+    "Souvenir Lava 2": "Vegetable Plate",
+    "Souvenir Sea 2": "Glass Tower Model",
+    "Souvenir Sea 1": "Sand Jar",
+    "Souvenir Snow 1": "Shiverian Rug",
+    "Souvenir Snow 2": "Shiverian Nesting Dolls",
+    "Souvenir Sky1": "Paper Lantern",
+    "Souvenir Sky2": "Jizo Statue",
+    "Souvenir Moon 1": "Moon Rock Fragment",
+    "Souvenir Moon 2": "Moon Lamp",
+    "Souvenir Peach 1": "Mushroom Cushion Set",
+    "Souvenir Peach 2": "Peach's Castle Model"
+}
 
 filler_item_table = {
     "50 Coins": "Pocket Change",
@@ -219,51 +309,66 @@ file_to_items = {
     "ItemSticker" : stickers
 }
 
-def set_moon_counts(self) -> bytes:
+world_prefixes = [
+    "Cap",
+    "Waterfall",
+    "Sand",
+    "Lake",
+    "Forest",
+    "Clash",
+    "City",
+    "Sea",
+    "Snow",
+    "Moon",
+    "Lava",
+    "Sky",
+    "Peach"
+]
+
+def set_moon_counts(rom_fs : str, moon_counts : dict) -> bytes:
     """ Generates a ByteStream for a .szs (SARC) archive to replace the number of Power Moons required for each kingdom.
         Return:
             The bytes of the yaz0 compressed SARC archive.
     """
-    if not os.path.exists(self.options.romFS.value+"SystemData/WorldList.szs"):
-        raise Exception("Super Mario Odyssey romfs is invalid: SystemData/WorldList.szs does not exist.")
-    world_list = sarc.read_file_and_make_sarc(open(self.options.romFS.value+"SystemData/WorldList.szs", "rb"))
+    if not os.path.exists(os.path.join(rom_fs, "SystemData/WorldList.szs")):
+        raise Exception("Super Mario Odyssey romFS is invalid: SystemData/WorldList.szs does not exist.")
+    world_list = sarc.read_file_and_make_sarc(open(os.path.join(rom_fs, "SystemData/WorldList.szs"), "rb"))
     data = world_list.get_file_data("StageLockList.byml")
     root = byml.Byml(data.tobytes()).parse()
     for i in range(14):
         if i == 1:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["cascade"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["cascade"])]
         elif i== 2:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["sand"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["sand"])]
         elif i== 3:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["wooded"]), byml.Int(self.moon_counts["lake"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["wooded"]), byml.Int(moon_counts["lake"])]
         elif i== 5:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["lost"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["lost"])]
         elif i== 6:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["metro"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["metro"])]
         elif i== 7:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["seaside"]), byml.Int(self.moon_counts["snow"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["seaside"]), byml.Int(moon_counts["snow"])]
         elif i== 8:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["luncheon"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["luncheon"])]
         elif i== 9:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["ruined"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["ruined"])]
         elif i== 10:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["bowser"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["bowser"])]
         elif i== 13:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["dark"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["dark"])]
         elif i== 14:
-            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(self.moon_counts["darker"])]
+            root.get("StageLockList")[i]["ShineNumInfo"] = [byml.Int(moon_counts["darker"])]
 
     writer = byml.Writer(root)
     save_world_list = sarc.make_writer_from_sarc(world_list)
     save_world_list.add_file("StageLockList.byml", writer.get_bytes())
 
-    compressed = yaz0.CompressYaz(save_world_list.get_bytes(),6)
+    compressed = yaz0.CompressYaz(save_world_list.get_bytes(), 6)
     return compressed
 
-def patch_prices(self, item_list : sarc.SARC, save_item_list : sarc.SARCWriter) -> None:
+def patch_prices(item_list : sarc.SARC, save_item_list : sarc.SARCWriter) -> None:
     """ Changes in game item prices so none exceed 1000 coins and so regional items are a threshold of the total in their kingdom.
         Args:
-            self: SMOWorld object for this player's world.
             item_list: The SARC (System Archive) of the item list.
             save_item_list: A Sarc writer for saving patch changes.
     """
@@ -274,6 +379,8 @@ def patch_prices(self, item_list : sarc.SARC, save_item_list : sarc.SARCWriter) 
     for i in root:
         if i["CoinType"] == "Collect":
             if i["StoreName"] in store_amounts:
+                if store_amounts[i["StoreName"]] == 5 and i["Price"] - store_amounts[i["StoreName"]] == 10:
+                    break
                 store_amounts[i["StoreName"]] += i["Price"]
                 i["Price"] = byml.Int(store_amounts[i["StoreName"]])
             else:
@@ -282,12 +389,13 @@ def patch_prices(self, item_list : sarc.SARC, save_item_list : sarc.SARCWriter) 
             if i["Price"] > 1000:
                 i["Price"] = byml.Int(1000)
         if "MoonNum" in i:
-            i["MoonNum"] = byml.Int(self.outfit_moon_counts[re.sub(r'((?<=[a-z])[A-Z]|(?<=[0-9])[A-Z])', r' \1', ((i["ItemName"].replace("Color", "").replace("Mario", "")) + i["ItemType"]))])
+            internalName = re.sub(r'((?<=[a-z])[A-Z]|(?<=[0-9])[A-Z])', r' \1', ((i["ItemName"].replace("Color", "").replace("Mario", "")) + i["ItemType"]))
+            i["MoonNum"] = byml.Int(outfit_moon_counts[caps[internalName] if i["ItemType"].strip() == "Cap" else clothes[internalName]])
 
     writer = byml.Writer(root)
     save_item_list.add_file("ItemList.byml", writer.get_bytes())
 
-def randomize_colors(self, item_list : sarc.SARC, save_item_list : sarc.SARCWriter) -> None:
+def randomize_colors(item_list : sarc.SARC, save_item_list : sarc.SARCWriter) -> None:
     """ Generates a ByteStream for a .szs (SARC) archive to replace the color of Power Moons for each kingdom.
             Return:
                 The bytes of the yaz0 compressed SARC archive.
@@ -309,17 +417,63 @@ def randomize_colors(self, item_list : sarc.SARC, save_item_list : sarc.SARCWrit
     writer = byml.Writer(root)
     save_item_list.add_file("WorldItemTypeList.byml", writer.get_bytes())
 
+def read_regionals_from_world(stage_file : sarc.SARC, file_name : str) -> dict:
+    data = stage_file.get_file_data(file_name.replace(".szs", ".byml"))
+    root = byml.Byml(data.tobytes()).parse()
+
+    regionals =  {}
+    added_to_group : bool = False
+    group_count : int = 1
+    for map_dict in root:
+        if not "ObjectList" in map_dict:
+            return {}
+        for entry in map_dict["ObjectList"]:
+            if entry["UnitConfigName"] == "CoinCollect" or entry["UnitConfigName"] == "CoinCollect2D":
+                for group in regionals:
+                    # if entry["Id"] in regionals[group]:
+                    #     added_to_group = True
+                    #     break
+                    for coin in regionals[group]:
+                        if (abs(regionals[group][coin]["Translate"]["X"] - entry["Translate"]["X"]) <= 220.00
+                                and abs(regionals[group][coin]["Translate"]["Z"] - entry["Translate"]["Z"]) <= 220.0
+                                and abs(regionals[group][coin]["Translate"]["Y"] - entry["Translate"]["Y"] <= 150.0)):
+                            regionals[group][entry["Id"]] = {}
+                            regionals[group][entry["Id"]]["Translate"] = entry["Translate"]
+                            added_to_group = True
+                            break
+                    if added_to_group:
+                        break
+                if added_to_group:
+                    added_to_group = False
+                    continue
+
+                else:
+                    regionals["group" + str(group_count)] = {}
+                    regionals["group" + str(group_count)][entry["Id"]] = {}
+                    regionals["group" + str(group_count)][entry["Id"]]["Translate"] = entry["Translate"]
+                    group_count += 1
+
+    groups_to_remove = []
+
+    for group in regionals:
+        if len(regionals[group]) < 2:
+            groups_to_remove.append(group)
+
+    for group in groups_to_remove:
+        regionals.pop(group)
+
+    return regionals
 
 
-def patch_shop_text(self) -> bytes:
+def patch_shop_text(rom_fs : str, location_data : dict, player : int, names : dict) -> bytes:
     """ Generates a ByteStream for a .szs (SARC) archive to replace the English localized text for shops with the respective item at that location.
         Return:
             The bytes of the yaz0 compressed SARC archive.
     """
-    if not os.path.exists(self.options.romFS.value + "LocalizedData/USen/MessageData/SystemMessage.szs"):
+    if not os.path.exists(os.path.join(rom_fs, "LocalizedData/USen/MessageData/SystemMessage.szs")):
         raise Exception("Super Mario Odyssey romfs is invalid: LocalizedData/USen/MessageData/SystemMessage.szs does not exist.")
 
-    item_text = sarc.read_file_and_make_sarc(open(self.options.romFS.value+"LocalizedData/USen/MessageData/SystemMessage.szs", "rb"))
+    item_text = sarc.read_file_and_make_sarc(open(os.path.join(rom_fs, "LocalizedData/USen/MessageData/SystemMessage.szs"), "rb"))
     save_item_text = sarc.make_writer_from_sarc(item_text)
     for i in file_to_items.keys():
         data = item_text.get_file_data(i + ".msbt")
@@ -330,82 +484,118 @@ def patch_shop_text(self) -> bytes:
             if i == "ItemCap" or i == "ItemCloth":
                 internal_name = internal_name.replace(" Cap","").replace("Clothes", "")
             item_classification : ItemClassification
-            if item != "Skip":
-                item_classification = self.multiworld.get_location(item, self.player).item.classification
-                root.msbt["labels"][internal_name.replace(" ", "")]["message"] =  self.multiworld.get_location(item, self.player).item.name.replace("_", " ")
-                root.msbt["labels"][internal_name.replace(" ", "")]["message"] += "\0"
-                item_player = self.multiworld.get_player_name(self.multiworld.get_location(item, self.player).item.player)
-                item_game = self.multiworld.get_location(item, self.player).item.game
-                if item_game != "Super Mario Odyssey" and self.multiworld.get_location(item, self.player).item.player != self.player:
-                    root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"]["message"] = \
-                        ("Comes from the world of " + item_game.replace("_", " ") +  ".\nSeems to belong to " + item_player +
-                        ".\n")
-                    root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"]["message"] += ("It looks really important!"
-                        if item_classification == ItemClassification.progression_skip_balancing or
-                        item_classification == ItemClassification.progression or item_classification == ItemClassification.trap
-                        else "It looks useful!" if item_classification == ItemClassification.useful else "It looks like junk, but may as well ask...")
+            if not "Skip" in item:
+                if item in location_data:
+                    item_classification = location_data[item][2]
+                    root.msbt["labels"][internal_name.replace(" ", "")]["message"] =  location_data[item].item.name.replace("_", " ")
+                    root.msbt["labels"][internal_name.replace(" ", "")]["message"] += "\0"
+                    item_player = names[location_data[item][3]]
+                    item_game = location_data[item][0]
+                    if item_game != "Super Mario Odyssey" and location_data[item][3] != player:
+                        root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"]["message"] = \
+                            ("Comes from the world of " + item_game.replace("_", " ") +  ".\nSeems to belong to " + item_player +
+                            ".\n")
+                        root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"]["message"] += ("It looks really important!"
+                            if item_classification == ItemClassification.progression_skip_balancing or
+                            item_classification == ItemClassification.progression or item_classification == ItemClassification.trap
+                            else "It looks useful!" if item_classification == ItemClassification.useful else "It looks like junk, but may as well ask...")
 
-                    root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"][
-                        "message"] += "\0"
-
-                else:
-                    if self.multiworld.get_location(item, self.player).item.name in filler_item_table.keys():
                         root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"][
-                            "message"] = filler_item_table[self.multiworld.get_location(item, self.player).item.name] + "\0"
+                            "message"] += "\0"
+
                     else:
-                        root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"][
-                            "message"] = ("I may need this!" if item_classification == ItemClassification.progression_skip_balancing or item_classification ==
-                        ItemClassification.progression or item_classification == ItemClassification.trap
-                        else "It looks useful!" if item_classification == ItemClassification.useful else "I don't need this...")
-                        root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"]["message"] += "\0"
+                        if location_data[item][1] in filler_item_table.keys():
+                            root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"][
+                                "message"] = filler_item_table[location_data[item][1]] + "\0"
+                        else:
+                            root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"][
+                                "message"] = ("I may need this!" if item_classification == ItemClassification.progression_skip_balancing or item_classification ==
+                            ItemClassification.progression or item_classification == ItemClassification.trap
+                            else "It looks useful!" if item_classification == ItemClassification.useful else "I don't need this...")
+                            root.msbt["labels"][internal_name.replace(" ", "") + "_Explain"]["message"] += "\0"
 
 
         save_item_text.add_file(i + ".msbt", root.get_bytes())
 
-    compressed = yaz0.CompressYaz(save_item_text.get_bytes(),6)
+    compressed = yaz0.CompressYaz(save_item_text.get_bytes(), 6)
     return compressed
 
-def patch_items(self) -> bytes:
-    if not os.path.exists(self.options.romFS.value+"SystemData/ItemList.szs"):
+def patch_items(rom_fs, options : dict) -> bytes:
+    """ Generates a ByteStream for a .szs (SARC) archive to change data in the Item List like shop prices and moon colors.
+            Return:
+                The bytes of the yaz0 compressed SARC archive.
+    """
+    if not os.path.exists(os.path.join(rom_fs, "SystemData/ItemList.szs")):
         raise Exception("Super Mario Odyssey romfs is invalid: SystemData/ItemList.szs does not exist.")
-    item_list = sarc.read_file_and_make_sarc(open(self.options.romFS.value+"SystemData/ItemList.szs", "rb"))
+    item_list = sarc.read_file_and_make_sarc(open(os.path.join(rom_fs, "SystemData/ItemList.szs"), "rb"))
     save_item_list = sarc.make_writer_from_sarc(item_list)
 
     # reapply shop item changes
-    patch_prices(self, item_list, save_item_list)
+    # not needed when using mod file as base
+    patch_prices(item_list, save_item_list)
 
-    if self.options.colors.value:
+    if options["colors"]:
         # Apply moon color changes
-        randomize_colors(self, item_list, save_item_list)
+        randomize_colors(item_list, save_item_list)
 
-    compressed = yaz0.CompressYaz(save_item_list.get_bytes(),6)
+    compressed = yaz0.CompressYaz(save_item_list.get_bytes(), 6)
     return compressed
 
-def make_output(self, output_dir : str):
+def patch_stages(rom_fs : str) -> None:
+    """ Generates a ByteStream for a .szs (SARC) archive to change stage object data.
+            Return:
+                The bytes of the yaz0 compressed SARC archive.
+    """
+    stage_path = os.path.join(rom_fs, "StageData")
+    if not os.path.exists(stage_path):
+        raise Exception("Super Mario Odyssey romfs is invalid: StageData does not exist.")
+
+    dirs = os.listdir(stage_path)
+
+    regional_coins = {}
+
+
+    for file_name in dirs:
+        for prefix in world_prefixes:
+            if file_name.startswith(prefix):
+                if "Map.szs" in file_name:
+                    stage = sarc.read_file_and_make_sarc(open(os.path.join(stage_path, file_name), "rb"))
+                    regional_coins[file_name.replace(".szs", "")] = {}
+                    regional_coins[file_name.replace(".szs", "")] = read_regionals_from_world(stage, file_name)
+                    break
+
+    out_line : str = ""
+
+    for world in world_prefixes:
+        group_num = 0
+        out_line = "\t\t\t{"
+        out_line +=  "\"" + world + "WorldHomeStage\"" + ", "
+        out_line += "new Regionals {\n"
+        out_line += "\t\t\t\tobjGroupLookup = new Dictionary<string, int>() {\n"
+        for world_stage in regional_coins:
+            if world in world_stage:
+
+                if len(regional_coins[world_stage]) > 0:
+
+                    for group in regional_coins[world_stage]:
+                        group_num += 1
+                        coin_count = 0
+                        for coin in regional_coins[world_stage][group]:
+                            out_line += "\t\t\t\t\t{\"" + coin + "\", "
+                            out_line +=  str(group_num) + "},\n"
+                            coin_count += 1
+
+        out_line += "\t\t\t\t}}\n"
+
+        out_line += "\n\t\t\t},"
+        print(out_line)
+
+
+def make_output(patch_file : str):
     """ Generates .zip file containing the RomFS patch for Super Mario Odyssey.
         Args:
-            self: Patch
-            output_dir: The Directory to save the generated zip archive.
+            patch_file: The Patch file
     """
-    if not os.path.exists(self.options.romFS.value):
-        raise Exception("Super Mario Odyssey romfs is invalid: path to romfs does not exist.")
-
-    patch_data = {}
-
-    if self.options.counts.value != 0:
-        patch_data["atmosphere/contents/0100000000010000/romfs/SystemData/WorldList.szs"] = set_moon_counts(self)
-
-
-    if self.options.shop_sanity.value != 0:
-        patch_data["atmosphere/contents/0100000000010000/romfs/LocalizedData/USen/MessageData/SystemMessage.szs"] = patch_shop_text(self)
-
-    #os.mkdir(output_dir + "atmosphere/contents/0100000000010000/romfs/LocalizedData/USen/MessageData/")
-    #os.mkdir(output_dir + "atmosphere/contents/0100000000010000/romfs/SystemData/")
-
-    #os.mkdir(output_dir + "atmosphere/contents/0100000000010000/romfs/SystemData/")
-    patch_data["atmosphere/contents/0100000000010000/romfs/SystemData/ItemList.szs"] = patch_items(self)
-
-
-    mod_dir = os.path.join(output_dir,self.multiworld.get_file_safe_player_name(self.player))
-    mod = SMOPatch(patch_data, mod_dir, output_dir, self.player, self.multiworld.get_file_safe_player_name(self.player))
-    mod.write()
+    patcher = SMOProcedurePatch(patch_file)
+    SMOProcedurePatch.apply_romfs_patch(patcher,"options.json", "location_data.json", "moon_counts.json", "player_names.json")
+    print("Patch Complete")

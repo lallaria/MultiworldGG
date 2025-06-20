@@ -11,6 +11,8 @@ import traceback
 from CommonClient import ClientCommandProcessor, CommonContext, get_base_parser, logger, server_loop, gui_enabled
 from NetUtils import ClientStatus
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
+
 from settings import get_settings
 from .data.Planets import get_all_active_locations
 from . import Rac2Settings
@@ -122,7 +124,7 @@ class Rac2Context(CommonContext):
             logging_pairs = [
                 ("Client", "Archipelago")
             ]
-            base_title = "Archipelago Ratchet & Clank 2 Client"
+            base_title = f"{apname} Ratchet & Clank 2 Client"
 
         self.ui = Rac2Manager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

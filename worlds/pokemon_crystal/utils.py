@@ -242,6 +242,9 @@ def get_random_starting_town(world: "PokemonCrystalWorld"):
     world.starting_town = filtered_pool.pop()
     logging.debug(f"Starting town({world.player_name}): {world.starting_town.name}")
 
+    if world.starting_town.name == "Cianwood City":
+        world.multiworld.early_items[world.player]["HM03 Surf"] = 1
+
 
 def _starting_town_valid(world: "PokemonCrystalWorld", starting_town: StartingTown):
     if world.options.johto_only and not starting_town.johto: return False
