@@ -10,6 +10,8 @@ from .Enums import level_areas, pascal_to_space
 
 class SADXProgressionBalancing(ProgressionBalancing):
     default = 80
+    __doc__ = ProgressionBalancing.__doc__.replace(f"default {ProgressionBalancing.default}", f"default {default}") \
+        if ProgressionBalancing.__doc__ else None
 
 
 class GoalRequiresLevels(DefaultOnToggle):
