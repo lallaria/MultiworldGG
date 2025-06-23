@@ -1,5 +1,14 @@
 from __future__ import annotations
-__all__ = ("CommonClient","CommonContext","CommonCommandProcessor")
+
+__all__ = ["keep_alive", 
+           "server_loop", 
+           "server_autoreconnect", 
+           "process_server_cmd", 
+           "console_loop", 
+           "get_ssl_context", 
+           "ClientCommandProcessor", 
+           "CommonContext"]
+
 import collections
 import copy
 import logging
@@ -10,6 +19,7 @@ import typing
 import time
 import functools
 import warnings
+from typing import Optional
 
 import ModuleUpdate
 ModuleUpdate.update()
@@ -26,17 +36,16 @@ from MultiServer import CommandProcessor
 from NetUtils import (Endpoint, decode, NetworkItem, encode, JSONtoTextParser, ClientStatus, Permission, NetworkSlot,
                       RawJSONtoTextParser, add_json_text, add_json_location, add_json_item, JSONTypes, HintStatus, SlotType)
 from Utils import Version, stream_input, async_start
+from ClientBuilder import ClientBuilder, ClientState
 from worlds import network_data_package, AutoWorldRegister
 import os
 import ssl
-from .factory import Bond, CommandMixin, Launch
 
 if typing.TYPE_CHECKING:
-    import kvui
+    import gui.Gui as Gui
     import argparse
 
 logger = logging.getLogger("Client")
-logging.getLogger().setLevel(logging.INFO)  # force log-level to work around log level resetting to WARNING
 
 # without terminal, we have to use gui mode
 gui_enabled = not sys.stdout or "--nogui" not in sys.argv
@@ -48,7 +57,7 @@ def get_ssl_context():
     return ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=certifi.where())
 
 
-class ClientCommandProcessor(CommandProcessor, CommandMixin):
+class ClientCommandProcessor(CommandProcessor):
     """
     The Command Processor will parse every method of the class that starts with "_cmd_" as a command to be called
     when parsing user input, i.e. _cmd_exit will be called when the user sends the command "/exit".
@@ -185,7 +194,7 @@ class ClientCommandProcessor(CommandProcessor, CommandMixin):
             async_start(self.ctx.send_msgs([{"cmd": "Say", "text": raw}]), name="send Say")
 
 
-class CommonContext(Bond):
+class CommonContext:
     # The following attributes are used to Connect and should be adjusted as needed in subclasses
     tags: typing.Set[str] = {"AP"}
     game: typing.Optional[str] = None
@@ -253,7 +262,7 @@ class CommonContext(Bond):
     starting_reconnect_delay: int = 5
     current_reconnect_delay: int = starting_reconnect_delay
     command_processor: typing.Type[CommandProcessor] = ClientCommandProcessor
-    ui: typing.Optional["kvui.GameManager"] = None
+    ui: typing.Optional["Gui.MultiMDApp"] = None
     ui_task: typing.Optional["asyncio.Task[None]"] = None
     input_task: typing.Optional["asyncio.Task[None]"] = None
     keep_alive_task: typing.Optional["asyncio.Task[None]"] = None
@@ -330,12 +339,18 @@ class CommonContext(Bond):
     """Current container of watched Data Storage keys, managed by ctx.set_notify"""
 
     # internals
-    _messagebox: typing.Optional["kvui.MessageBox"] = None
+    _messagebox: typing.Optional["Gui.MessageBox"] = None
     """Current message box through kvui"""
-    _messagebox_connection_loss: typing.Optional["kvui.MessageBox"] = None
+    _messagebox_connection_loss: typing.Optional["Gui.MessageBox"] = None
     """Message box reporting a loss of connection"""
 
     def __init__(self, server_address: typing.Optional[str] = None, password: typing.Optional[str] = None) -> None:
+        self._current_client: Optional[ClientBuilder] = None
+        self._state = ClientState.INITIAL
+        self._is_transitioning = False
+        self._initial_ctx: dict[Gui.MultiMDApp, asyncio.Task] = {}
+        self._main_task: Optional[asyncio.Task] = None
+        
         # server state
         self.server_address = server_address
         self.username = None
@@ -695,7 +710,7 @@ class CommonContext(Bond):
         if not self.ui:
             return None
         title = title or "Error"
-        from kvui import MessageBox
+        from gui import MessageBox
         if self._messagebox:
             self._messagebox.dismiss()
         # make "Multiple exceptions" look nice
@@ -718,7 +733,7 @@ class CommonContext(Bond):
         logger.exception(msg, exc_info=exc_info, extra={'compact_gui': True})
         self._messagebox_connection_loss = self.gui_error(msg, exc_info[1])
 
-    def make_gui(self) -> "type[kvui.GameManager]":
+    def make_gui(self) -> "type[Gui.MultiMDApp]":
         """
         To return the Kivy `App` class needed for `run_gui` so it can be overridden before being built
 
@@ -728,9 +743,9 @@ class CommonContext(Bond):
         ex. `logging_pairs.append(("Foo", "Bar"))`
         will add a "Bar" tab which follows the logger returned from `logging.getLogger("Foo")`
         """
-        from kvui import GameManager
+        from gui import MultiMDApp
 
-        class TextManager(GameManager):
+        class TextManager(MultiMDApp):
             base_title = f"{apname} Text Client"
 
         return TextManager
@@ -1091,55 +1106,57 @@ def handle_url_arg(args: "argparse.Namespace",
 
     return args
 
-#TODO: HMMMM
-class LaunchClient(Launch):
 
-    def launch(*args):
-        class TextContext(CommonContext):
-            # Text Mode to use !hint and such with games that have no text entry
-            tags = CommonContext.tags | {"TextOnly"}
-            game = ""  # empty matches any game since 0.3.2
-            items_handling = 0b111  # receive all items for /received
-            want_slot_data = False  # Can't use game specific slot_data
+def run_as_textclient(*args):
+    class TextContext(CommonContext):
+        # Text Mode to use !hint and such with games that have no text entry
+        tags = CommonContext.tags | {"TextOnly"}
+        game = ""  # empty matches any game since 0.3.2
+        items_handling = 0b111  # receive all items for /received
+        want_slot_data = False  # Can't use game specific slot_data
 
-            async def server_auth(self, password_requested: bool = False):
-                if password_requested and not self.password:
-                    await super(TextContext, self).server_auth(password_requested)
-                await self.get_username()
-                await self.send_connect(game="")
+        async def server_auth(self, password_requested: bool = False):
+            if password_requested and not self.password:
+                await super(TextContext, self).server_auth(password_requested)
+            await self.get_username()
+            await self.send_connect(game="")
 
-            def on_package(self, cmd: str, args: dict):
-                if cmd == "Connected":
-                    self.game = self.slot_info[self.slot].game
+        def on_package(self, cmd: str, args: dict):
+            if cmd == "Connected":
+                self.game = self.slot_info[self.slot].game
 
-            async def disconnect(self, allow_autoreconnect: bool = False):
-                self.game = ""
-                await super().disconnect(allow_autoreconnect)
+        async def disconnect(self, allow_autoreconnect: bool = False):
+            self.game = ""
+            await super().disconnect(allow_autoreconnect)
 
-        async def main(args):
-            ctx = TextContext(args.connect, args.password)
-            ctx.auth = args.name
-            ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+    async def main(args):
+        ctx = TextContext(args.connect, args.password)
+        ctx.auth = args.name
+        ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
 
-            if gui_enabled:
-                ctx.run_gui()
-            ctx.run_cli()
+        if gui_enabled:
+            ctx.run_gui()
+        ctx.run_cli()
 
-            await ctx.exit_event.wait()
-            await ctx.shutdown()
+        await ctx.exit_event.wait()
+        await ctx.shutdown()
 
-        import colorama
+    import colorama
 
-        parser = get_base_parser(description=f"Gameless {apname} Client, for text interfacing.")
-        parser.add_argument('--name', default=None, help="Slot Name to connect as.")
-        parser.add_argument("url", nargs="?", help=f"{apname} connection url")
-        args = parser.parse_args(args)
+    parser = get_base_parser(description=f"Gameless {apname} Client, for text interfacing.")
+    parser.add_argument('--name', default=None, help="Slot Name to connect as.")
+    parser.add_argument("url", nargs="?", help=f"{apname} connection url")
+    args = parser.parse_args(args)
 
-        args = handle_url_arg(args, parser=parser)
+    args = handle_url_arg(args, parser=parser)
 
-        # use colorama to display colored text highlighting on windows
-        colorama.just_fix_windows_console()
+    # use colorama to display colored text highlighting on windows
+    colorama.just_fix_windows_console()
 
-        asyncio.run(main(args))
-        colorama.deinit()
+    asyncio.run(main(args))
+    colorama.deinit()
 
+
+if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.INFO)  # force log-level to work around log level resetting to WARNING
+    run_as_textclient(*sys.argv[1:])  # default value for parse_args

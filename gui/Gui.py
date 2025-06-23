@@ -158,7 +158,7 @@ class GuiContext:
 
     def run_gui(self):
         """Import kivy UI system from make_gui() and start running it as self.ui_task."""
-        self.ui = KivyMDGUI(self)
+        self.ui = MultiMDApp(self)
         # Launch splash screen before starting the UI
         self.ui.launch_splash_screen()
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -167,27 +167,37 @@ class GuiContext:
         if self.ui_task:
             await self.ui_task
 
-class KivyMDGUI(MDApp): 
-    title = "MultiWorldGG: FoxyDelilah playing TUNIC"
+class MultiMDApp(MDApp): 
+
+    logging_pairs = [
+        ("Client", "Archipelago"),
+    ]
+
+    title = "MultiWorldGG"
+
     title_bar: Titlebar
     main_layout: MainLayout
     navigation_layout: NavLayout
     loading_layout: MWGGLoadingLayout
     top_appbar_layout: TopAppBarLayout
     bottom_sheet: MainBottomSheet
-    bottom_appbar: BottomAppBar
-    bottom_chips: BottomChipLayout
     screen_manager: MainScreenMgr
+
     console_screen: ConsoleScreen
     hint_screen: HintScreen
     settings_screen: SettingsScreen
     launcher_screen: LauncherScreen
+
+    bottom_appbar: BottomAppBar
+    bottom_chips: BottomChipLayout
+    
     theme_mw: DefaultTheme
     top_appbar_menu: MDDropdownMenu
     splash_process = None
     pixelate_effect: EffectWidget
+    ui_console: ObjectProperty
 
-    def __init__(self, ctx: GuiContext, **kwargs):
+    def __init__(self, ctx: CommonContext, **kwargs):
         super().__init__(**kwargs)
         RegisterFonts(self)
         self.ctx = ctx
@@ -315,6 +325,10 @@ class KivyMDGUI(MDApp):
         Window.clearcolor = [0,0,0,1]
 
     def on_start(self):
+        """Set up additional build necessities that
+        cannot be done in the constructor"""
+
+        # titlebar bindings
         Window.bind(on_restore=self.title_bar.tb_onres)
         Window.bind(on_maximize=self.title_bar.tb_onmax)
         Window.bind(on_close=lambda x: self.on_stop())
@@ -329,6 +343,10 @@ class KivyMDGUI(MDApp):
             self.loading_layout.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
             self.root_layout.add_widget(self.loading_layout)
 
+
+            self.ui_console = self.console_screen.ui_console
+            self.ui_console.console()
+
         super().on_start()
         Clock.schedule_once(on_start)
         # Terminate the splash screen after the UI is fully initialized
@@ -337,17 +355,23 @@ class KivyMDGUI(MDApp):
 
     def build(self):
         '''
-        This is the base app foundation for the entirety of the gui. The class
-        should be imported and called with super().
-        Next in the app structure are the screens.
+        This is the base app infrastructure for the
+        gui. It sets up the theme, layouts, and screens.
         '''
+
+        # Themeing
         self.theme_cls.theme_style = self.theme_mw.theme_style
         self.theme_cls.primary_palette = self.theme_mw.primary_palette
         self.theme_cls.dynamic_scheme_name = self.theme_mw.dynamic_scheme_name
         self.theme_mw.recolor_atlas()
         self.theme_cls.theme_style_switch_animation = True
 
+        # Layouts and screens are in layer order
+        # Root layout - specifically to blur everything during loading
+        self.root_layout = MDFloatLayout()
         self.pixelate_effect = EffectWidget()
+
+        # Main window layout
         self.main_layout = MainLayout()
         self.main_layout.anchor_x='left'
         self.main_layout.anchor_y='top'
@@ -355,29 +379,34 @@ class KivyMDGUI(MDApp):
         self.title_bar = Titlebar()
         Window.set_custom_titlebar(self.title_bar)
 
+        # Navigation layout (bottom sheet)
         self.navigation_layout = NavLayout()
-        self.screen_manager = MainScreenMgr()
 
+        # Top appbar layout
         self.top_appbar_layout = TopAppBarLayout()
         self.top_appbar_menu = None
 
-        #TODO: Fix this - it won't change colors correctly
-        #Needs to be done in the module, not here.
+        # Bottom sheet
         self.bottom_sheet = MainBottomSheet()
-        self.bottom_chips = BottomChipLayout()
+        #self.bottom_chips = BottomChipLayout()
+        
+        # Screen manager
+        # Screens are under the appbar and titlebar
+        self.screen_manager = MainScreenMgr()
 
+        # Set up navigation layout
         self.navigation_layout.add_widget(self.screen_manager)
         self.navigation_layout.add_widget(self.bottom_sheet)
 
+        # Add user interface elements to main layout
         self.main_layout.add_widget(self.navigation_layout)
         self.main_layout.add_widget(self.top_appbar_layout)
         self.main_layout.add_widget(self.title_bar)
 
-        # Blur effect everything during loading
+        # Add the main layout to the root layout
         self.pixelate_effect.add_widget(self.main_layout)
-        self.root_layout = MDFloatLayout()
         self.root_layout.add_widget(self.pixelate_effect)
-
+        
         return self.root_layout
 
     def on_stop(self):
@@ -462,7 +491,7 @@ class KivyMDGUI(MDApp):
         if not self.top_appbar_menu:
             menu_items = [
                 self._create_menu_item(item)
-                for item in ["console", "hint", "settings"]
+                for item in self.screen_manager.screen_names
             ]
 
             self.top_appbar_menu = MDDropdownMenu(

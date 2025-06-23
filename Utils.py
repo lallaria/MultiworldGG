@@ -853,7 +853,7 @@ def open_directory(title: str, suggest: str = "") -> typing.Optional[str]:
 
 def messagebox(title: str, text: str, error: bool = False) -> None:
     if is_kivy_running():
-        from kvui import MessageBox
+        from gui.dialog import MessageBox
         MessageBox(title, text, error).open()
         return
 

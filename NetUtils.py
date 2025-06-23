@@ -4,8 +4,10 @@ import typing
 import enum
 import warnings
 from json import JSONEncoder, JSONDecoder
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from websockets import WebSocketServerProtocol as ServerConnection
 
 from Utils import ByValue, Version
@@ -69,23 +71,28 @@ class Permission(ByValue, enum.IntFlag):
         return Permission(data)
 
 
-class NetworkPlayer(typing.NamedTuple):
+@dataclass(frozen=True)
+class NetworkPlayer:
     """Represents a particular player on a particular team."""
     team: int
     slot: int
     alias: str
     name: str
+    pronouns: str | None = None
+    avatar: bytes | None = None
 
 
-class NetworkSlot(typing.NamedTuple):
+@dataclass(frozen=True)
+class NetworkSlot:
     """Represents a particular slot across teams."""
     name: str
     game: str
     type: SlotType
-    group_members: typing.Union[typing.List[int], typing.Tuple] = ()  # only populated if type == group
+    group_members: list[int] | tuple = ()  # only populated if type == group
 
 
-class NetworkItem(typing.NamedTuple):
+@dataclass(frozen=True)
+class NetworkItem:
     item: int
     location: int
     player: int
@@ -93,15 +100,23 @@ class NetworkItem(typing.NamedTuple):
     flags: int = 0
 
 
-def _scan_for_TypedTuples(obj: typing.Any) -> typing.Any:
-    if isinstance(obj, tuple) and hasattr(obj, "_fields"):  # NamedTuple is not actually a parent class
-        data = obj._asdict()
+def _scan_for_dataclasses(obj: typing.Any) -> typing.Any:
+    # Handle dataclasses
+    if hasattr(obj, "__dataclass_fields__"):
+        data = {}
+        for field_name in obj.__dataclass_fields__:
+            value = getattr(obj, field_name)
+            # Handle bytes specially for JSON serialization
+            if isinstance(value, bytes):
+                data[field_name] = value.hex()  # Convert to hex string for JSON
+            else:
+                data[field_name] = value
         data["class"] = obj.__class__.__name__
         return data
     if isinstance(obj, (tuple, list, set, frozenset)):
-        return tuple(_scan_for_TypedTuples(o) for o in obj)
+        return tuple(_scan_for_dataclasses(o) for o in obj)
     if isinstance(obj, dict):
-        return {key: _scan_for_TypedTuples(value) for key, value in obj.items()}
+        return {key: _scan_for_dataclasses(value) for key, value in obj.items()}
     return obj
 
 
@@ -113,7 +128,7 @@ _encode = JSONEncoder(
 
 
 def encode(obj: typing.Any) -> str:
-    return _encode(_scan_for_TypedTuples(obj))
+    return _encode(_scan_for_dataclasses(obj))
 
 
 def get_any_version(data: dict) -> Version:
@@ -138,12 +153,19 @@ def _object_hook(o: typing.Any) -> typing.Any:
         if hook:
             return hook(o)
         cls = allowlist.get(o.get("class", None), None)
-        if cls:
+        if cls and hasattr(cls, "__dataclass_fields__"):
+            field_names = cls.__dataclass_fields__.keys()
+            # Convert hex string back to bytes for avatar field
+            if "avatar" in o and isinstance(o["avatar"], str):
+                try:
+                    o["avatar"] = bytes.fromhex(o["avatar"])
+                except ValueError:
+                    o["avatar"] = None  # Invalid hex string
+            # Remove unknown fields
             for key in tuple(o):
-                if key not in cls._fields:
-                    del (o[key])
-            return cls(**o)
-
+                if key not in field_names and key != "class":
+                    del o[key]
+            return cls(**{k: v for k, v in o.items() if k != "class"})
     return o
 
 
@@ -195,31 +217,30 @@ class JSONTypes(str, enum.Enum):
     location_id = "location_id"
     entrance_name = "entrance_name"
 
+# Default color definitions - these should be imported by GUI themes
+DEFAULT_TEXT_COLORS = {
+    "location_color":["006f10", "00c51b"],
+    "player1_color":["b42f88", "ff87d7"],
+    "player2_color":["206cb8", "5fafff"],
+    "entrance_color":["2985a0", "60b7e8"],
+    "trap_item_color":["8f1515", "d75f5f"],
+    "regular_item_color":["3b3b3b", "b2b2b2"],
+    "useful_item_color":["419F44", "6EC471"],
+    "skip_item_color":["419F44", "6EC471"],
+    "progression_skip_item_color":["A59C3B", "d4cd87"],
+    "progression_item_color":["9f8a00", "FFC500"],
+    "command_echo_color":["a75600", "ff9334"]
+}
 
 class JSONtoTextParser(metaclass=HandlerMeta):
-    color_codes = {
-        # Changed these so that the color name isn't directly linked to the action. Probably should use a  color library for it long-term
-        "black": "000000",
-        "red": "FF0000", #red
-        "green": "00FF00", #green
-        "orange": "FF7700", #added individually to assure compat with Jak&Dexter
-        "notfoundcolor": "EE0000", #red
-        "foundcolor": "00c51b", #green
-        "friendcolor": "5fafff", #ltblue
-        "entrancecolor": "6495ED", #blue
-        "playercolor": "ff87d7", #atzpink
-        "junkcolor": "b2b2b2", #gray
-        "usefulcolor": "afd75f", #lime
-        "wothcolor": "FFC500", #gold
-        "trapcolor": "d75f5f", #salmon
-        "default": "FFFFFF", #white
-        "bcastcolor": "FF7700", #orange
-    }
+    color_codes = {}
+    for key,value in DEFAULT_TEXT_COLORS.items():
+        color_codes[key] = value[1]
 
     def __init__(self, ctx):
         self.ctx = ctx
 
-    def __call__(self, input_object: typing.List[JSONMessagePart]) -> str:
+    def __call__(self, input_object: list[JSONMessagePart]) -> str:
         return "".join(self.handle_node(section) for section in input_object)
 
     def handle_node(self, node: JSONMessagePart):
@@ -233,7 +254,8 @@ class JSONtoTextParser(metaclass=HandlerMeta):
         return buffer + self._handle_text(node) + color_code("reset")
 
     def _handle_text(self, node: JSONMessagePart):
-        return node.get("text", "")
+        node["text"] = 'default'
+        return self._handle_color(node)
 
     def _handle_player_id(self, node: JSONMessagePart):
         player = int(node["text"])
@@ -249,15 +271,20 @@ class JSONtoTextParser(metaclass=HandlerMeta):
     def _handle_item_name(self, node: JSONMessagePart):
         flags = node.get("flags", 0)
         if flags == 0:
-            node["color"] = 'junkcolor'
-        elif flags & 0b001:  # advancement
-            node["color"] = 'wothcolor'
-        elif flags & 0b010:  # useful
-            node["color"] = 'usefulcolor'
-        elif flags & 0b100:  # trap
-            node["color"] = 'trapcolor'
+            node["color"] = 'regular_item_color' # filler
+        elif flags & 0b1000:  # skip_balancing bit set
+            if flags & 0b0001:  # progression_skip_balancing
+                node["color"] = 'progression_item_color'  # citron for progression skip items
+            else:  # just skip_balancing (shouldn't happen in practice)
+                node["color"] = 'regular_item_color'
+        elif flags & 0b0001:  # progression
+            node["color"] = 'wothcolor'  # gold for required progression
+        elif flags & 0b0010:  # useful
+            node["color"] = 'usefulcolor'  # lime for useful items
+        elif flags & 0b0100:  # trap
+            node["color"] = 'trapcolor'  # salmon for traps
         else:
-            node["color"] = 'junkcolor'
+            node["color"] = 'regular_item_color'  # fallback to filler
         return self._handle_color(node)
 
     def _handle_item_id(self, node: JSONMessagePart):
@@ -325,14 +352,14 @@ def add_json_location(parts: list, location_id: int, player: int = 0, **kwargs) 
     parts.append({"text": str(location_id), "player": player, "type": JSONTypes.location_id, **kwargs})
 
 ## HintStatus map is the location identifier/colors
-status_names: typing.Dict[HintStatus, str] = {
+status_names: dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "(found)",
     HintStatus.HINT_UNSPECIFIED: "(unspecified)",
     HintStatus.HINT_NO_PRIORITY: "(no priority)",
     HintStatus.HINT_AVOID: "(avoid)",
     HintStatus.HINT_PRIORITY: "(priority)",
 }
-status_colors: typing.Dict[HintStatus, str] = {
+status_colors: dict[HintStatus, str] = {
     HintStatus.HINT_FOUND: "green",
     HintStatus.HINT_UNSPECIFIED: "white",
     HintStatus.HINT_NO_PRIORITY: "lightgray",
@@ -341,12 +368,13 @@ status_colors: typing.Dict[HintStatus, str] = {
 }
 
 
-def add_json_hint_status(parts: list, hint_status: HintStatus, text: typing.Optional[str] = None, **kwargs):
+def add_json_hint_status(parts: list, hint_status: HintStatus, text: str | None = None, **kwargs):
     parts.append({"text": text if text != None else status_names.get(hint_status, "(unknown)"),
                   "hint_status": hint_status, "type": JSONTypes.hint_status, **kwargs})
 
 
-class Hint(typing.NamedTuple):
+@dataclass(frozen=True)
+class Hint:
     receiving_player: int
     finding_player: int
     location: int
@@ -361,37 +389,92 @@ class Hint(typing.NamedTuple):
             return self
         found = self.location in ctx.location_checks[team, self.finding_player]
         if found:
-            return self._replace(found=found, status=HintStatus.HINT_FOUND)
+            return Hint(
+                receiving_player=self.receiving_player,
+                finding_player=self.finding_player,
+                location=self.location,
+                item=self.item,
+                found=found,
+                entrance=self.entrance,
+                item_flags=self.item_flags,
+                status=HintStatus.HINT_FOUND
+            )
         return self
     
     def re_prioritize(self, ctx, status: HintStatus) -> Hint:
         if self.found and status != HintStatus.HINT_FOUND:
             status = HintStatus.HINT_FOUND
         if status != self.status:
-            return self._replace(status=status)
+            return Hint(
+                receiving_player=self.receiving_player,
+                finding_player=self.finding_player,
+                location=self.location,
+                item=self.item,
+                found=self.found,
+                entrance=self.entrance,
+                item_flags=self.item_flags,
+                status=status
+            )
         return self
 
     def __hash__(self):
         return hash((self.receiving_player, self.finding_player, self.location, self.item, self.entrance))
 
     def as_network_message(self) -> dict:
-        parts = []
-        add_json_text(parts, "[Hint]: ")
-        add_json_text(parts, self.receiving_player, type="player_id")
-        add_json_text(parts, "'s ")
-        add_json_item(parts, self.item, self.receiving_player, self.item_flags)
-        add_json_text(parts, " is at ")
-        add_json_location(parts, self.location, self.finding_player)
-        add_json_text(parts, " in ")
-        add_json_text(parts, self.finding_player, type="player_id")
+        # Template for hint messages
+        template = [
+            {"text": "[Hint]: ", "type": "text"},
+            {"text": "{receiving_player}", "type": "player_id"},
+            {"text": "'s ", "type": "text"},
+            {"text": "{item}", "type": "item_id", "player": "{receiving_player}", "flags": "{item_flags}"},
+            {"text": " is at ", "type": "text"},
+            {"text": "{location}", "type": "location_id", "player": "{finding_player}"},
+            {"text": " in ", "type": "text"},
+            {"text": "{finding_player}", "type": "player_id"},
+            {"text": "{entrance_text}", "type": "text"},
+            {"text": ". ", "type": "text"},
+            {"text": "{status_text}", "type": "color", "color": "{status_color}"}
+        ]
+        
+        # Determine entrance text based on whether entrance exists
         if self.entrance:
-            add_json_text(parts, "'s World at ")
-            add_json_text(parts, self.entrance, type="entrance_name")
+            entrance_text = "'s World at " + self.entrance
         else:
-            add_json_text(parts, "'s World")
-        add_json_text(parts, ". ")
-        add_json_text(parts, status_names.get(self.status, "(unknown)"), type="color",
-                      color=status_colors.get(self.status, "red"))
+            entrance_text = "'s World"
+        
+        # Get status information
+        status_text = status_names.get(self.status, "(unknown)")
+        status_color = status_colors.get(self.status, "red")
+        
+        # Fill template with actual values
+        parts = []
+        for part in template:
+            filled_part = {}
+            for key, value in part.items():
+                if isinstance(value, str) and value.startswith("{") and value.endswith("}"):
+                    # Replace template variables
+                    var_name = value[1:-1]  # Remove { and }
+                    if var_name == "receiving_player":
+                        filled_part[key] = self.receiving_player
+                    elif var_name == "finding_player":
+                        filled_part[key] = self.finding_player
+                    elif var_name == "item":
+                        filled_part[key] = self.item
+                    elif var_name == "location":
+                        filled_part[key] = self.location
+                    elif var_name == "item_flags":
+                        filled_part[key] = self.item_flags
+                    elif var_name == "entrance_text":
+                        filled_part[key] = entrance_text
+                    elif var_name == "status_text":
+                        filled_part[key] = status_text
+                    elif var_name == "status_color":
+                        filled_part[key] = status_color
+                    else:
+                        filled_part[key] = value
+                else:
+                    filled_part[key] = value
+            parts.append(filled_part)
 
         return {"cmd": "PrintJSON", "data": parts, "type": "Hint",
                 "receiving": self.receiving_player,
@@ -403,8 +486,8 @@ class Hint(typing.NamedTuple):
         return self.receiving_player == self.finding_player
 
 
-class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tuple[int, int, int]]]):
-    def __init__(self, values: typing.MutableMapping[int, typing.Dict[int, typing.Tuple[int, int, int]]]):
+class _LocationStore(dict, typing.MutableMapping[int, dict[int, tuple[int, int, int]]]):
+    def __init__(self, values: typing.MutableMapping[int, dict[int, tuple[int, int, int]]]):
         super().__init__(values)
 
         if not self:
@@ -416,24 +499,24 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
         if len(self.get(0, {})):
             raise ValueError("Invalid player id 0 for location")
 
-    def find_item(self, slots: typing.Set[int], seeked_item_id: int
-                  ) -> typing.Generator[typing.Tuple[int, int, int, int, int], None, None]:
+    def find_item(self, slots: set[int], seeked_item_id: int
+                  ) -> typing.Generator[tuple[int, int, int, int, int], None, None]:
         for finding_player, check_data in self.items():
             for location_id, (item_id, receiving_player, item_flags) in check_data.items():
                 if receiving_player in slots and item_id == seeked_item_id:
                     yield finding_player, location_id, item_id, receiving_player, item_flags
 
-    def get_for_player(self, slot: int) -> typing.Dict[int, typing.Set[int]]:
+    def get_for_player(self, slot: int) -> dict[int, set[int]]:
         import collections
-        all_locations: typing.Dict[int, typing.Set[int]] = collections.defaultdict(set)
+        all_locations: dict[int, set[int]] = collections.defaultdict(set)
         for source_slot, location_data in self.items():
             for location_id, values in location_data.items():
                 if values[1] == slot:
                     all_locations[source_slot].add(location_id)
         return all_locations
 
-    def get_checked(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
-                    ) -> typing.List[int]:
+    def get_checked(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
+                    ) -> list[int]:
         checked = state[team, slot]
         if not checked:
             # This optimizes the case where everyone connects to a fresh game at the same time.
@@ -444,8 +527,8 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
                 location_id in self[slot] if
                 location_id in checked]
 
-    def get_missing(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
-                    ) -> typing.List[int]:
+    def get_missing(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
+                    ) -> list[int]:
         checked = state[team, slot]
         if not checked:
             # This optimizes the case where everyone connects to a fresh game at the same time.
@@ -454,8 +537,8 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
                 location_id in self[slot] if
                 location_id not in checked]
 
-    def get_remaining(self, state: typing.Dict[typing.Tuple[int, int], typing.Set[int]], team: int, slot: int
-                      ) -> typing.List[typing.Tuple[int, int]]:
+    def get_remaining(self, state: dict[tuple[int, int], set[int]], team: int, slot: int
+                      ) -> list[tuple[int, int]]:
         checked = state[team, slot]
         player_locations = self[slot]
         return sorted([(player_locations[location_id][1], player_locations[location_id][0]) for
@@ -463,7 +546,7 @@ class _LocationStore(dict, typing.MutableMapping[int, typing.Dict[int, typing.Tu
                         location_id not in checked])
 
 
-if typing.TYPE_CHECKING:  # type-check with pure python implementation until we have a typing stub
+if TYPE_CHECKING:  # type-check with pure python implementation until we have a typing stub
     LocationStore = _LocationStore
 else:
     try:

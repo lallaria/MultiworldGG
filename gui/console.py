@@ -140,7 +140,6 @@ class ConsoleScreen(MDScreen, ThemableBehavior):
                                       size_hint_x=1-(264/Window.width), 
                                       size_hint_y=1-(8/Window.height))
         self.important_appbar.ids.scroll.scroll_wheel_distance = 40
-        #self.important_appbar.ids.scroll.y = 82
 
         self.important_appbar.content.add_widget(self.slots_mdlist)
 

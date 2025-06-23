@@ -163,7 +163,7 @@ class MarkupTextField(TextInput, ThemableBehavior):
     radius = VariableListProperty([dp(4), dp(4), dp(4), dp(4)]) #MD
     required = BooleanProperty(False) #MD
     line_color_normal = ColorProperty(None) #MD
-    line_color_focus = ColorProperty(None) #MD
+    line_color_focus = ColorProperty(None) #MD # Remove the invalid truncate parameter
     _helper_text_label = ObjectProperty() #MD
     _hint_text_label = ObjectProperty() #MD
     _leading_icon = ObjectProperty() #MD
@@ -202,13 +202,15 @@ class MarkupTextField(TextInput, ThemableBehavior):
         self._cut_copy_paste_menu = None
         Clock.schedule_once(self._check_text)
 
-
     def on_text(self, instance, value):
         # Update the plain text lines list
         self._update_plaintext_lines()
         # Update the markup to plain text mapping
         self._update_markup_to_plain_map()
         
+    @property
+    def line_count(self) -> int:
+        return len(self._lines)
 
     @property
     def end_cursor(self):
@@ -867,6 +869,8 @@ class MarkupTextField(TextInput, ThemableBehavior):
         """Fired when text is entered into a text field."""
 
         def set_text(*args):
+            if self.line_count > 1000:
+                self._lines = self._lines[-1000:] #_lines is bound to the text property
             self.text = re.sub("\n", " ", text) if not self.multiline else text
             self.set_max_text_length()
 
