@@ -30,6 +30,7 @@ class OuterWildsWorld(World):
     game = "Outer Wilds"
     author: str = "Ixrec"
     web = OuterWildsWebWorld()
+    world_version = "1.2.3"
 
     eotu_coordinates = 'vanilla'
     db_layout = 'vanilla'
@@ -169,7 +170,7 @@ class OuterWildsWorld(World):
         slot_data["warps"] = self.warps
         # Archipelago does not yet have apworld versions (data_version is deprecated),
         # so we have to roll our own with slot_data for the time being
-        slot_data["apworld_version"] = "0.3.17"
+        slot_data["apworld_version"] = "0.3.18"
         return slot_data
 
     def write_spoiler(self, spoiler_handle: TextIO) -> None:

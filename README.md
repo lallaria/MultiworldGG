@@ -124,6 +124,7 @@ Currently, the following games are supported:
 * Ratchet & Clank 2
 * Resident Evil 2 Remake
 * Resident Evil 3 Remake
+* Rimworld
 * Risk of Rain
 * Risk of Rain 2
 * Rogue Legacy

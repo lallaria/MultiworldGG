@@ -169,7 +169,7 @@
 /worlds/gstla/ @cjmang
 
 # GZDoom
-/worlds/gzdoom @ToxicFrog
+/worlds/gzdoom/ @ToxicFrog
 
 # Hades
 /worlds/hades/ @Naixgames
@@ -351,6 +351,9 @@
 
 # Resident Evil 3 Remake
 /worlds/residentevil3remake/ @therealsolidussnake
+
+# Rimworld
+/worlds/rimworld/ @PhantomOfAres
 
 # Rogue Legacy
 /worlds/rogue_legacy/ @ThePhar
