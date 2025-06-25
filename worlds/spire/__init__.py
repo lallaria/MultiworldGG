@@ -17,7 +17,7 @@ from ..AutoWorld import WebWorld, World
 class SpireWeb(WebWorld):
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
-        "A guide to setting up Slay the Spire for Archipelago. "
+        "A guide to setting up Slay the Spire for MultiworldGG. "
         "This guide covers single-player, multiworld, and related software.",
         "English",
         "slay-the-spire_en.md",
