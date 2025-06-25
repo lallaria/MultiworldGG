@@ -99,8 +99,13 @@ def randomize_wild_pokemon(world: "PokemonCrystalWorld"):
         def get_pokemon_from_pool(pool: list[str], blocklist: set[str] | None = None,
                                   exclude_unown: bool = False) -> str:
             pokemon = pool.pop()
-            if exclude_unown and pokemon == "UNOWN":
+            if exclude_unown and pokemon == "UNOWN" and not pool:
                 pokemon = get_random_pokemon(world, exclude_unown=True, blocklist=global_blocklist)
+            elif exclude_unown and pokemon == "UNOWN":
+                pokemon = get_pokemon_from_pool(pool, exclude_unown=exclude_unown, blocklist=blocklist)
+                pool.append("UNOWN")
+                world.random.shuffle(pool)
+
             if blocklist and pokemon in blocklist:
                 pokemon = get_random_pokemon(world, exclude_unown=exclude_unown, blocklist=blocklist | global_blocklist)
             return pokemon
@@ -144,7 +149,10 @@ def randomize_wild_pokemon(world: "PokemonCrystalWorld"):
                 world.logically_available_pokemon.update(encounter.pokemon for encounter in new_encounters)
             return new_encounters
 
-        for region_key, encounters in world.generated_wild.items():
+        region_keys = list(world.generated_wild)
+        world.random.shuffle(region_keys)
+        for region_key in region_keys:
+            encounters = world.generated_wild[region_key]
             world.generated_wild[region_key] = randomize_encounter_list(
                 region_key, encounters,
                 exclude_unown=region_key.encounter_type not in (EncounterType.Grass, EncounterType.Water))

@@ -1,8 +1,6 @@
 from typing import TYPE_CHECKING
 
 from BaseClasses import Region, Item, ItemClassification, CollectionState
-from .Items import ApeEscapeItem
-from .Locations import ApeEscapeLocation
 from .Regions import connect_regions, ApeEscapeLevel
 from .Strings import AEItem, AEDoor, AELocation
 
@@ -508,19 +506,19 @@ def set_transitions(self):
     # Boulder Room
     if self.options.logic == "normal":
         connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
-                        lambda state: CanSwim(state, self))
-    elif self.options.logic == "hard":
-        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
-                        lambda state: CanSwim(state, self) or ((IJ(state, self) or HasHoop(state, self)) and HasFlyer(state, self)))
-    else:
-        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
-                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
-    if self.options.logic == "normal":
-        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_BOULDER_ENTRY.value, 
                         lambda state: CanSwim(state, self) and (HasFlyer(state, self) or IJ(state, self)))
     else:
+        connect_regions(self, AEDoor.TJ_BOULDER_ENTRY.value, AEDoor.TJ_BOULDER_TENT.value, 
+                        lambda state: CanSwim(state, self))
+    if self.options.logic == "normal":
         connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_BOULDER_ENTRY.value, 
                         lambda state: CanSwim(state, self))
+    elif self.options.logic == "hard":
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_BOULDER_ENTRY.value, 
+                        lambda state: CanSwim(state, self) or ((IJ(state, self) or HasHoop(state, self)) and HasFlyer(state, self)))
+    else:
+        connect_regions(self, AEDoor.TJ_BOULDER_TENT.value, AEDoor.TJ_BOULDER_ENTRY.value, 
+                        lambda state: CanSwim(state, self) or HasFlyer(state, self))
 
     # Dark Ruins
     # Outside

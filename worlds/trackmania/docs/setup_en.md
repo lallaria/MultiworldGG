@@ -14,9 +14,9 @@
 
 3. You should be good to go!
 
-## Connecting to an MultiworldGG Server
+## Connecting to an Archipelago Server
 
-To connect to a server, simply run the **MultiworldGG Trackmania Client** from the launcher, and use the /connect command or the header bar to connect to the server. Once the client is connected to the server, you must connect the Trackmania Plugin to the client. In the Openplanet overlay, click Scripts -> Archipelago to open the Archipelago Plugin window, and click Connect.
+To connect to a server, simply run the **Archipelago Trackmania Client** from the launcher, and use the /connect command or the header bar to connect to the server. Once the client is connected to the server, you must connect the Trackmania Plugin to the client. In the Openplanet overlay, click Scripts -> Archipelago to open the Archipelago Plugin window, and click Connect.
 
 ## Client Console Commands
 

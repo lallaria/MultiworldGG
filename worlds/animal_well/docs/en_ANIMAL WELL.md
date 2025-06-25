@@ -10,7 +10,8 @@ It is recommended to play the vanilla game first. The randomizer will spoil mech
 We recommend you find all of the eggs, all of the equipment items, and as many bunnies as you can before playing this randomizer.
 
 ## What does randomization do to this game?
-All items you can find in chests (eggs, toys, keys, matches) are shuffled into the item pool.
+All items you normally find in chests (eggs, toys, keys, matches) are shuffled into the item pool.
+Locations that contain random items from the item pool include opening chests, as well as optionally finding bunnies, lighting candles, and eating fruits.
 
 ## What is the goal of ANIMAL WELL when randomized?
 The standard goal is the same as the vanilla game. Find the 4 flames and set off the fireworks at the end.
@@ -25,15 +26,13 @@ They just look like the standard chests.
 
 ## Is there a tracker?
 A map tracker is built into the client, and is visible on your in-game map.
-There is also a [Poptracker Pack](https://github.com/SporyTike/ANIMAL-WELL-AP-Tracker/releases/latest) which was made by SporyTike.
-If you find issues in the tracker pack, please let them know about them.
 Universal Tracker is also an option, and will not run into any of its common issues.
 
 ## What should I know regarding logic?
 Locations that may softlock you (such as the B. Wand chest) are included in logic. To escape these softlocks, you can either quit to menu and continue (the chest will appear closed, but you will have already sent the check, so it's fine), or you can use the Warp to Hub button in the pause menu.
 
 ## Does this game have item and location groups?
-Yes! To find what they are, type `/item_groups` or `/location_groups` into the ANIMAL WELL Client, or the MultiworldGG Text Client while connected to an ANIMAL WELL session.
+Yes! To find what they are, type `/item_groups` or `/location_groups` into the ANIMAL WELL Client, or the Archipelago Text Client while connected to an ANIMAL WELL session.
 
 ## What are the current known issues?
 The client rarely fails for no discernable reason when opening a chest. We do not know why yet. If it fails, please let us know in the discord and send us your log file (in your `MultiworldGG/logs` folder). We may ask you to troubleshoot a few things as well.

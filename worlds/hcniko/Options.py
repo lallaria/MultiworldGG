@@ -311,7 +311,7 @@ class TrapChance(Range):
     display_name = "Trap Chance"
     range_start = 0
     range_end = 100
-    default = 50
+    default = 25
 
 
 class FreezeTrapWeight(Range):
@@ -347,7 +347,7 @@ class MyTurnTrapWeight(Range):
     display_name = "My Turn! Trap Weight"
     range_start = 0
     range_end = 100
-    default = 40
+    default = 30
 
 
 class GravityTrapWeight(Range):
@@ -356,7 +356,7 @@ class GravityTrapWeight(Range):
     display_name = "Gravity Trap Weight"
     range_start = 0
     range_end = 100
-    default = 20
+    default = 10
 
 
 class HomeTrapWeight(Range):
@@ -383,7 +383,7 @@ class PhoneTrapWeight(Range):
     display_name = "Phone Trap Weight"
     range_start = 0
     range_end = 100
-    default = 40
+    default = 25
 
 
 class TinyTrapWeight(Range):
@@ -401,7 +401,7 @@ class JumpingJacksTrapWeight(Range):
     display_name = "Jumping Jacks Trap Weight"
     range_start = 0
     range_end = 100
-    default = 40
+    default = 25
 
 
 class HCNDeathLink(DeathLink):
@@ -428,6 +428,13 @@ class HereComesNikoOptions(PerGameCommonOptions):
     cassette_logic: CassetteLogic
     progressive_contact_list: ProgressiveContactList
     snail_shop: SnailShopLocations
+
+    goal_completion: GoalCompletion
+    min_kiosk_cost: MinKioskCost
+    max_kiosk_cost: MaxKioskCost
+    min_elevator_cost: MinElevatorCost
+    max_elevator_cost: MaxElevatorCost
+
     bonk_permit: BonkPermit
     bug_catching: BugNet
     soda_cans: SodaCans
@@ -446,12 +453,6 @@ class HereComesNikoOptions(PerGameCommonOptions):
     bugsanity: Bugsanity
     chatsanity: Chatsanity
     thoughtsanity: Thoughtsanity
-
-    goal_completion: GoalCompletion
-    min_kiosk_cost: MinKioskCost
-    max_kiosk_cost: MaxKioskCost
-    min_elevator_cost: MinElevatorCost
-    max_elevator_cost: MaxElevatorCost
 
     trapchance: TrapChance
     freeze_trapweight: FreezeTrapWeight

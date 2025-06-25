@@ -63,6 +63,9 @@ item_table = {
     AEItem.BananaPeelTrap.value: RAM.items["BananaPeelTrap"],
     AEItem.GadgetShuffleTrap.value: RAM.items["GadgetShuffleTrap"],
     AEItem.MonkeyMashTrap.value: RAM.items["MonkeyMashTrap"],
+
+    # SpecialItems
+    AEItem.RainbowCookie.value: RAM.items["RainbowCookie"],
 }
 
 gadgetsValues = {
@@ -115,5 +118,7 @@ def createItemGroups():
     GROUPED_ITEMS.setdefault("Lamps", []).append(AEItem.TVT_Lobby_Lamp.value)
     GROUPED_ITEMS.setdefault("Lamps", []).append(AEItem.TVT_Tank_Lamp.value)
     GROUPED_ITEMS.setdefault("Lamps", []).append(AEItem.MM_Lamp.value)
+
+
 
 createItemGroups()

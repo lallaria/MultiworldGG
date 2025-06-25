@@ -325,16 +325,13 @@ class ApeEscapeWorld(World):
                     # self.itempool += [self.create_item_trap(AEItem.GadgetShuffleTrap.value)]
                     self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
                 else:
-                    self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
-                    #self.itempool += [self.create_item_trap(AEItem.MonkeyMashTrap.value)]
-
-
-            # print("Created " + str(trap_count) + " traps.")
+                    #self.itempool += [self.create_item_trap(AEItem.BananaPeelTrap.value)]
+                    self.itempool += [self.create_item_trap(AEItem.MonkeyMashTrap.value)]
 
         # Junk item fill: randomly pick items according to a set of weights.
-        # Filler item weights are for 1 Jacket, 1/5 Cookies, 1/5/25 Energy Chips, 1/3 Explosive/Guided Pellets and Nothing, respectively.
+        # Filler item weights are for 1 Jacket, 1/5 Cookies, 1/5/25 Energy Chips, 1/3 Explosive/Guided Pellets, Rainbow Cookie and Nothing, respectively.
         # TODO: expose these weights as a YAML option.
-        weights = [7, 16, 3, 31, 14, 4, 9, 3, 9, 3, 0]
+        weights = [7, 16, 3, 31, 14, 4, 9, 3, 9, 3, 6, 0]
 
         for x in range(1, len(weights)):
             weights[x] = weights[x] + weights[x - 1]
@@ -354,16 +351,17 @@ class ApeEscapeWorld(World):
             elif weights[4] < randomFiller <= weights[5]:
                 self.itempool += [self.create_item_filler(AEItem.BiggerTriangle.value)]
             elif weights[5] < randomFiller <= weights[6]:
-                self.itempool += [self.create_item_useful(AEItem.Flash.value)]
+                self.itempool += [self.create_item_filler(AEItem.Flash.value)]
             elif weights[6] < randomFiller <= weights[7]:
                 self.itempool += [self.create_item_useful(AEItem.ThreeFlash.value)]
             elif weights[7] < randomFiller <= weights[8]:
-                self.itempool += [self.create_item_useful(AEItem.Rocket.value)]
+                self.itempool += [self.create_item_filler(AEItem.Rocket.value)]
             elif weights[8] < randomFiller <= weights[9]:
                 self.itempool += [self.create_item_useful(AEItem.ThreeRocket.value)]
+            elif weights[9] < randomFiller <= weights[10]:
+                self.itempool += [self.create_item_useful(AEItem.RainbowCookie.value)]
             else:
                 self.itempool += [self.create_item_filler(AEItem.Nothing.value)]
-        # print("Created " + str(filler_count) + " filler items.")
 
         self.multiworld.itempool += self.itempool
 
@@ -404,7 +402,7 @@ class ApeEscapeWorld(World):
             "itemdisplay": self.options.itemdisplay.value,
             "kickoutprevention": self.options.kickoutprevention.value,
             "autoequip": self.options.autoequip.value,
-            "spikecolor" : self.options.spikecolor.value,
+            "spikecolor": self.options.spikecolor.value,
             "customspikecolor": self.options.customspikecolor.value,
             "levelnames": bytestowrite,  # List of level names in entrance order. FF leads to the first.
             "entranceids": entranceids,  # Not used by the client. List of level ids in entrance order.

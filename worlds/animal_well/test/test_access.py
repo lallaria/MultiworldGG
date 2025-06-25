@@ -1,13 +1,5 @@
-
 from . import AWTestBase
 from ..names import ItemNames as iname, LocationNames as lname
-
-from test.bases import WorldTestBase
-
-
-# class AWTestBase(WorldTestBase):
-#     game = "Animal Well"
-#     player = 1
 
 
 class TestAccess(AWTestBase):

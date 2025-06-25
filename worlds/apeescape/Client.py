@@ -1,3 +1,5 @@
+import copy
+import re
 import sys
 import logging
 import time
@@ -6,8 +8,9 @@ import random
 import Utils
 from typing import TYPE_CHECKING, Optional, Dict, Set, ClassVar, Any, Tuple, Union
 
-from NetUtils import ClientStatus
-from .Traps import *
+from BaseClasses import ItemClassification
+from NetUtils import ClientStatus, NetworkItem
+from .SpecialItems import *
 from .Strings import AEItem
 from .Items import gadgetsValues
 
@@ -58,26 +61,26 @@ def cmd_ae_commands(self: "BizHawkClientCommandProcessor") -> None:
                 f"Commands for Ape Escape\n"
                 f"----------------------------------------------\n"
                 f"  /ae_commands\n"
-                f"      Description : Show this list\n"
+                f"      Description: Show this list\n"
                 f"  /bh_itemdisplay [On/Off]\n"
-                f"      Description : Display items directly in the Bizhawk client\n"
+                f"      Description: Display items directly in the Bizhawk client\n"
                 f"      [Optional] Status (On/Off) : Toggle or Enable/Disable the option\n"
                 f"  /prevent_kickout [On/Off]\n"
-                f"      Description : If on, prevents Spike from being ejected \n"
+                f"      Description: If on, prevents Spike from being ejected \n"
                 f"                    after catching all monkeys in a level\n"
                 f"      [Optional] Status (On/Off) : Toggle or Enable/Disable the option\n"
                 f"  /deathlink [On/Off]\n"
-                f"      Description : Enable/Disable the deathlink option\n"
+                f"      Description: Enable/Disable the deathlink option\n"
                 f"      [Optional] Status (On/Off) : Toggle or Enable/Disable the option\n"
                 f"  /auto_equip [On/Off]\n"
-                f"      Description : When on, will equip gadgets if there is a free face button\n"
+                f"      Description: When on, will equip gadgets if there is a free face button\n"
                 f"      [Optional] Status (On/Off) : Toggle or Enable/Disable the option\n"
                 f"  /syncprogress \n"
-                f"      Description : Fetch the server's state of monkeys and sync it into the game\n"
+                f"      Description: Fetch the server's state of monkeys and sync it into the game\n"
                 f"      [Optional] \"cancel\" : If prompted, cancel the currently pending sync\n"
                 f"  /spikecolor \n"
-                f"      Description : Display/Change Spike's color palette according to presets or Hex value\n"
-                f"      Presets : vanilla, saturated, greysaturated, purple, darkblue, neonpink, grey, neongreen,\n"
+                f"      Description: Display/Change Spike's color palette according to presets or Hex value\n"
+                f"      Presets: vanilla, saturated, greysaturated, purple, darkblue, neonpink, grey, neongreen,\n"
                 f"      red, alien, metal, orange, white, cyan, clotchange, darkgreen, yellow, rave\n"
                 f"      [Optional] color Name of the preset or Hex Value from \"0000\" to \"FFFF\"")
 
@@ -291,17 +294,15 @@ def cmd_spikecolor(self: "BizHawkClientCommandProcessor", color = "") -> None:
                 spikecolor = 0x1030
             try:
                 spikecolor = format(int(spikecolor,16), "x").upper()
-                #print("FORMATTED int")
             except:
                 pass
         logger.info(f"Current Spike color: {spikecolor}\n"
-                    f"    To change the status, use the command like so: /spikecolor [color]\n"
+                    f"    To change Spike's color, use the following command: /spikecolor [color]\n"
                     f"    Accepts Hex values (\"0000\" to \"FFFF\") and preset values\n"
-                    f"    Presets : {presetColors}\n")
+                    f"    Presets: {presetColors}\n")
         return
     elif color.lower() in presetColors:
         client.DS_spikecolor = str(presetColors[presetColors.index(color)])
-        #print(client.DS_spikecolor)
     elif len(color) == 4:
         try:
             client.DS_spikecolor = format(int(color,16),"x")
@@ -357,7 +358,7 @@ class ApeEscapeClient(BizHawkClient):
     system = "PSX"
 
     # TODO Remove when doing official PR
-    client_version = "0.8.7"
+    client_version = "0.8.8"
 
     local_checked_locations: Set[int]
     local_set_events: Dict[str, bool]
@@ -402,12 +403,13 @@ class ApeEscapeClient(BizHawkClient):
     def __init__(self) -> None:
         super().__init__()
         self.ape_handler = MonkeyMashHandler(None)
+        self.rainbow_cookie = RainbowCookieHandler(None)
         self.local_checked_locations = set()
         self.local_set_events = {}
         self.local_found_key_items = {}
 
-
     def initialize_client(self):
+        self.messagequeue = []
         self.currentCoinAddress = RAM.startingCoinAddress
         self.countMonkeys = False
         self.DS_spikecolor = -2
@@ -435,6 +437,7 @@ class ApeEscapeClient(BizHawkClient):
         self.death_counter = None
         self.previous_death_link = 0
         self.pending_death_link: bool = False
+        self.locations_list = {}
         # default to true, as we don't want to send a deathlink until playing
         self.sending_death_link: bool = True
         self.ignore_next_death_link = False
@@ -449,7 +452,7 @@ class ApeEscapeClient(BizHawkClient):
         self.bool_LampGlobal = False
         self.gotBanana = False
         self.lowOxygenCounter = 1
-        self.trap_queue = []
+        self.specialitem_queue = []
         self.bizhawk_itemdisplay = False
         self.bizhawk_display_set = False
 
@@ -546,11 +549,11 @@ class ApeEscapeClient(BizHawkClient):
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: Dict[str, Any]) -> None:
         if cmd == "Connected":
             logger.info(f"================================================\n"
-                        f"     -- Connected to Bizhawk successfully -- !  \n"
-                        f"Archipelago Ape Escape version {self.client_version}\n"
+                        f"    -- Connected to Bizhawk successfully! --    \n"
+                        f"      Archipelago Ape Escape version {self.client_version}      \n"
                         f"================================================\n"
-                        f"Custom commands are available for this game     \n"
-                        f"Type /ae_commands for the full list             \n"
+                        f"Custom commands are available for this game.    \n"
+                        f"Type /ae_commands for the full list.            \n"
                         f"================================================\n")
 
         if cmd == "Bounced":
@@ -558,6 +561,42 @@ class ApeEscapeClient(BizHawkClient):
                 assert ctx.slot is not None
                 if "DeathLink" in args["tags"] and args["data"]["source"] != ctx.slot_info[ctx.slot].name:
                     self.on_deathlink(ctx)
+
+        if cmd in {"PrintJSON"} and "type" in args:
+            # When a message is received
+            if args["type"] == "ItemSend":
+                item = args["item"]
+                networkItem = NetworkItem(*item)
+                recieverID = args["receiving"]
+                senderID = networkItem.player
+                locationID = networkItem.location
+                relevant = (recieverID == ctx.slot or senderID == ctx.slot)
+                message = ""
+                if relevant:
+                    itemName = ctx.item_names.lookup_in_slot(networkItem.item, recieverID)
+                    itemCategory = networkItem.flags
+                    if itemCategory == ItemClassification.progression:
+                        itemClass = "Progression"
+                    elif itemCategory == ItemClassification.useful:
+                        itemClass = "Useful"
+                    elif itemCategory == ItemClassification.filler:
+                        itemClass = "Filler"
+                    elif itemCategory == ItemClassification.trap:
+                        itemClass = "Trap"
+                    else:
+                        itemClass = "Other"
+
+                    recieverName = ctx.player_names[recieverID]
+                    senderName = ctx.player_names[senderID]
+
+                    if recieverID != ctx.slot and senderID == ctx.slot:
+                        message = f"Sent '{itemName}' ({itemClass}) to {recieverName}"
+                    elif recieverID == ctx.slot and senderID != ctx.slot:
+                        message = f"Received '{itemName}' ({itemClass}) from {senderName}"
+                    elif recieverID == ctx.slot and senderID == ctx.slot:
+                        message =  f"You found your own '{itemName}' ({itemClass})"
+                    self.messagequeue.append(message)
+
         if cmd == "Retrieved":
             if "keys" not in args:
                 print(f"invalid Retrieved packet to ApeEscapeClient: {args}")
@@ -623,16 +662,12 @@ class ApeEscapeClient(BizHawkClient):
             }])
 
             if self.KickoutPrevention == 2:
-                #print("Still Waiting")
                 return
             if self.KickoutPrevention is None:
-                #print("Used slotdata")
-                #print(ctx.slot_data["kickoutprevention"])
+                #Used slotdata
                 self.preventKickOut = int(ctx.slot_data["kickoutprevention"])
             else:
                 # Got valid Datastorage, take this instead of slot_data
-                # print("Got valid datastorage")
-                # print(f"DATASTORAGE_PK{self.preventKickOut}_KP{self.KickoutPrevention}_{context}")
                 self.preventKickOut = self.KickoutPrevention
             if self.preventKickOut == 1:
                 msg = "ON"
@@ -662,7 +697,6 @@ class ApeEscapeClient(BizHawkClient):
     async def deathlink_option_handling(self, ctx: "BizHawkClientContext", context):
         if context == "init":
             if ctx.team is None:
-                #print("skip")
                 return
             await ctx.send_msgs([{
                 "cmd": "Get",
@@ -672,15 +706,10 @@ class ApeEscapeClient(BizHawkClient):
             if self.DeathLinkOption == 2:
                 return
             if self.DeathLinkOption is None:
-                # print("Used slotdata")
-                # print(ctx.slot_data["kickoutprevention"])
+                # Used slotdata
                 self.deathlink = int(ctx.slot_data["death_link"])
-                # self.KickoutPrevention = self.preventKickOut
-                # self.changeKickout = True
             else:
                 # Got valid Datastorage, take this instead of slot_data
-                # print("Got valid datastorage")
-                # print(f"DATASTORAGE_PK{self.preventKickOut}_KP{self.KickoutPrevention}_{context}")
                 self.deathlink = self.DeathLinkOption
             if self.deathlink == 1:
                 msg = "ON"
@@ -702,14 +731,13 @@ class ApeEscapeClient(BizHawkClient):
             if self.deathlink == 1:
                 await self.send_bizhawk_message(ctx, "Deathlink Enabled", "Custom", "")
             else:
-                await self.send_bizhawk_message(ctx, "Deathlink Prevention Disabled", "Custom", "")
+                await self.send_bizhawk_message(ctx, "Deathlink Disabled", "Custom", "")
             # self.deathlink = self.DeathLinkOption
             print(f"set AE_deathlink_{ctx.team}_{ctx.slot} to {self.deathlink}")
 
     async def autoequip_option_handling(self, ctx: "BizHawkClientContext", context):
         if context == "init":
             if ctx.team is None:
-                # print("skip")
                 return
             await ctx.send_msgs([{
                 "cmd": "Get",
@@ -718,16 +746,12 @@ class ApeEscapeClient(BizHawkClient):
 
             if self.AutoEquipOption == 2:
                 return
-            # print(self.AutoEquipOption)
             if self.AutoEquipOption is None:
-                # print("Used slotdata")
-                # print(ctx.slot_data["autoequip"])
+                # Used slotdata
                 self.autoequip = int(ctx.slot_data["autoequip"])
                 self.AutoEquipOption = self.autoequip
             else:
                 # Got valid Datastorage, take this instead of slot_data
-                # print("Got valid datastorage")
-                # print(f"DATASTORAGE_{self.autoequip}_KP{self.AutoEquipOption}_{context}")
                 self.autoequip = self.AutoEquipOption
             if self.autoequip == 1:
                 msg = "ON"
@@ -765,15 +789,11 @@ class ApeEscapeClient(BizHawkClient):
             if self.BHDisplayOption == 2:
                 return
             if self.BHDisplayOption is None:
-                # print("Used slotdata")
-                # print(ctx.slot_data["kickoutprevention"])
+                # Used slotdata
                 self.bhdisplay = int(ctx.slot_data["itemdisplay"])
                 self.BHDisplayOption = self.bhdisplay
-                # self.changeBHDisplay = True
             else:
                 # Got valid Datastorage, take this instead of slot_data
-                # print("Got valid datastorage")
-                # print(f"DATASTORAGE_PK{self.preventKickOut}_KP{self.KickoutPrevention}_{context}")
                 self.bhdisplay = self.BHDisplayOption
             if self.bhdisplay == 1:
                 msg = "ON"
@@ -797,13 +817,11 @@ class ApeEscapeClient(BizHawkClient):
             else:
                 await self.send_bizhawk_message(ctx, "Bizhawk Item Display Disabled", "Passthrough", "")
 
-            # self.bhdisplay = self.BHDisplayOption
             print(f"set AE_bhdisplay_{ctx.team}_{ctx.slot} to {self.bhdisplay}")
 
     async def syncprogress(self, ctx: "BizHawkClientContext") -> None:
         Sync_Writes = []
         logger.info(f"Getting Monkeys state from server...")
-        locations_list = ctx.checked_locations
         GlobalMonkeys = RAM.monkeyListGlobal
         keys_globalMonkeys = list(GlobalMonkeys.keys())
         values_globalMonkeys = list(GlobalMonkeys.values())
@@ -826,7 +844,7 @@ class ApeEscapeClient(BizHawkClient):
             monkeyID = Monkey_IDs[x]
             monkeyValue = int.from_bytes(Monkey_Values[x],"little")
             monkeyAddress = Monkey_Addresses[x]
-            if (monkeyID) in locations_list and monkeyValue != 0x02:
+            if (monkeyID) in self.locations_list and monkeyValue != 0x02:
                 Sync_Writes += [(monkeyAddress, 0x02.to_bytes(1, "little"), "MainRAM")]
 
 
@@ -847,20 +865,30 @@ class ApeEscapeClient(BizHawkClient):
         logger.info(f"Synced server progress into the game!\n"
                     f"({msg} updated)")
 
+    async def process_bizhawk_messages(self, ctx: "BizHawkClientContext") -> None:
+        if self.bhdisplay == 1:
+            for message in self.messagequeue:
+                await self.send_bizhawk_message(ctx, message, "Custom", "")
+                self.messagequeue.pop(0)
+        else:
+            self.messagequeue = []
     async def send_bizhawk_message(self, ctx: "BizHawkClientContext", message, msgtype, data) -> None:
         if self.bhdisplay == 1:
-            if msgtype == "Item":
-                sender = ctx.player_names[data.player]
-                #itemname = data.item - self.offset
-                itemname = ctx.item_names.lookup_in_game(data.item)
+            # I'm now using a new message method, passing with ParseJSON instead.
+            # It checks all the sender/receiver info and send a "Custom" message throught this function
 
-                # Same player as the seed, different message
-                if sender == ctx.player_names[ctx.slot]:
-                    strMessage = "You found your own '" + str(itemname) + "'"
-                else:
-                    strMessage = "You received '" + str(itemname) + "' from " + str(sender)
-                await bizhawk.display_message(ctx.bizhawk_ctx, strMessage)
-            elif msgtype == "Custom":
+            #if msgtype == "Item":
+            #    sender = ctx.player_names[data.player]
+            #    #itemname = data.item - self.offset
+            #    itemname = ctx.item_names.lookup_in_game(data.item)
+            #
+            #    # Same player as the seed, different message
+            #    if sender == ctx.player_names[ctx.slot]:
+            #        strMessage = "You found your own '" + str(itemname) + "'"
+            #    else:
+            #        strMessage = "You received '" + str(itemname) + "' from " + str(sender)
+            #    await bizhawk.display_message(ctx.bizhawk_ctx, strMessage)
+            if msgtype == "Custom":
                 strMessage = message
                 await bizhawk.display_message(ctx.bizhawk_ctx, strMessage)
             elif msgtype == "Passthrough":
@@ -925,10 +953,14 @@ class ApeEscapeClient(BizHawkClient):
             # Not send anything before having the options set
             if self.preventKickOut == 2 or self.deathlink == 2 or self.autoequip == 2 or self.bhdisplay == 2:
                 return
+            # Set locations list to use within functions
+            self.locations_list = ctx.checked_locations
 
             if self.ape_handler.bizhawk_context is None:
                 self.ape_handler = MonkeyMashHandler(ctx)  # Pass the full BizHawkClientContext
-                #print("MonkeyMashHandler's BizHawkClientContext and internal BizHawkContext have been set and times initialized.")
+
+            if self.rainbow_cookie.bizhawk_context is None:
+                self.rainbow_cookie = RainbowCookieHandler(ctx)  # Pass the full BizHawkClientContext
 
             # Game state, locations and items read
             readTuples = [
@@ -1387,11 +1419,14 @@ class ApeEscapeClient(BizHawkClient):
                                     rocketAmmo = 9
                         elif RAM.items["BananaPeelTrap"] <= (item.item - self.offset) <= RAM.items["MonkeyMashTrap"]:
                         #elif RAM.items["BananaPeelTrap"] == (item.item - self.offset):
-                            self.trap_queue.append((item.item - self.offset))
+                            self.specialitem_queue.append((item.item - self.offset))
+                        elif RAM.items["RainbowCookie"] <= (item.item - self.offset) <= RAM.items["RainbowCookie"]:
+                            self.specialitem_queue.append((item.item - self.offset))
 
+                        # Not needed anymore, will see if this impacts something then remove it later
                         # Send message of received item - Victory has a special message above
-                        if item.item - self.offset != RAM.items["Victory"]:
-                            await self.send_bizhawk_message(ctx, "", "Item", item)
+                        #if item.item - self.offset != RAM.items["Victory"]:
+                            #await self.send_bizhawk_message(ctx, "", "Item", item)
 
                 # Writes to memory if there is a new item, after the loop
                 itemsWrites += [(RAM.lastReceivedArchipelagoID, recv_index.to_bytes(4, "little"), "MainRAM")]
@@ -1466,7 +1501,9 @@ class ApeEscapeClient(BizHawkClient):
 
                 for i in range(len(globalMonkeys)):
                     if int.from_bytes(globalMonkeys[i], byteorder='little') == RAM.caughtStatus["PrevCaught"]:
-                        monkeysToSend.add(keyList[i] + self.offset)
+                        if (keyList[i] + self.offset) not in self.locations_list:
+
+                            monkeysToSend.add(keyList[i] + self.offset)
 
                 if monkeysToSend is not None and monkeysToSend != set():
                     await ctx.send_msgs([{
@@ -1491,7 +1528,8 @@ class ApeEscapeClient(BizHawkClient):
 
                 for i in range(len(localmonkeys)):
                     if int.from_bytes(localmonkeys[i], byteorder='little') == RAM.caughtStatus["Caught"]:
-                        monkeys_to_send.add(key_list[i] + self.offset)
+                        if (key_list[i] + self.offset) not in self.locations_list:
+                            monkeys_to_send.add(key_list[i] + self.offset)
 
                 if monkeys_to_send is not None:
                     await ctx.send_msgs([{
@@ -1509,12 +1547,13 @@ class ApeEscapeClient(BizHawkClient):
                     self.currentCoinAddress -= 2
                 # Check for new coins from current coin address
                 if currentCoinStateRoom != 0xFF and currentCoinStateRoom != 0x00:
-                    coins_to_send.add(int(currentCoinStateRoom + self.offset + 300))
-                    await ctx.send_msgs([{
-                        "cmd": "LocationChecks",
-                        "locations": list(x for x in coins_to_send)
-                    }])
-                    self.currentCoinAddress += 2
+                    if (int(currentCoinStateRoom + self.offset + 300)) not in self.locations_list:
+                        coins_to_send.add(int(currentCoinStateRoom + self.offset + 300))
+                        await ctx.send_msgs([{
+                            "cmd": "LocationChecks",
+                            "locations": list(x for x in coins_to_send)
+                        }])
+                        self.currentCoinAddress += 2
 
             # Check for level bosses
             if gameState == RAM.gameState["InLevel"] and (localcondition) and (currentRoom in bossRooms):
@@ -1534,18 +1573,22 @@ class ApeEscapeClient(BizHawkClient):
                     # For TVT boss, check TVT_BossPhase, if it's 3 the fight is ongoing
                     if (currentRoom == 68):
                         if (TVT_BossPhase == 3 and int.from_bytes(bossesList[i], byteorder='little') == 0x00):
-                            bosses_to_send.add(key_list[i] + self.offset)
+                            if (key_list[i] + self.offset) not in self.locations_list:
+                                bosses_to_send.add(key_list[i] + self.offset)
                     elif (currentRoom == 70):
                         if (gameRunning == 1 and int.from_bytes(bossesList[i], byteorder='little') == 0x00):
-                            bosses_to_send.add(key_list[i] + self.offset)
-                            MM_Jake_Defeated = 1
+                            if (key_list[i] + self.offset) not in self.locations_list:
+                                bosses_to_send.add(key_list[i] + self.offset)
+                                MM_Jake_Defeated = 1
                     elif (currentRoom == 71):
                         if int.from_bytes(bossesList[i], byteorder='little') == 0x00:
-                            bosses_to_send.add(key_list[i] + self.offset)
-                            MM_Professor_Rescued = 1
+                            if (key_list[i] + self.offset) not in self.locations_list:
+                                bosses_to_send.add(key_list[i] + self.offset)
+                                MM_Professor_Rescued = 1
                     else:
                         if int.from_bytes(bossesList[i], byteorder='little') == 0x00:
-                            bosses_to_send.add(key_list[i] + self.offset)
+                            if (key_list[i] + self.offset) not in self.locations_list:
+                                bosses_to_send.add(key_list[i] + self.offset)
 
                 if bosses_to_send is not None and bosses_to_send != set():
                     await ctx.send_msgs([{
@@ -1578,7 +1621,8 @@ class ApeEscapeClient(BizHawkClient):
                         key_list.pop(i)
                 for i in range(len(val_list)):
                     if val_list[i] == mailboxID and boolGotMail:
-                        mail_to_send.add(key_list[i] + self.offset)
+                        if (key_list[i] + self.offset) not in self.locations_list:
+                            mail_to_send.add(key_list[i] + self.offset)
 
                 # Only triggers if there is a red mailbox in the room and you are NOT viewing mail
                 if (currentRoom in redmailboxesRooms) and (gotMail == 0x00):
@@ -1596,7 +1640,8 @@ class ApeEscapeClient(BizHawkClient):
                     redMailboxesList = await bizhawk.read(ctx.bizhawk_ctx, addresses)
                     for i in range(len(redkey_list)):
                         if int.from_bytes(redMailboxesList[i], byteorder='little') == 0x01:
-                            mail_to_send.add(redkey_list[i] + self.offset)
+                            if (redkey_list[i] + self.offset) not in self.locations_list:
+                                mail_to_send.add(redkey_list[i] + self.offset)
 
 
                 if mail_to_send is not None and mail_to_send != set():
@@ -1604,6 +1649,30 @@ class ApeEscapeClient(BizHawkClient):
                         "cmd": "LocationChecks",
                         "locations": list(x for x in mail_to_send)
                     }])
+
+            # Check for Jake Victory
+            if currentRoom == 19 and gameState == RAM.gameState["JakeCleared"] and jakeVictory == 0x2:
+                coins = set()
+                coins.add(295 + self.offset)
+                coins.add(296 + self.offset)
+                coins.add(297 + self.offset)
+                coins.add(298 + self.offset)
+                coins.add(299 + self.offset)
+                await ctx.send_msgs([{
+                    "cmd": "LocationChecks",
+                    "locations": list(x for x in coins)
+                }])
+            elif currentRoom == 36 and gameState == RAM.gameState["JakeCleared"] and jakeVictory == 0x2:
+                coins = set()
+                coins.add(290 + self.offset)
+                coins.add(291 + self.offset)
+                coins.add(292 + self.offset)
+                coins.add(293 + self.offset)
+                coins.add(294 + self.offset)
+                await ctx.send_msgs([{
+                    "cmd": "LocationChecks",
+                    "locations": list(x for x in coins)
+                }])
 
             # Check for victory conditions
             specter1Condition = (currentRoom == 86 and S1_P2_State == 1 and S1_P2_Life == 0)
@@ -1673,50 +1742,52 @@ class ApeEscapeClient(BizHawkClient):
                 if kickoutofLevel == 0:
                     writes += [(RAM.kickoutofLevelAddress, 0x84830188.to_bytes(4, "little"), "MainRAM")]
                     writes += [(RAM.kickoutofLevelAddress2, 0x24020001.to_bytes(4, "little"), "MainRAM")]
+                if RAM.gameState["Cleared"] == gameState:
+                    if temp_SA_Completed == 0xFF:
+                        writes += [(RAM.SA_CompletedAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
+                        writes += [(RAM.temp_SA_CompletedAddress, SA_Completed.to_bytes(1, "little"), "MainRAM")]
+                        writes += [(RAM.GA_CompletedAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
+                        writes += [(RAM.temp_GA_CompletedAddress, GA_Completed.to_bytes(1, "little"), "MainRAM")]
+                elif RAM.gameState["LevelSelect"] != gameState:
+                    # Should reset the values once "Completed" state is exited
+                    # Could maybe check if in Time Hub instead ?
+                    if temp_SA_Completed != 0xFF:
+                        writes += [(RAM.SA_CompletedAddress, temp_SA_Completed.to_bytes(1, "little"), "MainRAM")]
+                        writes += [(RAM.temp_SA_CompletedAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
+                    # Maybe not needed for GA since it will result in 0 but kept just to be safe
+                    if temp_SA_Completed != 0xFF:
+                        writes += [(RAM.GA_CompletedAddress, temp_GA_Completed.to_bytes(1, "little"), "MainRAM")]
+                        writes += [(RAM.temp_GA_CompletedAddress, 0x00.to_bytes(1, "little"), "MainRAM")]
                 if localLevelState != 0x00:
                     writes += [(RAM.localLevelState, 0x00.to_bytes(1, "little"), "MainRAM")]
 
-            # Check for Jake Victory
-            if currentRoom == 19 and gameState == RAM.gameState["JakeCleared"] and jakeVictory == 0x2:
-                coins = set()
-                coins.add(295 + self.offset)
-                coins.add(296 + self.offset)
-                coins.add(297 + self.offset)
-                coins.add(298 + self.offset)
-                coins.add(299 + self.offset)
-                await ctx.send_msgs([{
-                    "cmd": "LocationChecks",
-                    "locations": list(x for x in coins)
-                }])
-            elif currentRoom == 36 and gameState == RAM.gameState["JakeCleared"] and jakeVictory == 0x2:
-                coins = set()
-                coins.add(290 + self.offset)
-                coins.add(291 + self.offset)
-                coins.add(292 + self.offset)
-                coins.add(293 + self.offset)
-                coins.add(294 + self.offset)
-                await ctx.send_msgs([{
-                    "cmd": "LocationChecks",
-                    "locations": list(x for x in coins)
-                }])
-            # ======== Trap Handling =========
-            # For Traps.
+            # If there is messages waiting in the queue, print them to Bizhawk
+            if self.messagequeue is not None and self.messagequeue != []:
+                await self.process_bizhawk_messages(ctx)
+
+            # ======== Spike Color handling =========
+            # For checking if the chosen color currently needs to be applied.
             currentGadgets = await self.check_gadgets(ctx, gadgetStateFromServer)
             Color_Reads = [gameState, spikeColor]
             await self.Spike_Color_handling(ctx, Color_Reads,"")
             # ================================
 
 
-            # ======== Trap Handling =========
-            # For Traps.
+            # ======== Special Items Handling =========
+            # For Traps and Special Items.
             currentGadgets = await self.check_gadgets(ctx, gadgetStateFromServer)
-            Trap_Reads = [gameState, gotMail, spikeState2, menuState, menuState2, currentGadgets,currentRoom]
-            await self.traps_handling(ctx, Trap_Reads)
+            SpecialItems_Reads = [gameState, gotMail, spikeState, spikeState2, menuState, menuState2, currentGadgets, currentRoom, gameRunning]
+            await self.specialitems_handling(ctx, SpecialItems_Reads)
             # ================================
 
             # ======== Monkey Mashing =========
             if self.ape_handler.is_active:
                 await self.ape_handler.send_monkey_inputs()  # Call the method to handle inputs
+            # ================================
+
+            # ======== Rainbow Cookie =========
+            if self.rainbow_cookie.is_active:
+                await self.rainbow_cookie.update_state_and_deactivate()  # Call the method to handle inputs
             # ================================
 
             # ======= Credits skipping =======
@@ -1727,7 +1798,7 @@ class ApeEscapeClient(BizHawkClient):
 
             # ======= MM Optimizations =======
             # Execute the code segment for MM Double Door and related optimizations
-            MM_Reads = [currentRoom, currentLevel, gameState, NearbyRoom, transitionPhase, MM_Jake_Defeated, MM_Lobby_DoubleDoor, MM_Lobby_DoorDetection, MM_Lobby_DoubleDoor_Open, MM_Jake_DefeatedAddress, MM_Natalie_RescuedAddress, MM_Natalie_Rescued, MM_Natalie_Rescued_Local, MM_Professor_Rescued, S1_P1_FightTrigger,MM_Clown_State]
+            MM_Reads = [currentRoom, currentLevel, gameState, NearbyRoom, transitionPhase, MM_Jake_Defeated, MM_Lobby_DoubleDoor, MM_Lobby_DoorDetection, MM_Lobby_DoubleDoor_Open, MM_Jake_DefeatedAddress, MM_Natalie_RescuedAddress, MM_Natalie_Rescued, MM_Natalie_Rescued_Local, MM_Professor_Rescued, S1_P1_FightTrigger, MM_Clown_State]
             await self.MM_Optimizations(ctx, MM_Reads)
             # ================================
 
@@ -2897,56 +2968,60 @@ class ApeEscapeClient(BizHawkClient):
         await bizhawk.write(ctx.bizhawk_ctx, Lamps_writes)
 
 
-    async def traps_handling(self, ctx: "BizHawkClientContext", Trap_Reads) -> None:
+    async def specialitems_handling(self, ctx: "BizHawkClientContext", SpecialItems_Reads) -> None:
         # TODO: GadgetShuffle Trap is very unstable right now, it had been deactivated
 
         # Notes for traps for now:
         # Banana Peel = Slip by setting SpikeState2 to 0x2F
-        gameState = Trap_Reads[0]
-        gotMail = Trap_Reads[1]
-        spikeState2 = Trap_Reads[2]
-        menuState = Trap_Reads[3]
-        menuState2 = Trap_Reads[4]
-        currentGadgets = Trap_Reads[5]
-        currentRoom = Trap_Reads[6]
+        gameState = SpecialItems_Reads[0]
+        gotMail = SpecialItems_Reads[1]
+        spikeState = SpecialItems_Reads[2]
+        spikeState2 = SpecialItems_Reads[3]
+        menuState = SpecialItems_Reads[4]
+        menuState2 = SpecialItems_Reads[5]
+        currentGadgets = SpecialItems_Reads[6]
+        currentRoom = SpecialItems_Reads[7]
+        gameRunning = SpecialItems_Reads[8]
 
-        Trap_Writes = []
-        Trap_Guards = []
+        SpecialItems_Writes = []
+        SpecialItems_Guards = []
 
         # Gamestate
         valid_gameStates = (RAM.gameState['InLevel'], RAM.gameState['InLevelTT'], RAM.gameState['TimeStation'], RAM.gameState['Jake'])
         in_menu = (menuState == 0 and menuState2 == 1)
         reading_mail = (gotMail == 0x01) or (gotMail == 0x02)
         is_sliding = (spikeState2 == 0x2F)
-        is_idle = (spikeState2 in {0x80,0x81,0x82,0x83,0x84})
+        is_idle = (spikeState == 0x18)and (spikeState2 in {0x80,0x81,0x82,0x83,0x84})
         in_race = (currentRoom == 19 or currentRoom == 36)
+        cannot_control = (gameRunning == 0)
 
-        if (gameState not in valid_gameStates or in_menu or reading_mail or is_sliding or is_idle):
+        if (gameState not in valid_gameStates or in_menu or reading_mail or is_sliding or is_idle or cannot_control):
             self.ape_handler.pause = True
+            self.rainbow_cookie.pause = True
         else:
             self.ape_handler.pause = False
+            self.rainbow_cookie.pause = False
 
-        if self.trap_queue == []:
+        if self.specialitem_queue == []:
             #Exit if no traps
             return None
         else:
             # Does not send the traps in these states
-            if (gameState not in valid_gameStates or in_menu or reading_mail or is_sliding or in_race or is_idle):
-                # print("Waiiiitttiinnng for...valid state")
+            if (gameState not in valid_gameStates or in_menu or reading_mail or is_sliding or in_race or is_idle or cannot_control):
                 if is_idle:
                     # Trigger a Wake Up for spike. Banana Peel is deadly while Idle
-                    Trap_Writes += [(RAM.spikeIdleTimer, 0x0000.to_bytes(2, "little"), "MainRAM")]
-                    await bizhawk.write(ctx.bizhawk_ctx, Trap_Writes)
+                    SpecialItems_Writes += [(RAM.spikeIdleTimer, 0x0000.to_bytes(2, "little"), "MainRAM")]
+                    await bizhawk.write(ctx.bizhawk_ctx, SpecialItems_Writes)
                 return None
                 # Exit without sending trap, keeping it active for the next pass
 
-            if self.trap_queue[0] == RAM.items['BananaPeelTrap']:
-                self.trap_queue.pop(0)
-                Trap_Writes += [(RAM.spikeState2Address, 0x2F.to_bytes(1, "little"), "MainRAM")]
-            elif self.trap_queue[0] == RAM.items['GadgetShuffleTrap']:
-                self.trap_queue.pop(0)
+            if self.specialitem_queue[0] == RAM.items['BananaPeelTrap']:
+                self.specialitem_queue.pop(0)
+                SpecialItems_Writes += [(RAM.spikeState2Address, 0x2F.to_bytes(1, "little"), "MainRAM")]
+            elif self.specialitem_queue[0] == RAM.items['GadgetShuffleTrap']:
+                self.specialitem_queue.pop(0)
 
-                # print(self.trap_queue)
+                # print(self.specialitem_queue)
                 chosen_gadgets = []
                 chosen_values = [0, 0, 0, 0]
                 faces = [0, 1, 2, 3]
@@ -2973,19 +3048,23 @@ class ApeEscapeClient(BizHawkClient):
                         faces.pop(randomFace)
                 # print(chosen_gadgets)
 
-                Trap_Writes += [(RAM.crossGadgetAddress, chosen_values[0].to_bytes(1, "little"), "MainRAM")]
-                Trap_Writes += [(RAM.squareGadgetAddress, chosen_values[1].to_bytes(1, "little"), "MainRAM")]
-                Trap_Writes += [(RAM.circleGadgetAddress, chosen_values[2].to_bytes(1, "little"), "MainRAM")]
-                Trap_Writes += [(RAM.triangleGadgetAddress, chosen_values[3].to_bytes(1, "little"), "MainRAM")]
+                SpecialItems_Writes += [(RAM.crossGadgetAddress, chosen_values[0].to_bytes(1, "little"), "MainRAM")]
+                SpecialItems_Writes += [(RAM.squareGadgetAddress, chosen_values[1].to_bytes(1, "little"), "MainRAM")]
+                SpecialItems_Writes += [(RAM.circleGadgetAddress, chosen_values[2].to_bytes(1, "little"), "MainRAM")]
+                SpecialItems_Writes += [(RAM.triangleGadgetAddress, chosen_values[3].to_bytes(1, "little"), "MainRAM")]
 
                 # Select a gadget slot
                 randomSelect = int(round(random.random() * (len(chosen_values) - 1), None))
                 # print("random:" + str(randomSelect))
                 # print(chosen_values)
                 # Attempt to correct the radar being weird on shuffle sometimes
+                # TODO Maybe the key for this is to reset joystick position?
+                Analog_values = {}
+                await self.ape_handler.input_controller.set_inputs(Analog_values)
                 if chosen_values[randomSelect] == 0x02:
                     Trap_Writes1 = []
                     Trap_Writes1 += [(RAM.radarFixAddress, 0x30.to_bytes(1, "little"), "MainRAM")]
+                    Trap_Writes1 += [(RAM.ANALOG_START_ADDR, 0x00008080.to_bytes(2, "little"), "MainRAM")]
                     await bizhawk.write(ctx.bizhawk_ctx, Trap_Writes1)
                 elif chosen_values[randomSelect] == 0x04:
                     Trap_Writes1 = []
@@ -2993,20 +3072,33 @@ class ApeEscapeClient(BizHawkClient):
                     Trap_Writes1 += [(RAM.hoopFixAddress, 0x0000000000000000.to_bytes(14, "little"), "MainRAM")]
                     await bizhawk.write(ctx.bizhawk_ctx, Trap_Writes1)
                 if spikeState2 in (128, 129, 131):
-                    Trap_Writes += [(RAM.spikeState2Address, 0x00.to_bytes(1, "little"), "MainRAM")]
-                Trap_Writes += [(RAM.heldGadgetAddress, chosen_values[randomSelect].to_bytes(1, "little"), "MainRAM")]
+                    SpecialItems_Writes += [(RAM.spikeState2Address, 0x00.to_bytes(1, "little"), "MainRAM")]
+                SpecialItems_Writes += [(RAM.heldGadgetAddress, chosen_values[randomSelect].to_bytes(1, "little"), "MainRAM")]
                 # if chosen_values[randomSelect] != 0xFF:
                     # print(chosen_values[randomSelect])
                     # print("Selected gadget : " + chosen_gadgets[randomSelect])
                 # else:
                     # print("Selected gadget : NONE")
-            elif self.trap_queue[0] == RAM.items['MonkeyMashTrap']:
-                self.trap_queue.pop(0)
-                mash_duration = 15  # Example: 10 seconds per powerup item
+            elif self.specialitem_queue[0] == RAM.items['MonkeyMashTrap']:
+                self.specialitem_queue.pop(0)
+                mash_duration = 15  # Example: 15 seconds per powerup item
+                if self.ape_handler.is_active:
+                    message = f"Monkey Mash trap extended by {mash_duration}s ! (Current:{round(self.ape_handler.duration,0)}s)"
+                else:
+                    message = f"Monkey Mash trap activated for {mash_duration}s !"
+                await self.send_bizhawk_message(ctx, message,"Passthrough","")
                 self.ape_handler.activate_monkey(mash_duration)
-                print(f"Monkey Button Mash received! Activating/Extending ApeingAroundHandler for {mash_duration}s.")
-
-            await bizhawk.write(ctx.bizhawk_ctx, Trap_Writes)
+                #print(message)
+            elif self.specialitem_queue[0] == RAM.items['RainbowCookie']:
+                self.specialitem_queue.pop(0)
+                item_duration = 10  # Example: 10 seconds per powerup item
+                if self.rainbow_cookie.is_active:
+                    message = f"Rainbow Cookie extended by {item_duration}s ! (Current:{round(self.rainbow_cookie.duration,0)}s)"
+                else:
+                    message = f"Rainbow Cookie activated for {item_duration}s !"
+                await self.send_bizhawk_message(ctx,message,"Passthrough","")
+                await self.rainbow_cookie.activate_rainbow_cookie(item_duration)
+            await bizhawk.write(ctx.bizhawk_ctx, SpecialItems_Writes)
 
 
     async def level_select_optimization(self, ctx: "BizHawkClientContext", LSO_Reads) -> None:
@@ -3028,13 +3120,13 @@ class ApeEscapeClient(BizHawkClient):
             if CoinTable != RAM.blank_coinTable and ((TempCoinTable == RAM.blank_coinTable)) or ((TempCoinTable == RAM.blank_coinTable2)):
                 LS_Writes += [(RAM.startingCoinAddress, RAM.blank_coinTable.to_bytes(100, "little"), "MainRAM")]
                 LS_Writes += [(RAM.temp_startingCoinAddress, CoinTable.to_bytes(100, "little"), "MainRAM")]
-            if SA_Completed != 0x00 and Temp_SA_Completed == 0xFF:
+            if Temp_SA_Completed == 0xFF:
                 LS_Writes += [(RAM.SA_CompletedAddress, 0x00.to_bytes(1, "little"), "MainRAM")]
                 LS_Writes += [(RAM.GA_CompletedAddress, 0x00.to_bytes(1, "little"), "MainRAM")]
                 LS_Writes += [(RAM.temp_SA_CompletedAddress, SA_Completed.to_bytes(1, "little"), "MainRAM")]
                 LS_Writes += [(RAM.temp_GA_CompletedAddress, GA_Completed.to_bytes(1, "little"), "MainRAM")]
 
-        else:
+        elif RAM.gameState["Cleared"] != gameState:
             if CoinTable == RAM.blank_coinTable and ((TempCoinTable != RAM.blank_coinTable and TempCoinTable != RAM.blank_coinTable2)):
                 LS_Writes += [(RAM.startingCoinAddress, TempCoinTable.to_bytes(100, "little"), "MainRAM")]
                 LS_Writes += [(RAM.temp_startingCoinAddress, RAM.blank_coinTable.to_bytes(100, "little"), "MainRAM")]

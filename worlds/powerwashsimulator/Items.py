@@ -1,5 +1,3 @@
-import math
-
 from BaseClasses import Item, ItemClassification
 from typing import Dict
 
@@ -25,19 +23,11 @@ def create_items(world):
     pool = world.multiworld.itempool
 
     for location in options.get_locations():
-        pool.append(world.create_item("A Job Well Done"))
-        world.location_counter -= 1
-
         if location == world.starting_location: continue
         pool.append(world.create_item(f"{location} Unlock"))
-        world.location_counter -= 1
 
-    extra_mcguffins = math.floor(world.location_counter*.1)
-    world.location_counter -= extra_mcguffins
-    while extra_mcguffins > 0:
+    for _ in range(world.item_steps["total mcguffins"]):
         pool.append(world.create_item("A Job Well Done"))
-        extra_mcguffins -= 1
 
-    while world.location_counter > 0:
+    for _ in range(world.item_steps["total"] - world.item_steps["filler"] - world.item_steps["total progression"]):
         pool.append(world.create_item(world.random.choice(filler_items)))
-        world.location_counter -= 1

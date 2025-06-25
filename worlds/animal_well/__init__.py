@@ -47,7 +47,7 @@ def launch_client(*args):
 
 components.append(Component("ANIMAL WELL Client", func=launch_client,
                             component_type=Type.CLIENT, icon="Potate",
-                            supports_uri=True, game_name="Animal Well"))
+                            supports_uri=True, game_name="ANIMAL WELL"))
 
 icon_paths["Potate"] = f"ap:{__name__}/Potate.png"
 
@@ -64,6 +64,8 @@ class AnimalWellWeb(WebWorld):
             authors=["Scipio Wright"]
         )
     ]
+    theme = "jungle"
+    game = "Animal Well"
     option_groups = aw_option_groups
     option_presets = aw_option_presets
 
@@ -75,14 +77,13 @@ class AnimalWellWorld(World):
     helpful and ominous as you discover unconventional upgrades and unravel the well’s secrets.
     """
     game = "ANIMAL WELL"
+    web = AnimalWellWeb()
+    version_string: str = "v0.5.3"
     author: str = "ScipioWright, RoobyRoo, Franklesby & Dicene"
-    version_string: str = "v0.6.0 RC1"
-
     options: AnimalWellOptions
     options_dataclass = AnimalWellOptions
     settings: ClassVar[AWSettings]
     settings_key = "animal_well_settings"
-    
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
 
@@ -103,10 +104,8 @@ class AnimalWellWorld(World):
         create_regions_and_set_rules(self)
 
         if self.options.exclude_song_chests:
-            self.multiworld.get_location(LocationNames.wheel_chest.value, self.player).progress_type \
-                = LocationProgressType.EXCLUDED
-            self.multiworld.get_location(LocationNames.key_office.value, self.player).progress_type \
-                = LocationProgressType.EXCLUDED
+            self.get_location(LocationNames.wheel_chest.value).progress_type = LocationProgressType.EXCLUDED
+            self.get_location(LocationNames.key_office.value).progress_type = LocationProgressType.EXCLUDED
 
     def create_item(self, name: str) -> AWItem:
         item_data = item_table[name]
