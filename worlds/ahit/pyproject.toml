@@ -1,0 +1,13 @@
+[project]
+name = "ahit"
+version = "1.0.0"
+description = "A Hat in Time is a cute-as-peck 3D platformer featuring a little girl who stitches hats for wicked powers! Freely explore giant worlds and recover Time Pieces to travel to new heights!"
+authors = [
+    {name = "CookieCat45"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"ahit.WorldClass" = "ahit.Register:WORLD_CLASS"
+"ahit.WebWorldClass" = "ahit.Register:WEB_WORLD_CLASS"
+"ahit.Client" = "ahit.Register:CLIENT_FUNCTION"

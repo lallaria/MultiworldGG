@@ -1,0 +1,13 @@
+[project]
+name = "adventure"
+version = "1.0.0"
+description = "Adventure for the Atari 2600 is an early graphical adventure game. Find the enchanted chalice and return it to the yellow castle, using magic items to enter hidden rooms, retrieve out of reach items, or defeat the three dragons.  Beware the bat who likes to steal your equipment!"
+authors = [
+    {name = "JusticePS"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"adventure.WorldClass" = "adventure.Register:WORLD_CLASS"
+"adventure.WebWorldClass" = "adventure.Register:WEB_WORLD_CLASS"
+"adventure.Client" = "adventure.Register:CLIENT_FUNCTION"

@@ -9,7 +9,7 @@ from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Loc
 from Fill import fill_restrictive
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, SuffixIdentifier, Type, launch_subprocess, icon_paths
-from .Common import LINKS_AWAKENING, WORLD_VERSION, BASE_ID, DIRECTORY, SUFFIX, AUTHOR
+from .Common import BASE_ID, DIRECTORY, SUFFIX
 from .ForeignItemIcons import ForeignItemIconMatcher
 from .Items import (DungeonItemData, DungeonItemType, ItemName, LinksAwakeningItem, TradeItemData,
                     ladxr_item_to_la_item_name, links_awakening_items, links_awakening_items_by_name,
@@ -26,21 +26,22 @@ from .Locations import (LinksAwakeningLocation,
                         links_awakening_location_name_groups)
 from .Options import DungeonItemShuffle, ShuffleInstruments, LinksAwakeningOptions, ladx_option_groups
 from .Rom import LADXProcedurePatch, write_patch_data
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 DEVELOPER_MODE = False
 
 
 def launch_client(*args):
     from .LinksAwakeningClient import launch
-    launch_subprocess(launch, name=f"{LINKS_AWAKENING} Client", args=args)
+    launch_subprocess(launch, name=f"{GAME_NAME} Client", args=args)
 
-components.append(Component(f"{LINKS_AWAKENING} Client",
+components.append(Component(f"{GAME_NAME} Client",
                             func=launch_client,
                             component_type=Type.CLIENT,
-                            icon=LINKS_AWAKENING,
+                            icon=GAME_NAME,
                             file_identifier=SuffixIdentifier(SUFFIX)))
 
-icon_paths[LINKS_AWAKENING] = f"ap:{__name__}/assets/MarinV-3_small.png"
+icon_paths[GAME_NAME] = f"ap:{__name__}/assets/MarinV-3_small.png"
 
 
 class LinksAwakeningSettings(settings.Group):
@@ -113,9 +114,9 @@ class LinksAwakeningWorld(World):
     After a previous adventure, Link is stranded on Koholint Island, full of mystery and familiar faces.
     Gather the 8 Instruments of the Sirens to wake the Wind Fish, so that Link can go home!
     """
-    game = "Link's Awakening DX"  # name of the game/world
+    game = GAME_NAME
     author = AUTHOR
-    igdb_id = 1027
+    igdb_id = IGDB_ID
     web = LinksAwakeningWebWorld()
 
     options_dataclass = LinksAwakeningOptions
@@ -516,9 +517,9 @@ class LinksAwakeningWorld(World):
 
     def fill_slot_data(self):
         slot_data = {
-            "game_name": LINKS_AWAKENING,
+            "game_name": GAME_NAME,
             "pre_release": True,
-            "world_version": WORLD_VERSION,
+            "world_version": VERSION,
             "death_link": self.options.death_link.value,
         }
 

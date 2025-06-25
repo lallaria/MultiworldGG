@@ -1,0 +1,13 @@
+[project]
+name = "sotn"
+version = "1.0.0"
+description = "Symphony of the Night is a metroidvania developed by Konami and released for Sony Playstation and Sega Saturn in 1997."
+authors = [
+    {name = "Unknown"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"sotn.WorldClass" = "sotn.Register:WORLD_CLASS"
+"sotn.WebWorldClass" = "sotn.Register:WEB_WORLD_CLASS"
+"sotn.Client" = "sotn.Register:CLIENT_FUNCTION"

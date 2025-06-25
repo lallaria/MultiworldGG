@@ -1,0 +1,13 @@
+[project]
+name = "dlcquest"
+version = "1.0.0"
+description = "Dlcquest randomizer for MultiworldGG"
+authors = [
+    {name = "axe-y & Kaito Kid"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dlcquest.WorldClass" = "dlcquest.Register:WORLD_CLASS"
+"dlcquest.WebWorldClass" = "dlcquest.Register:WEB_WORLD_CLASS"
+"dlcquest.Client" = "dlcquest.Register:CLIENT_FUNCTION"

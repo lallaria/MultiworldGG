@@ -11,6 +11,7 @@ from . import creatures
 from . import options
 from .items import item_table, group_items
 from .rules import set_rules
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class SubnauticaWeb(WebWorld):
@@ -34,9 +35,9 @@ class SubnauticaWorld(World):
     an unknown bacteria. The planet's automatic quarantine will shoot you down if you try to leave.
     You must find a cure for yourself, build an escape rocket, and leave the planet.
     """
-    game = "Subnautica"
-    igdb_id = 9254
-    author: str = "Berserker66"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = SubnauticaWeb()
 
     item_name_to_id = {data.name: item_id for item_id, data in items.item_table.items()}

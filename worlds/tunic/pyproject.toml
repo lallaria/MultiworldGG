@@ -1,0 +1,13 @@
+[project]
+name = "tunic"
+version = "1.0.0"
+description = "Explore a land filled with lost legends, ancient powers, and ferocious monsters in TUNIC, an isometric action game about a small fox on a big adventure. Stranded on a mysterious beach, armed with only your own curiosity, you will confront colossal beasts, collect strange and powerful items, and unravel long-lost secrets. Be brave, tiny fox!"
+authors = [
+    {name = "SilentSR & ScipioWright"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"tunic.WorldClass" = "tunic.Register:WORLD_CLASS"
+"tunic.WebWorldClass" = "tunic.Register:WEB_WORLD_CLASS"
+"tunic.Client" = "tunic.Register:CLIENT_FUNCTION"

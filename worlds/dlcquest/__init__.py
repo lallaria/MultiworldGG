@@ -10,6 +10,7 @@ from .Regions import create_regions
 from .Rules import set_rules
 from .presets import dlcq_options_presets
 from .option_groups import dlcq_option_groups
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 client_version = 0
 
@@ -41,9 +42,9 @@ class DLCqworld(World):
     """
     DLCQuest is a metroid ish game where everything is an in-game dlc.
     """
-    game = "DLCQuest"
-    author: str = "axe-y & Kaito Kid"
-    igdb_id = 3004
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     topology_present = False
     web = DLCqwebworld()
 

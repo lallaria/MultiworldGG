@@ -1,0 +1,13 @@
+[project]
+name = "clique"
+version = "1.0.0"
+description = "The greatest game of all time."
+authors = [
+    {name = "Phar"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"clique.WorldClass" = "clique.Register:WORLD_CLASS"
+"clique.WebWorldClass" = "clique.Register:WEB_WORLD_CLASS"
+"clique.Client" = "clique.Register:CLIENT_FUNCTION"

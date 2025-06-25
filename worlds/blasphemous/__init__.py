@@ -10,6 +10,7 @@ from worlds.generic.Rules import set_rule
 from .Options import BlasphemousOptions, blas_option_groups
 from .Vanilla import unrandomized_dict, junk_locations, thorn_set, skill_dict
 from .region_data import regions, locations
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class BlasphemousWeb(WebWorld):
     theme = "stone"
@@ -31,9 +32,9 @@ class BlasphemousWorld(World):
     your eternal damnation!
     """
 
-    game = "Blasphemous"
-    author: str = "TRPG"
-    igdb_id = 26820
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = BlasphemousWeb()
 
     item_name_to_id = {item["name"]: (base_id + index) for index, item in enumerate(item_table)}

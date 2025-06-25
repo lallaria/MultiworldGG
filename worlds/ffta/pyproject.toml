@@ -1,0 +1,13 @@
+[project]
+name = "ffta"
+version = "1.0.0"
+description = "Webhost info for Final Fantasy Tactics Advance"
+authors = [
+    {name = "spicynun"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"ffta.WorldClass" = "ffta.Register:WORLD_CLASS"
+"ffta.WebWorldClass" = "ffta.Register:WEB_WORLD_CLASS"
+"ffta.Client" = "ffta.Register:CLIENT_FUNCTION"

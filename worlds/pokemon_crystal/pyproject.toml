@@ -1,0 +1,13 @@
+[project]
+name = "pokemon_crystal"
+version = "4.0.3"
+description = "Pokémon Crystal is the culmination of the Generation I and II Pokémon games. Explore the Johto and Kanto regions, become the Pokémon League Champion, and defeat the elusive Red at the peak of Mt. Silver!"
+authors = [
+    {name = "James"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"pokemon_crystal.WorldClass" = "pokemon_crystal.Register:WORLD_CLASS"
+"pokemon_crystal.WebWorldClass" = "pokemon_crystal.Register:WEB_WORLD_CLASS"
+"pokemon_crystal.Client" = "pokemon_crystal.Register:CLIENT_FUNCTION"

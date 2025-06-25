@@ -1,0 +1,13 @@
+[project]
+name = "yachtdice"
+version = "2.2.3"
+description = "Yacht Dice is a straightforward game, custom-made for Archipelago, where you cast your dice to chart a course for high scores, unlocking valuable treasures along the way. Discover more dice, extra rolls, multipliers, and unlockable categories to navigate the depths of the game. Roll your way to victory by reaching the target score!"
+authors = [
+    {name = "Spineraks"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"yachtdice.WorldClass" = "yachtdice.Register:WORLD_CLASS"
+"yachtdice.WebWorldClass" = "yachtdice.Register:WEB_WORLD_CLASS"
+"yachtdice.Client" = "yachtdice.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "yoshisisland"
+version = "1.0.0"
+description = "Yoshi's Island is a 2D platforming game. During a delivery, Bowser's evil ward, Kamek, attacked the stork, kidnapping Luigi and dropping Mario onto Yoshi's Island. As Yoshi, you must run, jump, and throw eggs to escort the baby Mario across the island to defeat Bowser and reunite the two brothers with their parents."
+authors = [
+    {name = "Pink Switch"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"yoshisisland.WorldClass" = "yoshisisland.Register:WORLD_CLASS"
+"yoshisisland.WebWorldClass" = "yoshisisland.Register:WEB_WORLD_CLASS"
+"yoshisisland.Client" = "yoshisisland.Register:CLIENT_FUNCTION"

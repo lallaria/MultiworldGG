@@ -1,0 +1,13 @@
+[project]
+name = "dk64"
+version = "1.0.0"
+description = "Donkey Kong 64 is a 3D collectathon platforming game. Play as the whole DK Crew and rescue the Golden Banana hoard from King K. Rool."
+authors = [
+    {name = "2dos, Killklli, & Ballaam"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dk64.WorldClass" = "dk64.Register:WORLD_CLASS"
+"dk64.WebWorldClass" = "dk64.Register:WEB_WORLD_CLASS"
+"dk64.Client" = "dk64.Register:CLIENT_FUNCTION"

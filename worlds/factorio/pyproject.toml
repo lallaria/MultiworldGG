@@ -1,0 +1,17 @@
+[project]
+name = "factorio"
+version = "1.0.0"
+description = "Factorio randomizer for MultiworldGG"
+authors = [
+    {name = "Berserker66"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "factorio-rcon-py>=2.1.2",
+]
+
+[project.entry-points."mwgg.plugins"]
+"factorio.WorldClass" = "factorio.Register:WORLD_CLASS"
+"factorio.WebWorldClass" = "factorio.Register:WEB_WORLD_CLASS"
+"factorio.Client" = "factorio.Register:CLIENT_FUNCTION"

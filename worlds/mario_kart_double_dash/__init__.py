@@ -16,6 +16,8 @@ from .regions import MkddRegionData
 from .rules import MkddRules
 from . import game_data, version
 
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+
 class MkddWebWorld(WebWorld):
     theme = "ocean"
     tutorials = [
@@ -34,8 +36,9 @@ class MkddWorld(World):
     """
     The fourth entry in Mario Kart series, Double Dash shakes up the gameplay by introducing 2 drivers per vehicle.
     """
-    game = "Mario Kart Double Dash"
-    author: str = "aXu"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = MkddWebWorld()
 
     options_dataclass = MkddOptions

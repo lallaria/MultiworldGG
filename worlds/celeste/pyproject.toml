@@ -1,0 +1,18 @@
+[project]
+name = "celeste"
+version = "1.0.0"
+description = "Help Madeline survive her inner demons on her journey to the top of Celeste Mountain, in this super-tight, hand-crafted platformer from the creators of multiplayer classic TowerFall."
+authors = [
+    {name = "doshyw"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "pandas>=2.0.3",
+    "openpyxl>=3.1.2",
+]
+
+[project.entry-points."mwgg.plugins"]
+"celeste.WorldClass" = "celeste.Register:WORLD_CLASS"
+"celeste.WebWorldClass" = "celeste.Register:WEB_WORLD_CLASS"
+"celeste.Client" = "celeste.Register:CLIENT_FUNCTION"

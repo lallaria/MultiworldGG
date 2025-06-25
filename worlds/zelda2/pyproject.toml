@@ -1,0 +1,13 @@
+[project]
+name = "zelda2"
+version = "1.0.0"
+description = "In the exciting sequel to Legend of Zelda, Link must find the Triforce of Courage in the Great Palace to awaken Zelda, cursed with a sleeping spell. Along the way, he is being hunted by Ganon's followers, who seek to use his blood to revive their master."
+authors = [
+    {name = "Pink Switch"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"zelda2.WorldClass" = "zelda2.Register:WORLD_CLASS"
+"zelda2.WebWorldClass" = "zelda2.Register:WEB_WORLD_CLASS"
+"zelda2.Client" = "zelda2.Register:CLIENT_FUNCTION"

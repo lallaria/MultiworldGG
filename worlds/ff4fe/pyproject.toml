@@ -1,0 +1,27 @@
+[project]
+name = "ff4fe"
+version = "1.0.0"
+description = "File name of the FF4 USA 1.1 US rom"
+authors = [
+    {name = "Rosalie"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "pillow",
+    "cherrypy",
+    "jinja2",
+    "pymongo",
+    "chardet",
+    "requests",
+    "markdown",
+    "javascripthon",
+    "python-dotenv",
+    "lark",
+    "FreeEnterprise4 @ git+https://github.com/Rosalie-A/FreeEnterprise4@v7",
+]
+
+[project.entry-points."mwgg.plugins"]
+"ff4fe.WorldClass" = "ff4fe.Register:WORLD_CLASS"
+"ff4fe.WebWorldClass" = "ff4fe.Register:WEB_WORLD_CLASS"
+"ff4fe.Client" = "ff4fe.Register:CLIENT_FUNCTION"

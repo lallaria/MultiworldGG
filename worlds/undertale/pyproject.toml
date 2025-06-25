@@ -1,0 +1,13 @@
+[project]
+name = "undertale"
+version = "1.0.0"
+description = "Undertale is an RPG where every choice you make matters. You could choose to hurt all the enemies, eventually causing genocide of the monster species. Or you can spare all the enemies, befriending them and freeing them from their underground prison."
+authors = [
+    {name = "jonloveslegos"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"undertale.WorldClass" = "undertale.Register:WORLD_CLASS"
+"undertale.WebWorldClass" = "undertale.Register:WEB_WORLD_CLASS"
+"undertale.Client" = "undertale.Register:CLIENT_FUNCTION"

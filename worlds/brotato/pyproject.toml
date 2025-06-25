@@ -1,0 +1,13 @@
+[project]
+name = "brotato"
+version = "0.1.0"
+description = "Brotato is a top-down arena shooter roguelite where you play a potato wielding up to 6 weapons at a time to fight off hordes of aliens. Choose from a variety of traits and items to create unique builds and survive until help arrives."
+authors = [
+    {name = "RampagingHippy"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"brotato.WorldClass" = "brotato.Register:WORLD_CLASS"
+"brotato.WebWorldClass" = "brotato.Register:WEB_WORLD_CLASS"
+"brotato.Client" = "brotato.Register:CLIENT_FUNCTION"

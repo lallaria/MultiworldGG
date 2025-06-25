@@ -1,0 +1,13 @@
+[project]
+name = "cuphead"
+version = "1.0.0"
+description = "Log options that are overridden from incompatible combinations to console."
+authors = [
+    {name = "JKL"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"cuphead.WorldClass" = "cuphead.Register:WORLD_CLASS"
+"cuphead.WebWorldClass" = "cuphead.Register:WEB_WORLD_CLASS"
+"cuphead.Client" = "cuphead.Register:CLIENT_FUNCTION"

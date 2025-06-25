@@ -20,6 +20,7 @@ from .Technologies import base_tech_table, recipe_sources, base_technology_table
     get_science_pack_pools, Recipe, recipes, technology_table, tech_table, factorio_base_id, useless_technologies, \
     fluids, stacking_items, valid_ingredients, progressive_rows
 from .settings import FactorioSettings
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def launch_client(*args: str):
@@ -64,9 +65,9 @@ class Factorio(World):
     Nauvis, an inhospitable world filled with dangerous creatures called biters. Build a factory,
     research new technologies, and become more efficient in your quest to build a rocket and return home.
     """
-    game = "Factorio"
-    author: str = "Berserker66"
-    igdb_id = 7046
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     special_nodes = {"automation", "logistics", "rocket-silo"}
     custom_recipes: typing.Dict[str, Recipe]
     location_pool: typing.List[FactorioScienceLocation]

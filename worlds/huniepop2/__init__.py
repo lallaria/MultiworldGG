@@ -9,6 +9,7 @@ from .Locations import location_table, HP2Location, locationgen_to_name
 from .Options import HP2Options, starting_pairs, starting_girls
 from .Rules import set_rules
 from ..generic.Rules import  set_rule
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class HuniePop2Web(WebWorld):
     rating: str = "nsfw"
@@ -26,9 +27,9 @@ class HuniePop2(World):
     HuniePop 2: Double Date is a 2021 tile-matching and dating sim adult video game. The game follows the dating adventures of the main character 
     as they try to woo several different women in their home town; its characters are drawn in anime art style and they have a fully-voiced and animated dialog.
     """
-    game = "Hunie Pop 2"
-    author: str = "dotsofdarkness"
-    igdb_id: int = 72472
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
     worldversion = "1.0.0"
     item_name_to_id = item_table
     item_id_to_name = {item_table[name]: name for name in item_table}

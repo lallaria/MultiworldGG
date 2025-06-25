@@ -1,0 +1,13 @@
+[project]
+name = "spire"
+version = "1.0.0"
+description = "A deck-building roguelike where you must craft a unique deck, encounter bizarre creatures, discover relics of immense power, and Slay the Spire!"
+authors = [
+    {name = "KonoTyran"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"spire.WorldClass" = "spire.Register:WORLD_CLASS"
+"spire.WebWorldClass" = "spire.Register:WEB_WORLD_CLASS"
+"spire.Client" = "spire.Register:CLIENT_FUNCTION"

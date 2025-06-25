@@ -1,0 +1,13 @@
+[project]
+name = "tyrian"
+version = "1.0.0"
+description = "Tyrian is a PC SHMUP originally released in 1995, and then re-released as Tyrian 2000 in 1999. Follow space pilot Trent Hawkins in the year 20,031 as he flies through the galaxy to defend it from the evil corporation, Microsol. This randomizer supports both versions of the game."
+authors = [
+    {name = "Kaito Sinclaire"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"tyrian.WorldClass" = "tyrian.Register:WORLD_CLASS"
+"tyrian.WebWorldClass" = "tyrian.Register:WEB_WORLD_CLASS"
+"tyrian.Client" = "tyrian.Register:CLIENT_FUNCTION"

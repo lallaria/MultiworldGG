@@ -1,0 +1,13 @@
+[project]
+name = "metroidprime"
+version = "1.0.0"
+description = "Metroid Prime is a first-person action-adventure game originally for the Gamecube. Play as the bounty hunter Samus Aran as she traverses the planet Tallon IV and uncovers the plans of the Space Pirates."
+authors = [
+    {name = "Electro15"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"metroidprime.WorldClass" = "metroidprime.Register:WORLD_CLASS"
+"metroidprime.WebWorldClass" = "metroidprime.Register:WEB_WORLD_CLASS"
+"metroidprime.Client" = "metroidprime.Register:CLIENT_FUNCTION"

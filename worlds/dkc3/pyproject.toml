@@ -1,0 +1,13 @@
+[project]
+name = "dkc3"
+version = "1.0.0"
+description = "Donkey Kong Country 3 is an action platforming game. Play as Dixie Kong and her baby cousin Kiddy as they try to solve the mystery of why Donkey Kong and Diddy disappeared while on vacation."
+authors = [
+    {name = "PoryGone"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dkc3.WorldClass" = "dkc3.Register:WORLD_CLASS"
+"dkc3.WebWorldClass" = "dkc3.Register:WEB_WORLD_CLASS"
+"dkc3.Client" = "dkc3.Register:CLIENT_FUNCTION"

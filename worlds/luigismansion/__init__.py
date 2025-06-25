@@ -26,6 +26,7 @@ from .Hints import get_hints_by_option, ALWAYS_HINT, PORTRAIT_HINTS
 from .Presets import lm_options_presets
 from .Regions import *
 from . import Rules
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def run_client(*args):
@@ -41,7 +42,7 @@ components.append(
 
 icon_paths["archiboolego"] = f"ap:{__name__}/data/archiboolego.png"
 
-CLIENT_VERSION = "0.4.7"
+CLIENT_VERSION = VERSION
 
 class LuigisMansionSettings(settings.Group):
     class ISOFile(settings.UserFilePath):
@@ -145,9 +146,9 @@ class LMWorld(World):
     before he can move in and save Mario!
     """
 
-    game: ClassVar[str] = "Luigi's Mansion"
-    igdb_id = 2485
-    author: ClassVar[str] = "BootsinSoots"
+    game: ClassVar[str] = GAME_NAME
+    igdb_id = IGDB_ID
+    author: ClassVar[str] = AUTHOR
     options_dataclass = LuigiOptions.LMOptions
     options: LuigiOptions.LMOptions
 
@@ -834,7 +835,7 @@ class LMWorld(World):
         # Output relevant options to file
         for field in fields(self.options):
             output_data["Options"][field.name] = getattr(self.options, field.name).value
-            output_data["Options"]["spawn"]: str = self.origin_region_name
+            output_data["Options"]["spawn"] = self.origin_region_name
 
         output_data["Entrances"] = self.open_doors
         output_data["Room Enemies"] = self.ghost_affected_regions

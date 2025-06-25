@@ -1,0 +1,17 @@
+[project]
+name = "ttyd"
+version = "1.0.0"
+description = "The location of the Dolphin you want to auto launch patched ROMs with"
+authors = [
+    {name = "jamesbrq"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "gclib[speedups] @ git+https://github.com/LagoLunatic/gclib.git@62df9574d99249ea16ec90dbcee9ea6b0759da29",
+]
+
+[project.entry-points."mwgg.plugins"]
+"ttyd.WorldClass" = "ttyd.Register:WORLD_CLASS"
+"ttyd.WebWorldClass" = "ttyd.Register:WEB_WORLD_CLASS"
+"ttyd.Client" = "ttyd.Register:CLIENT_FUNCTION"

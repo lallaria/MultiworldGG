@@ -1,13 +1,15 @@
 import typing
 
 from dataclasses import dataclass
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 @dataclass
 class Constants:
     # YGO DDM constants!
-    GAME_NAME: str = "Yu-Gi-Oh! Dungeon Dice Monsters"
-    AUTHOR: str = "Jumza"
-    IGDB_ID: int = 49211
+    GAME_NAME: str = GAME_NAME
+    AUTHOR: str = AUTHOR
+    IGDB_ID: int = IGDB_ID
+    VERSION: str = VERSION
     VICTORY_ITEM_ID: int = 0x03E30A # Data is 2 Byte size
     VICTORY_ITEM_NAME: str = "Yami Yugi Defeated"
     DUEL_WINS_OFFSET: int = 0x03E30A # Data is 2 Byte size, technically a copy of Victory Item ID

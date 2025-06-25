@@ -1,0 +1,13 @@
+[project]
+name = "terraria"
+version = "1.0.0"
+description = "Terraria is a 2D multiplayer sandbox game featuring mining, building, exploration, and combat. Features 18 bosses and 4 classes."
+authors = [
+    {name = "Seldom-SE"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"terraria.WorldClass" = "terraria.Register:WORLD_CLASS"
+"terraria.WebWorldClass" = "terraria.Register:WEB_WORLD_CLASS"
+"terraria.Client" = "terraria.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "sly1"
+version = "1.0.0"
+description = "Sly Cooper and the Thievius Raccoonus is a action-stealth game set in a cartoony cel-shaded world. Avenge your father and take back the pages of the Thievius Raccoonus from the Fiendish Five!"
+authors = [
+    {name = "Philiard"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"sly1.WorldClass" = "sly1.Register:WORLD_CLASS"
+"sly1.WebWorldClass" = "sly1.Register:WEB_WORLD_CLASS"
+"sly1.Client" = "sly1.Register:CLIENT_FUNCTION"

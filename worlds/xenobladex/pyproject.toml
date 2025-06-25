@@ -1,0 +1,13 @@
+[project]
+name = "xenobladex"
+version = "1.0.0"
+description = "Xenoblade Chronicles X another 100+ hour game. Sounds like fun?"
+authors = [
+    {name = "Maragon"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"xenobladex.WorldClass" = "xenobladex.Register:WORLD_CLASS"
+"xenobladex.WebWorldClass" = "xenobladex.Register:WEB_WORLD_CLASS"
+"xenobladex.Client" = "xenobladex.Register:CLIENT_FUNCTION"

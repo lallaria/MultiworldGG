@@ -12,7 +12,7 @@ from .Locations import location_table, AquariaLocationNames
 from .Options import (AquariaOptions, IngredientRandomizer, TurtleRandomizer, EarlyBindSong, EarlyEnergyForm,
                       UnconfineHomeWater, Objective)
 from .Regions import AquariaRegions
-
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class AquariaWeb(WebWorld):
     """
@@ -58,12 +58,12 @@ class AquariaWorld(World):
     From: https://en.wikipedia.org/wiki/Aquaria_(video_game)
     """
 
-    game: str = "Aquaria"
+    game: str = GAME_NAME
     "The name of the game"
 
-    author: ClassVar[str] = "tioui"
+    author: ClassVar[str] = AUTHOR
 
-    igdb_id: ClassVar[int] = 7406
+    igdb_id: ClassVar[int] = IGDB_ID
 
     topology_present = True
     "show path to required location checks in spoiler"

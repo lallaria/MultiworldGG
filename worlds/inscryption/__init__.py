@@ -6,7 +6,7 @@ from typing import Dict, Any
 from . import Rules
 from BaseClasses import Region, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
-
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class InscrypWeb(WebWorld):
     theme = "dirt"
@@ -40,9 +40,9 @@ class InscryptionWorld(World):
     escape-room style puzzles, and psychological horror into a blood-laced smoothie.
     Darker still are the secrets inscrybed upon the cards...
     """
-    game = "Inscryption"
-    igdb_id = 139090
-    author: str = "DrBibop"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = InscrypWeb()
     options_dataclass = InscryptionOptions
     options: InscryptionOptions

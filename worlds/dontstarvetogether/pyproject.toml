@@ -1,0 +1,13 @@
+[project]
+name = "dontstarvetogether"
+version = "1.0.0"
+description = "Don't Starve Together is a game where you are thrown into a strange and unexplored world full of odd creatures, hidden dangers, and ancient secrets known as "The Constant". You must gather resources to craft items and build structures and farms to help you protect yourself, survive, and most importantly, not starve."
+authors = [
+    {name = "Dragon Wolf Leo"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dontstarvetogether.WorldClass" = "dontstarvetogether.Register:WORLD_CLASS"
+"dontstarvetogether.WebWorldClass" = "dontstarvetogether.Register:WEB_WORLD_CLASS"
+"dontstarvetogether.Client" = "dontstarvetogether.Register:CLIENT_FUNCTION"

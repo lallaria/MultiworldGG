@@ -1,0 +1,13 @@
+[project]
+name = "openrct2"
+version = "1.0.0"
+description = "OpenRCT2 is a fan-made, open-source reimplementation of the classic simulation game. It faithfully preserves the original game while introducing modern improvements and expanded features. Players can construct intricate roller coasters, manage finances, and build the park of their dreams!"
+authors = [
+    {name = "Crazycolbster"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"openrct2.WorldClass" = "openrct2.Register:WORLD_CLASS"
+"openrct2.WebWorldClass" = "openrct2.Register:WEB_WORLD_CLASS"
+"openrct2.Client" = "openrct2.Register:CLIENT_FUNCTION"

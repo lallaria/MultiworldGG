@@ -1,0 +1,13 @@
+[project]
+name = "mm_recomp"
+version = "1.0.0"
+description = "A Zelda game we're not completely burnt out on."
+authors = [
+    {name = "LittleCube"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"mm_recomp.WorldClass" = "mm_recomp.Register:WORLD_CLASS"
+"mm_recomp.WebWorldClass" = "mm_recomp.Register:WEB_WORLD_CLASS"
+"mm_recomp.Client" = "mm_recomp.Register:CLIENT_FUNCTION"

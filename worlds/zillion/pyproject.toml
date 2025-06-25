@@ -1,0 +1,18 @@
+[project]
+name = "zillion"
+version = "1.0.0"
+description = "Zillion is a metroidvania style game released in 1987 for the 8-bit Sega Master System. It's based on the anime Zillion (赤い光弾ジリオン, Akai Koudan Zillion)."
+authors = [
+    {name = "beauxq"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "zilliandomizer @ git+https://github.com/beauxq/zilliandomizer@96d9a20f8278cee64bb4db859fbd874e0f332d36#0.9.1",
+    "typing-extensions>=4.7, <5",
+]
+
+[project.entry-points."mwgg.plugins"]
+"zillion.WorldClass" = "zillion.Register:WORLD_CLASS"
+"zillion.WebWorldClass" = "zillion.Register:WEB_WORLD_CLASS"
+"zillion.Client" = "zillion.Register:CLIENT_FUNCTION"

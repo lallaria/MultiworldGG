@@ -15,6 +15,7 @@ from .Options import BalatroOptions, Traps, IncludeDecksMode, StakeUnlockMode, \
 from Options import OptionError
 from .Locations import BalatroLocation, balatro_location_id_to_name, balatro_location_name_to_id, \
     balatro_location_id_to_stake, shop_id_offset, balatro_location_id_to_ante, max_shop_items, consumable_id_offset
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class BalatroWebWorld(WebWorld):
@@ -39,9 +40,9 @@ class BalatroWorld(World):
     In the game, players play poker hands to score points and defeat "blinds", while improving their deck and purchasing joker cards with a variety of effects. 
     Source: https://en.wikipedia.org/wiki/Balatro_(video_game)
     """
-    game = "Balatro"
-    author: str = "Burndi"
-    igdb_id = 251833
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = BalatroWebWorld()
 
     topology_present = False

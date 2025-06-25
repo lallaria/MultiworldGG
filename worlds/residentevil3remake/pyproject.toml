@@ -1,0 +1,13 @@
+[project]
+name = "residentevil3remake"
+version = "0.2.3"
+description = "Residentevil3Remake randomizer for MultiworldGG"
+authors = [
+    {name = "TheRealSolidusSnake"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"residentevil3remake.WorldClass" = "residentevil3remake.Register:WORLD_CLASS"
+"residentevil3remake.WebWorldClass" = "residentevil3remake.Register:WEB_WORLD_CLASS"
+"residentevil3remake.Client" = "residentevil3remake.Register:CLIENT_FUNCTION"

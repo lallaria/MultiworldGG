@@ -1,0 +1,17 @@
+[project]
+name = "luigismansion"
+version = "0.4.7"
+description = "Luigi's Mansion is an adventure game starring everyone's favorite plumber brother, Luigi. Luigi has won a strange mansion but upon arriving, he discovers it's full of ghosts, with his brother inside! Armed with the mysterious Poltergust 3000, Luigi will need to overcome his fears to kick the ghosts out before he can move in and save Mario!"
+authors = [
+    {name = "BootsinSoots"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "gclib[speedups] @ git+https://github.com/LagoLunatic/gclib.git@4ddebd0a9717dca67684fe1cc55a86da9265e6b7",
+]
+
+[project.entry-points."mwgg.plugins"]
+"luigismansion.WorldClass" = "luigismansion.Register:WORLD_CLASS"
+"luigismansion.WebWorldClass" = "luigismansion.Register:WEB_WORLD_CLASS"
+"luigismansion.Client" = "luigismansion.Register:CLIENT_FUNCTION"

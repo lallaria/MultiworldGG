@@ -1,0 +1,13 @@
+[project]
+name = "kh1"
+version = "1.0.0"
+description = "Kingdom Hearts is an action RPG following Sora on his journey through many worlds to find Riku and Kairi."
+authors = [
+    {name = "gaithern"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"kh1.WorldClass" = "kh1.Register:WORLD_CLASS"
+"kh1.WebWorldClass" = "kh1.Register:WEB_WORLD_CLASS"
+"kh1.Client" = "kh1.Register:CLIENT_FUNCTION"

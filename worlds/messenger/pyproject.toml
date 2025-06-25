@@ -1,0 +1,13 @@
+[project]
+name = "messenger"
+version = "1.0.0"
+description = "As a demon army besieges his village, a young ninja ventures through a cursed world, to deliver a scroll paramount to his clan’s survival. What begins as a classic action platformer soon unravels into an expansive time-traveling adventure full of thrills, surprises, and humor."
+authors = [
+    {name = "alwaysintreble"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"messenger.WorldClass" = "messenger.Register:WORLD_CLASS"
+"messenger.WebWorldClass" = "messenger.Register:WEB_WORLD_CLASS"
+"messenger.Client" = "messenger.Register:CLIENT_FUNCTION"

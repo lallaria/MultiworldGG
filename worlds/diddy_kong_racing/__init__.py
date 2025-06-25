@@ -11,6 +11,7 @@ from .Regions import connect_regions, create_regions
 from .Options import DiddyKongRacingOptions
 from .Rules import DiddyKongRacingRules
 from .Names import ItemName, LocationName
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def run_client():
@@ -35,10 +36,10 @@ class DiddyKongRacingWeb(WebWorld):
 class DiddyKongRacingWorld(World):
     """Diddy Kong Racing is a kart racing game with a story mode, complete with bosses and hidden collectibles."""
 
-    game = "Diddy Kong Racing"
-    igdb_id = 2723
-    author: str = "zakwiz"
-    apworld_version = "DKRv0.6.1"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
+    apworld_version = VERSION
     web = DiddyKongRacingWeb()
     topology_preset = True
     item_name_to_id = {}

@@ -26,6 +26,7 @@ from .regions import create_regions
 from .rules import create_has_run_wins_rule
 from .shop_slots import get_num_shop_slot_and_lock_button_items
 from .waves import get_wave_for_each_item, get_waves_with_checks
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 logger = logging.getLogger("Brotato")
 
@@ -93,9 +94,9 @@ class BrotatoWorld(World):
 
     options_dataclass = BrotatoOptions
     options: BrotatoOptions  # type: ignore
-    game: ClassVar[str] = "Brotato"
-    author: ClassVar[str] = "Rampaging Hippy"
-    igdb_id: ClassVar[int] = 199116
+    game: ClassVar[str] = GAME_NAME
+    author: ClassVar[str] = AUTHOR
+    igdb_id: ClassVar[int] = IGDB_ID
     web = BrotatoWeb()
     data_version = 0
     required_client_version: tuple[int, int, int] = (0, 5, 0)

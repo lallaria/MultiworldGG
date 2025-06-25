@@ -1,0 +1,18 @@
+[project]
+name = "animal_well"
+version = "1.0.0"
+description = "Hatch from your flower and spelunk through the beautiful and sometimes haunting world of ANIMAL WELL, a pixelated action-exploration game rendered in intricate audio and visual detail. Encounter lively creatures small and large, helpful and ominous as you discover unconventional upgrades and unravel the well’s secrets."
+authors = [
+    {name = "ScipioWright, RoobyRoo, Franklesby & Dicene"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "Pymem>=1.13.1",
+    "pywin32>=306; sys_platform == "win32"",
+]
+
+[project.entry-points."mwgg.plugins"]
+"animal_well.WorldClass" = "animal_well.Register:WORLD_CLASS"
+"animal_well.WebWorldClass" = "animal_well.Register:WEB_WORLD_CLASS"
+"animal_well.Client" = "animal_well.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "pseudoregalia"
+version = "0.7.0"
+description = "Pseudoregalia is a 3D metroidvania/platform game hybrid, where the player character, Sybil, is tasked with making her way through the Castle Sansa. The gameplay emphasizes fluidity and responsiveness, with a focus on running and jumping."
+authors = [
+    {name = "LittleMeowMeow & qwint"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"pseudoregalia.WorldClass" = "pseudoregalia.Register:WORLD_CLASS"
+"pseudoregalia.WebWorldClass" = "pseudoregalia.Register:WEB_WORLD_CLASS"
+"pseudoregalia.Client" = "pseudoregalia.Register:CLIENT_FUNCTION"

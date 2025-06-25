@@ -1,0 +1,13 @@
+[project]
+name = "rac2"
+version = "1.0.0"
+description = "Ratchet & Clank 2: Going Commando is a third-person shooter platform game originally for the PlayStation 2. Play as Ratchet and Clank as they attempt to unravel a conspiracy in a new galaxy involving a mysterious "pet project" orchestrated by the shadowy MegaCorp."
+authors = [
+    {name = "Evilwb"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"rac2.WorldClass" = "rac2.Register:WORLD_CLASS"
+"rac2.WebWorldClass" = "rac2.Register:WEB_WORLD_CLASS"
+"rac2.Client" = "rac2.Register:CLIENT_FUNCTION"

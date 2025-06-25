@@ -1,0 +1,12 @@
+[project]
+name = "tracker"
+version = "1.0.0"
+description = "The holding class for all the poptracker integration values"
+authors = [
+    {name = "Unknown"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"tracker.WorldClass" = "tracker.Register:WORLD_CLASS"
+"tracker.Client" = "tracker.Register:CLIENT_FUNCTION"

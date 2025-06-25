@@ -1,0 +1,13 @@
+[project]
+name = "yugiohddm"
+version = "1.0.0"
+description = "Yu-Gi-Oh! Dungeon Dice Monsters is a Game Boy Advance dice-based tactics game based on an original board game featured in the Yu-Gi-Oh! storyline."
+authors = [
+    {name = "Jumza"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"yugiohddm.WorldClass" = "yugiohddm.Register:WORLD_CLASS"
+"yugiohddm.WebWorldClass" = "yugiohddm.Register:WEB_WORLD_CLASS"
+"yugiohddm.Client" = "yugiohddm.Register:CLIENT_FUNCTION"

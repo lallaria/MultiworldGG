@@ -1,0 +1,13 @@
+[project]
+name = "lingo"
+version = "1.0.0"
+description = "Lingo is a first person indie puzzle game in the vein of The Witness. You find yourself in a mazelike, non-Euclidean world filled with 800 word puzzles that use a variety of different mechanics."
+authors = [
+    {name = "hatkirby"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"lingo.WorldClass" = "lingo.Register:WORLD_CLASS"
+"lingo.WebWorldClass" = "lingo.Register:WEB_WORLD_CLASS"
+"lingo.Client" = "lingo.Register:CLIENT_FUNCTION"

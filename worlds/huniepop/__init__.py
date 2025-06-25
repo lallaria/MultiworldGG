@@ -7,6 +7,7 @@ from worlds.huniepop.Items import HPItem, girl_unlock_table, item_table, panties
 from worlds.huniepop.Locations import HPLocation, location_table, locationgen_to_name
 from worlds.huniepop.Options import HPOptions
 from worlds.huniepop.Rules import set_rules
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class HuniePopWeb(WebWorld):
     rating: str = "nsfw"
@@ -21,9 +22,9 @@ class HuniePopWeb(WebWorld):
 
 
 class HuniePop(World):
-    game = "Hunie Pop"
-    author: str = "dotsofdarkness"
-    igdb_id: int = 9655
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
     worldversion = {
         "major":1,
         "minor":0,

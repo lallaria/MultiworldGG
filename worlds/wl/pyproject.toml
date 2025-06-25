@@ -1,0 +1,13 @@
+[project]
+name = "wl"
+version = "1.0.0"
+description = "Wario Land: Super Mario Land 3 is a 1994 platform game developed and published by Nintendo for the Game Boy."
+authors = [
+    {name = "rand0"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"wl.WorldClass" = "wl.Register:WORLD_CLASS"
+"wl.WebWorldClass" = "wl.Register:WEB_WORLD_CLASS"
+"wl.Client" = "wl.Register:CLIENT_FUNCTION"

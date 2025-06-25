@@ -10,6 +10,7 @@ from .locations_and_regions import all_non_event_locations_table, location_name_
 from .options import OuterWildsGameOptions, RandomizeDarkBrambleLayout, Spawn, Goal, EnableEchoesOfTheEyeDLC
 from .orbits import generate_random_orbits, generate_random_rotations
 from .warp_platforms import generate_random_warp_platform_mapping
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class OuterWildsWebWorld(WebWorld):
@@ -31,9 +32,9 @@ class OuterWildsWorld(World):
     Outer Wilds is a 2019 adventure video game developed by Mobius Digital.
     The game follows the player character as they explore a planetary system stuck in a 22-minute time loop that resets after the sun goes supernova and destroys the system.
     """
-    game = "Outer Wilds"
-    igdb_id = 11737
-    author: str = "Ixrec"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = OuterWildsWebWorld()
 
     eotu_coordinates = 'vanilla'

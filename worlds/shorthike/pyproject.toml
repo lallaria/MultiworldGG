@@ -1,0 +1,13 @@
+[project]
+name = "shorthike"
+version = "1.0.0"
+description = "A Short Hike is a relaxing adventure set on the islands of Hawk Peak. Fly and climb using Claire's wings and Golden Feathers to make your way up to the summit. Along the way you'll meet other hikers, discover hidden treasures, and take in the beautiful world around you."
+authors = [
+    {name = "chandler05 & BrandenEK"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"shorthike.WorldClass" = "shorthike.Register:WORLD_CLASS"
+"shorthike.WebWorldClass" = "shorthike.Register:WEB_WORLD_CLASS"
+"shorthike.Client" = "shorthike.Register:CLIENT_FUNCTION"

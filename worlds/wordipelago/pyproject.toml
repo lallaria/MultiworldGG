@@ -1,0 +1,13 @@
+[project]
+name = "wordipelago"
+version = "1.0.0"
+description = "A brand new take on the world famous word guessing game."
+authors = [
+    {name = "ProfDeCube"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"wordipelago.WorldClass" = "wordipelago.Register:WORLD_CLASS"
+"wordipelago.WebWorldClass" = "wordipelago.Register:WEB_WORLD_CLASS"
+"wordipelago.Client" = "wordipelago.Register:CLIENT_FUNCTION"

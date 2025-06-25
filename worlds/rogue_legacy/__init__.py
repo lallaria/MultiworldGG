@@ -8,6 +8,7 @@ from .Options import RLOptions
 from .Presets import rl_options_presets
 from .Regions import create_regions
 from .Rules import set_rules
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class RLWeb(WebWorld):
@@ -32,9 +33,9 @@ class RLWorld(World):
     you. Every child is unique. One child might be colorblind, another might have vertigo-- they could even be a dwarf.
     But that's OK, because no one is perfect, and you don't have to be to succeed.
     """
-    game = "Rogue Legacy"
-    igdb_id = 3221
-    author: str = "Phar"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = RLOptions
     options: RLOptions
     topology_present = True

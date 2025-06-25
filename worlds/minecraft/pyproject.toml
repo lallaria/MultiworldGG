@@ -1,0 +1,17 @@
+[project]
+name = "minecraft"
+version = "9"
+description = "Minecraft is a game about creativity. In a world made entirely of cubes, you explore, discover, mine, craft, and try not to explode. Delve deep into the earth and discover abandoned mines, ancient structures, and materials to create a portal to another world. Defeat the Ender Dragon, and claim victory!"
+authors = [
+    {name = "KonoTyran & espeon"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "requests >= 2.28.1  # used by client",
+]
+
+[project.entry-points."mwgg.plugins"]
+"minecraft.WorldClass" = "minecraft.Register:WORLD_CLASS"
+"minecraft.WebWorldClass" = "minecraft.Register:WEB_WORLD_CLASS"
+"minecraft.Client" = "minecraft.Register:CLIENT_FUNCTION"

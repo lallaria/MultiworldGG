@@ -1,0 +1,17 @@
+[project]
+name = "kh2"
+version = "1.0.0"
+description = "Kingdom Hearts II is an action role-playing game developed and published by Square Enix and released in 2005. It is the sequel to Kingdom Hearts and Kingdom Hearts: Chain of Memories, and like the two previous games, focuses on Sora and his friends' continued battle against the Darkness."
+authors = [
+    {name = "JaredWeakStrike & Shananas"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "Pymem>=1.10.0",
+]
+
+[project.entry-points."mwgg.plugins"]
+"kh2.WorldClass" = "kh2.Register:WORLD_CLASS"
+"kh2.WebWorldClass" = "kh2.Register:WEB_WORLD_CLASS"
+"kh2.Client" = "kh2.Register:CLIENT_FUNCTION"

@@ -18,6 +18,7 @@ from .Options import DragonRandoType, DifficultySwitchA, DifficultySwitchB, Adve
 from .Regions import create_regions
 from .Rom import get_base_rom_bytes, get_base_rom_path, AdventureDeltaPatch, apply_basepatch, AdventureAutoCollectLocation
 from .Rules import set_rules
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 # Adventure
 components.append(Component('Adventure Client', 'AdventureClient', file_identifier=SuffixIdentifier('.apadvn')))
@@ -96,10 +97,10 @@ class AdventureWorld(World):
     reach items, or defeat the three dragons.  Beware the bat
     who likes to steal your equipment!
     """
-    game: ClassVar[str] = "Adventure"
-    author: ClassVar[str] = "JusticePS"
+    game: ClassVar[str] = GAME_NAME
+    author: ClassVar[str] = AUTHOR
     web: ClassVar[WebWorld] = AdventureWeb()
-    igdb_id: ClassVar[int] = 12239
+    igdb_id: ClassVar[int] = IGDB_ID
 
     options_dataclass = AdventureOptions
     settings: ClassVar[AdventureSettings]

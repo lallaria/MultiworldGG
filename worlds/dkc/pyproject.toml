@@ -1,0 +1,13 @@
+[project]
+name = "dkc"
+version = "1.0.0"
+description = "Donkey Kong Country is a 1994 platform game developed by Rare for the SNES. It follows the gorilla Donkey Kong and his nephew Diddy Kong as they set out to recover their stolen banana hoard from the crocodile King K. Rool and his army, the Kremlings. The player traverses 40 side-scrolling levels as they jump between platforms and avoid obstacles."
+authors = [
+    {name = "lx5"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dkc.WorldClass" = "dkc.Register:WORLD_CLASS"
+"dkc.WebWorldClass" = "dkc.Register:WEB_WORLD_CLASS"
+"dkc.Client" = "dkc.Register:CLIENT_FUNCTION"

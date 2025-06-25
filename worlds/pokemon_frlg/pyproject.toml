@@ -1,0 +1,13 @@
+[project]
+name = "pokemon_frlg"
+version = "1.0.0"
+description = "Webhost info for Pokémon FireRed and LeafGreen"
+authors = [
+    {name = "Vyneras"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"pokemon_frlg.WorldClass" = "pokemon_frlg.Register:WORLD_CLASS"
+"pokemon_frlg.WebWorldClass" = "pokemon_frlg.Register:WEB_WORLD_CLASS"
+"pokemon_frlg.Client" = "pokemon_frlg.Register:CLIENT_FUNCTION"

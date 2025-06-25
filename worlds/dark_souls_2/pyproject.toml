@@ -1,0 +1,13 @@
+[project]
+name = "dark_souls_2"
+version = "1.0.0"
+description = "Dark Souls II is a 2014 action role-playing game and the second installment of the Dark Souls series. It is set in the kingdom of Drangleic and follows an undead traveler searching for a cure to their affliction."
+authors = [
+    {name = "WildBunnie"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dark_souls_2.WorldClass" = "dark_souls_2.Register:WORLD_CLASS"
+"dark_souls_2.WebWorldClass" = "dark_souls_2.Register:WEB_WORLD_CLASS"
+"dark_souls_2.Client" = "dark_souls_2.Register:CLIENT_FUNCTION"

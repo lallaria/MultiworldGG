@@ -1,0 +1,13 @@
+[project]
+name = "bomb_rush_cyberfunk"
+version = "1.0.0"
+description = "Bomb Rush Cyberfunk is 1 second per second of advanced funkstyle. Battle rival crews and dispatch militarized police to conquer the five boroughs of New Amsterdam. Become All City."
+authors = [
+    {name = "CookieCat45"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"bomb_rush_cyberfunk.WorldClass" = "bomb_rush_cyberfunk.Register:WORLD_CLASS"
+"bomb_rush_cyberfunk.WebWorldClass" = "bomb_rush_cyberfunk.Register:WEB_WORLD_CLASS"
+"bomb_rush_cyberfunk.Client" = "bomb_rush_cyberfunk.Register:CLIENT_FUNCTION"

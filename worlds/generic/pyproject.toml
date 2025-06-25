@@ -1,0 +1,13 @@
+[project]
+name = "generic"
+version = "1.0.0"
+description = "Generic randomizer for MultiworldGG"
+authors = [
+    {name = "Unknown"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"generic.WorldClass" = "generic.Register:WORLD_CLASS"
+"generic.WebWorldClass" = "generic.Register:WEB_WORLD_CLASS"
+"generic.Client" = "generic.Register:CLIENT_FUNCTION"

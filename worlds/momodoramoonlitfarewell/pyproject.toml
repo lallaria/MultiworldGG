@@ -1,0 +1,13 @@
+[project]
+name = "momodoramoonlitfarewell"
+version = "1.0.0"
+description = "Momodora: Moonlit Farewell is a 2D side-scrolling Metroidvania. The player controls priestess Momo Reinol as she explores an interconnected series of areas. As she explores, she collects items which make her more powerful, and unlocks new abilities which can be used to access different areas of the game world."
+authors = [
+    {name = "alditto"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"momodoramoonlitfarewell.WorldClass" = "momodoramoonlitfarewell.Register:WORLD_CLASS"
+"momodoramoonlitfarewell.WebWorldClass" = "momodoramoonlitfarewell.Register:WEB_WORLD_CLASS"
+"momodoramoonlitfarewell.Client" = "momodoramoonlitfarewell.Register:CLIENT_FUNCTION"

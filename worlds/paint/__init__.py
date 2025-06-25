@@ -6,6 +6,7 @@ from worlds.AutoWorld import LogicMixin, World, WebWorld
 from .items import item_table, PaintItem, item_data_table, traps, deathlink_traps
 from .locations import location_table, PaintLocation, location_data_table
 from .options import PaintOptions
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class PaintWebWorld(WebWorld):
@@ -28,8 +29,8 @@ class PaintWorld(World):
     The classic Microsoft app, reimagined as an Archipelago game! Find your tools, expand your canvas, and paint the
     greatest image the world has ever seen.
     """
-    game = "Paint"
-    author: str = "MairoManTAW"
+    game = GAME_NAME
+    author: str = AUTHOR
     options_dataclass = PaintOptions
     options = PaintOptions
     web = PaintWebWorld()

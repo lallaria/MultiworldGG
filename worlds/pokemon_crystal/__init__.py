@@ -35,6 +35,7 @@ from .trainers import boost_trainer_pokemon, randomize_trainers, vanilla_trainer
 from .utils import get_random_filler_item, get_free_fly_locations, get_random_ball, get_random_starting_town, \
     adjust_options
 from .wild import randomize_wild_pokemon, randomize_static_pokemon
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class PokemonCrystalSettings(settings.Group):
@@ -63,9 +64,9 @@ class PokemonCrystalWorld(World):
     """Pokémon Crystal is the culmination of the Generation I and II Pokémon games.
     Explore the Johto and Kanto regions, become the Pokémon League Champion, and
     defeat the elusive Red at the peak of Mt. Silver!"""
-    game = "Pokemon Crystal"
-    igdb_id = 1514
-    author: str = "James"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     apworld_version = APWORLD_VERSION
 
     topology_present = True

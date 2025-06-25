@@ -1,0 +1,13 @@
+[project]
+name = "spyro3"
+version = "1.0.0"
+description = "Spyro 3 is a game about a purple dragon who likes eggs."
+authors = [
+    {name = "ArsonAssassin"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"spyro3.WorldClass" = "spyro3.Register:WORLD_CLASS"
+"spyro3.WebWorldClass" = "spyro3.Register:WEB_WORLD_CLASS"
+"spyro3.Client" = "spyro3.Register:CLIENT_FUNCTION"

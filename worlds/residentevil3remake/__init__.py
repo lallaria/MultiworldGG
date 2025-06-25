@@ -11,6 +11,7 @@ from Fill import fill_restrictive
 
 from .Data import Data
 from .Options import RE3ROptions
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 Data.load_data('jill', 'a')
 
@@ -49,13 +50,13 @@ class ResidentEvil3Remake(World):
     """
     'Jill, I am your father.' - Nemesis, probably
     """
-    game: str = "Resident Evil 3 Remake"
-    author: str = "TheRealSolidusSnake"
-    igdb_id: int = 115115
+    game: str = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
 
     data_version = 2
     required_client_version = (0, 5, 0)
-    apworld_release_version = "0.2.3" # defined to show in spoiler log
+    apworld_release_version = VERSION # defined to show in spoiler log
 
     web = ResidentEvil3RemakeWeb()
 

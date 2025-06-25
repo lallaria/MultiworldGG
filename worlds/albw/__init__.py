@@ -17,6 +17,7 @@ from .Options import ALBWOptions, CrackShuffle, InitialCrackState, Keysy, LogicM
 from .Patch import PatchInfo, PatchItemInfo, ALBWProcedurePatch
 from pathlib import Path
 import sys
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 # Path to the lib directory
 lib_path = Path(__file__).parent / "lib"
@@ -72,9 +73,9 @@ class ALBWWorld(World):
     and a sequel to A Link to the Past. Explore dungeons, fight monsters,
     discover magical items, and save the worlds of Hyrule and Lorule!
     """
-    game: ClassVar[str] = "A Link Between Worlds"
-    author: ClassVar[str] = "randomsalience"
-    igdb_id: ClassVar[int] = 2909
+    game: ClassVar[str] = GAME_NAME
+    author: ClassVar[str] = AUTHOR
+    igdb_id: ClassVar[int] = IGDB_ID
     options_dataclass = ALBWOptions
     options: ALBWOptions
     topology_present: ClassVar[bool] = False

@@ -1,0 +1,13 @@
+[project]
+name = "sonic_heroes"
+version = "1.0.0"
+description = "Sonic Heroes is a 2003 platform game developed by Sonic Team USA. The player races a team of series characters through levels to amass rings, defeat robots, and collect the seven Chaos Emeralds needed to defeat Doctor Eggman. Within each level, the player switches between the team's three characters, who each have unique abilities, to overcome obstacles."
+authors = [
+    {name = "xMcacutt"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"sonic_heroes.WorldClass" = "sonic_heroes.Register:WORLD_CLASS"
+"sonic_heroes.WebWorldClass" = "sonic_heroes.Register:WEB_WORLD_CLASS"
+"sonic_heroes.Client" = "sonic_heroes.Register:CLIENT_FUNCTION"

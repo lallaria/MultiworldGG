@@ -1,0 +1,18 @@
+[project]
+name = "osu"
+version = "1.0.0"
+description = "osu! is a free to play rhythm game featuring 4 modes, an online ranking system/statistics, with user submitted songs downloadable from its website."
+authors = [
+    {name = "Kanave"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "orjson>=3.9.10",
+    "requests~=2.32.3",
+]
+
+[project.entry-points."mwgg.plugins"]
+"osu.WorldClass" = "osu.Register:WORLD_CLASS"
+"osu.WebWorldClass" = "osu.Register:WEB_WORLD_CLASS"
+"osu.Client" = "osu.Register:CLIENT_FUNCTION"

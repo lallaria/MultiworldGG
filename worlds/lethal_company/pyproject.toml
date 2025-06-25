@@ -1,0 +1,13 @@
+[project]
+name = "lethal_company"
+version = "1.0.0"
+description = "Lethal Company is an cooperative survival horror video gam released in 2023. Payers obtain and sell scrap from abandoned, industrialized exomoons while avoiding traps, environmental hazards, monsters, which are often referred to as "anomalies", "entities", or "creatures", and the hostile fauna. As employees of "The Company", players must sell enough scrap to meet a series of increasing profit quotas until they inevitably fail and the game starts over."
+authors = [
+    {name = "T0r1nn"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"lethal_company.WorldClass" = "lethal_company.Register:WORLD_CLASS"
+"lethal_company.WebWorldClass" = "lethal_company.Register:WEB_WORLD_CLASS"
+"lethal_company.Client" = "lethal_company.Register:CLIENT_FUNCTION"

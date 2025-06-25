@@ -1,0 +1,13 @@
+[project]
+name = "swr"
+version = "1.0.0"
+description = "Star Wars Episode I: Racer is a racing game where the player wins prize money and buys upgrades for their vehicle. This randomizer shuffles race rewards as well as shop items. It also randomizes track order and available racers. Now THIS is podracing!"
+authors = [
+    {name = "Johnny Hamcobbler"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"swr.WorldClass" = "swr.Register:WORLD_CLASS"
+"swr.WebWorldClass" = "swr.Register:WEB_WORLD_CLASS"
+"swr.Client" = "swr.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "candybox2"
+version = "1.0.0"
+description = "Candy Box 2 is a text-based browser RPG that features beautiful ASCII art"
+authors = [
+    {name = "Victor Tran"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"candybox2.WorldClass" = "candybox2.Register:WORLD_CLASS"
+"candybox2.WebWorldClass" = "candybox2.Register:WEB_WORLD_CLASS"
+"candybox2.Client" = "candybox2.Register:CLIENT_FUNCTION"

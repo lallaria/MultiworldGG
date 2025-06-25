@@ -1,0 +1,13 @@
+[project]
+name = "kdl3"
+version = "1.0.0"
+description = "Join Kirby and his Animal Friends on an adventure to collect Heart Stars and drive Dark Matter away from Dream Land!"
+authors = [
+    {name = "Silvris"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"kdl3.WorldClass" = "kdl3.Register:WORLD_CLASS"
+"kdl3.WebWorldClass" = "kdl3.Register:WEB_WORLD_CLASS"
+"kdl3.Client" = "kdl3.Register:CLIENT_FUNCTION"

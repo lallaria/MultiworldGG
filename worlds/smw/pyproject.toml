@@ -1,0 +1,13 @@
+[project]
+name = "smw"
+version = "1.0.0"
+description = "Super Mario World is an action platforming game. The Princess has been kidnapped by Bowser again, but Mario has somehow lost all of his abilities. Can he get them back in time to save the Princess?"
+authors = [
+    {name = "PoryGone"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"smw.WorldClass" = "smw.Register:WORLD_CLASS"
+"smw.WebWorldClass" = "smw.Register:WEB_WORLD_CLASS"
+"smw.Client" = "smw.Register:CLIENT_FUNCTION"

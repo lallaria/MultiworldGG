@@ -1,0 +1,13 @@
+[project]
+name = "sm64hacks"
+version = "1.0.0"
+description = "The first Super Mario game to feature 3D gameplay, but heavily modded - with support for a lot of popular rom hacks."
+authors = [
+    {name = "DNVIC"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"sm64hacks.WorldClass" = "sm64hacks.Register:WORLD_CLASS"
+"sm64hacks.WebWorldClass" = "sm64hacks.Register:WEB_WORLD_CLASS"
+"sm64hacks.Client" = "sm64hacks.Register:CLIENT_FUNCTION"

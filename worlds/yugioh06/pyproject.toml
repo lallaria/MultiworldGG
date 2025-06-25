@@ -1,0 +1,13 @@
+[project]
+name = "yugioh06"
+version = "1.0.0"
+description = "Yu-Gi-Oh! Ultimate Masters: World Championship Tournament 2006 is the definitive Yu-Gi-Oh simulator on the GBA. Featuring over 2000 cards and over 90 Challenges."
+authors = [
+    {name = "Rensen3"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"yugioh06.WorldClass" = "yugioh06.Register:WORLD_CLASS"
+"yugioh06.WebWorldClass" = "yugioh06.Register:WEB_WORLD_CLASS"
+"yugioh06.Client" = "yugioh06.Register:CLIENT_FUNCTION"

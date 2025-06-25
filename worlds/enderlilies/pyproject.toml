@@ -1,0 +1,13 @@
+[project]
+name = "enderlilies"
+version = "1.0.0"
+description = "Ender Lilies: QUIETUS OF THE KNIGHTS is a dark fantasy 2D action RPG about unraveling the mysteries of a destroyed kingdom."
+authors = [
+    {name = "Trexounay"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"enderlilies.WorldClass" = "enderlilies.Register:WORLD_CLASS"
+"enderlilies.WebWorldClass" = "enderlilies.Register:WEB_WORLD_CLASS"
+"enderlilies.Client" = "enderlilies.Register:CLIENT_FUNCTION"

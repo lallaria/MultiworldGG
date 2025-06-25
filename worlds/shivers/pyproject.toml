@@ -1,0 +1,13 @@
+[project]
+name = "shivers"
+version = "1.0.0"
+description = "Shivers is a horror themed point and click adventure. Explore the mysteries of Windlenot's Museum of the Strange and Unusual."
+authors = [
+    {name = "GodlFire & korydondzila"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"shivers.WorldClass" = "shivers.Register:WORLD_CLASS"
+"shivers.WebWorldClass" = "shivers.Register:WEB_WORLD_CLASS"
+"shivers.Client" = "shivers.Register:CLIENT_FUNCTION"

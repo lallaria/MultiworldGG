@@ -1,0 +1,13 @@
+[project]
+name = "pokemon_rb"
+version = "1.0.0"
+description = "Pokémon Red and Pokémon Blue are the original monster-collecting turn-based RPGs.  Explore the Kanto region with your Pokémon, catch more than 150 unique creatures, earn badges from the region's Gym Leaders, and challenge the Elite Four to become the champion!"
+authors = [
+    {name = "Alchav"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"pokemon_rb.WorldClass" = "pokemon_rb.Register:WORLD_CLASS"
+"pokemon_rb.WebWorldClass" = "pokemon_rb.Register:WEB_WORLD_CLASS"
+"pokemon_rb.Client" = "pokemon_rb.Register:CLIENT_FUNCTION"

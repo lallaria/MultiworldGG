@@ -1,0 +1,13 @@
+[project]
+name = "dsr"
+version = "1.0.0"
+description = "Dark Souls is a game where you die."
+authors = [
+    {name = "ArsonAssassin"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dsr.WorldClass" = "dsr.Register:WORLD_CLASS"
+"dsr.WebWorldClass" = "dsr.Register:WEB_WORLD_CLASS"
+"dsr.Client" = "dsr.Register:CLIENT_FUNCTION"

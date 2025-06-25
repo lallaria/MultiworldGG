@@ -1,0 +1,13 @@
+[project]
+name = "chatipelago"
+version = "1.0.0"
+description = "Chat plays MultiworldGG!"
+authors = [
+    {name = "Delilah, Dranzior, LMarioza"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"chatipelago.WorldClass" = "chatipelago.Register:WORLD_CLASS"
+"chatipelago.WebWorldClass" = "chatipelago.Register:WEB_WORLD_CLASS"
+"chatipelago.Client" = "chatipelago.Register:CLIENT_FUNCTION"

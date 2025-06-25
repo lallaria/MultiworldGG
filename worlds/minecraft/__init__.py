@@ -13,8 +13,9 @@ from .Options import MinecraftOptions
 from .Structures import shuffle_structures
 from .ItemPool import build_item_pool, get_junk_item_names
 from .Rules import set_rules
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
-client_version = 9
+client_version = VERSION
 
 
 class MinecraftSettings(settings.Group):
@@ -89,9 +90,9 @@ class MinecraftWorld(World):
     structures, and materials to create a portal to another world. Defeat the Ender Dragon, and claim
     victory!
     """
-    game = "Minecraft"
-    igdb_id = 121
-    author: str = "KonoTyran & espeon"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = MinecraftOptions
     options: MinecraftOptions
     settings: typing.ClassVar[MinecraftSettings]

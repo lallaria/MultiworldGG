@@ -15,6 +15,7 @@ from .options import DungeonClawlerOptions, Goal, ShuffleCombatItems, ShuffleFig
 from .regions import create_regions
 from .rules import set_rules
 from .constants.world_strings import GAME_NAME
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 client_version = 0
 
@@ -35,9 +36,9 @@ class DungeonClawlerWorld(World):
     """
     Dungeon Clawler mixes deck building with a dash of rogue-like mechanics and most importantly: a claw machine.
     """
-    game = "Dungeon Clawler"
-    author: str = "Kaito Kid"
-    igdb_id = 290897
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     topology_present = False
     web = DungeonClawlerWebWorld()
 

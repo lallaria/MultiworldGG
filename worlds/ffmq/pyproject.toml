@@ -1,0 +1,13 @@
+[project]
+name = "ffmq"
+version = "1.0.0"
+description = "Final Fantasy: Mystic Quest is a simple, humorous RPG for the Super Nintendo. You travel across four continents, linked in the middle of the world by the Focus Tower, which has been locked by four magical coins. Make your way to the bottom of the Focus Tower, then straight up through the top!"
+authors = [
+    {name = "Alchav"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"ffmq.WorldClass" = "ffmq.Register:WORLD_CLASS"
+"ffmq.WebWorldClass" = "ffmq.Register:WEB_WORLD_CLASS"
+"ffmq.Client" = "ffmq.Register:CLIENT_FUNCTION"

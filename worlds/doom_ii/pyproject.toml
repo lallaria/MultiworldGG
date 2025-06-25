@@ -1,0 +1,13 @@
+[project]
+name = "doom_ii"
+version = "1.0.0"
+description = "Doom II, also known as Doom II: Hell on Earth, is a first-person shooter game by id Software. It was released for MS-DOS in 1994. Compared to its predecessor, Doom II features larger levels, new enemies, a new "super shotgun" weapon"
+authors = [
+    {name = "Daivuk & Kaito Sinclaire"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"doom_ii.WorldClass" = "doom_ii.Register:WORLD_CLASS"
+"doom_ii.WebWorldClass" = "doom_ii.Register:WEB_WORLD_CLASS"
+"doom_ii.Client" = "doom_ii.Register:CLIENT_FUNCTION"

@@ -2,13 +2,14 @@ import pkgutil
 from dataclasses import dataclass, field, replace
 from enum import Enum, StrEnum
 from typing import Any
+from Register import VERSION
 
 import orjson
 import yaml
 
 from BaseClasses import ItemClassification
 
-APWORLD_VERSION = "4.0.3"
+APWORLD_VERSION = VERSION
 POKEDEX_OFFSET = 10000
 POKEDEX_COUNT_OFFSET = 20000
 

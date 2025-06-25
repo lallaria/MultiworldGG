@@ -1,0 +1,13 @@
+[project]
+name = "civ_6"
+version = "1.0.0"
+description = "Civilization VI is a turn-based strategy video game in which one or more players compete alongside computer-controlled opponents to grow their individual civilization from a small tribe to control the entire planet across several periods of development."
+authors = [
+    {name = "hesto2"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"civ_6.WorldClass" = "civ_6.Register:WORLD_CLASS"
+"civ_6.WebWorldClass" = "civ_6.Register:WEB_WORLD_CLASS"
+"civ_6.Client" = "civ_6.Register:CLIENT_FUNCTION"

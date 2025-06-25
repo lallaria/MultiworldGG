@@ -1,0 +1,13 @@
+[project]
+name = "monster_sanctuary"
+version = "1.0.0"
+description = "Monster Sanctuary is a pixel art monster collecting game with metroidvania-like exploration and turn based combat developed by Denis Sinner."
+authors = [
+    {name = "Saagael"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"monster_sanctuary.WorldClass" = "monster_sanctuary.Register:WORLD_CLASS"
+"monster_sanctuary.WebWorldClass" = "monster_sanctuary.Register:WEB_WORLD_CLASS"
+"monster_sanctuary.Client" = "monster_sanctuary.Register:CLIENT_FUNCTION"

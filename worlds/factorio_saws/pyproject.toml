@@ -1,0 +1,17 @@
+[project]
+name = "factorio_saws"
+version = "1.0.0"
+description = "Factorio Saws randomizer for MultiworldGG"
+authors = [
+    {name = "Alchav & Berserker66"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "factorio-rcon-py>=2.1.2",
+]
+
+[project.entry-points."mwgg.plugins"]
+"factorio_saws.WorldClass" = "factorio_saws.Register:WORLD_CLASS"
+"factorio_saws.WebWorldClass" = "factorio_saws.Register:WEB_WORLD_CLASS"
+"factorio_saws.Client" = "factorio_saws.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "against_the_storm"
+version = "1.0.0"
+description = "Against the Storm is a roguelite city builder"
+authors = [
+    {name = "Ryguy9999"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"against_the_storm.WorldClass" = "against_the_storm.Register:WORLD_CLASS"
+"against_the_storm.WebWorldClass" = "against_the_storm.Register:WEB_WORLD_CLASS"
+"against_the_storm.Client" = "against_the_storm.Register:CLIENT_FUNCTION"

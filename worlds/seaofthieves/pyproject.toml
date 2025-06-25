@@ -1,0 +1,13 @@
+[project]
+name = "seaofthieves"
+version = "1.0.0"
+description = "A pirate game made by Rare"
+authors = [
+    {name = "EthanTheEpic"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"seaofthieves.WorldClass" = "seaofthieves.Register:WORLD_CLASS"
+"seaofthieves.WebWorldClass" = "seaofthieves.Register:WEB_WORLD_CLASS"
+"seaofthieves.Client" = "seaofthieves.Register:CLIENT_FUNCTION"

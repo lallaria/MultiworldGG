@@ -7,6 +7,9 @@ from BaseClasses import Item, Tutorial, ItemClassification
 from ..AutoWorld import World, WebWorld
 from NetUtils import SlotType
 
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+
+__all__ = ['WORLD_CLASS', 'WEB_WORLD_CLASS']
 
 class GenericWeb(WebWorld):
     display_name = instance_name
@@ -31,8 +34,10 @@ class GenericWeb(WebWorld):
 
 
 class GenericWorld(World):
-    game = "Archipelago"
-    igdb_id = 303100
+    game = GAME_NAME
+    author = AUTHOR
+    igdb_id = IGDB_ID
+    version = VERSION
     topology_present = False
     item_name_to_id = {
         "Nothing": -1

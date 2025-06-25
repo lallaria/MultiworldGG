@@ -1,0 +1,13 @@
+[project]
+name = "smz3"
+version = "1.0.0"
+description = "A python port of Super Metroid & A Link To The Past Crossover Item Randomizer based on v11.2 of Total's SMZ3. This is allowed as long as we keep features and logic as close as possible as the original."
+authors = [
+    {name = "lordlou"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"smz3.WorldClass" = "smz3.Register:WORLD_CLASS"
+"smz3.WebWorldClass" = "smz3.Register:WEB_WORLD_CLASS"
+"smz3.Client" = "smz3.Register:CLIENT_FUNCTION"

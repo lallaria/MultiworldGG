@@ -25,6 +25,8 @@ from .locations import MonsterSanctuaryLocationCategory as LocationCategory, Mon
 from .options import MonsterSanctuaryOptions
 from .regions import RegionData, MonsterSanctuaryRegion
 
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+
 
 class MonsterSanctuaryWebWorld(WebWorld):
     tutorials = [Tutorial(
@@ -56,9 +58,9 @@ class MonsterSanctuaryWorld(World):
     """
     Monster Sanctuary is a pixel art monster collecting game with metroidvania-like exploration and turn based combat developed by Denis Sinner.
     """
-    game = "Monster Sanctuary"
-    igdb_id = 89594
-    author: str = "Saagael"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = MonsterSanctuaryWebWorld()
     options_dataclass = MonsterSanctuaryOptions
     options: MonsterSanctuaryOptions

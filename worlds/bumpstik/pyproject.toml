@@ -1,0 +1,13 @@
+[project]
+name = "bumpstik"
+version = "1.0.0"
+description = "Bumper Stickers is a match-three puzzle game unlike any you've seen. Launch Bumpers onto the field, and match them in sets of three of the same color. How long can you go without getting Jammed?"
+authors = [
+    {name = "FelicitusNeko"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"bumpstik.WorldClass" = "bumpstik.Register:WORLD_CLASS"
+"bumpstik.WebWorldClass" = "bumpstik.Register:WEB_WORLD_CLASS"
+"bumpstik.Client" = "bumpstik.Register:CLIENT_FUNCTION"

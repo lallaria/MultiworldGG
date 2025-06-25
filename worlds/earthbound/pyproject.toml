@@ -1,0 +1,13 @@
+[project]
+name = "earthbound"
+version = "1.0.0"
+description = "EarthBound is a contemporary-themed JRPG. Take four psychically-endowed children across the world in search of 8 Melodies to defeat Giygas, the cosmic evil."
+authors = [
+    {name = "Pink Switch"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"earthbound.WorldClass" = "earthbound.Register:WORLD_CLASS"
+"earthbound.WebWorldClass" = "earthbound.Register:WEB_WORLD_CLASS"
+"earthbound.Client" = "earthbound.Register:CLIENT_FUNCTION"

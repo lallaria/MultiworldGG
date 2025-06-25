@@ -1,0 +1,18 @@
+[project]
+name = "alttp"
+version = "1.0.0"
+description = "The Legend of Zelda: A Link to the Past is an action/adventure game. Take on the role of Link, a boy who is destined to save the land of Hyrule. Delve through three palaces and nine dungeons on your quest to rescue the descendents of the seven wise men and defeat the evil Ganon!"
+authors = [
+    {name = "Berserker66"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "maseya-z3pr>=1.0.0rc1",
+    "xxtea>=3.0.0",
+]
+
+[project.entry-points."mwgg.plugins"]
+"alttp.WorldClass" = "alttp.Register:WORLD_CLASS"
+"alttp.WebWorldClass" = "alttp.Register:WEB_WORLD_CLASS"
+"alttp.Client" = "alttp.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "crosscode"
+version = "0.5"
+description = "Crosscode randomizer for MultiworldGG"
+authors = [
+    {name = "CodeTriangle"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"crosscode.WorldClass" = "crosscode.Register:WORLD_CLASS"
+"crosscode.WebWorldClass" = "crosscode.Register:WEB_WORLD_CLASS"
+"crosscode.Client" = "crosscode.Register:CLIENT_FUNCTION"

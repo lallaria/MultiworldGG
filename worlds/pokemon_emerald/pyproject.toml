@@ -1,0 +1,13 @@
+[project]
+name = "pokemon_emerald"
+version = "1.0.0"
+description = "Webhost info for Pokemon Emerald"
+authors = [
+    {name = "Zunawe"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"pokemon_emerald.WorldClass" = "pokemon_emerald.Register:WORLD_CLASS"
+"pokemon_emerald.WebWorldClass" = "pokemon_emerald.Register:WEB_WORLD_CLASS"
+"pokemon_emerald.Client" = "pokemon_emerald.Register:CLIENT_FUNCTION"

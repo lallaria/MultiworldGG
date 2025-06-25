@@ -1,0 +1,13 @@
+[project]
+name = "residentevil2remake"
+version = "0.2.7"
+description = "Residentevil2Remake randomizer for MultiworldGG"
+authors = [
+    {name = "Fuzzy"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"residentevil2remake.WorldClass" = "residentevil2remake.Register:WORLD_CLASS"
+"residentevil2remake.WebWorldClass" = "residentevil2remake.Register:WEB_WORLD_CLASS"
+"residentevil2remake.Client" = "residentevil2remake.Register:CLIENT_FUNCTION"

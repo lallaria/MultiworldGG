@@ -1,0 +1,13 @@
+[project]
+name = "oribf"
+version = "1.0.0"
+description = "Ori and the Blind Forest is a platform-adventure Metroidvania video game developed by Moon Studios in 2015. Players assume control of Ori, a small white spirit, and Sein, the "light and eyes" of the Forest's Spirit Tree. They are tasked to move between platforms and solve puzzles."
+authors = [
+    {name = "Gray"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"oribf.WorldClass" = "oribf.Register:WORLD_CLASS"
+"oribf.WebWorldClass" = "oribf.Register:WEB_WORLD_CLASS"
+"oribf.Client" = "oribf.Register:CLIENT_FUNCTION"

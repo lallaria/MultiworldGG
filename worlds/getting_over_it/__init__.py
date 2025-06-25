@@ -3,7 +3,7 @@ from typing import Dict
 from BaseClasses import Item, Location, ItemClassification, Region
 from worlds.AutoWorld import WebWorld, World
 from .options import GOIOptions
-
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class GOIWeb(WebWorld):
     rich_text_options_doc = True
@@ -15,9 +15,9 @@ class GOIWorld(World):
     Getting Over It with Bennett Foddy is a platform game developed by the titular Bennett Foddy. 
     The game was released as part of the October 2017 Humble Monthly,
     """
-    game = "Getting Over It"
-    igdb_id = 72373
-    author: str = "Slimey"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = GOIOptions
     options: GOIOptions
     topology_present = True

@@ -8,6 +8,7 @@ from Fill import fill_restrictive
 from BaseClasses import CollectionState, Item, LocationProgressType
 from BaseClasses import ItemClassification as IC
 from BaseClasses import Tutorial
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .ClientUtils import VERSION
 from .Items import (
     ITEM_TABLE,
@@ -107,9 +108,9 @@ class TPWorld(World):
     options_dataclass = TPOptions
     options: TPOptions
 
-    game: ClassVar[str] = "Twilight Princess"
-    author: ClassVar[str] = "WritingHusky"
-    igdb_id: ClassVar[int] = 134014
+    game: ClassVar[str] = GAME_NAME
+    author: ClassVar[str] = AUTHOR
+    igdb_id: ClassVar[int] = IGDB_ID
     topology_present: bool = True
 
     item_name_to_id: ClassVar[dict[str, int]] = {

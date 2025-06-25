@@ -1,0 +1,13 @@
+[project]
+name = "tboir"
+version = "1.0.0"
+description = "The Binding of Isaac: Rebirth is a randomly generated action RPG shooter with heavy Rogue-like elements. Following Isaac on his journey players will find bizarre treasures that change Isaac’s form giving him super human abilities and enabling him to fight off droves of mysterious creatures, discover secrets and fight his way to safety."
+authors = [
+    {name = "Cyb3R"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"tboir.WorldClass" = "tboir.Register:WORLD_CLASS"
+"tboir.WebWorldClass" = "tboir.Register:WEB_WORLD_CLASS"
+"tboir.Client" = "tboir.Register:CLIENT_FUNCTION"

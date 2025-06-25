@@ -1,0 +1,13 @@
+[project]
+name = "faxanadu"
+version = "1.0.0"
+description = "Faxanadu is an action role-playing platform video game developed by Hudson Soft for the Nintendo Entertainment System"
+authors = [
+    {name = "Daivuk"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"faxanadu.WorldClass" = "faxanadu.Register:WORLD_CLASS"
+"faxanadu.WebWorldClass" = "faxanadu.Register:WEB_WORLD_CLASS"
+"faxanadu.Client" = "faxanadu.Register:CLIENT_FUNCTION"

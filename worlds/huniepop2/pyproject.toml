@@ -1,0 +1,13 @@
+[project]
+name = "huniepop2"
+version = "1.0.0"
+description = "Huniepop2 randomizer for MultiworldGG"
+authors = [
+    {name = "dotsofdarkness"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"huniepop2.WorldClass" = "huniepop2.Register:WORLD_CLASS"
+"huniepop2.WebWorldClass" = "huniepop2.Register:WEB_WORLD_CLASS"
+"huniepop2.Client" = "huniepop2.Register:CLIENT_FUNCTION"

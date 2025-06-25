@@ -1,0 +1,13 @@
+[project]
+name = "paint"
+version = "0.5.0"
+description = "The classic Microsoft app, reimagined as an Archipelago game! Find your tools, expand your canvas, and paint the greatest image the world has ever seen."
+authors = [
+    {name = "MairoManTAW"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"paint.WorldClass" = "paint.Register:WORLD_CLASS"
+"paint.WebWorldClass" = "paint.Register:WEB_WORLD_CLASS"
+"paint.Client" = "paint.Register:CLIENT_FUNCTION"

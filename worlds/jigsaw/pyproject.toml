@@ -1,0 +1,13 @@
+[project]
+name = "jigsaw"
+version = "0.6.6"
+description = "Make a Jigsaw puzzle! But first you'll have to find your pieces. Connect the pieces to unlock more. Goal: solve the puzzle of course!"
+authors = [
+    {name = "spinerak"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"jigsaw.WorldClass" = "jigsaw.Register:WORLD_CLASS"
+"jigsaw.WebWorldClass" = "jigsaw.Register:WEB_WORLD_CLASS"
+"jigsaw.Client" = "jigsaw.Register:CLIENT_FUNCTION"

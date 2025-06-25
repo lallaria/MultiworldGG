@@ -1,0 +1,13 @@
+[project]
+name = "landstalker"
+version = "1.0.0"
+description = "Landstalker: The Treasures of King Nole is a classic Action-RPG with an isometric view (also known as "2.5D"). You play Nigel, a treasure hunter exploring the island of Mercator trying to find the legendary treasure. Roam freely on the island, get stronger to beat dungeons and gather the required key items in order to reach the hidden palace and claim the treasure."
+authors = [
+    {name = "Dinopony"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"landstalker.WorldClass" = "landstalker.Register:WORLD_CLASS"
+"landstalker.WebWorldClass" = "landstalker.Register:WEB_WORLD_CLASS"
+"landstalker.Client" = "landstalker.Register:CLIENT_FUNCTION"

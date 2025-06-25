@@ -6,7 +6,7 @@ from .Locations import location_table, event_table
 from .Regions import region_exits
 from .Rules import rules
 from .Options import BombRushCyberfunkOptions, StartStyle
-
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class BombRushCyberfunkWeb(WebWorld):
     theme = "ocean"
@@ -24,9 +24,9 @@ class BombRushCyberfunkWorld(World):
     """Bomb Rush Cyberfunk is 1 second per second of advanced funkstyle. Battle rival crews and dispatch militarized 
     police to conquer the five boroughs of New Amsterdam. Become All City."""
 
-    game = "Bomb Rush Cyberfunk"
-    author: str = "CookieCat45"
-    igdb_id = 135940
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = BombRushCyberfunkWeb()
 
     item_name_to_id = {item["name"]: (base_id + index) for index, item in enumerate(item_table)}

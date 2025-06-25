@@ -4,13 +4,15 @@ from typing import TypeVar
 from dataclasses import dataclass
 from itertools import chain
 
+from Register import GAME_NAME as REGISTERED_GAME_NAME, AUTHOR as REGISTERED_AUTHOR, IGDB_ID as REGISTERED_IGDB_ID
+
 
 @dataclass
 class Constants:
     """Constants for the FM world."""
-    GAME_NAME: str = "Yu-Gi-Oh! Forbidden Memories"
-    AUTHOR: str = "sg4e"
-    IGDB_ID: int = 4108
+    GAME_NAME: str = REGISTERED_GAME_NAME
+    AUTHOR: str = REGISTERED_AUTHOR
+    IGDB_ID: int = REGISTERED_IGDB_ID
     FM_ID_OFFSET: int = 0x4B1DDE000000
     CARD_ID_OFFSET: int = FM_ID_OFFSET + 0x00
     DUELIST_ID_OFFSET: int = FM_ID_OFFSET + 0x1000

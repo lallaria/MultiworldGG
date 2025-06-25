@@ -1,0 +1,13 @@
+[project]
+name = "hades"
+version = "0.5.0"
+description = "Hades is a rogue-like dungeon crawler in which you defy the god of the dead as you hack and slash your way out of the Underworld of Greek myth."
+authors = [
+    {name = "Naix"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"hades.WorldClass" = "hades.Register:WORLD_CLASS"
+"hades.WebWorldClass" = "hades.Register:WEB_WORLD_CLASS"
+"hades.Client" = "hades.Register:CLIENT_FUNCTION"

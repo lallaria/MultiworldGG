@@ -1,0 +1,13 @@
+[project]
+name = "albw"
+version = "1.0.0"
+description = "File name of your decrypted North American A Link Between Worlds ROM"
+authors = [
+    {name = "randomsalience"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"albw.WorldClass" = "albw.Register:WORLD_CLASS"
+"albw.WebWorldClass" = "albw.Register:WEB_WORLD_CLASS"
+"albw.Client" = "albw.Register:CLIENT_FUNCTION"

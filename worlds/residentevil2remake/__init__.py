@@ -13,6 +13,7 @@ from .Data import Data
 from .Exceptions import RE2ROptionError
 from .Options import RE2ROptions
 from .WeaponRandomizer import WeaponRandomizer
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 Data.load_data('leon', 'a')
@@ -49,13 +50,13 @@ class ResidentEvil2Remake(World):
     """
     'Leon, I am your father.' - Billy Birkin, probably
     """
-    game: str = "Resident Evil 2 Remake"
-    author: str = "Fuzzy"
-    igdb_id: int = 19686
+    game: str = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
 
     data_version = 2
     required_client_version = (0, 5, 0)
-    apworld_release_version = "0.2.7" # defined to show in spoiler log
+    apworld_release_version = VERSION # defined to show in spoiler log
 
     item_id_to_name = { item['id']: item['name'] for item in Data.item_table }
     item_name_to_id = { item['name']: item['id'] for item in Data.item_table }

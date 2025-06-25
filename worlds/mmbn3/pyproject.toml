@@ -1,0 +1,13 @@
+[project]
+name = "mmbn3"
+version = "1.0.0"
+description = "Play as Lan and MegaMan to stop the evil organization WWW led by the nefarious Dr. Wily in their plans to take over the Net! Collect BattleChips, Customize your Navi, and utilize powerful Style Changes to grow strong enough to take on the greatest threat the Internet has ever faced!"
+authors = [
+    {name = "digiholic"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"mmbn3.WorldClass" = "mmbn3.Register:WORLD_CLASS"
+"mmbn3.WebWorldClass" = "mmbn3.Register:WEB_WORLD_CLASS"
+"mmbn3.Client" = "mmbn3.Register:CLIENT_FUNCTION"

@@ -1,0 +1,17 @@
+[project]
+name = "zork_grand_inquisitor"
+version = "0.6.0"
+description = "Zork Grand Inquisitor randomizer for MultiworldGG"
+authors = [
+    {name = "nbrochu"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "Pymem>=1.13.0",
+]
+
+[project.entry-points."mwgg.plugins"]
+"zork_grand_inquisitor.WorldClass" = "zork_grand_inquisitor.Register:WORLD_CLASS"
+"zork_grand_inquisitor.WebWorldClass" = "zork_grand_inquisitor.Register:WEB_WORLD_CLASS"
+"zork_grand_inquisitor.Client" = "zork_grand_inquisitor.Register:CLIENT_FUNCTION"

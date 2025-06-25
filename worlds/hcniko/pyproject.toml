@@ -1,0 +1,13 @@
+[project]
+name = "hcniko"
+version = "1.0.0"
+description = "A cozy little game, about frogs and being a good friend"
+authors = [
+    {name = "nieli"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"hcniko.WorldClass" = "hcniko.Register:WORLD_CLASS"
+"hcniko.WebWorldClass" = "hcniko.Register:WEB_WORLD_CLASS"
+"hcniko.Client" = "hcniko.Register:CLIENT_FUNCTION"

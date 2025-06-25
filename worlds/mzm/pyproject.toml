@@ -1,0 +1,13 @@
+[project]
+name = "mzm"
+version = "1.0.0"
+description = "Metroid: Zero Mission is a retelling of the first Metroid on NES. Relive Samus' first adventure on planet Zebes with new areas, items, enemies, and story! Logic based on Metroid: Zero Mission Randomizer by Biosp4rk and Dragonfangs, used with permission."
+authors = [
+    {name = "Noise"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"mzm.WorldClass" = "mzm.Register:WORLD_CLASS"
+"mzm.WebWorldClass" = "mzm.Register:WEB_WORLD_CLASS"
+"mzm.Client" = "mzm.Register:CLIENT_FUNCTION"

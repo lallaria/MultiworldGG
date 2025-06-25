@@ -1,0 +1,17 @@
+[project]
+name = "tloz"
+version = "1.0.0"
+description = "The Legend of Zelda needs almost no introduction. Gather the eight fragments of the Triforce of Wisdom, enter Death Mountain, defeat Ganon, and rescue Princess Zelda. This randomizer shuffles all the items in the game around, leading to a new adventure every time."
+authors = [
+    {name = "Rosalie-A & t3hf1gm3nt"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "bsdiff4>=1.2.2",
+]
+
+[project.entry-points."mwgg.plugins"]
+"tloz.WorldClass" = "tloz.Register:WORLD_CLASS"
+"tloz.WebWorldClass" = "tloz.Register:WEB_WORLD_CLASS"
+"tloz.Client" = "tloz.Register:CLIENT_FUNCTION"

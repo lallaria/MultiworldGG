@@ -1,0 +1,13 @@
+[project]
+name = "apeescape"
+version = "1.0.0"
+description = "Ape Escape is a platform game published and developed by Sony for the PlayStation, released in 1999. The story revolves around the main protagonist, Spike, who has to prevent history from being changed by an army of monkeys led by Specter, the main antagonist."
+authors = [
+    {name = "Thedragon005"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"apeescape.WorldClass" = "apeescape.Register:WORLD_CLASS"
+"apeescape.WebWorldClass" = "apeescape.Register:WEB_WORLD_CLASS"
+"apeescape.Client" = "apeescape.Register:CLIENT_FUNCTION"

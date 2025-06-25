@@ -1,0 +1,17 @@
+[project]
+name = "gstla"
+version = "1.0.0"
+description = "Golden Sun: The Lost Age is a 2002 role-playing video game for the Game Boy Advance, developed by Camelot and published by Nintendo. It is the second installment in the Golden Sun series."
+authors = [
+    {name = "Dragion"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "requests >= 2.28.2 # Needed by client",
+]
+
+[project.entry-points."mwgg.plugins"]
+"gstla.WorldClass" = "gstla.Register:WORLD_CLASS"
+"gstla.WebWorldClass" = "gstla.Register:WEB_WORLD_CLASS"
+"gstla.Client" = "gstla.Register:CLIENT_FUNCTION"

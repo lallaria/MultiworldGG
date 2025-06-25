@@ -1,0 +1,13 @@
+[project]
+name = "hylics2"
+version = "1.0.0"
+description = "Hylics 2 is a surreal and unusual RPG, with a bizarre yet unique visual style. Play as Wayne, travel the world, and gather your allies to defeat the nefarious Gibby in his Hylemxylem!"
+authors = [
+    {name = "TRPG"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"hylics2.WorldClass" = "hylics2.Register:WORLD_CLASS"
+"hylics2.WebWorldClass" = "hylics2.Register:WEB_WORLD_CLASS"
+"hylics2.Client" = "hylics2.Register:CLIENT_FUNCTION"

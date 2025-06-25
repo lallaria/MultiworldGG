@@ -6,6 +6,7 @@ from .Locations import locations
 from .Items import items, filler_items, base_id
 from .Rules import create_rules
 from .Options import CatQuestOptions
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class CatQuestWeb(WebWorld):
     theme = "grassFlowers"
@@ -24,9 +25,9 @@ class CatQuestWorld(World):
     Slash and dodge enemies while completing quests, dungeons and obtaining new gear.
     """
 
-    game = "Cat Quest"
-    author: str = "Nikkilite"
-    igdb_id = 36597
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = CatQuestWeb()
     data_version = 1
 

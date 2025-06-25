@@ -1,0 +1,13 @@
+[project]
+name = "stardew_valley"
+version = "1.0.0"
+description = "Stardew Valley is an open-ended country-life RPG. You can farm, fish, mine, fight, complete quests, befriend villagers, and uncover dark secrets."
+authors = [
+    {name = "Kaito Kid"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"stardew_valley.WorldClass" = "stardew_valley.Register:WORLD_CLASS"
+"stardew_valley.WebWorldClass" = "stardew_valley.Register:WEB_WORLD_CLASS"
+"stardew_valley.Client" = "stardew_valley.Register:CLIENT_FUNCTION"

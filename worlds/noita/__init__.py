@@ -3,6 +3,7 @@ from worlds.AutoWorld import WebWorld, World
 from typing import Dict, Any
 from . import events, items, locations, regions, rules
 from .options import NoitaOptions
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class NoitaWeb(WebWorld):
@@ -25,9 +26,9 @@ class NoitaWorld(World):
     burn, freeze, and evaporate your way through the procedurally generated world using wands you've created yourself.
     """
 
-    game = "Noita"
-    igdb_id = 52006
-    author: str = "ScipioWright & heinermann"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options: NoitaOptions
     options_dataclass = NoitaOptions
 

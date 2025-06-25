@@ -1,0 +1,13 @@
+[project]
+name = "doronko_wanko"
+version = "1.0.0"
+description = "DORONKO WANKO is a DORONKO Action Game. In this game, you can become a cute, innocent Pomeranian, make your master's home messy and dirty."
+authors = [
+    {name = "Vendily"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"doronko_wanko.WorldClass" = "doronko_wanko.Register:WORLD_CLASS"
+"doronko_wanko.WebWorldClass" = "doronko_wanko.Register:WEB_WORLD_CLASS"
+"doronko_wanko.Client" = "doronko_wanko.Register:CLIENT_FUNCTION"

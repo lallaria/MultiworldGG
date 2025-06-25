@@ -1,0 +1,13 @@
+[project]
+name = "balatro"
+version = "1.0.0"
+description = "Balatro is a poker-themed roguelike deck-building video game developed by LocalThunk. In the game, players play poker hands to score points and defeat "blinds", while improving their deck and purchasing joker cards with a variety of effects. Source: https://en.wikipedia.org/wiki/Balatro_(video_game)"
+authors = [
+    {name = "Burndi"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"balatro.WorldClass" = "balatro.Register:WORLD_CLASS"
+"balatro.WebWorldClass" = "balatro.Register:WEB_WORLD_CLASS"
+"balatro.Client" = "balatro.Register:CLIENT_FUNCTION"

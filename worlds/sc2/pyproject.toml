@@ -1,0 +1,17 @@
+[project]
+name = "sc2"
+version = "1.0.0"
+description = "StarCraft II is a science fiction real-time strategy video game developed and published by Blizzard Entertainment. Play as one of three factions across four campaigns in a battle for supremacy of the Koprulu Sector."
+authors = [
+    {name = "Ziktofel"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "nest-asyncio >= 1.5.5",
+]
+
+[project.entry-points."mwgg.plugins"]
+"sc2.WorldClass" = "sc2.Register:WORLD_CLASS"
+"sc2.WebWorldClass" = "sc2.Register:WEB_WORLD_CLASS"
+"sc2.Client" = "sc2.Register:CLIENT_FUNCTION"

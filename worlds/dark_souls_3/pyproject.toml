@@ -1,0 +1,13 @@
+[project]
+name = "dark_souls_3"
+version = "1.0.0"
+description = "Dark souls III is an Action role-playing game and is part of the Souls series developed by FromSoftware. Played from a third-person perspective, players have access to various weapons, armour, magic, and consumables that they can use to fight their enemies."
+authors = [
+    {name = "Marech & nex3"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"dark_souls_3.WorldClass" = "dark_souls_3.Register:WORLD_CLASS"
+"dark_souls_3.WebWorldClass" = "dark_souls_3.Register:WEB_WORLD_CLASS"
+"dark_souls_3.Client" = "dark_souls_3.Register:CLIENT_FUNCTION"

@@ -1,0 +1,13 @@
+[project]
+name = "ctjot"
+version = "1.0.0"
+description = "Jet of Time is an open world randomizer for the iconic JRPG Chrono Trigger. Players start with two characters and the winged Epoch and must journey through time finding additional characters and key items to save the world from the evil Lavos."
+authors = [
+    {name = "Anguirel"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"ctjot.WorldClass" = "ctjot.Register:WORLD_CLASS"
+"ctjot.WebWorldClass" = "ctjot.Register:WEB_WORLD_CLASS"
+"ctjot.Client" = "ctjot.Register:CLIENT_FUNCTION"

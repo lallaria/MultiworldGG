@@ -1,0 +1,17 @@
+[project]
+name = "ss"
+version = "1.0.0"
+description = "What if that's Zelda down there, and she's sending me a signal? It's a sign! It says, `Save me, Groose. You're my only hope!` The more I think about it, the more sure I get! It's Zelda down there, and I gotta go rescue her! Anyhow, don't think about trying to go down there before me. I'm her hero, remember? Ugh. I don't even know why I'm talking to you. Looking at you just makes me feel sad again."
+authors = [
+    {name = "Battlecats59"}
+]
+requires-python = ">=3.12"
+
+dependencies = [
+    "dolphin-memory-engine>=1.3.0",
+]
+
+[project.entry-points."mwgg.plugins"]
+"ss.WorldClass" = "ss.Register:WORLD_CLASS"
+"ss.WebWorldClass" = "ss.Register:WEB_WORLD_CLASS"
+"ss.Client" = "ss.Register:CLIENT_FUNCTION"

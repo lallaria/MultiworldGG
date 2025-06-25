@@ -1,0 +1,13 @@
+[project]
+name = "v6"
+version = "1.0.0"
+description = "VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?"
+authors = [
+    {name = "N00byKing"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"v6.WorldClass" = "v6.Register:WORLD_CLASS"
+"v6.WebWorldClass" = "v6.Register:WEB_WORLD_CLASS"
+"v6.Client" = "v6.Register:CLIENT_FUNCTION"

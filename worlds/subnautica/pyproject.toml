@@ -1,0 +1,13 @@
+[project]
+name = "subnautica"
+version = "1.0.0"
+description = "Subnautica is an undersea exploration game. Stranded on an alien world, you become infected by an unknown bacteria. The planet's automatic quarantine will shoot you down if you try to leave. You must find a cure for yourself, build an escape rocket, and leave the planet."
+authors = [
+    {name = "Berserker66"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"subnautica.WorldClass" = "subnautica.Register:WORLD_CLASS"
+"subnautica.WebWorldClass" = "subnautica.Register:WEB_WORLD_CLASS"
+"subnautica.Client" = "subnautica.Register:CLIENT_FUNCTION"

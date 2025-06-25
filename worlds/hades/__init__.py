@@ -14,6 +14,7 @@ from .Rules import set_rules
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import icon_paths, Component, components, Type, launch_subprocess
 from Utils import local_path
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 def launch_client():
     from .Client import launch
@@ -57,9 +58,9 @@ class HadesWorld(World):
 
     options: HadesOptions
     options_dataclass = HadesOptions
-    game = "Hades"
-    igdb_id = 113112
-    author: str = "Naix"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present = False
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()

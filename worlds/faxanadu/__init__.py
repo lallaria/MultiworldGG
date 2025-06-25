@@ -5,17 +5,18 @@ from worlds.AutoWorld import WebWorld, World
 from . import Items, Locations, Regions, Rules
 from .Options import FaxanaduOptions
 from worlds.generic.Rules import set_rule
+from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 DAXANADU_VERSION = "0.3.0"
 
 
 class FaxanaduLocation(Location):
-    game: str = "Faxanadu"
+    game: str = GAME_NAME
 
 
 class FaxanaduItem(Item):
-    game: str = "Faxanadu"
+    game: str = GAME_NAME
 
 
 class FaxanaduWeb(WebWorld):
@@ -36,9 +37,9 @@ class FaxanaduWorld(World):
     """
     options_dataclass = FaxanaduOptions
     options: FaxanaduOptions
-    game = "Faxanadu"
-    igdb_id = 1974
-    author: str = "Daivuk"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = FaxanaduWeb()
 
     item_name_to_id = {item.name: item.id for item in Items.items if item.id is not None}

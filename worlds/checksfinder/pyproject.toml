@@ -1,0 +1,13 @@
+[project]
+name = "checksfinder"
+version = "1.0.0"
+description = "ChecksFinder is a game where you avoid mines and collect checks by beating boards! You win when you get all your items and beat the last board!"
+authors = [
+    {name = "SunCatMC"}
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"checksfinder.WorldClass" = "checksfinder.Register:WORLD_CLASS"
+"checksfinder.WebWorldClass" = "checksfinder.Register:WEB_WORLD_CLASS"
+"checksfinder.Client" = "checksfinder.Register:CLIENT_FUNCTION"
