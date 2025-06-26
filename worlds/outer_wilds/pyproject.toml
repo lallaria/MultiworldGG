@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "outer_wilds"
-version = "1.0.0"
-description = "Outer Wilds is a 2019 adventure video game developed by Mobius Digital. The game follows the player character as they explore a planetary system stuck in a 22-minute time loop that resets after the sun goes supernova and destroys the system."
+dynamic = ["version"]
+description = "Outer Wilds"
 authors = [
     {name = "Ixrec"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "outer_wilds.WorldClass" = "outer_wilds.Register:WORLD_CLASS"
 "outer_wilds.WebWorldClass" = "outer_wilds.Register:WEB_WORLD_CLASS"
 "outer_wilds.Client" = "outer_wilds.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "outer_wilds.Register:VERSION"}

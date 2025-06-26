@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ror1"
-version = "1.0.0"
-description = "Risk of Rain is a 2013 roguelike platform game developed by Hopoo Games. Players control the survivor of a space freighter crash on a strange planet. They attempt to survive by killing monsters and collecting items that can boost their offensive and defensive abilities."
+dynamic = ["version"]
+description = "Risk of Rain"
 authors = [
     {name = "studkid"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "ror1.WorldClass" = "ror1.Register:WORLD_CLASS"
 "ror1.WebWorldClass" = "ror1.Register:WEB_WORLD_CLASS"
 "ror1.Client" = "ror1.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "ror1.Register:VERSION"}

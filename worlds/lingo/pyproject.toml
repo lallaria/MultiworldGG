@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "lingo"
-version = "1.0.0"
-description = "Lingo is a first person indie puzzle game in the vein of The Witness. You find yourself in a mazelike, non-Euclidean world filled with 800 word puzzles that use a variety of different mechanics."
+dynamic = ["version"]
+description = "Lingo"
 authors = [
     {name = "hatkirby"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "lingo.WorldClass" = "lingo.Register:WORLD_CLASS"
 "lingo.WebWorldClass" = "lingo.Register:WEB_WORLD_CLASS"
 "lingo.Client" = "lingo.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "lingo.Register:VERSION"}

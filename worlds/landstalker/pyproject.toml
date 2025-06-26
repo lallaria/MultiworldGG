@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "landstalker"
-version = "1.0.0"
-description = "Landstalker: The Treasures of King Nole is a classic Action-RPG with an isometric view (also known as "2.5D"). You play Nigel, a treasure hunter exploring the island of Mercator trying to find the legendary treasure. Roam freely on the island, get stronger to beat dungeons and gather the required key items in order to reach the hidden palace and claim the treasure."
+dynamic = ["version"]
+description = "Landstalker - The Treasures of King Nole"
 authors = [
     {name = "Dinopony"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "landstalker.WorldClass" = "landstalker.Register:WORLD_CLASS"
 "landstalker.WebWorldClass" = "landstalker.Register:WEB_WORLD_CLASS"
 "landstalker.Client" = "landstalker.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "landstalker.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "blasphemous"
-version = "1.0.0"
-description = "Blasphemous is a challenging Metroidvania set in the cursed land of Cvstodia. Play as the Penitent One, trapped in an endless cycle of death and rebirth, and free the world from its terrible fate in your quest to break your eternal damnation!"
+dynamic = ["version"]
+description = "Blasphemous"
 authors = [
     {name = "TRPG"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "blasphemous.WorldClass" = "blasphemous.Register:WORLD_CLASS"
 "blasphemous.WebWorldClass" = "blasphemous.Register:WEB_WORLD_CLASS"
 "blasphemous.Client" = "blasphemous.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "blasphemous.Register:VERSION"}

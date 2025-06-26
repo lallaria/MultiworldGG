@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "saving_princess"
-version = "1.0.0"
-description = "Explore a space station crawling with rogue machines and even rival bounty hunters with the same objective as you - but with far, far different intentions! Expand your arsenal as you collect upgrades to your trusty arm cannon and armor!"
+dynamic = ["version"]
+description = "Explore a space station crawling with rogue machines and even rival bounty hunters"
 authors = [
     {name = "LeonarthCG"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "saving_princess.WorldClass" = "saving_princess.Register:WORLD_CLASS"
 "saving_princess.WebWorldClass" = "saving_princess.Register:WEB_WORLD_CLASS"
 "saving_princess.Client" = "saving_princess.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "saving_princess.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "timespinner"
-version = "1.0.0"
-description = "Timespinner is a beautiful metroidvania inspired by classic 90s action-platformers. Travel back in time to change fate itself. Join timekeeper Lunais on her quest for revenge against the empire that killed her family."
+dynamic = ["version"]
+description = "Timespinner"
 authors = [
     {name = "Jarno458"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "timespinner.WorldClass" = "timespinner.Register:WORLD_CLASS"
 "timespinner.WebWorldClass" = "timespinner.Register:WEB_WORLD_CLASS"
 "timespinner.Client" = "timespinner.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "timespinner.Register:VERSION"}

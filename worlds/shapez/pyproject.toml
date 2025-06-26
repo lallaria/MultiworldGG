@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "shapez"
-version = "1.0.0"
-description = "shapez is an automation game about cutting, rotating, stacking, and painting shapes, that you extract from randomly generated patches on an infinite canvas, without the need to manage your infinite resources or to pay for building your factories."
+dynamic = ["version"]
+description = "shapez is an automation game about cutting, rotating, stacking, and painting shapes, that you extract from randomly"
 authors = [
     {name = "Unknown"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "shapez.WorldClass" = "shapez.Register:WORLD_CLASS"
 "shapez.WebWorldClass" = "shapez.Register:WEB_WORLD_CLASS"
 "shapez.Client" = "shapez.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "shapez.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "banjo_tooie"
-version = "1.0.0"
-description = "Banjo-Tooie is a single-player platform game in which the protagonists are controlled from a third-person perspective. Carrying over most of the mechanics and concepts established in its predecessor, the game features three-dimensional worlds consisting of various platforming challenges and puzzles, with a notable increased focus on puzzle-solving over the worlds of Banjo-Kazooie."
+dynamic = ["version"]
+description = "Banjo-Tooie is a single-player platform game in which the protagonists are controlled from a third-person perspective."
 authors = [
     {name = "jjjj12212"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "banjo_tooie.WorldClass" = "banjo_tooie.Register:WORLD_CLASS"
 "banjo_tooie.WebWorldClass" = "banjo_tooie.Register:WEB_WORLD_CLASS"
 "banjo_tooie.Client" = "banjo_tooie.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "banjo_tooie.Register:VERSION"}

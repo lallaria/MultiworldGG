@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "luigismansion"
-version = "0.4.7"
-description = "Luigi's Mansion is an adventure game starring everyone's favorite plumber brother, Luigi. Luigi has won a strange mansion but upon arriving, he discovers it's full of ghosts, with his brother inside! Armed with the mysterious Poltergust 3000, Luigi will need to overcome his fears to kick the ghosts out before he can move in and save Mario!"
+dynamic = ["version"]
+description = "Luigi's Mansion"
 authors = [
     {name = "BootsinSoots"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "luigismansion.WorldClass" = "luigismansion.Register:WORLD_CLASS"
 "luigismansion.WebWorldClass" = "luigismansion.Register:WEB_WORLD_CLASS"
 "luigismansion.Client" = "luigismansion.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "luigismansion.Register:VERSION"}

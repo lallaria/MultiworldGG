@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "lufia2ac"
-version = "1.0.0"
-description = "The Ancient Cave is a roguelike dungeon crawling game built into the RGP Lufia II. Face 99 floors of ever harder to beat monsters, random items and find new companions on the way to face the Royal Jelly in the end. Can you beat it?"
+dynamic = ["version"]
+description = "The Ancient Cave is a roguelike dungeon crawling game built into"
 authors = [
     {name = "el-u & word_fcuk"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "lufia2ac.WorldClass" = "lufia2ac.Register:WORLD_CLASS"
 "lufia2ac.WebWorldClass" = "lufia2ac.Register:WEB_WORLD_CLASS"
 "lufia2ac.Client" = "lufia2ac.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "lufia2ac.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "apeescape"
-version = "1.0.0"
-description = "Ape Escape is a platform game published and developed by Sony for the PlayStation, released in 1999. The story revolves around the main protagonist, Spike, who has to prevent history from being changed by an army of monkeys led by Specter, the main antagonist."
+dynamic = ["version"]
+description = "Ape Escape"
 authors = [
     {name = "Thedragon005"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "apeescape.WorldClass" = "apeescape.Register:WORLD_CLASS"
 "apeescape.WebWorldClass" = "apeescape.Register:WEB_WORLD_CLASS"
 "apeescape.Client" = "apeescape.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "apeescape.Register:VERSION"}

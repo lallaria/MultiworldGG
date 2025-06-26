@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "adventure"
-version = "1.0.0"
-description = "Adventure for the Atari 2600 is an early graphical adventure game. Find the enchanted chalice and return it to the yellow castle, using magic items to enter hidden rooms, retrieve out of reach items, or defeat the three dragons.  Beware the bat who likes to steal your equipment!"
+dynamic = ["version"]
+description = "Adventure"
 authors = [
     {name = "JusticePS"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "adventure.WorldClass" = "adventure.Register:WORLD_CLASS"
 "adventure.WebWorldClass" = "adventure.Register:WEB_WORLD_CLASS"
 "adventure.Client" = "adventure.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "adventure.Register:VERSION"}

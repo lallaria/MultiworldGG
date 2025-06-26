@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tunic"
-version = "1.0.0"
-description = "Explore a land filled with lost legends, ancient powers, and ferocious monsters in TUNIC, an isometric action game about a small fox on a big adventure. Stranded on a mysterious beach, armed with only your own curiosity, you will confront colossal beasts, collect strange and powerful items, and unravel long-lost secrets. Be brave, tiny fox!"
+dynamic = ["version"]
+description = "TUNIC"
 authors = [
     {name = "SilentSR & ScipioWright"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "tunic.WorldClass" = "tunic.Register:WORLD_CLASS"
 "tunic.WebWorldClass" = "tunic.Register:WEB_WORLD_CLASS"
 "tunic.Client" = "tunic.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tunic.Register:VERSION"}

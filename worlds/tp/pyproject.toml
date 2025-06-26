@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tp"
-version = "1.0.0"
-description = "Join Link and Midna on their adventure through Hyrule in Twilight Princess."
+dynamic = ["version"]
+description = "The Legend of Zelda: Twilight Princess"
 authors = [
     {name = "WritingHusky"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "tp.WorldClass" = "tp.Register:WORLD_CLASS"
 "tp.WebWorldClass" = "tp.Register:WEB_WORLD_CLASS"
 "tp.Client" = "tp.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tp.Register:VERSION"}

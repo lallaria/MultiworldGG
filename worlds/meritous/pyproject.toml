@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "meritous"
-version = "1.0.0"
-description = "Meritous Gaiden is a procedurally generated bullet-hell dungeon crawl game. Five generations after the Orcus Dome incident, strange experiments conducted in a new structure on the moon are tearing at the very fabric of reality..."
+dynamic = ["version"]
+description = "Meritous Gaiden is a procedurally generated bullet-hell dungeon crawl game."
 authors = [
     {name = "FelicitusNeko"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "meritous.WorldClass" = "meritous.Register:WORLD_CLASS"
 "meritous.WebWorldClass" = "meritous.Register:WEB_WORLD_CLASS"
 "meritous.Client" = "meritous.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "meritous.Register:VERSION"}

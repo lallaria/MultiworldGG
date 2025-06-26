@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "musedash"
-version = "1.0.0"
-description = "Muse Dash is a rhythm game where you hit objects to the beat of one of 400+ songs. Play through a selection of randomly chosen songs, collecting music sheets until you have enough to play and complete the goal song!"
+dynamic = ["version"]
+description = "Muse Dash"
 authors = [
     {name = "DeamonHunter"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "musedash.WorldClass" = "musedash.Register:WORLD_CLASS"
 "musedash.WebWorldClass" = "musedash.Register:WEB_WORLD_CLASS"
 "musedash.Client" = "musedash.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "musedash.Register:VERSION"}

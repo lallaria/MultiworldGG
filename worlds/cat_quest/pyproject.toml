@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cat_quest"
-version = "1.0.0"
-description = "Cat Quest is a small open world ARPG set in a cute world full of cats and cat puns. Slash and dodge enemies while completing quests, dungeons and obtaining new gear."
+dynamic = ["version"]
+description = "Cat Quest"
 authors = [
     {name = "Nikkilite"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "cat_quest.WorldClass" = "cat_quest.Register:WORLD_CLASS"
 "cat_quest.WebWorldClass" = "cat_quest.Register:WEB_WORLD_CLASS"
 "cat_quest.Client" = "cat_quest.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "cat_quest.Register:VERSION"}

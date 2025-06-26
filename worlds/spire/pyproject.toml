@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "spire"
-version = "1.0.0"
-description = "A deck-building roguelike where you must craft a unique deck, encounter bizarre creatures, discover relics of immense power, and Slay the Spire!"
+dynamic = ["version"]
+description = "Slay the Spire"
 authors = [
     {name = "KonoTyran"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "spire.WorldClass" = "spire.Register:WORLD_CLASS"
 "spire.WebWorldClass" = "spire.Register:WEB_WORLD_CLASS"
 "spire.Client" = "spire.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "spire.Register:VERSION"}

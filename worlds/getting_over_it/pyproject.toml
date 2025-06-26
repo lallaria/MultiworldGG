@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "getting_over_it"
-version = "1.0.0"
-description = "Getting Over It with Bennett Foddy is a platform game developed by the titular Bennett Foddy. The game was released as part of the October 2017 Humble Monthly,"
+dynamic = ["version"]
+description = "Getting Over It"
 authors = [
     {name = "Slimey"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "getting_over_it.WorldClass" = "getting_over_it.Register:WORLD_CLASS"
 "getting_over_it.WebWorldClass" = "getting_over_it.Register:WEB_WORLD_CLASS"
 "getting_over_it.Client" = "getting_over_it.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "getting_over_it.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mario_kart_double_dash"
-version = "1.0.0"
-description = "The fourth entry in Mario Kart series, Double Dash shakes up the gameplay by introducing 2 drivers per vehicle."
+dynamic = ["version"]
+description = "Mario Kart Double Dash"
 authors = [
     {name = "aXu"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "mario_kart_double_dash.WorldClass" = "mario_kart_double_dash.Register:WORLD_CLASS"
 "mario_kart_double_dash.WebWorldClass" = "mario_kart_double_dash.Register:WEB_WORLD_CLASS"
 "mario_kart_double_dash.Client" = "mario_kart_double_dash.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "mario_kart_double_dash.Register:VERSION"}

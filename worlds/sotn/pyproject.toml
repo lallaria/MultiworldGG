@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sotn"
-version = "1.0.0"
-description = "Symphony of the Night is a metroidvania developed by Konami and released for Sony Playstation and Sega Saturn in 1997."
+dynamic = ["version"]
+description = "Symphony of the Night is a metroidvania developed by Konami"
 authors = [
     {name = "Unknown"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "sotn.WorldClass" = "sotn.Register:WORLD_CLASS"
 "sotn.WebWorldClass" = "sotn.Register:WEB_WORLD_CLASS"
 "sotn.Client" = "sotn.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sotn.Register:VERSION"}

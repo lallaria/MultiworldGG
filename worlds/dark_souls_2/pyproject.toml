@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dark_souls_2"
-version = "1.0.0"
-description = "Dark Souls II is a 2014 action role-playing game and the second installment of the Dark Souls series. It is set in the kingdom of Drangleic and follows an undead traveler searching for a cure to their affliction."
+dynamic = ["version"]
+description = "Dark Souls II"
 authors = [
     {name = "WildBunnie"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dark_souls_2.WorldClass" = "dark_souls_2.Register:WORLD_CLASS"
 "dark_souls_2.WebWorldClass" = "dark_souls_2.Register:WEB_WORLD_CLASS"
 "dark_souls_2.Client" = "dark_souls_2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dark_souls_2.Register:VERSION"}

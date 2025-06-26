@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sims4"
-version = "1.0.0"
-description = "The Sims 4 is the fourth installment in The Sims franchise. Like the previous games in the series, The Sims 4 focuses on creating and controlling a neighborhood of virtual people, called "Sims"."
+dynamic = ["version"]
+description = "The Sims 4"
 authors = [
     {name = "bennydreamly"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "sims4.WorldClass" = "sims4.Register:WORLD_CLASS"
 "sims4.WebWorldClass" = "sims4.Register:WEB_WORLD_CLASS"
 "sims4.Client" = "sims4.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sims4.Register:VERSION"}

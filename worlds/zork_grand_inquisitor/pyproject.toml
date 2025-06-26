@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "zork_grand_inquisitor"
-version = "0.6.0"
-description = "Zork Grand Inquisitor randomizer for MultiworldGG"
+dynamic = ["version"]
+description = "Zork Grand Inquisitor"
 authors = [
     {name = "nbrochu"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "zork_grand_inquisitor.WorldClass" = "zork_grand_inquisitor.Register:WORLD_CLASS"
 "zork_grand_inquisitor.WebWorldClass" = "zork_grand_inquisitor.Register:WEB_WORLD_CLASS"
 "zork_grand_inquisitor.Client" = "zork_grand_inquisitor.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "zork_grand_inquisitor.Register:VERSION"}

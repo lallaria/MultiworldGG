@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "stardew_valley"
-version = "1.0.0"
-description = "Stardew Valley is an open-ended country-life RPG. You can farm, fish, mine, fight, complete quests, befriend villagers, and uncover dark secrets."
+dynamic = ["version"]
+description = "Stardew Valley"
 authors = [
     {name = "Kaito Kid"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "stardew_valley.WorldClass" = "stardew_valley.Register:WORLD_CLASS"
 "stardew_valley.WebWorldClass" = "stardew_valley.Register:WEB_WORLD_CLASS"
 "stardew_valley.Client" = "stardew_valley.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "stardew_valley.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "noita"
-version = "1.0.0"
-description = "Noita is a magical action roguelite set in a world where every pixel is physically simulated. Fight, explore, melt, burn, freeze, and evaporate your way through the procedurally generated world using wands you've created yourself."
+dynamic = ["version"]
+description = "Noita"
 authors = [
     {name = "ScipioWright & heinermann"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "noita.WorldClass" = "noita.Register:WORLD_CLASS"
 "noita.WebWorldClass" = "noita.Register:WEB_WORLD_CLASS"
 "noita.Client" = "noita.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "noita.Register:VERSION"}

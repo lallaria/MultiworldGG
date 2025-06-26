@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "heretic"
-version = "1.0.0"
-description = "Heretic is a dark fantasy first-person shooter video game released in December 1994. It was developed by Raven Software."
+dynamic = ["version"]
+description = "Heretic"
 authors = [
     {name = "Daivuk & Kaito Sinclaire"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "heretic.WorldClass" = "heretic.Register:WORLD_CLASS"
 "heretic.WebWorldClass" = "heretic.Register:WEB_WORLD_CLASS"
 "heretic.Client" = "heretic.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "heretic.Register:VERSION"}

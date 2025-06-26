@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "bumpstik"
-version = "1.0.0"
-description = "Bumper Stickers is a match-three puzzle game unlike any you've seen. Launch Bumpers onto the field, and match them in sets of three of the same color. How long can you go without getting Jammed?"
+dynamic = ["version"]
+description = "Bumper Stickers"
 authors = [
     {name = "FelicitusNeko"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "bumpstik.WorldClass" = "bumpstik.Register:WORLD_CLASS"
 "bumpstik.WebWorldClass" = "bumpstik.Register:WEB_WORLD_CLASS"
 "bumpstik.Client" = "bumpstik.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "bumpstik.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "aquaria"
-version = "1.0.0"
-description = "Aquaria is a side-scrolling action-adventure game. It follows Naija, an aquatic humanoid woman, as she explores the underwater world of Aquaria. Along her journey, she learns about the history of the world she inhabits as well as her own past. The gameplay focuses on a combination of swimming, singing, and combat, through which Naija can interact with the world. Her songs can move items, affect plants and animals, and change her physical appearance into other forms that have different abilities, like firing projectiles at hostile creatures, or passing through barriers inaccessible to her in her natural form. From: https://en.wikipedia.org/wiki/Aquaria_(video_game)"
+dynamic = ["version"]
+description = "Aquaria"
 authors = [
     {name = "tioui"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "aquaria.WorldClass" = "aquaria.Register:WORLD_CLASS"
 "aquaria.WebWorldClass" = "aquaria.Register:WEB_WORLD_CLASS"
 "aquaria.Client" = "aquaria.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "aquaria.Register:VERSION"}

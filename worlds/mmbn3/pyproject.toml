@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mmbn3"
-version = "1.0.0"
-description = "Play as Lan and MegaMan to stop the evil organization WWW led by the nefarious Dr. Wily in their plans to take over the Net! Collect BattleChips, Customize your Navi, and utilize powerful Style Changes to grow strong enough to take on the greatest threat the Internet has ever faced!"
+dynamic = ["version"]
+description = "MegaMan Battle Network 3"
 authors = [
     {name = "digiholic"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "mmbn3.WorldClass" = "mmbn3.Register:WORLD_CLASS"
 "mmbn3.WebWorldClass" = "mmbn3.Register:WEB_WORLD_CLASS"
 "mmbn3.Client" = "mmbn3.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "mmbn3.Register:VERSION"}

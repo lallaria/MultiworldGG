@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "archipidle"
-version = "1.0.0"
-description = "An idle game which sends a check every thirty to sixty seconds, up to two hundred checks."
+dynamic = ["version"]
+description = "ArchipIDLE"
 authors = [
     {name = "LegendaryLinux"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "archipidle.WorldClass" = "archipidle.Register:WORLD_CLASS"
 "archipidle.WebWorldClass" = "archipidle.Register:WEB_WORLD_CLASS"
 "archipidle.Client" = "archipidle.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "archipidle.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "inscryption"
-version = "1.0.0"
-description = "Inscryption is an inky black card-based odyssey that blends the deckbuilding roguelike, escape-room style puzzles, and psychological horror into a blood-laced smoothie. Darker still are the secrets inscrybed upon the cards..."
+dynamic = ["version"]
+description = "Inscryption"
 authors = [
     {name = "DrBibop"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "inscryption.WorldClass" = "inscryption.Register:WORLD_CLASS"
 "inscryption.WebWorldClass" = "inscryption.Register:WEB_WORLD_CLASS"
 "inscryption.Client" = "inscryption.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "inscryption.Register:VERSION"}

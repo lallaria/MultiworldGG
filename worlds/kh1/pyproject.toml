@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "kh1"
-version = "1.0.0"
-description = "Kingdom Hearts is an action RPG following Sora on his journey through many worlds to find Riku and Kairi."
+dynamic = ["version"]
+description = "Kingdom Hearts"
 authors = [
     {name = "gaithern"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "kh1.WorldClass" = "kh1.Register:WORLD_CLASS"
 "kh1.WebWorldClass" = "kh1.Register:WEB_WORLD_CLASS"
 "kh1.Client" = "kh1.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "kh1.Register:VERSION"}

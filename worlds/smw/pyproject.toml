@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "smw"
-version = "1.0.0"
-description = "Super Mario World is an action platforming game. The Princess has been kidnapped by Bowser again, but Mario has somehow lost all of his abilities. Can he get them back in time to save the Princess?"
+dynamic = ["version"]
+description = "Super Mario World is an action platforming game."
 authors = [
     {name = "PoryGone"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "smw.WorldClass" = "smw.Register:WORLD_CLASS"
 "smw.WebWorldClass" = "smw.Register:WEB_WORLD_CLASS"
 "smw.Client" = "smw.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "smw.Register:VERSION"}

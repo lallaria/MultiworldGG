@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ss"
-version = "1.0.0"
-description = "What if that's Zelda down there, and she's sending me a signal? It's a sign! It says, `Save me, Groose. You're my only hope!` The more I think about it, the more sure I get! It's Zelda down there, and I gotta go rescue her! Anyhow, don't think about trying to go down there before me. I'm her hero, remember? Ugh. I don't even know why I'm talking to you. Looking at you just makes me feel sad again."
+dynamic = ["version"]
+description = "What if that's Zelda down there, and she's sending me a signal? It's a sign!"
 authors = [
     {name = "Battlecats59"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "ss.WorldClass" = "ss.Register:WORLD_CLASS"
 "ss.WebWorldClass" = "ss.Register:WEB_WORLD_CLASS"
 "ss.Client" = "ss.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "ss.Register:VERSION"}

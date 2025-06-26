@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "yugiohddm"
-version = "1.0.0"
-description = "Yu-Gi-Oh! Dungeon Dice Monsters is a Game Boy Advance dice-based tactics game based on an original board game featured in the Yu-Gi-Oh! storyline."
+dynamic = ["version"]
+description = "Yu-Gi-Oh! Dungeon Dice Monsters"
 authors = [
     {name = "Jumza"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "yugiohddm.WorldClass" = "yugiohddm.Register:WORLD_CLASS"
 "yugiohddm.WebWorldClass" = "yugiohddm.Register:WEB_WORLD_CLASS"
 "yugiohddm.Client" = "yugiohddm.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "yugiohddm.Register:VERSION"}

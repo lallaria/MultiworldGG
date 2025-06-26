@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dsr"
-version = "1.0.0"
+dynamic = ["version"]
 description = "Dark Souls is a game where you die."
 authors = [
     {name = "ArsonAssassin"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dsr.WorldClass" = "dsr.Register:WORLD_CLASS"
 "dsr.WebWorldClass" = "dsr.Register:WEB_WORLD_CLASS"
 "dsr.Client" = "dsr.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dsr.Register:VERSION"}

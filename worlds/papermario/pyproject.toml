@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "papermario"
-version = "1.0.0"
-description = "Paper Mario is a turn-based adventure RPG. Bowser has kidnapped Princess Peach along with her castle using the power of the Star Rod, which grants the wishes of the holder. You must rescue the Star Spirits so that they can help you take back the Star Rod from Bowser and save Peach. You will have to defeat powerful foes and venture through dangerous lands with the help of partners you meet along the way."
+dynamic = ["version"]
+description = "Paper Mario"
 authors = [
     {name = "JKB"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "papermario.WorldClass" = "papermario.Register:WORLD_CLASS"
 "papermario.WebWorldClass" = "papermario.Register:WEB_WORLD_CLASS"
 "papermario.Client" = "papermario.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "papermario.Register:VERSION"}

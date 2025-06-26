@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "animal_well"
-version = "1.0.0"
-description = "Hatch from your flower and spelunk through the beautiful and sometimes haunting world of ANIMAL WELL, a pixelated action-exploration game rendered in intricate audio and visual detail. Encounter lively creatures small and large, helpful and ominous as you discover unconventional upgrades and unravel the well’s secrets."
+dynamic = ["version"]
+description = "ANIMAL WELL"
 authors = [
     {name = "ScipioWright, RoobyRoo, Franklesby & Dicene"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -16,3 +27,6 @@ dependencies = [
 "animal_well.WorldClass" = "animal_well.Register:WORLD_CLASS"
 "animal_well.WebWorldClass" = "animal_well.Register:WEB_WORLD_CLASS"
 "animal_well.Client" = "animal_well.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "animal_well.Register:VERSION"}

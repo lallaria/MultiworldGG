@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cuphead"
-version = "1.0.0"
+dynamic = ["version"]
 description = "Log options that are overridden from incompatible combinations to console."
 authors = [
     {name = "JKL"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "cuphead.WorldClass" = "cuphead.Register:WORLD_CLASS"
 "cuphead.WebWorldClass" = "cuphead.Register:WEB_WORLD_CLASS"
 "cuphead.Client" = "cuphead.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "cuphead.Register:VERSION"}

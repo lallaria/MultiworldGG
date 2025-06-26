@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "residentevil3remake"
-version = "0.2.3"
-description = "Residentevil3Remake randomizer for MultiworldGG"
+dynamic = ["version"]
+description = "Resident Evil 3 Remake"
 authors = [
     {name = "TheRealSolidusSnake"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "residentevil3remake.WorldClass" = "residentevil3remake.Register:WORLD_CLASS"
 "residentevil3remake.WebWorldClass" = "residentevil3remake.Register:WEB_WORLD_CLASS"
 "residentevil3remake.Client" = "residentevil3remake.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "residentevil3remake.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sms"
-version = "0.2.0"
-description = "The second Super Mario game to feature 3D gameplay. Coupled with F.L.U.D.D. (a talking water tank that can be used as a jetpack), Mario must clean the graffiti off of Delfino Isle and return light to the sky."
+dynamic = ["version"]
+description = "Super Mario Sunshine"
 authors = [
     {name = "Joshark"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "sms.WorldClass" = "sms.Register:WORLD_CLASS"
 "sms.WebWorldClass" = "sms.Register:WEB_WORLD_CLASS"
 "sms.Client" = "sms.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sms.Register:VERSION"}

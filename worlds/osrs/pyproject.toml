@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "osrs"
-version = "1.0.0"
-description = "The best retro fantasy MMORPG on the planet. Old School is RuneScape but… older! This is the open world you know and love, but as it was in 2007. The Randomizer takes the form of a Chunk-Restricted f2p Ironman that takes a brand new account up through defeating the Green Dragon of Crandor and earning a spot in the fabled Champion's Guild!"
+dynamic = ["version"]
+description = "Old School Runescape"
 authors = [
     {name = "digiholic"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "osrs.WorldClass" = "osrs.Register:WORLD_CLASS"
 "osrs.WebWorldClass" = "osrs.Register:WEB_WORLD_CLASS"
 "osrs.Client" = "osrs.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "osrs.Register:VERSION"}

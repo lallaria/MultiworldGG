@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sly1"
-version = "1.0.0"
-description = "Sly Cooper and the Thievius Raccoonus is a action-stealth game set in a cartoony cel-shaded world. Avenge your father and take back the pages of the Thievius Raccoonus from the Fiendish Five!"
+dynamic = ["version"]
+description = "Sly Cooper and the Thievius Raccoonus"
 authors = [
     {name = "Philiard"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "sly1.WorldClass" = "sly1.Register:WORLD_CLASS"
 "sly1.WebWorldClass" = "sly1.Register:WEB_WORLD_CLASS"
 "sly1.Client" = "sly1.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sly1.Register:VERSION"}

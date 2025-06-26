@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "swr"
-version = "1.0.0"
-description = "Star Wars Episode I: Racer is a racing game where the player wins prize money and buys upgrades for their vehicle. This randomizer shuffles race rewards as well as shop items. It also randomizes track order and available racers. Now THIS is podracing!"
+dynamic = ["version"]
+description = "Star Wars Episode I: Racer is a racing game where the player wins prize money and buys upgrades for their vehicle."
 authors = [
     {name = "Johnny Hamcobbler"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "swr.WorldClass" = "swr.Register:WORLD_CLASS"
 "swr.WebWorldClass" = "swr.Register:WEB_WORLD_CLASS"
 "swr.Client" = "swr.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "swr.Register:VERSION"}

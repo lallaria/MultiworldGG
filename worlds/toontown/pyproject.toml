@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "toontown"
-version = "1.0.0"
-description = "Toontown is a now defunct classic Disney MMORPG where you play as "toons" to fend off evil robots from invading the tooniverse with the use of "gags" since they mean business and cannot take a joke."
+dynamic = ["version"]
+description = "Toontown"
 authors = [
     {name = "DevvyDont"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "toontown.WorldClass" = "toontown.Register:WORLD_CLASS"
 "toontown.WebWorldClass" = "toontown.Register:WEB_WORLD_CLASS"
 "toontown.Client" = "toontown.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "toontown.Register:VERSION"}

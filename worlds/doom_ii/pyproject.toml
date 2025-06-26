@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "doom_ii"
-version = "1.0.0"
-description = "Doom II, also known as Doom II: Hell on Earth, is a first-person shooter game by id Software. It was released for MS-DOS in 1994. Compared to its predecessor, Doom II features larger levels, new enemies, a new "super shotgun" weapon"
+dynamic = ["version"]
+description = "DOOM II"
 authors = [
     {name = "Daivuk & Kaito Sinclaire"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "doom_ii.WorldClass" = "doom_ii.Register:WORLD_CLASS"
 "doom_ii.WebWorldClass" = "doom_ii.Register:WEB_WORLD_CLASS"
 "doom_ii.Client" = "doom_ii.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "doom_ii.Register:VERSION"}

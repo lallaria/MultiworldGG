@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "factorio_saws"
-version = "1.0.0"
-description = "Factorio Saws randomizer for MultiworldGG"
+dynamic = ["version"]
+description = "Factorio Space Age Without Space"
 authors = [
     {name = "Alchav & Berserker66"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "factorio_saws.WorldClass" = "factorio_saws.Register:WORLD_CLASS"
 "factorio_saws.WebWorldClass" = "factorio_saws.Register:WEB_WORLD_CLASS"
 "factorio_saws.Client" = "factorio_saws.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "factorio_saws.Register:VERSION"}

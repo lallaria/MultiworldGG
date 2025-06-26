@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "civ_6"
-version = "1.0.0"
-description = "Civilization VI is a turn-based strategy video game in which one or more players compete alongside computer-controlled opponents to grow their individual civilization from a small tribe to control the entire planet across several periods of development."
+dynamic = ["version"]
+description = "Civilization VI"
 authors = [
     {name = "hesto2"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "civ_6.WorldClass" = "civ_6.Register:WORLD_CLASS"
 "civ_6.WebWorldClass" = "civ_6.Register:WEB_WORLD_CLASS"
 "civ_6.Client" = "civ_6.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "civ_6.Register:VERSION"}

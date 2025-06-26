@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "huniepop"
-version = "1.0.1"
-description = "Huniepop randomizer for MultiworldGG"
+dynamic = ["version"]
+description = "Hunie Pop"
 authors = [
     {name = "dotsofdarkness"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "huniepop.WorldClass" = "huniepop.Register:WORLD_CLASS"
 "huniepop.WebWorldClass" = "huniepop.Register:WEB_WORLD_CLASS"
 "huniepop.Client" = "huniepop.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "huniepop.Register:VERSION"}

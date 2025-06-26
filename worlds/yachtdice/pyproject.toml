@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "yachtdice"
-version = "2.2.3"
-description = "Yacht Dice is a straightforward game, custom-made for Archipelago, where you cast your dice to chart a course for high scores, unlocking valuable treasures along the way. Discover more dice, extra rolls, multipliers, and unlockable categories to navigate the depths of the game. Roll your way to victory by reaching the target score!"
+dynamic = ["version"]
+description = "Yacht Dice is a straightforward game, custom-made for Archipelago,"
 authors = [
     {name = "Spineraks"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "yachtdice.WorldClass" = "yachtdice.Register:WORLD_CLASS"
 "yachtdice.WebWorldClass" = "yachtdice.Register:WEB_WORLD_CLASS"
 "yachtdice.Client" = "yachtdice.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "yachtdice.Register:VERSION"}

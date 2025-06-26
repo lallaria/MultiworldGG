@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "shivers"
-version = "1.0.0"
-description = "Shivers is a horror themed point and click adventure. Explore the mysteries of Windlenot's Museum of the Strange and Unusual."
+dynamic = ["version"]
+description = "Shivers"
 authors = [
     {name = "GodlFire & korydondzila"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "shivers.WorldClass" = "shivers.Register:WORLD_CLASS"
 "shivers.WebWorldClass" = "shivers.Register:WEB_WORLD_CLASS"
 "shivers.Client" = "shivers.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "shivers.Register:VERSION"}

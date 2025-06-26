@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dungeon_clawler"
-version = "1.0.0"
-description = "Dungeon Clawler mixes deck building with a dash of rogue-like mechanics and most importantly: a claw machine."
+dynamic = ["version"]
+description = "Dungeon Clawler"
 authors = [
     {name = "Kaito Kid"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dungeon_clawler.WorldClass" = "dungeon_clawler.Register:WORLD_CLASS"
 "dungeon_clawler.WebWorldClass" = "dungeon_clawler.Register:WEB_WORLD_CLASS"
 "dungeon_clawler.Client" = "dungeon_clawler.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dungeon_clawler.Register:VERSION"}

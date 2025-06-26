@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "osu"
-version = "1.0.0"
-description = "osu! is a free to play rhythm game featuring 4 modes, an online ranking system/statistics, with user submitted songs downloadable from its website."
+dynamic = ["version"]
+description = "osu! is a free to play rhythm game featuring 4 modes, an online ranking system/statistics,"
 authors = [
     {name = "Kanave"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -16,3 +27,6 @@ dependencies = [
 "osu.WorldClass" = "osu.Register:WORLD_CLASS"
 "osu.WebWorldClass" = "osu.Register:WEB_WORLD_CLASS"
 "osu.Client" = "osu.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "osu.Register:VERSION"}

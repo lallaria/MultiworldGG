@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sm"
-version = "1.0.0"
-description = "This is Very Adaptive Randomizer of Items and Areas for Super Metroid (VARIA SM). It supports a wide range of options to randomize Item locations, required skills and even the connections between the main Areas!"
+dynamic = ["version"]
+description = "Super Metroid"
 authors = [
     {name = "lordlou"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "sm.WorldClass" = "sm.Register:WORLD_CLASS"
 "sm.WebWorldClass" = "sm.Register:WEB_WORLD_CLASS"
 "sm.Client" = "sm.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sm.Register:VERSION"}

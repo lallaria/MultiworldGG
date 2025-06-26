@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "marioland2"
-version = "1.0.0"
-description = "Super Mario Land 2 is a classic platformer that follows Mario on a quest to reclaim his castle from the villainous Wario. This iconic game features 32 levels, unique power-ups, and introduces Wario as Mario's arch-rival."
+dynamic = ["version"]
+description = "Super Mario Land 2"
 authors = [
     {name = " Alchav"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "marioland2.WorldClass" = "marioland2.Register:WORLD_CLASS"
 "marioland2.WebWorldClass" = "marioland2.Register:WEB_WORLD_CLASS"
 "marioland2.Client" = "marioland2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "marioland2.Register:VERSION"}

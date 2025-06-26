@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sm64ex"
-version = "1.0.0"
-description = "The first Super Mario game to feature 3D gameplay, it features freedom of movement within a large open world based on polygons, combined with traditional Mario gameplay, visual style, and characters."
+dynamic = ["version"]
+description = "The first Super Mario game to feature 3D gameplay, it features freedom of movement within a large open world based on polygons,"
 authors = [
     {name = "N00byKing"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "sm64ex.WorldClass" = "sm64ex.Register:WORLD_CLASS"
 "sm64ex.WebWorldClass" = "sm64ex.Register:WEB_WORLD_CLASS"
 "sm64ex.Client" = "sm64ex.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sm64ex.Register:VERSION"}

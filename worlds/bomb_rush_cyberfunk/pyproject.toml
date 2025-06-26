@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "bomb_rush_cyberfunk"
-version = "1.0.0"
-description = "Bomb Rush Cyberfunk is 1 second per second of advanced funkstyle. Battle rival crews and dispatch militarized police to conquer the five boroughs of New Amsterdam. Become All City."
+dynamic = ["version"]
+description = "Bomb Rush Cyberfunk"
 authors = [
     {name = "CookieCat45"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "bomb_rush_cyberfunk.WorldClass" = "bomb_rush_cyberfunk.Register:WORLD_CLASS"
 "bomb_rush_cyberfunk.WebWorldClass" = "bomb_rush_cyberfunk.Register:WEB_WORLD_CLASS"
 "bomb_rush_cyberfunk.Client" = "bomb_rush_cyberfunk.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "bomb_rush_cyberfunk.Register:VERSION"}

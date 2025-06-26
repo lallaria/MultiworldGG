@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cv64"
-version = "1.0.0"
-description = "Castlevania for the Nintendo 64 is the first 3D game in the Castlevania franchise. As either whip-wielding Belmont descendant Reinhardt Schneider or powerful sorceress Carrie Fernandez, brave many terrifying traps and foes as you make your way to Dracula's chamber and stop his rule of terror!"
+dynamic = ["version"]
+description = "Castlevania 64"
 authors = [
     {name = "LiquidCat64"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "cv64.WorldClass" = "cv64.Register:WORLD_CLASS"
 "cv64.WebWorldClass" = "cv64.Register:WEB_WORLD_CLASS"
 "cv64.Client" = "cv64.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "cv64.Register:VERSION"}

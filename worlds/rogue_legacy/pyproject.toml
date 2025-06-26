@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "rogue_legacy"
-version = "1.0.0"
-description = "Rogue Legacy is a genealogical rogue-"LITE" where anyone can be a hero. Each time you die, your child will succeed you. Every child is unique. One child might be colorblind, another might have vertigo-- they could even be a dwarf. But that's OK, because no one is perfect, and you don't have to be to succeed."
+dynamic = ["version"]
+description = "Rogue Legacy"
 authors = [
     {name = "Phar"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "rogue_legacy.WorldClass" = "rogue_legacy.Register:WORLD_CLASS"
 "rogue_legacy.WebWorldClass" = "rogue_legacy.Register:WEB_WORLD_CLASS"
 "rogue_legacy.Client" = "rogue_legacy.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "rogue_legacy.Register:VERSION"}

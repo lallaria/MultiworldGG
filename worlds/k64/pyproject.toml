@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "k64"
-version = "1.0.0"
-description = "After Dark Matter attacks the distant Ripple Star's crystal, the young Ribbon attempts to flee with the crystal to save it. The crystal shattered, stranding Ribbon in Dream Land. Now it's up to Kirby and friends to travel the galaxy in order to restore the shattered crystal, and bring peace to the world."
+dynamic = ["version"]
+description = "Kirby 64 - The Crystal Shards"
 authors = [
     {name = "Silvris"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "k64.WorldClass" = "k64.Register:WORLD_CLASS"
 "k64.WebWorldClass" = "k64.Register:WEB_WORLD_CLASS"
 "k64.Client" = "k64.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "k64.Register:VERSION"}

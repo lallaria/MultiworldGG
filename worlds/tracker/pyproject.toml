@@ -1,12 +1,26 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tracker"
-version = "1.0.0"
-description = "The holding class for all the poptracker integration values"
+dynamic = ["version"]
+description = "Universal Tracker"
 authors = [
     {name = "Unknown"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
 [project.entry-points."mwgg.plugins"]
 "tracker.WorldClass" = "tracker.Register:WORLD_CLASS"
 "tracker.Client" = "tracker.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tracker.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ffmq"
-version = "1.0.0"
-description = "Final Fantasy: Mystic Quest is a simple, humorous RPG for the Super Nintendo. You travel across four continents, linked in the middle of the world by the Focus Tower, which has been locked by four magical coins. Make your way to the bottom of the Focus Tower, then straight up through the top!"
+dynamic = ["version"]
+description = "Final Fantasy Mystic Quest"
 authors = [
     {name = "Alchav"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "ffmq.WorldClass" = "ffmq.Register:WORLD_CLASS"
 "ffmq.WebWorldClass" = "ffmq.Register:WEB_WORLD_CLASS"
 "ffmq.Client" = "ffmq.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "ffmq.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "spyro3"
-version = "1.0.0"
+dynamic = ["version"]
 description = "Spyro 3 is a game about a purple dragon who likes eggs."
 authors = [
     {name = "ArsonAssassin"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "spyro3.WorldClass" = "spyro3.Register:WORLD_CLASS"
 "spyro3.WebWorldClass" = "spyro3.Register:WEB_WORLD_CLASS"
 "spyro3.Client" = "spyro3.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "spyro3.Register:VERSION"}

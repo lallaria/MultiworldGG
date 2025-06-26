@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "megamix"
-version = "1.0.0"
-description = "Hatsune Miku: Project Diva Mega Mix+ is a rhythm game where you hit notes to the beat of one of 250+ songs. Play through a selection of randomly chosen songs, collecting leeks until you have enough to play and complete the goal song!"
+dynamic = ["version"]
+description = "Hatsune Miku Project Diva Mega Mix+"
 authors = [
     {name = "Cynichill"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "megamix.WorldClass" = "megamix.Register:WORLD_CLASS"
 "megamix.WebWorldClass" = "megamix.Register:WEB_WORLD_CLASS"
 "megamix.Client" = "megamix.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "megamix.Register:VERSION"}

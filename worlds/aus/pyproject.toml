@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "aus"
-version = "1.0.0"
-description = "A freeware metroidvania game created by Maddy Thorson chronicling the travels of an adventurous egg."
+dynamic = ["version"]
+description = "An Untitled Story"
 authors = [
     {name = "ThatOneGuy27"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "aus.WorldClass" = "aus.Register:WORLD_CLASS"
 "aus.WebWorldClass" = "aus.Register:WEB_WORLD_CLASS"
 "aus.Client" = "aus.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "aus.Register:VERSION"}

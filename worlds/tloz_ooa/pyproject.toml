@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tloz_ooa"
-version = "1.0.0"
-description = "The Legend of Zelda: Oracles of Ages is one of the rare Capcom entries to the series. Nayru, the oracle of ages, has been possessed by Veran, and she is now making a mess in Labrynna Gather the Essences of Times, exorcice Nayru and defeat Veran to save the timeline of Labrynna"
+dynamic = ["version"]
+description = "The Legend of Zelda - Oracle of Ages"
 authors = [
     {name = "Dinopony"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "tloz_ooa.WorldClass" = "tloz_ooa.Register:WORLD_CLASS"
 "tloz_ooa.WebWorldClass" = "tloz_ooa.Register:WEB_WORLD_CLASS"
 "tloz_ooa.Client" = "tloz_ooa.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tloz_ooa.Register:VERSION"}

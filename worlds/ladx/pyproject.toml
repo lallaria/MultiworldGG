@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ladx"
-version = "12.0"
-description = "After a previous adventure, Link is stranded on Koholint Island, full of mystery and familiar faces. Gather the 8 Instruments of the Sirens to wake the Wind Fish, so that Link can go home!"
+dynamic = ["version"]
+description = "Link's Awakening DX Beta"
 authors = [
     {name = "threeandthree"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,5 @@ requires-python = ">=3.12"
 "ladx.WorldClass" = "ladx.Register:WORLD_CLASS"
 "ladx.WebWorldClass" = "ladx.Register:WEB_WORLD_CLASS"
 "ladx.Client" = "ladx.Register:CLIENT_FUNCTION"
+[tool.setuptools.dynamic]
+version = {attr = "ladx.Register:VERSION"}

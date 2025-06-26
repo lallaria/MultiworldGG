@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "pseudoregalia"
-version = "0.7.0"
-description = "Pseudoregalia is a 3D metroidvania/platform game hybrid, where the player character, Sybil, is tasked with making her way through the Castle Sansa. The gameplay emphasizes fluidity and responsiveness, with a focus on running and jumping."
+dynamic = ["version"]
+description = "Pseudoregalia"
 authors = [
     {name = "LittleMeowMeow & qwint"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "pseudoregalia.WorldClass" = "pseudoregalia.Register:WORLD_CLASS"
 "pseudoregalia.WebWorldClass" = "pseudoregalia.Register:WEB_WORLD_CLASS"
 "pseudoregalia.Client" = "pseudoregalia.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "pseudoregalia.Register:VERSION"}

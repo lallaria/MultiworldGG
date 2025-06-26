@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "wl"
-version = "1.0.0"
+dynamic = ["version"]
 description = "Wario Land: Super Mario Land 3 is a 1994 platform game developed and published by Nintendo for the Game Boy."
 authors = [
     {name = "rand0"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "wl.WorldClass" = "wl.Register:WORLD_CLASS"
 "wl.WebWorldClass" = "wl.Register:WEB_WORLD_CLASS"
 "wl.Client" = "wl.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "wl.Register:VERSION"}

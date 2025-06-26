@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "zelda2"
-version = "1.0.0"
-description = "In the exciting sequel to Legend of Zelda, Link must find the Triforce of Courage in the Great Palace to awaken Zelda, cursed with a sleeping spell. Along the way, he is being hunted by Ganon's followers, who seek to use his blood to revive their master."
+dynamic = ["version"]
+description = "Zelda II: The Adventure of Link"
 authors = [
     {name = "Pink Switch"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "zelda2.WorldClass" = "zelda2.Register:WORLD_CLASS"
 "zelda2.WebWorldClass" = "zelda2.Register:WEB_WORLD_CLASS"
 "zelda2.Client" = "zelda2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "zelda2.Register:VERSION"}

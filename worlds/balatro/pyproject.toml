@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "balatro"
-version = "1.0.0"
-description = "Balatro is a poker-themed roguelike deck-building video game developed by LocalThunk. In the game, players play poker hands to score points and defeat "blinds", while improving their deck and purchasing joker cards with a variety of effects. Source: https://en.wikipedia.org/wiki/Balatro_(video_game)"
+dynamic = ["version"]
+description = "Balatro"
 authors = [
     {name = "Burndi"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "balatro.WorldClass" = "balatro.Register:WORLD_CLASS"
 "balatro.WebWorldClass" = "balatro.Register:WEB_WORLD_CLASS"
 "balatro.Client" = "balatro.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "balatro.Register:VERSION"}

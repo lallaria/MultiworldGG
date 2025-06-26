@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mk64"
-version = "1.0.0"
-description = "Mario Kart 64 is the original 3D kart racing game. Collect and fire off items, maneuver around hazards, execute drifts and mini-turbos, risk shortcuts but stay on the track, and race to victory in each course and cup."
+dynamic = ["version"]
+description = "Mario Kart 64"
 authors = [
     {name = "Edsploration"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "mk64.WorldClass" = "mk64.Register:WORLD_CLASS"
 "mk64.WebWorldClass" = "mk64.Register:WEB_WORLD_CLASS"
 "mk64.Client" = "mk64.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "mk64.Register:VERSION"}

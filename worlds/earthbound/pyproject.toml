@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "earthbound"
-version = "1.0.0"
-description = "EarthBound is a contemporary-themed JRPG. Take four psychically-endowed children across the world in search of 8 Melodies to defeat Giygas, the cosmic evil."
+dynamic = ["version"]
+description = "EarthBound"
 authors = [
     {name = "Pink Switch"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "earthbound.WorldClass" = "earthbound.Register:WORLD_CLASS"
 "earthbound.WebWorldClass" = "earthbound.Register:WEB_WORLD_CLASS"
 "earthbound.Client" = "earthbound.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "earthbound.Register:VERSION"}

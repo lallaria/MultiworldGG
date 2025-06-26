@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mm2"
-version = "1.0.0"
-description = "In the year 200X, following his prior defeat by Mega Man, the evil Dr. Wily has returned to take over the world with his own group of Robot Masters. Mega Man once again sets out to defeat the eight Robot Masters and stop Dr. Wily."
+dynamic = ["version"]
+description = "Mega Man 2"
 authors = [
     {name = "Silvris"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "mm2.WorldClass" = "mm2.Register:WORLD_CLASS"
 "mm2.WebWorldClass" = "mm2.Register:WEB_WORLD_CLASS"
 "mm2.Client" = "mm2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "mm2.Register:VERSION"}

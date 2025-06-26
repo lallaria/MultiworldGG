@@ -1,9 +1,22 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "metroidprime"
-version = "1.0.0"
-description = "Metroid Prime is a first-person action-adventure game originally for the Gamecube. Play as the bounty hunter Samus Aran as she traverses the planet Tallon IV and uncovers the plans of the Space Pirates."
+dynamic = ["version"]
+description = "Metroid Prime"
 authors = [
     {name = "Electro15"}
+]
+license = "MIT AND (GPL-3.0-only)"
+license_files = [
+    "LICENSE",
+    "lib/ppc_asm/LICENSE",
+    "lib/dolphin_memory_engine/LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +24,6 @@ requires-python = ">=3.12"
 "metroidprime.WorldClass" = "metroidprime.Register:WORLD_CLASS"
 "metroidprime.WebWorldClass" = "metroidprime.Register:WEB_WORLD_CLASS"
 "metroidprime.Client" = "metroidprime.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "metroidprime.Register:VERSION"}

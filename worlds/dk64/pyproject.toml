@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dk64"
-version = "1.0.0"
-description = "Donkey Kong 64 is a 3D collectathon platforming game. Play as the whole DK Crew and rescue the Golden Banana hoard from King K. Rool."
+dynamic = ["version"]
+description = "Donkey Kong 64 is a 3D collectathon platforming game."
 authors = [
     {name = "2dos, Killklli, & Ballaam"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dk64.WorldClass" = "dk64.Register:WORLD_CLASS"
 "dk64.WebWorldClass" = "dk64.Register:WEB_WORLD_CLASS"
 "dk64.Client" = "dk64.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dk64.Register:VERSION"}

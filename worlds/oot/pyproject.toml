@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "oot"
-version = "1.0.0"
-description = "The Legend of Zelda: Ocarina of Time is a 3D action/adventure game. Travel through Hyrule in two time periods, learn magical ocarina songs, and explore twelve dungeons on your quest. Use Link's many items and abilities to rescue the Seven Sages, and then confront Ganondorf to save Hyrule!"
+dynamic = ["version"]
+description = "The Legend of Zelda: Ocarina of Time is a 3D action/adventure game. Travel through Hyrule in two time periods,"
 authors = [
     {name = "espeon65536 (currenty unmaintained)"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "oot.WorldClass" = "oot.Register:WORLD_CLASS"
 "oot.WebWorldClass" = "oot.Register:WEB_WORLD_CLASS"
 "oot.Client" = "oot.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "oot.Register:VERSION"}

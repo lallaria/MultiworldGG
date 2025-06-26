@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "jakanddaxter"
-version = "1.0.0"
-description = "Jak and Daxter: The Precursor Legacy is a 2001 action platformer developed by Naughty Dog for the PlayStation 2. The game follows the eponymous protagonists, a young boy named Jak and his friend Daxter, who has been transformed into an ottsel. With the help of Samos the Sage of Green Eco and his daughter Keira, the pair travel north in search of a cure for Daxter, discovering artifacts created by an ancient race known as the Precursors along the way. When the rogue sages Gol and Maia Acheron plan to flood the world with Dark Eco, they must stop their evil plan and save the world."
+dynamic = ["version"]
+description = "Jak and Daxter: The Precursor Legacy"
 authors = [
     {name = "massimilianodelliubaldini"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "jakanddaxter.WorldClass" = "jakanddaxter.Register:WORLD_CLASS"
 "jakanddaxter.WebWorldClass" = "jakanddaxter.Register:WEB_WORLD_CLASS"
 "jakanddaxter.Client" = "jakanddaxter.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "jakanddaxter.Register:VERSION"}

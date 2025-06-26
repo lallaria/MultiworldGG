@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tww"
-version = "1.0.0"
-description = "Legend has it that whenever evil has appeared, a hero named Link has arisen to defeat it. The legend continues on the surface of a vast and mysterious sea as Link sets sail in his most epic, awe-inspiring adventure yet. Aided by a magical conductor's baton called the Wind Waker, he will face unimaginable monsters, explore puzzling dungeons, and meet a cast of unforgettable characters as he searches for his kidnapped sister."
+dynamic = ["version"]
+description = "Legend has it that whenever evil has appeared, a hero named Link has arisen to defeat it. The legend continues on"
 authors = [
     {name = "tanjo3"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "tww.WorldClass" = "tww.Register:WORLD_CLASS"
 "tww.WebWorldClass" = "tww.Register:WEB_WORLD_CLASS"
 "tww.Client" = "tww.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tww.Register:VERSION"}

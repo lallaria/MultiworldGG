@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "kdl3"
-version = "1.0.0"
-description = "Join Kirby and his Animal Friends on an adventure to collect Heart Stars and drive Dark Matter away from Dream Land!"
+dynamic = ["version"]
+description = "Kirby"
 authors = [
     {name = "Silvris"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "kdl3.WorldClass" = "kdl3.Register:WORLD_CLASS"
 "kdl3.WebWorldClass" = "kdl3.Register:WEB_WORLD_CLASS"
 "kdl3.Client" = "kdl3.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "kdl3.Register:VERSION"}

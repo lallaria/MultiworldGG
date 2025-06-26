@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "checksfinder"
-version = "1.0.0"
-description = "ChecksFinder is a game where you avoid mines and collect checks by beating boards! You win when you get all your items and beat the last board!"
+dynamic = ["version"]
+description = "ChecksFinder"
 authors = [
     {name = "SunCatMC"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "checksfinder.WorldClass" = "checksfinder.Register:WORLD_CLASS"
 "checksfinder.WebWorldClass" = "checksfinder.Register:WEB_WORLD_CLASS"
 "checksfinder.Client" = "checksfinder.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "checksfinder.Register:VERSION"}

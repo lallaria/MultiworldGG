@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dw1"
-version = "1.0.0"
+dynamic = ["version"]
 description = "Digimon World is a game about raising digital monsters and recruiting allies to save the digital world."
 authors = [
     {name = "ArsonAssassin"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dw1.WorldClass" = "dw1.Register:WORLD_CLASS"
 "dw1.WebWorldClass" = "dw1.Register:WEB_WORLD_CLASS"
 "dw1.Client" = "dw1.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dw1.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "factorio"
-version = "1.0.0"
-description = "Factorio randomizer for MultiworldGG"
+dynamic = ["version"]
+description = "Factorio"
 authors = [
     {name = "Berserker66"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "factorio.WorldClass" = "factorio.Register:WORLD_CLASS"
 "factorio.WebWorldClass" = "factorio.Register:WEB_WORLD_CLASS"
 "factorio.Client" = "factorio.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "factorio.Register:VERSION"}

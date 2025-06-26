@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tloz_oos"
-version = "1.0.0"
-description = "The Legend of Zelda: Oracles of Seasons is one of the rare Capcom entries to the series. The seasons in the world of Holodrum have been a mess since Onox captured Din, the Oracle of Seasons. Gather the Essences of Nature, confront Onox and rescue Din to give nature some rest in Holodrum."
+dynamic = ["version"]
+description = "The Legend of Zelda - Oracle of Seasons"
 authors = [
     {name = "Dinopony"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "tloz_oos.WorldClass" = "tloz_oos.Register:WORLD_CLASS"
 "tloz_oos.WebWorldClass" = "tloz_oos.Register:WEB_WORLD_CLASS"
 "tloz_oos.Client" = "tloz_oos.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tloz_oos.Register:VERSION"}

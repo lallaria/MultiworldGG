@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "sm64hacks"
-version = "1.0.0"
-description = "The first Super Mario game to feature 3D gameplay, but heavily modded - with support for a lot of popular rom hacks."
+dynamic = ["version"]
+description = "SM64 Romhack"
 authors = [
     {name = "DNVIC"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "sm64hacks.WorldClass" = "sm64hacks.Register:WORLD_CLASS"
 "sm64hacks.WebWorldClass" = "sm64hacks.Register:WEB_WORLD_CLASS"
 "sm64hacks.Client" = "sm64hacks.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "sm64hacks.Register:VERSION"}

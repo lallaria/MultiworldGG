@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ttyd"
-version = "1.0.0"
-description = "The location of the Dolphin you want to auto launch patched ROMs with"
+dynamic = ["version"]
+description = "Paper Mario The Thousand Year Door"
 authors = [
     {name = "jamesbrq"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -15,3 +26,6 @@ dependencies = [
 "ttyd.WorldClass" = "ttyd.Register:WORLD_CLASS"
 "ttyd.WebWorldClass" = "ttyd.Register:WEB_WORLD_CLASS"
 "ttyd.Client" = "ttyd.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "ttyd.Register:VERSION"}

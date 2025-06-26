@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "oribf"
-version = "1.0.0"
-description = "Ori and the Blind Forest is a platform-adventure Metroidvania video game developed by Moon Studios in 2015. Players assume control of Ori, a small white spirit, and Sein, the "light and eyes" of the Forest's Spirit Tree. They are tasked to move between platforms and solve puzzles."
+dynamic = ["version"]
+description = "Ori and the Blind Forest"
 authors = [
     {name = "Gray"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "oribf.WorldClass" = "oribf.Register:WORLD_CLASS"
 "oribf.WebWorldClass" = "oribf.Register:WEB_WORLD_CLASS"
 "oribf.Client" = "oribf.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "oribf.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "paint"
-version = "0.5.0"
-description = "The classic Microsoft app, reimagined as an Archipelago game! Find your tools, expand your canvas, and paint the greatest image the world has ever seen."
+dynamic = ["version"]
+description = "Paint"
 authors = [
     {name = "MairoManTAW"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "paint.WorldClass" = "paint.Register:WORLD_CLASS"
 "paint.WebWorldClass" = "paint.Register:WEB_WORLD_CLASS"
 "paint.Client" = "paint.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "paint.Register:VERSION"}

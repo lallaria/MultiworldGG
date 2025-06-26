@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "shorthike"
-version = "1.0.0"
-description = "A Short Hike is a relaxing adventure set on the islands of Hawk Peak. Fly and climb using Claire's wings and Golden Feathers to make your way up to the summit. Along the way you'll meet other hikers, discover hidden treasures, and take in the beautiful world around you."
+dynamic = ["version"]
+description = "A Short Hike"
 authors = [
     {name = "chandler05 & BrandenEK"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "shorthike.WorldClass" = "shorthike.Register:WORLD_CLASS"
 "shorthike.WebWorldClass" = "shorthike.Register:WEB_WORLD_CLASS"
 "shorthike.Client" = "shorthike.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "shorthike.Register:VERSION"}

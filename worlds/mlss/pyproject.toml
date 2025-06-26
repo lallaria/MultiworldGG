@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mlss"
-version = "1.0.0"
-description = "File name of the MLSS US rom"
+dynamic = ["version"]
+description = "Mario & Luigi Superstar Saga"
 authors = [
     {name = "jamesbrq"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "mlss.WorldClass" = "mlss.Register:WORLD_CLASS"
 "mlss.WebWorldClass" = "mlss.Register:WEB_WORLD_CLASS"
 "mlss.Client" = "mlss.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "mlss.Register:VERSION"}

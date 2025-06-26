@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ctjot"
-version = "1.0.0"
-description = "Jet of Time is an open world randomizer for the iconic JRPG Chrono Trigger. Players start with two characters and the winged Epoch and must journey through time finding additional characters and key items to save the world from the evil Lavos."
+dynamic = ["version"]
+description = "Chrono Trigger Jets of Time"
 authors = [
     {name = "Anguirel"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "ctjot.WorldClass" = "ctjot.Register:WORLD_CLASS"
 "ctjot.WebWorldClass" = "ctjot.Register:WEB_WORLD_CLASS"
 "ctjot.Client" = "ctjot.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "ctjot.Register:VERSION"}

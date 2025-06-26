@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "hcniko"
-version = "1.0.0"
-description = "A cozy little game, about frogs and being a good friend"
+dynamic = ["version"]
+description = "Here Comes Niko!"
 authors = [
     {name = "nieli"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "hcniko.WorldClass" = "hcniko.Register:WORLD_CLASS"
 "hcniko.WebWorldClass" = "hcniko.Register:WEB_WORLD_CLASS"
 "hcniko.Client" = "hcniko.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "hcniko.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dark_souls_3"
-version = "1.0.0"
-description = "Dark souls III is an Action role-playing game and is part of the Souls series developed by FromSoftware. Played from a third-person perspective, players have access to various weapons, armour, magic, and consumables that they can use to fight their enemies."
+dynamic = ["version"]
+description = "Dark Souls III"
 authors = [
     {name = "Marech & nex3"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dark_souls_3.WorldClass" = "dark_souls_3.Register:WORLD_CLASS"
 "dark_souls_3.WebWorldClass" = "dark_souls_3.Register:WEB_WORLD_CLASS"
 "dark_souls_3.Client" = "dark_souls_3.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dark_souls_3.Register:VERSION"}

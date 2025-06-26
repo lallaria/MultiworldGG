@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "seaofthieves"
-version = "1.0.0"
-description = "A pirate game made by Rare"
+dynamic = ["version"]
+description = "Sea of Thieves"
 authors = [
     {name = "EthanTheEpic"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "seaofthieves.WorldClass" = "seaofthieves.Register:WORLD_CLASS"
 "seaofthieves.WebWorldClass" = "seaofthieves.Register:WEB_WORLD_CLASS"
 "seaofthieves.Client" = "seaofthieves.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "seaofthieves.Register:VERSION"}

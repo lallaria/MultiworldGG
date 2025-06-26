@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "wargroove2"
-version = "1.0.0"
-description = "Command an army, in the sequel to the hit turn based strategy game Wargroove!"
+dynamic = ["version"]
+description = "Wargroove 2"
 authors = [
     {name = "Fly Sniper"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "wargroove2.WorldClass" = "wargroove2.Register:WORLD_CLASS"
 "wargroove2.WebWorldClass" = "wargroove2.Register:WEB_WORLD_CLASS"
 "wargroove2.Client" = "wargroove2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "wargroove2.Register:VERSION"}

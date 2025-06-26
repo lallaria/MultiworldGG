@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "star_fox_64"
-version = "1.0.0"
-description = "Star Fox 64 is a 3D rail shooter game in which the player controls one of the vehicles piloted by Fox McCloud, usually an Arwing."
+dynamic = ["version"]
+description = "Star Fox 64"
 authors = [
     {name = "Austin"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "star_fox_64.WorldClass" = "star_fox_64.Register:WORLD_CLASS"
 "star_fox_64.WebWorldClass" = "star_fox_64.Register:WEB_WORLD_CLASS"
 "star_fox_64.Client" = "star_fox_64.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "star_fox_64.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "dkc2"
-version = "1.0.0"
-description = "Donkey Kong Country 2 is an action platforming game. Play as Diddy Kong and his girlfriend Dixie as they go to Crocodile Isle to rescue Donkey Kong from the clutches of Kaptain K. Rool."
+dynamic = ["version"]
+description = "Donkey Kong Country 2"
 authors = [
     {name = "lx5"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "dkc2.WorldClass" = "dkc2.Register:WORLD_CLASS"
 "dkc2.WebWorldClass" = "dkc2.Register:WEB_WORLD_CLASS"
 "dkc2.Client" = "dkc2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "dkc2.Register:VERSION"}

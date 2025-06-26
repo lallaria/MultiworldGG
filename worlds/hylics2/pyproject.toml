@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "hylics2"
-version = "1.0.0"
-description = "Hylics 2 is a surreal and unusual RPG, with a bizarre yet unique visual style. Play as Wayne, travel the world, and gather your allies to defeat the nefarious Gibby in his Hylemxylem!"
+dynamic = ["version"]
+description = "Hylics 2 is a surreal and unusual RPG, with a bizarre yet unique visual style. Play as Wayne,"
 authors = [
     {name = "TRPG"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "hylics2.WorldClass" = "hylics2.Register:WORLD_CLASS"
 "hylics2.WebWorldClass" = "hylics2.Register:WEB_WORLD_CLASS"
 "hylics2.Client" = "hylics2.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "hylics2.Register:VERSION"}

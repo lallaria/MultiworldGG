@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "pokemon_crystal"
-version = "4.0.3"
-description = "Pokémon Crystal is the culmination of the Generation I and II Pokémon games. Explore the Johto and Kanto regions, become the Pokémon League Champion, and defeat the elusive Red at the peak of Mt. Silver!"
+dynamic = ["version"]
+description = "Pokemon Crystal"
 authors = [
     {name = "James"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "pokemon_crystal.WorldClass" = "pokemon_crystal.Register:WORLD_CLASS"
 "pokemon_crystal.WebWorldClass" = "pokemon_crystal.Register:WEB_WORLD_CLASS"
 "pokemon_crystal.Client" = "pokemon_crystal.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "pokemon_crystal.Register:VERSION"}

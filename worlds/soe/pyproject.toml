@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "soe"
-version = "1.0.0"
+dynamic = ["version"]
 description = "File name of the SoE US ROM"
 authors = [
     {name = "black-silver"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -51,3 +62,6 @@ dependencies = [
 "soe.WorldClass" = "soe.Register:WORLD_CLASS"
 "soe.WebWorldClass" = "soe.Register:WEB_WORLD_CLASS"
 "soe.Client" = "soe.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "soe.Register:VERSION"}

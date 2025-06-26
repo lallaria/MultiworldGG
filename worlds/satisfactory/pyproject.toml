@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "satisfactory"
-version = "1.0.0"
-description = "Satisfactory is a first-person open-world factory building game with a dash of exploration and combat. Explore an alien planet, create multi-story factories, and enter conveyor belt heaven!"
+dynamic = ["version"]
+description = "Satisfactory"
 authors = [
     {name = "Jarno"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "satisfactory.WorldClass" = "satisfactory.Register:WORLD_CLASS"
 "satisfactory.WebWorldClass" = "satisfactory.Register:WEB_WORLD_CLASS"
 "satisfactory.Client" = "satisfactory.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "satisfactory.Register:VERSION"}

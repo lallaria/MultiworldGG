@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "apsudoku"
-version = "1.0.0"
-description = "Play a little Sudoku while you're in BK mode to maybe get some useful hints"
+dynamic = ["version"]
+description = "Sudoku"
 authors = [
     {name = "EmilyV99"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "apsudoku.WorldClass" = "apsudoku.Register:WORLD_CLASS"
 "apsudoku.WebWorldClass" = "apsudoku.Register:WEB_WORLD_CLASS"
 "apsudoku.Client" = "apsudoku.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "apsudoku.Register:VERSION"}

@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tyrian"
-version = "1.0.0"
-description = "Tyrian is a PC SHMUP originally released in 1995, and then re-released as Tyrian 2000 in 1999. Follow space pilot Trent Hawkins in the year 20,031 as he flies through the galaxy to defend it from the evil corporation, Microsol. This randomizer supports both versions of the game."
+dynamic = ["version"]
+description = "Tyrian"
 authors = [
     {name = "Kaito Sinclaire"}
+]
+license = "Zlib"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "tyrian.WorldClass" = "tyrian.Register:WORLD_CLASS"
 "tyrian.WebWorldClass" = "tyrian.Register:WEB_WORLD_CLASS"
 "tyrian.Client" = "tyrian.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "tyrian.Register:VERSION"}

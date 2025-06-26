@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "trackmania"
-version = "1.0.0"
-description = "Trackmania is a mechanically deep arcade racing game that is easy to pick up and addicting to master! Zoom through hundreds of thousands of user-made tracks as fast as you can!"
+dynamic = ["version"]
+description = "Trackmania"
 authors = [
     {name = "SerialBoxes"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,5 @@ requires-python = ">=3.12"
 "trackmania.WorldClass" = "trackmania.Register:WORLD_CLASS"
 "trackmania.WebWorldClass" = "trackmania.Register:WEB_WORLD_CLASS"
 "trackmania.Client" = "trackmania.Register:CLIENT_FUNCTION"
+[tool.setuptools.dynamic]
+version = {attr = "trackmania.Register:VERSION"}

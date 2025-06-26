@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "generic"
-version = "1.0.0"
-description = "Generic randomizer for MultiworldGG"
+dynamic = ["version"]
+description = "Generic"
 authors = [
     {name = "Unknown"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "generic.WorldClass" = "generic.Register:WORLD_CLASS"
 "generic.WebWorldClass" = "generic.Register:WEB_WORLD_CLASS"
 "generic.Client" = "generic.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "generic.Register:VERSION"}

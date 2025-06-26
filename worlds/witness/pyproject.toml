@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "witness"
-version = "1.0.0"
-description = "The Witness is an open-world puzzle game with dozens of locations to explore and over 500 puzzles. Play the popular puzzle randomizer by sigma144, with an added layer of progression randomization!"
+dynamic = ["version"]
+description = "The Witness"
 authors = [
     {name = "NewSoupVi & blastron"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "witness.WorldClass" = "witness.Register:WORLD_CLASS"
 "witness.WebWorldClass" = "witness.Register:WEB_WORLD_CLASS"
 "witness.Client" = "witness.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "witness.Register:VERSION"}

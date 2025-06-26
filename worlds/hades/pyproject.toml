@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "hades"
-version = "0.5.0"
-description = "Hades is a rogue-like dungeon crawler in which you defy the god of the dead as you hack and slash your way out of the Underworld of Greek myth."
+dynamic = ["version"]
+description = "Hades"
 authors = [
     {name = "Naix"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "hades.WorldClass" = "hades.Register:WORLD_CLASS"
 "hades.WebWorldClass" = "hades.Register:WEB_WORLD_CLASS"
 "hades.Client" = "hades.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "hades.Register:VERSION"}

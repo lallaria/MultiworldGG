@@ -1,9 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "pokemon_emerald"
-version = "1.0.0"
-description = "Webhost info for Pokemon Emerald"
+dynamic = ["version"]
+description = "Pokemon Emerald"
 authors = [
     {name = "Zunawe"}
+]
+license = "MIT"
+license_files = [
+    "LICENSE"
+]
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +22,6 @@ requires-python = ">=3.12"
 "pokemon_emerald.WorldClass" = "pokemon_emerald.Register:WORLD_CLASS"
 "pokemon_emerald.WebWorldClass" = "pokemon_emerald.Register:WEB_WORLD_CLASS"
 "pokemon_emerald.Client" = "pokemon_emerald.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "pokemon_emerald.Register:VERSION"}
