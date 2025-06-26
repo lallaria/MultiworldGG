@@ -35,8 +35,13 @@ ground_finisher = [
 party_limit = [
     ItemName.Fantasia,
     ItemName.FlareForce,
-    ItemName.Teamwork,
-    ItemName.TornadoFusion
+    ItemName.TrinityLimit
+]
+donaldgoofy_limit = [
+    ItemName.Fantasia,
+    ItemName.FlareForce,
+    ItemName.TornadoFusion,
+    ItemName.Teamwork
 ]
 donald_limit = [
     ItemName.Fantasia,
@@ -45,9 +50,7 @@ donald_limit = [
 aerial_move = [
     ItemName.AerialDive,
     ItemName.AerialSpiral,
-    ItemName.HorizontalSlash,
-    ItemName.AerialSweep,
-    ItemName.AerialFinish
+    ItemName.HorizontalSlash
 ]
 level_3_form_loc = [
     LocationName.Valorlvl3,
@@ -97,16 +100,17 @@ easy_data_xigbar_tools = {
     ItemName.Guard:           1,
     ItemName.AerialDive:      1,
     ItemName.HorizontalSlash: 1,
-    ItemName.AirComboPlus:    2,
+    ItemName.BerserkCharge:   1,
     ItemName.FireElement:     3,
-    ItemName.ReflectElement:  3,
+    ItemName.ReflectElement:  3
 }
 normal_data_xigbar_tools = {
     ItemName.FinishingPlus:   1,
     ItemName.Guard:           1,
     ItemName.HorizontalSlash: 1,
+    ItemName.BerserkCharge:   1,
     ItemName.FireElement:     3,
-    ItemName.ReflectElement:  3,
+    ItemName.ReflectElement:  3
 }
 
 easy_data_lex_tools = {
@@ -114,7 +118,8 @@ easy_data_lex_tools = {
     ItemName.FireElement:    3,
     ItemName.ReflectElement: 2,
     ItemName.SlideDash:      1,
-    ItemName.FlashStep:      1
+    ItemName.FlashStep:      1,
+    ItemName.NegativeCombo:  2,
 }
 normal_data_lex_tools = {
     ItemName.Guard:          1,
@@ -129,6 +134,7 @@ easy_data_marluxia_tools = {
     ItemName.SlideDash:      1,
     ItemName.FlashStep:      1,
     ItemName.AerialRecovery: 1,
+    ItemName.NegativeCombo:  2,
 }
 normal_data_marluxia_tools = {
     ItemName.Guard:          1,
@@ -142,29 +148,26 @@ easy_terra_tools = {
     ItemName.SlideDash:      1,
     ItemName.FlashStep:      1,
     ItemName.Explosion:      1,
-    ItemName.ComboPlus:      2,
     ItemName.FireElement:    3,
-    ItemName.Fantasia:       1,
-    ItemName.FlareForce:     1,
     ItemName.ReflectElement: 1,
     ItemName.Guard:          1,
     ItemName.DodgeRoll:      3,
     ItemName.AerialDodge:    3,
-    ItemName.Glide:          3
+    ItemName.Glide:          3,
+    ItemName.NegativeCombo:  2,
 }
 normal_terra_tools = {
     ItemName.SlideDash:   1,
     ItemName.FlashStep:   1,
     ItemName.Explosion:   1,
-    ItemName.ComboPlus:   2,
     ItemName.Guard:       1,
     ItemName.DodgeRoll:   2,
     ItemName.AerialDodge: 2,
-    ItemName.Glide:       2
+    ItemName.Glide:       2,
+    ItemName.NegativeCombo:  2
 }
 hard_terra_tools = {
     ItemName.Explosion:   1,
-    ItemName.ComboPlus:   2,
     ItemName.DodgeRoll:   2,
     ItemName.AerialDodge: 2,
     ItemName.Glide:       2,
@@ -203,7 +206,6 @@ hard_data_zexion = {
 }
 easy_data_xaldin = {
     ItemName.FireElement:     3,
-    ItemName.AirComboPlus:    2,
     ItemName.FinishingPlus:   1,
     ItemName.Guard:           1,
     ItemName.ReflectElement:  3,
@@ -322,6 +324,7 @@ easy_data_demyx = {
     ItemName.ReflectElement: 2,
     ItemName.FireElement:    3,
     ItemName.FlareForce:     1,
+    ItemName.TrinityLimit:   1,
     ItemName.Guard:          1,
     ItemName.SecondChance:   1,
     ItemName.OnceMore:       1,
@@ -337,7 +340,6 @@ normal_data_demyx = {
 hard_data_demyx = {
     ItemName.ReflectElement: 1,
     ItemName.FireElement:    2,
-    ItemName.FlareForce:     1,
     ItemName.Guard:          1,
     ItemName.FinishingPlus:  1,
 }
@@ -398,7 +400,6 @@ easy_data_saix = {
     ItemName.ThunderElement:  1,
     ItemName.BlizzardElement: 1,
     ItemName.FlareForce:      1,
-    ItemName.Fantasia:        1,
     ItemName.FireElement:     3,
     ItemName.ReflectElement:  3,
     ItemName.GuardBreak:      1,
@@ -406,7 +407,8 @@ easy_data_saix = {
     ItemName.AerialDodge:     3,
     ItemName.Glide:           3,
     ItemName.SecondChance:    1,
-    ItemName.OnceMore:        1
+    ItemName.OnceMore:        1,
+    ItemName.NegativeCombo:   2,
 }
 normal_data_saix = {
     ItemName.Guard:           1,
@@ -431,10 +433,11 @@ easy_data_roxas_tools = {
     ItemName.FlashStep:      1,
     ItemName.GuardBreak:     1,
     ItemName.Explosion:      1,
-    ItemName.DodgeRoll:      3,
+    ItemName.QuickRun:       2,
     ItemName.FinishingPlus:  1,
     ItemName.SecondChance:   1,
     ItemName.OnceMore:       1,
+    ItemName.NegativeCombo:  2,
 }
 normal_data_roxas_tools = {
     ItemName.Guard:          1,
@@ -493,7 +496,8 @@ easy_roxas_tools = {
     ItemName.SlideDash:       1,
     ItemName.FlashStep:       1,
     ItemName.FinishingPlus:   1,
-    ItemName.BlizzardElement: 1
+    ItemName.QuickRun:        2,
+    ItemName.NegativeCombo:   2,
 }
 normal_roxas_tools = {
     ItemName.ThunderElement:  1,
@@ -506,6 +510,7 @@ normal_roxas_tools = {
 }
 easy_xigbar_tools = {
     ItemName.HorizontalSlash: 1,
+    ItemName.BerserkCharge:   1,
     ItemName.FireElement:     2,
     ItemName.FinishingPlus:   1,
     ItemName.Glide:           2,

@@ -83,10 +83,10 @@ UltimaWeapon = "Ultima Weapon"
 WinnersProof = "Winner's Proof"
 Pureblood = "Pureblood"
 
-# stafs
+# staffs
 HammerStaff = "Hammer Staff"
 LordsBroom = "Lord's Broom"
-MagesStaff = "Mages Staff"
+MagesStaff = "Mage's Staff"
 MeteorStaff = "Meteor Staff"
 CometStaff = "Comet Staff"
 Centurion2 = "Centurion+"
@@ -99,8 +99,8 @@ SaveTheQueen2 = "Save The Queen+"
 ShamansRelic = "Shaman's Relic"
 VictoryBell = "Victory Bell"
 WisdomWand = "Wisdom Wand"
-# shelds
 
+# shelds
 AkashicRecord = "Akashic Record"
 FrozenPride2 = "Frozen Pride+"
 GenjiShield = "Genji Shield"
@@ -110,8 +110,14 @@ NobodyGuard = "Nobody Guard"
 OgreShield = "Ogre Shield"
 SaveTheKing2 = "Save The King+"
 UltimateMushroom = "Ultimate Mushroom"
+AdamantShield = "Adamant Shield"
+FallingStar = "Falling Star"
+ChainGear = "Chain Gear"
+Dreamcloud = "Dreamcloud"
+KnightsDefender = "Knight's Defender"
+KnightsShield = "Knight's Shield"
 
-# accesrosies
+# accessories
 AbilityRing = "Ability Ring"
 EngineersRing = "Engineer's Ring"
 TechniciansRing = "Technician's Ring"
@@ -146,7 +152,7 @@ FullBloom2 = "Full Bloom+"
 DrawRing = "Draw Ring"
 LuckyRing = "Lucky Ring"
 
-# armorers
+# armors
 ElvenBandana = "Elven Bandana"
 DivineBandana = "Divine Bandana"
 ProtectBelt = "Protect Belt"
@@ -182,7 +188,7 @@ PetiteRibbon = "Petite Ribbon"
 Ribbon = "Ribbon"
 GrandRibbon = "Grand Ribbon"
 
-# usefull and stat incre
+# useful and stat increases
 MickeyMunnyPouch = "Mickey Munny Pouch"
 OletteMunnyPouch = "Olette Munny Pouch"
 HadesCupTrophy = "Hades Cup Trophy"
@@ -279,7 +285,7 @@ MagicBoost = "Magic Boost"
 DefenseBoost = "Defense Boost"
 APBoost = "AP Boost"
 
-# donald abilitys
+# donald abilities
 DonaldFire = "Donald Fire"
 DonaldBlizzard = "Donald Blizzard"
 DonaldThunder = "Donald Thunder"
@@ -302,7 +308,7 @@ DonaldDamageControl = "Donald Damage Control"
 DonaldMPHaste = "Donald MP Haste"
 DonaldDraw = "Donald Draw"
 
-# goofy abili
+# goofy abilities
 GoofyTornado = "Goofy Tornado"
 GoofyTurbo = "Goofy Turbo"
 GoofyBash = "Goofy Bash"
@@ -332,11 +338,14 @@ Victory = "Victory"
 LuckyEmblem = "Lucky Emblem"
 Bounty = "Bounty"
 
+#owies
+HPTrap = "You tripped on someone's foot in another universe"
+
 # UniversalKey = "Universal Key"
 # Keyblade Slots
-FAKESlot = "FAKE (Slot)"
-DetectionSaberSlot = "Detection Saber (Slot)"
-EdgeofUltimaSlot = "Edge of Ultima (Slot)"
+FAKESlot = "Kingdom Key D (Slot)"
+DetectionSaberSlot = "Alpha Weapon (Slot)"
+EdgeofUltimaSlot = "Omega Weapon (Slot)"
 KingdomKeySlot = "Kingdom Key (Slot)"
 OathkeeperSlot = "Oathkeeper (Slot)"
 OblivionSlot = "Oblivion (Slot)"

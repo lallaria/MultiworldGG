@@ -1,3 +1,4 @@
+from genericpath import isdir
 import logging
 
 import yaml
@@ -79,7 +80,7 @@ def patch_kh2(self, output_directory):
             levelsetting.extend(exclusion_table["Level99Sanity"])
 
     mytimestamp = datetime.strftime(datetime.now(UTC), "%d%b%Y-%H%M%S")
-    mod_name = f"AP-{self.multiworld.seed_name}-P{self.player}-{self.multiworld.get_file_safe_player_name(self.player)}"
+    mod_name = f"AP-{self.multiworld.seed_name}-{self.multiworld.get_file_safe_player_name(self.player)}-P{self.player}-{mytimestamp}"
     all_valid_locations = {location for location, data in all_locations.items()}
 
     for location in self.multiworld.get_filled_locations(self.player):
@@ -387,7 +388,7 @@ def patch_kh2(self, output_directory):
                     {
                         'name': 'msg/sp/he.bar'
                     }
-                ],
+        ],
                 'method': 'binarc',
                 'source': [
                     {
@@ -476,7 +477,7 @@ def patch_kh2(self, output_directory):
 
     mod_dir = os.path.join(output_directory, mod_name + "_" + Utils.__version__)
 
-    self.mod_yml["title"] = f"Archipelago Seed - {mod_name}"
+    self.mod_yml["title"] = f"Archipelago Seed - {self.multiworld.get_file_safe_player_name(self.player)}"
     self.mod_yml["originalAuthor"] = "JaredWeakStrike and Shananas"
     self.mod_yml["description"] = f"Seed {self.multiworld.seed_name} was generated for {self.multiworld.get_file_safe_player_name(self.player)} - Player {self.player} at {mytimestamp} UTC. Have fun!"
 

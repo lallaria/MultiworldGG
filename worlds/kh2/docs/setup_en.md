@@ -15,7 +15,7 @@ Kingdom Hearts II Final Mix from the [Epic Games Store](https://store.epicgames.
     3. Install the mod `KH2FM-Mods-Num/GoA-ROM-Edition` using OpenKH Mod Manager
 - Needed for Archipelago 
     1. [MultiworldGGKH2Client.exe](https://github.com/MultiworldGG/MultiworldGG/releases)
-    2. Install the Archipelago Companion mod from `JaredWeakStrike/APCompanion` using OpenKH Mod Manager
+    2. Install the Archipelago Companion mod from `lallaria/KH2_AP_Companion` using OpenKH Mod Manager
     3. Install the mod from `KH2FM-Mods-equations19/auto-save` using OpenKH Mod Manager
     4. Install the mod from `KH2FM-Mods-equations19/KH2-Lua-Library` using OpenKH Mod Manager
     5. AP Randomizer Seed
@@ -117,7 +117,7 @@ This pack will handle logic, received items, checked locations and autotabbing f
 - Why is my Client giving me a "Cannot Open Process: " error?
     - Due to how the client reads kingdom hearts 2 memory some people's computer flags it as a virus. Run the client as admin.
 - Why is my HP/MP continuously increasing without stopping?
-    - You do not have `JaredWeakStrike/APCompanion` set up correctly. Make sure it is above the GoA ROM Edition Mod in the mod manager.
+    - You do not have `lallaria/KH2_AP_Companion` set up correctly. Make sure it is above the GoA ROM Edition Mod in the mod manager.
 - Why is my HP/MP continuously increasing without stopping when I have the APCompanion Mod?
     - You have a leftover GOA lua script in your `Documents\KINGDOM HEARTS HD 1.5+2.5 ReMIX\scripts\KH2`.
 - Why am I missing worlds/portals in the GoA?
@@ -136,7 +136,7 @@ This pack will handle logic, received items, checked locations and autotabbing f
     - The port of Kingdom Hearts 2 can and will randomly crash, this is the fault of the game not the randomizer or the MultiworldGG client.
       - If you have a continuous/constant crash (in the same area/event every time) you will want to reverify your installed files. This can be done by doing the following: Open Epic Game Store --> Library --> Click Triple Dots --> Manage --> Verify
 - Why am I getting dummy items or letters?
-    - You will need to get the `JaredWeakStrike/APCompanion` (you can find how to get this if you scroll up)
+    - You will need to get the `lallaria/KH2_AP_Companion` (you can find how to get this if you scroll up)
 - Why am I not sending or receiving items?
     - Make sure you are connected to the KH2 client and the correct room (for more information scroll up)
 - Why should I install the auto save mod at `KH2FM-Mods-equations19/auto-save` and `KH2FM-Mods-equations19/KH2-Lua-Library`?

@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from BaseClasses import Tutorial, ItemClassification
-from Utils import local_path
+from Utils import local_path, user_path
 from Fill import fast_fill
 from worlds.LauncherComponents import Component, components, Type, icon_paths, launch as launch_component
 from worlds.AutoWorld import World, WebWorld
@@ -14,7 +14,6 @@ from .Options import KingdomHearts2Options
 from .Regions import create_regions, connect_regions
 from .Rules import *
 from .Subclasses import KH2Item
-
 
 
 def launch_client():
@@ -65,6 +64,7 @@ class KH2World(World):
     lucky_emblem_required: int
     bounties_required: int
     bounties_amount: int
+    bounties_difficulty: int
     filler_items: List[str]
     item_quantity_dict: Dict[str, int]
     local_items: Dict[int, int]
@@ -72,14 +72,14 @@ class KH2World(World):
     goofy_ability_dict: Dict[str, int]
     donald_ability_dict: Dict[str, int]
     total_locations: int
-
+    misc_progression_items: List[Item]
     # growth_list: list[str]
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
-        # random_super_boss_list List[str]
+        # random_super_boss_list Dict[str]
         # has to be in __init__ or else other players affect each other's bounties
-        self.random_super_boss_list = list()
+        self.random_bounty_dict = dict()
         self.growth_list = list()
         # lists of KH2Item
         self.keyblade_ability_pool = list()
@@ -88,10 +88,13 @@ class KH2World(World):
         self.goofy_weapon_abilities = list()
         self.donald_get_bonus_abilities = list()
         self.donald_weapon_abilities = list()
+        self.all_weapon_items = list()
 
         self.slot_data_goofy_weapon = dict()
         self.slot_data_sora_weapon = dict()
         self.slot_data_donald_weapon = dict()
+
+        self.misc_progression_items = list()
 
     def fill_slot_data(self) -> dict:
         for ability in self.slot_data_sora_weapon:
@@ -132,10 +135,12 @@ class KH2World(World):
         Returns created KH2Item
         """
         # data = item_dictionary_table[name]
-        if name in progression_set:
+        if name in progression_set or name in self.misc_progression_items:
             item_classification = ItemClassification.progression
         elif name in useful_set:
             item_classification = ItemClassification.useful
+        elif name in Trap_Table:
+            item_classification = ItemClassification.trap
         else:
             item_classification = ItemClassification.filler
         created_item = KH2Item(name, item_classification, self.item_name_to_id[name], self.player)
@@ -205,6 +210,7 @@ class KH2World(World):
     def generate_early(self) -> None:
         """
         Determines the quantity of items and maps plando locations to items.
+        This happens first.  Nothing is placed here.
         """
         # Item: Quantity Map
         # Example. Quick Run: 4
@@ -213,16 +219,18 @@ class KH2World(World):
             self.growth_list.extend(Movement_Table.keys())
 
         self.item_quantity_dict = {item: data.quantity for item, data in item_dictionary_table.items()}
-        self.sora_ability_dict = {k: v.quantity for dic in [SupportAbility_Table, ActionAbility_Table] for k, v in
-                                  dic.items()}
+        self.sora_ability_dict = {k: v.quantity for dic in [
+                GreatActionAbility_Table, UsefulActionAbility_Table, JunkActionAbility_Table, 
+                GreatSupportAbility_Table, UsefulSupportAbility_Table, JunkSupportAbility_Table
+                ] 
+            for k, v in dic.items()}
+
+        for k in self.sora_ability_dict.keys():
+            if k in [ItemName.AutoValor, ItemName.AutoWisdom, 
+                     ItemName.AutoMaster, ItemName.AutoFinal] and self.options.AutoFormLogic.value:
+                self.misc_progression_items.append(k)
         # Dictionary to mark locations with their plandoed item
         # Example. Final Xemnas: Victory
-        # 3 random support abilities because there are left over slots
-        support_abilities = list(SupportAbility_Table.keys())
-        for _ in range(6):
-            random_support_ability = self.random.choice(support_abilities)
-            self.item_quantity_dict[random_support_ability] += 1
-            self.sora_ability_dict[random_support_ability] += 1
 
         self.plando_locations = dict()
         self.starting_invo_verify()
@@ -250,23 +258,48 @@ class KH2World(World):
 
         # hitlist
         if self.options.Goal not in ["lucky_emblem_hunt", "three_proofs"]:
-            self.random_super_boss_list.extend(exclusion_table["Hitlist"])
+            self.random_bounty_dict = dict(exclusion_table["Hitlist"])
             self.bounties_amount = self.options.BountyAmount.value
             self.bounties_required = self.options.BountyRequired.value
+            self.bounties_difficulty = self.options.BountyLevel.value
+
+            # make a range to pull bounties from - do not go beyond AS level unless requested
+            # also don't give first visit bounties to people looking for higher ranked challenges
+
+            difficulty_high = self.bounties_difficulty if self.bounties_difficulty >=7 else max(min(self.bounties_difficulty + 2, 7), 4)
+            difficulty_low = max(self.bounties_difficulty - 3 , 1)
+
+            difficulty_scope = [location for location, rank in self.random_bounty_dict.items()
+                                if not (difficulty_low <= rank <= difficulty_high)]
+            for bounty_loc in difficulty_scope:
+                del self.random_bounty_dict[bounty_loc]
 
             self.hitlist_verify()
 
             prio_hitlist = [location for location in self.options.priority_locations.value if
-                            location in self.random_super_boss_list]
-            for bounty in range(self.options.BountyAmount.value):
+                            location in self.random_bounty_dict]
+            similar_boss = ""  # super ugly but prevents both as and data of a bounty, yoinks it out before the
+            similar_boss_loc = "" # next iteration through the loop
+            for _ in range(self.options.BountyAmount.value):           
                 if prio_hitlist:
+                    if similar_boss: 
+                        similar_boss_loc = "".join([boss for boss in prio_hitlist if similar_boss in boss])
+                        if similar_boss_loc: prio_hitlist.remove(similar_boss_loc)
                     random_boss = self.random.choice(prio_hitlist)
                     prio_hitlist.remove(random_boss)
                 else:
-                    random_boss = self.random.choice(self.random_super_boss_list)
+                    if similar_boss: 
+                        similar_boss_loc = "".join([boss for boss in [*self.random_bounty_dict] if similar_boss in boss])
+                        if similar_boss_loc: del self.random_bounty_dict[similar_boss_loc]
+                    random_boss = self.random.choice([*self.random_bounty_dict])
                 self.plando_locations[random_boss] = ItemName.Bounty
-                self.random_super_boss_list.remove(random_boss)
+                del self.random_bounty_dict[random_boss]
                 self.total_locations -= 1
+                #Grabs the last 5 characters of the location string if it matches AS/Data, which should be the boss name
+                if any(_ in random_boss for _ in ['Larxene', 'Lexaeus', 'Zexion', 'Marluxia', 'Vexen']):
+                    similar_boss = "".join(random_boss[-5:])
+                else: 
+                    similar_boss = ""
 
         self.donald_gen_early()
         self.goofy_gen_early()
@@ -282,7 +315,9 @@ class KH2World(World):
         if self.options.FillerItemsLocal:
             for item in filler_items:
                 self.options.local_items.value.add(item)
-
+        # By imitating remote this doesn't have to be plandoded filler anymore
+        #  for location in {LocationName.JunkMedal, LocationName.JunkMedal}:
+        #    self.plando_locations[location] = random_stt_item
         if not self.options.SummonLevelLocationToggle:
             self.total_locations -= 6
 
@@ -290,8 +325,11 @@ class KH2World(World):
 
     def pre_fill(self):
         """
-        Plandoing Events and Fast_Fill for donald,goofy and sora
+        Plandoing Events and filling weapons for donald,goofy and sora
+
+        Abilities on weapons need to be placed first so that the location is tangible
         """
+
         self.donald_pre_fill()
         self.goofy_pre_fill()
         self.keyblade_pre_fill()
@@ -325,36 +363,33 @@ class KH2World(World):
         patch_kh2(self, output_directory)
 
     def donald_gen_early(self):
-        random_prog_ability = self.random.choice([ItemName.Fantasia, ItemName.FlareForce])
-        donald_master_ability = [donald_ability for donald_ability in DonaldAbility_Table.keys() for _ in
-                                 range(self.item_quantity_dict[donald_ability]) if
-                                 donald_ability != random_prog_ability]
+        donald_master_ability = [donald_ability for donald_ability in staff_set.keys() for _ in
+                                 range(self.item_quantity_dict[donald_ability])]
         self.donald_weapon_abilities = []
         self.donald_get_bonus_abilities = []
-        # fill goofy weapons first
+        # fill weapons first, 9 shuffled staves, one starter staff, 5 shop
         for _ in range(15):
             random_ability = self.random.choice(donald_master_ability)
             donald_master_ability.remove(random_ability)
             self.donald_weapon_abilities += [self.create_item(random_ability)]
             self.item_quantity_dict[random_ability] -= 1
             self.total_locations -= 1
+
         self.slot_data_donald_weapon = [item_name.name for item_name in self.donald_weapon_abilities]
+
         if not self.options.DonaldGoofyStatsanity:
             # pre plando donald get bonuses
-            self.donald_get_bonus_abilities += [self.create_item(random_prog_ability)]
-            self.total_locations -= 1
             for item_name in donald_master_ability:
                 self.donald_get_bonus_abilities += [self.create_item(item_name)]
                 self.item_quantity_dict[item_name] -= 1
                 self.total_locations -= 1
 
     def goofy_gen_early(self):
-        random_prog_ability = self.random.choice([ItemName.Teamwork, ItemName.TornadoFusion])
-        goofy_master_ability = [goofy_ability for goofy_ability in GoofyAbility_Table.keys() for _ in
-                                range(self.item_quantity_dict[goofy_ability]) if goofy_ability != random_prog_ability]
+        goofy_master_ability = [goofy_ability for goofy_ability in shield_set.keys() for _ in
+                                range(self.item_quantity_dict[goofy_ability])]
         self.goofy_weapon_abilities = []
         self.goofy_get_bonus_abilities = []
-        # fill goofy weapons first
+        # fill weapons first, 9 shuffled shields, one starter shield, 5 shop
         for _ in range(15):
             random_ability = self.random.choice(goofy_master_ability)
             goofy_master_ability.remove(random_ability)
@@ -366,16 +401,33 @@ class KH2World(World):
 
         if not self.options.DonaldGoofyStatsanity:
             # pre plando goofy get bonuses
-            self.goofy_get_bonus_abilities += [self.create_item(random_prog_ability)]
-            self.total_locations -= 1
             for item_name in goofy_master_ability:
                 self.goofy_get_bonus_abilities += [self.create_item(item_name)]
                 self.item_quantity_dict[item_name] -= 1
                 self.total_locations -= 1
 
     def keyblade_gen_early(self):
-        keyblade_master_ability = [ability for ability in SupportAbility_Table.keys() if ability not in progression_set
-                                   for _ in range(self.item_quantity_dict[ability])]
+        # need to have enough abilities to slot into keyblade locations
+        keyblade_master_ability = [sora_ability for sora_ability in default_keyblade_pool.keys() 
+                                   for _ in range(self.item_quantity_dict[sora_ability])]
+
+        if len(Keyblade_Slots) >= sum(self.options.CustomKeybladePool.value.values()):
+            logging.warning(
+                    f"{self.player} has more Keyblades than Keyblade Abilities. Setting to default quantities.")
+            for k, v in default_keyblade_pool.items():
+                if v < self.item_quantity_dict[k]:
+                    for _ in range(v,self.item_quantity_dict[k]):
+                        keyblade_master_ability.remove(k)
+        else:
+            for k, v in self.options.CustomKeybladePool.value.items():
+                if v > self.item_quantity_dict[k]:
+                    logging.warning(
+                        f"{self.player} put more of {k} in keyblades than exist in the pool, setting to default quantity {v}")
+                    v = default_keyblade_pool[k]
+                if v < self.item_quantity_dict[k]:
+                    for _ in range(v,self.item_quantity_dict[k]):
+                        keyblade_master_ability.remove(k)
+
         self.keyblade_ability_pool = []
 
         for _ in range(len(Keyblade_Slots)):
@@ -388,45 +440,43 @@ class KH2World(World):
 
     def goofy_pre_fill(self):
         """
-        Removes donald locations from the location pool maps random donald items to be plandoded.
+        Removes goofy locations from the location pool maps random goofy items to be plandoded.
         """
         goofy_weapon_location_list = [self.multiworld.get_location(location, self.player) for location in
                                       Goofy_Checks.keys() if Goofy_Checks[location].yml == "Keyblade"]
-        # take one of the 2 out
         # randomize the list with only
         for location in goofy_weapon_location_list:
             random_ability = self.random.choice(self.goofy_weapon_abilities)
             location.place_locked_item(random_ability)
             self.goofy_weapon_abilities.remove(random_ability)
-
+            if location not in starter_weapon_slot and random_ability.advancement:
+                self.set_weapon_prog(location)
         if not self.options.DonaldGoofyStatsanity:
             # plando goofy get bonuses
             goofy_get_bonus_location_pool = [self.multiworld.get_location(location, self.player) for location in
                                              Goofy_Checks.keys() if Goofy_Checks[location].yml != "Keyblade"]
-            if len(goofy_get_bonus_location_pool) > len(self.goofy_get_bonus_abilities):
-                raise Exception(f"Too little abilities to fill goofy get bonus locations for player {self.player_name}.")
             for location in goofy_get_bonus_location_pool:
                 self.random.choice(self.goofy_get_bonus_abilities)
                 random_ability = self.random.choice(self.goofy_get_bonus_abilities)
                 location.place_locked_item(random_ability)
                 self.goofy_get_bonus_abilities.remove(random_ability)
 
+
     def donald_pre_fill(self):
         donald_weapon_location_list = [self.multiworld.get_location(location, self.player) for location in
                                        Donald_Checks.keys() if Donald_Checks[location].yml == "Keyblade"]
-
-        # take one of the 2 out
         # randomize the list with only
         for location in donald_weapon_location_list:
             random_ability = self.random.choice(self.donald_weapon_abilities)
             location.place_locked_item(random_ability)
             self.donald_weapon_abilities.remove(random_ability)
-        # if option is turned off
+            if location not in starter_weapon_slot and random_ability.advancement:
+                self.set_weapon_prog(location)
+
         if not self.options.DonaldGoofyStatsanity:
+            # plando goofy get bonuses
             donald_get_bonus_location_pool = [self.multiworld.get_location(location, self.player) for location in
                                               Donald_Checks.keys() if Donald_Checks[location].yml != "Keyblade"]
-            if len(donald_get_bonus_location_pool) > len(self.donald_get_bonus_abilities):
-                raise Exception(f"Too little abilities to fill donald get bonus locations for player {self.player_name}.")
             for location in donald_get_bonus_location_pool:
                 random_ability = self.random.choice(self.donald_get_bonus_abilities)
                 location.place_locked_item(random_ability)
@@ -436,23 +486,30 @@ class KH2World(World):
         """
         Fills keyblade slots with abilities determined on player's setting
         """
+
         keyblade_locations = [self.multiworld.get_location(location, self.player) for location in Keyblade_Slots.keys()]
-        keyblade_ability_pool_copy = self.keyblade_ability_pool.copy()
-        fast_fill(self.multiworld, keyblade_ability_pool_copy, keyblade_locations)
         for location in keyblade_locations:
-            location.locked = True
+            random_ability = self.random.choice(self.keyblade_ability_pool)
+            location.place_locked_item(random_ability)
+            self.keyblade_ability_pool.remove(random_ability)
+            if location not in starter_weapon_slot and random_ability.advancement:
+                self.set_weapon_prog(location)
 
-    def get_pre_fill_items(self) -> List["Item"]:
-        return [self.create_item(item) for item in [*DonaldAbility_Table.keys(), *GoofyAbility_Table.keys(),
-                                                    *SupportAbility_Table.keys()]]
-
+    def set_weapon_prog(self, loc: Location) -> None:
+        for kbslot, kbitem in exclusion_table["WeaponSlots"].items():
+            if loc.name == kbslot:
+                keyblade = [i for i in self.multiworld.itempool if i.name == kbitem and i.player == self.player].pop()
+                keyblade.classification = ItemClassification.progression
+                
     def starting_invo_verify(self):
         """
         Making sure the player doesn't put too many abilities in their starting inventory.
         """
         for item, value in self.options.start_inventory.value.items():
-            if item in ActionAbility_Table \
-                    or item in SupportAbility_Table or item in exclusion_item_table["StatUps"] \
+            if item in GreatActionAbility_Table or item in UsefulActionAbility_Table \
+                    or item in JunkActionAbility_Table or item in GreatSupportAbility_Table \
+                    or item in UsefulSupportAbility_Table or item in JunkSupportAbility_Table \
+                    or item in exclusion_item_table["StatUps"] \
                     or item in DonaldAbility_Table or item in GoofyAbility_Table:
                 # cannot have more than the quantity for abilties
                 if value > item_dictionary_table[item].quantity:
@@ -484,24 +541,24 @@ class KH2World(World):
         Making sure hitlist have amount>=required.
         """
         for location in self.options.exclude_locations.value:
-            if location in self.random_super_boss_list:
-                self.random_super_boss_list.remove(location)
+            if location in self.random_bounty_dict:
+                del self.random_bounty_dict[location]
 
-        if not self.options.SummonLevelLocationToggle and LocationName.Summonlvl7 in self.random_super_boss_list:
-            self.random_super_boss_list.remove(LocationName.Summonlvl7)
+        if not self.options.SummonLevelLocationToggle and LocationName.Summonlvl7 in self.random_bounty_dict:
+            del self.random_bounty_dict[LocationName.Summonlvl7]
 
         #  Testing if the player has the right amount of Bounties for Completion.
-        if len(self.random_super_boss_list) < self.bounties_amount:
+        if len(self.random_bounty_dict) < self.bounties_amount:
             logging.info(
                     f"{self.multiworld.get_file_safe_player_name(self.player)} has more bounties than bosses."
-                    f" Setting total bounties to {len(self.random_super_boss_list)}")
-            self.bounties_amount = len(self.random_super_boss_list)
+                    f" Setting total bounties to {len(self.random_bounty_dict)}")
+            self.bounties_amount = len(self.random_bounty_dict)
             self.options.BountyAmount.value = self.bounties_amount
 
-        if len(self.random_super_boss_list) < self.bounties_required:
+        if len(self.random_bounty_dict) < self.bounties_required:
             logging.info(f"{self.multiworld.get_file_safe_player_name(self.player)} has too many required bounties."
-                         f" Setting required bounties to {len(self.random_super_boss_list)}")
-            self.bounties_required = len(self.random_super_boss_list)
+                         f" Setting required bounties to {len(self.random_bounty_dict)}")
+            self.bounties_required = len(self.random_bounty_dict)
             self.options.BountyRequired.value = self.bounties_required
 
         if self.bounties_amount < self.bounties_required:

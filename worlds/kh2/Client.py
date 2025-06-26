@@ -1,5 +1,4 @@
 import ModuleUpdate
-import Utils
 
 ModuleUpdate.update()
 
@@ -8,8 +7,13 @@ import asyncio
 import json
 import requests
 from pymem import pymem
-from . import item_dictionary_table, exclusion_item_table, CheckDupingItems, all_locations, exclusion_table, \
-    SupportAbility_Table, ActionAbility_Table, all_weapon_slot
+
+from time import time
+
+from random import choice
+from . import item_dictionary_table, exclusion_item_table, CheckDupingItems, all_locations, exclusion_table,  all_weapon_slot, \
+                GreatActionAbility_Table, UsefulActionAbility_Table, JunkActionAbility_Table, \
+                GreatSupportAbility_Table, UsefulSupportAbility_Table, JunkSupportAbility_Table
 from .Names import ItemName
 from .WorldLocations import *
 
@@ -18,18 +22,31 @@ try:
 except ImportError:
     apname = "Archipelago"
 
-from NetUtils import ClientStatus
-from CommonClient import gui_enabled, logger, get_base_parser, CommonContext, server_loop
+from NetUtils import ClientStatus, JSONMessagePart, JSONtoTextParser
+from CommonClient import gui_enabled, logger, get_base_parser, CommonContext, server_loop, ClientCommandProcessor
 
+class KH2CommandProcessor(ClientCommandProcessor):
+    def __init__(self, ctx): 
+        super().__init__(ctx)
+
+    def _cmd_deathlink(self):
+        """Toggles deathlink"""
+        if isinstance(self.ctx, KH2Context):
+            self.ctx.death_link = not self.ctx.death_link
+            asyncio.create_task((self.ctx.update_death_link(self.ctx.death_link)), name="Update Deathlink")
 
 class KH2Context(CommonContext):
-    # command_processor: int = KH2CommandProcessor
+    command_processor = KH2CommandProcessor
     game = "Kingdom Hearts 2"
     items_handling = 0b111  # Indicates you get items sent from other worlds.
+    death_link = False #Start deathlink off
+    game_func_addrs = {
+        "SoraPointer": 0x03B16F0,
+        "HitPointFunc": 0x3D0720
+    }
 
     def __init__(self, server_address, password):
         super(KH2Context, self).__init__(server_address, password)
-
         self.goofy_ability_to_slot = dict()
         self.donald_ability_to_slot = dict()
         self.all_weapon_location_id = None
@@ -47,8 +64,11 @@ class KH2Context(CommonContext):
         self.kh2_item_name_to_id = None
         self.lookup_id_to_item = None
         self.lookup_id_to_location = None
-        self.sora_ability_dict = {k: v.quantity for dic in [SupportAbility_Table, ActionAbility_Table] for k, v in
-                                  dic.items()}
+        self.sora_ability_dict = {k: v.quantity for dic in [
+                GreatActionAbility_Table, UsefulActionAbility_Table, JunkActionAbility_Table, 
+                GreatSupportAbility_Table, UsefulSupportAbility_Table, JunkSupportAbility_Table
+                ] 
+            for k, v in dic.items()}
         self.location_name_to_worlddata = {name: data for name, data, in all_world_locations.items()}
 
         self.sending = []
@@ -383,9 +403,9 @@ class KH2Context(CommonContext):
 
     def connect_to_game(self):
         if "KeybladeAbilities" in self.kh2slotdata.keys():
-            # sora ability to slot
+                # sora ability to slot
             self.AbilityQuantityDict.update(self.kh2slotdata["KeybladeAbilities"])
-            # itemid:[slots that are available for that item]
+                # itemid:[slots that are available for that item]
             self.AbilityQuantityDict.update(self.kh2slotdata["StaffAbilities"])
             self.AbilityQuantityDict.update(self.kh2slotdata["ShieldAbilities"])
 
@@ -434,8 +454,7 @@ class KH2Context(CommonContext):
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
-            logger.info(e)
-            logger.info("line 425")
+            logger.info(f"Check Location Error: {e}")
 
     async def checkLevels(self):
         try:
@@ -465,8 +484,7 @@ class KH2Context(CommonContext):
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
-            logger.info(e)
-            logger.info("line 456")
+            logger.info(f"Check Level Error: {e}")
 
     async def checkSlots(self):
         try:
@@ -484,8 +502,7 @@ class KH2Context(CommonContext):
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
-            logger.info(e)
-            logger.info("line 475")
+            logger.info(f"Check Slots Error: {e}")
 
     async def verifyChests(self):
         try:
@@ -503,8 +520,7 @@ class KH2Context(CommonContext):
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
-            logger.info(e)
-            logger.info("line 491")
+            logger.info(f"Verify Chests Error: {e}")
 
     async def verifyLevel(self):
         for leveltype, anchor in {
@@ -535,23 +551,7 @@ class KH2Context(CommonContext):
 
                 if itemname not in self.kh2_seed_save_cache["AmountInvo"]["Ability"]:
                     self.kh2_seed_save_cache["AmountInvo"]["Ability"][itemname] = []
-                #  appending the slot that the ability should be in
-                # abilities have a limit amount of slots.
-                # we start from the back going down to not mess with stuff.
-                # Front of Invo
-                # Sora:   Save+24F0+0x54 : 0x2546
-                # Donald: Save+2604+0x54 : 0x2658
-                # Goofy:  Save+2718+0x54 : 0x276C
-                # Back of Invo. Sora has 6 ability slots that are reserved
-                # Sora:   Save+24F0+0x54+0x92 : 0x25D8
-                # Donald: Save+2604+0x54+0x9C : 0x26F4
-                # Goofy:  Save+2718+0x54+0x9C : 0x2808
-                # seed has 2 scans in sora's abilities
-                # recieved second scan
-                # if len(seed_save(Scan:[ability slot 52]) < (2)amount of that ability they should have from slot data
-                # ability_slot = back of inventory that isnt taken
-                # add ability_slot to seed_save(Scan[]) so now its Scan:[ability slot 52,50]
-                # decrease back of inventory since its ability_slot is already taken
+                    #  appending the slot that the ability should be in
                 if len(self.kh2_seed_save_cache["AmountInvo"]["Ability"][itemname]) < \
                         self.AbilityQuantityDict[itemname]:
                     if itemname in self.sora_ability_set:
@@ -578,6 +578,7 @@ class KH2Context(CommonContext):
 
             # if itemdata in {magic}
             elif itemdata.memaddr in {0x3594, 0x3595, 0x3596, 0x3597, 0x35CF, 0x35D0}:
+                # if memaddr is in magic addresses
                 self.kh2_seed_save_cache["AmountInvo"]["Magic"][itemname] += 1
 
             # equipment is a list instead of dict because you can only have 1 currently
@@ -606,8 +607,7 @@ class KH2Context(CommonContext):
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
-            logger.info(e)
-            logger.info("line 582")
+            logger.info(f"Disconnected: {e}")
 
     def run_gui(self):
         """Import kivy UI system and start running it as self.ui_task."""
@@ -857,8 +857,7 @@ class KH2Context(CommonContext):
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
-            logger.info(e)
-            logger.info("line 840")
+            logger.info(f"Verify Items Error: {e}")
 
     def get_addresses(self):
         if not self.kh2connected and self.kh2 is not None:
@@ -879,7 +878,6 @@ class KH2Context(CommonContext):
                         #if mem addresses file is found then check version and if old get new one
                         kh2memaddresses_path = os.path.join(self.game_communication_path, "kh2memaddresses.json")
                         if not os.path.exists(kh2memaddresses_path):
-                            logger.info("File is not found. Downloading json with memory addresses. This might take a moment")
                             mem_resp = requests.get("https://raw.githubusercontent.com/JaredWeakStrike/KH2APMemoryValues/master/kh2memaddresses.json")
                             if mem_resp.status_code == 200:
                                 self.mem_json = json.loads(mem_resp.content)
@@ -1007,8 +1005,7 @@ async def kh2_watcher(ctx: KH2Context):
         except Exception as e:
             if ctx.kh2connected:
                 ctx.kh2connected = False
-            logger.info(e)
-            logger.info("line 940")
+            logger.info(f"Disconnected: {e}")
         await asyncio.sleep(0.5)
 
 

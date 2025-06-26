@@ -111,6 +111,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.GenieJafarEventLocation,
     ],
     RegionName.DataLexaeus:        [
+        LocationName.ASLexaeusEventLocation,
         LocationName.LexaeusBonus,
         LocationName.LexaeusASStrengthBeyondStrength,
         LocationName.LexaeusDataLostIllusion,
@@ -154,6 +155,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.FuturePeteEventLocation
     ],
     RegionName.DataMarluxia:       [
+        LocationName.ASMarluxiaEventLocation,
         LocationName.MarluxiaGetBonus,
         LocationName.MarluxiaASEternalBlossom,
         LocationName.MarluxiaDataLostIllusion,
@@ -333,6 +335,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.HadesCupEventLocations
     ],
     RegionName.DataZexion:         [
+        LocationName.ASZexionEventLocation,
         LocationName.ZexionBonus,
         LocationName.ZexionASBookofShadows,
         LocationName.ZexionDataLostIllusion,
@@ -428,6 +431,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.McpEventLocation
     ],
     RegionName.DataLarxene:        [
+        LocationName.ASLarxeneEventLocation,
         LocationName.LarxeneBonus,
         LocationName.LarxeneASCloakedThunder,
         LocationName.LarxeneDataLostIllusion,
@@ -473,6 +477,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.ExperimentEventLocation,
     ],
     RegionName.DataVexen:          [
+        LocationName.ASVexenEventLocation,
         LocationName.VexenBonus,
         LocationName.VexenASRoadtoDiscovery,
         LocationName.VexenDataLostIllusion,
@@ -540,7 +545,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.SephirothFenrir,
         LocationName.SephiEventLocation
     ],
-    RegionName.CoR:                [ #todo: make logic for getting these checks.
+    RegionName.CoR:                [
         LocationName.CoRDepthsAPBoost,
         LocationName.CoRDepthsPowerCrystal,
         LocationName.CoRDepthsFrostCrystal,
@@ -878,6 +883,7 @@ KH2REGIONS: typing.Dict[str, typing.List[str]] = {
         LocationName.UltimaWeaponSlot,
         LocationName.WinnersProofSlot,
         LocationName.PurebloodSlot,
+
         LocationName.Centurion2,
         LocationName.CometStaff,
         LocationName.HammerStaff,
