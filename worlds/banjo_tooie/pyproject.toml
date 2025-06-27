@@ -10,9 +10,6 @@ authors = [
     {name = "jjjj12212"}
 ]
 license = "MIT"
-license_files = [
-    "LICENSE"
-]
 classifiers = [
     "Private :: Do Not Upload"
 ]

@@ -9,7 +9,7 @@ description = "A Link Between Worlds"
 authors = [
     {name = "randomsalience"}
 ]
-license = "MIT"
+license = "GPL-2.0-only"
 license_files = [
     "LICENSE"
 ]

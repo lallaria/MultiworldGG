@@ -7,9 +7,10 @@ name = "doom_ii"
 dynamic = ["version"]
 description = "DOOM II"
 authors = [
-    {name = "Daivuk & Kaito Sinclaire"}
+    {name = "Daivuk"},
+    {name = "Kaito Sinclaire"}
 ]
-license = "MIT"
+license = "Zlib"
 license_files = [
     "LICENSE"
 ]

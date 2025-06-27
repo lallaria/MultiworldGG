@@ -9,9 +9,10 @@ description = "Super Metroid"
 authors = [
     {name = "lordlou"}
 ]
-license = "MIT"
+license = "MIT AND (GPL-2.0-only)"
 license_files = [
-    "LICENSE"
+    "variaRandomizer/LICENSE",
+    "variaRandomizer/patches/ips.pl"
 ]
 classifiers = [
     "Private :: Do Not Upload"

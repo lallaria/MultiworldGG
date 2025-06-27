@@ -9,7 +9,7 @@ description = "Heretic"
 authors = [
     {name = "Daivuk & Kaito Sinclaire"}
 ]
-license = "MIT"
+license = "Zlib"
 license_files = [
     "LICENSE"
 ]

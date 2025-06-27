@@ -11,9 +11,9 @@ authors = [
 ]
 license = "MIT AND (GPL-3.0-only)"
 license_files = [
-    "LICENSE",
+    "lib/dolphin_memory_engine/LICENSE",
     "lib/ppc_asm/LICENSE",
-    "lib/dolphin_memory_engine/LICENSE"
+    "lib/py_randomprime/LICENSE"
 ]
 classifiers = [
     "Private :: Do Not Upload"

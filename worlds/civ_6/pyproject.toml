@@ -11,7 +11,7 @@ authors = [
 ]
 license = "MIT"
 license_files = [
-    "LICENSE"
+    "LICENSE.md"
 ]
 classifiers = [
     "Private :: Do Not Upload"

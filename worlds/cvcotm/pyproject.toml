@@ -10,9 +10,6 @@ authors = [
     {name = "LiquidCat64"}
 ]
 license = "MIT AND (Apache-2.0)"
-license_files = [
-    "LICENSES.txt"
-]
 classifiers = [
     "Private :: Do Not Upload"
 ]

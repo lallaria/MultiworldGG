@@ -32,12 +32,24 @@ The plugin system provides a way to dynamically load game worlds without modifyi
 ### pyproject.toml
 
 ```toml
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "your_plugin_name"
-version = "1.0.0"
-description = "Your Game Description"
+dynamic = ["version"]
+description = "GAME_NAME"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+   "AUTHOR"
+]
+license = "GPL-3.0-or-later AND (MIT)"
+license_files = [
+   "LICENSE",
+   "LICENSE-original.md"
+   ]
+classifiers = [
+    Private :: Do Not Upload
 ]
 requires-python = ">=3.12"
 
@@ -45,21 +57,25 @@ requires-python = ">=3.12"
 "your_plugin.WorldClass" = "your_plugin.Register:WORLD_CLASS"
 "your_plugin.WebWorldClass" = "your_plugin.Register:WEB_WORLD_CLASS"
 "your_plugin.Client" = "your_plugin.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "your_plugin.Register:VERSION}
 ```
 
 ### Register.py
 
 ```python
 # Required metadata
-PLUGIN_NAME = "your_plugin_name"
+WORLD_NAME = "your_plugin_name"
 GAME_NAME = "Your Game Name"
 IGDB_ID = 12345
 AUTHOR = "Your Name"
 VERSION = "1.0.0"
 
 # Import your world classes
-from .Items import YourWorldClass
-from .WebWorld import YourWebWorldClass
+# May be different!
+from . import YourWorldClass
+from . import YourWebWorldClass
 from .Client import launch_client
 
 # Plugin entry points
@@ -73,7 +89,6 @@ CLIENT_FUNCTION = launch_client
 The plugin system automatically discovers plugins in the following directories:
 
 1. `worlds/` - Built-in worlds (existing structure)
-2. `custom_worlds/` - Custom user worlds
 
 A directory is considered a plugin if it contains both:
 - `pyproject.toml`
@@ -84,13 +99,12 @@ A directory is considered a plugin if it contains both:
 The system validates plugins by checking:
 
 1. **pyproject.toml validation:**
-   - Required fields: `name`, `description`, `authors`, `requires-python`
+   - Required fields: `name`, `description`, `authors`, `classifiers`, `requires-python`
    - Python version requirement (must be >=3.12)
    - Plugin name matches directory name
 
 2. **Register.py validation:**
-   - Required variables: `PLUGIN_NAME`, `GAME_NAME`, `IGDB_ID`, `AUTHOR`, `VERSION`
-   - Optional variables: `WORLD_CLASS`, `WEB_WORLD_CLASS`, `CLIENT_FUNCTION`
+   - Required variables: `WORLD_NAME`, `GAME_NAME`, `IGDB_ID`, `AUTHOR`, `VERSION`, `WORLD_CLASS`, `WEB_WORLD_CLASS`, `CLIENT_FUNCTION`
 
 ## Plugin Loading
 

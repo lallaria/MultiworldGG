@@ -743,18 +743,13 @@ class CommonContext:
         ex. `logging_pairs.append(("Foo", "Bar"))`
         will add a "Bar" tab which follows the logger returned from `logging.getLogger("Foo")`
         """
+      
         from gui import MultiMDApp
 
-        class TextManager(MultiMDApp):
-            base_title = f"{apname} Text Client"
-
-        return TextManager
 
     def run_gui(self):
         """Import kivy UI system from make_gui() and start running it as self.ui_task."""
-        ui_class = self.make_gui()
-        self.ui = ui_class(self)
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+
 
     def run_cli(self):
         if sys.stdin:

@@ -9,9 +9,11 @@ description = "The Legend of Zelda: Ocarina of Time is a 3D action/adventure gam
 authors = [
     {name = "espeon65536 (currenty unmaintained)"}
 ]
-license = "MIT"
+license = "MIT AND (GPL-2.0-or-later)"
 license_files = [
-    "LICENSE"
+    "LICENSE",
+    "data/Compress/src/crc.c",
+    "data/Decompress/src/crc.c"
 ]
 classifiers = [
     "Private :: Do Not Upload"
