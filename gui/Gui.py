@@ -197,7 +197,7 @@ class MultiMDApp(MDApp):
     pixelate_effect: EffectWidget
     ui_console: ObjectProperty
 
-    def __init__(self, ctx: CommonContext, **kwargs):
+    def __init__(self, ctx: GuiContext, **kwargs):
         super().__init__(**kwargs)
         RegisterFonts(self)
         self.ctx = ctx
@@ -344,9 +344,6 @@ class MultiMDApp(MDApp):
             self.root_layout.add_widget(self.loading_layout)
 
 
-            self.ui_console = self.console_screen.ui_console
-            self.ui_console.console()
-
         super().on_start()
         Clock.schedule_once(on_start)
         # Terminate the splash screen after the UI is fully initialized
@@ -458,6 +455,8 @@ class MultiMDApp(MDApp):
         if item == "console":
             self.console_screen = ConsoleScreen()
             self.screen_manager.add_widget(self.console_screen)
+            self.ui_console = self.console_screen.ui_console
+            self.ui_console.console()
             self.screen_manager.current = "console"
         elif item == "settings":
             self.settings_screen = SettingsScreen()

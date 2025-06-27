@@ -35,7 +35,7 @@ from kivymd.app import MDApp
 logger = logging.getLogger(__name__)
 
 with open(
-    os.path.join("data", "gui", "kivydi", "expansionlist.kv"), encoding="utf-8"
+    os.path.join("gui", "kivydi", "expansionlist.kv"), encoding="utf-8"
 ) as kv_file:
     Builder.load_string(kv_file.read())
 

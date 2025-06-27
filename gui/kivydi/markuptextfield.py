@@ -65,7 +65,7 @@ import re
 import os
 
 with open(
-    os.path.join("data", "gui", "kivydi", "markuptextfield.kv"), encoding="utf-8"
+    os.path.join("gui", "kivydi", "markuptextfield.kv"), encoding="utf-8"
 ) as kv_file:
     Builder.load_string(kv_file.read())
 

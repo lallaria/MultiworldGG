@@ -18,8 +18,8 @@ MIN_SPEED = 0.016  # Fastest speed (60fps)
 MAX_SPEED = 0.050   # Slowest speed (10fps)
 DEFAULT_SPEED = 0.040  # Default speed (40ms)
 
-img_path = r'C:\Users\Lindsay\source\repos\MultiworldGG\data\gui\data\loading_animation.png'
-#img_path = os.path.join(os.getenv("KIVY_HOME"),"images","loading_animation.png")
+#img_path = r'C:\Users\Lindsay\source\repos\MultiworldGG\data\gui\data\loading_animation.png'
+img_path = os.path.join(os.getenv("KIVY_HOME"),"images","loading_animation.png")
 
 
 class MWGGLoadingLayout(MDRelativeLayout):

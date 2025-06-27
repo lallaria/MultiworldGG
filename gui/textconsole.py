@@ -12,7 +12,7 @@ from kivydi.markuptextfield import MarkupTextField
 from kivy.clock import Clock
 from typing import TextIO
 import logging
-from logging import QueueHandler
+from logging.handlers import QueueHandler
 from multiprocessing import Queue
 from multiprocessing.queues import Empty
 from kivy.utils import get_hex_from_color

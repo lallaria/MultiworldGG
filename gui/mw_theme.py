@@ -2,6 +2,11 @@ __all__ = ('MWColorFilter',)
 
 import os
 import re
+import sys
+# Add the parent directory to the Python path to find NetUtils
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
 from NetUtils import DEFAULT_TEXT_COLORS
 from dataclasses import dataclass
 from kivy.core.window import Window
