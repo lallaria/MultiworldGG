@@ -3,6 +3,7 @@ import typing
 
 from .LADXR.checkMetadata import checkMetadataTable
 from .Common import *
+from .Constants import GAME_NAME
 from worlds.generic.Rules import add_item_rule
 from .Items import ladxr_item_to_la_item_name
 
@@ -81,7 +82,7 @@ for meta_id, metadata in checkMetadataTable.items():
 
 
 class LinksAwakeningLocation(Location):
-    game = LINKS_AWAKENING
+    game = GAME_NAME
     dungeon = None
 
     def __init__(self, player: int, region, ladxr_item):

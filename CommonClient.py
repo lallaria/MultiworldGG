@@ -55,6 +55,7 @@ from ClientState import ClientState
 
 # Import MDApp for GUI access
 from kivymd.app import MDApp
+from gui.Gui import MultiMDApp
 
 # Import stream_input function
 from Utils import stream_input
@@ -224,9 +225,22 @@ class ClientCommandProcessor(CommandProcessor):
 class InitContext:
     """Base context for initial GUI state with minimal properties"""
     def __init__(self):
+        self.loop = asyncio.get_event_loop()
         self.exit_event = asyncio.Event()
         self._state = ClientState.INITIAL
         self._is_transitioning = False
+        self.splash_process = None
+
+    def run_gui(self):
+        """Run the GUI as self.ui_task."""
+        self.ui = MultiMDApp(self)
+        # Launch splash screen before starting the UI
+        self.ui.launch_splash_screen()
+        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+
+    async def shutdown(self):
+        if self.ui_task:
+            await self.ui_task
 
 
 class CommonContext(InitContext):

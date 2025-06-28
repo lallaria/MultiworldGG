@@ -8,9 +8,8 @@ import settings
 import random
 from typing import List, Dict, Set, Any
 
-import worlds.oot
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import (EOSItem, item_table, item_frequencies, item_table_by_id, item_table_by_groups,
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
                     filler_item_table, filler_item_weights, trap_item_table, trap_item_weights,
                     exclusive_filler_item_table, exclusive_filler_item_weights, legendary_pool_dict, filler_items,
                     exclusive_filler_items)

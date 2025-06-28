@@ -5,7 +5,6 @@ from typing import Union, Tuple, List, Dict, Set
 from worlds.AutoWorld import WebWorld, World
 from BaseClasses import Region, ItemClassification, Tutorial, CollectionState
 from .Checks import (
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     TerrariaItem,
     TerrariaLocation,
     Condition,
@@ -28,6 +27,7 @@ from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     armor_minions,
     accessory_minions,
 )
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Options import TerrariaOptions, Goal
 
 

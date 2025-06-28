@@ -3,8 +3,8 @@ import string
 
 from BaseClasses import Region, Entrance, Item, MultiWorld, Tutorial, ItemClassification, CollectionState
 from worlds.AutoWorld import World, WebWorld
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import TheBindingOfIsaacRepentanceItem, item_table, default_weights, default_junk_items_weights, \
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     default_trap_items_weights
 from .Locations import location_table, TheBindingOfIsaacRepentanceLocation, base_location_table
 from .Options import IsaacOptions, ItemWeights

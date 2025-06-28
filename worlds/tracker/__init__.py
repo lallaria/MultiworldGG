@@ -4,6 +4,7 @@ from typing import Any, ClassVar, NamedTuple, Callable
 from worlds.AutoWorld import World
 from BaseClasses import CollectionState
 from collections import Counter
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def launch_client(*args):

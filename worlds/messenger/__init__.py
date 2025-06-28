@@ -8,7 +8,7 @@ from settings import FilePath, Group
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, icon_paths
 from .client_setup import launch_game
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .constants import GAME_NAME, AUTHOR, IGDB_ID
 from .connections import CONNECTIONS, RANDOMIZED_CONNECTIONS, TRANSITIONS
 from .constants import ALL_ITEMS, ALWAYS_LOCATIONS, BOSS_LOCATIONS, FILLER, NOTES, PHOBEKINS, PROG_ITEMS, TRAPS, \
     USEFUL_ITEMS

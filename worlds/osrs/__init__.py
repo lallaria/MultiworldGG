@@ -3,8 +3,8 @@ import typing
 from BaseClasses import Item, Tutorial, ItemClassification, Region, MultiWorld, CollectionState
 from Fill import fill_restrictive, FillError
 from worlds.AutoWorld import WebWorld, World
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import OSRSItem, starting_area_dict, chunksanity_starting_chunks, QP_Items, ItemRow, \
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     chunksanity_special_region_names
 from .Locations import OSRSLocation, LocationRow
 from .Rules import *

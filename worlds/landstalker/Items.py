@@ -1,11 +1,11 @@
 from typing import Dict, List, NamedTuple
 
 from BaseClasses import Item, ItemClassification
-from .Constants import BASE_ITEM_ID
+from .Constants import BASE_ITEM_ID, GAME_NAME
 
 
 class LandstalkerItem(Item):
-    game: str = "Landstalker - The Treasures of King Nole"
+    game: str = GAME_NAME
     price_in_shops: int
 
 

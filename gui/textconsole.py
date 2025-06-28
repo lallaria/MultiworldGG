@@ -97,7 +97,7 @@ class ConsoleView(MDFloatLayout):
     def console_handler(self) -> QueueHandler:
         """Create a StreamHandler that writes directly to the text_buffer"""
         _console_out = QueueHandler(queue=self.text_console.text_buffer)
-        _console_out.setFormatter(logging.Formatter("{message}"))
+        _console_out.setFormatter(logging.Formatter("%(message)s"))
         _console_out.setLevel(logging.INFO)
         _console_out.addFilter(logging.Filter("Archipelago"))
         _console_out.addFilter(logging.Filter("Client"))

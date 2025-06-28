@@ -32,6 +32,8 @@ from kivymd.uix.tooltip import MDTooltip
 import os
 import json
 import logging
+import importlib.metadata
+
 from kivy.logger import Logger
 from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
@@ -144,7 +146,7 @@ Builder.load_string('''
             padding: 8
             MDButton:
                 id: connect_button
-                on_release: app.root.connect()
+                on_release: app.launcher_screen.connect()
                 pos_hint: {'right': .9, 'center_y': 0.5}
                 MDButtonText:
                     theme_text_color: "Custom"
@@ -180,7 +182,7 @@ Builder.load_string('''
             size_hint: 1,1
             pos: root.x, root.y
             Image:
-                source: "data/logo_bg.png"
+                source: "gui/data/logo_bg.png"
                 pos_hint: {"top": 1}
                 fit_mode: "scale-down"
 
@@ -275,6 +277,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     game_filter: list
     game_tag_filter: StringProperty
     bottom_appbar: BottomAppBar
+    selected_game: StringProperty = ""
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -283,6 +286,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.game_filter = []
         self.games_mdlist = MDList(width=260)
         self.game_tag_filter = "popular"
+        self.selected_game = ""
 
         self.bottom_appbar = BottomAppBar(screen_name="launcher")
         self.important_appbar = LauncherSliverAppbar()
@@ -320,8 +324,19 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.games_mdlist.clear_widgets()
         for game_name, game_data in matching_games.items():
             await asynckivy.sleep(0)
-            game = GameListPanel(game_tag=game_name, game_data=game_data)
+            game = GameListPanel(
+                game_tag=game_name, 
+                game_data=game_data,
+                on_game_select=lambda x: self.on_game_selected(x)
+            )
             self.games_mdlist.add_widget(game)
+
+    def on_game_selected(self, game_name):
+        """Handle game selection from the game list"""
+        self.selected_game = game_name
+        logger.info(f"Selected game: {game_name}")
+        # Update the launcher view to show the selected game
+        self.launcher_view.game_name = game_name
 
     def set_filter(self, active, tag):
         if active:
@@ -333,4 +348,86 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.game_filter = [(self.game_tag_filter.text, tag) for tag in GameIndex.search(self.game_tag_filter.text)]
     
     def connect(self):
-        pass
+        """Connect to server and launch the selected game module"""
+        logger.info("Connect method called!")
+        
+        if not self.selected_game:
+            logger.warning("No game selected")
+            return
+        
+        # Get connection details from the UI
+        server_field = self.launcher_view.ids.server
+        port_field = self.launcher_view.ids.port
+        slot_name_field = self.launcher_view.ids.slot_name
+        slot_password_field = self.launcher_view.ids.slot_password
+        
+        server_address = f"{server_field.text}:{port_field.text}" if server_field.text and port_field.text else None
+        password = slot_password_field.text if slot_password_field.text else None
+        
+        logger.info(f"Attempting to launch module: {self.selected_game}")
+        logger.info(f"Server: {server_address}, Password: {'*' * len(password) if password else 'None'}")
+        
+        try:
+            # Launch the selected game module via entrypoints
+            self.discover_and_launch_module(self.selected_game, server_address, password)
+            logger.info(f"Successfully launched {self.selected_game} module")
+        except Exception as e:
+            logger.error(f"Failed to launch {self.selected_game} module: {e}")
+            # You might want to show an error dialog here
+            from .dialog import show_error_dialog
+            show_error_dialog("Launch Error", f"Failed to launch {self.selected_game}: {str(e)}")
+
+    @staticmethod
+    def discover_and_launch_module(module_name: str, server_address: str = None, password: str = None):
+        """Discover and launch module via entrypoints"""
+        logger.info(f"discover_and_launch_module called with module: {module_name}")
+        
+        try:
+            # Discover entrypoints for mwgg.plugins
+            entry_points = importlib.metadata.entry_points()
+            logger.info(f"Found entry_points: {entry_points}")
+            
+            # Handle different Python versions
+            if hasattr(entry_points, 'get'):
+                # Older Python versions
+                plugin_entry_points = entry_points.get("mwgg.plugins", {})
+                logger.info(f"Using old API, found {len(plugin_entry_points)} plugin entrypoints")
+            else:
+                # Newer Python versions (3.10+)
+                plugin_entry_points = entry_points.select(group="mwgg.plugins")
+                logger.info(f"Using new API, found {len(plugin_entry_points)} plugin entrypoints")
+            
+            client_entry_key = f"{module_name}.Client"
+            logger.info(f"Looking for entry point: {client_entry_key}")
+            
+            # Find the matching entry point
+            matching_entry_point = None
+            for entry_point in plugin_entry_points:
+                logger.info(f"Checking entry point: {entry_point.name}")
+                if entry_point.name == client_entry_key:
+                    matching_entry_point = entry_point
+                    logger.info(f"Found matching entry point: {entry_point}")
+                    break
+            
+            if matching_entry_point:
+                # Load and execute the CLIENT_FUNCTION entrypoint
+                logger.info("Loading launch function...")
+                launch_function = matching_entry_point.load()
+                logger.info("Launch function loaded successfully")
+                
+                # Create args object similar to argparse.Namespace
+                class Args:
+                    def __init__(self, connect=None, password=None):
+                        self.connect = connect
+                        self.password = password
+                
+                args = Args(connect=server_address, password=password)
+                logger.info("Calling launch function...")
+                return launch_function(args)
+            else:
+                logger.error(f"No matching entry point found for {client_entry_key}")
+                raise ValueError(f"Client entrypoint for module {module_name} not found")
+                
+        except Exception as e:
+            logger.error(f"Failed to launch module {module_name}: {e}")
+            raise

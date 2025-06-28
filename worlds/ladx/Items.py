@@ -1,5 +1,6 @@
 from BaseClasses import Item, ItemClassification
 from . import Common
+from .Constants import GAME_NAME
 import typing
 from enum import IntEnum
 from .LADXR.locations.constants import CHEST_ITEMS
@@ -43,7 +44,7 @@ class TradeItemData(ItemData):
 
 
 class LinksAwakeningItem(Item):
-    game: str = Common.LINKS_AWAKENING
+    game: str = GAME_NAME
 
     def __init__(self, item_data, world, player):
         classification = item_data.classification

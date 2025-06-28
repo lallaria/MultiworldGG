@@ -1,19 +1,15 @@
-from typing import ClassVar, Set, Dict, List, Iterable, Any, Optional
+from typing import ClassVar, Set
 
-from BaseClasses import LocationProgressType, Tutorial, Item, ItemClassification, Location, Region, Entrance, MultiWorld
+from BaseClasses import LocationProgressType, Tutorial
 from worlds.AutoWorld import WebWorld, World
-from worlds.LauncherComponents import Component, components, Type, launch_subprocess
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import *
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Hints import *
 from .Items import *
 from .Locations import *
-from .Options import *
+from .Options import JewelCount, LandstalkerGoal, LandstalkerOptions, ProgressiveArmors, TeleportTreeRequirements
 from .Regions import *
 from .Rules import *
-from .ItemPool import generate_itempool
-from .EntranceRandoRules import create_entrance_randomizer_set
-from .Rom import TLoZDeltaPatch
-import Utils
 
 
 class LandstalkerWeb(WebWorld):

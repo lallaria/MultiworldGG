@@ -129,7 +129,7 @@ Builder.load_string('''
         tag: "logo"
         pos_hint: {'x': .1, 'y': .9}
         FitImage:
-            source: "data/logo_bg.png"
+            source: "gui/data/logo_bg.png"
             pos_hint: {"right": .9, "top": .9}
             fit_mode: "scale-down"
 

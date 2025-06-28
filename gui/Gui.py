@@ -41,12 +41,12 @@ os.environ["KIVY_LOG_ENABLE"] = "1"
 
 # from CommonClient import console_loop
 # from MultiServer import console
-local_path = r"C:\Users\Lindsay\source\repos\MultiworldGG"
 # apname = "Archipelago" if not Utils.archipelago_name else Utils.archipelago_name
 
 # if Utils.is_frozen():
-os.environ["KIVY_DATA_DIR"] = r'C:\Users\Lindsay\source\repos\MultiworldGG\venv\Lib\site-packages\kivy\data'
-os.environ["KIVY_HOME"] = os.path.join(local_path,"data", "kivy_home")
+from Utils import local_path
+os.environ["KIVY_DATA_DIR"] = os.path.join(local_path(),"venv","Lib","site-packages","kivy","data")
+os.environ["KIVY_HOME"] = os.path.join(local_path(),"data", "kivy_home")
 os.makedirs(os.environ["KIVY_HOME"], exist_ok=True)
 
 from kivy.config import Config as MWKVConfig
@@ -61,14 +61,14 @@ from kivy.config import ConfigParser
 MWKVConfig.set("input", "mouse", "mouse,disable_multitouch")
 MWKVConfig.set("kivy", "exit_on_escape", "0")
 MWKVConfig.set("kivy", "default_font", ['Inter', 
-                                    os.path.join(local_path,"fonts","Inter-Regular.ttf"), 
-                                    os.path.join(local_path,"fonts","Inter-Italic.ttf"),
-                                    os.path.join(local_path,"fonts","Inter-Bold.ttf"),
-                                    os.path.join(local_path,"fonts","Inter-BoldItalic.ttf")])
+                                    os.path.join(local_path(),"data","fonts","Inter-Regular.ttf"), 
+                                    os.path.join(local_path(),"data","fonts","Inter-Italic.ttf"),
+                                    os.path.join(local_path(),"data","fonts","Inter-Bold.ttf"),
+                                    os.path.join(local_path(),"data","fonts","Inter-BoldItalic.ttf")])
 MWKVConfig.set("graphics", "width", "1099")
 MWKVConfig.set("graphics", "height", "699")
 MWKVConfig.set("graphics", "custom_titlebar", "1")
-MWKVConfig.set("graphics", "window_icon", os.path.join("data", "icon.png"))
+MWKVConfig.set("graphics", "window_icon", os.path.join(local_path(),"data", "icon.png"))
 MWKVConfig.set("graphics", "minimum_height", "700")
 MWKVConfig.set("graphics", "minimum_width", "600")
 MWKVConfig.set("graphics", "shaped", 0)
@@ -80,59 +80,23 @@ Window.clearcolor = [0,0,0,0]
 Window.borderless = True
 Window.set_title("MultiWorldGG")
 
-from kivy.core.clipboard import Clipboard
-from kivy.core.text.markup import MarkupLabel
-from kivy.core.image import Image, ImageLoader, ImageLoaderBase, ImageData
-from kivy.base import ExceptionHandler, ExceptionManager, EventLoop
-from kivy.factory import Factory
 from kivy.clock import Clock
-from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, StringProperty, DictProperty, ListProperty
-from kivy.metrics import dp, sp, Metrics
-from kivy.uix.widget import Widget
-from kivy.uix.layout import Layout
-from kivy.utils import escape_markup
-from kivy.lang import Builder
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
-from kivy.uix.behaviors import FocusBehavior, ToggleButtonBehavior
-from kivy.uix.recycleboxlayout import RecycleBoxLayout
-from kivy.uix.recycleview.layout import LayoutSelectionBehavior
-from kivy.uix.image import AsyncImage
-from kivymd.uix.hero import MDHeroFrom, MDHeroTo
-from kivymd.uix.transition import MDFadeSlideTransition
+from kivy.properties import ObjectProperty
 from kivymd.app import MDApp
-from kivymd.uix.screen import MDScreen
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.uix.anchorlayout import MDAnchorLayout
-from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.uix.tab import MDTabsItem, MDTabsItemIcon
-from kivymd.uix.tab.tab import MDTabsItemText
 from kivymd.uix.menu import MDDropdownMenu
-from kivymd.uix.menu.menu import MDDropdownTextItem
-from kivymd.uix.dropdownitem import MDDropDownItem, MDDropDownItemText
-from kivymd.uix.button import MDButton, MDButtonText, MDButtonIcon, MDIconButton
-from kivymd.uix.label import MDLabel, MDIcon
-from kivymd.uix.recycleview import MDRecycleView
-from kivymd.uix.textfield.textfield import MDTextField, MDTextFieldHelperText, MDTextFieldHintText, MDTextFieldLeadingIcon, MDTextFieldMaxLengthText, MDTextFieldTrailingIcon
-from kivymd.uix.progressindicator import MDCircularProgressIndicator
-from kivymd.effects.stiffscroll.stiffscroll import StiffScrollEffect
-from kivymd.uix.scrollview import MDScrollView
-from kivymd.uix.tooltip import MDTooltip
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.bottomsheet import MDBottomSheet
-from kivymd.uix.navigationdrawer import MDNavigationLayout, MDNavigationDrawer
-from kivymd.uix.appbar import MDActionBottomAppBarButton, MDBottomAppBar
-from kivymd.uix.fitimage import FitImage
-from kivymd.uix.relativelayout import MDRelativeLayout
-from kivy.uix.effectwidget import EffectWidget, PixelateEffect
+from kivymd.uix.navigationdrawer import MDNavigationLayout
+from kivymd.uix.appbar import MDBottomAppBar
+from kivy.uix.effectwidget import EffectWidget
 
 #from NetUtils import JSONtoTextParser, JSONMessagePart, SlotType, HintStatus
 # from Utils import async_start, get_input_text_from_response
 from .mw_theme import RegisterFonts, DefaultTheme
 
 from .bottomsheet import MainBottomSheet, BottomChipLayout
-from .titlebar import Titlebar, TitleBarButton, TitlebarKV
+from .titlebar import Titlebar
 from .console import ConsoleScreen
 from .hintscreen import HintScreen
 from .settings_screen import SettingsScreen
@@ -164,7 +128,7 @@ class GuiContext:
         self.splash_process = None
 
     def run_gui(self):
-        """Import kivy UI system from make_gui() and start running it as self.ui_task."""
+        """Run the GUI as self.ui_task."""
         self.ui = MultiMDApp(self)
         # Launch splash screen before starting the UI
         self.ui.launch_splash_screen()
@@ -339,6 +303,10 @@ class MultiMDApp(MDApp):
         Window.bind(on_restore=self.title_bar.tb_onres)
         Window.bind(on_maximize=self.title_bar.tb_onmax)
         Window.bind(on_close=lambda x: self.on_stop())
+
+        # self.ui_console = self.console_screen.ui_console
+        # self.ui_console.console()
+
         self.change_screen("launcher")
 
         def on_start(*args):
@@ -462,9 +430,8 @@ class MultiMDApp(MDApp):
         if item == "console":
             self.console_screen = ConsoleScreen()
             self.screen_manager.add_widget(self.console_screen)
-            self.ui_console = self.console_screen.ui_console
-            self.ui_console.console()
             self.screen_manager.current = "console"
+            Clock.schedule_once(lambda x: self._console_init())
         elif item == "settings":
             self.settings_screen = SettingsScreen()
             self.screen_manager.add_widget(self.settings_screen)
@@ -477,6 +444,10 @@ class MultiMDApp(MDApp):
             self.launcher_screen = LauncherScreen()
             self.screen_manager.add_widget(self.launcher_screen)
             self.screen_manager.current = "launcher"
+
+    def _console_init(self):
+        self.ui_console = self.console_screen.ui_console
+        self.ui_console.console_handler()
 
     def _create_menu_item(self, item):
         """Create a menu item with proper binding
@@ -497,7 +468,7 @@ class MultiMDApp(MDApp):
         if not self.top_appbar_menu:
             menu_items = [
                 self._create_menu_item(item)
-                for item in self.screen_manager.screen_names
+                for item in ["console", "settings", "launcher"]
             ]
 
             self.top_appbar_menu = MDDropdownMenu(
@@ -506,7 +477,6 @@ class MultiMDApp(MDApp):
                 width_mult=3,
             )
         self.top_appbar_menu.open()
-
     
 # KivyMDGUI().run()
 

@@ -14,6 +14,7 @@ __all__ = (
     "TitleBarButton",
 )
 import sys
+import os
 from kivy.core.window import Window
 
 from kivy.properties import ObjectProperty
@@ -26,11 +27,11 @@ from kivy.lang import Builder
 
 archipelago_name = "multiworld.gg"    ## need to fix in the future
 
-TitlebarKV = f'''
+TitlebarKV = '''
 <TitleBarButton>:
     style: "standard"
     adaptive_size: True
-    pos_hint: {{"y": 0, "x": 0}}
+    pos_hint: {"y": 0, "x": 0}
     draggable: False
     theme_bg_color: "Custom"
     md_bg_color: app.theme_cls.primaryContainerColor \
@@ -55,22 +56,22 @@ TitlebarKV = f'''
     Image:
         halign: "left"
         valign: "top"
-        source: "data/titlebards.png"
+        source: "data/kivy_home/images/titlebards.png"
         size: self.texture_size
         size_hint: None,None
 
     MDFloatLayout:
         id: tblabel
         size_hint: 1, 1
-        pos_hint: {{"center_x": .5, "center_y": .5}}
+        pos_hint: {"center_x": .5, "center_y": .5}
 
         TitleBlur:
             id: titleblur
-            pos_hint: {{"center_x": .5, "center_y": .45}}
+            pos_hint: {"center_x": .5, "center_y": .45}
             size_hint: 1, 1
             opacity: .5
             MDLabel:
-                pos_hint: {{"center_x": .5, "center_y": .45}}
+                pos_hint: {"center_x": .5, "center_y": .45}
                 id: tblabel_title
                 text: app.title
                 font_style: "TitleBar"
@@ -83,7 +84,7 @@ TitlebarKV = f'''
                 opacity: .5
 
         MDLabel:
-            pos_hint: {{"center_x": .499, "center_y": .47}}
+            pos_hint: {"center_x": .499, "center_y": .47}
             size_hint: 1, 1
             id: tblabeltext
             text: app.title

@@ -111,6 +111,7 @@ class TopAppBar(MDTopAppBar):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.timer = self.ids.timer
+        self.item_data = None
         
     def toggle_timer(self):
         """Toggle timer on/off (pause/resume)"""

@@ -1,3 +1,8 @@
+GAME_NAME: str = "The Legend of Zelda: Skyward Sword"
+AUTHOR: str = "Battlecats59"
+IGDB_ID: int = 534
+VERSION: str = "0.5.0"
+
 # dAcPy_c::LINK
 LINK_PTR = 0x8057578C
 

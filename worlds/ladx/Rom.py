@@ -11,6 +11,7 @@ import pickle
 import logging
 from typing import TYPE_CHECKING
 from . import Common
+from .Constants import GAME_NAME
 from .LADXR import generator
 from .LADXR.main import get_parser
 from .LADXR.hints import generate_hint_texts
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
     from . import LinksAwakeningWorld
 
 class LADXPatchExtensions(worlds.Files.APPatchExtension):
-    game = Common.LINKS_AWAKENING
+    game = GAME_NAME
 
     @staticmethod
     def generate_rom(caller: worlds.Files.APProcedurePatch, rom: bytes, data_file: str) -> bytes:
@@ -43,7 +44,7 @@ class LADXPatchExtensions(worlds.Files.APPatchExtension):
 
 class LADXProcedurePatch(worlds.Files.APProcedurePatch):
     hash = LADX_HASH
-    game = Common.LINKS_AWAKENING
+    game = GAME_NAME
     patch_file_ending: str = Common.SUFFIX
     result_file_ending: str = ".gbc"
 

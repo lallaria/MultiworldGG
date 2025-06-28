@@ -86,12 +86,14 @@ class GameListItemHeader(MDBoxLayout, ButtonBehavior, CommonElevationBehavior):
         game_tag (StringProperty): The tag identifier for the game
         game_data (DictProperty): Dictionary containing game information
         panel (ObjectProperty): Reference to the parent panel
+        on_game_select (ObjectProperty): Callback function for game selection
     """
     game_tag: StringProperty
     game_data: DictProperty
     panel: ObjectProperty
+    on_game_select: ObjectProperty = None
 
-    def __init__(self, game_tag, game_data, panel, **kwargs):
+    def __init__(self, game_tag, game_data, panel, on_game_select=None, **kwargs):
         """
         Initialize the GameListItemHeader.
         
@@ -99,11 +101,18 @@ class GameListItemHeader(MDBoxLayout, ButtonBehavior, CommonElevationBehavior):
             game_tag (str): The tag identifier for the game
             game_data (dict): Dictionary containing game information
             panel: Reference to the parent panel
+            on_game_select: Callback function for game selection
         """
         self.game_tag = game_tag
         self.game_data = game_data
         self.panel = panel
+        self.on_game_select = on_game_select
         super().__init__(**kwargs)
+
+    def on_press(self):
+        """Handle press event for game selection"""
+        if self.on_game_select:
+            self.on_game_select(self.game_tag)
 
     def list_tooltip(self, item_list: list[str]) -> dict[str, str]:
         """
@@ -398,6 +407,7 @@ class GameListPanel(MDExpansionPanel):
         panel_header (MDExpansionPanelHeader): Header widget for the panel
         panel_content (MDExpansionPanelContent): Content widget for the panel
         panel_header_layout (ObjectProperty): Layout for the panel header
+        on_game_select (ObjectProperty): Callback function for game selection
     """
     game_tag: StringProperty
     game_data: DictProperty
@@ -406,21 +416,24 @@ class GameListPanel(MDExpansionPanel):
     panel_header: MDExpansionPanelHeader
     panel_content: MDExpansionPanelContent
     panel_header_layout: ObjectProperty
+    on_game_select: ObjectProperty = None
     app: MDApp
     
-    def __init__(self, game_tag, game_data, **kwargs):
+    def __init__(self, game_tag, game_data, on_game_select=None, **kwargs):
         """
         Initialize the GameListPanel.
         
         Args:
             game_tag (str): The tag identifier for the game
             game_data (dict): Dictionary containing game information
+            on_game_select: Callback function for game selection
             **kwargs: Additional keyword arguments for MDExpansionPanel
         """
         super().__init__(**kwargs)
         self.app = MDApp.get_running_app()
         self.game_tag = game_tag
         self.game_data = game_data
+        self.on_game_select = on_game_select
         self.width = 256
         self.pos_hint = {"center_y": 0.5}
         if "hints" in self.game_data:
@@ -468,7 +481,12 @@ class GameListPanel(MDExpansionPanel):
         """
         self.panel_header = self.ids.panel_header
         self.panel_content = self.ids.panel_content
-        self.panel_header_layout = GameListItemHeader(game_tag=self.game_tag, game_data=self.game_data, panel=self)
+        self.panel_header_layout = GameListItemHeader(
+            game_tag=self.game_tag, 
+            game_data=self.game_data, 
+            panel=self,
+            on_game_select=self.on_game_select
+        )
         self.leading_avatar = self.panel_header_layout.ids.leading_avatar
         self.panel_header.add_widget(self.panel_header_layout)
         self.leading_avatar.source = self.game_data['cover_url']

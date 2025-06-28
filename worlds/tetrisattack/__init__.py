@@ -8,8 +8,8 @@ import typing
 import threading
 from BaseClasses import Region, Location, Entrance, Item, ItemClassification, MultiWorld, Tutorial
 from worlds.AutoWorld import World, WebWorld
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Logic import stage_clear_round_gates_included, stage_clear_progressive_unlocks_included, \
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     stage_clear_individual_unlocks_included, get_starting_puzzle_level
 from .Options import TetrisAttackOptions, StarterPack, PuzzleGoal, PuzzleInclusion, \
     PuzzleMode, VersusGoal  # the options we defined earlier

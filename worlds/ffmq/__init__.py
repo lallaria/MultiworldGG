@@ -6,8 +6,8 @@ import requests
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Tutorial
 from .Regions import create_regions, location_table, set_rules, rooms, non_dead_end_crest_rooms,\
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     non_dead_end_crest_warps
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import item_table, item_groups, create_items, FFMQItem, fillers
 from .Output import generate_output
 from .Options import FFMQOptions

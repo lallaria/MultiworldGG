@@ -1,8 +1,9 @@
 import random
 import os
 from typing import Mapping, Any
+
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import item_table, SMOItem, filler_item_table, outfits, shop_items, multi_moons, \
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     moon_item_table, moon_types, story_moons, world_list
 from .Locations import locations_table, SMOLocation, locations_list, post_game_locations_list, \
     special_locations_table, full_moon_locations_list, goals_table

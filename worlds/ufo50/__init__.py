@@ -8,7 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import components, Component, launch_subprocess, Type as ComponentType
 
 from .constants import *
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from . import options
 
 from .general_items import cartridge_items, cartridge_item_group

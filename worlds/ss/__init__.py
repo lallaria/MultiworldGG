@@ -12,6 +12,8 @@ from Options import Toggle, OptionError
 from worlds.AutoWorld import WebWorld, World
 from worlds.Files import APPlayerContainer, AutoPatchRegister
 from worlds.generic.Rules import add_item_rule
+from .SSClientUtils import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+
 from worlds.LauncherComponents import (
     Component,
     SuffixIdentifier,
@@ -39,7 +41,7 @@ from .logic.LogicParser import parse_expression
 from .logic.Logic import ALL_REQUIREMENTS
 
 AP_VERSION = [0, 6, 1]
-WORLD_VERSION = [0, 5, 0]
+WORLD_VERSION = VERSION.split(".")
 RANDO_VERSION = [2, 2, 0]
 
 
@@ -87,7 +89,7 @@ class SSContainer(APPlayerContainer, metaclass=AutoPatchRegister):
     This class defines the container file for Skyward Sword.
     """
 
-    game: str = "Skyward Sword"
+    game: str = GAME_NAME
     patch_file_ending: str = ".apssr"
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -120,9 +122,9 @@ class SSWorld(World):
     options_dataclass = SSOptions
     options: SSOptions
 
-    game: ClassVar[str] = "Skyward Sword"
-    igdb_id = 534
-    author: str = "Battlecats59"
+    game: ClassVar[str] = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present: bool = True
     web = SSWeb()
     required_client_version: tuple[int, int, int] = (0, 5, 1)

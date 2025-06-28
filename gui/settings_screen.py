@@ -111,7 +111,7 @@ SettingsNavLayout:
                 size: dp(256), dp(161)
                 pos_hint: {"center_x": 0.5, "top": 1}
                 FitImage:
-                    source: "data/logo_bg.png"
+                    source: "gui/data/logo_bg.png"
                     size_hint: None,None
                     size: dp(256), dp(161)
                     pos_hint: {"center_x": 0.5, "top": 1}

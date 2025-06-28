@@ -14,8 +14,7 @@ import shutil
 import sys
 import tempfile
 
-
-from worlds.dk64.ap_version import version as ap_version
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION as ap_version
 
 baseclasses_loaded = False
 try:
@@ -213,8 +212,9 @@ if baseclasses_loaded:
         Play as the whole DK Crew and rescue the Golden Banana hoard from King K. Rool.
         """
 
-        game: str = "Donkey Kong 64"
+        game: str = GAME_NAME
         author: str = AUTHOR
+        igdb_id: int = IGDB_ID
         options_dataclass = DK64Options
         options: DK64Options
         topology_present = False
