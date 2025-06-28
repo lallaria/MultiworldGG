@@ -36,6 +36,8 @@ class MkddMemAddresses():
     """Speed multiplier when playing on 150cc or Mirror. Default 1.15."""
     max_speed_f: int
     """Max kart speed which cannot be exceeded even with mushrooms. Default 200."""
+    all_cup_tour_contents_wx: int
+    """All cup tour course ids - uses ids 0 (Luigi Circuit) - 16 (Rainbow Road). Lenght 16, first value is unused."""
     cup_contents_wx: int
     """Table of cup course ids, name and preview images in cup order (ie. from Luigi Circuit to Rainbow Road).
     Example: Mushroom cup course 3: course id = 2*12, name = 2*12+4, preview = 2*12+8."""
@@ -89,6 +91,16 @@ class MkddMemAddresses():
     """Items for driver and rider in time trials (size 2)."""
     gp_next_items_bx: int
     """Item for player in grand prix. Offset by character's special item id (size 22)."""
+    text_sx: int
+    """Text to print."""
+    text_size: int
+    """Max lenght of the text."""
+    text_x_offset_h: int
+    """Offset from text, x coordinate for the text."""
+    text_y_offset_h: int
+    """Offset from text, y coordinate for the text."""
+    text_amount: int
+    """Size of the text table."""
 
 class MkddMemAddressesUsa(MkddMemAddresses):
     # Vanilla addresses:
@@ -107,6 +119,7 @@ class MkddMemAddressesUsa(MkddMemAddresses):
     gp_race_no_w = 0x803b0fc8
     speed_multiplier_150cc_f = 0x80361d4c
     max_speed_f = 0x803d1894
+    all_cup_tour_contents_wx = 0x803b1300
     cup_contents_wx = 0x803322e8
     course_names_s = [
         0x80331fd0, # Luigi Circuit
@@ -175,3 +188,9 @@ class MkddMemAddressesUsa(MkddMemAddresses):
     available_cups_bx = 0x8000103c
     tt_items_bx = 0x80001041
     gp_next_items_bx = 0x80001043
+
+    text_sx = 0x80000da4
+    text_size = 0x30
+    text_x_offset_h = -4
+    text_y_offset_h = -2
+    text_amount = 5

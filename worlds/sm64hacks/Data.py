@@ -171,10 +171,10 @@ class Data:
 
     def import_json(self, file_name):
         cleanup_file_name = re.sub(r'(\d+)dot(\d+)', r'\1.\2', file_name)
-        json_dir = os.path.join("data", "sm64hacks", cleanup_file_name)
+        json_dir = os.path.join("data", "sm64hacks")
+        os.makedirs(json_dir, exist_ok=True)
         json_file = list(Path(json_dir).rglob(cleanup_file_name)) #external takes priority over internal
         local_file = True
-
         if json_file == []:
             json_file = list(resources.files(__package__).joinpath("jsons").rglob(cleanup_file_name))
             local_file = False
@@ -183,7 +183,7 @@ class Data:
         if len(json_file) == 0:
             raise FileNotFoundError(f"JSON file {cleanup_file_name} does not exist")
         json_file = json_file[0]
-
+        #print(json_file)
         if(local_file):
             with open(json_file, 'r') as infile:
                 filetext = infile.read()
@@ -191,7 +191,7 @@ class Data:
                 self.locations = json.loads(filetext)
         else:
             json_file = str(json_file).replace("\\", "/") #extremely janky but it works
-            print(json_file, resources.files(__package__))
+            #print(json_file, resources.files(__package__))
             json_file = os.path.relpath(json_file, start=str(resources.files(__package__)).replace("\\", "/"))
             file = pkgutil.get_data(__name__, json_file).decode()
             filetext = file

@@ -810,9 +810,6 @@ def set_rules(world: "PokemonCrystalWorld") -> None:
 
     set_rule(get_entrance("REGION_CIANWOOD_GYM -> REGION_CIANWOOD_GYM:STRENGTH"), can_strength)
 
-    set_rule(get_location("Cianwood Pharmacy - Secretpotion"),
-             lambda state: state.has("EVENT_JASMINE_EXPLAINED_AMPHYS_SICKNESS", world.player))
-
     if world.options.level_scaling:
         set_rule(get_location("MYSTICALMAN_EUSINE"),
                  lambda state: state.has("EVENT_BURNED_TOWER_MORTY", world.player))

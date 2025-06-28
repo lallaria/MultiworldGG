@@ -1,5 +1,5 @@
 
-# GUIDE D'INSTALLATION POUR LE RANDOMISEUR MWGG DE BANJO-TOOIE
+# GUIDE D'INSTALLATION POUR LE RANDOMISEUR ARCHIPELAGO DE BANJO-TOOIE
 
 ## Important
 
@@ -41,14 +41,14 @@ Ceci causera des bugs d'affichage mineurs pendant le jeu, mais ne devrait pas ca
 
 ### Démarrage - BizHawk
 
-- Lancer le MultiworldGG Launcher et sélectionner le client de Banjo-Tooie, dans la colonne de droite
+- Lancer le Archipelago Launcher et sélectionner le client de Banjo-Tooie, dans la colonne de droite
 - Si c'est la première fois que vous ouvrez le client de Banjo-Tooie (ou si vous changez de version), il va vous demander la ROM de Banjo-Tooie. La ROM sera ensuite patchée, et le client vous indiquera où trouver la ROM à utiliser.
 - Connecter le client de Banjo-Tooie au serveur, en saisissant l'adresse du serveur et le port dans le champs en haut du client.
 - Ouvrir BizHawk, et lancer la ROM patchée.
-- Dans BizHawk, cliquer sur Tools, suivi de Lua Console. De là, vous pouvez glisser-déposer banjo_tooie_connector.lua (situé dans le dossier data/lua du dossier d'MultiworldGG) dans la fenêtre de la Lua console.
+- Dans BizHawk, cliquer sur Tools, suivi de Lua Console. De là, vous pouvez glisser-déposer banjo_tooie_connector.lua (situé dans le dossier data/lua du dossier d'Archipelago) dans la fenêtre de la Lua console.
 
 ## Jouer sur Everdrive
-- Lancer le MultiworldGG Launcher et sélectionner le client de Banjo-Tooie, dans la colonne de droite
+- Lancer le Archipelago Launcher et sélectionner le client de Banjo-Tooie, dans la colonne de droite
 - Si c'est la première fois que vous ouvrez le client de Banjo-Tooie, ou si vous changez de version:
   - Le client de Banjo-Tooie va vous demander la ROM de Banjo-Tooie. La ROM sera ensuite patchée, et le client vous indiquera où trouver la ROM à utiliser.
   - Copier la ROM patch sur la carte SD utilisée pour l'Everdrive

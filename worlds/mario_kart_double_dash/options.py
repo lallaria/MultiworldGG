@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Choice, NamedRange, OptionDict, PerGameCommonOptions, Range, StartInventoryPool, Toggle, Visibility
+from Options import Choice, DefaultOnToggle, NamedRange, OptionDict, PerGameCommonOptions, Range, StartInventoryPool, Toggle, Visibility
 
 class Goal(Choice):
     """Victory condition for the game.
@@ -9,13 +9,26 @@ class Goal(Choice):
     option_all_cup_tour = 0
     option_trophies = 1
 
-class TrophyAmount(Range):
+class TrophyRequirement(Range):
     """How many gold trophies are needed for goal completion.
-    Recommended: 9-12 if you aim to complete the game on 150cc. 13-16 if you aim to complete the game on Mirror."""
-    display_name = "Trophy Amount"
+    Recommended: 9-12 if you aim to complete the game on 150cc. 13-16 if you aim to complete the game on Mirror.
+    Value will be limited to the number of trophies in the pool."""
+    display_name = "Trophy Requirement"
+    range_start = 0
+    range_end = 32
+    default = 10
+
+class GrandPrixTrophies(DefaultOnToggle):
+    """Does getting gold in cups earn you trophies."""
+    display_name = "Grand Prix Trophies"
+
+class ShuffleExtraTrophies(Range):
+    """How many trophies are added in the pool in addition to predetermined trophy locations.
+    These trophies can appear in other players' worlds."""
+    display_name = "Shuffle Extra Trophies"
     range_start = 0
     range_end = 16
-    default = 10
+    default = 0
 
 class LogicDifficulty(NamedRange):
     """Balances the difficulty modeling, how many upgrades you are presumed to have to win races.
@@ -34,7 +47,8 @@ class LogicDifficulty(NamedRange):
     }
 
 class TrackerUnrestrictedLogic(Toggle):
-    """If enabled, the Universal Tracker will show all locations that are techically accessible (as if Logic Difficulty was set to unrestricted)."""
+    """If enabled, the Universal Tracker will show all locations that are techically accessible (as if Logic Difficulty was set to unrestricted).
+    DEPRECATED - Using latest version of UT on Archipelago 0.6.2 installation shows out of logic locations as glitched logic."""
     display_name = "Tracker Unrestricted Logic"
     visibility = Visibility.complex_ui | Visibility.template | Visibility.spoiler
 
@@ -92,6 +106,13 @@ class ItemsPerCharacter(Range):
     range_end = 4
     default = 3
 
+class StartItemsPerCharacter(Range):
+    """Unlocks some items for the characters straight away."""
+    display_name = "Start Items per Character"
+    range_start = 0
+    range_end = 5
+    default = 1
+
 class KartUpgrades(Range):
     """How many random kart stat upgrades there are total.
     Unlike progressive engine upgrades, these upgrades are tied to certain vehicles."""
@@ -100,10 +121,18 @@ class KartUpgrades(Range):
     range_end = 40
     default = 10
 
+class SpeedUpgrades(DefaultOnToggle):
+    """Adds 3 Progressive Speed Upgrades to the pool.
+    You start at a slight disadvantage (90 % speed) and collecting all the speed upgrades gets you to 110 % speed.
+    Disabling this sets logic difficulty on hard if it's lower."""
+    display_name = "Speed Upgrades"
+
 @dataclass
 class MkddOptions(PerGameCommonOptions):
     goal: Goal
-    trophy_amount: TrophyAmount
+    trophy_requirement: TrophyRequirement
+    grand_prix_trophies: GrandPrixTrophies
+    shuffle_extra_trophies: ShuffleExtraTrophies
     logic_difficulty: LogicDifficulty
     tracker_unrestricted_logic: TrackerUnrestrictedLogic
     time_trials: TimeTrials
@@ -117,7 +146,9 @@ class MkddOptions(PerGameCommonOptions):
 
     items_for_everybody: ItemsForEverybody
     items_per_character: ItemsPerCharacter
+    start_items_per_character: StartItemsPerCharacter
 
     kart_upgrades: KartUpgrades
+    speed_upgrades: SpeedUpgrades
 
     start_inventory_from_pool: StartInventoryPool

@@ -358,7 +358,7 @@ class ApeEscapeClient(BizHawkClient):
     system = "PSX"
 
     # TODO Remove when doing official PR
-    client_version = "0.8.8"
+    client_version = "0.8.9"
 
     local_checked_locations: Set[int]
     local_set_events: Dict[str, bool]
@@ -1547,13 +1547,14 @@ class ApeEscapeClient(BizHawkClient):
                     self.currentCoinAddress -= 2
                 # Check for new coins from current coin address
                 if currentCoinStateRoom != 0xFF and currentCoinStateRoom != 0x00:
+
                     if (int(currentCoinStateRoom + self.offset + 300)) not in self.locations_list:
                         coins_to_send.add(int(currentCoinStateRoom + self.offset + 300))
                         await ctx.send_msgs([{
                             "cmd": "LocationChecks",
                             "locations": list(x for x in coins_to_send)
                         }])
-                        self.currentCoinAddress += 2
+                    self.currentCoinAddress += 2
 
             # Check for level bosses
             if gameState == RAM.gameState["InLevel"] and (localcondition) and (currentRoom in bossRooms):

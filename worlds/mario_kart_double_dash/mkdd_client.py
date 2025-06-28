@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Any, Optional
 import dolphin_memory_engine as dolphin
 
 import Utils
+apname = Utils.instance_name if Utils.instance_name else "Archipelago"
+
 from CommonClient import get_base_parser, gui_enabled, logger, server_loop
 from NetUtils import ClientStatus, NetworkItem
 
@@ -62,7 +64,7 @@ class MkddCommandProcessor(ClientCommandProcessor):
             logger.info(f"Unlocked characters: {", ".join([game_data.CHARACTERS[c].name for c in self.ctx.unlocked_characters])}")
             logger.info(f"Unlocked karts (upgrades): {", ".join([f"{game_data.KARTS[c].name} ({(
                 ", ".join(u.name for u in self.ctx.kart_upgrades[c]))})" for c in self.ctx.unlocked_karts])}")
-            logger.info(f"Engine upgrades: {self.ctx.engine_upgrade_level}")
+            logger.info(f"Speed upgrades: {self.ctx.engine_upgrade_level}")
             logger.info(f"Max vehicle class: {["50cc", "100cc", "150cc", "Mirror"][self.ctx.unlocked_vehicle_class]}")
             logger.info(f"Unlocked cups: {", ".join([game_data.CUPS[c] for c in self.ctx.unlocked_cups])}")
             logger.info(f"Unlocked time trial courses: {", ".join([game_data.COURSES[c].name for c in self.ctx.unlocked_courses])}")
@@ -102,6 +104,9 @@ class MkddContext(CommonContext):
         self.last_rcvd_index: int = -1
         self.has_send_death: bool = False
         self.victory_sent: bool = False
+
+        self.message_queue: list[str] = []
+        self.message_time_left: int = 0
 
         self.memory_addresses = mem_addresses.MkddMemAddressesUsa
 
@@ -193,7 +198,7 @@ class MkddContext(CommonContext):
             if "death_link" in slot_data:
                 Utils.async_start(self.update_death_link(bool(args["slot_data"]["death_link"])))
             
-            self.trophy_goal = slot_data.get("trophy_amount")
+            self.trophy_goal = slot_data.get("trophy_requirement")
             self.cups_courses = slot_data["cups_courses"]
             self.all_cup_tour_length = slot_data.get("all_cup_tour_length", 8)
             self.mirror_200cc = bool(slot_data.get("mirror_200cc"))
@@ -219,6 +224,20 @@ class MkddContext(CommonContext):
             self.items_received_2.sort(key=lambda v: v[1])
         elif cmd == "Retrieved":
             requested_keys_dict = args["keys"]
+        elif cmd == "PrintJSON":
+            if args.get("type") == "ItemSend":
+                to_player: int = args["receiving"]
+                nw_item: NetworkItem = args["item"]
+                from_player: int = nw_item.player
+                item_name: str = self.item_names.lookup_in_slot(nw_item.item, to_player)
+                if to_player == self.slot and from_player == self.slot:
+                    queue_ingame_message(self, f"You found your\n{item_name}")
+                elif to_player == self.slot:
+                    from_player_name: str = self.player_names[from_player]
+                    queue_ingame_message(self, f"{from_player_name} found your\n{item_name}")
+                elif from_player == self.slot:
+                    to_player_name: str = self.player_names[to_player]
+                    queue_ingame_message(self, f"You found {to_player_name}'s\n{item_name}")
         # Relay packages to the tracker also.
         super().on_package(cmd, args)
 
@@ -230,14 +249,18 @@ class MkddContext(CommonContext):
         """
         super().on_deathlink(data)
         _give_death(self)
-    
+
     def make_gui(self) -> type["kvui.GameManager"]:
+        """
+        Initialize the GUI for Mario Kart Double Dash client.
+
+        :return: The client's GUI.
+        """
         ui = super().make_gui()
-        ui.base_title = f"Mario Kart: Double Dash!! Client v{version.get_str()}"
+        ui.base_title = f"{apname} Mario Kart Double Dash Client {version.get_str()}"
         if tracker_loaded:
             ui.base_title += f" | Universal Tracker {UT_VERSION}"
-
-        ui.base_title += " | MWGG"
+        ui.base_title +=  f" | {apname} v"
         return ui
 
 ###### Dolphin connection ######
@@ -428,7 +451,15 @@ async def check_locations(ctx: MkddContext) -> None:
             new_location_names.add(locations.get_loc_name_finish(ctx.current_course.name))
             if in_race_placement == 0:
                 new_location_names.add(locations.get_loc_name_first(ctx.current_course.name))
-            
+
+                # Win with default character pairs.
+                character1 = min(c.id for c in ctx.active_characters)
+                character2 = max(c.id for c in ctx.active_characters)
+                if character1 % 2 == 0 and character1 + 1 == character2:
+                    new_location_names.add(locations.get_loc_name_win_characters(
+                        game_data.CHARACTERS[character1].name, game_data.CHARACTERS[character2].name
+                    ))
+
                 # Win with default character + kart combination.
                 for character in ctx.active_characters:
                     kart = game_data.KARTS[character.default_kart]
@@ -499,42 +530,59 @@ def update_game(ctx: MkddContext) -> None:
     :param ctx: Mario Kart Double Dash client context.
     """
     _apply_ar_code(ar_codes.unlock_everything)
+    
+    text_s: list[str] = ["" for _ in range(ctx.memory_addresses.text_amount)]
+    text_x: list[int] = [0 for _ in range(ctx.memory_addresses.text_amount)]
+    text_y: list[int] = [0 for _ in range(ctx.memory_addresses.text_amount)]
+    text_j: list[int] = [1 for _ in range(ctx.memory_addresses.text_amount)]
 
-    # Force character and kart selection.
-    # The game is modded to do this autonomically to some degree, but some edge cases is handled by client.
-    # TODO: Handle the rest of the cases in-game:
-    #       - Default character is still Mario
-    #       - Default kart is chosen from the character
-    #       - Random choice kart
     menu_pointer = dolphin.read_word(ctx.memory_addresses.menu_pointer)
     if menu_pointer != 0:
         driver = dolphin.read_word(menu_pointer + ctx.memory_addresses.menu_driver_w_offset)
         rider = dolphin.read_word(menu_pointer + ctx.memory_addresses.menu_rider_w_offset)
+        # Save active selections for printing info.
+        p1_character: game_data.Character | None = None
+        p2_character: game_data.Character | None = None
+        p1_kart: game_data.Kart | None = None
         # Save selections for later use (when menu pointer becomes invalid).
         if driver >= 0 and driver < len(game_data.CHARACTERS):
             ctx.active_characters[0] = game_data.CHARACTERS[driver]
+            p1_character = ctx.active_characters[0]
         if rider >= 0 and rider < len(game_data.CHARACTERS):
             ctx.active_characters[1] = game_data.CHARACTERS[rider]
+            p2_character = ctx.active_characters[1]
         
         for player in range(4):
             player_offset = player * ctx.memory_addresses.menu_player_struct_size
             character: int = int(dolphin.read_word(menu_pointer + ctx.memory_addresses.menu_character_w_offset + player_offset))
             kart: int = int(dolphin.read_word(menu_pointer + ctx.memory_addresses.menu_kart_w_offset + player_offset))
             
-            if kart >= 0 and kart < len(game_data.KARTS):
-                ctx.active_kart = game_data.KARTS[kart]
+            if character >= 0 and character < len(game_data.CHARACTERS):
+                if player == 0:
+                    if not p1_character:
+                        # Player 1 is choosing the driver.
+                        p1_character = game_data.CHARACTERS[character]
+                    else:
+                        # Player 1 is choosing the rider.
+                        p2_character = game_data.CHARACTERS[character]
+                elif player == 1:
+                    # Player 2 can choose only the rider.
+                    p2_character = game_data.CHARACTERS[character]
 
-            if character >= 0 and character < len(game_data.CHARACTERS) and not character in ctx.unlocked_characters:
-                direction: int = character - ctx.last_selected_character[player]
-                direction = 1 if direction == 0 or direction == 1 else -1
-                for i in range(20):
-                    character = wrap(character + direction, len(game_data.CHARACTERS))
-                    if character in ctx.unlocked_characters:
-                        break
-                dolphin.write_word(menu_pointer + ctx.memory_addresses.menu_character_w_offset + player_offset, character)
+                # Force character selection.
+                if not character in ctx.unlocked_characters:
+                    direction: int = character - ctx.last_selected_character[player]
+                    direction = 1 if direction == 0 or direction == 1 else -1
+                    for i in range(20):
+                        character = wrap(character + direction, len(game_data.CHARACTERS))
+                        if character in ctx.unlocked_characters:
+                            break
+                    dolphin.write_word(menu_pointer + ctx.memory_addresses.menu_character_w_offset + player_offset, character)
+
             ctx.last_selected_character[player] = character
-
+            
             if kart >= 0 and kart < len(game_data.KARTS):
+                # Force kart selection.
                 weight = max(ctx.active_characters[0].weight, ctx.active_characters[1].weight)
                 direction: int = kart - ctx.last_selected_kart[player]
                 direction = 1 if direction == 0 else int(direction / abs(direction))
@@ -543,17 +591,63 @@ def update_game(ctx: MkddContext) -> None:
                         break
                     kart = wrap(kart + direction, len(game_data.KARTS))
                 dolphin.write_word(menu_pointer + ctx.memory_addresses.menu_kart_w_offset + player_offset, kart)
+
+                if player == 0:
+                    ctx.active_kart = game_data.KARTS[kart]
+                    p1_kart = ctx.active_kart
             ctx.last_selected_kart[player] = kart
 
+        # Print selected kart or characters and their items.
+        if p1_kart:
+            text_s[0] = p1_kart.name + " " + ", ".join(u.short_name for u in ctx.kart_upgrades[p1_kart.id])
+            text_x[0] = 92
+            text_y[0] = 215
+        elif p1_character:
+            p1_items: list[game_data.Item] = ctx.character_items.get(p1_character, []).copy()
+            p1_items.extend(ctx.global_items)
+            if p2_character:
+                p2_items: list[game_data.Item] = ctx.character_items.get(p2_character, []).copy()
+                p2_items.extend(ctx.global_items)
+                # Check for synergy (default character combo).
+                character1 = min(p1_character.id, p2_character.id)
+                character2 = max(p1_character.id, p2_character.id)
+                if character1 % 2 == 0 and character1 + 1 == character2:
+                    p1_items = p2_items
+                    if len(p2_items) > 0:
+                        text_x[2] = 92
+                        text_y[2] = 265
+                        text_s[2] = "Item synergy"
+                text_x[1] = 92
+                text_y[1] = 240
+                if len(p2_items) > 0:
+                    text_s[1] = f"{p2_character.name}: {", ".join([item.name for item in p2_items])}"
+                    if len(text_s[1]) > 40:
+                        text_s[1] = f"{p2_character.name}: {", ".join([item.short_name for item in p2_items])}"
+                    if len(text_s[1]) > 43:
+                        text_s[1] = text_s[1][:41] + ".."
+                else:
+                    text_s[1] = f"{p2_character.name} (no items)"
+            text_x[0] = 92
+            text_y[0] = 215
+            if len(p1_items) > 0:
+                text_s[0] = f"{p1_character.name}: {", ".join([item.name for item in p1_items])}"
+                if len(text_s[0]) > 40:
+                    text_s[0] = f"{p1_character.name}: {", ".join([item.short_name for item in p1_items])}"
+                if len(text_s[0]) > 43:
+                    text_s[0] = text_s[0][:41] + ".."
+            else:
+                text_s[0] = f"{p1_character.name} (no items)"
+
+    # Apply shuffled courses upon selecting vehicle class.
     vehicle_class = dolphin.read_word(ctx.memory_addresses.vehicle_class_w)
     if vehicle_class != ctx.last_selected_vehicle_class:
         ctx.last_selected_vehicle_class = vehicle_class
         offset = ctx.memory_addresses.cup_contents_wx
-        for cup in ctx.cups_courses:
-            for course in cup:
-                dolphin.write_word(offset, game_data.COURSES[course].id)
-                dolphin.write_word(offset + 4, ctx.memory_addresses.course_names_s[course])
-                dolphin.write_word(offset + 8, ctx.memory_addresses.course_previews_s[course])
+        for i_cup in ctx.cups_courses:
+            for i_course in i_cup:
+                dolphin.write_word(offset, game_data.COURSES[i_course].id)
+                dolphin.write_word(offset + 4, ctx.memory_addresses.course_names_s[i_course])
+                dolphin.write_word(offset + 8, ctx.memory_addresses.course_previews_s[i_course])
                 offset += 12
 
 
@@ -581,11 +675,11 @@ def update_game(ctx: MkddContext) -> None:
     if mode == game_data.Modes.GRANDPRIX:
         # Give option to skip x first courses.
         courses = [c for c in range(ctx.unlocked_cup_skips + 1)]
-        for cup in ctx.unlocked_cups:
-            if cup == game_data.CUP_ALL_CUP_TOUR:
-                available_cups_courses[cup] = [0]
+        for i_cup in ctx.unlocked_cups:
+            if i_cup == game_data.CUP_ALL_CUP_TOUR:
+                available_cups_courses[i_cup] = [0]
             else:
-                available_cups_courses[cup] = courses
+                available_cups_courses[i_cup] = courses
 
         # Use custom lap counts in grand prix.
         for i_course in [c for c in game_data.RACE_COURSES]:
@@ -629,34 +723,48 @@ def update_game(ctx: MkddContext) -> None:
             dolphin.read_word(ctx.memory_addresses.gp_race_no_w) == ctx.all_cup_tour_length - 2):
             dolphin.write_word(ctx.memory_addresses.gp_race_no_w, 14)
 
-
     # Force cup and course selection.
+    selected_cup: int = int(dolphin.read_word(ctx.memory_addresses.cup_w))
+    selected_course: int = int(dolphin.read_word(ctx.memory_addresses.menu_course_w))
     if len(available_cups_courses) > 0:
-        cup: int = int(dolphin.read_word(ctx.memory_addresses.cup_w))
-        if not cup in available_cups_courses:
-            direction: int = cup - ctx.last_selected_cup
+        if not selected_cup in available_cups_courses:
+            direction: int = selected_cup - ctx.last_selected_cup
             direction = 1 if direction == 0 or direction == 1 else -1
             for i in range(5):
-                cup = wrap(cup + direction, len(game_data.CUPS))
-                if cup in available_cups_courses:
+                selected_cup = wrap(selected_cup + direction, len(game_data.CUPS))
+                if selected_cup in available_cups_courses:
                     break
-            dolphin.write_word(ctx.memory_addresses.cup_w, cup)
-            ctx.last_selected_cup = cup
+            dolphin.write_word(ctx.memory_addresses.cup_w, selected_cup)
 
         for i_cup in range(len(game_data.CUPS)):
             dolphin.write_byte(ctx.memory_addresses.available_cups_bx + i_cup, int(i_cup in available_cups_courses))
 
-        course: int = int(dolphin.read_word(ctx.memory_addresses.menu_course_w))
-        if not course in available_cups_courses[cup]:
-            direction: int = course - ctx.last_selected_course
+        if not selected_course in available_cups_courses[selected_cup]:
+            direction: int = selected_course - ctx.last_selected_course
             direction = 1 if direction == 0 or direction == 1 else -1
             for i in range(4):
-                course = wrap(course + direction, 4)
-                if course in available_cups_courses[cup]:
+                selected_course = wrap(selected_course + direction, 4)
+                if selected_course in available_cups_courses[selected_cup]:
                     break
-            dolphin.write_word(ctx.memory_addresses.menu_course_w, course)
-            ctx.last_selected_course = course
+            dolphin.write_word(ctx.memory_addresses.menu_course_w, selected_course)
     
+    # Shuffle All Cup Tour properly with randomized courses.
+    if selected_cup == game_data.CUP_ALL_CUP_TOUR and selected_cup != ctx.last_selected_cup:
+        course_order = list(range(1, 15)) # First is LC, last is RR - shuffle everything between.
+        random.shuffle(course_order)
+        course_order = [0, *course_order, 15]
+        flat_course_list = [i_course for i_cup in ctx.cups_courses for i_course in i_cup]
+        offset = 0
+        for i_course in course_order:
+            dolphin.write_word(ctx.memory_addresses.all_cup_tour_contents_wx + offset,
+                               flat_course_list.index(i_course))
+            offset += 4
+        
+
+    ctx.last_selected_cup = selected_cup
+    ctx.last_selected_course = selected_course
+
+    # Set kart stats.
     vehicle_class: int = dolphin.read_word(ctx.memory_addresses.vehicle_class_w)
     if mode == game_data.Modes.GRANDPRIX and vehicle_class == 3 and ctx.mirror_200cc:
         dolphin.write_float(ctx.memory_addresses.speed_multiplier_150cc_f, 1.4)
@@ -715,6 +823,31 @@ def update_game(ctx: MkddContext) -> None:
         dolphin.write_float(kart_address + ctx.memory_addresses.kart_mass_f_offset, stats.mass + weight_addition)
         dolphin.write_float(kart_address + ctx.memory_addresses.kart_roll_f_offset, stats.roll)
         dolphin.write_float(kart_address + ctx.memory_addresses.kart_steer_f_offset, stats.steer + steer_addition)
+    
+
+    # In game message system
+    ctx.message_time_left -= 1
+    if ctx.message_time_left > 0:
+        lines: list[str] = ctx.message_queue[0].split("\n")
+        for i, text in enumerate(lines):
+            # Use text slots from the end to interfere minimally with other texts.
+            text_id = ctx.memory_addresses.text_amount - i - 1
+            text_s[text_id] = text
+            text_x[text_id] = 304
+            text_y[text_id] = 13 + i * 12
+            text_j[text_id] = 0
+            
+    # Try to show the message first, only then check for new message.
+    # This causes one tick long disappearing of the message between messages,
+    # making message changing more noticeable.
+    if ctx.message_time_left == 0:
+        ctx.message_queue.pop(0)
+        if len(ctx.message_queue) > 0:
+            ctx.message_time_left = 40
+
+    for i in range(len(text_s)):
+        print_ingame(ctx, text_x[i], text_y[i], text_s[i], i, text_j[i])
+
 
 def wrap(value: int, max_value: int) -> int:
     if value < 0:
@@ -776,6 +909,54 @@ def check_ingame() -> bool:
     """
     # TODO: Check if a race is on.
     return True
+
+
+def dolphin_write_half(address: int, value: int) -> None:
+    """
+    Write a half-word/short (2 bytes) into memory.
+    """
+    dolphin.write_bytes(address, value.to_bytes(2, byteorder="big"))
+
+
+def dolphin_write_str(address: int, value: str) -> None:
+    """
+    Write a string into memory.
+    """
+    dolphin.write_bytes(address, bytes(value, "ascii", "replace"))
+    dolphin.write_byte(address + len(value), 0)
+
+
+def print_ingame(ctx: MkddContext, x: int, y: int, text: str, msg_id: int, justification: int = 0) -> None:
+    """
+    Print text in game.
+
+    :param ctx: Mario Kart Double Dash client context.
+    :param x: X coorditate, from 0 (left) to 608 (right).
+    :param y: Y coordinate, from 12 (top) to 450 (bottom).
+    :param text: The text to show. One line only, max 43 characters.
+    :param msg_id: Id for the text. From 0 upwards. Using same id replaces the text.
+    :param justification: 1 for left justification, 0 for center, -1 for right.
+    """
+    text = text[:43]
+    font_size = 12
+    text_width = len(text) * font_size
+    x += int(text_width * (justification - 1) / 2)
+    address = ctx.memory_addresses.text_sx + msg_id * ctx.memory_addresses.text_size
+    dolphin_write_str(address, text)
+    dolphin_write_half(address + ctx.memory_addresses.text_x_offset_h, x)
+    dolphin_write_half(address + ctx.memory_addresses.text_y_offset_h, y)
+
+
+def queue_ingame_message(ctx: MkddContext, message: str) -> None:
+    """
+    Show message in game. If there's multiple messages, they will be shown one after another.
+
+    :param ctx: Mario Kart Double Dash client context.
+    :param message: The message to show. Can be 2 lines long.
+    """
+    ctx.message_queue.append(message)
+    if len(ctx.message_queue) == 1:
+        ctx.message_time_left = 40
 
 
 async def dolphin_sync_task(ctx: MkddContext) -> None:

@@ -17,6 +17,7 @@ from BaseClasses import Region, Location, Entrance, Item, ItemClassification, Co
 
 
 class SM64HackWebWorld(WebWorld):
+    display_name = "Super Mario 64 Romhacks"
     bug_report_page = "https://github.com/DNVIC/archipelago-sm64hacks/issues"
     theme = "partyTime"
     tutorials = [
@@ -63,13 +64,16 @@ class SM64HackWorld(World):
         else:
             fn = self.options.json_file.value
         self.data.import_json(fn)
-        self.progressive_keys = self.options.progressive_keys
+        self.progressive_keys = self.options.progressive_keys.value
+        if isinstance(self.data.locations["Other"]["Settings"], list):
+            raise ValueError("JSON is too old. \
+                            \nPlease reimport the JSON into the website (https://dnvic.com/ArchipelagoGenerator), \
+                              and export with a new progressive key setting at the bottom, and try again")
         if self.progressive_keys == 3:
             try:
                 self.progressive_keys = self.data.locations["Other"]["Settings"]["prog_key"]
             except TypeError:
                 raise ValueError("JSON is too old and does not have a default for progressive keys")
-
 
     @staticmethod
     def normalize_to_json_filename(name: str) -> str:
@@ -340,7 +344,7 @@ class SM64HackWorld(World):
                             lambda state, course=course, star=star, star_data=self.data.locations[course]["Stars"][star]: self.can_access_location(state, star_data, True, course, star))
                 continue
                     
-                
+            
             
             course_data = self.data.locations[course]
             add_rule(self.multiworld.get_entrance(f"{course} Connection", self.player),
