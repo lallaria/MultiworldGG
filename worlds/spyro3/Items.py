@@ -1,13 +1,14 @@
 from enum import IntEnum
 from typing import NamedTuple
-import random
 from BaseClasses import Item
 
 
 class Spyro3ItemCategory(IntEnum):
     EGG = 0,
     SKIP = 1,
-    EVENT = 2
+    EVENT = 2,
+    MISC = 3,
+    TRAP = 4
 
 
 class Spyro3ItemData(NamedTuple):
@@ -26,6 +27,7 @@ class Spyro3Item(Item):
 
 
 key_item_names = {
+"Egg"
 }
 
 
@@ -65,6 +67,8 @@ _all_items = [Spyro3ItemData(row[0], row[1], row[2]) for row in [
     
     
     ("Egg", 1000, Spyro3ItemCategory.EGG),
+    ("Extra Life", 1001, Spyro3ItemCategory.MISC),
+    ("Lag Trap", 1002, Spyro3ItemCategory.TRAP),
     
 ]]
 #_all_items.extend([Spyro3ItemData(f"Egg {i+1}", 1000 + i, Spyro3ItemCategory.EGG) for i in range(149)])
@@ -74,7 +78,7 @@ item_descriptions = {
 
 item_dictionary = {item_data.name: item_data for item_data in _all_items}
 
-def BuildItemPool(count, options):
+def BuildItemPool(multiworld, count, options):
     item_pool = []
     included_itemcount = 0
 
@@ -85,10 +89,12 @@ def BuildItemPool(count, options):
             included_itemcount = included_itemcount + 1
     remaining_count = count - included_itemcount
     
+    allowed_items = [item for item in _all_items if item.category not in [Spyro3ItemCategory.EVENT, Spyro3ItemCategory.MISC, Spyro3ItemCategory.TRAP]]
+      
     for i in range(remaining_count):
-        itemList = [item for item in _all_items]
-        item = random.choice(itemList)
+        itemList = [item for item in allowed_items]
+        item = multiworld.random.choice(itemList)
         item_pool.append(item)
     
-    random.shuffle(item_pool)
+    multiworld.random.shuffle(item_pool)
     return item_pool

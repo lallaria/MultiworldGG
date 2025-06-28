@@ -63,7 +63,8 @@ TRACKER_STATIC_EVENT_FLAGS = [
     "EVENT_TOGEPI_HATCHED",
     "EVENT_GOT_TYROGUE_FROM_KIYO",
     "EVENT_UNION_CAVE_B2F_LAPRAS",
-    "EVENT_FOUGHT_CELEBI"
+    "EVENT_FOUGHT_CELEBI",
+    "EVENT_GOT_ODD_EGG"
 ]
 
 STATIC_EVENT_FLAG_MAP = {data.event_flags[event]: event for event in TRACKER_STATIC_EVENT_FLAGS}
@@ -193,7 +194,11 @@ class PokemonCrystalClient(BizHawkClient):
 
             required_rom_version = data.rom_version if rom_revision == 0 else data.rom_version_11
             if rom_version != required_rom_version:
-                generator_apworld_version = bytes([byte for byte in rom_info[4] if byte != 0]).decode("ascii")
+                try:
+                    generator_apworld_version = bytes([byte for byte in rom_info[4] if byte != 0]).decode("ascii")
+                except UnicodeDecodeError:
+                    generator_apworld_version = None
+                    
                 if not generator_apworld_version:
                     generator_apworld_version = "too old to know"
                 generator_version = "{0:x}".format(rom_version)

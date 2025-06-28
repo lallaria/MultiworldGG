@@ -5,7 +5,7 @@ from BaseClasses import Region, Tutorial, ItemClassification
 from Utils import visualize_regions
 from worlds.AutoWorld import World, WebWorld
 from .Items import item_data_table, HereComesNikoItem, item_table, item_name_groups
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Locations import location_data_table, HereComesNikoLocation, locked_locations, location_table, \
     location_name_groups
 from .Options import *
@@ -26,6 +26,7 @@ class HereComesNikoWebWorld(WebWorld):
     )
 
     tutorials = [setup_en]
+    option_groups = hcniko_option_groups
 
 
 class HereComesNikoWorld(World):
@@ -174,7 +175,9 @@ class HereComesNikoWorld(World):
         for _ in range(speed_boosts_to_add):
             item_pool.append(self.create_item("Speed Boost"))
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-        item_pool += [self.create_filler() for _ in range(total_locations - len(item_pool))]
+
+        item_pool += self.create_junk_items(total_locations - len(item_pool))
+        #item_pool += [self.create_filler() for _ in range(total_locations - len(item_pool))]
         mw.itempool += item_pool
 
     def create_regions(self) -> None:
@@ -221,8 +224,40 @@ class HereComesNikoWorld(World):
                 mw.get_location(location, player).place_locked_item(self.create_item(ticket))
 
     def get_filler_item_name(self) -> str:
-        filler_items = [item for item, data in item_data_table.items() if data.type in {ItemClassification.filler, ItemClassification.trap}]
+        filler_items = [item for item, data in item_data_table.items() if data.type == ItemClassification.filler]
         return self.random.choice(filler_items)
+
+    def create_junk_items(self, count: int) -> List[HereComesNikoItem]:
+        trap_chance = self.options.trapchance.value
+        junk_items: List[HereComesNikoItem] = []
+        filler_items: List[str] = [name for name, item in item_data_table.items() if item.type == ItemClassification.filler]
+        trap_list: Dict[str, int] = {}
+
+        for name, item in item_data_table.items():
+            if trap_chance > 0 and item.type == ItemClassification.trap:
+                option_map = {
+                    "Freeze Trap": self.options.freeze_trapweight.value,
+                    "Iron Boots Trap": self.options.ironboots_trapweight.value,
+                    "Whoops! Trap": self.options.whoops_trapweight.value,
+                    "My Turn! Trap": self.options.myturn_trapweight.value,
+                    "Gravity Trap": self.options.gravity_trapweight.value,
+                    "Home Trap": self.options.home_trapweight.value,
+                    "W I D E Trap": self.options.wide_trapweight.value,
+                    "Phone Trap": self.options.phone_trapweight.value,
+                    "Tiny Trap": self.options.tiny_trapweight.value,
+                    "Jumping Jacks Trap": self.options.jumpingjacks_trapweight.value,
+                }
+                if name in option_map:
+                    trap_list[name] = option_map[name]
+
+        for i in range(count):
+            if trap_chance > 0 and self.random.randint(1, 100) <= trap_chance:
+                junk_items.append(self.create_item(
+                    self.random.choices(list(trap_list.keys()), weights=list(trap_list.values()), k=1)[0]))
+            else:
+                junk_items.append(self.create_item(
+                    self.random.choice(filler_items)))
+        return junk_items
 
     def set_rules(self) -> None:
         player = self.player
@@ -346,6 +381,17 @@ class HereComesNikoWorld(World):
             "bonesanity": self.options.bonesanity.value,
             "death_link": self.options.death_link.value,
             "trap_link": self.options.trap_link.value,
+            "trapchance": self.options.trapchance.value,
+            "freeze_trapweight": self.options.freeze_trapweight.value,
+            "ironboots_trapweight": self.options.ironboots_trapweight.value,
+            "whoops_trapweight": self.options.whoops_trapweight.value,
+            "myturn_trapweight": self.options.myturn_trapweight.value,
+            "gravity_trapweight": self.options.gravity_trapweight.value,
+            "home_trapweight": self.options.home_trapweight.value,
+            "wide_trapweight": self.options.wide_trapweight.value,
+            "phone_trapweight": self.options.phone_trapweight.value,
+            "tiny_trapweight": self.options.tiny_trapweight.value,
+            "jumpingjacks_trapweight": self.options.jumpingjacks_trapweight.value,
         }
 
     # for the universal tracker, doesn't get called in standard gen

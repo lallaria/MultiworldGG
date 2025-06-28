@@ -2,7 +2,7 @@ import pkgutil
 from dataclasses import dataclass, field, replace
 from enum import Enum, StrEnum
 from typing import Any
-from .Register import VERSION
+from .Constants import VERSION
 
 import orjson
 import yaml

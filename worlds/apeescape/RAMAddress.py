@@ -651,218 +651,218 @@ class RAM:
             169, 171, 170, 172, 173, 174, 175, 176, 177, 179, 180, 178
         },
         24: {
-            181, 182, 183, 184, 185, 187, 186, 188, 189, 190, 192, 191, 194, 195, 196, 193, 197, 198, 199, 200, 201,
-            202, 203 , 204
+            181, 182, 183, 184, 185, 187, 186, 188, 189, 190, 192, 191,
+            194, 195, 196, 193, 197, 198, 199, 200, 201, 202, 203, 204
         }
     }
     # To check if red mailboxes are already checked in the current room
     redMailboxes = {
-        1: {  # 1-1 : Entry
+        1: {  # 1-1: Entry
             401: 0x16076E,
             402: 0x160786,
         },
-        2: {  # 1-2 : Entry
-            404 : 0x175BD6,
-            405 : 0x175BA6,
-            406 : 0x175BBE,
-            407 : 0x175B8E
+        2: {  # 1-2: Entry
+            404: 0x175BD6,
+            405: 0x175BA6,
+            406: 0x175BBE,
+            407: 0x175B8E
         },
-        3: {  # 1-3 : Entry
-            408 : 0x181592
+        3: {  # 1-3: Entry
+            408: 0x181592
         },
-        4: {  # 1-3 : volcano
-            410 : 0x167D3A
+        4: {  # 1-3: volcano
+            410: 0x167D3A
         },
-        5: {  # 1-3 : triceratops
-            411 : 0x165C5A
+        5: {  # 1-3: triceratops
+            411: 0x165C5A
         },
-        6: {  # 2-1 : Entry
-            413 : 0x17A65A,
+        6: {  # 2-1: Entry
+            413: 0x17A65A,
             414: 0x17A672
         },
-        8: {  # 2-1 : fish room
-            417 : 0x18031E,
+        8: {  # 2-1: fish room
+            417: 0x18031E,
             419: 0x180336
         },
-        11: {  # 2-2 : Entry
-            422 : 0x184612,
-            425 : 0x1845FA
+        11: {  # 2-2: Entry
+            422: 0x184612,
+            425: 0x1845FA
         },
-        12: {  # 2-2 : fan basement
-            426 : 0x16A386,
+        12: {  # 2-2: fan basement
+            426: 0x16A386,
         },
-        15: {  # 2-3 : Entry
-            430 : 0x176092
+        15: {  # 2-3: Entry
+            430: 0x176092
         },
-        20: {  # 4-1 : Entry
+        20: {  # 4-1: Entry
             435: 0x1798EA
         },
-        29: {  # 5-1 : Entry
-            443 : 0x17566A,
-            445 : 0x175682
+        29: {  # 5-1: Entry
+            443: 0x17566A,
+            445: 0x175682
         },
-        35: {  # 5-3 : polar bear cave
-            449 : 0x176E22
+        35: {  # 5-3: polar bear cave
+            449: 0x176E22
         },
-        56: {  # 8-2 : Entry
-            458 : 0x178E02
+        56: {  # 8-2: Entry
+            458: 0x178E02
         },
         72: {  # MM - coaster entry
-            459 : 0x17389A
+            459: 0x17389A
         },
         88: {  # Time station - Hub
-            460 : 0x1608BE,
-            461 : 0x1608A6
+            460: 0x1608BE,
+            461: 0x1608A6
         },
         91: {  # Time station - Mini-game Corner
-            462 : 0x15FE3A
+            462: 0x15FE3A
         },
         90: {  # Time station - Training Space
-            463 : 0x16721A
+            463: 0x16721A
         }
     }
 
 
     mailboxListLocal = {
-        1: {  # 1-1 : Entry
-            401 : 65,
-            402 : 66,
-            403 : 19
+        1: {  # 1-1: Entry
+            401: 65,
+            402: 66,
+            403: 19
         },
-        2: {  # 1-2 : Entry
-            404 : 68,
-            405 : 69,
-            406 : 70,
-            407 : 67
+        2: {  # 1-2: Entry
+            404: 68,
+            405: 69,
+            406: 70,
+            407: 67
         },
-        3: {  # 1-3 : Entry
-            408 : 103,
-            409 : 21
+        3: {  # 1-3: Entry
+            408: 103,
+            409: 21
         },
-        4: {  # 1-3 : volcano
-            410 : 100
+        4: {  # 1-3: volcano
+            410: 100
         },
-        5: {  # 1-3 : triceratops
+        5: {  # 1-3: triceratops
             411: {101, 116},
-            412 : 41
+            412: 41
         },
-        6: {  # 2-1 : Entry
-            413 : 72,
-            414 : 71
+        6: {  # 2-1: Entry
+            413: 72,
+            414: 71
         },
-        7: {  # 2-1 : mushroom area
-            415 : {38,99},
-            416 : 24
+        7: {  # 2-1: mushroom area
+            415: {38,99},
+            416: 24
         },
-        8: {  # 2-1 : fish room
-            417 : 73,
-            418 : 71,
-            419 : 104
+        8: {  # 2-1: fish room
+            417: 73,
+            418: 71,
+            419: 104
         },
-        9: {  # 2-1 : tent/vine room
-            420 : 48
+        9: {  # 2-1: tent/vine room
+            420: 48
         },
-        10: {  # 2-1 : boulder room
-            421 : 23
+        10: {  # 2-1: boulder room
+            421: 23
         },
-        11: {  # 2-2 : Entry
-            422 : 105,
-            423 : {49,103},
-            424 : 22,
-            425 : 81,
+        11: {  # 2-2: Entry
+            422: 105,
+            423: {49,103},
+            424: 22,
+            425: 81,
         },
-        12: {  # 2-2 : fan basement
-            426 : 80,
-            427 : {70,97}
+        12: {  # 2-2: fan basement
+            426: 80,
+            427: {70,97}
         },
-        13: {  # 2-2 : obelisk inside
-            428 : {52,97}
+        13: {  # 2-2: obelisk inside
+            428: {52,97}
         },
-        15: {  # 2-3 : Entry
-            429 : 50,
-            430 : 112
+        15: {  # 2-3: Entry
+            429: 50,
+            430: 112
         },
-        17: {  # 2-3 : main ruins
-            431 : 33,
-            432 : 37
+        17: {  # 2-3: main ruins
+            431: 33,
+            432: 37
         },
-        18: {  # 2-3 : pillar room
-            433 : 67
+        18: {  # 2-3: pillar room
+            433: 67
         },
-        20: {  # 4-1 : Entry
-            434 : 25,
-            435 : {22,82}
+        20: {  # 4-1: Entry
+            434: 25,
+            435: {22,82}
         },
-        21: {  # 4-1 : second room
-            436 : 72
+        21: {  # 4-1: second room
+            436: 72
         },
-        23: {  # 4-2 : second room
-            437 : 53,
-            438 : 54
+        23: {  # 4-2: second room
+            437: 53,
+            438: 54
         },
-        24: {  # 4-3 : Entry
-            439 : 39,
-            440 : 55
+        24: {  # 4-3: Entry
+            439: 39,
+            440: 55
         },
-        26: {  # 4-3 : gallery/boulder
-            442 : {32,72}
+        26: {  # 4-3: gallery/boulder
+            442: {32,72}
         },
-        28: {  # 4-3 : slide room
-            441 : 40
+        28: {  # 4-3: slide room
+            441: 40
         },
-        29: {  # 5-1 : Entry
-            443 : 86,
-            444 : 18,
-            445 : 87
+        29: {  # 5-1: Entry
+            443: 86,
+            444: 18,
+            445: 87
         },
-        32: {  # 5-2 : caverns
-            446 : 35
+        32: {  # 5-2: caverns
+            446: 35
         },
-        33: {  # 5-3 : Entry
-            447 : 20
+        33: {  # 5-3: Entry
+            447: 20
         },
-        34: {  # 5-3 : hot spring
-            448 : 51
+        34: {  # 5-3: hot spring
+            448: 51
         },
-        35: {  # 5-3 : polar bear cave
-            449 : 85
+        35: {  # 5-3: polar bear cave
+            449: 85
         },
-        38: {  # 7-1 : temple
-            450 : 57,
-            451 : 65
+        38: {  # 7-1: temple
+            450: 57,
+            451: 65
         },
-        39: {  # 7-1 : well
-            452 : 68
+        39: {  # 7-1: well
+            452: 68
         },
-        41: {  # 7-2 : gong room
-            453 : {25,56}
+        41: {  # 7-2: gong room
+            453: {25,56}
         },
-        42: {  # 7-2 : middle room
-            454 : 34,
-            455 : 36
+        42: {  # 7-2: middle room
+            454: 34,
+            455: 36
         },
-        43: {  # 7-2 : obstacle course
-            456 : 64
+        43: {  # 7-2: obstacle course
+            456: 64
         },
 
-        45: {  # 7-3 : Entry
-            457 : 69
+        45: {  # 7-3: Entry
+            457: 69
         },
-        56: {  # 8-2 : Entry
-            458 : 83
+        56: {  # 8-2: Entry
+            458: 83
         },
         72: {  # MM - coaster entry
-            459 : 84
+            459: 84
         },
         88: {  # Time station - Hub
-            460 : 113,
-            461 : 114
+            460: 113,
+            461: 114
         },
         91: {  # Time station - Mini-game Corner
             462: 116
         },
         90: {  # Time station - Training Space
-            463 : 115
+            463: 115
         }
 
     }
@@ -928,7 +928,8 @@ class RAM:
         "ThreeRocket": 0x219,
         "BananaPeelTrap": 0x250,
         "GadgetShuffleTrap": 0x251,
-        "MonkeyMashTrap": 0x252
+        "MonkeyMashTrap": 0x252,
+        "RainbowCookie": 0x270
 
     }
 
@@ -1023,7 +1024,7 @@ class RAM:
         91: 0xdfcb0
     }
 
-    # Array order : bytesToWrite, OpenValue, ClosedValue
+    # Array order: bytesToWrite, OpenValue, ClosedValue
     doors_addresses = {
         69: { # MM_DoubleDoor
             0x0E7901: [1,0x00,0x10],  # MM_DoubleDoorVisualL1
@@ -1066,7 +1067,7 @@ class RAM:
     }
     lampDoors_toggles = {
         # CBLamp
-        # Array order : bytesToWrite, OpenValue, ClosedValue
+        # Array order: bytesToWrite, OpenValue, ClosedValue
         20: {  # CB_LampDoor
             0x0C01AB: [1,0xF4,0xF8],  #CB_LampDoor_Visual1 Open = F4
             0x0C01AF: [1,0x00,0x80],  #CB_LampDoor_Visual2 Open = 00
@@ -1166,8 +1167,6 @@ class RAM:
     # These 4 addresses are consecutive and will be written as a single 4-byte block starting at ANALOG_START_ADDR
     ANALOG_START_ADDR = 0x0B87A4  # Start of analog joystick data (RY, RX, LY, LX)
 
-    MEMORY_DOMAIN = "MainRAM"  # Common for PS1 I/O registers
-
     # --- Button Mappings to Bit Positions within a conceptual 16-bit controller word ---
     # This dictionary maps the button name (e.g., "P1 X") to its bit position (0-15)
     # within the combined 16-bit digital input word.
@@ -1190,8 +1189,21 @@ class RAM:
         "P1 Square": 15,  # Bit 7 (high byte)
     }
     #ANALOG_STICK_ORDER = ["P1 R_Y", "P1 R_X", "P1 L_Y", "P1 L_X"]
+
+
     ANALOG_STICK_ORDER = ["P1 R_Y", "P1 R_X"]
     ANALOG_CENTER_VALUE = 0x80  # Default center value for 8-bit analog sticks (128 decimal)
+    RIGHT_JOYSTICK_PSEUDO_INPUT = "Right Joystick"
+
+    SPIKE_INVINCIBILITY_ADDR = 0x05E748 # Address for Spike's invincibility flag/state
+    SPIKE_GOLDEN_FORM_ADDR = 0x0EC2E2    # Address for Spike's golden visual state flag/model ID
+
+    # Values to write to these addresses to enable/disable effects.
+    INVINCIBLE_ON_VALUE = 0xA46200E0  # Value to write to SPIKE_INVINCIBILITY_ADDR to make Spike invincible
+    INVINCIBLE_OFF_VALUE = 0xA46200E8 # Value to write to SPIKE_INVINCIBILITY_ADDR to make Spike vulnerable
+
+    GOLDEN_ON_VALUE = 0x01      # Value to write to SPIKE_GOLDEN_FORM_ADDR to activate golden form
+    GOLDEN_OFF_VALUE = 0x00     # Value to write to SPIKE_GOLDEN_FORM_ADDR to revert form
 
     isUnderwater = 0x0F4DCA
     canDiveAddress = 0x061970 #08018664 - default value (4 bytes)
@@ -1226,7 +1238,7 @@ class RAM:
     loadGameAddress = 0x137734
 
     trainingRoomProgressAddress = 0x0DFDCC
-    GadgetTrainingsUnlockAddress = 0x0978E8 # 4 Bytes -> Prevent the checkup for activating Training Rooms Gadget Trainings (Default: 8C63FDCC, Disable : 0x00000000)
+    GadgetTrainingsUnlockAddress = 0x0978E8 # 4 Bytes -> Prevent the checkup for activating Training Rooms Gadget Trainings (Default: 8C63FDCC, Disable: 0x00000000)
     currentRoomIdAddress = 0x0F4476
     currentLevelAddress = 0x0F4474
     gameStateAddress = 0x0F4470
@@ -1310,10 +1322,10 @@ class RAM:
     DI_Button_Pressed = 0x1693A6 # Activated = 0x01
     DI_Button_DoorVisual = 0x0BFC8F # Activated = 0x00
     DI_Button_DoorHitBox = 0x1676F7 # Activated = 0xDC
-    DI_Button_Visual1 = 0x0BFCB8 # 4 bytes : Activated = 80162250
-    DI_Button_Visual2 = 0x0BFCBC # 4 bytes : Activated = 80162268
-    DI_Button_Visual3 = 0x0BFCC0 # 4 bytes : Activated = 80162390
-    DI_Button_Visual4 = 0x0BFCC4 # 4 bytes : Activated = 80162288
+    DI_Button_Visual1 = 0x0BFCB8 # 4 bytes: Activated = 80162250
+    DI_Button_Visual2 = 0x0BFCBC # 4 bytes: Activated = 80162268
+    DI_Button_Visual3 = 0x0BFCC0 # 4 bytes: Activated = 80162390
+    DI_Button_Visual4 = 0x0BFCC4 # 4 bytes: Activated = 80162288
 
     CrC_Basement_ButtonPressed = 0x184D46 # Pressed = 0x01
     CrC_Basement_DoorHitBox1 = 0x1810A8 #[4b] Activated = F200F808
@@ -1327,12 +1339,12 @@ class RAM:
     CrC_Basement_ButtonVisual4 = 0x0C1524 # [4b] Activated = 80178B0C
 
 
-    CrC_Water_ButtonPressed = 0x173242 # 1 byte : While in room 49 -> Pressed = 0x01, Unpressed = 0x00 -> Send event object
-    CrC_Water_DoorVisual = 0x0C05AE  # 1 byte : Open = 0x00 , Closed = 0x16
-    # CrC_Button_Visual1 = 0x0C0778 # 4 bytes : Activated =
-    # CrC_Button_Visual2 = 0x0C077C  # 4 bytes : Activated =
-    # CrC_Button_Visual3 = 0x0C0780  # 4 bytes : Activated =
-    # CrC_Button_Visual4 = 0x0C0784  # 4 bytes : Activated =
+    CrC_Water_ButtonPressed = 0x173242 # 1 byte: While in room 49 -> Pressed = 0x01, Unpressed = 0x00 -> Send event object
+    CrC_Water_DoorVisual = 0x0C05AE  # 1 byte: Open = 0x00 , Closed = 0x16
+    # CrC_Button_Visual1 = 0x0C0778 # 4 bytes: Activated =
+    # CrC_Button_Visual2 = 0x0C077C  # 4 bytes: Activated =
+    # CrC_Button_Visual3 = 0x0C0780  # 4 bytes: Activated =
+    # CrC_Button_Visual4 = 0x0C0784  # 4 bytes: Activated =
     # Set TR4_TransitionEnabled to 0x00 to permit access to the transition, 0x03 to deny transition
 
     MM_Painting_Button = 0x17EACE # Active 0x01 ROOM = 82
@@ -1381,7 +1393,7 @@ class RAM:
     Controls_TriggersShapes = 0x0B87A3
 
     punchVisualAddress = 0x0E78C0
-    transitionPhase = 0x0F447C # TheDragon Note : If you set Nearby_RoomIDAddress and Nearby_DoorIDAddress   = 0x0E38A4
+    transitionPhase = 0x0F447C # TheDragon Note: If you set Nearby_RoomIDAddress and Nearby_DoorIDAddress   = 0x0E38A4
     # 0x01 = ?? Maybe spawning
     # 0x02 = Black screen fading out
     # 0x03 = in level, not near a transition
@@ -1421,15 +1433,15 @@ class RAM:
     # To translate Transition ID from doorTransitions Table to which address we need to change for the room
     transitionAddresses = {
         # --Array content--
-        # TR_ID : {TargetRoomAddress,TargetDoorAddress}
-        1 : {0x154264,0x154268},
-        2 : {0x15428C,0x154290},
-        3 : {0x1542B4, 0x1542B8},
-        4 : {0x1542DC, 0x1542E0},
-        5 : {0x154304, 0x154308},
-        6 : {0x15432C, 0x154330},
-        7 : {0x154354, 0x154358},
-        8 : {0x15437C, 0x154380},
+        # TR_ID: {TargetRoomAddress,TargetDoorAddress}
+        1: {0x154264,0x154268},
+        2: {0x15428C,0x154290},
+        3: {0x1542B4, 0x1542B8},
+        4: {0x1542DC, 0x1542E0},
+        5: {0x154304, 0x154308},
+        6: {0x15432C, 0x154330},
+        7: {0x154354, 0x154358},
+        8: {0x15437C, 0x154380},
     }
 
     #TargetRoomID1Address = 0x154264
@@ -1440,7 +1452,7 @@ class RAM:
     #TR3_DoorIDAddress = 0x1542B8
     #TargetRoomID4Address = 0x1542DC
     #TR4_DoorIDAddress = 0x1542E0
-    TR4_TransitionEnabled = 0x1542BC # For CrC_Boss_Door -> Blocked value : 0x03, Opened Value : 0x00
+    TR4_TransitionEnabled = 0x1542BC # For CrC_Boss_Door -> Blocked value: 0x03, Opened Value: 0x00
     #TargetRoomID5Address = 0x154304
     #TR5_DoorIDAddress = 0x154308
     #TargetRoomID6Address = 0x15432C
@@ -1459,10 +1471,10 @@ class RAM:
     CrC_BossLife = 0x0E69E1
 
     # 0 :not started
-    # 1 and 2 : In cinematic
-    # 3 : In fight
-    # 4 : Opening door
-    # 5 : Victory
+    # 1 and 2: In cinematic
+    # 3: In fight
+    # 4: Opening door
+    # 5: Victory
 
     TVT_BossPhase = 0x17C5A2
     TVT_BossLife = 0x143E1F
@@ -1490,28 +1502,28 @@ class RAM:
     #spikeColor2 = 0x0EC1E6
 
     colortable = {
-        "vanilla" : 0x1030,
-        "white" : 0x7617,
-        "grey" : 0x5E03,
-        "purple" : 0x1000,
-        "orange" : 0x2F2F,
-        "green" : 0x35F6,
-        "red" : 0x2F00,
+        "vanilla": 0x1030,
+        "white": 0x7617,
+        "grey": 0x5E03,
+        "purple": 0x1000,
+        "orange": 0x2F2F,
+        "green": 0x35F6,
+        "red": 0x2F00,
         "yellow": 0x1065,
-        "darkblue" : 0x2600,#6F65
-        "voidwhite" : 0x2E05,
+        "darkblue": 0x2600,#6F65
+        "voidwhite": 0x2E05,
         "voidpurple": 0x4DFA,#
-        "voidorange" : 0x0007,
-        #"voidred" : 0x372E, #More like voidbrown sometimes
-        "neonpink" : 0x3BFF,
+        "voidorange": 0x0007,
+        #"voidred": 0x372E, #More like voidbrown sometimes
+        "neonpink": 0x3BFF,
         "neongreen": 0x2EF6,
         "greenskin": 0x0131,
         "blueskin": 0x75D8,
-        "purpleskin" : 0x75D7,
-        "alien" : 0x3300,
-        "alien2" : 0x350C,
-        "metal" : 0x3674,
-        "rave" : 0x1D2F
+        "purpleskin": 0x75D7,
+        "alien": 0x3300,
+        "alien2": 0x350C,
+        "metal": 0x3674,
+        "rave": 0x1D2F
     }
 
 

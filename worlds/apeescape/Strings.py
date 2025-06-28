@@ -584,3 +584,4 @@ class AEItem(Enum):
     BananaPeelTrap = "Banana Peel"
     GadgetShuffleTrap = "Gadget Shuffle"
     MonkeyMashTrap = "Monkey Mash"
+    RainbowCookie = "Rainbow Cookie"

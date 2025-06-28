@@ -398,7 +398,7 @@ hundoMonkeysCount = {
 }
 
 # These values are the room ID of the room, and the door ID the room is entered through. To get these, stand near the transition that leads to that entrance. As an example, {45, 5} will spawn Spike at the top of the Bell Tower, as though he entered from outside. 
-# Array order : {TargetRoom,TargetDoor,Transition ID}
+# Array order: {TargetRoom, TargetDoor, Transition ID}
 # -- TargetRoom     : (Exit) If you want to warp to this Room, set the Entering door's TargetRoomAddress value to this
 # -- TargetDoor     : (Exit) If you want to warp to this Room, set the Entering door's TargetDoorAddress value to this
 # -- Transition ID  : (Enter) Transition ID to use with RAM.transitionAddresses.You should modify the addresses referred by this ID to what you want the target room to be

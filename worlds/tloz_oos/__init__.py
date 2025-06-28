@@ -70,6 +70,7 @@ class OracleOfSeasonsSettings(settings.Group):
 
 
 class OracleOfSeasonsWeb(WebWorld):
+    display_name = "The Legend of Zelda: Oracle of Seasons"
     theme = "grass"
     setup_en = Tutorial(
         "Multiworld Setup Guide",

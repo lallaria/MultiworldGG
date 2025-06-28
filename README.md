@@ -112,16 +112,19 @@ Currently, the following games are supported:
 * Paper Mario
 * Paper Mario: The Thousand-Year Door
 * Peaks of Yore
+* Placid Plastic Duck Simulator
 * Pokémon Crystal
 * Pokémon Emerald
 * Pokémon FireRed/LeafGreen
 * Pokémon Mystery Dungeon: Explorers of Sky
 * Pokémon Red/Blue
+* Powerwash Simulator
 * Pseudoregalia
 * Raft
 * Ratchet & Clank 2
 * Resident Evil 2 Remake
 * Resident Evil 3 Remake
+* Rimworld
 * Risk of Rain
 * Risk of Rain 2
 * Rogue Legacy

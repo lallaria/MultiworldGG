@@ -134,7 +134,6 @@ class RandomizeStartingTown(Toggle):
     Randomly chooses a town to start in.
     Any Pokemon Center except Indigo Plateau, Cinnabar Island and Silver Cave can be chosen.
     Lake of Rage can also be chosen.
-    "_Johto" and "_Kanto" are shortcuts for all Johto and Kanto towns respectively
 
     Other settings may additionally restrict which Pokemon Centers can be chosen.
 
@@ -237,7 +236,7 @@ class KantoAccessRequirement(Choice):
 class KantoAccessCount(Range):
     """
     Sets the number of badges/gyms required to pass between Victory Road gate and Kanto
-    Only applies if Kanto Access Condition is set to badge_count or gym_count
+    Only applies if Kanto Access Condition is set to badges or gyms
     """
     display_name = "Kanto Access Count"
     default = 8
@@ -429,7 +428,7 @@ class EvolutionMethodsRequired(OptionSet):
 
 class StaticPokemonRequired(DefaultOnToggle):
     """
-    Sets whether or not static pokemon may be logically required
+    Sets whether or not static Pokemon may be logically required
     """
     display_name = "Static Pokemon Required"
 

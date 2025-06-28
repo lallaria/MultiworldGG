@@ -1,5 +1,5 @@
 """
-Animal Well MultiworldGG Client
+Animal Well Archipelago Client
 Based (read: copied almost wholesale and edited) off the Zelda1 Client.
 """
 
@@ -392,14 +392,14 @@ class Tile:
 
 class AnimalWellContext(CommonContext):
     """
-    Animal Well MultiworldGG context
+    Animal Well Archipelago context
     """
     command_processor = AnimalWellCommandProcessor
     items_handling = 0b111  # get sent remote and starting items
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
-        self.game = "Animal Well"
+        self.game = "ANIMAL WELL"
         self.process_sync_task = None
         self.get_animal_well_process_handle_task = None
         self.process_handle = None
@@ -424,7 +424,7 @@ class AnimalWellContext(CommonContext):
         self.stamps = []
         self.tiles = {}
         self.logic_tracker = AnimalWellTracker()
-        self.console_task = None
+        # self.console_task = None  # pulled out for now for compatibility with current AP
 
         self.disconnected_intentionally = True
 
@@ -448,7 +448,7 @@ class AnimalWellContext(CommonContext):
 
     async def server_auth(self, password_requested: bool = False):
         """
-        Authenticate with the MultiworldGG server
+        Authenticate with the Archipelago server
         """
         if password_requested and not self.password:
             await super(AnimalWellContext, self).server_auth(password_requested)
@@ -475,7 +475,7 @@ class AnimalWellContext(CommonContext):
                 ("Client", "Archipelago"),
                 ("BeanLogger", "Animal Well Log")
             ]
-            base_title = "MultiworldGG Animal Well Client"
+            base_title = "Archipelago Animal Well Client"
 
         self.ui = AnimalWellManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
@@ -1005,7 +1005,7 @@ class AWItems:
 
     async def read_from_archipelago(self, ctx):
         """
-        Read inventory state from MultiworldGG
+        Read inventory state from archipelago
         """
         try:
             items = [item.item for item in ctx.items_received]
@@ -1656,20 +1656,20 @@ def launch(*args):
         """
         import urllib
         parser = get_base_parser()
-        parser.add_argument("url", type=str, nargs="?", help="MultiworldGG Webhost uri to auto connect to.")
+        parser.add_argument("url", type=str, nargs="?", help="Archipelago Webhost uri to auto connect to.")
         args = parser.parse_args(args)
 
-        # handle if text client is launched using the "archipelago/mwgg://name:pass@host:port" url from webhost
+        # handle if text client is launched using the "archipelago://name:pass@host:port" url from webhost
         if args.url:
             url = urllib.parse.urlparse(args.url)
-            if url.scheme == "archipelago" or url.scheme == "mwgg":
+            if url.scheme == "archipelago":
                 args.connect = url.netloc
                 if url.username:
                     args.name = urllib.parse.unquote(url.username)
                 if url.password:
                     args.password = urllib.parse.unquote(url.password)
             else:
-                parser.error(f"bad url, found {args.url}, expected url in form of archipelago/mwgg://multiworld.gg:38281")
+                parser.error(f"bad url, found {args.url}, expected url in form of archipelago://archipelago.gg:38281")
 
         ctx = AnimalWellContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
@@ -1679,7 +1679,12 @@ def launch(*args):
         ctx.run_cli()
 
         ctx.process_sync_task = asyncio.create_task(process_sync_task(ctx), name="Animal Well Process Sync")
-        ctx.console_task = asyncio.create_task(console_task(ctx), name="Animal Well Console")
+        try:
+            import win32api, win32gui
+        except ImportError:
+            pass
+        else:
+            ctx.console_task = asyncio.create_task(console_task(ctx), name="Animal Well Console")
 
         await ctx.exit_event.wait()
         ctx.server_address = None

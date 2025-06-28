@@ -2,8 +2,6 @@ import string
 import pymem
 import pymem.ressources.kernel32
 import ctypes
-import win32api
-import win32gui
 
 from time import time
 from typing import List, Optional, Callable, Any, Awaitable, Dict
@@ -70,25 +68,24 @@ def base36(n):
 # Extending the Patch class with some Animal Well specific methods
 class Patch(Patch):
     # region FunctionOffsets
-    function_addresses = {}
-    function_addresses["draw_small_text"]: int = 0
-    function_addresses["draw_big_text"]: int = 0
-    function_addresses["draw_symbol"]: int = 0
-    function_addresses["draw_sprite"]: int = 0
-    function_addresses["get_sprite"]: int = 0
-    function_addresses["push_shader_to_stack"]: int = 0
-    function_addresses["pop_shader_from_stack"]: int = 0
-    function_addresses["push_color_to_stack"]: int = 0
-    function_addresses["pop_color_from_stack"]: int = 0
-    function_addresses["pop_from_position_stack"]: int = 0
-    function_addresses["set_tall_text_mode"]: int = 0
-    function_addresses["set_current_color"]: int = 0
-    function_addresses["set_current_shader"]: int = 0
-    function_addresses["get_key_pressed"]: int = 0
-    function_addresses["get_gamepad_button_pressed"]: int = 0
-    function_addresses["get_an_item"]: int = 0
-    function_addresses["warp"]: int = 0
-    function_addresses["update_player_state"]: int = 0
+    function_addresses = {"draw_small_text": 0,
+                          "draw_big_text": 0,
+                          "draw_symbol": 0,
+                          "draw_sprite": 0,
+                          "get_sprite": 0,
+                          "push_shader_to_stack": 0,
+                          "pop_shader_from_stack": 0,
+                          "push_color_to_stack": 0,
+                          "pop_color_from_stack": 0,
+                          "pop_from_position_stack": 0,
+                          "set_tall_text_mode": 0,
+                          "set_current_color": 0,
+                          "set_current_shader": 0,
+                          "get_key_pressed": 0,
+                          "get_gamepad_button_pressed": 0,
+                          "get_an_item": 0,
+                          "warp": 0,
+                          "update_player_state": 0}
     # endregion
 
     # region OtherOffsets
@@ -1675,13 +1672,18 @@ class BeanPatcher:
         return self.cmd_keys[key]
 
     def run_cmd_prompt(self):
-        if win32gui.GetWindowText(win32gui.GetForegroundWindow()) != "Animal Well":
-            return
-        self.cmd_keys = []
-        for key in range(0xff):
-            self.cmd_keys.append(win32api.GetAsyncKeyState(key) != 0)
-        self.update_cmd_prompt()
-        self.cmd_keys_old = self.cmd_keys
+        try:
+            import win32gui, win32api
+            if win32gui.GetWindowText(win32gui.GetForegroundWindow()) != "ANIMAL WELL":
+                return
+            self.cmd_keys = []
+            for key in range(0xff):
+                self.cmd_keys.append(win32api.GetAsyncKeyState(key) != 0)
+            self.update_cmd_prompt()
+            self.cmd_keys_old = self.cmd_keys
+        except ImportError:
+            # it's not working because the install wasn't built such that win32gui is importable
+            pass
 
     def update_cmd_prompt(self):
         if not self.cmd_prompt:

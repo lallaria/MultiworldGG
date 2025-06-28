@@ -169,7 +169,7 @@
 /worlds/gstla/ @cjmang
 
 # GZDoom
-/worlds/gzdoom @ToxicFrog
+/worlds/gzdoom/ @ToxicFrog
 
 # Hades
 /worlds/hades/ @Naixgames
@@ -316,6 +316,9 @@
 # Peaks of Yore
 /worlds/peaks_of_yore/ @c0der23
 
+# Placid Plastic Duck Simulator
+/worlds/placidplasticducksim/ @SWCreeperKing
+
 # Pokemon Crystal
 /worlds/pokemon_crystal/ @gerbiljames
 
@@ -331,6 +334,9 @@
 # Pokemon Red and Blue
 /worlds/pokemon_rb/ @Alchav
 
+# Powerwash Simulator
+/worlds/powerwashsimulator/ @SWCreeperKing
+
 # Pseudoregalia 
 /worlds/pseudoregalia/ @qwint
 
@@ -345,6 +351,9 @@
 
 # Resident Evil 3 Remake
 /worlds/residentevil3remake/ @therealsolidussnake
+
+# Rimworld
+/worlds/rimworld/ @PhantomOfAres
 
 # Rogue Legacy
 /worlds/rogue_legacy/ @ThePhar
@@ -429,7 +438,7 @@
 /worlds/soe/ @black-sliver
 
 # Slay the Spire
-/worlds/spire/ @KonoTyran
+/worlds/spire/ @cjmang
 
 # Stardew Valley
 /worlds/stardew_valley/ @agilbert1412

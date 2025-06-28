@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 from Options import Choice, Range, DeathLink, PerGameCommonOptions, OptionDict, FreeText
 
@@ -357,8 +355,8 @@ class AutoEquipOption(Choice):
 class SpikeColor(Choice):
     """
     Determine the color of Spike in-game.
-    Can pick between defined values or use the "custom" value to enter a custom color in the "CustomSpikeColor" option
-    Please note that this can be changed at all times with the command "/spikecolor <NameOrHexOfColor>"
+    Can select between these presets or choose "custom" to use a custom color set with the "CustomSpikeColor" option.
+    This can be changed in the client at any time with the command "/spikecolor <NameOrHexOfColor>".
     """
     display_name = "Spike Color"
     option_vanilla = 0
@@ -368,29 +366,29 @@ class SpikeColor(Choice):
     option_green = 4
     option_red = 5
     option_yellow = 6
-    option_darkgreen = 7
-    option_darkblue = 8
-    option_voidwhite = 9
-    option_voidpurple = 10
-    option_voidorange = 11
-    option_voidred = 12
-    option_neonpink = 13
-    option_neongreen = 14
-    option_blueskin = 15
-    option_purpleskin = 16
-    option_alien = 17
-    option_alien2 = 18
-    option_metal = 19
-    option_rave = 20
+    option_darkblue = 7
+    option_voidwhite = 8
+    option_voidpurple = 9
+    option_voidorange = 10
+    option_neonpink = 11
+    option_neongreen = 12
+    option_greenskin = 13
+    option_blueskin = 14
+    option_purpleskin = 15
+    option_alien = 16
+    option_alien2 = 17
+    option_metal = 18
+    option_rave = 19
     option_custom = -1
     default = option_vanilla
 
 class CustomSpikeColor(FreeText):
     """
-    Use a custom Spike Color by choosing "Custom" in the "Spike Skin" option
-    To use a custom color, enter an hexadecimal value of 4 characters with the desired color.
-    Range : 0000 to FFFF (1030 is the vanilla color)
-    **Note : If an invalid color is entered, it will be set to "Vanilla"
+    Use a custom color for Spike by choosing "Custom" in the "Spike Color" option.
+    Enter an hexadecimal value of 4 characters with the desired color.
+    Range: 0000 to FFFF (1030 is the vanilla color)
+    **Note: If an invalid color is entered, it will be set to "Vanilla"!
+    **TODO: document the color format
     """
     default = {
       "Custom": "1030"
@@ -420,5 +418,5 @@ class ApeEscapeOptions(PerGameCommonOptions):
     kickoutprevention: KickoutPreventionOption
     autoequip: AutoEquipOption
     spikecolor: SpikeColor
-    customspikecolor : CustomSpikeColor
+    customspikecolor: CustomSpikeColor
     death_link: DeathLink
