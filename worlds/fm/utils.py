@@ -4,7 +4,7 @@ from typing import TypeVar
 from dataclasses import dataclass
 from itertools import chain
 
-from Register import GAME_NAME as REGISTERED_GAME_NAME, AUTHOR as REGISTERED_AUTHOR, IGDB_ID as REGISTERED_IGDB_ID
+from .Register import GAME_NAME as REGISTERED_GAME_NAME, AUTHOR as REGISTERED_AUTHOR, IGDB_ID as REGISTERED_IGDB_ID
 
 
 @dataclass

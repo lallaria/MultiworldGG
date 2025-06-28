@@ -1,7 +1,7 @@
 import typing
 
 from dataclasses import dataclass
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 @dataclass
 class Constants:

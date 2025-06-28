@@ -15,7 +15,7 @@ from .options import DungeonClawlerOptions, Goal, ShuffleCombatItems, ShuffleFig
 from .regions import create_regions
 from .rules import set_rules
 from .constants.world_strings import GAME_NAME
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 client_version = 0
 

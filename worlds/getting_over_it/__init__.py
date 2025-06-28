@@ -3,7 +3,7 @@ from typing import Dict
 from BaseClasses import Item, Location, ItemClassification, Region
 from worlds.AutoWorld import WebWorld, World
 from .options import GOIOptions
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class GOIWeb(WebWorld):
     rich_text_options_doc = True

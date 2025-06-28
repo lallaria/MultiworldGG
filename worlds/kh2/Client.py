@@ -1012,19 +1012,22 @@ async def kh2_watcher(ctx: KH2Context):
 def launch():
     async def main(args):
         ctx = KH2Context(args.connect, args.password)
-        ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
-        if gui_enabled:
-            ctx.run_gui()
-        ctx.run_cli()
-        progression_watcher = asyncio.create_task(
-                kh2_watcher(ctx), name="KH2ProgressionWatcher")
+        if ctx._can_takeover_existing_gui():
+            await ctx._takeover_existing_gui()
+        else:
+            ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+            if gui_enabled:
+                ctx.run_gui()
+            ctx.run_cli()
+            progression_watcher = asyncio.create_task(
+                    kh2_watcher(ctx), name="KH2ProgressionWatcher")
 
-        await ctx.exit_event.wait()
-        ctx.server_address = None
+            await ctx.exit_event.wait()
+            ctx.server_address = None
 
-        await progression_watcher
+            await progression_watcher
 
-        await ctx.shutdown()
+            await ctx.shutdown()
 
     import colorama
 

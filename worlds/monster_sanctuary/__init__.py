@@ -25,7 +25,7 @@ from .locations import MonsterSanctuaryLocationCategory as LocationCategory, Mon
 from .options import MonsterSanctuaryOptions
 from .regions import RegionData, MonsterSanctuaryRegion
 
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class MonsterSanctuaryWebWorld(WebWorld):

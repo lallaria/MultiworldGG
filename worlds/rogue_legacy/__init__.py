@@ -8,7 +8,7 @@ from .Options import RLOptions
 from .Presets import rl_options_presets
 from .Regions import create_regions
 from .Rules import set_rules
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class RLWeb(WebWorld):

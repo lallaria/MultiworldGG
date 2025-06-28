@@ -12,7 +12,7 @@ from .Locations import location_table, AquariaLocationNames
 from .Options import (AquariaOptions, IngredientRandomizer, TurtleRandomizer, EarlyBindSong, EarlyEnergyForm,
                       UnconfineHomeWater, Objective)
 from .Regions import AquariaRegions
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class AquariaWeb(WebWorld):
     """

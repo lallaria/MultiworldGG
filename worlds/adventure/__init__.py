@@ -18,7 +18,7 @@ from .Options import DragonRandoType, DifficultySwitchA, DifficultySwitchB, Adve
 from .Regions import create_regions
 from .Rom import get_base_rom_bytes, get_base_rom_path, AdventureDeltaPatch, apply_basepatch, AdventureAutoCollectLocation
 from .Rules import set_rules
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 # Adventure
 components.append(Component('Adventure Client', 'AdventureClient', file_identifier=SuffixIdentifier('.apadvn')))

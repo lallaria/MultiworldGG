@@ -14,7 +14,7 @@ from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import add_rule
 
 from .common import NAME
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .logic import condition_satisfied
 from .world_data import static_world_data
 

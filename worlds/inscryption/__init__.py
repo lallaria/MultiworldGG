@@ -6,7 +6,7 @@ from typing import Dict, Any
 from . import Rules
 from BaseClasses import Region, Item, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class InscrypWeb(WebWorld):
     theme = "dirt"

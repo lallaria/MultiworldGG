@@ -26,7 +26,7 @@ from .Locations import (LinksAwakeningLocation,
                         links_awakening_location_name_groups)
 from .Options import DungeonItemShuffle, ShuffleInstruments, LinksAwakeningOptions, ladx_option_groups
 from .Rom import LADXProcedurePatch, write_patch_data
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 DEVELOPER_MODE = False
 

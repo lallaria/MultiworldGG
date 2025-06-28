@@ -28,7 +28,7 @@ from .pokemon import (get_random_move, get_species_id_by_label, randomize_abilit
                       randomize_tm_hm_compatibility,randomize_types, randomize_wild_encounters)
 from .rom import PokemonEmeraldProcedurePatch, write_tokens 
 from .util import get_encounter_type_label
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class PokemonEmeraldWebWorld(WebWorld):

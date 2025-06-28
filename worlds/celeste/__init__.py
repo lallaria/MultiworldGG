@@ -16,7 +16,7 @@ from .data import (
 )
 from .options import CelesteGameOptions
 from .progression import GameLogic
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class CelesteWebWorld(WebWorld):

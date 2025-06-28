@@ -6,7 +6,7 @@ from BaseClasses import Entrance, CollectionState, Item, Location, MultiWorld, R
 from worlds.AutoWorld import WebWorld, World
 from . import Items, Locations, Maps, Regions, Rules
 from .Options import HereticOptions
-from Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 logger = logging.getLogger("Heretic")
 

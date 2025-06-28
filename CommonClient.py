@@ -7,6 +7,7 @@ __all__ = ["keep_alive",
            "console_loop", 
            "get_ssl_context", 
            "ClientCommandProcessor", 
+           "InitContext",
            "CommonContext"]
 
 import collections
@@ -20,6 +21,12 @@ import time
 import functools
 import warnings
 from typing import Optional
+import os
+
+# Ensure current directory is first in sys.path to use local NetUtils.py
+current_dir = os.path.dirname(os.path.abspath(__file__))
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
 
 import ModuleUpdate
 ModuleUpdate.update()
@@ -27,23 +34,27 @@ ModuleUpdate.update()
 import websockets
 
 import Utils
+from Utils import Version
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 if __name__ == "__main__":
     Utils.init_logging("TextClient", exception_logger="Client")
 
 from MultiServer import CommandProcessor
-from NetUtils import (Endpoint, decode, NetworkItem, encode, JSONtoTextParser, ClientStatus, Permission, NetworkSlot,
-                      RawJSONtoTextParser, add_json_text, add_json_location, add_json_item, JSONTypes, HintStatus, SlotType)
-from Utils import Version, stream_input, async_start
-from ClientBuilder import ClientBuilder, ClientState
-from worlds import network_data_package, AutoWorldRegister
-import os
-import ssl
+# from client.factory import CommandMixin  # Commented out - module not found
+
+from NetUtils import Endpoint, ClientStatus, NetworkItem, decode, encode, NetworkPlayer, Permission, NetworkSlot, \
+    SlotType, LocationStore, Hint, HintStatus
+from BaseClasses import ItemClassification
+
+# Import ClientState from ClientBuilder
+from ClientBuilder import ClientState
+
+# Import MDApp for GUI access
+from kivymd.app import MDApp
 
 if typing.TYPE_CHECKING:
-    import gui.Gui as Gui
-    import argparse
+    from worlds.AutoWorldRegister import AutoWorldRegister
 
 logger = logging.getLogger("Client")
 
@@ -170,7 +181,7 @@ class ClientCommandProcessor(CommandProcessor):
     def _cmd_location_groups(self):
         """List all location group names for the currently running game."""
         if not self.ctx.game:
-            self.output("No game set, cannot determine existing location groups.")
+            self.output("No game set, cannot determine existing locations.")
             return False
         self.output(f"Location Group Names for {self.ctx.game}")
         for group_name in AutoWorldRegister.world_types[self.ctx.game].location_name_groups:
@@ -194,7 +205,15 @@ class ClientCommandProcessor(CommandProcessor):
             async_start(self.ctx.send_msgs([{"cmd": "Say", "text": raw}]), name="send Say")
 
 
-class CommonContext:
+class InitContext:
+    """Base context for initial GUI state with minimal properties"""
+    def __init__(self):
+        self.exit_event = asyncio.Event()
+        self._state = ClientState.INITIAL
+        self._is_transitioning = False
+
+
+class CommonContext(InitContext):
     # The following attributes are used to Connect and should be adjusted as needed in subclasses
     tags: typing.Set[str] = {"AP"}
     game: typing.Optional[str] = None
@@ -345,6 +364,7 @@ class CommonContext:
     """Message box reporting a loss of connection"""
 
     def __init__(self, server_address: typing.Optional[str] = None, password: typing.Optional[str] = None) -> None:
+        super().__init__()  # Initialize InitContext
         self._current_client: Optional[ClientBuilder] = None
         self._state = ClientState.INITIAL
         self._is_transitioning = False
@@ -400,6 +420,65 @@ class CommonContext:
 
         # execution
         self.keep_alive_task = asyncio.create_task(keep_alive(self), name="Bouncy")
+
+    def _can_takeover_existing_gui(self) -> bool:
+        """Check if existing GUI can be taken over"""
+        try:
+            app = MDApp.get_running_app()
+            return (app is not None and 
+                   hasattr(app, 'ctx') and 
+                   isinstance(app.ctx, InitContext) and
+                   app.ctx._state == ClientState.INITIAL and
+                   not app.ctx._is_transitioning)
+        except:
+            return False
+
+    async def _takeover_existing_gui(self) -> None:
+        """Take over existing GUI instance"""
+        app = MDApp.get_running_app()
+        existing_ctx = app.ctx
+        
+        # Mark transition state
+        existing_ctx._is_transitioning = True
+        self._is_transitioning = True
+        
+        try:
+            # Preserve exit_event from existing context
+            self.exit_event = existing_ctx.exit_event
+            
+            # Create game client builder with existing context
+            game_client = GameClient(self, {
+                "ui_task": existing_ctx.ui_task,
+                "ui": app
+            })
+            
+            # Update app reference to new context
+            app.ctx = self
+            
+            # Update state
+            self._state = ClientState.GAME
+            self._current_client = game_client
+            
+            # Build new client features
+            await game_client.build()
+            
+        finally:
+            existing_ctx._is_transitioning = False
+            self._is_transitioning = False
+
+    def run_gui(self):
+        """Modified to support takeover of existing GUI"""
+        if self._can_takeover_existing_gui():
+            return asyncio.create_task(self._takeover_existing_gui())
+        else:
+            return self._create_new_gui()
+
+    def _create_new_gui(self):
+        """Create new GUI instance (existing behavior)"""
+        # Original run_gui implementation
+        from gui import MultiMDApp
+        self.ui = MultiMDApp(self)
+        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
     @property
     def suggested_address(self) -> str:
@@ -745,10 +824,6 @@ class CommonContext:
         """
       
         from gui import MultiMDApp
-
-
-    def run_gui(self):
-        """Import kivy UI system from make_gui() and start running it as self.ui_task."""
 
 
     def run_cli(self):

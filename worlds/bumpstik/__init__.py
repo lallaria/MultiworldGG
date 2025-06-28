@@ -8,6 +8,7 @@ from .Items import BumpStikItem, item_table, item_groups
 from .Locations import location_table
 from .Options import *
 from .Regions import create_regions
+from .Register import GAME_NAME, IGDB_ID, AUTHOR, VERSION
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import forbid_item
 
@@ -31,10 +32,9 @@ class BumpStikWorld(World):
         Launch Bumpers onto the field, and match them in sets of three of the same color.
         How long can you go without getting Jammed?
     """
-
-    game = "Bumper Stickers"
-    author: str = "FelicitusNeko"
-    igdb_id = 271950
+    game = GAME_NAME
+    author = AUTHOR
+    igdb_id = IGDB_ID
     web = BumpStikWeb()
 
     item_name_to_id = item_table

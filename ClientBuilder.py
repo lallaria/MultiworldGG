@@ -125,28 +125,33 @@ class InitialClient(ClientBuilder):
         self._client.add("GUI")
 
 class GameClient(ClientBuilder):
-    def __init__(self, ctx: CommonContext, init_data: dict[str, asyncio.Task] = None):
-        super().__init__(ctx)
-        self._ui_task: Optional[asyncio.Task] = init_data["ui_task"]
-        self._kivy_ui: Optional[Gui.MultiMDApp] = MDApp.get_running_app()
+    def __init__(self, ctx: CommonContext, init_data: dict[str, Any] = None):
+        super().__init__(ctx=ctx)
+        # No need to store ui_task or kivy_ui - always available via global access
 
-    async def build(self) -> None:
+    async def build(self) -> Dict[str, Any]:
         """Build game client extending initial client"""
         self._is_running = True
         
         try:
-            # Inherit connection from initial client
-            if "ui_task" in self.ctx.ui_context:
-                self._ui_task = self.ctx.ui_context["ui_task"]
-                self._kivy_ui = MDApp.get_running_app()
-                #Inherit connection from initial client
+            # Access ui, ui_task, and exit_event from global app reference when needed
+            # MDApp.get_running_app().ctx.ui
+            # MDApp.get_running_app().ctx.ui_task
+            # MDApp.get_running_app().ctx.exit_event
             
             # Set up game-specific features
+            await self._setup_game_features()
+            
             return {}
             
         except Exception as e:
             self._is_running = False
             raise e
+    
+    async def _setup_game_features(self) -> None:
+        """Initialize game-specific functionality"""
+        # Override in subclasses for game-specific setup
+        pass
 
 class Client():
     def __init__(self):

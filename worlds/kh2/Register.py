@@ -1,5 +1,6 @@
 from . import KH2World
 from . import KingdomHearts2Web
+from .Client import launch
 
 """
 Kingdom Hearts 2 World Registration
@@ -17,4 +18,4 @@ VERSION = "1.0.0"
 # Plugin entry points
 WORLD_CLASS = KH2World
 WEB_WORLD_CLASS = KingdomHearts2Web
-CLIENT_FUNCTION = None
+CLIENT_FUNCTION = launch
