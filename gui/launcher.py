@@ -37,8 +37,8 @@ from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from data.game_index import GameIndex
-from kivydi.expansionlist import *
-from bottomappbar import BottomAppBar
+from .kivydi.expansionlist import *
+from .bottomappbar import BottomAppBar
 
 game_index = GameIndex()
 logger = logging.getLogger(__name__)

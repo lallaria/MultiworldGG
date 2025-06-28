@@ -1,5 +1,5 @@
 from . import BrotatoWorld
-from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
+from .constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import BrotatoWeb
 
 """

@@ -20,6 +20,8 @@ import typing
 import time
 import functools
 import warnings
+import ssl
+import argparse
 from typing import Optional
 import os
 
@@ -34,7 +36,7 @@ ModuleUpdate.update()
 import websockets
 
 import Utils
-from Utils import Version
+from Utils import Version, async_start
 apname = Utils.instance_name if Utils.instance_name else "Archipelago"
 
 if __name__ == "__main__":
@@ -44,17 +46,31 @@ from MultiServer import CommandProcessor
 # from client.factory import CommandMixin  # Commented out - module not found
 
 from NetUtils import Endpoint, ClientStatus, NetworkItem, decode, encode, NetworkPlayer, Permission, NetworkSlot, \
-    SlotType, LocationStore, Hint, HintStatus
+    SlotType, LocationStore, Hint, HintStatus, add_json_item, add_json_text, add_json_location, JSONTypes, \
+    JSONtoTextParser, RawJSONtoTextParser
 from BaseClasses import ItemClassification
 
-# Import ClientState from ClientBuilder
-from ClientBuilder import ClientState
+# Import ClientState from separate file to avoid circular imports
+from ClientState import ClientState
 
 # Import MDApp for GUI access
 from kivymd.app import MDApp
 
+# Import stream_input function
+from Utils import stream_input
+
+# Import GUI components
+from gui import Gui
+from gui.dialog import MessageBox
+
+# Import ClientBuilder for game client management
+from ClientBuilder import GameClient
+
 if typing.TYPE_CHECKING:
     from worlds.AutoWorldRegister import AutoWorldRegister
+
+# Import network_data_package for data package handling
+from worlds import network_data_package
 
 logger = logging.getLogger("Client")
 
@@ -365,7 +381,7 @@ class CommonContext(InitContext):
 
     def __init__(self, server_address: typing.Optional[str] = None, password: typing.Optional[str] = None) -> None:
         super().__init__()  # Initialize InitContext
-        self._current_client: Optional[ClientBuilder] = None
+        self._current_client: Optional[GameClient] = None
         self._state = ClientState.INITIAL
         self._is_transitioning = False
         self._initial_ctx: dict[Gui.MultiMDApp, asyncio.Task] = {}
@@ -435,6 +451,9 @@ class CommonContext(InitContext):
 
     async def _takeover_existing_gui(self) -> None:
         """Take over existing GUI instance"""
+        # Import locally to avoid circular import
+        from ClientBuilder import GameClient
+        
         app = MDApp.get_running_app()
         existing_ctx = app.ctx
         
@@ -446,10 +465,16 @@ class CommonContext(InitContext):
             # Preserve exit_event from existing context
             self.exit_event = existing_ctx.exit_event
             
+            # Preserve UI references from existing context
+            if hasattr(existing_ctx, 'ui'):
+                self.ui = existing_ctx.ui
+            if hasattr(existing_ctx, 'ui_task'):
+                self.ui_task = existing_ctx.ui_task
+            
             # Create game client builder with existing context
             game_client = GameClient(self, {
-                "ui_task": existing_ctx.ui_task,
-                "ui": app
+                "ui_task": self.ui_task,
+                "ui": self.ui
             })
             
             # Update app reference to new context
@@ -784,12 +809,11 @@ class CommonContext(InitContext):
         if old_tags != self.tags and self.server and not self.server.socket.closed:
             await self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}])
 
-    def gui_error(self, title: str, text: typing.Union[Exception, str]) -> typing.Optional["kvui.MessageBox"]:
+    def gui_error(self, title: str, text: typing.Union[Exception, str]) -> typing.Optional["MessageBox"]:
         """Displays an error messagebox in the loaded Kivy UI. Override if using a different UI framework"""
         if not self.ui:
             return None
         title = title or "Error"
-        from gui import MessageBox
         if self._messagebox:
             self._messagebox.dismiss()
         # make "Multiple exceptions" look nice
@@ -824,7 +848,7 @@ class CommonContext(InitContext):
         """
       
         from gui import MultiMDApp
-
+        return MultiMDApp
 
     def run_cli(self):
         if sys.stdin:
@@ -1142,7 +1166,6 @@ async def console_loop(ctx: CommonContext):
 
 def get_base_parser(description: typing.Optional[str] = None):
     """Base argument parser to be reused for components subclassing off of CommonClient"""
-    import argparse
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--connect', default=None, help='Address of the multiworld host.')
     parser.add_argument('--password', default=None, help='Password of the multiworld host.')

@@ -8,7 +8,7 @@ from kivy.uix.textinput import TextInput
 from kivy.utils import escape_markup
 from kivymd.theming import ThemableBehavior
 from kivymd.uix.button import MDExtendedFabButton, MDExtendedFabButtonText
-from kivydi.markuptextfield import MarkupTextField
+from .kivydi.markuptextfield import MarkupTextField
 from kivy.clock import Clock
 from typing import TextIO
 import logging

@@ -1,17 +1,26 @@
-from BaseClasses import Item, Location, MultiWorld, Tutorial, Region, CollectionState
-from worlds.AutoWorld import World, WebWorld
-
-from .Client import CTJoTSNIClient
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
-from . import CTJoTDefaults
-from .Items import CTJoTItemManager
-from .Locations import CTJoTLocationManager
-from .Options import Locations, Items, Rules, Victory, GameMode, \
-    ItemDifficulty, TabTreasures, BucketFragments, FragmentCount
-
+import logging
 import threading
+import typing
 from typing import Callable
 
+from BaseClasses import Item, Location, MultiWorld, Tutorial, Region, CollectionState, ItemClassification
+from ..AutoWorld import World, WebWorld
+
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Client import CTJoTSNIClient
+from .Items import CTJoTItemManager
+from .Locations import CTJoTLocationManager
+from .Options import CTJoTOptions
+
+ctjot_logger = logging.getLogger("Jets of Time")
+
+
+class InvalidYamlException(Exception):
+    """
+    Custom exception thrown when we detect that the YAML was not
+    generated using the mutlworld CTJoT web generator.
+    """
+    pass
 
 class CTJoTWebWorld(WebWorld):
     settings_page = "https://multiworld.ctjot.com/"

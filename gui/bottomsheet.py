@@ -19,7 +19,7 @@ from kivymd.uix.label import MDLabel, MDIcon
 from kivymd.uix.bottomsheet import MDBottomSheet
 from kivymd.uix.tab.tab import MDTabsPrimary, MDTabsItem, MDTabsItemText, MDTabsCarousel
 from kivymd.uix.textfield.textfield import MDTextField
-from kivydi import CONSOLE_ACTIONS, LAUNCHER_ACTIONS
+from .kivydi import CONSOLE_ACTIONS, LAUNCHER_ACTIONS
 
 Builder.load_string('''
 <MainBottomSheet>:

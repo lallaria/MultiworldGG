@@ -18,7 +18,7 @@ from kivymd.uix.navigationdrawer import MDNavigationLayout
 from kivymd.uix.button import MDButton, MDButtonText
 from kivymd.uix.label import MDLabel
 
-from settings_components import ConnectionSettings, ThemingSettings, InterfaceSettings
+from .settings_components import ConnectionSettings, ThemingSettings, InterfaceSettings
 
 # Set up logging
 log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")

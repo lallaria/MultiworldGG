@@ -18,8 +18,8 @@ from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.textfield import MDTextField, MDTextFieldHelperText
 from kivymd.uix.dialog import MDDialog, MDDialogHeadlineText, MDDialogSupportingText, MDDialogContentContainer 
 
-from mw_theme import THEME_OPTIONS, DEFAULT_TEXT_COLORS, RegisterFonts
-from kivydi.colorpicker import MWColorPicker
+from .mw_theme import THEME_OPTIONS, DEFAULT_TEXT_COLORS, RegisterFonts
+from .kivydi.colorpicker import MWColorPicker
 
 # Set up logging
 log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")

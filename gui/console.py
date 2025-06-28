@@ -15,8 +15,8 @@ from kivymd.uix.card.card import MDCard, MDRelativeLayout
 from kivymd.uix.chip.chip import MDChipLeadingAvatar
 from kivy.uix.anchorlayout import AnchorLayout
 #from console import ConsoleView, UIRecycleView
-from textconsole import ConsoleView, TextConsole
-from launcher import LauncherScreen, LauncherLayout
+from .textconsole import ConsoleView, TextConsole
+from .launcher import LauncherScreen, LauncherLayout
 import asynckivy
 
 # from kivy.core.window import Window
@@ -30,12 +30,12 @@ from kivymd.uix.appbar import MDTopAppBar, MDTopAppBarLeadingButtonContainer, MD
 from kivymd.uix.sliverappbar import MDSliverAppbar, MDSliverAppbarContent, MDSliverAppbarHeader
 from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelContent
 from kivymd.uix.list import MDList, MDListItem
-from testdict import testdict
+from .testdict import testdict
 from dataclasses import dataclass
 from textwrap import wrap
-from kivydi.expansionlist import *
+from .kivydi.expansionlist import *
 from kivymd.theming import ThemableBehavior
-from bottomappbar import BottomAppBar
+from .bottomappbar import BottomAppBar
 
 Builder.load_string('''
 <ConsoleLayout>:

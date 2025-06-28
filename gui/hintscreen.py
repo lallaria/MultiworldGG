@@ -17,7 +17,7 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.appbar import MDTopAppBar
 from kivymd.theming import ThemableBehavior
 
-from testdict import testdict
+from .testdict import testdict
 
 # Load the KV string
 Builder.load_string('''

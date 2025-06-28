@@ -1,5 +1,5 @@
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDFlatButton
+from kivymd.uix.button import MDButton
 from kivymd.uix.label import MDLabel
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
@@ -41,7 +41,7 @@ class MessageBox:
             type="simple",
             content=content,
             buttons=[
-                MDFlatButton(
+                MDButton(
                     text="OK",
                     theme_text_color="Custom",
                     text_color=self.app.theme_cls.errorColor if self.is_error else self.app.theme_cls.onSurfaceColor,

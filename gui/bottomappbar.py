@@ -13,7 +13,7 @@ from kivymd.uix.label import MDLabel, MDIcon
 from kivymd.uix.bottomsheet import MDBottomSheet
 from kivymd.uix.textfield.textfield import MDTextField
 from kivy.clock import Clock
-from kivydi import CONSOLE_ACTIONS, LAUNCHER_ACTIONS
+from .kivydi import CONSOLE_ACTIONS, LAUNCHER_ACTIONS
 
 Builder.load_string('''
 <BottomAppBar>:

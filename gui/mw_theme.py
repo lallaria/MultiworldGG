@@ -18,7 +18,7 @@ from kivy.properties import ObjectProperty, StringProperty, BooleanProperty, Bou
 from kivy.config import Config
 from kivy.lang import Builder
 from kivy.utils import hex_colormap
-from kivydi import md_icons
+from .kivydi import md_icons
 from PIL import Image
 import numpy as np
 

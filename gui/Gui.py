@@ -15,7 +15,14 @@ from PIL import Image as PILImage, ImageSequence
 
 # from worlds.alttp.Rom import text_addresses
 
-assert "kivy" not in sys.modules, "gui needs instansiation first"
+# Check if we're in a test environment
+import sys
+import os
+
+# Allow Kivy to be imported during testing
+if "pytest" not in sys.modules and "unittest" not in sys.modules and "test" not in sys.argv[0]:
+    assert "kivy" not in sys.modules, "gui needs instansiation first"
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "kivydi"))
 
 if sys.platform == "win32":
@@ -122,16 +129,16 @@ from kivy.uix.effectwidget import EffectWidget, PixelateEffect
 
 #from NetUtils import JSONtoTextParser, JSONMessagePart, SlotType, HintStatus
 # from Utils import async_start, get_input_text_from_response
-from mw_theme import RegisterFonts, DefaultTheme
+from .mw_theme import RegisterFonts, DefaultTheme
 
-from bottomsheet import MainBottomSheet, BottomChipLayout
-from titlebar import Titlebar, TitleBarButton, TitlebarKV
-from console import ConsoleScreen
-from hintscreen import HintScreen
-from settings_screen import SettingsScreen
-from topappbar import TopAppBarLayout, TopAppBar
-from launcher import LauncherScreen
-from kivydi.loadinglayout import MWGGLoadingLayout
+from .bottomsheet import MainBottomSheet, BottomChipLayout
+from .titlebar import Titlebar, TitleBarButton, TitlebarKV
+from .console import ConsoleScreen
+from .hintscreen import HintScreen
+from .settings_screen import SettingsScreen
+from .topappbar import TopAppBarLayout, TopAppBar
+from .launcher import LauncherScreen
+from .kivydi.loadinglayout import MWGGLoadingLayout
 
 class BottomAppBar(MDBottomAppBar):
     def hide_me(self, *args):
