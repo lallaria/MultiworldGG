@@ -23,4 +23,4 @@ requires-python = ">=3.12"
 "ladx.WebWorldClass" = "ladx.Register:WEB_WORLD_CLASS"
 "ladx.Client" = "ladx.Register:CLIENT_FUNCTION"
 [tool.setuptools.dynamic]
-version = {attr = "ladx.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

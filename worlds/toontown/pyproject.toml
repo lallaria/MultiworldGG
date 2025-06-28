@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "toontown.Client" = "toontown.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "toontown.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

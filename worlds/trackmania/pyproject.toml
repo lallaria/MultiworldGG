@@ -20,4 +20,4 @@ requires-python = ">=3.12"
 "trackmania.WebWorldClass" = "trackmania.Register:WEB_WORLD_CLASS"
 "trackmania.Client" = "trackmania.Register:CLIENT_FUNCTION"
 [tool.setuptools.dynamic]
-version = {attr = "trackmania.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

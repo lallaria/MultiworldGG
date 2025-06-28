@@ -143,7 +143,7 @@ def build_client():
     # ...
 ```
 
-### 4. Launcher Screen Integration (`data/gui/launcher.py`)
+### 4. Launcher Screen Integration (`gui/launcher.py`)
 The launcher screen will use the pre-generated GameIndex.
 
 ```python

@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "pokemon_frlg.Client" = "pokemon_frlg.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "pokemon_frlg.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

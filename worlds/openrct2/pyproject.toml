@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "openrct2.Client" = "openrct2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "openrct2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

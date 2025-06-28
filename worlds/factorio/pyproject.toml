@@ -28,4 +28,4 @@ dependencies = [
 "factorio.Client" = "factorio.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "factorio.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

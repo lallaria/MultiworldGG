@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "sm64ex.Client" = "sm64ex.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sm64ex.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

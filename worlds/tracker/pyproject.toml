@@ -20,4 +20,4 @@ requires-python = ">=3.12"
 "tracker.Client" = "tracker.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "tracker.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

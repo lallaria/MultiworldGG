@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "ff1.Client" = "ff1.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ff1.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

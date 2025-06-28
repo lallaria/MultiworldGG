@@ -18,12 +18,12 @@ with open(client_id_path, 'r') as file:
 with open(key_path, 'r') as file:
     igdb_key = file.readline().strip()
 
-# url = f"https://id.twitch.tv/oauth2/token?client_id={igdb_client_id}&client_secret={igdb_key}&grant_type=client_credentials"
-# response = requests.post(url)
-# print(url)
-# print(response.json())
-# igdb_token = response.json()['access_token']
-igdb_token = "r2i66btt37vdamhee05kwpop1turk4"
+url = f"https://id.twitch.tv/oauth2/token?client_id={igdb_client_id}&client_secret={igdb_key}&grant_type=client_credentials"
+response = requests.post(url)
+print(url)
+print(response.json())
+igdb_token = response.json()['access_token']
+#igdb_token = "r2i66btt37vdamhee05kwpop1turk4"
 
 
 def get_igdb_game_keywords(game_id: int) -> list:
@@ -66,128 +66,39 @@ def get_igdb_game_cover(game_id: int) -> str:
 
 def get_game_and_igdb_id_from_world(init_path: str) -> Optional[Tuple[str, int]]:
     """
-    Gets the game name and IGDB ID from a world's __init__.py file by looking for the values directly.
+    Gets the game name and IGDB ID from a world's __init__.py file.
     Returns a tuple of (game_name, igdb_id) or None if not found.
     """
     if not os.path.exists(init_path):
         return None
+    
     try:
         # Read the file content
         with open(init_path, 'r', encoding='utf-8') as f:
             content = f.read()
             
-        # Look for game name - can be defined in various ways
-        game_patterns = [
-            r'game\s*=\s*["\']([^"\']+)["\']',  # game = "name"
-            r'game\s*:\s*[^=]*=\s*["\']([^"\']+)["\']',  # game: str = "name" or game: ClassVar[str] = "name"
-            r'game\s*:\s*[^=]*=\s*(\w+)\.GAME_NAME',  # game: str = Constants.GAME_NAME
-            r'game\s*=\s*(\w+)\.GAME_NAME',  # game = Constants.GAME_NAME
-            r'game\s*=\s*(\w+)\.game_name',  # game = OTHER.game_name
-        ]
+        # Look for game name with type annotation
+        game_match = re.search(r'GAME_NAME\s*:\s*str\s*=\s*["\']([^"\']+)["\']', content)
+        if not game_match:
+            return None
+            
+        game_name = game_match.group(1)
         
-        # Look for igdb_id - can be defined in various ways
-        id_patterns = [
-            r'igdb_id\s*=\s*(\d+)',  # igdb_id = 123
-            r'igdb_id\s*:\s*[^=]*=\s*(\d+)',  # igdb_id: int = 123 or igdb_id: ClassVar[int] = 123
-            r'igdb_id\s*:\s*[^=]*=\s*(\w+)\.IGDB_ID',  # igdb_id: int = Constants.IGDB_ID
-            r'igdb_id\s*=\s*(\w+)\.IGDB_ID',  # igdb_id = Constants.IGDB_ID
-            r'igdb_id\s*=\s*(\w+)\.igdb_id',  # igdb_id = OTHER.igdb_id
-        ]
-        
-        # Try each pattern for game name
-        game_name = None
-        for pattern in game_patterns:
-            match = re.search(pattern, content)
-            if match:
-                if '.' in match.group(1):  # It's a constant reference
-                    # Look for the constant in the same directory
-                    const_name = match.group(1).split('.')[0]
-                    # Try different possible constant file names
-                    const_files = [
-                        os.path.join(os.path.dirname(init_path), f"{const_name.lower()}.py"),
-                        os.path.join(os.path.dirname(init_path), "constants.py"),
-                        os.path.join(os.path.dirname(init_path), "data", "strings.py"),
-                        os.path.join(os.path.dirname(init_path), "data", "strings", "other.py"),
-                    ]
-                    for const_file in const_files:
-                        if os.path.exists(const_file):
-                            with open(const_file, 'r', encoding='utf-8') as f:
-                                const_content = f.read()
-                                # Try different patterns for the constant
-                                const_patterns = [
-                                    r'GAME_NAME\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In class
-                                    r'game_name\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In class
-                                    r'GAME_NAME\s*=\s*["\']([^"\']+)["\']',  # Global
-                                    r'game_name\s*=\s*["\']([^"\']+)["\']',  # Global
-                                    r'GAME_NAME\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In dataclass
-                                    r'game_name\s*:\s*str\s*=\s*["\']([^"\']+)["\']',  # In dataclass
-                                ]
-                                for const_pattern in const_patterns:
-                                    const_match = re.search(const_pattern, const_content)
-                                    if const_match:
-                                        game_name = const_match.group(1)
-                                        break
-                                if game_name:
-                                    break
-                else:
-                    game_name = match.group(1)
-                if game_name:
-                    break
-                
-        # Try each pattern for igdb_id
-        igdb_id = None
-        for pattern in id_patterns:
-            match = re.search(pattern, content)
-            if match:
-                if '.' in match.group(1):  # It's a constant reference
-                    # Look for the constant in the same directory
-                    const_name = match.group(1).split('.')[0]
-                    # Try different possible constant file names
-                    const_files = [
-                        os.path.join(os.path.dirname(init_path), f"{const_name.lower()}.py"),
-                        os.path.join(os.path.dirname(init_path), "constants.py"),
-                        os.path.join(os.path.dirname(init_path), "data", "strings.py"),
-                        os.path.join(os.path.dirname(init_path), "data", "strings", "other.py"),
-                    ]
-                    for const_file in const_files:
-                        if os.path.exists(const_file):
-                            with open(const_file, 'r', encoding='utf-8') as f:
-                                const_content = f.read()
-                                # Try different patterns for the constant
-                                const_patterns = [
-                                    r'IGDB_ID\s*:\s*int\s*=\s*(\d+)',  # In class
-                                    r'igdb_id\s*:\s*int\s*=\s*(\d+)',  # In class
-                                    r'IGDB_ID\s*=\s*(\d+)',  # Global
-                                    r'igdb_id\s*=\s*(\d+)',  # Global
-                                    r'IGDB_ID\s*:\s*int\s*=\s*(\d+)',  # In dataclass
-                                    r'igdb_id\s*:\s*int\s*=\s*(\d+)',  # In dataclass
-                                ]
-                                for const_pattern in const_patterns:
-                                    const_match = re.search(const_pattern, const_content)
-                                    if const_match:
-                                        try:
-                                            igdb_id = int(const_match.group(1))
-                                            break
-                                        except ValueError:
-                                            continue
-                                if igdb_id is not None:
-                                    break
-                else:
-                    try:
-                        igdb_id = int(match.group(1))
-                    except ValueError:
-                        continue
-                if igdb_id is not None:
-                    break
-                
-        if game_name:
-            return game_name, igdb_id
+        # Look for igdb_id with type annotation
+        id_match = re.search(r'IGDB_ID\s*:\s*str\s*=\s*["\'](\d+)["\']', content)
+        if not id_match:
+            return None
+            
+        try:
+            igdb_id = int(id_match.group(1))
+        except ValueError:
+            return None
+            
+        return game_name, igdb_id
                 
     except Exception as e:
         print(f"Error loading {init_path}: {e}")
         return None
-    
-    return None
 
 def get_game_ids_from_worlds() -> dict:
     """
@@ -195,16 +106,20 @@ def get_game_ids_from_worlds() -> dict:
     Returns a dictionary mapping game names to their IGDB IDs.
     """
     # Get all world directories from base_world_inits.txt
-    with open("world_inits.txt", "r") as f:
-        base_world_inits = f.read().splitlines()
+    worlds = os.listdir("worlds")
+    worlds = [os.path.join("worlds", world) for world in worlds if os.path.isdir(os.path.join("worlds", world))]
     
     game_ids = {}
 
-    for init_file in base_world_inits:
+    for world in worlds:
+        init_file = os.path.join(world, "Constants.py")
         print(f"\nProcessing file: {init_file}")
         if not os.path.exists(init_file):
+            init_file = os.path.join(world, "constants.py")
             print(f"No file found at {init_file}")
-            continue
+            if not os.path.exists(init_file):
+                print(f"No file found at {init_file}")
+                continue
             
         # Get game name and IGDB ID from the World class
         result = get_game_and_igdb_id_from_world(init_file)
@@ -213,7 +128,7 @@ def get_game_ids_from_worlds() -> dict:
             continue
             
         game_name, igdb_id = result
-        game_ids[game_name] = igdb_id
+        game_ids[world] = {"igdb_id": igdb_id, "game_name": game_name}
     return game_ids
 
 def get_igdb_game_details(game_id: int) -> dict:
@@ -270,17 +185,17 @@ def generate_game_details_json() -> dict:
 
     result = {}
     
-    for game_name, igdb_id in game_ids.items():
+    for world, data in game_ids.items():
 
-        if igdb_id:
+        if data["igdb_id"]:
             # Get IGDB details for worlds with IGDB IDs
-            igdb_details = get_igdb_game_details(igdb_id)
+            igdb_details = get_igdb_game_details(data["igdb_id"])
             
             # Create the game entry with IGDB data
-            result[game_name] = {
-                'igdb_id': str(igdb_id),
+            result[world] = {
+                'igdb_id': str(data["igdb_id"]),
                 'cover_url': igdb_details.get('cover_url', ''),
-                'world_name': game_name,
+                'game_name': data["game_name"],
                 'igdb_name': igdb_details.get('igdb_name', ''),
                 'rating': igdb_details.get('rating', ''),
                 'player_perspectives': igdb_details.get('player_perspectives', []),
@@ -293,9 +208,10 @@ def generate_game_details_json() -> dict:
             }
         else:
             # Create empty entry for worlds without IGDB IDs
-            result[game_name] = {
+            result[world] = {
                 'igdb_id': '',
-                'world_name': game_name,
+                'cover_url': '',
+                'game_name': data["game_name"],
                 'igdb_name': '',
                 'rating': '',
                 'player_perspectives': [],
@@ -306,7 +222,7 @@ def generate_game_details_json() -> dict:
                 'keywords': ["hints","archipelago","multiworld"],
                 'release_date': ''
             }
-            print(f"Created empty entry for {game_name} (no IGDB ID)")
+            print(f"Created empty entry for {world} (no IGDB ID)")
     
     return result
 
@@ -321,7 +237,7 @@ def get_single_game_details(igdb_id: int) -> dict:
     if not igdb_details:
         return {
             'igdb_id': str(igdb_id),
-            'world_name': '',  # We don't know the world name for a single ID lookup
+            'game_name': '',  # We don't know the world name for a single ID lookup
             'igdb_name': '',
             'us_rating': '',
             'player_perspectives': [],
@@ -336,7 +252,7 @@ def get_single_game_details(igdb_id: int) -> dict:
     return {
         'igdb_id': str(igdb_id),
         'cover_url': igdb_details.get('cover_url', ''),
-        'world_name': '',  # We don't know the world name for a single ID lookup
+        'game_name': '',  # We don't know the world name for a single ID lookup
         'igdb_name': igdb_details.get('igdb_name', ''),
         'rating': igdb_details.get('rating', ''),
         'player_perspectives': igdb_details.get('player_perspectives', []),

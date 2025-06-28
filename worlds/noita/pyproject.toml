@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "noita.Client" = "noita.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "noita.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

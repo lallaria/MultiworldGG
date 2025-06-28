@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "timespinner.Client" = "timespinner.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "timespinner.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

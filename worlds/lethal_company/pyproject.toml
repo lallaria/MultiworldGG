@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "lethal_company.Client" = "lethal_company.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "lethal_company.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

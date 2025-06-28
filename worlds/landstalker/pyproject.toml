@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "landstalker.Client" = "landstalker.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "landstalker.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

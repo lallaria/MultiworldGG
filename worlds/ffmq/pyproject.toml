@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "ffmq.Client" = "ffmq.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ffmq.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

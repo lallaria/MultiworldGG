@@ -25,4 +25,4 @@ requires-python = ">=3.12"
 "doom_1993.Client" = "doom_1993.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "doom_1993.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

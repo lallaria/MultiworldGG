@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "lufia2ac.Client" = "lufia2ac.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "lufia2ac.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

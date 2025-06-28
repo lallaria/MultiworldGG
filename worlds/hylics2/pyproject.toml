@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "hylics2.Client" = "hylics2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "hylics2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

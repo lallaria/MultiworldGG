@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dw1.Client" = "dw1.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dw1.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

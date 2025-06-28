@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "mlss.Client" = "mlss.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "mlss.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

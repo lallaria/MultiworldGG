@@ -5,6 +5,7 @@ from BaseClasses import Location, Region, Item, ItemClassification, Tutorial
 from .Items import raw_items, PowerwashSimulatorItem, item_table, create_items, unlock_items, filler_items
 from .Locations import location_dict, raw_location_dict, locations_percentages, land_vehicles, objectsanity_dict
 from .Options import PowerwashSimulatorOptions, PowerwashSimulatorSettings, check_options
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 uuid_offset = 0x3AF4F1BC
 
@@ -24,8 +25,9 @@ class PowerwashSimulator(World):
     """
     Powerwash Simulator
     """
-    game = "Powerwash Simulator"
-    author: str = "SW_CreeperKing"
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = PowerwashSimulatorWebWorld()
     options_dataclass = PowerwashSimulatorOptions
     options: PowerwashSimulatorOptions

@@ -26,4 +26,4 @@ dependencies = [
 "osu.Client" = "osu.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "osu.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

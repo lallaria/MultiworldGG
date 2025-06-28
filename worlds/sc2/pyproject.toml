@@ -25,4 +25,4 @@ dependencies = [
 "sc2.Client" = "sc2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sc2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

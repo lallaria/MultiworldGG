@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "apsudoku.Client" = "apsudoku.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "apsudoku.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

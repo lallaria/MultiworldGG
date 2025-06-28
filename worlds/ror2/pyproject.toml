@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "ror2.Client" = "ror2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ror2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rimworld"
+dynamic = ["version"]
+description = "Rimworld"
+authors = [
+    {name = "Phantom Of Ares"}
+]
+license = "MIT"
+classifiers = [
+    "Private :: Do Not Upload"
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"rimworld.WorldClass" = "rimworld.Register:WORLD_CLASS"
+"rimworld.WebWorldClass" = "rimworld.Register:WEB_WORLD_CLASS"
+"rimworld.Client" = "rimworld.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "Constants.VERSION"}

@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "rac2.Client" = "rac2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "rac2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

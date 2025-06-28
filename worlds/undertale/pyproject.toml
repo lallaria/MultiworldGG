@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "undertale.Client" = "undertale.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "undertale.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

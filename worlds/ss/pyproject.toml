@@ -25,4 +25,4 @@ dependencies = [
 "ss.Client" = "ss.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ss.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dontstarvetogether.Client" = "dontstarvetogether.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dontstarvetogether.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

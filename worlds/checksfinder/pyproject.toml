@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "checksfinder.Client" = "checksfinder.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "checksfinder.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

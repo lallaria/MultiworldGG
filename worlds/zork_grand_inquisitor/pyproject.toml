@@ -28,4 +28,4 @@ dependencies = [
 "zork_grand_inquisitor.Client" = "zork_grand_inquisitor.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "zork_grand_inquisitor.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

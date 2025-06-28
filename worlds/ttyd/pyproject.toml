@@ -25,4 +25,4 @@ dependencies = [
 "ttyd.Client" = "ttyd.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ttyd.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

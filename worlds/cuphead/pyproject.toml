@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "cuphead.Client" = "cuphead.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "cuphead.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

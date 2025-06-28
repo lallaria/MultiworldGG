@@ -25,4 +25,4 @@ dependencies = [
 "tww.Client" = "tww.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "tww.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

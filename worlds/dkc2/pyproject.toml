@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dkc2.Client" = "dkc2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dkc2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

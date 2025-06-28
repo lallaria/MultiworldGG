@@ -7,7 +7,8 @@ name = "kh2"
 dynamic = ["version"]
 description = "Kingdom Hearts 2"
 authors = [
-    {name = "JaredWeakStrike & Shananas"}
+    {name = "JaredWeakStrike"},
+    {name = "Shananas"}
 ]
 license = "MIT"
 classifiers = [
@@ -25,4 +26,8 @@ dependencies = [
 "kh2.Client" = "kh2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "kh2.Register:VERSION"}
+version = {"attr" = "Constants.VERSION"}
+
+[tool.setuptools.packages.find]
+include = ["kh2", "kh2.*"]
+exclude = ["data", "test", "docs"]

@@ -35,4 +35,4 @@ dependencies = [
 "ff4fe.Client" = "ff4fe.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ff4fe.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

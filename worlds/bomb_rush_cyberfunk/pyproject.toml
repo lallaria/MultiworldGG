@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "bomb_rush_cyberfunk.Client" = "bomb_rush_cyberfunk.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "bomb_rush_cyberfunk.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

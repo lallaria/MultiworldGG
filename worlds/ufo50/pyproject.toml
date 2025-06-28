@@ -22,4 +22,4 @@ requires-python = ">=3.12"
 "ufo50.Client" = "ufo50.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "ufo50.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "residentevil3remake.Client" = "residentevil3remake.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "residentevil3remake.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

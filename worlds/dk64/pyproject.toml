@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dk64.Client" = "dk64.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dk64.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

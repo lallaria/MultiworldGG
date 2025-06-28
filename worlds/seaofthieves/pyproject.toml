@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "seaofthieves.Client" = "seaofthieves.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "seaofthieves.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

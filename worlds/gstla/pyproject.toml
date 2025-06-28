@@ -25,4 +25,4 @@ dependencies = [
 "gstla.Client" = "gstla.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "gstla.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

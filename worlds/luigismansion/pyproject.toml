@@ -25,4 +25,4 @@ dependencies = [
 "luigismansion.Client" = "luigismansion.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "luigismansion.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

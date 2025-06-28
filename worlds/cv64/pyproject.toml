@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "cv64.Client" = "cv64.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "cv64.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "sims4.Client" = "sims4.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sims4.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

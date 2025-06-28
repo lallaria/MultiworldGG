@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "yachtdice.Client" = "yachtdice.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "yachtdice.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

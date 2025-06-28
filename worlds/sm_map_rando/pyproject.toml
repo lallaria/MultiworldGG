@@ -45,4 +45,4 @@ dynamic = ["version"]
 "sm_map_rando.Client" = "sm_map_rando.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sm_map_rando.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

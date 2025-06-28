@@ -25,4 +25,4 @@ dependencies = [
 "jakanddaxter.Client" = "jakanddaxter.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "jakanddaxter.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

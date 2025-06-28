@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "musedash.Client" = "musedash.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "musedash.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

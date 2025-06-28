@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dlcquest.Client" = "dlcquest.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dlcquest.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

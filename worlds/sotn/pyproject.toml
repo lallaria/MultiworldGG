@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "sotn.Client" = "sotn.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sotn.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

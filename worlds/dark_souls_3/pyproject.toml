@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dark_souls_3.Client" = "dark_souls_3.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dark_souls_3.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

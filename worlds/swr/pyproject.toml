@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "swr.Client" = "swr.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "swr.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

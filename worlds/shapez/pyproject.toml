@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "shapez.Client" = "shapez.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "shapez.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

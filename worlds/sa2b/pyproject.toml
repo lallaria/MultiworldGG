@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "sa2b.Client" = "sa2b.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sa2b.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

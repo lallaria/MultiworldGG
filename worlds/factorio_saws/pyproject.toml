@@ -28,4 +28,4 @@ dependencies = [
 "factorio_saws.Client" = "factorio_saws.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "factorio_saws.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

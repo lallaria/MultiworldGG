@@ -25,4 +25,4 @@ dependencies = [
 "tloz.Client" = "tloz.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "tloz.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

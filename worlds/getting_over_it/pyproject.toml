@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "getting_over_it.Client" = "getting_over_it.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "getting_over_it.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

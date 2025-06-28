@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "gzdoom.Client" = "gzdoom.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "gzdoom.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

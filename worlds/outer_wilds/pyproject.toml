@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "outer_wilds.Client" = "outer_wilds.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "outer_wilds.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

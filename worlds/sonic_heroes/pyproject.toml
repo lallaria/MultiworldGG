@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "sonic_heroes.Client" = "sonic_heroes.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sonic_heroes.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -25,4 +25,4 @@ dependencies = [
 "sms.Client" = "sms.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sms.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

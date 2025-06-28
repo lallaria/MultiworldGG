@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "banjo_tooie.Client" = "banjo_tooie.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "banjo_tooie.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "hades.Client" = "hades.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "hades.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

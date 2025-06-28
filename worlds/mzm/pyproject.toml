@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "mzm.Client" = "mzm.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "mzm.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

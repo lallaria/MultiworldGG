@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "shivers.Client" = "shivers.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "shivers.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "marioland2.Client" = "marioland2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "marioland2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

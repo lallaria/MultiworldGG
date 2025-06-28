@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "brotato.Client" = "brotato.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "brotato.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

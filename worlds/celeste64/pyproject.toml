@@ -1,9 +1,15 @@
 [project]
 name = "celeste64"
-version = "1.0.0"
-description = "Relive the magic of Celeste Mountain alongside Madeline in this small, heartfelt 3D platformer. Created in a week(ish) by the Celeste team to celebrate the game’s sixth anniversary 🍓✨"
+dynamic = ["version"]
+description = "Celeste 64"
 authors = [
     {name = "PoryGone"}
+]
+requires-python = ">=3.12"
+]
+license = "MIT"
+classifiers = [
+    "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
@@ -11,3 +17,6 @@ requires-python = ">=3.12"
 "celeste64.WorldClass" = "celeste64.Register:WORLD_CLASS"
 "celeste64.WebWorldClass" = "celeste64.Register:WEB_WORLD_CLASS"
 "celeste64.Client" = "celeste64.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "Constants.VERSION"}

@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "diddy_kong_racing.Client" = "diddy_kong_racing.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "diddy_kong_racing.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

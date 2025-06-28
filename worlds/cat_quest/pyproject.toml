@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "cat_quest.Client" = "cat_quest.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "cat_quest.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

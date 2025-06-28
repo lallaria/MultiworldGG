@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "crosscode.Client" = "crosscode.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "crosscode.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

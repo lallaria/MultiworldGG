@@ -61,4 +61,4 @@ dependencies = [
 "soe.Client" = "soe.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "soe.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

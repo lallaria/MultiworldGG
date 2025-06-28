@@ -124,7 +124,7 @@ def generate_md_icons_dict(icon_mappings, output_file=None):
 def main():
     """Main function to run the conversion."""
     # Path to the fa_icons.py file
-    fa_icons_path = "data/gui/kivydi/fa_icons.py"
+    fa_icons_path = "gui/kivydi/fa_icons.py"
     
     # Output file path (optional)
     output_path = "converted_md_icons.py"

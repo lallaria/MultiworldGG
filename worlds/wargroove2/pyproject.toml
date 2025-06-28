@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "wargroove2.Client" = "wargroove2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "wargroove2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

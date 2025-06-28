@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "pmd_eos.Client" = "pmd_eos.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "pmd_eos.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "chainedechoes.Client" = "chainedechoes.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "chainedechoes.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

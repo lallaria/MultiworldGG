@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "albw.Client" = "albw.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "albw.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

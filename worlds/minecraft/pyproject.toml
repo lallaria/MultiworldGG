@@ -25,4 +25,4 @@ dependencies = [
 "minecraft.Client" = "minecraft.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "minecraft.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "pokemon_crystal.Client" = "pokemon_crystal.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "pokemon_crystal.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

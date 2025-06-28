@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "dungeon_clawler.Client" = "dungeon_clawler.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "dungeon_clawler.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

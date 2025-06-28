@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "paint.Client" = "paint.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "paint.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

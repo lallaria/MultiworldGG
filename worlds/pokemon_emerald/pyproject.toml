@@ -24,4 +24,4 @@ requires-python = ">=3.12"
 "pokemon_emerald.Client" = "pokemon_emerald.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "pokemon_emerald.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

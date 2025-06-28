@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "shorthike.Client" = "shorthike.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "shorthike.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

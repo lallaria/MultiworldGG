@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "candybox2.Client" = "candybox2.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "candybox2.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

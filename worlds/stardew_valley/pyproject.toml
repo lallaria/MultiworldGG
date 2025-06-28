@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "stardew_valley.Client" = "stardew_valley.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "stardew_valley.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

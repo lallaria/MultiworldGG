@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "powerwashsimulator"
+dynamic = ["version"]
+description = "Powerwash Simulator"
+authors = [
+    {name = "SW_CreeperKing"}
+]
+classifiers = [
+    "Private :: Do Not Upload"
+]
+requires-python = ">=3.12"
+
+[project.entry-points."mwgg.plugins"]
+"powerwashsimulator.WorldClass" = "powerwashsimulator.Register:WORLD_CLASS"
+"powerwashsimulator.WebWorldClass" = "powerwashsimulator.Register:WEB_WORLD_CLASS"
+"powerwashsimulator.Client" = "powerwashsimulator.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.dynamic]
+version = {attr = "Constants.VERSION"}

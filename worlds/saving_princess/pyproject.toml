@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "saving_princess.Client" = "saving_princess.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "saving_princess.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

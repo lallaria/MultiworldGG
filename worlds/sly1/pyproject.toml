@@ -21,4 +21,4 @@ requires-python = ">=3.12"
 "sly1.Client" = "sly1.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "sly1.Register:VERSION"}
+version = {attr = "Constants.VERSION"}

@@ -26,4 +26,4 @@ dependencies = [
 "celeste.Client" = "celeste.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.dynamic]
-version = {attr = "celeste.Register:VERSION"}
+version = {attr = "Constants.VERSION"}
