@@ -5,7 +5,7 @@ from worlds.AutoWorld import WebWorld, World
 from . import Items, Locations, Regions, Rules
 from .Options import FaxanaduOptions
 from worlds.generic.Rules import set_rule
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 DAXANADU_VERSION = "0.3.0"

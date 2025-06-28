@@ -8,6 +8,7 @@ import settings
 from BaseClasses import Item, CollectionState, Tutorial, MultiWorld
 from worlds.AutoWorld import World, WebWorld, LogicMixin
 from .Client import ALTTPSNIClient
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Dungeons import create_dungeons, Dungeon
 from .EntranceShuffle import link_entrances, link_inverted_entrances, plando_connect
 from .InvertedRegions import create_inverted_regions, mark_dark_world_regions
@@ -132,9 +133,9 @@ class ALTTPWorld(World):
     dungeons on your quest to rescue the descendents of the seven wise men and defeat the evil
     Ganon!
     """
-    game = "A Link to the Past"
-    author: str = "Berserker66"
-    igdb_id = 1026
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = ALTTPOptions
     options: ALTTPOptions
     settings_key = "lttp_options"

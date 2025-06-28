@@ -6,6 +6,7 @@ from BaseClasses import Item, MultiWorld, Tutorial
 from worlds.AutoWorld import World, WebWorld
 
 from . import Items, Locations, Regions, Rom, Rules
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Client import MarioKart64Client  # Import to register client with BizHawkClient
 from .Locations import MK64Location
 from .Options import MK64Options, GameMode, Opt, ShuffleDriftAbilities
@@ -42,9 +43,9 @@ class MK64World(World):
     maneuver around hazards, execute drifts and mini-turbos, risk shortcuts but
     stay on the track, and race to victory in each course and cup.
     """
-    game = "Mario Kart 64"
-    igdb_id = 2342
-    author: str = "Edsploration"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
 
     topology_present = False
 

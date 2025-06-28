@@ -1,4 +1,5 @@
 from .PrimeUtils import setup_lib_path
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 setup_lib_path()  # NOTE: This MUST be called before importing any other metroidprime modules (other than PrimeUtils)
 # Setup local dependencies if running in an apworldimport typing
@@ -121,9 +122,9 @@ class MetroidPrimeWorld(World):
     of the Space Pirates.
     """
 
-    game = "Metroid Prime"
-    igdb_id = 1105
-    author: str = "Electro15"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     required_client_version = (0, 5, 0)
     options_dataclass = MetroidPrimeOptions
     options: MetroidPrimeOptions  # type: ignore

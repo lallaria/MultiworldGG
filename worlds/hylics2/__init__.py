@@ -2,6 +2,7 @@ from typing import Dict, List, Any
 from BaseClasses import Region, Entrance, Location, Item, Tutorial, ItemClassification
 from worlds.generic.Rules import set_rule
 from . import Exits, Items, Locations, Rules
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Options import Hylics2Options
 from worlds.AutoWorld import WebWorld, World
 
@@ -24,8 +25,8 @@ class Hylics2World(World):
     travel the world, and gather your allies to defeat the nefarious Gibby in his Hylemxylem!
     """
     game: str = "Hylics 2"
-    igdb_id = 98469
-    author: str = "TRPG"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = Hylics2Web()
 
     all_items = {**Items.item_table, **Items.gesture_item_table, **Items.party_item_table,

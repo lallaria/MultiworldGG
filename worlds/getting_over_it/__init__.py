@@ -3,7 +3,8 @@ from typing import Dict
 from BaseClasses import Item, Location, ItemClassification, Region
 from worlds.AutoWorld import WebWorld, World
 from .options import GOIOptions
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class GOIWeb(WebWorld):
     rich_text_options_doc = True
@@ -107,8 +108,8 @@ class GOIWorld(World):
 
 
 class GOIItem(Item):
-    game = "Getting Over It"
+    game = GAME_NAME
 
 
 class GOILocation(Location):
-    game = "Getting Over It"
+    game = GAME_NAME

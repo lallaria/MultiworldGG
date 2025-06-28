@@ -8,6 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 
 from .Items import DSRItem, DSRItemCategory, item_dictionary, key_item_names, item_descriptions, BuildItemPool
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import DSRLocation, DSRLocationCategory, location_tables, location_dictionary, location_skip_categories
 from .Options import DSROption
 
@@ -33,8 +34,8 @@ class DSRWorld(World):
     """
 
     game: str = "Dark Souls Remastered"
-    igdb_id = 81085
-    author: str = "ArsonAssassin"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = DSROption
     options: DSROption
     topology_present: bool = True

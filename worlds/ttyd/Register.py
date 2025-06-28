@@ -1,4 +1,5 @@
 from . import TTYDWebWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Paper Mario The Thousand Year Door World Registration
@@ -8,10 +9,10 @@ This file contains the metadata and class references for the ttyd world.
 
 # Required metadata
 WORLD_NAME = "ttyd"
-GAME_NAME = "Paper Mario The Thousand Year Door"
-IGDB_ID = 328663
-AUTHOR = "jamesbrq"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = TTYDWebWorld

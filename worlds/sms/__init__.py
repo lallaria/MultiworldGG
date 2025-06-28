@@ -9,6 +9,7 @@ from BaseClasses import ItemClassification, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, launch_subprocess
 from .items import ALL_ITEMS_TABLE, REGULAR_PROGRESSION_ITEMS, ALL_PROGRESSION_ITEMS, TICKET_ITEMS, SmsItem
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .locations import ALL_LOCATIONS_TABLE
 from .options import SmsOptions
 from .regions import create_regions
@@ -31,9 +32,9 @@ class SmsWorld(World):
     The second Super Mario game to feature 3D gameplay. Coupled with F.L.U.D.D. (a talking water tank that can be used
     as a jetpack), Mario must clean the graffiti off of Delfino Isle and return light to the sky.
     """
-    game = "Super Mario Sunshine"
-    igdb_id = 1075
-    author: str = "Joshark"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
 
     data_version = 1
 

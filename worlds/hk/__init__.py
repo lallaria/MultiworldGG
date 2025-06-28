@@ -8,6 +8,7 @@ import operator
 from collections import defaultdict, Counter
 
 from .Items import item_table, item_name_groups
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Rules import set_rules, cost_terms, _hk_can_beat_thk, _hk_siblings_ending, _hk_can_beat_radiance
 from .Options import hollow_knight_options, hollow_knight_randomize_options, Goal, WhitePalace, CostSanity, \
     shop_to_option, HKOptions, GrubHuntGoal
@@ -166,7 +167,7 @@ class HKWorld(World):
     As the enigmatic Knight, you’ll traverse the depths, unravel its mysteries and conquer its evils.
     """  # from https://www.hollowknight.com
     game: str = "Hollow Knight"
-    author: str = "BadMagic"
+    author: str = AUTHOR
     igdb_id: int = 14593
     options_dataclass = HKOptions
     options: HKOptions
@@ -740,7 +741,7 @@ class HKLocation(Location):
 
 
 class HKItem(Item):
-    game = "Hollow Knight"
+    game = GAME_NAME
     type: str
 
     def __init__(self, name, advancement, code, type: str, player: int = None):

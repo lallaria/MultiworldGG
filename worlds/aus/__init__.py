@@ -1,4 +1,5 @@
 from .Regions import link_aus_areas, aus_regions
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from BaseClasses import Region, Entrance, Tutorial, Item
 from .Options import AUSOptions
 from .Items import item_table, AUSItem, item_pool
@@ -24,9 +25,9 @@ class AUSWorld(World):
     """
     A freeware metroidvania game created by Maddy Thorson chronicling the travels of an adventurous egg.
     """
-    game = "An Untitled Story"
-    author: str = "ThatOneGuy27"
-    igdb_id = 72926
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = AUSOptions
     options: AUSOptions
     topology_present = False

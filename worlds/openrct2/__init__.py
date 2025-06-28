@@ -6,7 +6,7 @@ import worlds.LauncherComponents as LauncherComponents
 from BaseClasses import ItemClassification, Region, Location, Tutorial
 from worlds.generic.Rules import add_rule
 
-from .Constants import base_id, apworld_version
+from .Constants import base_id, apworld_version, GAME_NAME, AUTHOR, IGDB_ID
 from .data.scenario_info import scenario_info
 from .data.item_info import item_info
 from .data.location_info import location_info
@@ -32,7 +32,7 @@ class OpenRCT2WebWorld(WebWorld):
 
 
 class OpenRCT2Location(Location):
-    game = "OpenRCT2"
+    game = GAME_NAME
 
 
 def launch_client() -> None:  # Shoutout to Serpent.ai for the launcher code!
@@ -70,9 +70,9 @@ class OpenRCT2World(World):
     roller coasters, manage finances, and build the park of their dreams!
     """
 
-    game = "OpenRCT2"
-    author: str = "Crazycolbster"
-    igdb_id = 80720
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = OpenRCT2WebWorld()
 
     options_dataclass = openRCT2Options

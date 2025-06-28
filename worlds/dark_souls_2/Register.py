@@ -1,4 +1,5 @@
 from . import DS2World
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import DarkSouls2Web
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the dark_souls_2 world.
 
 # Required metadata
 WORLD_NAME = "dark_souls_2"
-GAME_NAME = "Dark Souls II"
-IGDB_ID = 2368
-AUTHOR = "WildBunnie"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DS2World

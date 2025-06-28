@@ -10,6 +10,7 @@ from Fill import fill_restrictive
 from worlds.AutoWorld import WebWorld, World
 
 from . import rom_data
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .client import MZMClient
 from .data import data_path
 from .items import item_data_table, major_item_data_table, mzm_item_name_groups, MZMItem
@@ -59,8 +60,8 @@ class MZMWorld(World):
     used with permission.
     """
     game: str = "Metroid Zero Mission"
-    igdb_id = 1107
-    author: str = "Noise"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = MZMOptions
     options: MZMOptions
     topology_present = True

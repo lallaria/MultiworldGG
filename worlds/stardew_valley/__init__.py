@@ -27,6 +27,7 @@ from .rules import set_rules
 from .stardew_rule import True_, StardewRule, HasProgressionPercent
 from .strings.ap_names.event_names import Event
 from .strings.goal_names import Goal as GoalName
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 logger = logging.getLogger(__name__)
 
@@ -66,9 +67,9 @@ class StardewValleyWorld(World):
     Stardew Valley is an open-ended country-life RPG. You can farm, fish, mine, fight, complete quests,
     befriend villagers, and uncover dark secrets.
     """
-    game = "Stardew Valley"
-    author: str = "Kaito Kid"
-    igdb_id: int = 17000
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
     topology_present = False
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}

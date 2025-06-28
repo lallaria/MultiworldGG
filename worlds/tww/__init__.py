@@ -16,6 +16,7 @@ from worlds.generic.Rules import add_item_rule
 from worlds.LauncherComponents import Component, SuffixIdentifier, Type, components, icon_paths, launch_subprocess
 
 from .Items import ISLAND_NUMBER_TO_CHART_NAME, ITEM_TABLE, TWWItem, item_name_groups
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import LOCATION_TABLE, TWWFlag, TWWLocation
 from .Options import TWWOptions, tww_option_groups
 from .Presets import tww_options_presets
@@ -113,7 +114,7 @@ class TWWWorld(World):
     options: TWWOptions
 
     game: ClassVar[str] = "The Wind Waker"
-    author: str = "tanjo3"
+    author: str = AUTHOR
     igdb_id: int = 1033
     topology_present: bool = True
 

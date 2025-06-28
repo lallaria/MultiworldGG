@@ -1,4 +1,5 @@
 from . import OriBlindForestWebWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Ori and the Blind Forest World Registration
@@ -8,10 +9,10 @@ This file contains the metadata and class references for the oribf world.
 
 # Required metadata
 WORLD_NAME = "oribf"
-GAME_NAME = "Ori and the Blind Forest"
-IGDB_ID = 7344
-AUTHOR = "Gray"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = OriBlindForestWebWorld

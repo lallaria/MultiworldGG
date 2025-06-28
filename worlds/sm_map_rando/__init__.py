@@ -22,6 +22,7 @@ from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 logger = logging.getLogger("Super Metroid Map Rando")
 
 from .Rom import get_base_rom_path, get_sm_symbols, openFile, SMMR_ROM_MAX_PLAYERID, SMMR_ROM_PLAYERDATA_COUNT, SMMapRandoDeltaPatch 
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .ips import IPS_Patch
 from .Client import SMMRSNIClient
 from importlib.metadata import version, PackageNotFoundError
@@ -76,7 +77,7 @@ except (ImportError, WrongVersionError, PackageNotFoundError) as e:
 def GetAPWorldPath():
     filename = sys.modules[__name__].__file__
     apworldExt = ".apworld"
-    game = "sm_map_rando/"
+    game = GAME_NAME
     if apworldExt in filename:
         return filename[:filename.index(apworldExt) + len(apworldExt)]
     else:
@@ -138,7 +139,7 @@ class SMMapRandoWorld(World):
     """
 
     game: str = "Super Metroid Map Rando"
-    author: str = "lordlou"
+    author: str = AUTHOR
     igdb_id: int = 1103
     topology_present = True
     data_version = 0

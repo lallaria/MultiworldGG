@@ -11,6 +11,7 @@ from Utils import __version__
 from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import add_rule, CollectionRule, set_rule
 from .Client import L2ACSNIClient  # noqa: F401
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import ItemData, ItemType, l2ac_item_name_to_id, l2ac_item_table, L2ACItem, start_id as items_start_id
 from .Locations import l2ac_location_name_to_id, L2ACLocation
 from .Options import CapsuleStartingLevel, DefaultParty, EnemyFloorNumbers, EnemyMovementPatterns, EnemySprites, \
@@ -52,7 +53,7 @@ class L2ACWorld(World):
     Jelly in the end. Can you beat it?
     """
     game: ClassVar[str] = "Lufia II Ancient Cave"
-    author: str = "el-u & word_fcuk"
+    author: str = AUTHOR
     igdb_id: int = 1178
 
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = L2ACOptions

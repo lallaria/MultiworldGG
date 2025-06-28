@@ -1,6 +1,7 @@
 import typing
 
 from .Locations import location_table, lookup_name_to_id as locations_lookup_name_to_id
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import (createResourcePackName, item_table, progressive_table, progressive_item_list,
     lookup_name_to_item, resourcepack_items as resourcePackItems, lookup_name_to_id as items_lookup_name_to_id)
 
@@ -31,7 +32,7 @@ class RaftWorld(World):
     islands that you come across.
     """
     game: str = "Raft"
-    author: str = "SunnyBat"
+    author: str = AUTHOR
     igdb_id: int = 27082
 
     item_name_to_id = items_lookup_name_to_id.copy()
@@ -251,8 +252,8 @@ def create_region(world: MultiWorld, player: int, name: str, locations=None, exi
     return ret
 
 class RaftLocation(Location):
-    game = "Raft"
+    game = GAME_NAME
 
 
 class RaftItem(Item):
-    game = "Raft"
+    game = GAME_NAME

@@ -3,6 +3,7 @@ from BaseClasses import ItemClassification, Region, Location, Item, Tutorial
 from Options import PerGameCommonOptions
 from worlds.AutoWorld import World, WebWorld
 from .Items import item_table, group_table, base_id
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table
 from .Rules import create_rules, get_min_feathers
 from .Options import ShortHikeOptions, shorthike_option_groups
@@ -26,8 +27,8 @@ class ShortHikeWorld(World):
     and take in the beautiful world around you.
     """
 
-    game = "A Short Hike"
-    author: str = "chandler05 & BrandenEK"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 116753
 
     item_name_to_id = {item["name"]: item["id"] for item in item_table}

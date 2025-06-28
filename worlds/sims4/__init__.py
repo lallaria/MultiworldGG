@@ -8,6 +8,7 @@ import settings
 from BaseClasses import Tutorial, Item, ItemClassification, Region, Entrance
 from worlds.AutoWorld import World, WebWorld
 from ..LauncherComponents import Component, components, Type, icon_paths
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 # TS4 specific imports
 from .Locations import location_table, Sims4Location, skill_locations_table
@@ -54,8 +55,8 @@ class Sims4World(World):
     The Sims 4 focuses on creating and controlling a neighborhood of virtual people, called "Sims".
     """
 
-    game = "The Sims 4"
-    author: str = "bennydreamly"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 3212
     topology_present = False
     web = Sims4Web()

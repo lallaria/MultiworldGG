@@ -1,4 +1,5 @@
 from . import MeritousWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import MeritousWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the meritous world.
 
 # Required metadata
 WORLD_NAME = "meritous"
-GAME_NAME = "Meritous Gaiden is a procedurally generated bullet-hell dungeon crawl game."
-IGDB_ID = 78479
-AUTHOR = "FelicitusNeko"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = MeritousWorld

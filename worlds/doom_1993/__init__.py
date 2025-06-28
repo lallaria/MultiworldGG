@@ -5,6 +5,7 @@ from typing import Any, Dict, List
 from BaseClasses import Entrance, CollectionState, Item, Location, MultiWorld, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from . import Items, Locations, Maps, Regions, Rules
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Options import DOOM1993Options
 
 logger = logging.getLogger("DOOM 1993")
@@ -40,9 +41,9 @@ class DOOM1993World(World):
     """
     options_dataclass = DOOM1993Options
     options: DOOM1993Options
-    game = "DOOM 1993"
-    author: str = "Daivuk & Kaito Sinclaire"
-    igdb_id = 673
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = DOOM1993Web()
     required_client_version = (0, 5, 0)  # 1.2.0-prerelease or higher
 

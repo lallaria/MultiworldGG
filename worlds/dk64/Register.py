@@ -1,4 +1,5 @@
 from . import DK64World
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import DK64Web
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the dk64 world.
 
 # Required metadata
 WORLD_NAME = "dk64"
-GAME_NAME = "Donkey Kong 64 is a 3D collectathon platforming game."
-IGDB_ID = 0
-AUTHOR = "2dos, Killklli, & Ballaam"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DK64World

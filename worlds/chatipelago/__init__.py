@@ -1,5 +1,6 @@
 from BaseClasses import Item, Region, Tutorial, ItemClassification
 from .Items import *
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Regions import *
 from Options import PerGameCommonOptions
 from .Rules import *
@@ -24,7 +25,7 @@ class ChatipelagoWorld(World):
     Chat plays MultiworldGG!
     """
     game = Chati.name
-    author: str = "Delilah, Dranzior, LMarioza"
+    author: str = AUTHOR
     options_dataclass = PerGameCommonOptions
     web = ChatipelagoWeb()
 

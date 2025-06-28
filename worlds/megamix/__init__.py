@@ -7,6 +7,7 @@ import settings
 
 #Local
 from .Options import MegaMixOptions
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import MegaMixSongItem, MegaMixFixedItem
 from .Locations import MegaMixLocation
 from .MegaMixCollection import MegaMixCollections
@@ -64,7 +65,7 @@ class MegaMixWeb(WebWorld):
             authors=["Cynichill"]
         )
     ]
-    game = "Hatsune Miku Project Diva Mega Mix+"
+    game = GAME_NAME
 
 class MegaMixWorld(World):
     """Hatsune Miku: Project Diva Mega Mix+ is a rhythm game where you hit notes to the beat of one of 250+ songs.
@@ -72,9 +73,9 @@ class MegaMixWorld(World):
     until you have enough to play and complete the goal song!"""
 
     # World Options
-    game = "Hatsune Miku Project Diva Mega Mix+"
-    author: str = "Cynichill"
-    igdb_id = 120278
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
 
     web = MegaMixWeb()
 

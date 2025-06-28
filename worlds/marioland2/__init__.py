@@ -7,6 +7,7 @@ from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Region, Location, Item, ItemClassification, Tutorial
 
 from . import client
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .rom import generate_output, SuperMarioLand2ProcedurePatch
 from .options import SML2Options
 from .locations import (locations, location_name_to_id, level_name_to_id, level_id_to_name, START_IDS, coins_coords,
@@ -46,8 +47,8 @@ class MarioLand2World(World):
     villainous Wario. This iconic game features 32 levels, unique power-ups, and introduces Wario as Mario's
     arch-rival."""  # -ChatGPT
 
-    game = "Super Mario Land 2"
-    author: str = " Alchav"
+    game = GAME_NAME
+    author: str = AUTHOR
 
     igdb_id: int = 1071
 
@@ -445,8 +446,8 @@ class MarioLand2World(World):
 
 
 class MarioLand2Location(Location):
-    game = "Super Mario Land 2"
+    game = GAME_NAME
 
 
 class MarioLand2Item(Item):
-    game = "Super Mario Land 2"
+    game = GAME_NAME

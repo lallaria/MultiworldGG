@@ -8,6 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Item, Tutorial, ItemClassification
 
 from . import ItemPool
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .data import Items, Locations, Planets
 from .data.Items import EquipmentData
 from .data.Planets import PlanetData
@@ -71,9 +72,9 @@ class Rac2World(World):
     Ratchet and Clank as they attempt to unravel a conspiracy in a new galaxy involving a mysterious "pet project"
     orchestrated by the shadowy MegaCorp.
     """
-    game = "Ratchet & Clank 2"
-    igdb_id = 1770
-    author: str = "Evilwb"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
 
     options_dataclass = Rac2Options
     options: Rac2Options

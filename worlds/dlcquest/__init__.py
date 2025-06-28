@@ -10,7 +10,7 @@ from .Regions import create_regions
 from .Rules import set_rules
 from .presets import dlcq_options_presets
 from .option_groups import dlcq_option_groups
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 client_version = 0
 

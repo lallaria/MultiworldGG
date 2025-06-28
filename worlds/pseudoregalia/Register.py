@@ -1,4 +1,5 @@
 from . import PseudoregaliaWorld, PseudoregaliaWeb
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Pseudoregalia World Registration
@@ -8,10 +9,10 @@ This file contains the metadata and class references for the pseudoregalia world
 
 # Required metadata
 WORLD_NAME = "pseudoregalia"
-GAME_NAME = "Pseudoregalia"
-IGDB_ID = 259465
-AUTHOR = "LittleMeowMeow & qwint"
-VERSION = "0.7.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = PseudoregaliaWorld

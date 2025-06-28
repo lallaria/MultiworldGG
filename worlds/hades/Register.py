@@ -1,4 +1,5 @@
 from . import HadesWorld, HadesWeb
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from .Client import launch
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the hades world.
 
 # Required metadata
 WORLD_NAME = "hades"
-GAME_NAME = "Hades"
-IGDB_ID = 113112
-AUTHOR = "Naix"
-VERSION = "0.5.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = HadesWorld

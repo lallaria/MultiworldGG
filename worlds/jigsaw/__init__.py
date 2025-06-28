@@ -6,6 +6,7 @@ from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Reg
 from worlds.AutoWorld import WebWorld, World
 
 from .Items import JigsawItem, item_table, item_groups, encouragements
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import JigsawLocation, location_table
 
 from .Options import JigsawOptions, OrientationOfImage, PieceOrder, PieceTypeOrder, jigsaw_option_groups, PlacementOfFillers, Rotations
@@ -42,7 +43,7 @@ class JigsawWorld(World):
     """
 
     game: str = "Jigsaw"
-    author: str = "spinerak"
+    author: str = AUTHOR
     options_dataclass = JigsawOptions
 
     web = JigsawWeb()

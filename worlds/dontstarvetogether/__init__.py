@@ -5,7 +5,7 @@ from worlds.LauncherComponents import Component, components, Type, launch_subpro
 from Options import OptionError
 from .Options import DSTOptions, dontstarvetogether_option_groups, dontstarvetogether_option_presets
 from . import Regions, Rules, ItemPool, Util
-from .Constants import VERSION, PHASE, SEASON, SEASONS_PASSED, SPECIAL_TAGS
+from .Constants import VERSION, PHASE, SEASON, SEASONS_PASSED, SPECIAL_TAGS, GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_data_table, location_name_to_id
 from .Items import item_data_table, item_name_to_id
 
@@ -38,9 +38,9 @@ class DSTWorld(World):
     hidden dangers, and ancient secrets known as "The Constant". You must gather resources to craft items and build
     structures and farms to help you protect yourself, survive, and most importantly, not starve.
     """
-    game = "Don't Starve Together"
-    igdb_id = 17832
-    author: str = "Dragon Wolf Leo"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     item_name_to_id = item_name_to_id
     location_name_to_id = location_name_to_id
 

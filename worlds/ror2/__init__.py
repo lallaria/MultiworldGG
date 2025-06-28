@@ -1,6 +1,7 @@
 import string
 
 from .items import RiskOfRainItem, item_table, item_pool_weights, offset, filler_table, environment_offset
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .locations import RiskOfRainLocation, item_pickups, get_locations
 from .rules import set_rules
 from .ror2environments import environment_vanilla_table, environment_vanilla_orderedstages_table, \
@@ -32,9 +33,9 @@ class RiskOfRainWorld(World):
      Combine loot in surprising ways and master each character until you become the havoc you feared upon your
      first crash landing.
     """
-    game = "Risk of Rain 2"
-    igdb_id = 28512
-    author: str = "Sneaki"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = ROR2Options
     options: ROR2Options
     topology_present = False

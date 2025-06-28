@@ -8,6 +8,7 @@ from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
 import settings
 from .Items import get_item_names_per_category, item_table, filler_items, trap_items
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import get_locations
 from .Regions import init_areas
 from .Options import YoshisIslandOptions, PlayerGoal, ObjectVis, StageLogic, MinigameChecks
@@ -48,9 +49,9 @@ class YoshisIslandWorld(World):
     During a delivery, Bowser's evil ward, Kamek, attacked the stork, kidnapping Luigi and dropping Mario onto Yoshi's Island.
     As Yoshi, you must run, jump, and throw eggs to escort the baby Mario across the island to defeat Bowser and reunite the two brothers with their parents.
     """
-    game = "Yoshi's Island"
-    igdb_id = 1073
-    author: str = "Pink Switch"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     option_definitions = YoshisIslandOptions
     required_client_version = (0, 4, 4)
 

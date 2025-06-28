@@ -1,5 +1,6 @@
 from BaseClasses import Tutorial
 from ..AutoWorld import World, WebWorld
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from worlds.LauncherComponents import Component, components, launch_subprocess, Type
 from functools import partial
 from typing import cast, ClassVar
@@ -37,9 +38,9 @@ class XenobladeXWorld(World):
      Xenoblade Chronicles X another 100+ hour game. Sounds like fun?
     """
 
-    game = "Xenoblade X"
-    author: str = "Maragon"
-    igdb_id = 2366
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     topology_present = True
     web = XenobladeXWeb()
 

@@ -10,6 +10,7 @@ from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import add_rule, exclusion_rules
 
 from .Client import SMWSNIClient
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import SMWItem, ItemData, item_table, junk_table
 from .Levels import full_level_list, generate_level_list, location_id_to_level_id
 from .Locations import SMWLocation, all_locations, setup_locations, special_zone_level_names, special_zone_dragon_coin_names, special_zone_hidden_1up_names, special_zone_blocksanity_names
@@ -56,8 +57,8 @@ class SMWWorld(World):
     lost all of his abilities. Can he get them back in time to save the Princess?
     """
     game: str = "Super Mario World"
-    igdb_id = 1070
-    author: str = "PoryGone"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     settings: typing.ClassVar[SMWSettings]
 
     options_dataclass = SMWOptions

@@ -15,6 +15,7 @@ from worlds.AutoWorld import WebWorld, World
 import worlds.LauncherComponents as LauncherComponents
 
 from .Options import GZDoomOptions
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .model import DoomItem, DoomLocation, DoomWad, init_wads, get_wad
 
 logger = logging.getLogger("gzDoom")
@@ -85,8 +86,8 @@ class GZDoomWorld(World):
 
     This randomizer comes with an automated WAD scanner that makes it easy to add support for new WADs.
     """
-    game = "gzDoom"
-    author: str = "ToxicFrog"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 307741
     options_dataclass = GZDoomOptions
     options: GZDoomOptions

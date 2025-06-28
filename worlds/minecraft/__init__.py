@@ -13,7 +13,7 @@ from .Options import MinecraftOptions
 from .Structures import shuffle_structures
 from .ItemPool import build_item_pool, get_junk_item_names
 from .Rules import set_rules
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 client_version = VERSION
 
@@ -193,10 +193,10 @@ class MinecraftWorld(World):
 
 
 class MinecraftLocation(Location):
-    game = "Minecraft"
+    game = GAME_NAME
 
 class MinecraftItem(Item):
-    game = "Minecraft"
+    game = GAME_NAME
 
 
 def mc_update_output(raw_data, server, port):

@@ -19,6 +19,7 @@ from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from .items import Episode, LocalItem, LocalItemData
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .locations import LevelLocationData, LevelRegion
 from .logic import DamageTables, set_level_rules
 from .options import TyrianOptions, tyrian_option_groups
@@ -29,11 +30,11 @@ if TYPE_CHECKING:
 
 
 class TyrianItem(Item):
-    game = "Tyrian"
+    game = GAME_NAME
 
 
 class TyrianLocation(Location):
-    game = "Tyrian"
+    game = GAME_NAME
 
     shop_price: Optional[int]  # None if not a shop, price in credits if it is
 
@@ -43,7 +44,7 @@ class TyrianLocation(Location):
 
 
 class TyrianWebWorld(WebWorld):
-    game = "Tyrian"
+    game = GAME_NAME
     option_groups = tyrian_option_groups
     theme = "partyTime"
     tutorials = [
@@ -72,9 +73,9 @@ class TyrianWorld(World):
     Trent Hawkins in the year 20,031 as he flies through the galaxy to defend it from the evil corporation, Microsol.
     This randomizer supports both versions of the game.
     """
-    game = "Tyrian"
-    author: str = "Kaito Sinclaire"
-    igdb_id = 14432
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = TyrianWebWorld()
     options_dataclass = TyrianOptions
     options: TyrianOptions  # type: ignore

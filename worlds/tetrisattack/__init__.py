@@ -9,6 +9,7 @@ import threading
 from BaseClasses import Region, Location, Entrance, Item, ItemClassification, MultiWorld, Tutorial
 from worlds.AutoWorld import World, WebWorld
 from .Logic import stage_clear_round_gates_included, stage_clear_progressive_unlocks_included, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     stage_clear_individual_unlocks_included, get_starting_puzzle_level
 from .Options import TetrisAttackOptions, StarterPack, PuzzleGoal, PuzzleInclusion, \
     PuzzleMode, VersusGoal  # the options we defined earlier
@@ -22,7 +23,7 @@ from .Client import TetrisAttackSNIClient
 
 
 class TetrisAttackItem(Item):
-    game = "Tetris Attack"
+    game = GAME_NAME
 
 
 class TetrisAttackSettings(settings.Group):
@@ -54,9 +55,9 @@ class TetrisAttackWorld(World):
     In Stage Clear, each round has a set of successive stages.
     In Puzzle, all panels in each board must be fully cleared out using limited moves.
     In Vs, perform Chains and Combos to attack."""
-    game = "Tetris Attack"  # name of the game/world
-    author: str = "AgStarRay"
-    igdb_id = 2739
+    game = GAME_NAME  # name of the game/world
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = TetrisAttackOptions  # options the player can set
     options: TetrisAttackOptions  # typing hints for option results
     settings: typing.ClassVar[TetrisAttackSettings]  # will be automatically assigned from type hint

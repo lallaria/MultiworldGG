@@ -3,6 +3,7 @@ import random
 
 from BaseClasses import Item, Tutorial
 from ..AutoWorld import World, WebWorld
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Options import *
 from .Items import *
 from .Locations import *
@@ -29,7 +30,7 @@ class SWRWorld(World):
     """
     game: str = "Star Wars Episode I Racer"
     igdb_id: int = 154
-    author: str = "Johnny Hamcobbler"
+    author: str = AUTHOR
     topology_present = False
     options_dataclass = SWROptions
     options: SWROptions

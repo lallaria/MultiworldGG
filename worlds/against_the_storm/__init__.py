@@ -7,6 +7,7 @@ from worlds.generic.Rules import set_rule
 from BaseClasses import CollectionState, MultiWorld, Region, Tutorial
 
 from .Items import ATSItemClassification, AgainstTheStormItem, item_dict
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import ATSLocationClassification, AgainstTheStormLocation, location_dict
 from .Options import AgainstTheStormOptions, RecipeShuffle
 from .Recipes import satisfies_recipe, blueprint_recipes, nonitem_blueprint_recipes
@@ -28,9 +29,9 @@ class AgainstTheStormWorld(World):
     Against the Storm is a roguelite city builder
     """
 
-    game = "Against the Storm"
-    author: str = "Ryguy9999"
-    igdb_id = 147519
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = AgainstTheStormOptions
     options: AgainstTheStormOptions
     topology_present = True

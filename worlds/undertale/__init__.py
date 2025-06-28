@@ -9,6 +9,7 @@ from .Options import UndertaleOptions
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, components
 from multiprocessing import Process
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 
 def run_client():
@@ -45,9 +46,9 @@ class UndertaleWorld(World):
     causing genocide of the monster species. Or you can spare all the enemies, befriending them and freeing them
     from their underground prison.
     """
-    game = "Undertale"
-    author: str = "jonloveslegos"
-    igdb_id = 12517
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = UndertaleOptions
     options: UndertaleOptions
     web = UndertaleWeb()

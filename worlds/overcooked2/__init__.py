@@ -5,6 +5,7 @@ from BaseClasses import ItemClassification, CollectionState, Region, Entrance, L
 from worlds.AutoWorld import World, WebWorld
 
 from .Overcooked2Levels import Overcooked2Dlc, Overcooked2Level, Overcooked2GenericLevel
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import Overcooked2Location, oc2_location_name_to_id, oc2_location_id_to_name
 from .Options import OC2Options, OC2OnToggle, LocationBalancingMode, DeathLinkMode
 from .Items import item_table, Overcooked2Item, item_name_to_id, item_id_to_name, item_to_unlock_event, item_frequencies, dlc_exclusives
@@ -44,9 +45,9 @@ class Overcooked2World(World):
 
     # Autoworld API
 
-    game = "Overcooked! 2"
-    igdb_id = 103341
-    author: str = "toasterparty"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
 
     required_client_version = (0, 3, 8)
     topology_present: bool = False

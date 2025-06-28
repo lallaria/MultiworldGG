@@ -6,6 +6,7 @@ import requests
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Tutorial
 from .Regions import create_regions, location_table, set_rules, rooms, non_dead_end_crest_rooms,\
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     non_dead_end_crest_warps
 from .Items import item_table, item_groups, create_items, FFMQItem, fillers
 from .Output import generate_output
@@ -52,9 +53,9 @@ class FFMQWorld(World):
     the bottom of the Focus Tower, then straight up through the top!"""
     # -Giga Otomia
 
-    game = "Final Fantasy Mystic Quest"
-    igdb_id = 415
-    author: str = "Alchav"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     item_name_to_id = {name: data.id for name, data in item_table.items() if data.id is not None}
     location_name_to_id = location_table
     options_dataclass = FFMQOptions

@@ -8,7 +8,7 @@ from Fill import fill_restrictive
 from BaseClasses import CollectionState, Item, LocationProgressType
 from BaseClasses import ItemClassification as IC
 from BaseClasses import Tutorial
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .ClientUtils import VERSION
 from .Items import (
     ITEM_TABLE,

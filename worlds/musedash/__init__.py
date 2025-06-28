@@ -5,6 +5,7 @@ from math import floor
 from Options import PerGameCommonOptions
 
 from .Options import MuseDashOptions, md_option_groups
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import MuseDashSongItem, MuseDashFixedItem
 from .Locations import MuseDashLocation
 from .MuseDashCollection import MuseDashCollections
@@ -49,9 +50,9 @@ class MuseDashWorld(World):
     # - Support for blacklisting/plando-ing certain songs.
 
     # World Options
-    game = "Muse Dash"
-    igdb_id = 86316
-    author: str = "DeamonHunter"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = MuseDashOptions
     options: MuseDashOptions
 

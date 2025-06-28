@@ -11,7 +11,7 @@ from .Regions import connect_regions, create_regions
 from .Options import DiddyKongRacingOptions
 from .Rules import DiddyKongRacingRules
 from .Names import ItemName, LocationName
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def run_client():

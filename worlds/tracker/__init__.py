@@ -48,7 +48,7 @@ class TrackerWorld(World):
     settings_key = "universal_tracker"
 
     # to make auto world register happy so we can register our settings
-    game = "Universal Tracker"
+    game = GAME_NAME
     hidden = True
     item_name_to_id = {}
     location_name_to_id = {}

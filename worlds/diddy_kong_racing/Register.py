@@ -1,4 +1,5 @@
 from . import DiddyKongRacingWorld, DiddyKongRacingWeb
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from .DKRClient import main
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the diddy_kong_racing w
 
 # Required metadata
 WORLD_NAME = "diddy_kong_racing"
-GAME_NAME = "Diddy Kong Racing"
-IGDB_ID = 2723
-AUTHOR = "zakwiz"
-VERSION = "0.6.1"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DiddyKongRacingWorld

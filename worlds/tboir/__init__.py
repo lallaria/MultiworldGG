@@ -4,6 +4,7 @@ import string
 from BaseClasses import Region, Entrance, Item, MultiWorld, Tutorial, ItemClassification, CollectionState
 from worlds.AutoWorld import World, WebWorld
 from .Items import TheBindingOfIsaacRepentanceItem, item_table, default_weights, default_junk_items_weights, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     default_trap_items_weights
 from .Locations import location_table, TheBindingOfIsaacRepentanceLocation, base_location_table
 from .Options import IsaacOptions, ItemWeights
@@ -28,9 +29,9 @@ class TheBindingOfIsaacRepentanceWorld(World):
     human abilities and enabling him to fight off droves of mysterious creatures, discover secrets and fight his way
     to safety.
     """
-    game = "The Binding of Isaac Repentance"
-    igdb_id = 310643
-    author: str = "Cyb3R"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = IsaacOptions
     options: IsaacOptions
     topology_present = False

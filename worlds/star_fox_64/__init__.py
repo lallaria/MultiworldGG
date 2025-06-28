@@ -5,6 +5,7 @@ from Options import OptionGroup
 from BaseClasses import Tutorial
 
 from . import options, regions, locations, items, data, rules
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .options import StarFox64Options, StarFox64OptionsList
 from .regions import StarFox64Region
 from .locations import StarFox64Location
@@ -110,9 +111,9 @@ class StarFox64World(World):
   """
     Star Fox 64 is a 3D rail shooter game in which the player controls one of the vehicles piloted by Fox McCloud, usually an Arwing.
   """
-  game = "Star Fox 64"
-  author: str = "Austin"
-  igdb_id = 2591
+  game = GAME_NAME
+  author: str = AUTHOR
+  igdb_id = IGDB_ID
   options_dataclass = StarFox64Options
   options: StarFox64Options
   settings: StarFox64Settings

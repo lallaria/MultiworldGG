@@ -2,6 +2,7 @@ from BaseClasses import Item, Location, MultiWorld, Tutorial, Region, Collection
 from worlds.AutoWorld import World, WebWorld
 
 from .Client import CTJoTSNIClient
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from . import CTJoTDefaults
 from .Items import CTJoTItemManager
 from .Locations import CTJoTLocationManager
@@ -35,9 +36,9 @@ class CTJoTWorld(World):
     _item_manager = CTJoTItemManager()
     _location_manager = CTJoTLocationManager()
 
-    game = "Chrono Trigger Jets of Time"
-    author: str = "Anguirel"
-    igdb_id = 20398
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     option_definitions = {
         "game_mode": GameMode,
         "item_difficulty": ItemDifficulty,

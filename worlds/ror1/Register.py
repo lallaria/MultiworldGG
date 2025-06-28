@@ -1,4 +1,5 @@
 from . import RoR1World
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import RiskOfWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the ror1 world.
 
 # Required metadata
 WORLD_NAME = "ror1"
-GAME_NAME = "Risk of Rain"
-IGDB_ID = 3173
-AUTHOR = "studkid"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = RoR1World

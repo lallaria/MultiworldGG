@@ -7,6 +7,7 @@ from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from .names import *
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .options import *
 from .items import *
 from .locations import *
@@ -36,8 +37,8 @@ class SonicHeroesWorld(World):
     who each have unique abilities, to overcome obstacles.
     """
     game: str = "Sonic Heroes"
-    igdb_id = 4156
-    author: str = "xMcacutt"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = SonicHeroesWeb()
     options_dataclass = SonicHeroesOptions
     options: SonicHeroesOptions

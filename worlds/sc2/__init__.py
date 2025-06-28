@@ -7,6 +7,7 @@ from BaseClasses import Item, MultiWorld, Location, Tutorial, ItemClassification
 from worlds.LauncherComponents import Component, components, Type, launch as launch_component
 from worlds.AutoWorld import WebWorld, World
 from . import ItemNames
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import StarcraftItem, filler_items, get_item_table, get_full_item_list, \
     get_basic_units, ItemData, upgrade_included_names, progressive_if_nco, kerrigan_actives, kerrigan_passives, \
     kerrigan_only_passives, progressive_if_ext, not_balanced_starting_units, spear_of_adun_calldowns, \
@@ -57,9 +58,9 @@ class SC2World(World):
     Play as one of three factions across four campaigns in a battle for supremacy of the Koprulu Sector.
     """
 
-    game = "Starcraft 2"
-    igdb_id = 239
-    author: str = "Ziktofel"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
 
     item_name_to_id = {name: data.code for name, data in get_full_item_list().items()}
     location_name_to_id = {location.name: location.code for location in get_locations(None)}

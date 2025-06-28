@@ -4,6 +4,7 @@ import typing
 from typing import Dict
 from BaseClasses import Item, Location, MultiWorld, Tutorial, ItemClassification
 from .Items import ItemData, FF1Items, FF1_STARTER_ITEMS, FF1_PROGRESSION_LIST, FF1_BRIDGE
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import EventId, FF1Locations, generate_rule, CHAOS_TERMINATED_EVENT
 from .Options import FF1Options
 from ..AutoWorld import World, WebWorld
@@ -39,9 +40,9 @@ class FF1World(World):
     options_dataclass = FF1Options
     settings: typing.ClassVar[FF1Settings]
     settings_key = "ffr_options"
-    game = "Final Fantasy"
-    igdb_id = 385
-    author: str = "jtoyoda (currently unmaintained)"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present = False
 
     ff1_items = FF1Items()

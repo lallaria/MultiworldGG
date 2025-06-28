@@ -7,7 +7,7 @@ from BaseClasses import Item, Tutorial, ItemClassification
 from ..AutoWorld import World, WebWorld
 from NetUtils import SlotType
 
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 __all__ = ['WORLD_CLASS', 'WEB_WORLD_CLASS']
 

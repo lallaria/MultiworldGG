@@ -3,6 +3,7 @@ from BaseClasses import ItemClassification, Region,Tutorial
 from worlds.AutoWorld import World, WebWorld
 
 from .Items import OriBlindForestItem, base_items, keystone_items, mapstone_items, filler_items, item_dict, item_alias_list
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_dict, tagged_locations_dict, area_tags, event_location_list
 from .Options import OriBlindForestOptions, LogicDifficulty, KeystoneLogic, MapstoneLogic, Goal, slot_data_options
 from .Rules import apply_location_rules, apply_connection_rules, create_progressive_maps
@@ -27,9 +28,9 @@ class OriBlindForestWorld(World):
     Players assume control of Ori, a small white spirit, and Sein, the "light and eyes" of the Forest's Spirit Tree. 
     They are tasked to move between platforms and solve puzzles.
     """
-    game = "Ori and the Blind Forest"
-    igdb_id = 7344
-    author: str = "Gray"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = OriBlindForestOptions
     options: OriBlindForestOptions
     topology_present = True

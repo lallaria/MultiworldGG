@@ -6,6 +6,7 @@ import json
 import typing
 
 from .Items.Items import Items, SOTItem
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items.ItemCollection import ItemCollection
 from .Items.ItemDetail import ItemDetail
 from .Options import SOTOptions
@@ -44,9 +45,9 @@ class SOTWorld(World):
     """
 
     MAX_ISLANDS = 20  # number of hints
-    game = "Sea of Thieves"
-    igdb_id = 11137
-    author: str = "EthanTheEpic"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present = False
 
     web = SotWebWorld.SotWebWorld()

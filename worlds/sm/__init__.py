@@ -16,6 +16,7 @@ from worlds.generic.Rules import add_rule, set_rule
 logger = logging.getLogger("Super Metroid")
 
 from .Options import SMOptions
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Client import SMSNIClient
 from .Rom import SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMProcedurePatch, get_sm_symbols
 import Utils
@@ -97,7 +98,7 @@ class SMWorld(World):
      between the main Areas!
     """
     game: str = "Super Metroid"
-    author: str = "lordlou"
+    author: str = AUTHOR
     igdb_id: int = 1103
     topology_present = True
     options_dataclass = SMOptions
@@ -900,7 +901,7 @@ class SMLocation(Location):
         super(SMLocation, self).__init__(player, name, address, parent)
 
 class SMItem(Item):
-    game = "Super Metroid"
+    game = GAME_NAME
     type: str
 
     def __init__(self, name, classification, type: str, code, player: int):

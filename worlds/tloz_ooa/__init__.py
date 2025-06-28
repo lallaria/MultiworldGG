@@ -9,6 +9,7 @@ from Options import Accessibility, OptionError
 from worlds.AutoWorld import WebWorld, World
 from typing import Any, Set, List, Dict, Optional, Tuple, ClassVar, TextIO, Union
 from .Data import *
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .data.Items import *
 from .Logic import create_connections, apply_self_locking_rules
 from .Options import *
@@ -90,9 +91,9 @@ class OracleOfAgesWorld(World):
     Nayru, the oracle of ages, has been possessed by Veran, and she is now making a mess in Labrynna
     Gather the Essences of Times, exorcice Nayru and defeat Veran to save the timeline of Labrynna
     """
-    game = "The Legend of Zelda - Oracle of Ages"
-    author: str = "Dinopony"
-    igdb_id = 1041
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = OracleOfAgesOptions
     options: OracleOfAgesOptions
     required_client_version = (0, 4, 5)

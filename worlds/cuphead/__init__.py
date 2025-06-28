@@ -6,6 +6,7 @@ from Options import NumericOption
 from worlds.AutoWorld import World, WebWorld
 import settings as ap_settings
 from .names import ItemNames, LocationNames
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .options import CupheadOptions, cuphead_option_groups
 from .wsettings import WorldSettings
 from .items import ItemData
@@ -49,8 +50,8 @@ class CupheadWorld(World):
     APWORLD_VERSION: str = "preview03f"
 
     game: str = "Cuphead"
-    author: str = "JKL"
-    igdb_id = 9061
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = CupheadWebWorld()
     options_dataclass = CupheadOptions
     options: CupheadOptions # type: ignore

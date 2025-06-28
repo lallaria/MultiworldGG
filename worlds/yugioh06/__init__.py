@@ -9,6 +9,7 @@ import Utils
 from worlds.AutoWorld import WebWorld, World
 
 from .boosterpacks import booster_contents as booster_contents
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .boosterpacks import get_booster_locations
 from .items import (
     Banlist_Items,
@@ -80,9 +81,9 @@ class Yugioh06World(World):
     simulator on the GBA. Featuring over 2000 cards and over 90 Challenges.
     """
 
-    game = "Yu-Gi-Oh! 2006"
-    author: str = "Rensen3"
-    igdb_id = 49377
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = Yugioh06Web()
     options: Yugioh06Options
     options_dataclass = Yugioh06Options

@@ -1,6 +1,7 @@
 import typing
 import os, json
 from .Items import item_table, V6Item
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table, V6Location
 from .Options import V6Options
 from .Rules import set_rules
@@ -28,7 +29,7 @@ class V6World(World):
     """ #Lifted from Store Page
 
     game: str = "VVVVVV"
-    author: str = "N00byKing"
+    author: str = AUTHOR
     igdb_id: int = 1990
     topology_present = False
     web = V6Web()

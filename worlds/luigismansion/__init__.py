@@ -26,7 +26,7 @@ from .Hints import get_hints_by_option, ALWAYS_HINT, PORTRAIT_HINTS
 from .Presets import lm_options_presets
 from .Regions import *
 from . import Rules
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def run_client(*args):

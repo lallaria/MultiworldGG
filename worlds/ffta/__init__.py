@@ -10,6 +10,7 @@ import logging
 from Utils import visualize_regions
 
 from .client import FFTAClient
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 from BaseClasses import ItemClassification, MultiWorld, Tutorial, Item
 from worlds.AutoWorld import WebWorld, World
@@ -66,9 +67,9 @@ class FFTAWorld(World):
     Final Fantasy Tactics Advance is a spin-off game of the Final Fantasy series released on GBA, where the player assembles a clan of characters, and controls their actions over grid-like 
     battlefields. Players are mostly free to decide the classes, abilities, and stats of their characters.
     """
-    game = "Final Fantasy Tactics Advance"
-    igdb_id = 414
-    author: str = "spicynun"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = FFTAWebWorld()
     topology_present = False
 

@@ -12,6 +12,7 @@ from typing_extensions import override
 from BaseClasses import LocationProgressType, MultiWorld, Item, CollectionState, Entrance, Tutorial
 
 from .gen_data import GenData
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .logic import ZillionLogicCache
 from .region import ZillionLocation, ZillionRegion
 from .options import ZillionOptions, validate, z_option_groups
@@ -85,9 +86,9 @@ class ZillionWorld(World):
 
     It's based on the anime Zillion (赤い光弾ジリオン, Akai Koudan Zillion).
     """
-    game = "Zillion"
-    author: str = "beauxq"
-    igdb_id = 18141
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = ZillionWebWorld()
 
     options_dataclass = ZillionOptions

@@ -8,6 +8,7 @@ from settings import FilePath, Group
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, icon_paths
 from .client_setup import launch_game
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .connections import CONNECTIONS, RANDOMIZED_CONNECTIONS, TRANSITIONS
 from .constants import ALL_ITEMS, ALWAYS_LOCATIONS, BOSS_LOCATIONS, FILLER, NOTES, PHOBEKINS, PROG_ITEMS, TRAPS, \
     USEFUL_ITEMS
@@ -75,9 +76,9 @@ class MessengerWorld(World):
     to his clan’s survival. What begins as a classic action platformer soon unravels into an expansive time-traveling
     adventure full of thrills, surprises, and humor.
     """
-    game = "The Messenger"
-    igdb_id = 71628
-    author: str = "alwaysintreble"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = MessengerOptions
     options: MessengerOptions
     settings_key = "messenger_settings"

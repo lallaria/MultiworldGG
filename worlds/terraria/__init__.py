@@ -5,6 +5,7 @@ from typing import Union, Tuple, List, Dict, Set
 from worlds.AutoWorld import WebWorld, World
 from BaseClasses import Region, ItemClassification, Tutorial, CollectionState
 from .Checks import (
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     TerrariaItem,
     TerrariaLocation,
     Condition,
@@ -49,9 +50,9 @@ class TerrariaWorld(World):
     Features 18 bosses and 4 classes.
     """
 
-    game = "Terraria"
-    author: str = "Seldom-SE"
-    igdb_id = 1879
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
 
     options_dataclass = TerrariaOptions
     options: TerrariaOptions

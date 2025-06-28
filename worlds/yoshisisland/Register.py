@@ -1,4 +1,5 @@
 from . import YoshisIslandWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import YoshisIslandWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the yoshisisland world.
 
 # Required metadata
 WORLD_NAME = "yoshisisland"
-GAME_NAME = "Yoshi"
-IGDB_ID = 1073
-AUTHOR = "Pink Switch"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = YoshisIslandWorld

@@ -1,6 +1,7 @@
 import settings
 import typing
 from .options import DoronkoWankoOptions  # the options we defined earlier
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .items import doronko_wanko_items  # data used below to add items to the World
 from .items import base_id as items_base_id
 from .items import group_table as items_groups
@@ -25,11 +26,11 @@ class DoronkoWankoWeb(WebWorld):
 
 
 class DoronkoWankoItem(Item):  # or from Items import MyGameItem
-    game = "DORONKO WANKO"  # name of the game/world this item is from
+    game = GAME_NAME  # name of the game/world this item is from
 
 
 class DoronkoWankoLocation(Location):  # or from Locations import MyGameLocation
-    game = "DORONKO WANKO"  # name of the game/world this location is in
+    game = GAME_NAME  # name of the game/world this location is in
 
 
 
@@ -37,9 +38,9 @@ class DoronkoWankoWorld(World):
     """
     DORONKO WANKO is a DORONKO Action Game. In this game, you can become a cute, innocent Pomeranian, make your master's home messy and dirty.
     """
-    game = "DORONKO WANKO"  # name of the game/world
-    author: str = "Vendily"
-    igdb_id = 290647
+    game = GAME_NAME  # name of the game/world
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = DoronkoWankoOptions  # options the player can set
     options: DoronkoWankoOptions  # typing hints for option results
     topology_present = True  # show path to required location checks in spoiler

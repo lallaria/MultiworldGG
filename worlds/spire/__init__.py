@@ -2,6 +2,7 @@ import string
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs, item_pool, item_table
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table
 from .Options import SpireOptions
 from .Regions import create_regions
@@ -29,9 +30,9 @@ class SpireWorld(World):
 
     options_dataclass = SpireOptions
     options: SpireOptions
-    game = "Slay the Spire"
-    igdb_id = 296831
-    author: str = "KonoTyran"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present = False
     web = SpireWeb()
     required_client_version = (0, 3, 7)
@@ -94,7 +95,7 @@ class SpireLocation(Location):
 
 
 class SpireItem(Item):
-    game = "Slay the Spire"
+    game = GAME_NAME
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]

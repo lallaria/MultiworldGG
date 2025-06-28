@@ -2,6 +2,7 @@ from BaseClasses import Item, MultiWorld, Region, Location, Entrance, Tutorial, 
 from worlds.AutoWorld import World, WebWorld
 from datetime import datetime
 from .Items import item_table
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Rules import set_rules
 
 
@@ -31,8 +32,8 @@ class ArchipIDLEWorld(World):
     """
     An idle game which sends a check every thirty to sixty seconds, up to two hundred checks.
     """
-    game = "ArchipIDLE"
-    author: str = "LegendaryLinux"
+    game = GAME_NAME
+    author: str = AUTHOR
     topology_present = False
     web = ArchipIDLEWebWorld()
 
@@ -121,7 +122,7 @@ def create_region(world: MultiWorld, player: int, name: str, locations=None, exi
 
 
 class ArchipIDLEItem(Item):
-    game = "ArchipIDLE"
+    game = GAME_NAME
 
 
 class ArchipIDLELocation(Location):

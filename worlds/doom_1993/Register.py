@@ -1,4 +1,5 @@
 from . import DOOM1993World
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import DOOM1993Web
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the doom_1993 world.
 
 # Required metadata
 WORLD_NAME = "doom_1993"
-GAME_NAME = "DOOM 1993"
-IGDB_ID = 673
-AUTHOR = "Daivuk & Kaito Sinclaire"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DOOM1993World

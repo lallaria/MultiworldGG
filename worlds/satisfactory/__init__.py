@@ -1,6 +1,7 @@
 from typing import TextIO, ClassVar, Any
 from BaseClasses import Item, ItemClassification, CollectionState
 from .GameLogic import GameLogic
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import Items
 from .Locations import Locations, LocationData
 from .StateLogic import EventId, StateLogic
@@ -17,9 +18,9 @@ class SatisfactoryWorld(World):
     Explore an alien planet, create multi-story factories, and enter conveyor belt heaven!
     """
 
-    game = "Satisfactory"
-    igdb_id = 90558
-    author: str = "Jarno"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = SatisfactoryOptions
     options: SatisfactoryOptions
     topology_present = False

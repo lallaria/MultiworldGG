@@ -1,4 +1,5 @@
 from . import ALTTPWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import ALTTPWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the alttp world.
 
 # Required metadata
 WORLD_NAME = "alttp"
-GAME_NAME = "A Link to the Past"
-IGDB_ID = 1026
-AUTHOR = "Berserker66"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = ALTTPWorld

@@ -11,6 +11,7 @@ from Fill import fill_restrictive, fast_fill
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import add_rule, add_item_rule, forbid_items_for_player
 from . import events, items, locations, csvdb
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from . import rules as FERules
 from .Client import FF4FEClient
 from .itempool import create_itempool
@@ -55,9 +56,9 @@ class FF4FESettings(settings.Group):
 class FF4FEWorld(World):
     """Final Fantasy IV: Free Enterprise is an open world randomizer for the classic SNES RPG. Explore the world,
     find the Crystal, and defeat Zeromus on the moon. Adapted from the open source release of FE 4.6.0."""
-    game = "Final Fantasy IV Free Enterprise"
-    author: str = "Rosalie"
-    igdb_id = 387
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = FF4FEOptions
     options: FF4FEOptions
     settings: typing.ClassVar[FF4FESettings]

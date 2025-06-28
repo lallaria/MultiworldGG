@@ -9,6 +9,7 @@ from BaseClasses import Region, Entrance, Location, MultiWorld, Item, ItemClassi
     Tutorial
 from worlds.generic.Rules import set_rule
 from .TotalSMZ3.Item import ItemType
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .TotalSMZ3 import Item as TotalSMZ3Item
 from .TotalSMZ3.World import World as TotalSMZ3World
 from .TotalSMZ3.Regions.Zelda.GanonsTower import GanonsTower
@@ -67,7 +68,7 @@ class SMZ3World(World):
      This is allowed as long as we keep features and logic as close as possible as the original.    
     """
     game: str = "SMZ3"
-    author: str = "lordlou"
+    author: str = AUTHOR
     igdb_id: int = 210231
     topology_present = False
     options_dataclass = SMZ3Options
@@ -696,7 +697,7 @@ class SMZ3Location(Location):
 
 
 class SMZ3Item(Item):
-    game = "SMZ3"
+    game = GAME_NAME
     type: ItemType
     item: Item
 

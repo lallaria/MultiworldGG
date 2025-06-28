@@ -1,4 +1,5 @@
 from . import FaxanaduWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import FaxanaduWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the faxanadu world.
 
 # Required metadata
 WORLD_NAME = "faxanadu"
-GAME_NAME = "Faxanadu"
-IGDB_ID = 1974
-AUTHOR = "Daivuk"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = FaxanaduWorld

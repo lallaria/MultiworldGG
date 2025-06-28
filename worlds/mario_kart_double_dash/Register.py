@@ -1,4 +1,5 @@
 from . import MkddWorld, MkddWebWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Mario Kart Double Dash World Registration
@@ -8,10 +9,10 @@ This file contains the metadata and class references for the mario_kart_double_d
 
 # Required metadata
 WORLD_NAME = "mario_kart_double_dash"
-GAME_NAME = "Mario Kart Double Dash"
-IGDB_ID = 0
-AUTHOR = "aXu"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = MkddWorld

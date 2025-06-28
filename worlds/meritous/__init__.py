@@ -6,6 +6,7 @@
 from BaseClasses import Item, MultiWorld, Tutorial
 from Fill import fill_restrictive
 from .Items import item_table, item_groups, MeritousItem
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table, MeritousLocation
 from .Options import MeritousOptions, cost_scales
 from .Regions import create_regions
@@ -36,8 +37,8 @@ class MeritousWorld(World):
     """
 
     game: str = "Meritous"
-    igdb_id = 78479
-    author: str = "FelicitusNeko"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present: False
 
     web = MeritousWeb()

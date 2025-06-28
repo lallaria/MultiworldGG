@@ -9,7 +9,7 @@ from .Options import MMROptions
 from .Regions import region_data_table, get_exit
 from .Rules import *
 from .NormalRules import *
-from .Constants import default_shop_prices
+from .Constants import default_shop_prices, GAME_NAME, AUTHOR, IGDB_ID
 
 class MMRWebWorld(WebWorld):
     # ~ theme = "partyTime"
@@ -29,9 +29,9 @@ class MMRWebWorld(WebWorld):
 class MMRWorld(World):
     """A Zelda game we're not completely burnt out on."""
 
-    game = "Majora's Mask Recompiled"
-    igdb_id = 1030
-    author: str = "LittleCube"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     data_version = 1
     web = MMRWebWorld()
     options_dataclass = MMROptions

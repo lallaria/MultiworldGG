@@ -1,4 +1,5 @@
 from . import BanjoTooieWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import BanjoTooieWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the banjo_tooie world.
 
 # Required metadata
 WORLD_NAME = "banjo_tooie"
-GAME_NAME = "Banjo-Tooie is a single-player platform game in which the protagonists are controlled from a third-person perspective."
-IGDB_ID = 0
-AUTHOR = "jjjj12212"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = BanjoTooieWorld

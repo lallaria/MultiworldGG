@@ -1,4 +1,5 @@
 from . import AgainstTheStormWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import AgainstTheStormWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the against_the_storm w
 
 # Required metadata
 WORLD_NAME = "against_the_storm"
-GAME_NAME = "Against the Storm"
-IGDB_ID = 147519
-AUTHOR = "Ryguy9999"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = AgainstTheStormWorld

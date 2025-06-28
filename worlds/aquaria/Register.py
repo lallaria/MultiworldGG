@@ -1,4 +1,5 @@
 from . import AquariaWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import AquariaWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the aquaria world.
 
 # Required metadata
 WORLD_NAME = "aquaria"
-GAME_NAME = "Aquaria"
-IGDB_ID = 7406
-AUTHOR = "tioui"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = AquariaWorld

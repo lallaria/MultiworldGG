@@ -8,6 +8,7 @@ from Options import Accessibility, OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from .Util import *
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Options import *
 from .Logic import create_connections, apply_self_locking_rules
 from .PatchWriter import oos_create_ap_procedure_patch
@@ -96,9 +97,9 @@ class OracleOfSeasonsWorld(World):
     The seasons in the world of Holodrum have been a mess since Onox captured Din, the Oracle of Seasons.
     Gather the Essences of Nature, confront Onox and rescue Din to give nature some rest in Holodrum.
     """
-    game = "The Legend of Zelda - Oracle of Seasons"
-    author: str = "Dinopony"
-    igdb_id = 1032
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = OracleOfSeasonsOptions
     options: OracleOfSeasonsOptions
     required_client_version = (0, 5, 1)

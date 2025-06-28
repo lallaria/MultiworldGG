@@ -7,7 +7,7 @@ from .Locations import CliqueLocation, location_data_table, location_table, lock
 from .Options import CliqueOptions
 from .Regions import region_data_table
 from .Rules import get_button_rule
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 class CliqueWebWorld(WebWorld):
     theme = "partyTime"

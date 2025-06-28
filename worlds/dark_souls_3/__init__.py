@@ -11,6 +11,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import CollectionRule, ItemRule, add_rule, add_item_rule
 
 from .Bosses import DS3BossInfo, all_bosses, default_yhorm_location
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import DarkSouls3Item, DS3ItemData, Infusion, UsefulIf, filler_item_names, item_descriptions, item_dictionary, item_name_groups
 from .Locations import DarkSouls3Location, DS3LocationData, location_tables, location_descriptions, location_dictionary, location_name_groups, region_order
 from .Options import DarkSouls3Options, option_groups
@@ -41,9 +42,9 @@ class DarkSouls3World(World):
     they can use to fight their enemies.
     """
 
-    game = "Dark Souls III"
-    igdb_id = 11133
-    author: str = "Marech & nex3"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options: DarkSouls3Options
     options_dataclass = DarkSouls3Options
     web = DarkSouls3Web()

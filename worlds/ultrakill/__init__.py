@@ -3,6 +3,7 @@ from BaseClasses import Region, Location, Item, Tutorial, ItemClassification
 from Options import OptionError
 from worlds.AutoWorld import World, WebWorld
 from .Items import ItemType, base_id, item_list, fire2_weapons, group_dict
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import LocationType, location_list, start_weapon_locations
 from .Regions import Regions, SecretRegion
 from .Rules import UltrakillRules
@@ -25,9 +26,9 @@ class UltrakillWeb(WebWorld):
 class UltrakillWorld(World):
     """MANKIND IS DEAD. BLOOD IS FUEL. HELL IS FULL."""
 
-    game = "ULTRAKILL"
-    author: str = "TRPG"
-    igdb_id = 124333
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web = UltrakillWeb()
 
     item_name_to_id = {item.name: (base_id + index) for index, item in enumerate(item_list)}

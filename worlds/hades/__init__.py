@@ -14,7 +14,7 @@ from .Rules import set_rules
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import icon_paths, Component, components, Type, launch_subprocess
 from Utils import local_path
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 def launch_client():
     from .Client import launch

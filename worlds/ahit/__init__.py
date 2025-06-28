@@ -1,5 +1,6 @@
 from BaseClasses import Item, ItemClassification, Tutorial, Location, MultiWorld
 from .Items import item_table, create_item, relic_groups, act_contracts, create_itempool, get_shop_trap_name, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     calculate_yarn_costs, alps_hooks, junk_weights
 from .Regions import create_regions, randomize_act_entrances, chapter_act_info, create_events, get_shuffled_region
 from .Locations import location_table, contract_locations, is_location_valid, get_location_names, TASKSANITY_START_ID, \
@@ -46,9 +47,9 @@ class HatInTimeWorld(World):
     Freely explore giant worlds and recover Time Pieces to travel to new heights!
     """
 
-    game = "A Hat in Time"
-    author: str = "CookieCat45"
-    igdb_id = 6705
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = get_location_names()
     options_dataclass = AHITOptions

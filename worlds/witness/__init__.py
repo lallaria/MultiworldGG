@@ -11,6 +11,7 @@ from Options import OptionError, PerGameCommonOptions, Toggle
 from worlds.AutoWorld import WebWorld, World
 
 from .data import static_items as static_witness_items
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .data import static_locations as static_witness_locations
 from .data import static_logic as static_witness_logic
 from .data.item_definition_classes import DoorItemDefinition, ItemData
@@ -46,9 +47,9 @@ class WitnessWorld(World):
     to explore and over 500 puzzles. Play the popular puzzle randomizer
     by sigma144, with an added layer of progression randomization!
     """
-    game = "The Witness"
-    author: str = "NewSoupVi & blastron"
-    igdb_id = 5601
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     topology_present = False
     web = WitnessWebWorld()
 

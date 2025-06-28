@@ -2,6 +2,7 @@ import typing
 import os
 import json
 from .Items import item_data_table, action_item_data_table, cannon_item_data_table, item_table, SM64Item
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table, SM64Location
 from .Options import sm64_options_groups, SM64Options
 from .Rules import set_rules
@@ -31,7 +32,7 @@ class SM64World(World):
 
     game: str = "Super Mario 64"
     igdb_id: int = 1074
-    author: str = "N00byKing"
+    author: str = AUTHOR
     topology_present = False
 
     item_name_to_id = item_table

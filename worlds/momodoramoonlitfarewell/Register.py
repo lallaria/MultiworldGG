@@ -1,4 +1,5 @@
 from . import MomodoraWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import MomodoraWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the momodoramoonlitfare
 
 # Required metadata
 WORLD_NAME = "momodoramoonlitfarewell"
-GAME_NAME = "Momodora Moonlit Farewell"
-IGDB_ID = 188088
-AUTHOR = "alditto"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = MomodoraWorld

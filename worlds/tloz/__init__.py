@@ -10,7 +10,7 @@ import Utils
 import settings
 import typing
 
-from typing import NamedTuple, Union, Dict, Any
+from typing import NamedTuple, Union, Dict, Any, Set, List, Iterable
 from BaseClasses import Item, Location, Region, Entrance, MultiWorld, ItemClassification, Tutorial
 from .ItemPool import generate_itempool, starting_weapons, dangerous_weapon_locations
 from .Items import item_table, item_prices, item_game_ids
@@ -26,6 +26,7 @@ from .Client import TLOZClient
 from .EntranceRandoRules import create_entrance_randomizer_set
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import add_rule
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 
 class TLoZSettings(settings.Group):
@@ -74,9 +75,9 @@ class TLoZWorld(World):
     options_dataclass = TlozOptions
     options: TlozOptions
     settings: typing.ClassVar[TLoZSettings]
-    game = "The Legend of Zelda"
-    author: str = "Rosalie-A & t3hf1gm3nt"
-    igdb_id = 1022
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     patch_file_ending: str = ".aptloz"
     topology_present = True
     base_id = 7000
@@ -367,8 +368,8 @@ class TLoZWorld(World):
 
 
 class TLoZItem(Item):
-    game = 'The Legend of Zelda'
+    game = GAME_NAME
 
 
 class TLoZLocation(Location):
-    game = 'The Legend of Zelda'
+    game = GAME_NAME

@@ -4,6 +4,7 @@ from typing import Dict, List, Tuple
 from BaseClasses import ItemClassification, Location, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .Items import Celeste64Item, unlockable_item_data_table, move_item_data_table, item_data_table,\
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
                                   checkpoint_item_data_table, item_table
 from .Locations import Celeste64Location, strawberry_location_data_table, friend_location_data_table,\
                                           sign_location_data_table, car_location_data_table, checkpoint_location_data_table,\
@@ -34,9 +35,9 @@ class Celeste64World(World):
     Created in a week(ish) by the Celeste team to celebrate the game’s sixth anniversary 🍓✨"""
 
     # Class Data
-    game = "Celeste 64"
-    author: str = "PoryGone"
-    igdb_id = 284430
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = Celeste64Options
     options: Celeste64Options
     web = Celeste64WebWorld()

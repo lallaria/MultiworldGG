@@ -8,6 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 
 from .Items import Spyro3Item, Spyro3ItemCategory, item_dictionary, key_item_names, item_descriptions, BuildItemPool
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import Spyro3Location, Spyro3LocationCategory, location_tables, location_dictionary
 from .Options import Spyro3Option
 
@@ -33,8 +34,8 @@ class Spyro3World(World):
     """
 
     game: str = "Spyro 3"
-    igdb_id = 1578
-    author: str = "ArsonAssassin"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = Spyro3Option
     options: Spyro3Option
     topology_present: bool = True

@@ -6,6 +6,7 @@ from typing import Dict, Any, TYPE_CHECKING, Optional, Sequence, Tuple, ClassVar
 from BaseClasses import Tutorial, ItemClassification, MultiWorld, Item, Location
 from worlds.AutoWorld import World, WebWorld
 from .names import (dr_wily, heat_man_stage, air_man_stage, wood_man_stage, bubble_man_stage, quick_man_stage,
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
                     flash_man_stage, metal_man_stage, crash_man_stage)
 from .items import (item_table, item_names, MM2Item, filler_item_weights, robot_master_weapon_table,
                     stage_access_table, item_item_table, lookup_item_to_id)
@@ -86,12 +87,12 @@ class MM2World(World):
 
     """
 
-    game = "Mega Man 2"
-    igdb_id = 1734
+    game = GAME_NAME
+    igdb_id = IGDB_ID
     settings: ClassVar[MM2Settings]
     options_dataclass = MM2Options
     options: MM2Options
-    author: str = "Silvris"
+    author: str = AUTHOR
     item_name_to_id = lookup_item_to_id
     location_name_to_id = lookup_location_to_id
     item_name_groups = item_names

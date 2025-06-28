@@ -2,6 +2,7 @@ from typing import Dict
 
 from BaseClasses import Tutorial
 from ..AutoWorld import WebWorld, World
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 class AP_SudokuWebWorld(WebWorld):
     options_page = False
@@ -22,8 +23,8 @@ class AP_SudokuWorld(World):
     """
     Play a little Sudoku while you're in BK mode to maybe get some useful hints
     """
-    game = "Sudoku"
-    author: str = "EmilyV99"
+    game = GAME_NAME
+    author: str = AUTHOR
     web = AP_SudokuWebWorld()
 
     item_name_to_id: Dict[str, int] = {}

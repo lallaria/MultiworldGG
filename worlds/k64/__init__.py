@@ -4,6 +4,7 @@ from BaseClasses import Tutorial, ItemClassification, MultiWorld, CollectionStat
 from Fill import fill_restrictive
 from worlds.AutoWorld import World, WebWorld
 from .items import item_table, item_names, copy_ability_table, filler_item_weights, K64Item, copy_ability_access_table,\
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     power_combo_table, friend_table
 from .locations import location_table, K64Location
 from .names import LocationName, ItemName
@@ -83,9 +84,9 @@ class K64World(World):
     restore the shattered crystal, and bring peace to the world.
     """
 
-    game = "Kirby 64 - The Crystal Shards"
-    igdb_id = 2713
-    author: str = "Silvris"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = K64Options
     options: K64Options
     item_name_to_id = {item: item_table[item].code for item in item_table}

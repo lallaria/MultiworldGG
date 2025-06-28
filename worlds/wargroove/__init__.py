@@ -4,6 +4,7 @@ import typing
 
 from BaseClasses import Item, MultiWorld, Region, Location, Entrance, Tutorial, ItemClassification
 from .Items import item_table, faction_table
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table
 from .Regions import create_regions
 from .Rules import set_rules
@@ -67,9 +68,9 @@ class WargrooveWorld(World):
     options: WargrooveOptions
     options_dataclass = WargrooveOptions
     settings: typing.ClassVar[WargrooveSettings]
-    game = "Wargroove"
-    author: str = "FlySniper"
-    igdb_id = 27441
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     topology_present = True
     web = WargrooveWeb()
 
@@ -164,7 +165,7 @@ class WargrooveLocation(Location):
 
 
 class WargrooveItem(Item):
-    game = "Wargroove"
+    game = GAME_NAME
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]

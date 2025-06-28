@@ -1,3 +1,6 @@
+GAME_NAME:str = "Dont Starve Together"
+AUTHOR:str = "Klei Entertainment"
+IGDB_ID:int = 108679
 VERSION:str = "1.3.1.1"
 ITEM_ID_OFFSET:int = 264000
 LOCATION_ID_OFFSET:int = 264000

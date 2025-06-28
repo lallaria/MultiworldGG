@@ -6,6 +6,7 @@ import threading
 
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from .Items import WLItem, ItemData, item_table, junk_table
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import WLLocation, all_locations, setup_locations
 from .Options import WLOptions
 from .Regions import create_regions, connect_regions
@@ -53,7 +54,7 @@ class WLWorld(World):
     Wario Land: Super Mario Land 3 is a 1994 platform game developed and published by Nintendo for the Game Boy.
     """
     game: str = "Wario Land"
-    author: str = "rand0"
+    author: str = AUTHOR
     igdb_id: int = 1072
     options: WLOptions
     options_dataclass = WLOptions

@@ -8,6 +8,7 @@ import pkgutil
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from worlds.AutoWorld import World, WebWorld
 from .Items import DKC2Item, item_table, misc_table, item_groups, STARTING_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import setup_locations, all_locations, location_groups
 from .Regions import create_regions, connect_regions
 from .Names import ItemName, LocationName
@@ -60,9 +61,9 @@ class DKC2World(World):
     to rescue Donkey Kong from the clutches of Kaptain K. Rool.
     """
     # borrowed from DKC3's description
-    game = "Donkey Kong Country 2"
-    igdb_id = 1092
-    author: str = "lx5"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = DKC2Web()
 
     settings: typing.ClassVar[DKC2Settings]

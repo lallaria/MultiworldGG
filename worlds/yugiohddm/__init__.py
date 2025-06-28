@@ -8,6 +8,7 @@ from BaseClasses import CollectionState, Region, Tutorial, LocationProgressType
 from worlds.generic.Rules import set_rule
 
 from .client import YGODDMClient
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .utils import Constants
 from .items import YGODDMItem, item_name_to_item_id, create_item as fabricate_item, create_victory_event
 from .locations import YGODDMLocation, DuelistLocation, DuelistFirstRematchLocation, location_name_to_id as location_map
@@ -34,7 +35,7 @@ class YGODDMWorld(World):
     """Yu-Gi-Oh! Dungeon Dice Monsters is a Game Boy Advance dice-based tactics game based on an original board game
     featured in the Yu-Gi-Oh! storyline."""
     game: str = "Yu-Gi-Oh! Dungeon Dice Monsters"
-    author: str = "Jumza"
+    author: str = AUTHOR
     igdb_id: int = 49211
     options_dataclass = YGODDMOptions
     options: YGODDMOptions

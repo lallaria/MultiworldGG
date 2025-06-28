@@ -1,4 +1,5 @@
 from . import WargrooveWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import WargrooveWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the wargroove world.
 
 # Required metadata
 WORLD_NAME = "wargroove"
-GAME_NAME = "Wargroove"
-IGDB_ID = 27441
-AUTHOR = "FlySniper"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = WargrooveWorld

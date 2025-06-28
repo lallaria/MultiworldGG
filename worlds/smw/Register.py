@@ -1,4 +1,5 @@
 from . import SMWWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import SMWWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the smw world.
 
 # Required metadata
 WORLD_NAME = "smw"
-GAME_NAME = "Super Mario World is an action platforming game."
-IGDB_ID = 1070
-AUTHOR = "PoryGone"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = SMWWorld

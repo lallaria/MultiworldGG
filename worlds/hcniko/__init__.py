@@ -5,6 +5,7 @@ from BaseClasses import Region, Tutorial, ItemClassification
 from Utils import visualize_regions
 from worlds.AutoWorld import World, WebWorld
 from .Items import item_data_table, HereComesNikoItem, item_table, item_name_groups
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_data_table, HereComesNikoLocation, locked_locations, location_table, \
     location_name_groups
 from .Options import *
@@ -30,8 +31,8 @@ class HereComesNikoWebWorld(WebWorld):
 class HereComesNikoWorld(World):
     """A cozy little game, about frogs and being a good friend"""
 
-    game = "Here Comes Niko!"
-    author: str = "nieli"
+    game = GAME_NAME
+    author: str = AUTHOR
     web = HereComesNikoWebWorld()
     options: HereComesNikoOptions
     options_dataclass = HereComesNikoOptions

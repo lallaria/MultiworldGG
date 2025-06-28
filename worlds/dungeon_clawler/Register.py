@@ -1,4 +1,5 @@
 from . import DungeonClawlerWebWorld, DungeonClawlerWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Dungeon Clawler World Registration
@@ -8,10 +9,10 @@ This file contains the metadata and class references for the dungeon_clawler wor
 
 # Required metadata
 WORLD_NAME = "dungeon_clawler"
-GAME_NAME = "Dungeon Clawler"
-IGDB_ID = 290897
-AUTHOR = "Kaito Kid"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DungeonClawlerWorld

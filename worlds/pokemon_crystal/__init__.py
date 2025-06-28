@@ -35,7 +35,7 @@ from .trainers import boost_trainer_pokemon, randomize_trainers, vanilla_trainer
 from .utils import get_random_filler_item, get_free_fly_locations, get_random_ball, get_random_starting_town, \
     adjust_options
 from .wild import randomize_wild_pokemon, randomize_static_pokemon
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class PokemonCrystalSettings(settings.Group):

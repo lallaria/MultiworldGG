@@ -11,6 +11,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, launch_subprocess
 from worlds.generic import Rules
 from .Locations import location_pools, location_table, craftsanity_locations
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Mod import generate_mod
 from .Options import FactorioOptions, MaxSciencePack, Silo, Satellite, TechTreeInformation, Goal, TechCostDistribution
 from .Shapes import get_shapes
@@ -19,7 +20,7 @@ from .Technologies import base_tech_table, recipe_sources, base_technology_table
     progressive_technology_table, common_tech_table, tech_to_progressive_lookup, progressive_tech_table, \
     get_science_pack_pools, Recipe, recipes, technology_table, tech_table, factorio_base_id, useless_technologies, \
     fluids, stacking_items, valid_ingredients, progressive_rows, ignored_recipes
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 def launch_client():
@@ -65,7 +66,7 @@ class FactorioWeb(WebWorld):
 
 
 class FactorioItem(Item):
-    game = "Factorio - Space Age Without Space"
+    game = GAME_NAME
 
 
 all_items = tech_table.copy()

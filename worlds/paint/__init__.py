@@ -6,7 +6,7 @@ from worlds.AutoWorld import LogicMixin, World, WebWorld
 from .items import item_table, PaintItem, item_data_table, traps, deathlink_traps
 from .locations import location_table, PaintLocation, location_data_table
 from .options import PaintOptions
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 
 class PaintWebWorld(WebWorld):

@@ -26,7 +26,7 @@ from .regions import create_regions
 from .rules import create_has_run_wins_rule
 from .shop_slots import get_num_shop_slot_and_lock_button_items
 from .waves import get_wave_for_each_item, get_waves_with_checks
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 logger = logging.getLogger("Brotato")
 

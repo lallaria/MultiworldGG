@@ -4,6 +4,7 @@ from BaseClasses import Item, ItemClassification, Location, Region, Tutorial
 from Fill import fill_restrictive
 from worlds.AutoWorld import WebWorld, World
 from . import Constants, Rules
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Items import ItemType, SHIVERS_ITEM_ID_OFFSET, ShiversItem, item_table
 from .Options import ShiversOptions, shivers_option_groups
 from .Rules import set_rules
@@ -27,9 +28,9 @@ class ShiversWorld(World):
     Explore the mysteries of Windlenot's Museum of the Strange and Unusual.
     """
 
-    game = "Shivers"
-    igdb_id = 12477
-    author: str = "GodlFire & korydondzila"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     topology_present = False
     options_dataclass = ShiversOptions
     options: ShiversOptions
@@ -292,4 +293,4 @@ class ShiversWorld(World):
 
 
 class ShiversLocation(Location):
-    game = "Shivers"
+    game = GAME_NAME

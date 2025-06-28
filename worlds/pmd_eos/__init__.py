@@ -10,6 +10,7 @@ from typing import List, Dict, Set, Any
 
 import worlds.oot
 from .Items import (EOSItem, item_table, item_frequencies, item_table_by_id, item_table_by_groups,
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
                     filler_item_table, filler_item_weights, trap_item_table, trap_item_weights,
                     exclusive_filler_item_table, exclusive_filler_item_weights, legendary_pool_dict, filler_items,
                     exclusive_filler_items)
@@ -25,7 +26,7 @@ from .Rom import EOSProcedurePatch, write_tokens
 
 class EOSWeb(WebWorld):
     theme = "ocean"
-    game = "Pokemon Mystery Dungeon Explorers of Sky"
+    game = GAME_NAME
 
     tutorials = [Tutorial(
         "Multiworld Setup Guide",
@@ -55,9 +56,9 @@ class EOSWorld(World):
     through dungeons, solve quests, and help out other Pokemon in the colony
     """
 
-    game = "Pokemon Mystery Dungeon Explorers of Sky"
-    author: str = "CrypticMonkey33"
-    igdb_id = 2323
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options: EOSOptions
     options_dataclass = EOSOptions
     web = EOSWeb()

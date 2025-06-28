@@ -4,6 +4,7 @@ from typing import Dict, Any
 from BaseClasses import Tutorial
 from worlds.AutoWorld import WebWorld, World
 from .CharacterUtils import get_playable_characters
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Enums import Character, SADX_BASE_ID, Area, remove_character_suffix, pascal_to_space
 from .ItemPool import create_sadx_items, get_item_names, ItemDistribution
 from .Items import SonicAdventureDXItem, group_item_table, item_name_to_info, filler_item_table
@@ -37,9 +38,9 @@ class SonicAdventureDXWorld(World):
     Controlling one of the six characters—each with their own abilities—players complete levels to progress the story. Sonic Adventure retains many elements from prior Sonic games, 
     such as power-ups and the ring-based health system. Players can play minigames such as racing and interact with Chao, a virtual pet.
     """
-    game = "Sonic Adventure DX"
-    igdb_id = 192114
-    author: str = "Classic"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     web = SonicAdventureDXWeb()
     starter_setup: StarterSetup = StarterSetup()
     item_distribution: ItemDistribution = ItemDistribution()

@@ -13,6 +13,7 @@ from Fill import fill_restrictive, FillError, sweep_from_pool
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import add_item_rule
 from .items import item_table, item_groups
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .locations import location_data, PokemonRBLocation
 from .regions import create_regions
 from .options import PokemonRBOptions
@@ -71,8 +72,8 @@ class PokemonRedBlueWorld(World):
     your Pokémon, catch more than 150 unique creatures, earn badges from the region's Gym Leaders, and challenge the
     Elite Four to become the champion!"""
     # -MuffinJets#4559
-    game = "Pokemon Red and Blue"
-    author: str = "Alchav"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 1561 #Charizard is better, nerds.
 
     options_dataclass = PokemonRBOptions
@@ -724,7 +725,7 @@ class PokemonRedBlueWorld(World):
         return ret
 
 class PokemonRBItem(Item):
-    game = "Pokemon Red and Blue"
+    game = GAME_NAME
     type = None
 
     def __init__(self, name, player: int = None):

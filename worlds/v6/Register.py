@@ -1,4 +1,5 @@
 from . import V6World
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import V6Web
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the v6 world.
 
 # Required metadata
 WORLD_NAME = "v6"
-GAME_NAME = "VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?"
-IGDB_ID = 0
-AUTHOR = "N00byKing"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = V6World

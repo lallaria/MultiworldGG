@@ -1,4 +1,5 @@
 from . import DKCWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import DKCWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the dkc world.
 
 # Required metadata
 WORLD_NAME = "dkc"
-GAME_NAME = "Donkey Kong Country"
-IGDB_ID = 1090
-AUTHOR = "lx5"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DKCWorld

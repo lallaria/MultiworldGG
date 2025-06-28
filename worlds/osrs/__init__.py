@@ -4,6 +4,7 @@ from BaseClasses import Item, Tutorial, ItemClassification, Region, MultiWorld, 
 from Fill import fill_restrictive, FillError
 from worlds.AutoWorld import WebWorld, World
 from .Items import OSRSItem, starting_area_dict, chunksanity_starting_chunks, QP_Items, ItemRow, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     chunksanity_special_region_names
 from .Locations import OSRSLocation, LocationRow
 from .Rules import *
@@ -39,9 +40,9 @@ class OSRSWorld(World):
     the Green Dragon of Crandor and earning a spot in the fabled Champion's Guild!
     """
 
-    game = "Old School Runescape"
-    igdb_id = 79824
-    author: str = "digiholic"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = OSRSOptions
     options: OSRSOptions
     topology_present = True

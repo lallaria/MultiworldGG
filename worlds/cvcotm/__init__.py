@@ -6,6 +6,7 @@ import logging
 
 from BaseClasses import Item, Region, Tutorial, ItemClassification
 from .items import CVCotMItem, FILLER_ITEM_NAMES, ACTION_CARDS, ATTRIBUTE_CARDS, cvcotm_item_info, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     get_item_names_to_ids, get_item_counts
 from .locations import CVCotMLocation, get_location_names_to_ids, BASE_ID, get_named_locations_data, \
     get_location_name_groups
@@ -59,9 +60,9 @@ class CVCotMWorld(World):
     Dual Set-Up System for new possibilities, you must battle your way through Camilla's castle and rescue your master
     from a demonic ritual to restore the Count's power...
     """
-    game = "Castlevania - Circle of the Moon"
-    igdb_id = 1132
-    author: str = "LiquidCat64"
+    game = GAME_NAME
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     item_name_groups = {
         "DSS": ACTION_CARDS.union(ATTRIBUTE_CARDS),
         "Card": ACTION_CARDS.union(ATTRIBUTE_CARDS),

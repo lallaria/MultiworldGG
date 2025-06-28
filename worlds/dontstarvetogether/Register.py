@@ -1,5 +1,6 @@
 from . import DSTWorld
 from . import DSTWeb
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Don World Registration
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the dontstarvetogether 
 
 # Required metadata
 WORLD_NAME = "dontstarvetogether"
-GAME_NAME = "Don"
-IGDB_ID = 17832
-AUTHOR = "Dragon Wolf Leo"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = DSTWorld

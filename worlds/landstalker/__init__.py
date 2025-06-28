@@ -1,14 +1,19 @@
-from typing import ClassVar, Set
+from typing import ClassVar, Set, Dict, List, Iterable, Any, Optional
 
-from BaseClasses import LocationProgressType, Tutorial
+from BaseClasses import LocationProgressType, Tutorial, Item, ItemClassification, Location, Region, Entrance, MultiWorld
 from worlds.AutoWorld import WebWorld, World
-from .Constants import *
+from worlds.LauncherComponents import Component, components, Type, launch_subprocess
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Hints import *
 from .Items import *
 from .Locations import *
-from .Options import JewelCount, LandstalkerGoal, LandstalkerOptions, ProgressiveArmors, TeleportTreeRequirements
+from .Options import *
 from .Regions import *
 from .Rules import *
+from .ItemPool import generate_itempool
+from .EntranceRandoRules import create_entrance_randomizer_set
+from .Rom import TLoZDeltaPatch
+import Utils
 
 
 class LandstalkerWeb(WebWorld):
@@ -30,9 +35,9 @@ class LandstalkerWorld(World):
     Roam freely on the island, get stronger to beat dungeons and gather the required key items in order to reach the
     hidden palace and claim the treasure.
     """
-    game = "Landstalker - The Treasures of King Nole"
-    author: str = "Dinopony"
-    igdb_id: int = 15072
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
     options_dataclass = LandstalkerOptions
     options: LandstalkerOptions
     required_client_version = (0, 4, 4)

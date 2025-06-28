@@ -11,7 +11,7 @@ from Fill import fill_restrictive
 
 from .Data import Data
 from .Options import RE3ROptions
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 Data.load_data('jill', 'a')
 

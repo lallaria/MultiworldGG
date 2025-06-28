@@ -1,4 +1,5 @@
 from . import LethalCompanyWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import LethalCompanyWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the lethal_company worl
 
 # Required metadata
 WORLD_NAME = "lethal_company"
-GAME_NAME = "Lethal Company"
-IGDB_ID = 0
-AUTHOR = "T0r1nn"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = LethalCompanyWorld

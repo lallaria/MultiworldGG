@@ -6,6 +6,7 @@ from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification
 from worlds.AutoWorld import WebWorld, World
 
 from .AestheticData import chao_name_conversion, sample_chao_names, totally_real_item_names, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
                            all_exits, all_destinations, multi_rooms, single_rooms, room_to_exits_map, exit_to_room_map, valid_kindergarten_exits
 from .GateBosses import get_gate_bosses, get_boss_rush_bosses, get_boss_name
 from .Items import SA2BItem, ItemData, item_table, upgrades_table, emeralds_table, junk_table, minigame_trap_table, item_groups, \
@@ -57,8 +58,8 @@ class SA2BWorld(World):
     Sonic Adventure 2 Battle is an action platforming game. Play as Sonic, Tails, Knuckles, Shadow, Rouge, and Eggman across 31 stages and prevent the destruction of the earth.
     """
     game: str = "Sonic Adventure 2 Battle"
-    igdb_id = 192194
-    author: str = "PoryGone & RaspberrySpace"
+    igdb_id = IGDB_ID
+    author: str = AUTHOR
     options_dataclass = SA2BOptions
     options: SA2BOptions
     topology_present = False

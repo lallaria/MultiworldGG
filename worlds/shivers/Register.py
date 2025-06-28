@@ -1,4 +1,5 @@
 from . import ShiversWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import ShiversWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the shivers world.
 
 # Required metadata
 WORLD_NAME = "shivers"
-GAME_NAME = "Shivers"
-IGDB_ID = 12477
-AUTHOR = "GodlFire & korydondzila"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = ShiversWorld

@@ -5,6 +5,7 @@ from Fill import fill_restrictive
 from Options import PerGameCommonOptions
 from worlds.AutoWorld import World, WebWorld
 from .items import item_table, item_names, copy_ability_table, animal_friend_table, filler_item_weights, KDL3Item, \
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
     trap_item_table, copy_ability_access_table, star_item_weights, total_filler_weights, animal_friend_spawn_table,\
     lookup_item_to_id
 from .locations import location_table, KDL3Location, level_consumables, consumable_locations, star_locations
@@ -61,8 +62,8 @@ class KDL3World(World):
     Join Kirby and his Animal Friends on an adventure to collect Heart Stars and drive Dark Matter away from Dream Land!
     """
 
-    game = "Kirby's Dream Land 3"
-    author: str = "Silvris"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 3720
     options_dataclass: ClassVar[Type[PerGameCommonOptions]] = KDL3Options
     options: KDL3Options

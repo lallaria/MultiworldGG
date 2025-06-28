@@ -13,6 +13,7 @@ from Utils import output_path
 from worlds.AutoWorld import WebWorld, World
 from worlds.generic.Rules import add_item_rule, set_rule
 from .logic import SoEPlayerLogic
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .options import Difficulty, EnergyCore, Sniffamizer, SniffIngredients, SoEOptions
 from .patch import SoEDeltaPatch, get_base_rom_path
 
@@ -172,8 +173,8 @@ class SoEWorld(World):
     space station where the final boss must be defeated.
     """
     game: typing.ClassVar[str] = "Secret of Evermore"
-    author: str = "black-silver"
-    igdb_id = 1359
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = SoEOptions
     options: SoEOptions
     settings: typing.ClassVar[SoESettings]

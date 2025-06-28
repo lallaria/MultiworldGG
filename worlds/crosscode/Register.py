@@ -8,10 +8,10 @@ This file contains the metadata and class references for the crosscode world.
 
 # Required metadata
 WORLD_NAME = "crosscode"
-GAME_NAME = "CrossCode"
-IGDB_ID = 35282
-AUTHOR = "CodeTriangle"
-VERSION = "0.5"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = CrossCodeWorld

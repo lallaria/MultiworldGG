@@ -1,4 +1,5 @@
 from . import ChatipelagoWorld
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import ChatipelagoWeb
 
 """
@@ -9,10 +10,10 @@ This file contains the metadata and class references for the chatipelago world.
 
 # Required metadata
 WORLD_NAME = "chatipelago"
-GAME_NAME = "Chat plays MultiworldGG!"
-IGDB_ID = 0
-AUTHOR = "Delilah, Dranzior, LMarioza"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = ChatipelagoWorld

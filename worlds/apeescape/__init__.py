@@ -9,6 +9,7 @@ from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from .Items import item_table, ApeEscapeItem, GROUPED_ITEMS
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import location_table, base_location_id, GROUPED_LOCATIONS
 from .Regions import create_regions, ApeEscapeLevel
 from .Rules import set_rules, get_required_keys
@@ -48,9 +49,9 @@ class ApeEscapeWorld(World):
     The story revolves around the main protagonist, Spike, who has to prevent history from being changed
     by an army of monkeys led by Specter, the main antagonist.
     """
-    game = "Ape Escape"
-    author: str = "Thedragon005"
-    igdb_id = 3762
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     web: ClassVar[WebWorld] = ApeEscapeWeb()
     topology_present = True
 

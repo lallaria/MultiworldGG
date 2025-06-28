@@ -1,6 +1,7 @@
 import string
 
 from .items import LethalCompanyItem, item_table, generate_items, calculate_credits, get_default_item_map
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .locations import LethalCompanyLocation, generate_locations, locations, get_default_location_map
 from .rules import set_rules
 from BaseClasses import Item, ItemClassification, Tutorial, MultiWorld, Region
@@ -82,8 +83,8 @@ class LethalCompanyWorld(World):
     monsters, which are often referred to as "anomalies", "entities", or "creatures", and the hostile fauna. 
     As employees of "The Company", players must sell enough scrap to meet a series of increasing profit quotas until they inevitably fail and the game starts over.
     """
-    game = "Lethal Company"
-    author: str = "T0r1nn"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 212089
     options_dataclass = LCOptions
     options: LCOptions

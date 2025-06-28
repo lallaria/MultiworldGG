@@ -1,4 +1,5 @@
 from . import HereticWorld, HereticWeb
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Heretic World Registration
@@ -8,10 +9,10 @@ This file contains the metadata and class references for the heretic world.
 
 # Required metadata
 WORLD_NAME = "heretic"
-GAME_NAME = "Heretic"
-IGDB_ID = 6362
-AUTHOR = "Daivuk & Kaito Sinclaire"
-VERSION = "0.5.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = HereticWorld

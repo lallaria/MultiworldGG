@@ -1,4 +1,5 @@
 from . import KH2World
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 from . import KingdomHearts2Web
 from .Client import launch
 
@@ -10,10 +11,10 @@ This file contains the metadata and class references for the kh2 world.
 
 # Required metadata
 WORLD_NAME = "kh2"
-GAME_NAME = "Kingdom Hearts 2"
-IGDB_ID = 1221
-AUTHOR = "JaredWeakStrike & Shananas"
-VERSION = "1.0.0"
+GAME_NAME = game_name
+IGDB_ID = igdb_id
+AUTHOR = author
+VERSION = version
 
 # Plugin entry points
 WORLD_CLASS = KH2World

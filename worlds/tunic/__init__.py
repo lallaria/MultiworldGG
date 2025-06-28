@@ -4,6 +4,7 @@ from dataclasses import fields
 from logging import warning
 from BaseClasses import Region, Location, Item, Tutorial, ItemClassification, MultiWorld, CollectionState
 from .bells import bell_location_groups, bell_location_name_to_id
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .fuses import fuse_location_name_to_id, fuse_location_groups
 from .items import (item_name_to_id, item_table, item_name_groups, fool_tiers, filler_items, slot_data_item_names,
                     combat_items)
@@ -59,7 +60,7 @@ class TunicWeb(WebWorld):
         )
     ]
     theme = "grassFlowers"
-    game = "TUNIC"
+    game = GAME_NAME
     option_groups = tunic_option_groups
     options_presets = tunic_option_presets
 
@@ -88,10 +89,10 @@ class TunicWorld(World):
     about a small fox on a big adventure. Stranded on a mysterious beach, armed with only your own curiosity, you will
     confront colossal beasts, collect strange and powerful items, and unravel long-lost secrets. Be brave, tiny fox!
     """
-    game = "TUNIC"
+    game = GAME_NAME
     web = TunicWeb()
-    author: str = "SilentSR & ScipioWright"
-    igdb_id = 23733
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
 
     options: TunicOptions
     options_dataclass = TunicOptions

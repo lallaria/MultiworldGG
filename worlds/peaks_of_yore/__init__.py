@@ -5,13 +5,14 @@ from Options import Toggle, OptionError
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Tutorial, Item
 from .options import PeaksOfYoreOptions, Goal, StartingBook, RopeUnlockMode, StartingHands, poy_option_groups, poy_option_presets
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .data import *
 
 from .regions import create_poy_regions, RegionLocationInfo
 
 
 class PeaksOfYoreItem(Item):
-    game = "Peaks of Yore"
+    game = GAME_NAME
 
 
 class PeaksOfWeb(WebWorld):
@@ -35,9 +36,9 @@ class PeaksOfWorld(World):
     Steel your nerves and perfect your climbing skills as you ascend the rock wall, traverse difficult routes,
     and encounter many challenges and obstacles.
     """
-    game = "Peaks of Yore"
-    author: str = "c0der23"
-    igdb_id = 238690
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = PeaksOfYoreOptions
     options: PeaksOfYoreOptions
     web = PeaksOfWeb()

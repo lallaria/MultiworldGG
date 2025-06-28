@@ -7,6 +7,7 @@ from settings import UserFilePath, Group
 from BaseClasses import Tutorial, ItemClassification, CollectionState, Item
 from worlds.AutoWorld import WebWorld, World
 from .Data import starting_partners, limit_eight, stars, chapter_items, limited_location_ids
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .Locations import all_locations, location_table, pit, location_id_to_name, TTYDLocation, locationName_to_data, \
     palace, riddle_tower
 from .Options import TTYDOptions, YoshiColor, StartingPartner, PitItems, LimitChapterEight
@@ -71,9 +72,9 @@ class TTYDWorld(World):
     In the game, when Mario and Princess Peach get involved in the search for a mystic treasure that holds great fortune, Peach is kidnapped by an alien group called the X-Nauts; 
     Mario sets out to find the treasure and save the princess.
     """
-    game = "Paper Mario The Thousand Year Door"
-    author: str = "jamesbrq"
-    igdb_id = 328663
+    game = GAME_NAME
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = TTYDOptions
     options: TTYDOptions
     settings: ClassVar[TTYDSettings]

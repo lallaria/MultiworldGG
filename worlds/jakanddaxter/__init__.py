@@ -16,6 +16,7 @@ from Options import OptionGroup
 
 # Jak imports
 from . import options
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 from .game_id import jak1_id, jak1_name, jak1_max
 from .items import (JakAndDaxterItem,
                     OrbAssoc,
@@ -133,8 +134,8 @@ class JakAndDaxterWorld(World):
     and save the world.
     """
     # ID, name, version
-    game = "Jak and Daxter: The Precursor Legacy"
-    author: str = "massimilianodelliubaldini"
+    game = GAME_NAME
+    author: str = AUTHOR
     igdb_id: int = 1528
     required_client_version = (0, 5, 0)
 
