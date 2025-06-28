@@ -1,4 +1,4 @@
-__all__ = ('MWColorFilter',)
+__all__ = ('MWColorFilter', 'DefaultTheme', 'RegisterFonts')
 
 import os
 import re
@@ -21,6 +21,8 @@ from kivy.utils import hex_colormap
 from kivydi import md_icons
 from PIL import Image
 import numpy as np
+
+local_path = r"C:\Users\Lindsay\source\repos\MultiworldGG"
 
 # Overwriting default style.kv
 Builder.load_string('''
@@ -254,28 +256,28 @@ class DefaultTheme(ThemableBehavior):
 ### Full unicode fonts, finally
 def RegisterFonts(app: MDApp):
     LabelBase.register('Inter',
-                        os.path.join("fonts","Inter-Regular.ttf"),
-                        os.path.join("fonts","Inter-Italic.ttf"),
-                        os.path.join("fonts","Inter-Bold.ttf"),
-                        os.path.join("fonts","Inter-BoldItalic.ttf"))
+                        os.path.join(local_path,"data","fonts","Inter-Regular.ttf"),
+                        os.path.join(local_path,"data","fonts","Inter-Italic.ttf"),
+                        os.path.join(local_path,"data","fonts","Inter-Bold.ttf"),
+                        os.path.join(local_path,"data","fonts","Inter-BoldItalic.ttf"))
     LabelBase.register('MonaspaceArgon',
-                        os.path.join("fonts","MonaspaceArgonFrozen-Regular.ttf"),
-                        os.path.join("fonts","MonaspaceArgonFrozen-Italic.ttf"),
-                        os.path.join("fonts","MonaspaceArgonFrozen-ExtraBold.ttf"),
-                        os.path.join("fonts","MonaspaceArgonFrozen-ExtraBoldItalic.ttf"))
+                        os.path.join(local_path,"data","fonts","MonaspaceArgonFrozen-Regular.ttf"),
+                        os.path.join(local_path,"data","fonts","MonaspaceArgonFrozen-Italic.ttf"),
+                        os.path.join(local_path,"data","fonts","MonaspaceArgonFrozen-ExtraBold.ttf"),
+                        os.path.join(local_path,"data","fonts","MonaspaceArgonFrozen-ExtraBoldItalic.ttf"))
     LabelBase.register('GothicA1',
-                        os.path.join("fonts","GothicA1-Regular.ttf"),
+                        os.path.join(local_path,"data","fonts","GothicA1-Regular.ttf"),
                         None,
-                        os.path.join("fonts","GothicA1-Bold.ttf"),
+                        os.path.join(local_path,"data","fonts","GothicA1-Bold.ttf"),
                         None)
     LabelBase.register('Mincho',
-                       os.path.join("fonts","Mincho-Regular.ttf"),
+                       os.path.join(local_path,"data","fonts","Mincho-Regular.ttf"),
                        )
     LabelBase.register('LibreFranklin',
-                       os.path.join("fonts","LibreFranklin-ExtraBold.ttf"),
+                       os.path.join(local_path,"data","fonts","LibreFranklin-ExtraBold.ttf"),
                        )
     LabelBase.register('Icons',
-                       fn_regular=os.path.join("fonts","materialdesignicons-fa-webfont.ttf"),
+                       fn_regular=os.path.join(local_path,"data","fonts","materialdesignicons-fa-webfont.ttf"),
                        )
     app.theme_cls.font_styles = {
         "Icon": {

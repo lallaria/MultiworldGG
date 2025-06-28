@@ -16,7 +16,6 @@ from logging.handlers import QueueHandler
 from multiprocessing import Queue
 from multiprocessing.queues import Empty
 from kivy.utils import get_hex_from_color
-#from mw_theme import theme_font_styles
 
 __all__ = ('TextConsole', 'ConsoleView',)
 

@@ -34,7 +34,7 @@ os.environ["KIVY_LOG_ENABLE"] = "1"
 
 # from CommonClient import console_loop
 # from MultiServer import console
-local_path = os.path.abspath(os.getcwd())
+local_path = r"C:\Users\Lindsay\source\repos\MultiworldGG"
 # apname = "Archipelago" if not Utils.archipelago_name else Utils.archipelago_name
 
 # if Utils.is_frozen():
@@ -54,10 +54,10 @@ from kivy.config import ConfigParser
 MWKVConfig.set("input", "mouse", "mouse,disable_multitouch")
 MWKVConfig.set("kivy", "exit_on_escape", "0")
 MWKVConfig.set("kivy", "default_font", ['Inter', 
-                                    os.path.join("fonts","Inter-Regular.ttf"), 
-                                    os.path.join("fonts","Inter-Italic.ttf"),
-                                    os.path.join("fonts","Inter-Bold.ttf"),
-                                    os.path.join("fonts","Inter-BoldItalic.ttf")])
+                                    os.path.join(local_path,"fonts","Inter-Regular.ttf"), 
+                                    os.path.join(local_path,"fonts","Inter-Italic.ttf"),
+                                    os.path.join(local_path,"fonts","Inter-Bold.ttf"),
+                                    os.path.join(local_path,"fonts","Inter-BoldItalic.ttf")])
 MWKVConfig.set("graphics", "width", "1099")
 MWKVConfig.set("graphics", "height", "699")
 MWKVConfig.set("graphics", "custom_titlebar", "1")

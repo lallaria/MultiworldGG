@@ -207,7 +207,7 @@ CLIENT_FUNCTION = None
 ### Updated __init__.py imports
 ```python
 # Add at top of __init__.py
-from .Register import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 # Remove or comment out existing metadata assignments
 # game = "Metroid Prime"  # Now imported from Register

@@ -2,7 +2,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from gui import Gui
 from enum import Enum
-from CommonClient import *
 from worlds.AutoWorld import MultiWorld
 from typing import Optional, Any, Dict
 import asyncio
@@ -19,7 +18,7 @@ class ClientState(Enum):
     TRANSITIONING = "transitioning"
 
 class ClientBuilder(ABC):
-    _ctx: Optional[weakref.ReferenceType[CommonContext]] = None
+    _ctx: Optional[weakref.ReferenceType[InitContext]] = None
     _mgr: Optional[weakref.ReferenceType[ClientManager]] = None
 
     def __init__(self, **kwargs):

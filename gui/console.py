@@ -31,7 +31,6 @@ from kivymd.uix.sliverappbar import MDSliverAppbar, MDSliverAppbarContent, MDSli
 from kivymd.uix.expansionpanel import MDExpansionPanel, MDExpansionPanelContent
 from kivymd.uix.list import MDList, MDListItem
 from testdict import testdict
-from expansionpanel import OpacityExpansionPanel
 from dataclasses import dataclass
 from textwrap import wrap
 from kivydi.expansionlist import *
