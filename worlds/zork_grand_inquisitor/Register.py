@@ -1,5 +1,6 @@
 from .world import ZorkGrandInquisitorWorld, ZorkGrandInquisitorWebWorld
 from .client import main
+from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
 Zork Grand Inquisitor World Registration

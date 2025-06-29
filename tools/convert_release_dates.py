@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from collections import Counter
+import os
 
 def convert_timestamp_to_year(timestamp):
     """Convert Unix timestamp to year, or None if invalid. Leave as is if already a year or None."""
@@ -16,7 +17,7 @@ def convert_timestamp_to_year(timestamp):
     except (ValueError, OSError, OverflowError, TypeError):
         return None
 
-def remove_infrequent_keywords(data, min_count=4):
+def remove_infrequent_keywords(data, min_count=6):
     # First pass: collect all keywords and their counts
     keyword_counts = Counter()
     for game in data.values():
@@ -61,7 +62,7 @@ def remove_specific_keywords(data, keywords_to_remove):
 
 def process_game_details():
     # Read the JSON file
-    with open('game_details.json', 'r', encoding='utf-8') as file:
+    with open(r'output\game_details.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
     
     # Convert all release dates to years or None
@@ -73,7 +74,7 @@ def process_game_details():
     remove_infrequent_keywords(data, min_count=3)
 
     # Write the updated data back to the file
-    with open('game_details.json', 'w', encoding='utf-8') as file:
+    with open(r'output\game_details.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=4)
 
 if __name__ == '__main__':

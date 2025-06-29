@@ -1,4 +1,4 @@
-GAME_NAME: str = "After planet Zebes exploded, Mother Brain put it back together again but arranged it differently this time."
+GAME_NAME: str = "Super Metroid Map Rando"
 AUTHOR: str = "lordlou"
-IGDB_ID: int = 0
-VERSION: str = "0.111.2"
+IGDB_ID: int = 1103
+VERSION: str = "1.0.0"

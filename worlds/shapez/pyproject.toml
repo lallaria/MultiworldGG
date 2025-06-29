@@ -7,9 +7,8 @@ name = "shapez"
 dynamic = ["version"]
 description = "shapez is an automation game about cutting, rotating, stacking, and painting shapes, that you extract from randomly"
 authors = [
-    {name = "Unknown"}
+    {name = "Slimey"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

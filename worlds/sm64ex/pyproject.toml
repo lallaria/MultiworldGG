@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sm64ex"
 dynamic = ["version"]
-description = "The first Super Mario game to feature 3D gameplay, it features freedom of movement within a large open world based on polygons,"
+description = "Super Mario 64"
 authors = [
     {name = "N00byKing"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

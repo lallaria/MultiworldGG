@@ -1,4 +1,4 @@
-GAME_NAME: str = "The Ancient Cave is a roguelike dungeon crawling game built into"
+GAME_NAME: str = "Lufia II: Ancient Cave"
 AUTHOR: str = "el-u & word_fcuk"
-IGDB_ID: int = 0
+IGDB_ID: int = 1178
 VERSION: str = "1.0.0"

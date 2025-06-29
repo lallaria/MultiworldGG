@@ -9,7 +9,6 @@ description = "Hollow Knight"
 authors = [
     {name = "BadMagic"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

@@ -6,7 +6,7 @@ from BaseClasses import CollectionState, Entrance, Item, ItemClassification, Reg
 from worlds.AutoWorld import WebWorld, World
 
 from .Items import JigsawItem, item_table, item_groups, encouragements
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Locations import JigsawLocation, location_table
 
 from .Options import JigsawOptions, OrientationOfImage, PieceOrder, PieceTypeOrder, jigsaw_option_groups, PlacementOfFillers, Rotations
@@ -42,7 +42,7 @@ class JigsawWorld(World):
     Connect the pieces to unlock more. Goal: solve the puzzle of course!
     """
 
-    game: str = "Jigsaw"
+    game: str = GAME_NAME
     author: str = AUTHOR
     options_dataclass = JigsawOptions
 
@@ -54,7 +54,7 @@ class JigsawWorld(World):
     
     item_name_groups = item_groups
     
-    ap_world_version = "0.6.6"
+    ap_world_version = VERSION
 
     def _get_jigsaw_data(self):
         return {

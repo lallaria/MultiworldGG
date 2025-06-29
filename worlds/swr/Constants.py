@@ -1,4 +1,4 @@
-GAME_NAME: str = "Star Wars Episode I: Racer is a racing game where the player wins prize money and buys upgrades for their vehicle."
+GAME_NAME: str = "Star Wars Episode I Racer"
 AUTHOR: str = "Johnny Hamcobbler"
-IGDB_ID: int = 0
+IGDB_ID: int = 154
 VERSION: str = "1.0.0"

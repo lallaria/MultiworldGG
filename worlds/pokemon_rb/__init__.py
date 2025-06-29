@@ -13,7 +13,7 @@ from Fill import fill_restrictive, FillError, sweep_from_pool
 from worlds.AutoWorld import World, WebWorld
 from worlds.generic.Rules import add_item_rule
 from .items import item_table, item_groups
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .locations import location_data, PokemonRBLocation
 from .regions import create_regions
 from .options import PokemonRBOptions
@@ -74,7 +74,7 @@ class PokemonRedBlueWorld(World):
     # -MuffinJets#4559
     game = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 1561 #Charizard is better, nerds.
+    igdb_id: int = IGDB_ID
 
     options_dataclass = PokemonRBOptions
     options: PokemonRBOptions

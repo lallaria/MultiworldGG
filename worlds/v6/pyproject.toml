@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "v6"
 dynamic = ["version"]
-description = "VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?"
+description = "VVVVVV"
 authors = [
     {name = "N00byKing"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

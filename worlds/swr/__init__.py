@@ -3,7 +3,7 @@ import random
 
 from BaseClasses import Item, Tutorial
 from ..AutoWorld import World, WebWorld
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Options import *
 from .Items import *
 from .Locations import *
@@ -28,8 +28,8 @@ class SWRWorld(World):
     This randomizer shuffles race rewards as well as shop items. It also randomizes track order and available racers.
     Now THIS is podracing!
     """
-    game: str = "Star Wars Episode I Racer"
-    igdb_id: int = 154
+    game: str = GAME_NAME
+    igdb_id: int = IGDB_ID
     author: str = AUTHOR
     topology_present = False
     options_dataclass = SWROptions

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "swr"
 dynamic = ["version"]
-description = "Star Wars Episode I: Racer is a racing game where the player wins prize money and buys upgrades for their vehicle."
+description = "Star Wars Episode I Racer"
 authors = [
     {name = "Johnny Hamcobbler"}
 ]

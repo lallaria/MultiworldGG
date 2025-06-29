@@ -1,4 +1,4 @@
-from . import CandyBox2WebWorld
+from . import CandyBox2World, CandyBox2WebWorld
 from .Constants import GAME_NAME as game_name, AUTHOR as author, IGDB_ID as igdb_id, VERSION as version
 
 """
@@ -15,6 +15,6 @@ AUTHOR = author
 VERSION = version
 
 # Plugin entry points
-WORLD_CLASS = CandyBox2WebWorld
-WEB_WORLD_CLASS = None
+WORLD_CLASS = CandyBox2World
+WEB_WORLD_CLASS = CandyBox2WebWorld
 CLIENT_FUNCTION = None

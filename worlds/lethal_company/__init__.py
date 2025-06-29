@@ -1,7 +1,7 @@
 import string
 
 from .items import LethalCompanyItem, item_table, generate_items, calculate_credits, get_default_item_map
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .locations import LethalCompanyLocation, generate_locations, locations, get_default_location_map
 from .rules import set_rules
 from BaseClasses import Item, ItemClassification, Tutorial, MultiWorld, Region
@@ -85,7 +85,7 @@ class LethalCompanyWorld(World):
     """
     game = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 212089
+    igdb_id: int = IGDB_ID
     options_dataclass = LCOptions
     options: LCOptions
     topology_present = False
@@ -107,7 +107,7 @@ class LethalCompanyWorld(World):
         "Logs": {location for location in locations if "Log" in location}
     }
 
-    data_version = 7
+    data_version = VERSION
     required_client_version = (0, 5, 0)
     web = LethalCompanyWeb()
     initial_world: string

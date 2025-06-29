@@ -9,7 +9,6 @@ description = "Sly Cooper and the Thievius Raccoonus"
 authors = [
     {name = "Philiard"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

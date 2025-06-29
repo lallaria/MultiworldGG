@@ -8,7 +8,7 @@ from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region, 
 from worlds.AutoWorld import WebWorld, World
 
 from .Rom import MMBN3DeltaPatch, LocalRom, get_base_rom_path
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import MMBN3Item, ItemData, item_table, all_items, item_frequencies, items_by_id, ItemType, item_groups
 from .Locations import Location, MMBN3Location, all_locations, location_table, location_data_table, \
     secret_locations, jobs, location_groups
@@ -60,7 +60,7 @@ class MMBN3World(World):
     """
     game = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 1758
+    igdb_id: int = IGDB_ID
     options_dataclass = MMBN3Options
     options: MMBN3Options
     settings: typing.ClassVar[MMBN3Settings]

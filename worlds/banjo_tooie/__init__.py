@@ -9,7 +9,7 @@ import warnings
 from dataclasses import asdict
 
 from .Hints import HintData, generate_hints
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Items import BanjoTooieItem, ItemData, all_item_table, all_group_table, progressive_ability_breakdown, silo_table
 from .Locations import BanjoTooieLocation, LocationData, all_location_table, MTLoc_Table, GMLoc_table, WWLoc_table, JRLoc_table, TLLoc_table, GILoc_table, HPLoc_table, CCLoc_table, MumboTokenGames_table, MumboTokenBoss_table, MumboTokenJinjo_table, SMLoc_table, JVLoc_table, IHWHLoc_table, IHPLLoc_table, IHPGLoc_table, IHCTLoc_table, IHWLLoc_table, IHQMLoc_table, CheatoRewardsLoc_table, JinjoRewardsLoc_table, HoneyBRewardsLoc_table
 from .Regions import create_regions, connect_regions
@@ -57,10 +57,10 @@ class BanjoTooieWorld(World):
     increased focus on puzzle-solving over the worlds of Banjo-Kazooie.
     """
 
-    game: str = "Banjo-Tooie"
+    game: str = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 3418
-    version = "V4.5.1"
+    igdb_id: int = IGDB_ID
+    version = VERSION
     web = BanjoTooieWeb()
     topology_present = True
     # item_name_to_id = {name: data.btid for name, data in all_item_table.items()}

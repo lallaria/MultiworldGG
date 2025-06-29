@@ -9,7 +9,6 @@ description = "Mario Kart Double Dash"
 authors = [
     {name = "aXu"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

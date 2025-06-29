@@ -7,7 +7,7 @@ name = "marioland2"
 dynamic = ["version"]
 description = "Super Mario Land 2"
 authors = [
-    {name = " Alchav"}
+    {name = "Alchav"}
 ]
 license = "MIT"
 license_files = [

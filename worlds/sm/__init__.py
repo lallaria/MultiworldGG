@@ -16,7 +16,7 @@ from worlds.generic.Rules import add_rule, set_rule
 logger = logging.getLogger("Super Metroid")
 
 from .Options import SMOptions
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Client import SMSNIClient
 from .Rom import SM_ROM_MAX_PLAYERID, SM_ROM_PLAYERDATA_COUNT, SMProcedurePatch, get_sm_symbols
 import Utils
@@ -97,9 +97,9 @@ class SMWorld(World):
      a wide range of options to randomize Item locations, required skills and even the connections 
      between the main Areas!
     """
-    game: str = "Super Metroid"
+    game: str = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 1103
+    igdb_id: int = IGDB_ID
     topology_present = True
     options_dataclass = SMOptions
     options: SMOptions

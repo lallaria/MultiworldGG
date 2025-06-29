@@ -1,4 +1,4 @@
-GAME_NAME: str = "VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?"
+GAME_NAME: str = "VVVVVV"
 AUTHOR: str = "N00byKing"
-IGDB_ID: int = 0
+IGDB_ID: int = 1990
 VERSION: str = "1.0.0"

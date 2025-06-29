@@ -9,7 +9,6 @@ description = "Here Comes Niko!"
 authors = [
     {name = "nieli"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

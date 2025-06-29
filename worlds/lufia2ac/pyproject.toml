@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lufia2ac"
 dynamic = ["version"]
-description = "The Ancient Cave is a roguelike dungeon crawling game built into"
+description = "Lufia II: Ancient Cave"
 authors = [
     {name = "el-u & word_fcuk"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

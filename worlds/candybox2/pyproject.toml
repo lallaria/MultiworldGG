@@ -9,7 +9,6 @@ description = "Candy Box 2"
 authors = [
     {name = "Victor Tran"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

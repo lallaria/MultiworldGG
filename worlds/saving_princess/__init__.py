@@ -8,6 +8,7 @@ from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import components, Component, launch_subprocess, Type as ComponentType
 from . import Options, Items, Locations
 from .Constants import *
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 
 def launch_client(*args: str):
@@ -71,7 +72,8 @@ class SavingPrincessWorld(World):
     Expand your arsenal as you collect upgrades to your trusty arm cannon and armor!
     """  # Excerpt from itch
     game = GAME_NAME
-    author: str = "LeonarthCG"
+    author: str = AUTHOR
+    igdb_id = IGDB_ID
     required_client_version = (0, 5, 0)
 
     topology_present = False

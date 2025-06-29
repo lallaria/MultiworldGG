@@ -1,7 +1,7 @@
 import os
 
 from .options import TrackmaniaOptions, create_option_groups
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .items import build_items, trackmania_item_groups, create_itempool, create_item, get_filler_item_name
 from .locations import build_locations
 from .regions import create_regions
@@ -43,7 +43,7 @@ class TrackmaniaWorld(World):
     Zoom through hundreds of thousands of user-made tracks as fast as you can!"""
     game = GAME_NAME  # name of the game/world
     author: str = AUTHOR
-    igdb_id: int = 133807  # replace with actual IGDB ID if available
+    igdb_id: int = IGDB_ID
     options_dataclass = TrackmaniaOptions  # options the player can set
     options: TrackmaniaOptions  # typing hints for option results
     web = Webmania()

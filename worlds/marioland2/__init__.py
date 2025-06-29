@@ -7,7 +7,7 @@ from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Region, Location, Item, ItemClassification, Tutorial
 
 from . import client
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .rom import generate_output, SuperMarioLand2ProcedurePatch
 from .options import SML2Options
 from .locations import (locations, location_name_to_id, level_name_to_id, level_id_to_name, START_IDS, coins_coords,
@@ -50,7 +50,7 @@ class MarioLand2World(World):
     game = GAME_NAME
     author: str = AUTHOR
 
-    igdb_id: int = 1071
+    igdb_id: int = IGDB_ID
 
     settings_key = "sml2_options"
     settings: MarioLand2Settings

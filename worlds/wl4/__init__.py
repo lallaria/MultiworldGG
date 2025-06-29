@@ -8,7 +8,7 @@ from Options import OptionError
 from worlds.AutoWorld import WebWorld, World
 
 from .client import WL4Client
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .data import Passage, data_path
 from .items import ItemType, WL4Item, ap_id_from_wl4_data, filter_item_names, filter_items, item_table
 from .locations import get_level_locations, location_name_to_id
@@ -52,9 +52,9 @@ class WL4World(World):
     the Golden Diva.
     """
 
-    game: str = 'Wario Land 4'
+    game: str = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 1699
+    igdb_id: int = IGDB_ID
     options_dataclass = WL4Options
     options: WL4Options
     settings: ClassVar[WL4Settings]

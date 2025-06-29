@@ -18,12 +18,12 @@ with open(client_id_path, 'r') as file:
 with open(key_path, 'r') as file:
     igdb_key = file.readline().strip()
 
-url = f"https://id.twitch.tv/oauth2/token?client_id={igdb_client_id}&client_secret={igdb_key}&grant_type=client_credentials"
-response = requests.post(url)
-print(url)
-print(response.json())
-igdb_token = response.json()['access_token']
-#igdb_token = "r2i66btt37vdamhee05kwpop1turk4"
+# url = f"https://id.twitch.tv/oauth2/token?client_id={igdb_client_id}&client_secret={igdb_key}&grant_type=client_credentials"
+# response = requests.post(url)
+# print(url)
+# print(response.json())
+# igdb_token = response.json()['access_token']
+igdb_token = ""
 
 
 def get_igdb_game_keywords(game_id: int) -> list:
@@ -78,14 +78,14 @@ def get_game_and_igdb_id_from_world(init_path: str) -> Optional[Tuple[str, int]]
             content = f.read()
             
         # Look for game name with type annotation
-        game_match = re.search(r'GAME_NAME\s*:\s*str\s*=\s*["\']([^"\']+)["\']', content)
+        game_match = re.search(r'GAME_NAME\s*:\s*str\s*=\s*["\'](.*?)["\']', content)
         if not game_match:
             return None
             
         game_name = game_match.group(1)
         
         # Look for igdb_id with type annotation
-        id_match = re.search(r'IGDB_ID\s*:\s*str\s*=\s*["\'](\d+)["\']', content)
+        id_match = re.search(r'IGDB_ID\s*:\s*int\s*=\s*(\d+)', content)
         if not id_match:
             return None
             
@@ -106,8 +106,8 @@ def get_game_ids_from_worlds() -> dict:
     Returns a dictionary mapping game names to their IGDB IDs.
     """
     # Get all world directories from base_world_inits.txt
-    worlds = os.listdir("worlds")
-    worlds = [os.path.join("worlds", world) for world in worlds if os.path.isdir(os.path.join("worlds", world))]
+    world_dirs = os.listdir(os.path.join(os.path.dirname(__file__), "..", "worlds"))
+    worlds = [os.path.join("..", "worlds", world) for world in world_dirs if os.path.isdir(os.path.join("..", "worlds", world))]
     
     game_ids = {}
 
@@ -116,15 +116,15 @@ def get_game_ids_from_worlds() -> dict:
         print(f"\nProcessing file: {init_file}")
         if not os.path.exists(init_file):
             init_file = os.path.join(world, "constants.py")
-            print(f"No file found at {init_file}")
+            print(f"\nProcessing file: {init_file}")
             if not os.path.exists(init_file):
                 print(f"No file found at {init_file}")
                 continue
             
-        # Get game name and IGDB ID from the World class
+        # Get game name and IGDB ID from the constants file
         result = get_game_and_igdb_id_from_world(init_file)
         if not result:
-            print(f"Could not find World class with game and igdb_id in {init_file}")
+            print(f"Could not find GAME_NAME and IGDB_ID constants in {init_file}")
             continue
             
         game_name, igdb_id = result

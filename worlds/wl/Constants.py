@@ -1,4 +1,4 @@
-GAME_NAME: str = "Wario Land: Super Mario Land 3 is a 1994 platform game developed and published by Nintendo for the Game Boy."
+GAME_NAME: str = "Wario Land"
 AUTHOR: str = "rand0"
-IGDB_ID: int = 0
+IGDB_ID: int = 1072
 VERSION: str = "1.0.0"

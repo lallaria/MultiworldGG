@@ -10,6 +10,7 @@ from entrance_rando import disconnect_entrance_for_randomization, randomize_entr
 from worlds.AutoWorld import WebWorld, World
 
 from .data.entrance_data import Entrance, EntranceRuleData, entrance_rule_data
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 from .data.entrance_randomizer_data import (
     entrances_to_game_location_teleports,
@@ -110,9 +111,9 @@ class ZorkGrandInquisitorWorld(World):
     options_dataclass = ZorkGrandInquisitorOptions
     options: ZorkGrandInquisitorOptions
 
-    game = "Zork Grand Inquisitor"
-    author: str = "nbrochu"
-    igdb_id = 1955
+    game: str = GAME_NAME
+    author: str = AUTHOR
+    igdb_id: int = IGDB_ID
 
     item_name_to_id = item_names_to_id()
     location_name_to_id = location_names_to_id()

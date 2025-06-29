@@ -7,9 +7,9 @@ name = "witness"
 dynamic = ["version"]
 description = "The Witness"
 authors = [
-    {name = "NewSoupVi & blastron"}
+    {name = "NewSoupVi"},
+    {name = "blastron"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

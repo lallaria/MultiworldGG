@@ -7,9 +7,9 @@ name = "shorthike"
 dynamic = ["version"]
 description = "A Short Hike"
 authors = [
-    {name = "chandler05 & BrandenEK"}
+    {name = "chandler05"},
+    {name = "BrandenEK"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

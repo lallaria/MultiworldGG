@@ -9,7 +9,6 @@ description = "Jak and Daxter: The Precursor Legacy"
 authors = [
     {name = "massimilianodelliubaldini"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

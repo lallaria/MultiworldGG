@@ -5,11 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tww"
 dynamic = ["version"]
-description = "Legend has it that whenever evil has appeared, a hero named Link has arisen to defeat it. The legend continues on"
-authors = [
+description = "The Wind Waker"
     {name = "tanjo3"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

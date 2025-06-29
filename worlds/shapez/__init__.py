@@ -17,6 +17,7 @@ from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Item, Tutorial, LocationProgressType, MultiWorld
 from .regions import create_shapez_regions, has_x_belt_multiplier
 from ..generic.Rules import add_rule
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID
 
 
 class ShapezWeb(WebWorld):
@@ -67,9 +68,9 @@ class ShapezWorld(World):
     generated patches on an infinite canvas, without the need to manage your infinite resources or to pay for building
     your factories.
     """
-    game = OTHER.game_name
-    author = OTHER.author
-    igdb_id = OTHER.igdb_id
+    game = GAME_NAME
+    author = AUTHOR
+    igdb_id = IGDB_ID
     options_dataclass = ShapezOptions
     options: ShapezOptions
     topology_present = True

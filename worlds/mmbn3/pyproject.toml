@@ -9,7 +9,6 @@ description = "MegaMan Battle Network 3"
 authors = [
     {name = "digiholic"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wl4"
 dynamic = ["version"]
-description = "A golden pyramid has been discovered deep in the jungle, and Wario has set"
+description = "Wario Land 4"
 authors = [
     {name = "lil David"}
 ]

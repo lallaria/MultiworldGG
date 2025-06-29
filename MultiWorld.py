@@ -2,6 +2,8 @@ import asyncio
 import sys
 import importlib.metadata
 import logging
+import os
+import datetime
 
 import gui.Gui
 
@@ -29,6 +31,21 @@ def discover_and_launch_module(module_name: str, args):
 
 def run_client(*args):
     """Run the client with the given arguments."""
+    # Add detailed logging to track unexpected launches
+    timestamp = datetime.datetime.now().isoformat()
+    process_id = os.getpid()
+    parent_process = os.getppid() if hasattr(os, 'getppid') else 'Unknown'
+    
+    logger.info(f"=== MultiWorldGG Launch Detected ===")
+    logger.info(f"Timestamp: {timestamp}")
+    logger.info(f"Process ID: {process_id}")
+    logger.info(f"Parent Process ID: {parent_process}")
+    logger.info(f"Arguments: {args}")
+    logger.info(f"Command line: {' '.join(sys.argv)}")
+    logger.info(f"Working directory: {os.getcwd()}")
+    logger.info(f"Environment variables: {dict(os.environ)}")
+    logger.info(f"=====================================")
+    
     async def main(args):
         from CommonClient import InitContext
         ctx = InitContext()
@@ -48,6 +65,7 @@ def run_client(*args):
                 logger.info("Falling back to initial client")
         
         # Default initial client behavior
+        logger.info("Launching default GUI")
         ctx.run_gui()
 
         await ctx.exit_event.wait()

@@ -1,7 +1,7 @@
 import typing
 import os, json
 from .Items import item_table, V6Item
-from .Constants import GAME_NAME, AUTHOR, IGDB_ID
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 from .Locations import location_table, V6Location
 from .Options import V6Options
 from .Rules import set_rules
@@ -9,7 +9,7 @@ from .Regions import create_regions
 from BaseClasses import Item, ItemClassification, Tutorial
 from ..AutoWorld import World, WebWorld
 
-client_version = 1
+client_version = VERSION
 
 
 class V6Web(WebWorld):
@@ -28,9 +28,9 @@ class V6World(World):
      VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?
     """ #Lifted from Store Page
 
-    game: str = "VVVVVV"
+    game: str = GAME_NAME
     author: str = AUTHOR
-    igdb_id: int = 1990
+    igdb_id: int = IGDB_ID
     topology_present = False
     web = V6Web()
 

@@ -9,7 +9,6 @@ description = "Lethal Company"
 authors = [
     {name = "T0r1nn"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
