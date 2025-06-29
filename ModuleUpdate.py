@@ -34,6 +34,7 @@ class RequirementsSet(set):
 
 local_dir = os.path.dirname(__file__)
 requirements_files = RequirementsSet((os.path.join(local_dir, 'requirements.txt'),))
+wheels_files = RequirementsSet()
 
 if not update_ran:
     for entry in os.scandir(os.path.join(local_dir, "worlds")):
@@ -43,6 +44,10 @@ if not update_ran:
                 req_file = os.path.join(entry.path, "requirements.txt")
                 if os.path.exists(req_file):
                     requirements_files.add(req_file)
+                elif entry.name == "Wheels":
+                    for wheel in os.listdir(os.path.join(local_dir, "worlds", "Wheels")):
+                        if wheel.endswith(".whl"):
+                            wheels_files.add(os.path.join(local_dir, "worlds", "Wheels", wheel))
 
 
 def check_pip():
@@ -61,9 +66,9 @@ def confirm(msg: str):
         sys.exit(1)
 
 
-def update_command():
+def update_command(files: RequirementsSet):
     check_pip()
-    for file in requirements_files:
+    for file in files:
         subprocess.call([sys.executable, "-m", "pip", "install", "-r", file, "--upgrade"])
 
 
@@ -86,8 +91,10 @@ def update(yes: bool = False, force: bool = False) -> None:
         import pkg_resources
 
         if force:
-            update_command()
+            update_command(requirements_files)
             return
+
+        update_command(wheels_files) #install wheels if they aren't
 
         prev = ""  # if a line ends in \ we store here and merge later
         for req_file in requirements_files:
@@ -144,7 +151,7 @@ def update(yes: bool = False, force: bool = False) -> None:
                                 import traceback
                                 traceback.print_exc()
                                 confirm(f"Requirement {requirement} is not satisfied, press enter to install it")
-                            update_command()
+                            update_command(requirements_files)
                             return
 
 

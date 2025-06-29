@@ -12,7 +12,7 @@ from Options import Toggle, OptionError
 from worlds.AutoWorld import WebWorld, World
 from worlds.Files import APPlayerContainer, AutoPatchRegister
 from worlds.generic.Rules import add_item_rule
-from .SSClientUtils import GAME_NAME, AUTHOR, IGDB_ID, VERSION
+from .Constants import GAME_NAME, AUTHOR, IGDB_ID, VERSION
 
 from worlds.LauncherComponents import (
     Component,

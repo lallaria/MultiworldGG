@@ -15,12 +15,14 @@ import collections
 import importlib
 import logging
 import warnings
+import re
 
 from argparse import Namespace
 from settings import Settings, get_settings
 from time import sleep
 from typing import BinaryIO, Coroutine, Optional, Set, Dict, Any, Union, TypeGuard
 from yaml import load, load_all, dump
+from zipfile import ZipFile
 
 try:
     from yaml import CLoader as UnsafeLoader, CSafeLoader as SafeLoader, CDumper as Dumper
@@ -90,6 +92,70 @@ is_linux = sys.platform.startswith("linux")
 is_macos = sys.platform == "darwin"
 is_windows = sys.platform in ("win32", "cygwin", "msys")
 
+worlds_wheels_dir = os.path.abspath(os.path.join("worlds", "Wheels"))
+worlds_modules_dir = os.path.abspath(os.path.join("worlds", "Lib"))
+
+def discover_and_launch_module(module_name: str, **kwargs):
+    """Discover and launch module via entrypoints"""
+    try:
+        # Discover entrypoints for mwgg.plugins
+        entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
+        
+        # Check if module exists in entry points
+        module_found = False
+        for entry_point in entry_points:
+            if entry_point.name == module_name:
+                module_found = True
+                break
+        
+        if not module_found:
+            # If it's not in the entry points, see if there's a wheel file for it
+            wheel_files = os.listdir(worlds_wheels_dir)
+            file_name = None
+            for file in wheel_files:
+                match = re.search(f"{module_name}-.*\\.whl", file)
+                if match:
+                    file_name = match.group(0)
+                    break
+            if file_name:
+                unpack_wheel(file_name)
+                entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
+            else:
+                raise ValueError(f"Module {module_name} not found")
+
+        # Look for the client entry point
+        client_entry_key = f"{module_name}.Client"
+        client_entry_point = None
+        
+        for entry_point in entry_points:
+            if entry_point.name == client_entry_key:
+                client_entry_point = entry_point
+                break
+        
+        if client_entry_point:
+            # Load and execute the client entrypoint
+            launch_function = client_entry_point.load()
+            result = launch_function(**kwargs)
+            
+            # Check if the launch function returned a task (GUI mode)
+            if hasattr(result, '_coro'):
+                logging.info(f"Launch function returned a task for {module_name}, running in GUI mode")
+                # The task is already scheduled in the event loop
+                return result
+            else:
+                logging.info(f"Launch function completed synchronously for {module_name}")
+                return result
+        else:
+            raise ValueError(f"Client entrypoint for module {module_name} not found")
+            
+    except Exception as e:
+        logging.error(f"Failed to launch module {module_name}: {e}")
+        raise
+
+def unpack_wheel(file_name: str):
+    """Unpack a wheel file into the worlds directory"""
+    with ZipFile(os.path.join(worlds_wheels_dir, file_name)) as zip_ref:
+        zip_ref.extractall(worlds_modules_dir)
 
 def int16_as_bytes(value: int) -> typing.List[int]:
     value = value & 0xFFFF
