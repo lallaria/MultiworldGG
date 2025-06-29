@@ -60,12 +60,12 @@ def build_search_index(games_data: dict) -> Dict[str, Set[str]]:
     
     # Fields that should be indexed
     searchable_fields = {
+        'igdb_name',
+        'platforms',
         'genres',
         'themes',
         'keywords',
-        'player_perspectives',
-        'rating',
-        'release_date'
+        'player_perspectives'
     }
     
     for game_name, game_data in games_data.items():
@@ -139,7 +139,7 @@ def generate_index_file():
     """Generate the game_index.py file with pre-built index."""
     try:
         # Load game data
-        with open("game_details.json", "r", encoding="utf-8") as file:
+        with open("tools/output/game_details.json", "r", encoding="utf-8") as file:
             games_data = json.load(file)
         
         # Clean the game data

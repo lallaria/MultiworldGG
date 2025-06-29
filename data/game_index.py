@@ -92,10 +92,10 @@ class GameIndex:
 
 # These constants will be generated during build
 GAMES_DATA = {
-    "Adventure": {
+    "adventure": {
         "igdb_id": "12239",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/qzcqrjruhpuge5egkzgj.jpg",
-        "world_name": "Adventure",
+        "game_name": "adventure",
         "igdb_name": "adventure",
         "rating": [],
         "player_perspectives": [
@@ -115,10 +115,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "1983"
     },
-    "Against the Storm": {
+    "against_the_storm": {
         "igdb_id": "147519",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7j13.jpg",
-        "world_name": "Against the Storm",
+        "game_name": "against the storm",
         "igdb_name": "against the storm",
         "rating": [
             "mild blood",
@@ -147,14 +147,15 @@ GAMES_DATA = {
         ],
         "storyline": "the rain is your ally and the greatest enemy. it cycles in three seasons requiring you to stay flexible and adapt to changing conditions. in drizzle, the season of regrowth, natural resources replenish themselves, and it\u2019s time for construction and planting crops. the clearance is the season of harvest, expansion, and preparations for the last, most unforgiving season of them all. a true test of your city\u2019s strength comes with the storm when bolts of lightning tear the sky, nothing grows and resources are scarce.",
         "keywords": [
+            "base building",
             "roguelite"
         ],
         "release_date": "2023"
     },
-    "A Hat in Time": {
+    "ahit": {
         "igdb_id": "6705",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5pl5.jpg",
-        "world_name": "A Hat in Time",
+        "game_name": "a hat in time",
         "igdb_name": "a hat in time",
         "rating": [
             "blood",
@@ -198,10 +199,10 @@ GAMES_DATA = {
         ],
         "release_date": "2017"
     },
-    "A Link Between Worlds": {
+    "albw": {
         "igdb_id": "2909",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3p0j.jpg",
-        "world_name": "A Link Between Worlds",
+        "game_name": "a link between worlds",
         "igdb_name": "the legend of zelda: a link between worlds",
         "rating": [
             "fantasy violence"
@@ -212,7 +213,6 @@ GAMES_DATA = {
         ],
         "genres": [
             "puzzle",
-            "role-playing (rpg)",
             "adventure"
         ],
         "themes": [
@@ -264,14 +264,17 @@ GAMES_DATA = {
             "fast traveling",
             "context sensitive",
             "living inventory",
-            "bees"
+            "bees",
+            "link",
+            "zelda",
+            "legend of zelda"
         ],
         "release_date": "2013"
     },
-    "A Link to the Past": {
+    "alttp": {
         "igdb_id": "1026",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3vzn.jpg",
-        "world_name": "A Link to the Past",
+        "game_name": "a link to the past",
         "igdb_name": "the legend of zelda: a link to the past",
         "rating": [
             "mild violence",
@@ -317,7 +320,6 @@ GAMES_DATA = {
             "giant insects",
             "silent protagonist",
             "swimming",
-            "sword & sorcery",
             "darkness",
             "explosion",
             "block puzzle",
@@ -362,14 +364,16 @@ GAMES_DATA = {
             "buddy system",
             "retroachievements",
             "bees",
-            "popular"
+            "popular",
+            "zelda",
+            "link"
         ],
         "release_date": "1991"
     },
-    "ANIMAL WELL": {
+    "animal_well": {
         "igdb_id": "191435",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4hdh.jpg",
-        "world_name": "ANIMAL WELL",
+        "game_name": "animal well",
         "igdb_name": "animal well",
         "rating": [
             "mild fantasy violence"
@@ -399,20 +403,21 @@ GAMES_DATA = {
         "keywords": [
             "exploration",
             "retro",
+            "dark",
             "2d",
             "metroidvania",
             "cute",
             "atmospheric",
             "pixel art",
-            "pixel graphics",
-            "relaxing"
+            "relaxing",
+            "controller support"
         ],
         "release_date": "2024"
     },
-    "Ape Escape": {
+    "apeescape": {
         "igdb_id": "3762",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2gzc.jpg",
-        "world_name": "Ape Escape",
+        "game_name": "ape escape",
         "igdb_name": "ape escape",
         "rating": [
             "mild animated violence"
@@ -454,15 +459,15 @@ GAMES_DATA = {
         ],
         "release_date": "1999"
     },
-    "Sudoku": {
+    "apsudoku": {
         "igdb_id": "",
-        "world_name": "Sudoku",
+        "cover_url": "",
+        "game_name": "sudoku",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
         "genres": [
-            "multiplayer",
-            "puzzle"
+            "multiplayer"
         ],
         "themes": [],
         "platforms": [
@@ -476,10 +481,10 @@ GAMES_DATA = {
         ],
         "release_date": ""
     },
-    "Aquaria": {
+    "aquaria": {
         "igdb_id": "7406",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1r7r.jpg",
-        "world_name": "Aquaria",
+        "game_name": "aquaria",
         "igdb_name": "aquaria",
         "rating": [],
         "player_perspectives": [
@@ -512,7 +517,6 @@ GAMES_DATA = {
             "darkness",
             "alternate costumes",
             "world map",
-            "humble bundle",
             "save point",
             "underwater gameplay",
             "shape-shifting",
@@ -520,9 +524,10 @@ GAMES_DATA = {
         ],
         "release_date": "2007"
     },
-    "ArchipIDLE": {
+    "archipidle": {
         "igdb_id": "",
-        "world_name": "ArchipIDLE",
+        "cover_url": "",
+        "game_name": "archipidle",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
@@ -535,15 +540,16 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "hints",
             "archipelago",
             "multiworld"
         ],
         "release_date": ""
     },
-    "An Untitled Story": {
+    "aus": {
         "igdb_id": "72926",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2nok.jpg",
-        "world_name": "An Untitled Story",
+        "game_name": "an untitled story",
         "igdb_name": "an untitled story",
         "rating": [],
         "player_perspectives": [
@@ -569,10 +575,10 @@ GAMES_DATA = {
         ],
         "release_date": "2007"
     },
-    "Balatro": {
+    "balatro": {
         "igdb_id": "251833",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co9f4g.jpg",
-        "world_name": "Balatro",
+        "game_name": "balatro",
         "igdb_name": "balatro",
         "rating": [
             "simulated gambling"
@@ -604,10 +610,10 @@ GAMES_DATA = {
         ],
         "release_date": "2024"
     },
-    "Banjo-Tooie": {
+    "banjo_tooie": {
         "igdb_id": "3418",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6c1w.jpg",
-        "world_name": "Banjo-Tooie",
+        "game_name": "banjo-tooie",
         "igdb_name": "banjo-tooie",
         "rating": [
             "crude humor",
@@ -635,6 +641,7 @@ GAMES_DATA = {
         "keywords": [
             "aliens",
             "dinosaurs",
+            "animals",
             "collecting",
             "flight",
             "action-adventure",
@@ -651,6 +658,7 @@ GAMES_DATA = {
             "breaking the fourth wall",
             "cameo appearance",
             "ice stage",
+            "character growth",
             "underwater gameplay",
             "rpg elements",
             "villain",
@@ -665,10 +673,10 @@ GAMES_DATA = {
         ],
         "release_date": "2000"
     },
-    "Blasphemous": {
+    "blasphemous": {
         "igdb_id": "26820",
-        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2eyn.jpg",
-        "world_name": "Blasphemous",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co9yoj.jpg",
+        "game_name": "blasphemous",
         "igdb_name": "blasphemous",
         "rating": [
             "blood and gore",
@@ -724,10 +732,10 @@ GAMES_DATA = {
         ],
         "release_date": "2019"
     },
-    "Bomb Rush Cyberfunk": {
+    "bomb_rush_cyberfunk": {
         "igdb_id": "135940",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6ya8.jpg",
-        "world_name": "Bomb Rush Cyberfunk",
+        "game_name": "bomb rush cyberfunk",
         "igdb_name": "bomb rush cyberfunk",
         "rating": [
             "language",
@@ -765,10 +773,10 @@ GAMES_DATA = {
         ],
         "release_date": "2023"
     },
-    "Brotato": {
+    "brotato": {
         "igdb_id": "199116",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4pcj.jpg",
-        "world_name": "Brotato",
+        "game_name": "brotato",
         "igdb_name": "brotato",
         "rating": [
             "fantasy violence",
@@ -805,10 +813,10 @@ GAMES_DATA = {
         ],
         "release_date": "2023"
     },
-    "Bumper Stickers": {
+    "bumpstik": {
         "igdb_id": "271950",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co78k5.jpg",
-        "world_name": "Bumper Stickers",
+        "game_name": "bumper stickers",
         "igdb_name": "bumper stickers archipelago edition",
         "rating": [],
         "player_perspectives": [],
@@ -824,10 +832,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2023"
     },
-    "Candy Box 2": {
+    "candybox2": {
         "igdb_id": "62779",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3tqk.jpg",
-        "world_name": "Candy Box 2",
+        "game_name": "candy box 2",
         "igdb_name": "candy box 2",
         "rating": [],
         "player_perspectives": [
@@ -853,10 +861,10 @@ GAMES_DATA = {
         ],
         "release_date": "2013"
     },
-    "Cat Quest": {
+    "cat_quest": {
         "igdb_id": "36597",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1qlq.jpg",
-        "world_name": "Cat Quest",
+        "game_name": "cat quest",
         "igdb_name": "cat quest",
         "rating": [
             "fantasy violence"
@@ -886,10 +894,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2017"
     },
-    "Celeste": {
+    "celeste": {
         "igdb_id": "26226",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3byy.jpg",
-        "world_name": "Celeste",
+        "game_name": "celeste",
         "igdb_name": "celeste",
         "rating": [
             "alcohol reference",
@@ -928,7 +936,6 @@ GAMES_DATA = {
             "atmospheric",
             "pixel art",
             "snow",
-            "pixel graphics",
             "story rich",
             "great soundtrack",
             "digital distribution",
@@ -937,10 +944,10 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "Celeste 64": {
+    "celeste64": {
         "igdb_id": "284430",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7oz4.jpg",
-        "world_name": "Celeste 64",
+        "game_name": "celeste 64",
         "igdb_name": "celeste 64: fragments of the mountain",
         "rating": [],
         "player_perspectives": [
@@ -965,10 +972,10 @@ GAMES_DATA = {
         ],
         "release_date": "2024"
     },
-    "Chained Echoes": {
+    "chainedechoes": {
         "igdb_id": "117271",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co544u.jpg",
-        "world_name": "Chained Echoes",
+        "game_name": "chained echoes",
         "igdb_name": "chained echoes",
         "rating": [
             "strong language",
@@ -1003,9 +1010,10 @@ GAMES_DATA = {
         ],
         "release_date": "2022"
     },
-    "ChecksFinder": {
+    "chatipelago": {
         "igdb_id": "",
-        "world_name": "ChecksFinder",
+        "cover_url": "",
+        "game_name": "chat plays multiworldgg!",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
@@ -1024,10 +1032,32 @@ GAMES_DATA = {
         ],
         "release_date": ""
     },
-    "Civilization VI": {
+    "checksfinder": {
+        "igdb_id": "",
+        "cover_url": "",
+        "game_name": "checksfinder",
+        "igdb_name": "",
+        "rating": "",
+        "player_perspectives": [],
+        "genres": [
+            "multiplayer"
+        ],
+        "themes": [],
+        "platforms": [
+            "archipelago"
+        ],
+        "storyline": "",
+        "keywords": [
+            "hints",
+            "archipelago",
+            "multiworld"
+        ],
+        "release_date": ""
+    },
+    "civ_6": {
         "igdb_id": "293",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1rjp.jpg",
-        "world_name": "Civilization VI",
+        "game_name": "civilization vi",
         "igdb_name": "sid meier's civilization iv",
         "rating": [
             "violence"
@@ -1068,9 +1098,10 @@ GAMES_DATA = {
         ],
         "release_date": "2005"
     },
-    "Clique": {
+    "clique": {
         "igdb_id": "",
-        "world_name": "Clique",
+        "cover_url": "",
+        "game_name": "clique",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
@@ -1083,16 +1114,16 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "hints",
             "archipelago",
-            "multiworld",
-            "meme origin"
+            "multiworld"
         ],
         "release_date": ""
     },
-    "CrossCode": {
+    "crosscode": {
         "igdb_id": "35282",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co28wy.jpg",
-        "world_name": "CrossCode",
+        "game_name": "crosscode",
         "igdb_name": "crosscode",
         "rating": [
             "fantasy violence",
@@ -1133,10 +1164,10 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "Chrono Trigger Jets of Time": {
+    "ctjot": {
         "igdb_id": "20398",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co54iw.jpg",
-        "world_name": "Chrono Trigger Jets of Time",
+        "game_name": "chrono trigger jets of time",
         "igdb_name": "chrono trigger",
         "rating": [
             "animated blood",
@@ -1165,10 +1196,10 @@ GAMES_DATA = {
         ],
         "release_date": "2008"
     },
-    "Cuphead": {
+    "cuphead": {
         "igdb_id": "9061",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co62ao.jpg",
-        "world_name": "Cuphead",
+        "game_name": "log options that are overridden from incompatible combinations to console.",
         "igdb_name": "cuphead",
         "rating": [
             "use of alcohol and tobacco",
@@ -1224,15 +1255,14 @@ GAMES_DATA = {
             "conveyor belt",
             "auto-scrolling levels",
             "temporary invincibility",
-            "boss assistance",
-            "the game awards 2017"
+            "boss assistance"
         ],
         "release_date": "2017"
     },
-    "Castlevania 64": {
+    "cv64": {
         "igdb_id": "1130",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5geb.jpg",
-        "world_name": "Castlevania 64",
+        "game_name": "castlevania 64",
         "igdb_name": "castlevania",
         "rating": [
             "animated blood",
@@ -1307,10 +1337,10 @@ GAMES_DATA = {
         ],
         "release_date": "1999"
     },
-    "Castlevania - Circle of the Moon": {
+    "cvcotm": {
         "igdb_id": "1132",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2zq1.jpg",
-        "world_name": "Castlevania - Circle of the Moon",
+        "game_name": "castlevania - circle of the moon",
         "igdb_name": "castlevania: circle of the moon",
         "rating": [
             "mild violence",
@@ -1354,10 +1384,10 @@ GAMES_DATA = {
         ],
         "release_date": "2001"
     },
-    "Dark Souls II": {
+    "dark_souls_2": {
         "igdb_id": "2368",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2eoo.jpg",
-        "world_name": "Dark Souls II",
+        "game_name": "dark souls ii",
         "igdb_name": "dark souls ii",
         "rating": [
             "blood and gore",
@@ -1384,6 +1414,7 @@ GAMES_DATA = {
         "storyline": "",
         "keywords": [
             "medieval",
+            "dark",
             "magic",
             "3d",
             "metroidvania",
@@ -1418,10 +1449,10 @@ GAMES_DATA = {
         ],
         "release_date": "2014"
     },
-    "Dark Souls III": {
+    "dark_souls_3": {
         "igdb_id": "11133",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1vcf.jpg",
-        "world_name": "Dark Souls III",
+        "game_name": "dark souls iii",
         "igdb_name": "dark souls iii",
         "rating": [
             "blood",
@@ -1458,14 +1489,15 @@ GAMES_DATA = {
             "sliding down ladders",
             "entering world in a painting",
             "soulslike",
-            "interconnected-world"
+            "interconnected-world",
+            "popular"
         ],
         "release_date": "2016"
     },
-    "Diddy Kong Racing": {
+    "diddy_kong_racing": {
         "igdb_id": "2723",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1wgj.jpg",
-        "world_name": "Diddy Kong Racing",
+        "game_name": "diddy kong racing",
         "igdb_name": "diddy kong racing",
         "rating": [],
         "player_perspectives": [
@@ -1484,6 +1516,7 @@ GAMES_DATA = {
         ],
         "storyline": "timber the tiger's parents picked a fine time to go on vacation. when they come back they're going to be faced with an island trashed by the spiteful space bully wizpig - unless the local animals can do something about it! so join diddy kong as he teams up with timber the tiger pipsy the mouse and taj the genie in an epic racing adventure unlike anything you've ever experienced before! this unique game blends adventure and racing like no other game! roam anywhere you want on the island by car plane or hovercraft! an enormous amount of single-player and multi-player modes! feel the action when you use the n64 rumble pak and save your times on the n64 controller pak!",
         "keywords": [
+            "go-kart",
             "flight",
             "crossover",
             "snow",
@@ -1497,10 +1530,71 @@ GAMES_DATA = {
         ],
         "release_date": "1997"
     },
-    "Donkey Kong Country": {
+    "dk64": {
+        "igdb_id": "1096",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co289i.jpg",
+        "game_name": "donkey kong 64",
+        "igdb_name": "donkey kong 64",
+        "rating": [
+            "mild animated violence"
+        ],
+        "player_perspectives": [
+            "third person"
+        ],
+        "genres": [
+            "platform",
+            "adventure"
+        ],
+        "themes": [
+            "action",
+            "comedy"
+        ],
+        "platforms": [
+            "nintendo 64",
+            "wii u"
+        ],
+        "storyline": "",
+        "keywords": [
+            "gravity",
+            "minigames",
+            "death",
+            "fairy",
+            "multiple protagonists",
+            "multiple endings",
+            "artificial intelligence",
+            "giant insects",
+            "day/night cycle",
+            "death match",
+            "digital distribution",
+            "anthropomorphism",
+            "monkey",
+            "gorilla",
+            "polygonal 3d",
+            "upgradeable weapons",
+            "loot gathering",
+            "descendants of other characters",
+            "character growth",
+            "real-time combat",
+            "moving platforms",
+            "recurring boss",
+            "invisible wall",
+            "franchise reboot",
+            "western games based on japanese ips",
+            "over 100% completion",
+            "completion percentage",
+            "mine cart sequence",
+            "invisibility",
+            "foreshadowing",
+            "ape",
+            "collection marathon",
+            "retroachievements"
+        ],
+        "release_date": "1999"
+    },
+    "dkc": {
         "igdb_id": "1090",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co70qn.jpg",
-        "world_name": "Donkey Kong Country",
+        "game_name": "donkey kong country",
         "igdb_name": "donkey kong country",
         "rating": [],
         "player_perspectives": [
@@ -1542,6 +1636,7 @@ GAMES_DATA = {
             "monkey",
             "nintendo power",
             "world map",
+            "gorilla",
             "crocodile",
             "breaking the fourth wall",
             "descendants of other characters",
@@ -1556,12 +1651,14 @@ GAMES_DATA = {
             "moving platforms",
             "recurring boss",
             "water level",
+            "franchise reboot",
             "auto-scrolling levels",
             "western games based on japanese ips",
             "speedrun",
             "boss assistance",
             "villain turned good",
             "over 100% completion",
+            "mine cart sequence",
             "ambient music",
             "resized enemy",
             "on-the-fly character switching",
@@ -1571,10 +1668,10 @@ GAMES_DATA = {
         ],
         "release_date": "1994"
     },
-    "Donkey Kong Country 2": {
+    "dkc2": {
         "igdb_id": "1092",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co217m.jpg",
-        "world_name": "Donkey Kong Country 2",
+        "game_name": "donkey kong country 2",
         "igdb_name": "donkey kong country 2: diddy's kong quest",
         "rating": [
             "mild fantasy violence"
@@ -1602,7 +1699,6 @@ GAMES_DATA = {
             "pirates",
             "ghosts",
             "gravity",
-            "2.5d",
             "frog",
             "female protagonist",
             "side-scrolling",
@@ -1625,6 +1721,7 @@ GAMES_DATA = {
             "spider",
             "nintendo power",
             "world map",
+            "gorilla",
             "crocodile",
             "cat",
             "breaking the fourth wall",
@@ -1646,8 +1743,8 @@ GAMES_DATA = {
             "temporary invincibility",
             "western games based on japanese ips",
             "boss assistance",
-            "over 100% completion",
             "completion percentage",
+            "mine cart sequence",
             "ambient music",
             "resized enemy",
             "fireworks",
@@ -1658,10 +1755,10 @@ GAMES_DATA = {
         ],
         "release_date": "1995"
     },
-    "Donkey Kong Country 3": {
+    "dkc3": {
         "igdb_id": "1094",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co217n.jpg",
-        "world_name": "Donkey Kong Country 3",
+        "game_name": "donkey kong country 3 is an action platforming game.",
         "igdb_name": "donkey kong country 3: dixie kong's double trouble!",
         "rating": [],
         "player_perspectives": [
@@ -1704,6 +1801,7 @@ GAMES_DATA = {
             "monkey",
             "nintendo power",
             "world map",
+            "gorilla",
             "crocodile",
             "descendants of other characters",
             "save point",
@@ -1725,10 +1823,10 @@ GAMES_DATA = {
         ],
         "release_date": "1996"
     },
-    "DLCQuest": {
+    "dlcquest": {
         "igdb_id": "3004",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2105.jpg",
-        "world_name": "DLCQuest",
+        "game_name": "dlcquest",
         "igdb_name": "dlc quest",
         "rating": [],
         "player_perspectives": [
@@ -1758,10 +1856,10 @@ GAMES_DATA = {
         ],
         "release_date": "2011"
     },
-    "Don": {
+    "dontstarvetogether": {
         "igdb_id": "17832",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6la0.jpg",
-        "world_name": "Don",
+        "game_name": "dont starve together",
         "igdb_name": "don't starve together",
         "rating": [
             "crude humor",
@@ -1804,10 +1902,10 @@ GAMES_DATA = {
         ],
         "release_date": "2016"
     },
-    "DOOM 1993": {
+    "doom_1993": {
         "igdb_id": "673",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5rav.jpg",
-        "world_name": "DOOM 1993",
+        "game_name": "doom 1993",
         "igdb_name": "doom",
         "rating": [
             "intense violence",
@@ -1844,10 +1942,10 @@ GAMES_DATA = {
         ],
         "release_date": "1993"
     },
-    "DOOM II": {
+    "doom_ii": {
         "igdb_id": "312",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6iip.jpg",
-        "world_name": "DOOM II",
+        "game_name": "doom ii",
         "igdb_name": "doom ii: hell on earth",
         "rating": [
             "violence",
@@ -1886,10 +1984,12 @@ GAMES_DATA = {
             "sequel",
             "darkness",
             "explosion",
+            "death match",
             "digital distribution",
             "voice acting",
             "human",
             "breaking the fourth wall",
+            "pop culture reference",
             "game reference",
             "unstable platforms",
             "melee",
@@ -1910,10 +2010,10 @@ GAMES_DATA = {
         ],
         "release_date": "1994"
     },
-    "DORONKO WANKO": {
+    "doronko_wanko": {
         "igdb_id": "290647",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7zj5.jpg",
-        "world_name": "DORONKO WANKO",
+        "game_name": "doronko wanko",
         "igdb_name": "doronko wanko",
         "rating": [],
         "player_perspectives": [],
@@ -1933,10 +2033,10 @@ GAMES_DATA = {
         ],
         "release_date": "2024"
     },
-    "Dark Souls Remastered": {
+    "dsr": {
         "igdb_id": "81085",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2uro.jpg",
-        "world_name": "Dark Souls Remastered",
+        "game_name": "dark souls is a game where you die.",
         "igdb_name": "dark souls: remastered",
         "rating": [
             "blood and gore",
@@ -1970,10 +2070,10 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "Dungeon Clawler": {
+    "dungeon_clawler": {
         "igdb_id": "290897",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7ygu.jpg",
-        "world_name": "Dungeon Clawler",
+        "game_name": "dungeon clawler",
         "igdb_name": "dungeon clawler",
         "rating": [],
         "player_perspectives": [
@@ -2007,10 +2107,10 @@ GAMES_DATA = {
         ],
         "release_date": "2024"
     },
-    "Digimon World": {
+    "dw1": {
         "igdb_id": "3878",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2dyy.jpg",
-        "world_name": "Digimon World",
+        "game_name": "digimon world is a game about raising digital monsters and recruiting allies to save the digital world.",
         "igdb_name": "digimon world 4",
         "rating": [
             "fantasy violence"
@@ -2043,10 +2143,10 @@ GAMES_DATA = {
         ],
         "release_date": "2005"
     },
-    "EarthBound": {
+    "earthbound": {
         "igdb_id": "2899",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6v07.jpg",
-        "world_name": "EarthBound",
+        "game_name": "earthbound",
         "igdb_name": "earthbound",
         "rating": [],
         "player_perspectives": [
@@ -2104,10 +2204,10 @@ GAMES_DATA = {
         ],
         "release_date": "1994"
     },
-    "Ender Lilies": {
+    "enderlilies": {
         "igdb_id": "138858",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co9s9e.jpg",
-        "world_name": "Ender Lilies",
+        "game_name": "ender lilies",
         "igdb_name": "ender lilies: quietus of the knights",
         "rating": [
             "violence",
@@ -2137,16 +2237,17 @@ GAMES_DATA = {
         "keywords": [
             "metroidvania",
             "female protagonist",
+            "forest",
             "witches",
             "soulslike",
             "conversation"
         ],
         "release_date": "2021"
     },
-    "Factorio": {
+    "factorio": {
         "igdb_id": "7046",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1tfy.jpg",
-        "world_name": "Factorio",
+        "game_name": "factorio",
         "igdb_name": "factorio",
         "rating": [
             "blood",
@@ -2179,10 +2280,10 @@ GAMES_DATA = {
         ],
         "release_date": "2020"
     },
-    "Factorio - Space Age Without Space": {
+    "factorio_saws": {
         "igdb_id": "263344",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co91k3.jpg",
-        "world_name": "Factorio - Space Age Without Space",
+        "game_name": "factorio space age without space",
         "igdb_name": "factorio: space age",
         "rating": [],
         "player_perspectives": [
@@ -2210,10 +2311,10 @@ GAMES_DATA = {
         ],
         "release_date": "2024"
     },
-    "Faxanadu": {
+    "faxanadu": {
         "igdb_id": "1974",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5jif.jpg",
-        "world_name": "Faxanadu",
+        "game_name": "faxanadu",
         "igdb_name": "faxanadu",
         "rating": [
             "mild fantasy violence",
@@ -2248,10 +2349,10 @@ GAMES_DATA = {
         ],
         "release_date": "1987"
     },
-    "Final Fantasy": {
+    "ff1": {
         "igdb_id": "385",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2xv8.jpg",
-        "world_name": "Final Fantasy",
+        "game_name": "final fantasy",
         "igdb_name": "final fantasy",
         "rating": [
             "mild fantasy violence"
@@ -2283,10 +2384,10 @@ GAMES_DATA = {
         ],
         "release_date": "1987"
     },
-    "Final Fantasy IV Free Enterprise": {
+    "ff4fe": {
         "igdb_id": "387",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2y6s.jpg",
-        "world_name": "Final Fantasy IV Free Enterprise",
+        "game_name": "final fantasy iv free enterprise",
         "igdb_name": "final fantasy ii",
         "rating": [
             "mild fantasy violence",
@@ -2298,6 +2399,7 @@ GAMES_DATA = {
         ],
         "genres": [
             "role-playing (rpg)",
+            "turn-based strategy (tbs)",
             "adventure"
         ],
         "themes": [
@@ -2315,10 +2417,10 @@ GAMES_DATA = {
         ],
         "release_date": "1991"
     },
-    "Final Fantasy Mystic Quest": {
+    "ffmq": {
         "igdb_id": "415",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2y0b.jpg",
-        "world_name": "Final Fantasy Mystic Quest",
+        "game_name": "final fantasy mystic quest",
         "igdb_name": "final fantasy: mystic quest",
         "rating": [
             "mild fantasy violence"
@@ -2354,14 +2456,15 @@ GAMES_DATA = {
             "explosion",
             "party system",
             "rock music",
+            "franchise reboot",
             "retroachievements"
         ],
         "release_date": "1992"
     },
-    "Final Fantasy Tactics Advance": {
+    "ffta": {
         "igdb_id": "414",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1wyp.jpg",
-        "world_name": "Final Fantasy Tactics Advance",
+        "game_name": "final fantasy tactics advance",
         "igdb_name": "final fantasy tactics advance",
         "rating": [
             "mild violence",
@@ -2377,7 +2480,6 @@ GAMES_DATA = {
             "tactical"
         ],
         "themes": [
-            "action",
             "fantasy"
         ],
         "platforms": [
@@ -2407,16 +2509,17 @@ GAMES_DATA = {
             "rock music",
             "coming of age",
             "been here before",
+            "franchise reboot",
             "androgyny",
             "random encounter",
             "damage over time"
         ],
         "release_date": "2003"
     },
-    "Yu-Gi-Oh! Forbidden Memories": {
+    "fm": {
         "igdb_id": "4108",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1ui5.jpg",
-        "world_name": "Yu-Gi-Oh! Forbidden Memories",
+        "game_name": "yu-gi-oh! forbidden memories",
         "igdb_name": "yu-gi-oh! forbidden memories",
         "rating": [
             "violence"
@@ -2444,10 +2547,32 @@ GAMES_DATA = {
         ],
         "release_date": "1999"
     },
-    "Getting Over It": {
+    "generic": {
+        "igdb_id": "",
+        "cover_url": "",
+        "game_name": "generic",
+        "igdb_name": "",
+        "rating": "",
+        "player_perspectives": [],
+        "genres": [
+            "multiplayer"
+        ],
+        "themes": [],
+        "platforms": [
+            "archipelago"
+        ],
+        "storyline": "",
+        "keywords": [
+            "hints",
+            "archipelago",
+            "multiworld"
+        ],
+        "release_date": ""
+    },
+    "getting_over_it": {
         "igdb_id": "72373",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3wl5.jpg",
-        "world_name": "Getting Over It",
+        "game_name": "getting over it",
         "igdb_name": "getting over it with bennett foddy",
         "rating": [],
         "player_perspectives": [
@@ -2481,15 +2606,14 @@ GAMES_DATA = {
             "funny",
             "story rich",
             "great soundtrack",
-            "digital distribution",
-            "humble bundle"
+            "digital distribution"
         ],
         "release_date": "2017"
     },
-    "Golden Sun The Lost Age": {
+    "gstla": {
         "igdb_id": "1173",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co25rt.jpg",
-        "world_name": "Golden Sun The Lost Age",
+        "game_name": "golden sun the lost age",
         "igdb_name": "golden sun: the lost age",
         "rating": [
             "violence"
@@ -2542,10 +2666,10 @@ GAMES_DATA = {
         ],
         "release_date": "2002"
     },
-    "gzDoom": {
+    "gzdoom": {
         "igdb_id": "307741",
         "cover_url": "",
-        "world_name": "gzDoom",
+        "game_name": "gzdoom",
         "igdb_name": "gzdoom sm64",
         "rating": [],
         "player_perspectives": [
@@ -2564,10 +2688,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": ""
     },
-    "Hades": {
+    "hades": {
         "igdb_id": "113112",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co39vc.jpg",
-        "world_name": "Hades",
+        "game_name": "hades",
         "igdb_name": "hades",
         "rating": [
             "mild language",
@@ -2611,10 +2735,63 @@ GAMES_DATA = {
         ],
         "release_date": "2020"
     },
-    "Heretic": {
+    "hcniko": {
+        "igdb_id": "142405",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2o6i.jpg",
+        "game_name": "here comes niko!",
+        "igdb_name": "here comes niko!",
+        "rating": [],
+        "player_perspectives": [
+            "third person"
+        ],
+        "genres": [
+            "platform",
+            "puzzle",
+            "adventure",
+            "indie"
+        ],
+        "themes": [
+            "action",
+            "comedy"
+        ],
+        "platforms": [
+            "pc (microsoft windows)",
+            "nintendo switch"
+        ],
+        "storyline": "",
+        "keywords": [
+            "aliens",
+            "exploration",
+            "animals",
+            "3d",
+            "minigames",
+            "fishing",
+            "frog",
+            "female protagonist",
+            "crossover",
+            "forest",
+            "stylized",
+            "achievements",
+            "cute",
+            "pixel art",
+            "snow",
+            "dog",
+            "relaxing",
+            "talking animals",
+            "3d platformer",
+            "swimming",
+            "anthropomorphism",
+            "game reference",
+            "secret area",
+            "behind the waterfall",
+            "controller support"
+        ],
+        "release_date": "2021"
+    },
+    "heretic": {
         "igdb_id": "6362",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1mwz.jpg",
-        "world_name": "Heretic",
+        "game_name": "heretic",
         "igdb_name": "heretic",
         "rating": [],
         "player_perspectives": [
@@ -2641,6 +2818,7 @@ GAMES_DATA = {
             "2.5d",
             "undead",
             "sword & sorcery",
+            "death match",
             "digital distribution",
             "skeletons",
             "melee",
@@ -2649,10 +2827,10 @@ GAMES_DATA = {
         ],
         "release_date": "1994"
     },
-    "Hollow Knight": {
+    "hk": {
         "igdb_id": "14593",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co93cr.jpg",
-        "world_name": "Hollow Knight",
+        "game_name": "hollow knight",
         "igdb_name": "hollow knight",
         "rating": [
             "fantasy violence",
@@ -2681,9 +2859,11 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "dark",
             "2d",
             "metroidvania",
             "action-adventure",
+            "achievements",
             "atmospheric",
             "giant insects",
             "silent protagonist",
@@ -2693,17 +2873,18 @@ GAMES_DATA = {
             "shielded enemies",
             "parrying",
             "merchants",
+            "fast traveling",
             "creature compendium",
-            "the game awards 2017",
+            "controller support",
             "interconnected-world",
             "popular"
         ],
         "release_date": "2017"
     },
-    "Hunie Pop": {
+    "huniepop": {
         "igdb_id": "9655",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2sor.jpg",
-        "world_name": "Hunie Pop",
+        "game_name": "hunie pop",
         "igdb_name": "huniepop",
         "rating": [],
         "player_perspectives": [
@@ -2736,10 +2917,10 @@ GAMES_DATA = {
         ],
         "release_date": "2015"
     },
-    "Hunie Pop 2": {
+    "huniepop2": {
         "igdb_id": "72472",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5x87.jpg",
-        "world_name": "Hunie Pop 2",
+        "game_name": "hunie pop 2",
         "igdb_name": "huniepop 2: double date",
         "rating": [],
         "player_perspectives": [
@@ -2773,10 +2954,10 @@ GAMES_DATA = {
         ],
         "release_date": "2021"
     },
-    "Hylics 2": {
+    "hylics2": {
         "igdb_id": "98469",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co290q.jpg",
-        "world_name": "Hylics 2",
+        "game_name": "hylics 2 is a surreal and unusual rpg, with a bizarre yet unique visual style. play as wayne,",
         "igdb_name": "hylics 2",
         "rating": [],
         "player_perspectives": [
@@ -2816,10 +2997,10 @@ GAMES_DATA = {
         ],
         "release_date": "2020"
     },
-    "Inscryption": {
+    "inscryption": {
         "igdb_id": "139090",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co401c.jpg",
-        "world_name": "Inscryption",
+        "game_name": "inscryption",
         "igdb_name": "inscryption",
         "rating": [
             "blood",
@@ -2855,10 +3036,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2021"
     },
-    "Jak and Daxter: The Precursor Legacy": {
+    "jakanddaxter": {
         "igdb_id": "1528",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1w7q.jpg",
-        "world_name": "Jak and Daxter: The Precursor Legacy",
+        "game_name": "jak and daxter: the precursor legacy",
         "igdb_name": "jak and daxter: the precursor legacy",
         "rating": [
             "fantasy violence",
@@ -2899,6 +3080,7 @@ GAMES_DATA = {
             "anthropomorphism",
             "world map",
             "voice acting",
+            "language selection",
             "polygonal 3d",
             "breaking the fourth wall",
             "cameo appearance",
@@ -2917,15 +3099,15 @@ GAMES_DATA = {
         ],
         "release_date": "2001"
     },
-    "Jigsaw": {
+    "jigsaw": {
         "igdb_id": "",
-        "world_name": "Jigsaw",
+        "cover_url": "",
+        "game_name": "make a jigsaw puzzle! but first you'll have to find your pieces.",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
         "genres": [
-            "multiplayer",
-            "puzzle"
+            "multiplayer"
         ],
         "themes": [],
         "platforms": [
@@ -2933,15 +3115,16 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "hints",
             "archipelago",
             "multiworld"
         ],
         "release_date": ""
     },
-    "Kirby 64 - The Crystal Shards": {
+    "k64": {
         "igdb_id": "2713",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1wcz.jpg",
-        "world_name": "Kirby 64 - The Crystal Shards",
+        "game_name": "kirby 64 - the crystal shards",
         "igdb_name": "kirby 64: the crystal shards",
         "rating": [],
         "player_perspectives": [
@@ -2983,10 +3166,10 @@ GAMES_DATA = {
         ],
         "release_date": "2000"
     },
-    "Kirby's Dream Land 3": {
+    "kdl3": {
         "igdb_id": "3720",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co25su.jpg",
-        "world_name": "Kirby's Dream Land 3",
+        "game_name": "kirby's dream land 3",
         "igdb_name": "kirby's dream land 3",
         "rating": [],
         "player_perspectives": [
@@ -3016,10 +3199,10 @@ GAMES_DATA = {
         ],
         "release_date": "1997"
     },
-    "Kingdom Hearts": {
+    "kh1": {
         "igdb_id": "1219",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co30zf.jpg",
-        "world_name": "Kingdom Hearts",
+        "game_name": "kingdom hearts",
         "igdb_name": "kingdom hearts",
         "rating": [
             "violence",
@@ -3082,10 +3265,10 @@ GAMES_DATA = {
         ],
         "release_date": "2002"
     },
-    "Kingdom Hearts 2": {
+    "kh2": {
         "igdb_id": "1221",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co30t1.jpg",
-        "world_name": "Kingdom Hearts 2",
+        "game_name": "kingdom hearts 2",
         "igdb_name": "kingdom hearts ii",
         "rating": [
             "mild blood",
@@ -3109,13 +3292,15 @@ GAMES_DATA = {
             "playstation 2"
         ],
         "storyline": "one year after the events of kingdom hearts: chain of memories, sora, donald and goofy awaken in twilight town. bent on the quest to find riku and king mickey mouse, the three begin their journey. however, they soon discover that while they have been asleep, the heartless are back. not only that, but new enemies also showed up during their absence. sora, donald and goofy set off on a quest to rid the world of the heartless once more, uncovering the many secrets that linger about ansem and the mysterious organization xiii.",
-        "keywords": [],
+        "keywords": [
+            "popular"
+        ],
         "release_date": "2005"
     },
-    "Link's Awakening DX": {
+    "ladx": {
         "igdb_id": "1027",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4o47.jpg",
-        "world_name": "Link's Awakening DX",
+        "game_name": "link's awakening dx beta",
         "igdb_name": "the legend of zelda: link's awakening dx",
         "rating": [],
         "player_perspectives": [
@@ -3123,7 +3308,7 @@ GAMES_DATA = {
             "side view"
         ],
         "genres": [
-            "role-playing (rpg)",
+            "puzzle",
             "adventure"
         ],
         "themes": [
@@ -3141,6 +3326,7 @@ GAMES_DATA = {
             "fishing",
             "death",
             "maze",
+            "chicken",
             "action-adventure",
             "fairy",
             "backtracking",
@@ -3168,14 +3354,17 @@ GAMES_DATA = {
             "fetch quests",
             "animal cruelty",
             "status effects",
-            "another world"
+            "another world",
+            "link",
+            "zelda",
+            "legend of zelda"
         ],
         "release_date": "1998"
     },
-    "Landstalker - The Treasures of King Nole": {
+    "landstalker": {
         "igdb_id": "15072",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2kb9.jpg",
-        "world_name": "Landstalker - The Treasures of King Nole",
+        "game_name": "landstalker - the treasures of king nole",
         "igdb_name": "landstalker",
         "rating": [
             "mild fantasy violence"
@@ -3207,10 +3396,10 @@ GAMES_DATA = {
         ],
         "release_date": "1992"
     },
-    "Lethal Company": {
+    "lethal_company": {
         "igdb_id": "212089",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5ive.jpg",
-        "world_name": "Lethal Company",
+        "game_name": "lethal company",
         "igdb_name": "lethal company",
         "rating": [],
         "player_perspectives": [
@@ -3238,10 +3427,10 @@ GAMES_DATA = {
         ],
         "release_date": "2023"
     },
-    "Lingo": {
+    "lingo": {
         "igdb_id": "189169",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5iy5.jpg",
-        "world_name": "Lingo",
+        "game_name": "lingo",
         "igdb_name": "lingo",
         "rating": [],
         "player_perspectives": [
@@ -3264,10 +3453,10 @@ GAMES_DATA = {
         ],
         "release_date": "2021"
     },
-    "Lufia II Ancient Cave": {
+    "lufia2ac": {
         "igdb_id": "1178",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co9mg3.jpg",
-        "world_name": "Lufia II Ancient Cave",
+        "game_name": "lufia ii: ancient cave",
         "igdb_name": "lufia ii: rise of the sinistrals",
         "rating": [
             "mild animated violence"
@@ -3292,10 +3481,10 @@ GAMES_DATA = {
         ],
         "release_date": "1995"
     },
-    "Luigi's Mansion": {
+    "luigismansion": {
         "igdb_id": "2485",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1wr1.jpg",
-        "world_name": "Luigi's Mansion",
+        "game_name": "luigi's mansion",
         "igdb_name": "luigi's mansion",
         "rating": [],
         "player_perspectives": [
@@ -3328,10 +3517,10 @@ GAMES_DATA = {
         ],
         "release_date": "2001"
     },
-    "Super Mario Land 2": {
+    "marioland2": {
         "igdb_id": "1071",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7gxg.jpg",
-        "world_name": "Super Mario Land 2",
+        "game_name": "super mario land 2",
         "igdb_name": "super mario land 2: 6 golden coins",
         "rating": [],
         "player_perspectives": [
@@ -3356,10 +3545,41 @@ GAMES_DATA = {
         ],
         "release_date": "1992"
     },
-    "Hatsune Miku Project Diva Mega Mix+": {
+    "mario_kart_double_dash": {
+        "igdb_id": "2344",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7ndu.jpg",
+        "game_name": "mario kart double dash",
+        "igdb_name": "mario kart: double dash!!",
+        "rating": [
+            "mild cartoon violence"
+        ],
+        "player_perspectives": [
+            "third person"
+        ],
+        "genres": [
+            "racing",
+            "arcade"
+        ],
+        "themes": [
+            "action",
+            "kids"
+        ],
+        "platforms": [
+            "nintendo gamecube"
+        ],
+        "storyline": "",
+        "keywords": [
+            "go-kart",
+            "yoshi",
+            "mario",
+            "princess peach"
+        ],
+        "release_date": "2003"
+    },
+    "megamix": {
         "igdb_id": "120278",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co991n.jpg",
-        "world_name": "Hatsune Miku Project Diva Mega Mix+",
+        "game_name": "hatsune miku project diva mega mix+",
         "igdb_name": "hatsune miku: project diva mega mix",
         "rating": [
             "blood",
@@ -3382,10 +3602,30 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2020"
     },
-    "The Messenger": {
+    "meritous": {
+        "igdb_id": "78479",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/zkameytcg0na8alfswsp.jpg",
+        "game_name": "meritous gaiden is a procedurally generated bullet-hell dungeon crawl game.",
+        "igdb_name": "meritous",
+        "rating": [],
+        "player_perspectives": [
+            "bird view / isometric"
+        ],
+        "genres": [
+            "role-playing (rpg)"
+        ],
+        "themes": [],
+        "platforms": [
+            "pc (microsoft windows)"
+        ],
+        "storyline": "",
+        "keywords": [],
+        "release_date": "2008"
+    },
+    "messenger": {
         "igdb_id": "71628",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2hr9.jpg",
-        "world_name": "The Messenger",
+        "game_name": "the messenger",
         "igdb_name": "the messenger",
         "rating": [
             "fantasy violence",
@@ -3418,15 +3658,14 @@ GAMES_DATA = {
             "ninja",
             "2d",
             "metroidvania",
-            "difficult",
-            "pixel graphics"
+            "difficult"
         ],
         "release_date": "2018"
     },
-    "Metroid Prime": {
+    "metroidprime": {
         "igdb_id": "1105",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3w4w.jpg",
-        "world_name": "Metroid Prime",
+        "game_name": "metroid prime",
         "igdb_name": "metroid prime",
         "rating": [
             "violence"
@@ -3497,14 +3736,15 @@ GAMES_DATA = {
             "ancient advanced civilization technology",
             "ambient music",
             "creature compendium",
+            "foreshadowing",
             "isolation"
         ],
         "release_date": "2002"
     },
-    "Minecraft": {
+    "minecraft": {
         "igdb_id": "121",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8fu6.jpg",
-        "world_name": "Minecraft",
+        "game_name": "minecraft",
         "igdb_name": "minecraft: java edition",
         "rating": [
             "fantasy violence"
@@ -3533,12 +3773,14 @@ GAMES_DATA = {
         "storyline": "minecraft: java edition (previously known as minecraft) is the original version of minecraft, developed by mojang studios for windows, macos, and linux. notch began development on may 10, 2009, publicly releasing minecraft on may 17, 2009. the full release of the game was on november 18, 2011, at minecon 2011.",
         "keywords": [
             "monsters",
+            "animals",
             "construction",
             "fishing",
             "crafting",
             "death",
             "procedural generation",
             "horse",
+            "chicken",
             "action-adventure",
             "achievements",
             "traps",
@@ -3552,10 +3794,10 @@ GAMES_DATA = {
             "digital distribution",
             "spider",
             "cat",
+            "language selection",
             "polygonal 3d",
             "bow and arrow",
             "deliberately retro",
-            "humble bundle",
             "falling damage",
             "stereoscopic 3d",
             "potion",
@@ -3571,10 +3813,10 @@ GAMES_DATA = {
         ],
         "release_date": "2011"
     },
-    "Mario Kart 64": {
+    "mk64": {
         "igdb_id": "2342",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co67hm.jpg",
-        "world_name": "Mario Kart 64",
+        "game_name": "mario kart 64",
         "igdb_name": "mario kart 64",
         "rating": [],
         "player_perspectives": [
@@ -3596,6 +3838,7 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "go-kart",
             "crossover",
             "princess",
             "artificial intelligence",
@@ -3604,6 +3847,7 @@ GAMES_DATA = {
             "bats",
             "turtle",
             "explosion",
+            "death match",
             "anthropomorphism",
             "monkey",
             "polygonal 3d",
@@ -3618,10 +3862,10 @@ GAMES_DATA = {
         ],
         "release_date": "1996"
     },
-    "Mario & Luigi Superstar Saga": {
+    "mlss": {
         "igdb_id": "3351",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co21rg.jpg",
-        "world_name": "Mario & Luigi Superstar Saga",
+        "game_name": "mario & luigi superstar saga",
         "igdb_name": "mario & luigi: superstar saga",
         "rating": [],
         "player_perspectives": [
@@ -3671,10 +3915,10 @@ GAMES_DATA = {
         ],
         "release_date": "2003"
     },
-    "Mega Man 2": {
+    "mm2": {
         "igdb_id": "1734",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5572.jpg",
-        "world_name": "Mega Man 2",
+        "game_name": "mega man 2",
         "igdb_name": "mega man ii",
         "rating": [],
         "player_perspectives": [
@@ -3717,10 +3961,10 @@ GAMES_DATA = {
         ],
         "release_date": "1991"
     },
-    "MegaMan Battle Network 3": {
+    "mmbn3": {
         "igdb_id": "1758",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co203k.jpg",
-        "world_name": "MegaMan Battle Network 3",
+        "game_name": "megaman battle network 3",
         "igdb_name": "mega man battle network 3 blue",
         "rating": [
             "mild violence"
@@ -3743,10 +3987,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2002"
     },
-    "Majora's Mask Recompiled": {
+    "mm_recomp": {
         "igdb_id": "1030",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3pah.jpg",
-        "world_name": "Majora's Mask Recompiled",
+        "game_name": "majora's mask recompiled",
         "igdb_name": "the legend of zelda: majora's mask",
         "rating": [
             "animated violence",
@@ -3756,6 +4000,7 @@ GAMES_DATA = {
             "third person"
         ],
         "genres": [
+            "puzzle",
             "adventure"
         ],
         "themes": [
@@ -3793,10 +4038,10 @@ GAMES_DATA = {
         ],
         "release_date": "2000"
     },
-    "Momodora Moonlit Farewell": {
+    "momodoramoonlitfarewell": {
         "igdb_id": "188088",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7mxs.jpg",
-        "world_name": "Momodora Moonlit Farewell",
+        "game_name": "momodora moonlit farewell",
         "igdb_name": "momodora: moonlit farewell",
         "rating": [
             "fantasy violence",
@@ -3822,15 +4067,14 @@ GAMES_DATA = {
         ],
         "storyline": "momodora: moonlit farewell presents the account of the greatest calamity to befall the village of koho, five years after the events of momodora iii. once the toll of an ominous bell is heard, the village is soon threatened by a demon invasion.\n\nthe village's matriarch sends momo reinol, their most capable priestess, to investigate the bell and find the bellringer responsible for summoning demons. it is their hope that by finding the culprit, they will also be able to secure the village's safety, and most importantly, the sacred lun tree's, a source of life and healing for koho...",
         "keywords": [
-            "metroidvania",
-            "pixel graphics"
+            "metroidvania"
         ],
         "release_date": "2024"
     },
-    "Monster Sanctuary": {
+    "monster_sanctuary": {
         "igdb_id": "89594",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1q3q.jpg",
-        "world_name": "Monster Sanctuary",
+        "game_name": "monster sanctuary",
         "igdb_name": "monster sanctuary",
         "rating": [
             "fantasy violence",
@@ -3866,10 +4110,10 @@ GAMES_DATA = {
         ],
         "release_date": "2020"
     },
-    "Muse Dash": {
+    "musedash": {
         "igdb_id": "86316",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6h43.jpg",
-        "world_name": "Muse Dash",
+        "game_name": "muse dash",
         "igdb_name": "muse dash",
         "rating": [
             "sexual themes",
@@ -3910,10 +4154,10 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "Metroid Zero Mission": {
+    "mzm": {
         "igdb_id": "1107",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1vci.jpg",
-        "world_name": "Metroid Zero Mission",
+        "game_name": "metroid: zero mission is a retelling of the first metroid on nes. relive samus' first adventure on planet zebes with",
         "igdb_name": "metroid: zero mission",
         "rating": [
             "fantasy violence"
@@ -3960,15 +4204,16 @@ GAMES_DATA = {
             "sequence breaking",
             "completion percentage",
             "ambient music",
+            "foreshadowing",
             "isolation",
             "interconnected-world"
         ],
         "release_date": "2004"
     },
-    "Noita": {
+    "noita": {
         "igdb_id": "52006",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1qp1.jpg",
-        "world_name": "Noita",
+        "game_name": "noita",
         "igdb_name": "noita",
         "rating": [],
         "player_perspectives": [
@@ -3993,15 +4238,14 @@ GAMES_DATA = {
         "storyline": "",
         "keywords": [
             "magic",
-            "pixel graphics",
             "roguelite"
         ],
         "release_date": "2020"
     },
-    "Ocarina of Time": {
+    "oot": {
         "igdb_id": "1029",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3nnx.jpg",
-        "world_name": "Ocarina of Time",
+        "game_name": "ocarina of time",
         "igdb_name": "the legend of zelda: ocarina of time",
         "rating": [
             "violence"
@@ -4010,7 +4254,7 @@ GAMES_DATA = {
             "third person"
         ],
         "genres": [
-            "role-playing (rpg)",
+            "puzzle",
             "adventure"
         ],
         "themes": [
@@ -4033,6 +4277,7 @@ GAMES_DATA = {
             "death",
             "horse",
             "archery",
+            "chicken",
             "time manipulation",
             "action-adventure",
             "religion",
@@ -4048,6 +4293,7 @@ GAMES_DATA = {
             "day/night cycle",
             "sword & sorcery",
             "block puzzle",
+            "digital distribution",
             "countdown timer",
             "world map",
             "polygonal 3d",
@@ -4060,10 +4306,12 @@ GAMES_DATA = {
             "sprinting mechanics",
             "ice stage",
             "falling damage",
+            "character growth",
             "side quests",
             "auto-aim",
             "real-time combat",
             "underwater gameplay",
+            "a.i. companion",
             "walking through walls",
             "mercenary",
             "coming of age",
@@ -4083,16 +4331,18 @@ GAMES_DATA = {
             "context sensitive",
             "living inventory",
             "damage over time",
-            "color cartridges",
             "retroachievements",
-            "popular"
+            "popular",
+            "link",
+            "zelda",
+            "legend of zelda"
         ],
         "release_date": "1998"
     },
-    "OpenRCT2": {
+    "openrct2": {
         "igdb_id": "80720",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1ngq.jpg",
-        "world_name": "OpenRCT2",
+        "game_name": "openrct2",
         "igdb_name": "openrct2",
         "rating": [],
         "player_perspectives": [
@@ -4123,10 +4373,10 @@ GAMES_DATA = {
         ],
         "release_date": "2014"
     },
-    "Ori and the Blind Forest": {
+    "oribf": {
         "igdb_id": "7344",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1y41.jpg",
-        "world_name": "Ori and the Blind Forest",
+        "game_name": "ori and the blind forest",
         "igdb_name": "ori and the blind forest",
         "rating": [
             "mild fantasy violence"
@@ -4152,6 +4402,7 @@ GAMES_DATA = {
         "storyline": "ori, the protagonist of the game, falls from the spirit tree and is adopted by naru, who raises ori as her own. when a disastrous event occurs causing the forest to wither and naru to die, ori is left to explore the forest. ori eventually encounters sein, who begins to guide ori on an adventure to restore the forest through the recovery of the light of three main elements supporting the balance of the forest: waters, winds and warmth.",
         "keywords": [
             "metroidvania",
+            "forest",
             "achievements",
             "wall jump",
             "digital distribution",
@@ -4162,10 +4413,10 @@ GAMES_DATA = {
         ],
         "release_date": "2015"
     },
-    "Old School Runescape": {
+    "osrs": {
         "igdb_id": "79824",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1mo1.jpg",
-        "world_name": "Old School Runescape",
+        "game_name": "old school runescape",
         "igdb_name": "old school runescape",
         "rating": [],
         "player_perspectives": [
@@ -4193,10 +4444,10 @@ GAMES_DATA = {
         ],
         "release_date": "2013"
     },
-    "osu!": {
+    "osu": {
         "igdb_id": "3012",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8a4m.jpg",
-        "world_name": "osu!",
+        "game_name": "osu! is a free to play rhythm game featuring 4 modes, an online ranking system/statistics,",
         "igdb_name": "osu!",
         "rating": [],
         "player_perspectives": [
@@ -4225,10 +4476,10 @@ GAMES_DATA = {
         ],
         "release_date": "2007"
     },
-    "Outer Wilds": {
+    "outer_wilds": {
         "igdb_id": "11737",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co65ac.jpg",
-        "world_name": "Outer Wilds",
+        "game_name": "outer wilds",
         "igdb_name": "outer wilds",
         "rating": [
             "fantasy violence",
@@ -4264,10 +4515,10 @@ GAMES_DATA = {
         ],
         "release_date": "2019"
     },
-    "Overcooked! 2": {
+    "overcooked2": {
         "igdb_id": "103341",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1usu.jpg",
-        "world_name": "Overcooked! 2",
+        "game_name": "overcooked! 2",
         "igdb_name": "overcooked! 2",
         "rating": [],
         "player_perspectives": [
@@ -4300,15 +4551,15 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "Paint": {
+    "paint": {
         "igdb_id": "",
-        "world_name": "Paint",
+        "cover_url": "",
+        "game_name": "paint",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
         "genres": [
-            "multiplayer",
-            "puzzle"
+            "multiplayer"
         ],
         "themes": [],
         "platforms": [
@@ -4316,15 +4567,16 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "hints",
             "archipelago",
             "multiworld"
         ],
         "release_date": ""
     },
-    "Paper Mario": {
+    "papermario": {
         "igdb_id": "3340",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1qda.jpg",
-        "world_name": "Paper Mario",
+        "game_name": "paper mario",
         "igdb_name": "paper mario",
         "rating": [
             "comic mischief"
@@ -4388,10 +4640,10 @@ GAMES_DATA = {
         ],
         "release_date": "2000"
     },
-    "Peaks of Yore": {
+    "peaks_of_yore": {
         "igdb_id": "238690",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8zzc.jpg",
-        "world_name": "Peaks of Yore",
+        "game_name": "peaks of yore",
         "igdb_name": "peaks of yore",
         "rating": [],
         "player_perspectives": [],
@@ -4410,10 +4662,46 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2023"
     },
-    "Pokemon Mystery Dungeon Explorers of Sky": {
+    "placidplasticducksim": {
+        "igdb_id": "204122",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4yq5.jpg",
+        "game_name": "placid plastic duck simulator",
+        "igdb_name": "placid plastic duck simulator",
+        "rating": [],
+        "player_perspectives": [
+            "third person",
+            "bird view / isometric"
+        ],
+        "genres": [
+            "music",
+            "puzzle",
+            "simulator"
+        ],
+        "themes": [
+            "comedy",
+            "sandbox",
+            "kids",
+            "party"
+        ],
+        "platforms": [
+            "xbox series x|s",
+            "playstation 4",
+            "pc (microsoft windows)",
+            "playstation 5",
+            "xbox one",
+            "nintendo switch"
+        ],
+        "storyline": "",
+        "keywords": [
+            "casual",
+            "pop culture reference"
+        ],
+        "release_date": "2022"
+    },
+    "pmd_eos": {
         "igdb_id": "2323",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7ovf.jpg",
-        "world_name": "Pokemon Mystery Dungeon Explorers of Sky",
+        "game_name": "pokemon mystery dungeon explorers of sky",
         "igdb_name": "pok\u00e9mon mystery dungeon: explorers of sky",
         "rating": [
             "mild cartoon violence"
@@ -4441,10 +4729,10 @@ GAMES_DATA = {
         ],
         "release_date": "2009"
     },
-    "Pokemon Crystal": {
+    "pokemon_crystal": {
         "igdb_id": "1514",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5pil.jpg",
-        "world_name": "Pokemon Crystal",
+        "game_name": "pokemon crystal",
         "igdb_name": "pok\u00e9mon crystal version",
         "rating": [],
         "player_perspectives": [
@@ -4481,6 +4769,7 @@ GAMES_DATA = {
             "shopping",
             "party system",
             "sprinting mechanics",
+            "character growth",
             "side quests",
             "pick your gender",
             "potion",
@@ -4496,15 +4785,14 @@ GAMES_DATA = {
             "fire manipulation",
             "battle screen",
             "status effects",
-            "damage over time",
-            "color cartridges"
+            "damage over time"
         ],
         "release_date": "2000"
     },
-    "Pokemon Emerald": {
+    "pokemon_emerald": {
         "igdb_id": "1517",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1zhr.jpg",
-        "world_name": "Pokemon Emerald",
+        "game_name": "pokemon emerald",
         "igdb_name": "pok\u00e9mon emerald version",
         "rating": [],
         "player_perspectives": [
@@ -4558,14 +4846,14 @@ GAMES_DATA = {
             "creature compendium",
             "status effects",
             "damage over time",
-            "color cartridges"
+            "popular"
         ],
         "release_date": "2004"
     },
-    "Pokemon FireRed and LeafGreen": {
+    "pokemon_frlg": {
         "igdb_id": "1516",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1zip.jpg",
-        "world_name": "Pokemon FireRed and LeafGreen",
+        "game_name": "pokemon firered and leafgreen",
         "igdb_name": "pok\u00e9mon leafgreen version",
         "rating": [],
         "player_perspectives": [
@@ -4589,15 +4877,14 @@ GAMES_DATA = {
         "storyline": "",
         "keywords": [
             "monsters",
-            "collecting",
-            "popular"
+            "collecting"
         ],
         "release_date": "2004"
     },
-    "Pokemon Red and Blue": {
+    "pokemon_rb": {
         "igdb_id": "1561",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5pi4.jpg",
-        "world_name": "Pokemon Red and Blue",
+        "game_name": "pokemon red and blue",
         "igdb_name": "pok\u00e9mon red version",
         "rating": [],
         "player_perspectives": [
@@ -4625,10 +4912,46 @@ GAMES_DATA = {
         ],
         "release_date": "1996"
     },
-    "Pseudoregalia": {
+    "powerwashsimulator": {
+        "igdb_id": "138590",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7gek.jpg",
+        "game_name": "powerwash simulator",
+        "igdb_name": "powerwash simulator",
+        "rating": [],
+        "player_perspectives": [
+            "first person"
+        ],
+        "genres": [
+            "simulator",
+            "indie"
+        ],
+        "themes": [
+            "business",
+            "sandbox"
+        ],
+        "platforms": [
+            "xbox series x|s",
+            "playstation 4",
+            "pc (microsoft windows)",
+            "playstation 5",
+            "xbox one",
+            "nintendo switch"
+        ],
+        "storyline": "you're looking to start a business \u2013 but what? you decide power washing is super satisfying and you'd like to turn it into a full time gig. you put your good friend harper shaw, a bargain hunter and auction lot buyer up to the task of finding you the perfect vehicle for your new enterprise.\n\nthrough completing various jobs, you get to know the citizens of muckingham, the small town in which the game is set, helping wash away their various problems. figuratively... and literally!\n\nthe first client you are introduced to is cal, harper shaw's new disgruntled neighbour. they are a volcanologist, who\u2019s moved back into town to study mount rushless, the local volcano, and to help look after his ageing parents. he's so worked up as he bought a house without even looking at a picture of the back garden. he thinks the previous owners might have even owned rhinos it's that dirty...",
+        "keywords": [
+            "3d",
+            "funny",
+            "atmospheric",
+            "relaxing",
+            "story rich",
+            "family friendly"
+        ],
+        "release_date": "2022"
+    },
+    "pseudoregalia": {
         "igdb_id": "259465",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6vcy.jpg",
-        "world_name": "Pseudoregalia",
+        "game_name": "pseudoregalia",
         "igdb_name": "pseudoregalia: jam ver.",
         "rating": [],
         "player_perspectives": [
@@ -4652,10 +4975,10 @@ GAMES_DATA = {
         ],
         "release_date": "2023"
     },
-    "Ratchet & Clank 2": {
+    "rac2": {
         "igdb_id": "1770",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co230n.jpg",
-        "world_name": "Ratchet & Clank 2",
+        "game_name": "ratchet & clank 2",
         "igdb_name": "ratchet & clank: going commando",
         "rating": [
             "animated blood",
@@ -4683,10 +5006,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2003"
     },
-    "Raft": {
+    "raft": {
         "igdb_id": "27082",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1xdc.jpg",
-        "world_name": "Raft",
+        "game_name": "raft",
         "igdb_name": "raft",
         "rating": [
             "violence",
@@ -4717,10 +5040,10 @@ GAMES_DATA = {
         ],
         "release_date": "2022"
     },
-    "Resident Evil 2 Remake": {
+    "residentevil2remake": {
         "igdb_id": "19686",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1ir3.jpg",
-        "world_name": "Resident Evil 2 Remake",
+        "game_name": "resident evil 2 remake",
         "igdb_name": "resident evil 2",
         "rating": [
             "strong language",
@@ -4756,10 +5079,10 @@ GAMES_DATA = {
         ],
         "release_date": "2019"
     },
-    "Resident Evil 3 Remake": {
+    "residentevil3remake": {
         "igdb_id": "115115",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co22l7.jpg",
-        "world_name": "Resident Evil 3 Remake",
+        "game_name": "resident evil 3 remake",
         "igdb_name": "resident evil 3",
         "rating": [
             "intense violence",
@@ -4793,10 +5116,41 @@ GAMES_DATA = {
         ],
         "release_date": "2020"
     },
-    "Rogue Legacy": {
+    "rimworld": {
+        "igdb_id": "9789",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1j6x.jpg",
+        "game_name": "rimworld",
+        "igdb_name": "rimworld",
+        "rating": [],
+        "player_perspectives": [
+            "bird view / isometric"
+        ],
+        "genres": [
+            "real time strategy (rts)",
+            "simulator",
+            "strategy",
+            "indie"
+        ],
+        "themes": [
+            "science fiction",
+            "survival"
+        ],
+        "platforms": [
+            "linux",
+            "pc (microsoft windows)",
+            "mac"
+        ],
+        "storyline": "rimworld follows three survivors from a crashed space liner as they build a colony on a frontier world at the rim of known space. inspired by the space western vibe of firefly, the deep simulation of dwarf fortress, and the epic scale of dune and warhammer 40,000.\n\nmanage colonists' moods, needs, thoughts, individual wounds, and illnesses. engage in deeply-simulated small-team gunplay. fashion structures, weapons, and apparel from metal, wood, stone, cloth, or exotic, futuristic materials. fight pirate raiders, hostile tribes, rampaging animals and ancient killing machines. discover a new generated world each time you play. build colonies in biomes ranging from desert to jungle to tundra, each with unique flora and fauna. manage and develop colonists with unique backstories, traits, and skills. learn to play easily with the help of an intelligent and unobtrusive ai tutor.",
+        "keywords": [
+            "management",
+            "base building"
+        ],
+        "release_date": "2018"
+    },
+    "rogue_legacy": {
         "igdb_id": "3221",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co27fi.jpg",
-        "world_name": "Rogue Legacy",
+        "game_name": "rogue legacy",
         "igdb_name": "rogue legacy",
         "rating": [
             "fantasy violence",
@@ -4853,7 +5207,6 @@ GAMES_DATA = {
             "traps",
             "pixel art",
             "wolf",
-            "pixel graphics",
             "easter egg",
             "teleportation",
             "darkness",
@@ -4862,6 +5215,7 @@ GAMES_DATA = {
             "countdown timer",
             "bow and arrow",
             "breaking the fourth wall",
+            "pop culture reference",
             "game reference",
             "descendants of other characters",
             "royalty",
@@ -4879,10 +5233,10 @@ GAMES_DATA = {
         ],
         "release_date": "2013"
     },
-    "Risk of Rain": {
+    "ror1": {
         "igdb_id": "3173",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2k2z.jpg",
-        "world_name": "Risk of Rain",
+        "game_name": "risk of rain",
         "igdb_name": "risk of rain",
         "rating": [
             "alcohol reference",
@@ -4930,10 +5284,10 @@ GAMES_DATA = {
         ],
         "release_date": "2013"
     },
-    "Risk of Rain 2": {
+    "ror2": {
         "igdb_id": "28512",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2eu7.jpg",
-        "world_name": "Risk of Rain 2",
+        "game_name": "risk of rain 2",
         "igdb_name": "risk of rain 2",
         "rating": [
             "blood",
@@ -4968,10 +5322,10 @@ GAMES_DATA = {
         ],
         "release_date": "2019"
     },
-    "Sonic Adventure 2 Battle": {
+    "sa2b": {
         "igdb_id": "192194",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5p3o.jpg",
-        "world_name": "Sonic Adventure 2 Battle",
+        "game_name": "sonic adventure 2 battle",
         "igdb_name": "sonic adventure 2: battle",
         "rating": [
             "mild lyrics",
@@ -4996,10 +5350,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2012"
     },
-    "Sonic Adventure DX": {
+    "sadx": {
         "igdb_id": "192114",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4iln.jpg",
-        "world_name": "Sonic Adventure DX",
+        "game_name": "sonic adventure dx",
         "igdb_name": "sonic adventure: sonic adventure dx upgrade",
         "rating": [
             "animated violence"
@@ -5022,10 +5376,64 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2010"
     },
-    "Starcraft 2": {
+    "satisfactory": {
+        "igdb_id": "90558",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8tfy.jpg",
+        "game_name": "satisfactory",
+        "igdb_name": "satisfactory",
+        "rating": [],
+        "player_perspectives": [
+            "first person"
+        ],
+        "genres": [
+            "simulator",
+            "strategy",
+            "adventure",
+            "indie"
+        ],
+        "themes": [
+            "science fiction",
+            "sandbox",
+            "open world"
+        ],
+        "platforms": [
+            "xbox series x|s",
+            "pc (microsoft windows)",
+            "playstation 5"
+        ],
+        "storyline": "",
+        "keywords": [
+            "crafting",
+            "base building"
+        ],
+        "release_date": "2024"
+    },
+    "saving_princess": {
+        "igdb_id": "",
+        "cover_url": "",
+        "game_name": "saving princess",
+        "igdb_name": "",
+        "rating": "",
+        "player_perspectives": [],
+        "genres": [
+            "multiplayer"
+        ],
+        "themes": [],
+        "platforms": [
+            "archipelago"
+        ],
+        "storyline": "",
+        "keywords": [
+            "hints",
+            "archipelago",
+            "multiworld"
+        ],
+        "release_date": ""
+    },
+    "sc2": {
         "igdb_id": "239",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1tnn.jpg",
-        "world_name": "Starcraft 2",
+        "game_name": "starcraft 2",
         "igdb_name": "starcraft ii: wings of liberty",
         "rating": [
             "blood and gore",
@@ -5056,14 +5464,15 @@ GAMES_DATA = {
             "space",
             "human",
             "side quests",
-            "mercenary"
+            "mercenary",
+            "popular"
         ],
         "release_date": "2010"
     },
-    "Sea of Thieves": {
+    "seaofthieves": {
         "igdb_id": "11137",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2558.jpg",
-        "world_name": "Sea of Thieves",
+        "game_name": "sea of thieves",
         "igdb_name": "sea of thieves",
         "rating": [
             "crude humor",
@@ -5097,15 +5506,14 @@ GAMES_DATA = {
             "action-adventure",
             "digital distribution",
             "skeletons",
-            "the game awards 2017",
             "you can pet the dog"
         ],
         "release_date": "2018"
     },
-    "Not an idle game": {
+    "shapez": {
         "igdb_id": "134826",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4tfx.jpg",
-        "world_name": "Not an idle game",
+        "game_name": "shapez",
         "igdb_name": "shapez",
         "rating": [],
         "player_perspectives": [
@@ -5128,13 +5536,15 @@ GAMES_DATA = {
             "mac"
         ],
         "storyline": "",
-        "keywords": [],
+        "keywords": [
+            "base building"
+        ],
         "release_date": "2020"
     },
-    "Shivers": {
+    "shivers": {
         "igdb_id": "12477",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7a5z.jpg",
-        "world_name": "Shivers",
+        "game_name": "shivers",
         "igdb_name": "shivers",
         "rating": [
             "realistic blood and gore",
@@ -5159,10 +5569,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "1995"
     },
-    "A Short Hike": {
+    "shorthike": {
         "igdb_id": "116753",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co6e83.jpg",
-        "world_name": "A Short Hike",
+        "game_name": "a short hike",
         "igdb_name": "a short hike",
         "rating": [],
         "player_perspectives": [
@@ -5194,17 +5604,17 @@ GAMES_DATA = {
             "bird",
             "cute",
             "funny",
-            "pixel graphics",
             "relaxing",
             "3d platformer",
+            "family friendly",
             "great soundtrack"
         ],
         "release_date": "2019"
     },
-    "The Sims 4": {
+    "sims4": {
         "igdb_id": "3212",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3h3l.jpg",
-        "world_name": "The Sims 4",
+        "game_name": "the sims 4",
         "igdb_name": "the sims 4",
         "rating": [
             "sexual themes",
@@ -5240,15 +5650,16 @@ GAMES_DATA = {
             "cute",
             "funny",
             "relaxing",
+            "family friendly",
             "lgbtq+",
             "you can pet the dog"
         ],
         "release_date": "2014"
     },
-    "Sly Cooper and the Thievius Raccoonus": {
+    "sly1": {
         "igdb_id": "1798",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1p0r.jpg",
-        "world_name": "Sly Cooper and the Thievius Raccoonus",
+        "game_name": "sly cooper and the thievius raccoonus",
         "igdb_name": "sly cooper and the thievius raccoonus",
         "rating": [
             "mild violence"
@@ -5282,6 +5693,7 @@ GAMES_DATA = {
             "spider",
             "voice acting",
             "crocodile",
+            "language selection",
             "polygonal 3d",
             "skeletons",
             "descendants of other characters",
@@ -5297,10 +5709,10 @@ GAMES_DATA = {
         ],
         "release_date": "2002"
     },
-    "Super Metroid": {
+    "sm": {
         "igdb_id": "1103",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5osy.jpg",
-        "world_name": "Super Metroid",
+        "game_name": "super metroid",
         "igdb_name": "super metroid",
         "rating": [
             "mild violence"
@@ -5356,69 +5768,10 @@ GAMES_DATA = {
         ],
         "release_date": "1994"
     },
-    "Super Metroid Map Rando": {
-        "igdb_id": "1103",
-        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5osy.jpg",
-        "world_name": "Super Metroid Map Rando",
-        "igdb_name": "super metroid",
-        "rating": [
-            "mild violence"
-        ],
-        "player_perspectives": [
-            "side view"
-        ],
-        "genres": [
-            "shooter",
-            "platform",
-            "adventure"
-        ],
-        "themes": [
-            "action",
-            "science fiction",
-            "thriller"
-        ],
-        "platforms": [
-            "super nintendo entertainment system",
-            "wii",
-            "wii u",
-            "new nintendo 3ds",
-            "super famicom"
-        ],
-        "storyline": "after samus completed her mission and eradicated the entire metroid population on sr388 as commanded by the galactic federation (sans the metroid hatchling, which she nicknamed \"baby\"), she brought the hatchling to the ceres space colony for research. however, shortly after she left, she received a distress signal from the station and returned to investigate.\n\nwhen samus arrives at the space science academy where the baby was being studied, she finds all the scientists slaughtered and the containment unit that held the baby missing. upon further exploration of the station, she finds the baby in a small capsule. as she approaches, ridley appears and grabs the capsule. after a brief battle, samus repels ridley, and he activates a self-destruct sequence to destroy ceres.\n\nafter escaping the explosion, ridley flees to zebes, and samus goes after him.",
-        "keywords": [
-            "aliens",
-            "exploration",
-            "2d",
-            "16-bit",
-            "metroidvania",
-            "time manipulation",
-            "female protagonist",
-            "action-adventure",
-            "side-scrolling",
-            "time limit",
-            "pixel art",
-            "wall jump",
-            "darkness",
-            "explosion",
-            "countdown timer",
-            "nintendo power",
-            "damsel in distress",
-            "save point",
-            "unstable platforms",
-            "real-time combat",
-            "secret area",
-            "liberation",
-            "mercenary",
-            "sequence breaking",
-            "isolation",
-            "interconnected-world"
-        ],
-        "release_date": "1994"
-    },
-    "Super Mario 64": {
+    "sm64ex": {
         "igdb_id": "1074",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co721v.jpg",
-        "world_name": "Super Mario 64",
+        "game_name": "super mario 64",
         "igdb_name": "super mario 64",
         "rating": [],
         "player_perspectives": [
@@ -5444,6 +5797,7 @@ GAMES_DATA = {
             "3d platformer",
             "swimming",
             "snowman",
+            "digital distribution",
             "super-ness",
             "sprinting mechanics",
             "real-time combat",
@@ -5458,10 +5812,10 @@ GAMES_DATA = {
         ],
         "release_date": "1996"
     },
-    "SM64 Romhack": {
+    "sm64hacks": {
         "igdb_id": "1074",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co721v.jpg",
-        "world_name": "SM64 Romhack",
+        "game_name": "sm64 romhack",
         "igdb_name": "super mario 64",
         "rating": [],
         "player_perspectives": [
@@ -5487,6 +5841,7 @@ GAMES_DATA = {
             "3d platformer",
             "swimming",
             "snowman",
+            "digital distribution",
             "super-ness",
             "sprinting mechanics",
             "real-time combat",
@@ -5500,10 +5855,10 @@ GAMES_DATA = {
         ],
         "release_date": "1996"
     },
-    "Super Mario Odyssey": {
+    "smo": {
         "igdb_id": "26758",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1mxf.jpg",
-        "world_name": "Super Mario Odyssey",
+        "game_name": "super mario odyssey",
         "igdb_name": "super mario odyssey",
         "rating": [
             "cartoon violence",
@@ -5543,15 +5898,14 @@ GAMES_DATA = {
             "underwater gameplay",
             "wiggler",
             "behind the waterfall",
-            "entering world in a painting",
-            "the game awards 2017"
+            "entering world in a painting"
         ],
         "release_date": "2017"
     },
-    "Super Mario Sunshine": {
+    "sms": {
         "igdb_id": "1075",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co21rh.jpg",
-        "world_name": "Super Mario Sunshine",
+        "game_name": "super mario sunshine",
         "igdb_name": "super mario sunshine",
         "rating": [
             "comic mischief"
@@ -5582,6 +5936,7 @@ GAMES_DATA = {
             "sequel",
             "giant insects",
             "wall jump",
+            "yoshi",
             "3d platformer",
             "climbing",
             "swimming",
@@ -5613,15 +5968,16 @@ GAMES_DATA = {
             "kidnapping",
             "italian accent",
             "wiggler",
+            "foreshadowing",
             "collection marathon",
             "princess peach"
         ],
         "release_date": "2002"
     },
-    "Super Mario World": {
+    "smw": {
         "igdb_id": "1070",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8lo8.jpg",
-        "world_name": "Super Mario World",
+        "game_name": "super mario world",
         "igdb_name": "super mario world",
         "rating": [],
         "player_perspectives": [
@@ -5647,19 +6003,19 @@ GAMES_DATA = {
         "keywords": [
             "dinosaurs",
             "princess",
+            "yoshi",
             "mario",
             "digital distribution",
             "bonus stage",
             "damsel in distress",
-            "retroachievements",
-            "popular"
+            "retroachievements"
         ],
         "release_date": "1990"
     },
-    "SMZ3": {
+    "smz3": {
         "igdb_id": "210231",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5zep.jpg",
-        "world_name": "SMZ3",
+        "game_name": "smz3",
         "igdb_name": "super metroid and a link to the past crossover randomizer",
         "rating": [],
         "player_perspectives": [
@@ -5681,10 +6037,69 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2018"
     },
-    "Secret of Evermore": {
+    "sm_map_rando": {
+        "igdb_id": "1103",
+        "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5osy.jpg",
+        "game_name": "super metroid map rando",
+        "igdb_name": "super metroid",
+        "rating": [
+            "mild violence"
+        ],
+        "player_perspectives": [
+            "side view"
+        ],
+        "genres": [
+            "shooter",
+            "platform",
+            "adventure"
+        ],
+        "themes": [
+            "action",
+            "science fiction",
+            "thriller"
+        ],
+        "platforms": [
+            "super nintendo entertainment system",
+            "wii",
+            "wii u",
+            "new nintendo 3ds",
+            "super famicom"
+        ],
+        "storyline": "after samus completed her mission and eradicated the entire metroid population on sr388 as commanded by the galactic federation (sans the metroid hatchling, which she nicknamed \"baby\"), she brought the hatchling to the ceres space colony for research. however, shortly after she left, she received a distress signal from the station and returned to investigate.\n\nwhen samus arrives at the space science academy where the baby was being studied, she finds all the scientists slaughtered and the containment unit that held the baby missing. upon further exploration of the station, she finds the baby in a small capsule. as she approaches, ridley appears and grabs the capsule. after a brief battle, samus repels ridley, and he activates a self-destruct sequence to destroy ceres.\n\nafter escaping the explosion, ridley flees to zebes, and samus goes after him.",
+        "keywords": [
+            "aliens",
+            "exploration",
+            "2d",
+            "16-bit",
+            "metroidvania",
+            "time manipulation",
+            "female protagonist",
+            "action-adventure",
+            "side-scrolling",
+            "time limit",
+            "pixel art",
+            "wall jump",
+            "darkness",
+            "explosion",
+            "countdown timer",
+            "nintendo power",
+            "damsel in distress",
+            "save point",
+            "unstable platforms",
+            "real-time combat",
+            "secret area",
+            "liberation",
+            "mercenary",
+            "sequence breaking",
+            "isolation",
+            "interconnected-world"
+        ],
+        "release_date": "1994"
+    },
+    "soe": {
         "igdb_id": "1359",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8kz6.jpg",
-        "world_name": "Secret of Evermore",
+        "game_name": "file name of the soe us rom",
         "igdb_name": "secret of evermore",
         "rating": [
             "mild animated violence"
@@ -5714,10 +6129,10 @@ GAMES_DATA = {
         ],
         "release_date": "1995"
     },
-    "Sonic Heroes": {
+    "sonic_heroes": {
         "igdb_id": "4156",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co9olx.jpg",
-        "world_name": "Sonic Heroes",
+        "game_name": "sonic heroes is a 2003 platform game developed by sonic team usa. the player races a team of series characters through levels to amass rings,",
         "igdb_name": "sonic heroes",
         "rating": [
             "mild fantasy violence"
@@ -5762,10 +6177,10 @@ GAMES_DATA = {
         ],
         "release_date": "2003"
     },
-    "Symphony of the Night": {
+    "sotn": {
         "igdb_id": "1128",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co53m8.jpg",
-        "world_name": "Symphony of the Night",
+        "game_name": "symphony of the night is a metroidvania developed by konami",
         "igdb_name": "castlevania: symphony of the night",
         "rating": [
             "animated blood and gore",
@@ -5825,7 +6240,6 @@ GAMES_DATA = {
             "skeletons",
             "descendants of other characters",
             "save point",
-            "playstation plus",
             "melee",
             "real-time combat",
             "a.i. companion",
@@ -5849,10 +6263,10 @@ GAMES_DATA = {
         ],
         "release_date": "1997"
     },
-    "Slay the Spire": {
+    "spire": {
         "igdb_id": "296831",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co82c5.jpg",
-        "world_name": "Slay the Spire",
+        "game_name": "slay the spire",
         "igdb_name": "slay the spire ii",
         "rating": [],
         "player_perspectives": [
@@ -5875,10 +6289,10 @@ GAMES_DATA = {
         ],
         "release_date": ""
     },
-    "Spyro 3": {
+    "spyro3": {
         "igdb_id": "1578",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7t4m.jpg",
-        "world_name": "Spyro 3",
+        "game_name": "spyro 3 is a game about a purple dragon who likes eggs.",
         "igdb_name": "spyro: year of the dragon",
         "rating": [
             "comic mischief"
@@ -5915,7 +6329,6 @@ GAMES_DATA = {
             "psone classics",
             "game reference",
             "cameo appearance",
-            "playstation plus",
             "auto-saving",
             "real-time combat",
             "moving platforms",
@@ -5924,10 +6337,10 @@ GAMES_DATA = {
         ],
         "release_date": "2000"
     },
-    "Skyward Sword": {
+    "ss": {
         "igdb_id": "534",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5wrj.jpg",
-        "world_name": "Skyward Sword",
+        "game_name": "skyward sword",
         "igdb_name": "the legend of zelda: skyward sword",
         "rating": [
             "fantasy violence",
@@ -5938,9 +6351,7 @@ GAMES_DATA = {
             "third person"
         ],
         "genres": [
-            "platform",
             "puzzle",
-            "role-playing (rpg)",
             "adventure"
         ],
         "themes": [
@@ -5972,19 +6383,23 @@ GAMES_DATA = {
             "real-time combat",
             "mercenary",
             "violent plants",
+            "mine cart sequence",
             "androgyny",
             "ancient advanced civilization technology",
             "context sensitive",
             "living inventory",
             "behind the waterfall",
-            "monomyth"
+            "monomyth",
+            "link",
+            "zelda",
+            "legend of zelda"
         ],
         "release_date": "2011"
     },
-    "Stardew Valley": {
+    "stardew_valley": {
         "igdb_id": "17000",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/xrpmydnu9rpxvxfjkiu7.jpg",
-        "world_name": "Stardew Valley",
+        "game_name": "stardew valley",
         "igdb_name": "stardew valley",
         "rating": [
             "fantasy violence",
@@ -6025,23 +6440,31 @@ GAMES_DATA = {
         ],
         "storyline": "you\u2019ve inherited your grandfather\u2019s old farm plot in stardew valley. armed with hand-me-down tools and a few coins, you set out to begin your new life. can you learn to live off the land and turn these overgrown fields into a thriving home? it won\u2019t be easy. ever since joja corporation came to town, the old ways of life have all but disappeared. the community center, once the town\u2019s most vibrant hub of activity, now lies in shambles. but the valley seems full of opportunity. with a little dedication, you might just be the one to restore stardew valley to greatness!",
         "keywords": [
+            "monsters",
+            "animals",
+            "minigames",
             "2d",
             "fishing",
             "crafting",
+            "chicken",
             "fairy",
+            "achievements",
             "pixel art",
+            "snow",
             "relaxing",
             "mining",
             "day/night cycle",
             "customizable characters",
-            "deliberately retro"
+            "deliberately retro",
+            "controller support",
+            "popular"
         ],
         "release_date": "2016"
     },
-    "Star Fox 64": {
+    "star_fox_64": {
         "igdb_id": "2591",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2e4k.jpg",
-        "world_name": "Star Fox 64",
+        "game_name": "star fox 64",
         "igdb_name": "star fox 64",
         "rating": [
             "violence"
@@ -6089,10 +6512,10 @@ GAMES_DATA = {
         ],
         "release_date": "1997"
     },
-    "Subnautica": {
+    "subnautica": {
         "igdb_id": "9254",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1iqw.jpg",
-        "world_name": "Subnautica",
+        "game_name": "subnautica",
         "igdb_name": "subnautica",
         "rating": [
             "mild language",
@@ -6114,7 +6537,9 @@ GAMES_DATA = {
         "platforms": [
             "xbox series x|s",
             "playstation 4",
+            "android",
             "pc (microsoft windows)",
+            "ios",
             "steamvr",
             "playstation 5",
             "mac",
@@ -6130,10 +6555,10 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "Star Wars Episode I Racer": {
+    "swr": {
         "igdb_id": "154",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3wj7.jpg",
-        "world_name": "Star Wars Episode I Racer",
+        "game_name": "star wars episode i racer",
         "igdb_name": "star wars: episode i - racer",
         "rating": [
             "mild fantasy violence"
@@ -6164,10 +6589,10 @@ GAMES_DATA = {
         ],
         "release_date": "1999"
     },
-    "The Binding of Isaac Repentance": {
+    "tboir": {
         "igdb_id": "310643",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co8kxf.jpg",
-        "world_name": "The Binding of Isaac Repentance",
+        "game_name": "the binding of isaac repentance",
         "igdb_name": "the binding of isaac: repentance",
         "rating": [
             "blood and gore",
@@ -6189,10 +6614,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2021"
     },
-    "Terraria": {
+    "terraria": {
         "igdb_id": "1879",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1rbo.jpg",
-        "world_name": "Terraria",
+        "game_name": "terraria",
         "igdb_name": "terraria",
         "rating": [
             "mild suggestive themes",
@@ -6274,7 +6699,6 @@ GAMES_DATA = {
             "loot gathering",
             "skeletons",
             "deliberately retro",
-            "playstation plus",
             "ice stage",
             "falling damage",
             "pick your gender",
@@ -6287,10 +6711,10 @@ GAMES_DATA = {
         ],
         "release_date": "2011"
     },
-    "Tetris Attack": {
+    "tetrisattack": {
         "igdb_id": "2739",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2w6k.jpg",
-        "world_name": "Tetris Attack",
+        "game_name": "tetris attack",
         "igdb_name": "tetris attack",
         "rating": [],
         "player_perspectives": [
@@ -6312,10 +6736,10 @@ GAMES_DATA = {
         ],
         "release_date": "1996"
     },
-    "Timespinner": {
+    "timespinner": {
         "igdb_id": "28952",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co24ag.jpg",
-        "world_name": "Timespinner",
+        "game_name": "timespinner",
         "igdb_name": "timespinner",
         "rating": [
             "fantasy violence",
@@ -6362,10 +6786,10 @@ GAMES_DATA = {
         ],
         "release_date": "2018"
     },
-    "The Legend of Zelda": {
+    "tloz": {
         "igdb_id": "1022",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1uii.jpg",
-        "world_name": "The Legend of Zelda",
+        "game_name": "the legend of zelda",
         "igdb_name": "the legend of zelda",
         "rating": [
             "mild fantasy violence"
@@ -6398,10 +6822,10 @@ GAMES_DATA = {
         ],
         "release_date": "1986"
     },
-    "The Legend of Zelda - Oracle of Ages": {
+    "tloz_ooa": {
         "igdb_id": "1041",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2tw1.jpg",
-        "world_name": "The Legend of Zelda - Oracle of Ages",
+        "game_name": "the legend of zelda - oracle of ages",
         "igdb_name": "the legend of zelda: oracle of ages",
         "rating": [
             "mild violence"
@@ -6463,10 +6887,10 @@ GAMES_DATA = {
         ],
         "release_date": "2001"
     },
-    "The Legend of Zelda - Oracle of Seasons": {
+    "tloz_oos": {
         "igdb_id": "1032",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2tw0.jpg",
-        "world_name": "The Legend of Zelda - Oracle of Seasons",
+        "game_name": "the legend of zelda - oracle of seasons",
         "igdb_name": "the legend of zelda: oracle of seasons",
         "rating": [
             "mild violence"
@@ -6529,14 +6953,17 @@ GAMES_DATA = {
             "poisoning",
             "context sensitive",
             "status effects",
-            "damage over time"
+            "damage over time",
+            "zelda",
+            "legend of zelda",
+            "link"
         ],
         "release_date": "2001"
     },
-    "Toontown": {
+    "toontown": {
         "igdb_id": "25326",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co28yv.jpg",
-        "world_name": "Toontown",
+        "game_name": "toontown",
         "igdb_name": "toontown online",
         "rating": [
             "cartoon violence",
@@ -6558,14 +6985,15 @@ GAMES_DATA = {
         ],
         "storyline": "toontown online's story centers on an ongoing battle between a population of cartoon animals known as the toons and a collection of business-minded robots known as the cogs who are trying to take over the town. players would choose and customize their own toon and go on to complete toontasks, play mini-games, and fight the cogs.",
         "keywords": [
-            "minigames"
+            "minigames",
+            "go-kart"
         ],
         "release_date": "2003"
     },
-    "Twilight Princess": {
+    "tp": {
         "igdb_id": "134014",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3w1h.jpg",
-        "world_name": "Twilight Princess",
+        "game_name": "twilight princess",
         "igdb_name": "the legend of zelda: twilight princess",
         "rating": [
             "fantasy violence",
@@ -6575,7 +7003,7 @@ GAMES_DATA = {
             "third person"
         ],
         "genres": [
-            "role-playing (rpg)",
+            "puzzle",
             "adventure"
         ],
         "themes": [
@@ -6586,13 +7014,39 @@ GAMES_DATA = {
             "wii"
         ],
         "storyline": "link, a young farm boy whose tasks consist of herding goats to watching children in ordon village, is asked by the mayor to run an errand in castle town. but things went strange that day: the land becomes dark and strange creatures appear from another world called the twilight realm which turns most people into ghosts. unlike the others, link transforms into a wolf but is captured. a mysterious figure named midna helps him break free, and with the aid of her magic, they set off to free the land from the shadows. link must explore the vast land of hyrule and uncover the mystery behind its plunge into darkness.",
-        "keywords": [],
+        "keywords": [
+            "link",
+            "zelda",
+            "legend of zelda"
+        ],
         "release_date": "2006"
     },
-    "Trackmania": {
+    "tracker": {
+        "igdb_id": "",
+        "cover_url": "",
+        "game_name": "universal tracker",
+        "igdb_name": "",
+        "rating": "",
+        "player_perspectives": [],
+        "genres": [
+            "multiplayer"
+        ],
+        "themes": [],
+        "platforms": [
+            "archipelago"
+        ],
+        "storyline": "",
+        "keywords": [
+            "hints",
+            "archipelago",
+            "multiworld"
+        ],
+        "release_date": ""
+    },
+    "trackmania": {
         "igdb_id": "133807",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2fe9.jpg",
-        "world_name": "Trackmania",
+        "game_name": "trackmania",
         "igdb_name": "trackmania",
         "rating": [],
         "player_perspectives": [
@@ -6618,10 +7072,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2020"
     },
-    "Paper Mario The Thousand Year Door": {
+    "ttyd": {
         "igdb_id": "328663",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co9p1w.jpg",
-        "world_name": "Paper Mario The Thousand Year Door",
+        "game_name": "paper mario the thousand year door",
         "igdb_name": "paper mario: the thousand-year door",
         "rating": [],
         "player_perspectives": [],
@@ -6636,10 +7090,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "2004"
     },
-    "TUNIC": {
+    "tunic": {
         "igdb_id": "23733",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/td1t8kb33gyo8mvhl2pc.jpg",
-        "world_name": "TUNIC",
+        "game_name": "tunic",
         "igdb_name": "tunic",
         "rating": [
             "fantasy violence"
@@ -6671,20 +7125,25 @@ GAMES_DATA = {
             "exploration",
             "3d",
             "difficult",
+            "forest",
             "stylized",
+            "achievements",
             "cute",
             "atmospheric",
+            "family friendly",
             "great soundtrack",
             "digital distribution",
             "anthropomorphism",
+            "secret area",
+            "controller support",
             "soulslike"
         ],
         "release_date": "2022"
     },
-    "The Wind Waker": {
+    "tww": {
         "igdb_id": "1033",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3ohz.jpg",
-        "world_name": "The Wind Waker",
+        "game_name": "the wind waker",
         "igdb_name": "the legend of zelda: the wind waker",
         "rating": [
             "violence"
@@ -6694,7 +7153,6 @@ GAMES_DATA = {
         ],
         "genres": [
             "puzzle",
-            "role-playing (rpg)",
             "adventure"
         ],
         "themes": [
@@ -6712,14 +7170,17 @@ GAMES_DATA = {
             "day/night cycle",
             "sword & sorcery",
             "auto-aim",
-            "living inventory"
+            "living inventory",
+            "link",
+            "zelda",
+            "legend of zelda"
         ],
         "release_date": "2002"
     },
-    "Tyrian": {
+    "tyrian": {
         "igdb_id": "14432",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2zg1.jpg",
-        "world_name": "Tyrian",
+        "game_name": "tyrian",
         "igdb_name": "tyrian 2000",
         "rating": [
             "animated violence"
@@ -6746,10 +7207,10 @@ GAMES_DATA = {
         ],
         "release_date": "1999"
     },
-    "UFO 50": {
+    "ufo50": {
         "igdb_id": "54555",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co24v0.jpg",
-        "world_name": "UFO 50",
+        "game_name": "ufo 50",
         "igdb_name": "ufo 50",
         "rating": [],
         "player_perspectives": [
@@ -6779,10 +7240,10 @@ GAMES_DATA = {
         ],
         "release_date": "2024"
     },
-    "ULTRAKILL": {
+    "ultrakill": {
         "igdb_id": "124333",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co46s3.jpg",
-        "world_name": "ULTRAKILL",
+        "game_name": "ultrakill",
         "igdb_name": "ultrakill",
         "rating": [
             "violence",
@@ -6816,10 +7277,10 @@ GAMES_DATA = {
         ],
         "release_date": "2020"
     },
-    "Undertale": {
+    "undertale": {
         "igdb_id": "12517",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2855.jpg",
-        "world_name": "Undertale",
+        "game_name": "undertale",
         "igdb_name": "undertale",
         "rating": [
             "mild blood",
@@ -6857,6 +7318,7 @@ GAMES_DATA = {
         "keywords": [
             "retro",
             "psychological horror",
+            "dark",
             "2d",
             "turn-based",
             "female protagonist",
@@ -6865,7 +7327,6 @@ GAMES_DATA = {
             "cute",
             "funny",
             "pixel art",
-            "pixel graphics",
             "story rich",
             "great soundtrack",
             "anthropomorphism",
@@ -6879,10 +7340,10 @@ GAMES_DATA = {
         ],
         "release_date": "2015"
     },
-    "VVVVVV": {
+    "v6": {
         "igdb_id": "1990",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4ieg.jpg",
-        "world_name": "VVVVVV",
+        "game_name": "vvvvvv",
         "igdb_name": "vvvvvv",
         "rating": [
             "mild fantasy violence",
@@ -6928,15 +7389,12 @@ GAMES_DATA = {
             "space",
             "achievements",
             "pixel art",
-            "pixel graphics",
             "teleportation",
             "2d platformer",
             "digital distribution",
             "world map",
             "deliberately retro",
-            "humble bundle",
             "save point",
-            "playstation plus",
             "checkpoints",
             "unstable platforms",
             "stereoscopic 3d",
@@ -6944,14 +7402,15 @@ GAMES_DATA = {
             "moving platforms",
             "auto-scrolling levels",
             "time trials",
+            "controller support",
             "conversation"
         ],
         "release_date": "2010"
     },
-    "Wargroove": {
+    "wargroove": {
         "igdb_id": "27441",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co4hgb.jpg",
-        "world_name": "Wargroove",
+        "game_name": "wargroove",
         "igdb_name": "wargroove",
         "rating": [
             "fantasy violence"
@@ -6982,10 +7441,10 @@ GAMES_DATA = {
         ],
         "release_date": "2019"
     },
-    "Wargroove 2": {
+    "wargroove2": {
         "igdb_id": "241149",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co731u.jpg",
-        "world_name": "Wargroove 2",
+        "game_name": "wargroove 2",
         "igdb_name": "wargroove 2",
         "rating": [
             "fantasy violence"
@@ -7016,10 +7475,10 @@ GAMES_DATA = {
         ],
         "release_date": "2023"
     },
-    "The Witness": {
+    "witness": {
         "igdb_id": "5601",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co3hih.jpg",
-        "world_name": "The Witness",
+        "game_name": "the witness",
         "igdb_name": "the witness",
         "rating": [
             "alcohol reference"
@@ -7057,6 +7516,7 @@ GAMES_DATA = {
             "digital distribution",
             "voice acting",
             "polygonal 3d",
+            "pop culture reference",
             "game reference",
             "auto-saving",
             "stat tracking",
@@ -7064,10 +7524,10 @@ GAMES_DATA = {
         ],
         "release_date": "2016"
     },
-    "Wario Land": {
+    "wl": {
         "igdb_id": "1072",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co216h.jpg",
-        "world_name": "Wario Land",
+        "game_name": "wario land",
         "igdb_name": "wario land: super mario land 3",
         "rating": [
             "mild fantasy violence"
@@ -7089,10 +7549,10 @@ GAMES_DATA = {
         "keywords": [],
         "release_date": "1994"
     },
-    "Wario Land 4": {
+    "wl4": {
         "igdb_id": "1699",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1wpx.jpg",
-        "world_name": "Wario Land 4",
+        "game_name": "wario land 4",
         "igdb_name": "wario land 4",
         "rating": [
             "comic mischief"
@@ -7136,9 +7596,10 @@ GAMES_DATA = {
         ],
         "release_date": "2001"
     },
-    "Wordipelago": {
+    "wordipelago": {
         "igdb_id": "",
-        "world_name": "Wordipelago",
+        "cover_url": "",
+        "game_name": "wordipelago",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
@@ -7151,15 +7612,16 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "hints",
             "archipelago",
             "multiworld"
         ],
         "release_date": ""
     },
-    "Xenoblade X": {
+    "xenobladex": {
         "igdb_id": "2366",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1nwh.jpg",
-        "world_name": "Xenoblade X",
+        "game_name": "xenoblade x",
         "igdb_name": "xenoblade chronicles x",
         "rating": [
             "suggestive themes",
@@ -7205,15 +7667,15 @@ GAMES_DATA = {
         ],
         "release_date": "2015"
     },
-    "Yacht Dice": {
+    "yachtdice": {
         "igdb_id": "",
-        "world_name": "Yacht Dice",
+        "cover_url": "",
+        "game_name": "yacht dice is a straightforward game, custom-made for archipelago,",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],
         "genres": [
-            "multiplayer",
-            "card & board game"
+            "multiplayer"
         ],
         "themes": [],
         "platforms": [
@@ -7221,15 +7683,16 @@ GAMES_DATA = {
         ],
         "storyline": "",
         "keywords": [
+            "hints",
             "archipelago",
             "multiworld"
         ],
         "release_date": ""
     },
-    "Yoshi's Island": {
+    "yoshisisland": {
         "igdb_id": "1073",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2kn9.jpg",
-        "world_name": "Yoshi's Island",
+        "game_name": "yoshi's island",
         "igdb_name": "super mario world 2: yoshi's island",
         "rating": [],
         "player_perspectives": [
@@ -7252,15 +7715,16 @@ GAMES_DATA = {
         "keywords": [
             "dinosaurs",
             "side-scrolling",
+            "yoshi",
             "digital distribution",
             "kidnapping"
         ],
         "release_date": "1995"
     },
-    "Yu-Gi-Oh! 2006": {
+    "yugioh06": {
         "igdb_id": "49377",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7yau.jpg",
-        "world_name": "Yu-Gi-Oh! 2006",
+        "game_name": "yu-gi-oh! 2006",
         "igdb_name": "yu-gi-oh! ultimate masters: world championship tournament 2006",
         "rating": [],
         "player_perspectives": [
@@ -7285,10 +7749,10 @@ GAMES_DATA = {
         ],
         "release_date": "2006"
     },
-    "Yu-Gi-Oh! Dungeon Dice Monsters": {
+    "yugiohddm": {
         "igdb_id": "49211",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co5ztw.jpg",
-        "world_name": "Yu-Gi-Oh! Dungeon Dice Monsters",
+        "game_name": "yu-gi-oh! dungeon dice monsters",
         "igdb_name": "yu-gi-oh! dungeon dice monsters",
         "rating": [
             "mild violence"
@@ -7312,15 +7776,16 @@ GAMES_DATA = {
         "storyline": "dungeon dice monsters is the newest addition to the yu-gi-oh! universe. as featured in the dungeon dice monsters story arc in the animated television series, players collect and fight with dice inscribed with mystical powers and magic in order to defeat their opponents. enter a dozen different tournaments and ultimately faceoff against the scheming creator of dungeon dice monsters, duke devlin.",
         "keywords": [
             "anime",
+            "language selection",
             "shopping",
             "merchants"
         ],
         "release_date": "2001"
     },
-    "Zelda II: The Adventure of Link": {
+    "zelda2": {
         "igdb_id": "1025",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co1uje.jpg",
-        "world_name": "Zelda II: The Adventure of Link",
+        "game_name": "zelda ii: the adventure of link",
         "igdb_name": "zelda ii: the adventure of link",
         "rating": [
             "mild fantasy violence"
@@ -7379,14 +7844,15 @@ GAMES_DATA = {
             "meme origin",
             "status effects",
             "monomyth",
-            "color cartridges"
+            "link",
+            "zelda"
         ],
         "release_date": "1987"
     },
-    "Zillion": {
+    "zillion": {
         "igdb_id": "18141",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co7xxj.jpg",
-        "world_name": "Zillion",
+        "game_name": "zillion",
         "igdb_name": "zillion",
         "rating": [],
         "player_perspectives": [
@@ -7410,10 +7876,10 @@ GAMES_DATA = {
         ],
         "release_date": "1987"
     },
-    "Zork Grand Inquisitor": {
+    "zork_grand_inquisitor": {
         "igdb_id": "1955",
         "cover_url": "https://images.igdb.com/igdb/image/upload/t_thumb/co2kql.jpg",
-        "world_name": "Zork Grand Inquisitor",
+        "game_name": "zork grand inquisitor",
         "igdb_name": "zork: grand inquisitor",
         "rating": [
             "comic mischief",
@@ -7442,8746 +7908,11320 @@ GAMES_DATA = {
         ],
         "release_date": "1997"
     }
-}
+} # type: ignore
 
 SEARCH_INDEX = {
     "adventure": [
-        "Celeste",
-        "Skyward Sword",
-        "VVVVVV",
-        "TUNIC",
-        "Shivers",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "Super Mario 64",
-        "Digimon World",
-        "Getting Over It",
-        "Twilight Princess",
-        "Sonic Adventure 2 Battle",
-        "Mega Man 2",
-        "Noita",
-        "Blasphemous",
-        "Super Mario World",
-        "Final Fantasy Mystic Quest",
-        "SM64 Romhack",
-        "Minecraft",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Luigi's Mansion",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "SMZ3",
-        "Dark Souls Remastered",
-        "A Link Between Worlds",
-        "Resident Evil 3 Remake",
-        "Cuphead",
-        "Raft",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "Zork Grand Inquisitor",
-        "CrossCode",
-        "ANIMAL WELL",
-        "Hades",
-        "Risk of Rain 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Sonic Heroes",
-        "Sea of Thieves",
-        "The Legend of Zelda",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "Xenoblade X",
-        "Final Fantasy",
-        "Super Mario Odyssey",
-        "EarthBound",
-        "Resident Evil 2 Remake",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Inscryption",
-        "Pokemon Crystal",
-        "Celeste 64",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "Old School Runescape",
-        "A Short Hike",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Super Mario Sunshine",
-        "Kirby's Dream Land 3",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Risk of Rain",
-        "Peaks of Yore",
-        "Super Metroid",
-        "An Untitled Story",
-        "Chained Echoes",
-        "Dark Souls III",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 3",
-        "Ratchet & Clank 2",
-        "Lingo",
-        "Don",
-        "The Legend of Zelda - Oracle of Ages",
-        "Cat Quest",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Outer Wilds",
-        "Super Metroid Map Rando",
-        "DLCQuest",
-        "Metroid Prime",
-        "The Wind Waker",
-        "Undertale",
-        "The Witness",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Pseudoregalia",
-        "Dark Souls II",
-        "UFO 50",
-        "Jak and Daxter: The Precursor Legacy",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Adventure",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3"
+        "hk",
+        "ff1",
+        "inscryption",
+        "shorthike",
+        "hades",
+        "gstla",
+        "cvcotm",
+        "ffmq",
+        "momodoramoonlitfarewell",
+        "dkc3",
+        "dontstarvetogether",
+        "mzm",
+        "animal_well",
+        "ladx",
+        "ror1",
+        "seaofthieves",
+        "kh1",
+        "sadx",
+        "kh2",
+        "lingo",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "dsr",
+        "sms",
+        "raft",
+        "enderlilies",
+        "tunic",
+        "noita",
+        "pokemon_rb",
+        "peaks_of_yore",
+        "aus",
+        "shivers",
+        "messenger",
+        "sm",
+        "adventure",
+        "xenobladex",
+        "undertale",
+        "sm_map_rando",
+        "hylics2",
+        "ror2",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sotn",
+        "subnautica",
+        "ahit",
+        "tloz_ooa",
+        "spyro3",
+        "luigismansion",
+        "alttp",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste",
+        "dark_souls_3",
+        "banjo_tooie",
+        "minecraft",
+        "crosscode",
+        "residentevil2remake",
+        "smo",
+        "tloz",
+        "sly1",
+        "earthbound",
+        "kdl3",
+        "blasphemous",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "rac2",
+        "cat_quest",
+        "mlss",
+        "smw",
+        "aquaria",
+        "sonic_heroes",
+        "mm_recomp",
+        "zelda2",
+        "mm2",
+        "tloz_oos",
+        "osrs",
+        "smz3",
+        "v6",
+        "satisfactory",
+        "oribf",
+        "pseudoregalia",
+        "k64",
+        "residentevil3remake",
+        "dark_souls_2",
+        "sa2b",
+        "wl4",
+        "ss",
+        "stardew_valley",
+        "zork_grand_inquisitor",
+        "pokemon_frlg",
+        "dw1",
+        "terraria",
+        "faxanadu",
+        "albw",
+        "pokemon_emerald",
+        "metroidprime",
+        "cv64",
+        "ufo50",
+        "dk64",
+        "tp",
+        "tww",
+        "jakanddaxter",
+        "timespinner",
+        "monster_sanctuary",
+        "celeste64"
     ],
     "bird view / isometric": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "TUNIC",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Inscryption",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Not an idle game",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Undertale",
-        "The Binding of Isaac Repentance",
-        "Hylics 2",
-        "Old School Runescape",
-        "A Short Hike",
-        "MegaMan Battle Network 3",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Super Mario Sunshine",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "Civilization VI",
-        "Wargroove 2",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "The Sims 4",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "Diddy Kong Racing",
-        "Chained Echoes",
-        "Starcraft 2",
-        "UFO 50",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Sonic Heroes",
-        "Wargroove",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Adventure",
-        "Don",
-        "Brotato",
-        "Spyro 3",
-        "Secret of Evermore"
+        "ffta",
+        "yugioh06",
+        "factorio",
+        "ff1",
+        "pokemon_rb",
+        "inscryption",
+        "tunic",
+        "shorthike",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "wargroove",
+        "ctjot",
+        "wargroove2",
+        "hades",
+        "shapez",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "balatro",
+        "stardew_valley",
+        "yugiohddm",
+        "pmd_eos",
+        "soe",
+        "ffmq",
+        "adventure",
+        "diddy_kong_racing",
+        "pokemon_frlg",
+        "dw1",
+        "dontstarvetogether",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "rimworld",
+        "tyrian",
+        "ladx",
+        "against_the_storm",
+        "albw",
+        "pokemon_emerald",
+        "sc2",
+        "ufo50",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sonic_heroes",
+        "tloz_ooa",
+        "overcooked2",
+        "placidplasticducksim",
+        "spyro3",
+        "sims4",
+        "dungeon_clawler",
+        "meritous",
+        "sms",
+        "civ_6",
+        "alttp",
+        "chainedechoes",
+        "tboir",
+        "tloz_oos",
+        "osrs",
+        "smz3",
+        "openrct2"
     ],
     "bird": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "Banjo-Tooie",
-        "TUNIC",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Inscryption",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Not an idle game",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Undertale",
-        "The Binding of Isaac Repentance",
-        "Hylics 2",
-        "Old School Runescape",
-        "A Short Hike",
-        "MegaMan Battle Network 3",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Super Mario Sunshine",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "Civilization VI",
-        "Wargroove 2",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "The Sims 4",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "An Untitled Story",
-        "Diddy Kong Racing",
-        "Chained Echoes",
-        "Starcraft 2",
-        "UFO 50",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Sonic Heroes",
-        "Wargroove",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Adventure",
-        "Don",
-        "Brotato",
-        "Spyro 3",
-        "Secret of Evermore"
+        "ffta",
+        "banjo_tooie",
+        "yugioh06",
+        "factorio",
+        "ff1",
+        "pokemon_rb",
+        "inscryption",
+        "tunic",
+        "shorthike",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "wargroove",
+        "ctjot",
+        "aus",
+        "hades",
+        "wargroove2",
+        "shapez",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "balatro",
+        "stardew_valley",
+        "yugiohddm",
+        "pmd_eos",
+        "soe",
+        "ffmq",
+        "adventure",
+        "diddy_kong_racing",
+        "pokemon_frlg",
+        "dw1",
+        "dkc3",
+        "dontstarvetogether",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "rimworld",
+        "tyrian",
+        "ladx",
+        "against_the_storm",
+        "albw",
+        "pokemon_emerald",
+        "sc2",
+        "ufo50",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sonic_heroes",
+        "tloz_ooa",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "spyro3",
+        "sims4",
+        "dungeon_clawler",
+        "meritous",
+        "sms",
+        "civ_6",
+        "alttp",
+        "chainedechoes",
+        "tboir",
+        "tloz_oos",
+        "osrs",
+        "smz3",
+        "openrct2"
     ],
     "view": [
-        "Celeste",
-        "VVVVVV",
-        "TUNIC",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "Digimon World",
-        "Getting Over It",
-        "Chrono Trigger Jets of Time",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "The Binding of Isaac Repentance",
-        "Mega Man 2",
-        "Noita",
-        "Blasphemous",
-        "The Sims 4",
-        "Super Mario World",
-        "Tyrian",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "Wario Land",
-        "Brotato",
-        "Aquaria",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "SMZ3",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "ANIMAL WELL",
-        "Hades",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Diddy Kong Racing",
-        "Starcraft 2",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Sonic Heroes",
-        "The Legend of Zelda",
-        "Tetris Attack",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "Final Fantasy",
-        "EarthBound",
-        "Terraria",
-        "Inscryption",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Pokemon Crystal",
-        "Castlevania - Circle of the Moon",
-        "Not an idle game",
-        "Old School Runescape",
-        "A Short Hike",
-        "MegaMan Battle Network 3",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Kirby's Dream Land 3",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Wargroove 2",
-        "Risk of Rain",
-        "Super Metroid",
-        "Yoshi's Island",
-        "An Untitled Story",
-        "Chained Echoes",
-        "Factorio",
-        "Donkey Kong Country 3",
-        "Don",
-        "The Legend of Zelda - Oracle of Ages",
-        "Slay the Spire",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Super Metroid Map Rando",
-        "DLCQuest",
-        "Final Fantasy Tactics Advance",
-        "Against the Storm",
-        "Undertale",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Muse Dash",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "Civilization VI",
-        "Factorio - Space Age Without Space",
-        "Zillion",
-        "Super Mario Land 2",
-        "UFO 50",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Landstalker - The Treasures of King Nole",
-        "Adventure",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3",
-        "Secret of Evermore"
+        "hk",
+        "ff1",
+        "inscryption",
+        "shorthike",
+        "mmbn3",
+        "hades",
+        "dkc2",
+        "gstla",
+        "cvcotm",
+        "ffmq",
+        "momodoramoonlitfarewell",
+        "dkc3",
+        "dontstarvetogether",
+        "landstalker",
+        "mzm",
+        "animal_well",
+        "rimworld",
+        "ladx",
+        "ror1",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "papermario",
+        "sms",
+        "enderlilies",
+        "ffta",
+        "yugioh06",
+        "factorio",
+        "noita",
+        "pokemon_rb",
+        "tunic",
+        "wargroove",
+        "ctjot",
+        "aus",
+        "balatro",
+        "yugiohddm",
+        "messenger",
+        "sm",
+        "adventure",
+        "undertale",
+        "sm_map_rando",
+        "hylics2",
+        "tyrian",
+        "against_the_storm",
+        "tetrisattack",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sotn",
+        "tloz_ooa",
+        "spyro3",
+        "megamix",
+        "dungeon_clawler",
+        "meritous",
+        "alttp",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "celeste",
+        "crosscode",
+        "wargroove2",
+        "tloz",
+        "earthbound",
+        "kdl3",
+        "pmd_eos",
+        "blasphemous",
+        "diddy_kong_racing",
+        "dkc",
+        "yoshisisland",
+        "sc2",
+        "mlss",
+        "smw",
+        "aquaria",
+        "sonic_heroes",
+        "overcooked2",
+        "sims4",
+        "zelda2",
+        "mm2",
+        "tboir",
+        "tloz_oos",
+        "osrs",
+        "smz3",
+        "v6",
+        "oribf",
+        "k64",
+        "factorio_saws",
+        "brotato",
+        "marioland2",
+        "musedash",
+        "wl4",
+        "shapez",
+        "spire",
+        "stardew_valley",
+        "soe",
+        "pokemon_frlg",
+        "dw1",
+        "terraria",
+        "faxanadu",
+        "albw",
+        "pokemon_emerald",
+        "lufia2ac",
+        "zillion",
+        "ufo50",
+        "civ_6",
+        "timespinner",
+        "monster_sanctuary",
+        "wl",
+        "openrct2"
     ],
     "/": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "TUNIC",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Inscryption",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Not an idle game",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Undertale",
-        "The Binding of Isaac Repentance",
-        "Hylics 2",
-        "Old School Runescape",
-        "A Short Hike",
-        "MegaMan Battle Network 3",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Super Mario Sunshine",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "Civilization VI",
-        "Wargroove 2",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "The Sims 4",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "Diddy Kong Racing",
-        "Chained Echoes",
-        "Starcraft 2",
-        "UFO 50",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Sonic Heroes",
-        "Wargroove",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Adventure",
-        "Don",
-        "Brotato",
-        "Spyro 3",
-        "Secret of Evermore"
+        "ffta",
+        "yugioh06",
+        "factorio",
+        "ff1",
+        "pokemon_rb",
+        "inscryption",
+        "tunic",
+        "shorthike",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "wargroove",
+        "ctjot",
+        "wargroove2",
+        "hades",
+        "shapez",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "balatro",
+        "stardew_valley",
+        "yugiohddm",
+        "pmd_eos",
+        "soe",
+        "ffmq",
+        "adventure",
+        "diddy_kong_racing",
+        "pokemon_frlg",
+        "dw1",
+        "dontstarvetogether",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "rimworld",
+        "tyrian",
+        "ladx",
+        "against_the_storm",
+        "albw",
+        "pokemon_emerald",
+        "sc2",
+        "ufo50",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sonic_heroes",
+        "tloz_ooa",
+        "overcooked2",
+        "placidplasticducksim",
+        "spyro3",
+        "sims4",
+        "dungeon_clawler",
+        "meritous",
+        "sms",
+        "civ_6",
+        "alttp",
+        "chainedechoes",
+        "tboir",
+        "tloz_oos",
+        "osrs",
+        "smz3",
+        "openrct2"
     ],
     "isometric": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "TUNIC",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Inscryption",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Not an idle game",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Undertale",
-        "The Binding of Isaac Repentance",
-        "Hylics 2",
-        "Old School Runescape",
-        "A Short Hike",
-        "MegaMan Battle Network 3",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Super Mario Sunshine",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "Civilization VI",
-        "Wargroove 2",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "The Sims 4",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "Diddy Kong Racing",
-        "Chained Echoes",
-        "Starcraft 2",
-        "UFO 50",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Sonic Heroes",
-        "Wargroove",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Adventure",
-        "Don",
-        "Brotato",
-        "Spyro 3",
-        "Secret of Evermore"
+        "ffta",
+        "yugioh06",
+        "factorio",
+        "ff1",
+        "pokemon_rb",
+        "inscryption",
+        "tunic",
+        "shorthike",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "wargroove",
+        "ctjot",
+        "wargroove2",
+        "hades",
+        "shapez",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "balatro",
+        "stardew_valley",
+        "yugiohddm",
+        "pmd_eos",
+        "soe",
+        "ffmq",
+        "adventure",
+        "diddy_kong_racing",
+        "pokemon_frlg",
+        "dw1",
+        "dontstarvetogether",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "rimworld",
+        "tyrian",
+        "ladx",
+        "against_the_storm",
+        "albw",
+        "pokemon_emerald",
+        "sc2",
+        "ufo50",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sonic_heroes",
+        "tloz_ooa",
+        "overcooked2",
+        "placidplasticducksim",
+        "spyro3",
+        "sims4",
+        "dungeon_clawler",
+        "meritous",
+        "sms",
+        "civ_6",
+        "alttp",
+        "chainedechoes",
+        "tboir",
+        "tloz_oos",
+        "osrs",
+        "smz3",
+        "openrct2"
     ],
     "fantasy": [
-        "Celeste",
-        "Skyward Sword",
-        "VVVVVV",
-        "TUNIC",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "Super Mario 64",
-        "Digimon World",
-        "Twilight Princess",
-        "Chrono Trigger Jets of Time",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Noita",
-        "Blasphemous",
-        "The Sims 4",
-        "Super Mario World",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Wario Land",
-        "Brotato",
-        "SM64 Romhack",
-        "Minecraft",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Majora's Mask Recompiled",
-        "Dark Souls Remastered",
-        "ULTRAKILL",
-        "Heretic",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Zork Grand Inquisitor",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "ANIMAL WELL",
-        "Hades",
-        "Risk of Rain 2",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Sonic Heroes",
-        "Sea of Thieves",
-        "The Legend of Zelda",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "Final Fantasy",
-        "Super Mario Odyssey",
-        "EarthBound",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Pokemon Crystal",
-        "A Hat in Time",
-        "Old School Runescape",
-        "A Short Hike",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Wargroove 2",
-        "Risk of Rain",
-        "Hunie Pop",
-        "Yoshi's Island",
-        "Chained Echoes",
-        "Dark Souls III",
-        "Ratchet & Clank 2",
-        "Don",
-        "Slay the Spire",
-        "Cat Quest",
-        "A Link to the Past",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Outer Wilds",
-        "The Wind Waker",
-        "Final Fantasy Tactics Advance",
-        "Against the Storm",
-        "Undertale",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Muse Dash",
-        "Pseudoregalia",
-        "Civilization VI",
-        "Dark Souls II",
-        "Jak and Daxter: The Precursor Legacy",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Star Wars Episode I Racer",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Landstalker - The Treasures of King Nole",
-        "Adventure",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "1983": [
-        "Adventure"
-    ],
-    "against the storm": [
-        "Against the Storm"
-    ],
-    "mild blood": [
-        "Kingdom Hearts 2",
-        "Muse Dash",
-        "Monster Sanctuary",
-        "Hollow Knight",
-        "Stardew Valley",
-        "Brotato",
-        "Risk of Rain",
-        "Against the Storm",
-        "Undertale"
-    ],
-    "mild": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Celeste",
-        "Subnautica",
-        "The Legend of Zelda",
-        "VVVVVV",
-        "Monster Sanctuary",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "Hollow Knight",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "Faxanadu",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Cuphead",
-        "Final Fantasy Tactics Advance",
-        "Stardew Valley",
-        "Castlevania - Circle of the Moon",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Sonic Adventure 2 Battle",
-        "ANIMAL WELL",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Undertale",
-        "MegaMan Battle Network 3",
-        "Muse Dash",
-        "Hades",
-        "Donkey Kong Country 2",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Risk of Rain",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Super Metroid",
-        "Ape Escape",
-        "Final Fantasy Mystic Quest",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Star Wars Episode I Racer",
-        "Landstalker - The Treasures of King Nole",
-        "Wario Land",
-        "Ratchet & Clank 2",
-        "Sonic Heroes",
-        "Brotato",
-        "Secret of Evermore"
-    ],
-    "blood": [
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "Xenoblade X",
-        "Shivers",
-        "Dark Souls Remastered",
-        "Resident Evil 2 Remake",
-        "ULTRAKILL",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Inscryption",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Resident Evil 3 Remake",
-        "Raft",
-        "Twilight Princess",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Undertale",
-        "The Binding of Isaac Repentance",
-        "Ender Lilies",
-        "DOOM II",
-        "Muse Dash",
-        "Hades",
-        "Risk of Rain 2",
-        "Castlevania 64",
-        "Risk of Rain",
-        "Blasphemous",
-        "Dark Souls II",
-        "Dark Souls III",
-        "Starcraft 2",
-        "DOOM 1993",
-        "Factorio",
-        "Ratchet & Clank 2",
-        "Brotato"
-    ],
-    "alcohol reference": [
-        "The Witness",
-        "Outer Wilds",
-        "Celeste",
-        "Terraria",
-        "Hades",
-        "Final Fantasy Tactics Advance",
-        "Risk of Rain",
-        "Against the Storm"
-    ],
-    "alcohol": [
-        "The Witness",
-        "Outer Wilds",
-        "Celeste",
-        "Starcraft 2",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Hades",
-        "Cuphead",
-        "Final Fantasy Tactics Advance",
-        "Xenoblade X",
-        "Stardew Valley",
-        "Zork Grand Inquisitor",
-        "Chrono Trigger Jets of Time",
-        "Risk of Rain",
-        "Against the Storm",
-        "Sea of Thieves"
-    ],
-    "reference": [
-        "The Witness",
-        "Outer Wilds",
-        "Celeste",
-        "Terraria",
-        "DOOM II",
-        "Rogue Legacy",
-        "Hades",
-        "Monster Sanctuary",
-        "Donkey Kong Country 2",
-        "Ocarina of Time",
-        "Risk of Rain 2",
-        "Spyro 3",
-        "Final Fantasy Tactics Advance",
-        "Risk of Rain",
-        "Against the Storm"
-    ],
-    "use of tobacco": [
-        "Stardew Valley",
-        "Faxanadu",
-        "Against the Storm",
-        "Undertale"
-    ],
-    "use": [
-        "Faxanadu",
-        "Starcraft 2",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Cuphead",
-        "Xenoblade X",
-        "Zork Grand Inquisitor",
-        "Stardew Valley",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Sea of Thieves",
-        "Undertale"
-    ],
-    "of": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Luigi's Mansion",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "Faxanadu",
-        "EarthBound",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Zork Grand Inquisitor",
-        "Stardew Valley",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Undertale",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Ori and the Blind Forest",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Sea of Thieves"
-    ],
-    "tobacco": [
-        "Faxanadu",
-        "Starcraft 2",
-        "Monster Sanctuary",
-        "Cuphead",
-        "Zork Grand Inquisitor",
-        "Stardew Valley",
-        "Against the Storm",
-        "Undertale"
-    ],
-    "language": [
-        "Celeste",
-        "Subnautica",
-        "VVVVVV",
-        "Xenoblade X",
-        "The Messenger",
-        "Resident Evil 2 Remake",
-        "Inscryption",
-        "Resident Evil 3 Remake",
-        "Cuphead",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "CrossCode",
-        "Undertale",
-        "Against the Storm",
-        "Hades",
-        "Timespinner",
-        "Risk of Rain",
-        "Dark Souls II",
-        "Chained Echoes",
-        "Starcraft 2",
-        "Ratchet & Clank 2"
-    ],
-    "fantasy violence": [
-        "Celeste",
-        "Minecraft",
-        "Subnautica",
-        "Cat Quest",
-        "Skyward Sword",
-        "Monster Sanctuary",
-        "TUNIC",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "The Messenger",
-        "Outer Wilds",
-        "Digimon World",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Twilight Princess",
-        "Stardew Valley",
-        "CrossCode",
-        "A Hat in Time",
-        "Against the Storm",
-        "Undertale",
-        "Metroid Zero Mission",
-        "Muse Dash",
-        "Risk of Rain 2",
-        "Timespinner",
-        "Wargroove 2",
-        "Risk of Rain",
-        "Jak and Daxter: The Precursor Legacy",
-        "Wargroove",
-        "Rogue Legacy",
-        "Ratchet & Clank 2",
-        "Don",
-        "Brotato"
-    ],
-    "violence": [
-        "Celeste",
-        "Star Fox 64",
-        "Skyward Sword",
-        "VVVVVV",
-        "TUNIC",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "Digimon World",
-        "Twilight Princess",
-        "Chrono Trigger Jets of Time",
-        "Sonic Adventure 2 Battle",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "The Binding of Isaac Repentance",
-        "Blasphemous",
-        "The Sims 4",
-        "Tyrian",
-        "Ape Escape",
-        "Final Fantasy Mystic Quest",
-        "Wario Land",
-        "Brotato",
-        "Minecraft",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Majora's Mask Recompiled",
-        "Dark Souls Remastered",
-        "ULTRAKILL",
-        "Sonic Adventure DX",
-        "A Link Between Worlds",
-        "Resident Evil 3 Remake",
-        "Cuphead",
-        "Raft",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "CrossCode",
-        "ANIMAL WELL",
-        "Hades",
-        "Risk of Rain 2",
-        "Castlevania 64",
-        "Zelda II: The Adventure of Link",
-        "Starcraft 2",
-        "DOOM 1993",
-        "Ocarina of Time",
-        "Toontown",
-        "Sonic Heroes",
-        "Sea of Thieves",
-        "The Legend of Zelda",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "Xenoblade X",
-        "Final Fantasy",
-        "Super Mario Odyssey",
-        "Resident Evil 2 Remake",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Inscryption",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "MegaMan Battle Network 3",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Wargroove 2",
-        "Risk of Rain",
-        "Super Metroid",
-        "Dark Souls III",
-        "Factorio",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Ratchet & Clank 2",
-        "Don",
-        "The Legend of Zelda - Oracle of Ages",
-        "Cat Quest",
-        "A Link to the Past",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Outer Wilds",
-        "Super Metroid Map Rando",
-        "Metroid Prime",
-        "The Wind Waker",
-        "Final Fantasy Tactics Advance",
-        "Against the Storm",
-        "Undertale",
-        "DOOM II",
-        "Muse Dash",
-        "Civilization VI",
-        "Dark Souls II",
-        "Jak and Daxter: The Precursor Legacy",
-        "Wargroove",
-        "Star Wars Episode I Racer",
-        "Rogue Legacy",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Landstalker - The Treasures of King Nole",
-        "Secret of Evermore"
-    ],
-    "real time strategy (rts)": [
-        "Starcraft 2",
-        "OpenRCT2",
-        "Against the Storm"
-    ],
-    "real": [
-        "Starcraft 2",
-        "OpenRCT2",
-        "Against the Storm"
-    ],
-    "time": [
-        "The Legend of Zelda - Oracle of Ages",
-        "VVVVVV",
-        "A Link to the Past",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Outer Wilds",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Pokemon Crystal",
-        "Metroid Prime",
-        "Final Fantasy Tactics Advance",
-        "A Hat in Time",
-        "Chrono Trigger Jets of Time",
-        "Against the Storm",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "The Witness",
-        "Mario Kart 64",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "OpenRCT2",
-        "Timespinner",
-        "Risk of Rain",
-        "Super Metroid",
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Pokemon Emerald",
-        "Spyro 3"
-    ],
-    "strategy": [
-        "Slay the Spire",
-        "Monster Sanctuary",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "EarthBound",
-        "Terraria",
-        "Inscryption",
-        "Final Fantasy Tactics Advance",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "Against the Storm",
-        "Not an idle game",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Undertale",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "Paper Mario",
-        "Civilization VI",
-        "Wargroove 2",
-        "Factorio - Space Age Without Space",
-        "Yu-Gi-Oh! 2006",
-        "Hunie Pop",
-        "Balatro",
-        "Chained Echoes",
-        "Hunie Pop 2",
-        "Starcraft 2",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "UFO 50",
-        "Wargroove",
-        "Pokemon Emerald",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Don"
-    ],
-    "(rts)": [
-        "Starcraft 2",
-        "OpenRCT2",
-        "Against the Storm"
-    ],
-    "simulator": [
-        "Minecraft",
-        "Outer Wilds",
-        "Terraria",
-        "Getting Over It",
-        "Raft",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "Not an idle game",
-        "Against the Storm",
-        "Overcooked! 2",
-        "OpenRCT2",
-        "DORONKO WANKO",
-        "Civilization VI",
-        "Noita",
-        "Factorio - Space Age Without Space",
-        "The Sims 4",
-        "Hunie Pop",
-        "Hunie Pop 2",
-        "Factorio",
-        "Don",
-        "Sea of Thieves"
-    ],
-    "indie": [
-        "Slay the Spire",
-        "Celeste",
-        "Subnautica",
-        "Aquaria",
-        "Cat Quest",
-        "VVVVVV",
-        "Monster Sanctuary",
-        "TUNIC",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "The Messenger",
-        "Shivers",
-        "Outer Wilds",
-        "ULTRAKILL",
-        "osu!",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Inscryption",
-        "Cuphead",
-        "Raft",
-        "Celeste 64",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "A Hat in Time",
-        "Against the Storm",
-        "Not an idle game",
-        "ANIMAL WELL",
-        "Undertale",
-        "The Binding of Isaac Repentance",
-        "The Witness",
-        "Hylics 2",
-        "A Short Hike",
-        "Lethal Company",
-        "Ender Lilies",
-        "Muse Dash",
-        "Hades",
-        "Risk of Rain 2",
-        "Overcooked! 2",
-        "Pseudoregalia",
-        "Timespinner",
-        "Wargroove 2",
-        "Factorio - Space Age Without Space",
-        "Blasphemous",
-        "Noita",
-        "Peaks of Yore",
-        "Risk of Rain",
-        "Hunie Pop",
-        "Balatro",
-        "An Untitled Story",
-        "Chained Echoes",
-        "Hunie Pop 2",
-        "UFO 50",
-        "Factorio",
-        "Wargroove",
-        "Rogue Legacy",
-        "Don",
-        "Brotato"
-    ],
-    "roguelite": [
-        "Hades",
-        "Risk of Rain 2",
-        "Risk of Rain",
-        "Dungeon Clawler",
-        "Brotato",
-        "Noita",
-        "Against the Storm"
-    ],
-    "2023": [
-        "Lethal Company",
-        "Peaks of Yore",
-        "Pseudoregalia",
-        "Bumper Stickers",
-        "Bomb Rush Cyberfunk",
-        "Wargroove 2",
-        "Brotato",
-        "Against the Storm"
-    ],
-    "a hat in time": [
-        "A Hat in Time"
-    ],
-    "first person": [
-        "Minecraft",
-        "Subnautica",
-        "Star Fox 64",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Shivers",
-        "Outer Wilds",
-        "EarthBound",
-        "ULTRAKILL",
-        "Trackmania",
-        "Heretic",
-        "Inscryption",
-        "Raft",
-        "Metroid Prime",
-        "Zork Grand Inquisitor",
-        "A Hat in Time",
-        "The Witness",
-        "Hylics 2",
-        "Lethal Company",
-        "DOOM II",
-        "Castlevania 64",
-        "The Sims 4",
-        "Hunie Pop",
-        "Hunie Pop 2",
-        "DOOM 1993",
-        "Star Wars Episode I Racer",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Lingo",
-        "Sea of Thieves"
-    ],
-    "first": [
-        "Minecraft",
-        "Subnautica",
-        "Star Fox 64",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Shivers",
-        "Outer Wilds",
-        "EarthBound",
-        "ULTRAKILL",
-        "Trackmania",
-        "Heretic",
-        "Inscryption",
-        "Raft",
-        "Metroid Prime",
-        "Zork Grand Inquisitor",
-        "A Hat in Time",
-        "The Witness",
-        "Hylics 2",
-        "Lethal Company",
-        "DOOM II",
-        "Castlevania 64",
-        "The Sims 4",
-        "Hunie Pop",
-        "Hunie Pop 2",
-        "DOOM 1993",
-        "Star Wars Episode I Racer",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Lingo",
-        "Sea of Thieves"
-    ],
-    "person": [
-        "Minecraft",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Star Fox 64",
-        "Cat Quest",
-        "Skyward Sword",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Shivers",
-        "Dark Souls Remastered",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Outer Wilds",
-        "Resident Evil 2 Remake",
-        "Super Mario 64",
-        "Super Mario Odyssey",
-        "ULTRAKILL",
-        "Digimon World",
-        "Getting Over It",
-        "Kingdom Hearts 2",
-        "Heretic",
-        "Inscryption",
-        "A Link Between Worlds",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Resident Evil 3 Remake",
-        "Raft",
-        "Metroid Prime",
-        "Sonic Adventure DX",
-        "Twilight Princess",
-        "Celeste 64",
-        "Bomb Rush Cyberfunk",
-        "The Wind Waker",
-        "Zork Grand Inquisitor",
-        "A Hat in Time",
-        "Sonic Adventure 2 Battle",
-        "The Witness",
-        "Hylics 2",
-        "Lethal Company",
-        "Mario Kart 64",
-        "Trackmania",
-        "DOOM II",
-        "Risk of Rain 2",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Pseudoregalia",
-        "Paper Mario",
-        "The Sims 4",
-        "Dark Souls II",
-        "Hunie Pop",
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Hunie Pop 2",
-        "Dark Souls III",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "gzDoom",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Star Wars Episode I Racer",
-        "Ocarina of Time",
-        "Toontown",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Ratchet & Clank 2",
-        "Lingo",
-        "Sonic Heroes",
-        "SM64 Romhack",
-        "Spyro 3",
-        "Sea of Thieves",
-        "Secret of Evermore"
-    ],
-    "third person": [
-        "Minecraft",
-        "Banjo-Tooie",
-        "Star Fox 64",
-        "Cat Quest",
-        "Skyward Sword",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Dark Souls Remastered",
-        "Golden Sun The Lost Age",
-        "Resident Evil 2 Remake",
-        "Super Mario 64",
-        "Super Mario Odyssey",
-        "Digimon World",
-        "Getting Over It",
-        "Kingdom Hearts 2",
-        "Sonic Adventure DX",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "A Link Between Worlds",
-        "Resident Evil 3 Remake",
-        "Trackmania",
-        "Raft",
-        "Twilight Princess",
-        "The Wind Waker",
-        "Celeste 64",
-        "Bomb Rush Cyberfunk",
-        "A Hat in Time",
-        "Sonic Adventure 2 Battle",
-        "Hylics 2",
-        "Mario Kart 64",
-        "Risk of Rain 2",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Pseudoregalia",
-        "Paper Mario",
-        "The Sims 4",
-        "Dark Souls II",
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Dark Souls III",
-        "Jak and Daxter: The Precursor Legacy",
-        "gzDoom",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Star Wars Episode I Racer",
-        "Ocarina of Time",
-        "Toontown",
-        "Ratchet & Clank 2",
-        "Sonic Heroes",
-        "SM64 Romhack",
-        "Spyro 3",
-        "Secret of Evermore"
-    ],
-    "third": [
-        "Minecraft",
-        "Banjo-Tooie",
-        "Star Fox 64",
-        "Cat Quest",
-        "Skyward Sword",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Dark Souls Remastered",
-        "Golden Sun The Lost Age",
-        "Resident Evil 2 Remake",
-        "Super Mario 64",
-        "Super Mario Odyssey",
-        "Digimon World",
-        "Getting Over It",
-        "Kingdom Hearts 2",
-        "Sonic Adventure DX",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "A Link Between Worlds",
-        "Resident Evil 3 Remake",
-        "Trackmania",
-        "Raft",
-        "Twilight Princess",
-        "The Wind Waker",
-        "Celeste 64",
-        "Bomb Rush Cyberfunk",
-        "A Hat in Time",
-        "Sonic Adventure 2 Battle",
-        "Hylics 2",
-        "Mario Kart 64",
-        "Risk of Rain 2",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Pseudoregalia",
-        "Paper Mario",
-        "The Sims 4",
-        "Dark Souls II",
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Dark Souls III",
-        "Jak and Daxter: The Precursor Legacy",
-        "gzDoom",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Star Wars Episode I Racer",
-        "Ocarina of Time",
-        "Toontown",
-        "Ratchet & Clank 2",
-        "Sonic Heroes",
-        "SM64 Romhack",
-        "Spyro 3",
-        "Secret of Evermore"
-    ],
-    "platform": [
-        "Celeste",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Skyward Sword",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Momodora Moonlit Farewell",
-        "Kirby 64 - The Crystal Shards",
-        "Wario Land 4",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "The Messenger",
-        "SMZ3",
-        "Faxanadu",
-        "Super Mario Odyssey",
-        "Super Metroid Map Rando",
-        "Super Mario 64",
-        "ULTRAKILL",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Sonic Adventure DX",
-        "Cuphead",
-        "Metroid Prime",
-        "Celeste 64",
-        "Bomb Rush Cyberfunk",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "Sonic Adventure 2 Battle",
-        "ANIMAL WELL",
-        "Hylics 2",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Pseudoregalia",
-        "Kirby's Dream Land 3",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Blasphemous",
-        "Peaks of Yore",
-        "Super Mario World",
-        "Super Mario Land 2",
-        "Super Metroid",
-        "Ape Escape",
-        "Yoshi's Island",
-        "Zelda II: The Adventure of Link",
-        "An Untitled Story",
-        "Zillion",
-        "UFO 50",
-        "Jak and Daxter: The Precursor Legacy",
-        "gzDoom",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Donkey Kong Country 3",
-        "Wario Land",
-        "Ratchet & Clank 2",
-        "Sonic Heroes",
-        "SM64 Romhack",
-        "Spyro 3"
-    ],
-    "action": [
-        "Celeste",
-        "Star Fox 64",
-        "Skyward Sword",
-        "VVVVVV",
-        "TUNIC",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "Super Mario 64",
-        "Digimon World",
-        "Getting Over It",
-        "Trackmania",
-        "Twilight Princess",
-        "Chrono Trigger Jets of Time",
-        "Sonic Adventure 2 Battle",
-        "DORONKO WANKO",
-        "Mega Man 2",
-        "Noita",
-        "Blasphemous",
-        "The Sims 4",
-        "Super Mario World",
-        "Tyrian",
-        "Ape Escape",
-        "Final Fantasy Mystic Quest",
-        "Wario Land",
-        "Brotato",
-        "SM64 Romhack",
-        "Banjo-Tooie",
-        "Luigi's Mansion",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country",
-        "SMZ3",
-        "Dark Souls Remastered",
-        "ULTRAKILL",
-        "Sonic Adventure DX",
-        "A Link Between Worlds",
-        "Resident Evil 3 Remake",
-        "Cuphead",
-        "Bomb Rush Cyberfunk",
-        "Dungeon Clawler",
-        "CrossCode",
-        "ANIMAL WELL",
-        "Hades",
-        "Risk of Rain 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Diddy Kong Racing",
-        "Starcraft 2",
-        "DOOM 1993",
-        "gzDoom",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Sonic Heroes",
-        "Sea of Thieves",
-        "The Legend of Zelda",
-        "Tetris Attack",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "Xenoblade X",
-        "Final Fantasy",
-        "Super Mario Odyssey",
-        "EarthBound",
-        "Resident Evil 2 Remake",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Pokemon Crystal",
-        "Celeste 64",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "Lethal Company",
-        "MegaMan Battle Network 3",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Kirby's Dream Land 3",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Risk of Rain",
-        "Peaks of Yore",
-        "Super Metroid",
-        "Yoshi's Island",
-        "An Untitled Story",
-        "Chained Echoes",
-        "Dark Souls III",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 3",
-        "Ratchet & Clank 2",
-        "Don",
-        "The Legend of Zelda - Oracle of Ages",
-        "Cat Quest",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Outer Wilds",
-        "Super Metroid Map Rando",
-        "osu!",
-        "DLCQuest",
-        "Metroid Prime",
-        "The Wind Waker",
-        "Final Fantasy Tactics Advance",
-        "Mario Kart 64",
-        "Pokemon Red and Blue",
-        "DOOM II",
-        "Muse Dash",
-        "Overcooked! 2",
-        "Pseudoregalia",
-        "Dark Souls II",
-        "Super Mario Land 2",
-        "UFO 50",
-        "Jak and Daxter: The Precursor Legacy",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Star Wars Episode I Racer",
-        "Landstalker - The Treasures of King Nole",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3",
-        "Secret of Evermore"
-    ],
-    "time travel": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Ape Escape",
-        "EarthBound",
-        "Outer Wilds",
-        "Ocarina of Time",
-        "Majora's Mask Recompiled",
-        "Timespinner",
-        "A Hat in Time",
-        "Chrono Trigger Jets of Time",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "travel": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Ape Escape",
-        "EarthBound",
-        "Outer Wilds",
-        "DOOM II",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Ocarina of Time",
-        "Majora's Mask Recompiled",
-        "Timespinner",
-        "A Hat in Time",
-        "Chrono Trigger Jets of Time",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "spaceship": [
-        "Star Fox 64",
-        "Metroid Zero Mission",
-        "VVVVVV",
-        "Metroid Prime",
-        "Civilization VI",
-        "A Hat in Time"
-    ],
-    "female protagonist": [
-        "Super Metroid",
-        "Celeste",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Short Hike",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Celeste 64",
-        "Timespinner",
-        "A Hat in Time",
-        "Undertale"
-    ],
-    "female": [
-        "Super Metroid",
-        "Celeste",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Short Hike",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Celeste 64",
-        "Timespinner",
-        "A Hat in Time",
-        "Undertale"
-    ],
-    "protagonist": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Celeste",
-        "Skyward Sword",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "ULTRAKILL",
-        "Metroid Prime",
-        "Celeste 64",
-        "A Hat in Time",
-        "Undertale",
-        "A Short Hike",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Timespinner",
-        "Blasphemous",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid",
-        "Ape Escape",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "action-adventure": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Luigi's Mansion",
-        "Hollow Knight",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Wind Waker",
-        "CrossCode",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Timespinner",
-        "Zelda II: The Adventure of Link",
-        "Zillion",
-        "Dark Souls II",
-        "Super Metroid",
-        "An Untitled Story",
-        "Dark Souls III",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Don",
-        "Sea of Thieves"
-    ],
-    "cute": [
-        "Celeste",
-        "A Short Hike",
-        "Muse Dash",
-        "TUNIC",
-        "A Hat in Time",
-        "Undertale",
-        "The Sims 4",
-        "ANIMAL WELL"
-    ],
-    "snow": [
-        "Golden Sun The Lost Age",
-        "Celeste",
-        "Minecraft",
-        "Diddy Kong Racing",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "A Hat in Time",
-        "A Link Between Worlds",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Final Fantasy Tactics Advance",
-        "Donkey Kong Country"
-    ],
-    "wall jump": [
-        "Super Metroid",
-        "Super Mario Odyssey",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "Super Mario Sunshine",
-        "Ori and the Blind Forest",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon"
-    ],
-    "wall": [
-        "Banjo-Tooie",
-        "Kingdom Hearts",
-        "Donkey Kong Country",
-        "Super Mario Odyssey",
-        "Super Metroid Map Rando",
-        "Final Fantasy Tactics Advance",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon",
-        "Undertale",
-        "Mario Kart 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Ori and the Blind Forest",
-        "Super Metroid",
-        "Jak and Daxter: The Precursor Legacy",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "jump": [
-        "Super Metroid",
-        "Super Mario Odyssey",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "Super Mario Sunshine",
-        "Ori and the Blind Forest",
-        "A Hat in Time",
-        "Castlevania - Circle of the Moon"
-    ],
-    "3d platformer": [
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "A Short Hike",
-        "Sonic Heroes",
-        "Super Mario Sunshine",
-        "Bomb Rush Cyberfunk",
-        "A Hat in Time",
-        "SM64 Romhack"
-    ],
-    "3d": [
-        "Minecraft",
-        "Star Fox 64",
-        "Skyward Sword",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Kirby 64 - The Crystal Shards",
-        "TUNIC",
-        "Xenoblade X",
-        "Dark Souls Remastered",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Digimon World",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "Bomb Rush Cyberfunk",
-        "A Hat in Time",
-        "The Witness",
-        "Hylics 2",
-        "A Short Hike",
-        "Mario Kart 64",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Dark Souls II",
-        "Ape Escape",
-        "Dark Souls III",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Ocarina of Time",
-        "Lingo",
-        "Sonic Heroes",
-        "SM64 Romhack",
-        "Spyro 3"
-    ],
-    "platformer": [
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Hylics 2",
-        "A Short Hike",
-        "Sonic Heroes",
-        "VVVVVV",
-        "Super Mario Sunshine",
-        "Hollow Knight",
-        "Bomb Rush Cyberfunk",
-        "A Hat in Time",
-        "SM64 Romhack",
-        "Blasphemous"
-    ],
-    "swimming": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Terraria",
-        "A Link Between Worlds",
-        "A Hat in Time",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Donkey Kong Country 3",
-        "SM64 Romhack",
-        "Spyro 3"
-    ],
-    "steam greenlight": [
-        "A Hat in Time",
-        "DLCQuest",
-        "Timespinner",
-        "Risk of Rain"
-    ],
-    "steam": [
-        "A Hat in Time",
-        "DLCQuest",
-        "Timespinner",
-        "Risk of Rain"
-    ],
-    "greenlight": [
-        "A Hat in Time",
-        "DLCQuest",
-        "Timespinner",
-        "Risk of Rain"
-    ],
-    "crowdfunding": [
-        "A Hat in Time",
-        "Hollow Knight",
-        "Timespinner",
-        "CrossCode",
-        "Risk of Rain"
-    ],
-    "crowd funded": [
-        "A Hat in Time",
-        "Hollow Knight",
-        "Timespinner",
-        "CrossCode",
-        "Risk of Rain"
-    ],
-    "crowd": [
-        "A Hat in Time",
-        "Hollow Knight",
-        "Timespinner",
-        "CrossCode",
-        "Risk of Rain"
-    ],
-    "funded": [
-        "A Hat in Time",
-        "Hollow Knight",
-        "Timespinner",
-        "CrossCode",
-        "Risk of Rain"
-    ],
-    "collection marathon": [
-        "Kirby 64 - The Crystal Shards",
-        "A Hat in Time",
-        "Banjo-Tooie",
-        "Super Mario Sunshine"
-    ],
-    "collection": [
-        "Kirby 64 - The Crystal Shards",
-        "A Hat in Time",
-        "Banjo-Tooie",
-        "Super Mario Sunshine"
-    ],
-    "marathon": [
-        "Kirby 64 - The Crystal Shards",
-        "A Hat in Time",
-        "Banjo-Tooie",
-        "Super Mario Sunshine"
-    ],
-    "2017": [
-        "Super Mario Odyssey",
-        "Cat Quest",
-        "Getting Over It",
-        "Cuphead",
-        "Hollow Knight",
-        "A Hat in Time",
-        "Sea of Thieves"
-    ],
-    "a link between worlds": [
-        "A Link Between Worlds"
-    ],
-    "puzzle": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Tetris Attack",
-        "Skyward Sword",
-        "VVVVVV",
-        "Sudoku",
-        "TUNIC",
-        "A Link to the Past",
-        "Wario Land 4",
-        "Jigsaw",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Paint",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Shivers",
-        "Outer Wilds",
-        "Inscryption",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Wind Waker",
-        "Zork Grand Inquisitor",
-        "CrossCode",
-        "Not an idle game",
-        "Undertale",
-        "ANIMAL WELL",
-        "The Witness",
-        "DOOM II",
-        "Castlevania 64",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Zillion",
-        "Hunie Pop",
-        "Candy Box 2",
-        "Hunie Pop 2",
-        "UFO 50",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Bumper Stickers",
-        "Lingo",
-        "Spyro 3",
-        "Paper Mario The Thousand Year Door"
-    ],
-    "role-playing (rpg)": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "Cat Quest",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "TUNIC",
-        "Xenoblade X",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Final Fantasy",
-        "Dark Souls Remastered",
-        "Faxanadu",
-        "EarthBound",
-        "Golden Sun The Lost Age",
-        "Digimon World",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Twilight Princess",
-        "The Wind Waker",
-        "Final Fantasy Tactics Advance",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Castlevania - Circle of the Moon",
-        "Chrono Trigger Jets of Time",
-        "Undertale",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
-        "Old School Runescape",
-        "MegaMan Battle Network 3",
-        "Ender Lilies",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Paper Mario",
-        "Lufia II Ancient Cave",
-        "Timespinner",
-        "Wargroove 2",
-        "Noita",
-        "Blasphemous",
-        "Risk of Rain",
-        "Dark Souls II",
-        "The Sims 4",
-        "Hunie Pop",
-        "Final Fantasy Mystic Quest",
-        "Zelda II: The Adventure of Link",
-        "Candy Box 2",
-        "Chained Echoes",
-        "Dark Souls III",
-        "UFO 50",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Toontown",
-        "Brotato",
-        "Mario & Luigi Superstar Saga",
-        "Secret of Evermore"
-    ],
-    "role-playing": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "Cat Quest",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "TUNIC",
-        "Xenoblade X",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Final Fantasy",
-        "Dark Souls Remastered",
-        "Faxanadu",
-        "EarthBound",
-        "Golden Sun The Lost Age",
-        "Digimon World",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Twilight Princess",
-        "The Wind Waker",
-        "Final Fantasy Tactics Advance",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Castlevania - Circle of the Moon",
-        "Chrono Trigger Jets of Time",
-        "Undertale",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
-        "Old School Runescape",
-        "MegaMan Battle Network 3",
-        "Ender Lilies",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Paper Mario",
-        "Lufia II Ancient Cave",
-        "Timespinner",
-        "Wargroove 2",
-        "Noita",
-        "Blasphemous",
-        "Risk of Rain",
-        "Dark Souls II",
-        "The Sims 4",
-        "Hunie Pop",
-        "Final Fantasy Mystic Quest",
-        "Zelda II: The Adventure of Link",
-        "Candy Box 2",
-        "Chained Echoes",
-        "Dark Souls III",
-        "UFO 50",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Toontown",
-        "Brotato",
-        "Mario & Luigi Superstar Saga",
-        "Secret of Evermore"
-    ],
-    "(rpg)": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "Cat Quest",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Kingdom Hearts",
-        "Final Fantasy IV Free Enterprise",
-        "TUNIC",
-        "Xenoblade X",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Final Fantasy",
-        "Dark Souls Remastered",
-        "Faxanadu",
-        "EarthBound",
-        "Golden Sun The Lost Age",
-        "Digimon World",
-        "Terraria",
-        "Kingdom Hearts 2",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Twilight Princess",
-        "The Wind Waker",
-        "Final Fantasy Tactics Advance",
-        "Bomb Rush Cyberfunk",
-        "Stardew Valley",
-        "Dungeon Clawler",
-        "CrossCode",
-        "Castlevania - Circle of the Moon",
-        "Chrono Trigger Jets of Time",
-        "Undertale",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
-        "Old School Runescape",
-        "MegaMan Battle Network 3",
-        "Ender Lilies",
-        "Pokemon Red and Blue",
-        "Hades",
-        "Paper Mario",
-        "Lufia II Ancient Cave",
-        "Timespinner",
-        "Wargroove 2",
-        "Noita",
-        "Blasphemous",
-        "Risk of Rain",
-        "Dark Souls II",
-        "The Sims 4",
-        "Hunie Pop",
-        "Final Fantasy Mystic Quest",
-        "Zelda II: The Adventure of Link",
-        "Candy Box 2",
-        "Chained Echoes",
-        "Dark Souls III",
-        "UFO 50",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Emerald",
-        "Toontown",
-        "Brotato",
-        "Mario & Luigi Superstar Saga",
-        "Secret of Evermore"
-    ],
-    "historical": [
-        "Candy Box 2",
-        "Skyward Sword",
-        "Heretic",
-        "A Link Between Worlds",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Civilization VI",
-        "Secret of Evermore"
-    ],
-    "sandbox": [
-        "Faxanadu",
-        "Super Mario Odyssey",
-        "Minecraft",
-        "Old School Runescape",
-        "Terraria",
-        "Factorio",
-        "Super Mario Sunshine",
-        "A Link Between Worlds",
-        "Noita",
-        "Landstalker - The Treasures of King Nole",
-        "Ocarina of Time",
-        "Zelda II: The Adventure of Link",
-        "Xenoblade X",
-        "Stardew Valley",
-        "Don",
-        "Factorio - Space Age Without Space",
-        "Not an idle game",
-        "The Sims 4"
-    ],
-    "open world": [
-        "Minecraft",
-        "Subnautica",
-        "The Legend of Zelda",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "Outer Wilds",
-        "Super Mario 64",
-        "Super Mario Odyssey",
-        "Terraria",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Witness",
-        "Old School Runescape",
-        "A Short Hike",
-        "Metroid Zero Mission",
-        "Pokemon Red and Blue",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Toontown",
-        "Lingo",
-        "Don",
-        "SM64 Romhack",
-        "Sea of Thieves"
-    ],
-    "open": [
-        "Minecraft",
-        "Subnautica",
-        "The Legend of Zelda",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "Outer Wilds",
-        "Super Mario 64",
-        "Super Mario Odyssey",
-        "Terraria",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Witness",
-        "Old School Runescape",
-        "A Short Hike",
-        "Metroid Zero Mission",
-        "Pokemon Red and Blue",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Toontown",
-        "Lingo",
-        "Don",
-        "SM64 Romhack",
-        "Sea of Thieves"
-    ],
-    "world": [
-        "Minecraft",
-        "Subnautica",
-        "The Legend of Zelda",
-        "Aquaria",
-        "Skyward Sword",
-        "VVVVVV",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "SMZ3",
-        "Golden Sun The Lost Age",
-        "Outer Wilds",
-        "EarthBound",
-        "Super Mario 64",
-        "Super Mario Odyssey",
-        "Terraria",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Metroid Prime",
-        "The Witness",
-        "Old School Runescape",
-        "A Short Hike",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Pokemon Red and Blue",
-        "Donkey Kong Country 2",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Dark Souls III",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Toontown",
-        "Donkey Kong Country 3",
-        "Lingo",
-        "Don",
-        "SM64 Romhack",
-        "Sea of Thieves"
-    ],
-    "medieval": [
-        "Candy Box 2",
-        "Dark Souls III",
-        "Secret of Evermore",
-        "Skyward Sword",
-        "Heretic",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "Dark Souls II"
-    ],
-    "magic": [
-        "Aquaria",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Dark Souls Remastered",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "Terraria",
-        "Heretic",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Final Fantasy Tactics Advance",
-        "Zork Grand Inquisitor",
-        "Castlevania - Circle of the Moon",
-        "Chrono Trigger Jets of Time",
-        "Castlevania 64",
-        "Noita",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Candy Box 2",
-        "Rogue Legacy",
-        "Link's Awakening DX"
-    ],
-    "minigames": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Golden Sun The Lost Age",
-        "Ape Escape",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "Kingdom Hearts",
-        "Kirby 64 - The Crystal Shards",
-        "Ocarina of Time",
-        "Donkey Kong Country 3",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Toontown",
-        "Wario Land 4",
-        "Spyro 3"
-    ],
-    "2.5d": [
-        "DOOM 1993",
-        "DOOM II",
-        "Heretic",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "archery": [
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Wind Waker",
-        "Majora's Mask Recompiled"
-    ],
-    "fairy": [
-        "The Legend of Zelda - Oracle of Ages",
-        "The Legend of Zelda",
-        "Hunie Pop 2",
-        "Terraria",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "Ocarina of Time",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "Stardew Valley",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "princess": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Mario 64",
-        "Mario Kart 64",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "A Link Between Worlds",
-        "Ocarina of Time",
-        "Paper Mario",
-        "SM64 Romhack",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario World"
-    ],
-    "sequel": [
-        "Banjo-Tooie",
-        "A Link to the Past",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "Golden Sun The Lost Age",
-        "Super Mario Odyssey",
-        "Digimon World",
-        "A Link Between Worlds",
-        "Final Fantasy Tactics Advance",
-        "Hylics 2",
-        "Mario Kart 64",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Civilization VI",
-        "Mega Man 2",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Dark Souls III",
-        "Ocarina of Time",
-        "Don"
-    ],
-    "sword & sorcery": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Final Fantasy Mystic Quest",
-        "Dark Souls III",
-        "Terraria",
-        "Skyward Sword",
-        "Heretic",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Kingdom Hearts",
-        "Link's Awakening DX",
-        "Ocarina of Time",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Spyro 3",
-        "Dark Souls II"
-    ],
-    "sword": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Final Fantasy Mystic Quest",
-        "Dark Souls III",
-        "Terraria",
-        "Skyward Sword",
-        "Heretic",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Kingdom Hearts",
-        "Link's Awakening DX",
-        "Ocarina of Time",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Spyro 3",
-        "Dark Souls II"
-    ],
-    "&": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Slay the Spire",
-        "Skyward Sword",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Yacht Dice",
-        "Majora's Mask Recompiled",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Terraria",
-        "Heretic",
-        "Inscryption",
-        "A Link Between Worlds",
-        "The Wind Waker",
-        "Dark Souls II",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "Dark Souls III",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Spyro 3"
-    ],
-    "sorcery": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Final Fantasy Mystic Quest",
-        "Dark Souls III",
-        "Terraria",
-        "Skyward Sword",
-        "Heretic",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Kingdom Hearts",
-        "Link's Awakening DX",
-        "Ocarina of Time",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Spyro 3",
-        "Dark Souls II"
-    ],
-    "darkness": [
-        "The Witness",
-        "Super Metroid",
-        "EarthBound",
-        "Minecraft",
-        "Super Metroid Map Rando",
-        "Aquaria",
-        "Terraria",
-        "DOOM II",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Luigi's Mansion",
-        "Donkey Kong Country",
-        "Zelda II: The Adventure of Link"
-    ],
-    "digital distribution": [
-        "Celeste",
-        "Minecraft",
-        "Banjo-Tooie",
-        "VVVVVV",
-        "Symphony of the Night",
-        "TUNIC",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Heretic",
-        "A Link Between Worlds",
-        "Cuphead",
-        "CrossCode",
-        "The Witness",
-        "DOOM II",
-        "Muse Dash",
-        "Donkey Kong Country 2",
-        "Civilization VI",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Super Mario World",
-        "Ape Escape",
-        "Yoshi's Island",
-        "Hunie Pop 2",
-        "UFO 50",
-        "Factorio",
-        "Rogue Legacy",
-        "Link's Awakening DX",
-        "Don",
-        "Mario & Luigi Superstar Saga",
-        "Sea of Thieves"
-    ],
-    "digital": [
-        "Celeste",
-        "Minecraft",
-        "Banjo-Tooie",
-        "VVVVVV",
-        "Symphony of the Night",
-        "TUNIC",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Heretic",
-        "A Link Between Worlds",
-        "Cuphead",
-        "CrossCode",
-        "The Witness",
-        "DOOM II",
-        "Muse Dash",
-        "Donkey Kong Country 2",
-        "Civilization VI",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Super Mario World",
-        "Ape Escape",
-        "Yoshi's Island",
-        "Hunie Pop 2",
-        "UFO 50",
-        "Factorio",
-        "Rogue Legacy",
-        "Link's Awakening DX",
-        "Don",
-        "Mario & Luigi Superstar Saga",
-        "Sea of Thieves"
-    ],
-    "distribution": [
-        "Celeste",
-        "Minecraft",
-        "Banjo-Tooie",
-        "VVVVVV",
-        "Symphony of the Night",
-        "TUNIC",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Heretic",
-        "A Link Between Worlds",
-        "Cuphead",
-        "CrossCode",
-        "The Witness",
-        "DOOM II",
-        "Muse Dash",
-        "Donkey Kong Country 2",
-        "Civilization VI",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Super Mario World",
-        "Ape Escape",
-        "Yoshi's Island",
-        "Hunie Pop 2",
-        "UFO 50",
-        "Factorio",
-        "Rogue Legacy",
-        "Link's Awakening DX",
-        "Don",
-        "Mario & Luigi Superstar Saga",
-        "Sea of Thieves"
-    ],
-    "anthropomorphism": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Banjo-Tooie",
-        "Star Fox 64",
-        "Kingdom Hearts",
-        "TUNIC",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Undertale",
-        "Mario Kart 64",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3"
-    ],
-    "polygonal 3d": [
-        "Minecraft",
-        "Star Fox 64",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Kirby 64 - The Crystal Shards",
-        "Xenoblade X",
-        "Digimon World",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Witness",
-        "Mario Kart 64",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Ape Escape",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Ocarina of Time",
-        "Spyro 3"
-    ],
-    "polygonal": [
-        "Minecraft",
-        "Star Fox 64",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Kirby 64 - The Crystal Shards",
-        "Xenoblade X",
-        "Digimon World",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Witness",
-        "Mario Kart 64",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Ape Escape",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Ocarina of Time",
-        "Spyro 3"
-    ],
-    "bow and arrow": [
-        "Minecraft",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Cuphead",
-        "Ocarina of Time",
-        "Final Fantasy Tactics Advance",
-        "Risk of Rain",
-        "Dark Souls II"
-    ],
-    "bow": [
-        "Minecraft",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Cuphead",
-        "Ocarina of Time",
-        "Final Fantasy Tactics Advance",
-        "Risk of Rain",
-        "Dark Souls II"
-    ],
-    "and": [
-        "Minecraft",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Shivers",
-        "Dark Souls Remastered",
-        "Resident Evil 2 Remake",
-        "ULTRAKILL",
-        "Terraria",
-        "A Link Between Worlds",
-        "Resident Evil 3 Remake",
-        "Cuphead",
-        "Final Fantasy Tactics Advance",
-        "Zork Grand Inquisitor",
-        "Stardew Valley",
-        "The Binding of Isaac Repentance",
-        "DOOM II",
-        "Hades",
-        "Castlevania 64",
-        "OpenRCT2",
-        "Civilization VI",
-        "Risk of Rain",
-        "Blasphemous",
-        "Dark Souls II",
-        "Starcraft 2",
-        "DOOM 1993",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX"
-    ],
-    "arrow": [
-        "Minecraft",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Cuphead",
-        "Ocarina of Time",
-        "Final Fantasy Tactics Advance",
-        "Risk of Rain",
-        "Dark Souls II"
-    ],
-    "damsel in distress": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Super Mario World"
-    ],
-    "damsel": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Super Mario World"
-    ],
-    "in": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Mario Odyssey",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Super Mario 64",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "Super Mario Sunshine",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Super Mario World",
-        "Super Metroid",
-        "Dark Souls III",
-        "Ocarina of Time",
-        "SM64 Romhack"
-    ],
-    "distress": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Super Mario World"
-    ],
-    "upgradeable weapons": [
-        "Metroid Zero Mission",
-        "A Link Between Worlds",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Dark Souls II"
-    ],
-    "upgradeable": [
-        "Metroid Zero Mission",
-        "A Link Between Worlds",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Dark Souls II"
-    ],
-    "weapons": [
-        "Metroid Zero Mission",
-        "A Link Between Worlds",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Dark Souls II"
-    ],
-    "disorientation zone": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "disorientation": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "zone": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "descendants of other characters": [
-        "The Legend of Zelda - Oracle of Ages",
-        "EarthBound",
-        "Star Fox 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Luigi's Mansion",
-        "Donkey Kong Country 3",
-        "Ocarina of Time",
-        "Symphony of the Night",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country"
-    ],
-    "descendants": [
-        "The Legend of Zelda - Oracle of Ages",
-        "EarthBound",
-        "Star Fox 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Luigi's Mansion",
-        "Donkey Kong Country 3",
-        "Ocarina of Time",
-        "Symphony of the Night",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country"
-    ],
-    "other": [
-        "The Legend of Zelda - Oracle of Ages",
-        "EarthBound",
-        "Star Fox 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Luigi's Mansion",
-        "Donkey Kong Country 3",
-        "Ocarina of Time",
-        "Symphony of the Night",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country"
-    ],
-    "characters": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Luigi's Mansion",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "EarthBound",
-        "Terraria",
-        "A Link Between Worlds",
-        "Stardew Valley",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Dark Souls II",
-        "Dark Souls III",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Donkey Kong Country 3"
-    ],
-    "save point": [
-        "Aquaria",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Donkey Kong Country",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Super Metroid",
-        "Jak and Daxter: The Precursor Legacy",
-        "Donkey Kong Country 3",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "save": [
-        "Aquaria",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Donkey Kong Country",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Super Metroid",
-        "Jak and Daxter: The Precursor Legacy",
-        "Donkey Kong Country 3",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "point": [
-        "Aquaria",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "Donkey Kong Country",
-        "Faxanadu",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Paper Mario",
-        "Super Metroid",
-        "Jak and Daxter: The Precursor Legacy",
-        "Donkey Kong Country 3",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "stereoscopic 3d": [
-        "Minecraft",
-        "Sly Cooper and the Thievius Raccoonus",
-        "VVVVVV",
-        "A Link Between Worlds",
-        "Luigi's Mansion"
-    ],
-    "stereoscopic": [
-        "Minecraft",
-        "Sly Cooper and the Thievius Raccoonus",
-        "VVVVVV",
-        "A Link Between Worlds",
-        "Luigi's Mansion"
-    ],
-    "side quests": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Starcraft 2",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Xenoblade X",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Dark Souls II"
-    ],
-    "side": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Slay the Spire",
-        "Celeste",
-        "Aquaria",
-        "Tetris Attack",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "Kirby 64 - The Crystal Shards",
-        "Momodora Moonlit Farewell",
-        "Wario Land 4",
-        "Hollow Knight",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Final Fantasy",
-        "SMZ3",
-        "Faxanadu",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Dungeon Clawler",
-        "Castlevania - Circle of the Moon",
-        "ANIMAL WELL",
-        "Zillion",
-        "Hylics 2",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Muse Dash",
-        "Pokemon Red and Blue",
-        "Donkey Kong Country 2",
-        "Kirby's Dream Land 3",
-        "Paper Mario",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Mega Man 2",
-        "Wargroove 2",
-        "Noita",
-        "Blasphemous",
-        "Risk of Rain",
-        "Dark Souls II",
-        "Super Mario Land 2",
-        "Super Metroid",
-        "Final Fantasy Mystic Quest",
-        "Super Mario World",
-        "Yoshi's Island",
-        "An Untitled Story",
-        "Zelda II: The Adventure of Link",
-        "Starcraft 2",
-        "UFO 50",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Wario Land",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "quests": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Starcraft 2",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Xenoblade X",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "potion": [
-        "Golden Sun The Lost Age",
-        "Minecraft",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "real-time combat": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Super Mario 64",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Super Metroid",
-        "DOOM 1993",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "SM64 Romhack",
-        "Spyro 3"
-    ],
-    "real-time": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Super Mario 64",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Super Metroid",
-        "DOOM 1993",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "SM64 Romhack",
-        "Spyro 3"
-    ],
-    "combat": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Super Mario 64",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Super Metroid",
-        "DOOM 1993",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Landstalker - The Treasures of King Nole",
-        "SM64 Romhack",
-        "Spyro 3"
-    ],
-    "self-referential humor": [
-        "EarthBound",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "self-referential": [
-        "EarthBound",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "humor": [
-        "The Binding of Isaac Repentance",
-        "EarthBound",
-        "Banjo-Tooie",
-        "The Sims 4",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Don",
-        "The Messenger",
-        "Mario & Luigi Superstar Saga",
-        "Sea of Thieves"
-    ],
-    "multiple gameplay perspectives": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "multiple": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Wario Land 4",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "EarthBound",
-        "A Link Between Worlds",
-        "Cuphead",
-        "Metroid Prime",
-        "Undertale",
-        "The Witness",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Civilization VI",
-        "Ape Escape",
-        "Rogue Legacy",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3"
-    ],
-    "gameplay": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Mario Odyssey",
-        "Minecraft",
-        "Super Mario 64",
-        "Banjo-Tooie",
-        "Subnautica",
-        "Aquaria",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Super Mario Sunshine",
-        "A Link Between Worlds",
-        "Donkey Kong Country 2",
-        "Kingdom Hearts",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "SM64 Romhack"
-    ],
-    "perspectives": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "rpg elements": [
-        "Minecraft",
-        "Banjo-Tooie",
-        "Metroid Zero Mission",
-        "Symphony of the Night",
-        "A Link Between Worlds",
-        "Ori and the Blind Forest",
-        "Mario & Luigi Superstar Saga",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "rpg": [
-        "Minecraft",
-        "Banjo-Tooie",
-        "Metroid Zero Mission",
-        "Symphony of the Night",
-        "A Link Between Worlds",
-        "Ori and the Blind Forest",
-        "Mario & Luigi Superstar Saga",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "elements": [
-        "Minecraft",
-        "Banjo-Tooie",
-        "Metroid Zero Mission",
-        "Symphony of the Night",
-        "A Link Between Worlds",
-        "Ori and the Blind Forest",
-        "Mario & Luigi Superstar Saga",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "mercenary": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Starcraft 2",
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Metroid Prime",
-        "Dark Souls II"
-    ],
-    "coming of age": [
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Final Fantasy Tactics Advance",
-        "Ori and the Blind Forest"
-    ],
-    "coming": [
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Final Fantasy Tactics Advance",
-        "Ori and the Blind Forest"
-    ],
-    "age": [
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Final Fantasy Tactics Advance",
-        "Ori and the Blind Forest"
-    ],
-    "dimension travel": [
-        "A Link to the Past",
-        "DOOM II",
-        "Majora's Mask Recompiled",
-        "A Link Between Worlds"
-    ],
-    "dimension": [
-        "A Link to the Past",
-        "DOOM II",
-        "Majora's Mask Recompiled",
-        "A Link Between Worlds"
-    ],
-    "androgyny": [
-        "Golden Sun The Lost Age",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "A Link Between Worlds",
-        "Final Fantasy Tactics Advance"
-    ],
-    "fast traveling": [
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Emerald",
-        "A Link Between Worlds",
-        "Undertale"
-    ],
-    "fast": [
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Emerald",
-        "A Link Between Worlds",
-        "Undertale"
-    ],
-    "traveling": [
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Emerald",
-        "A Link Between Worlds",
-        "Undertale"
-    ],
-    "context sensitive": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "context": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "sensitive": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "living inventory": [
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Wind Waker",
-        "Majora's Mask Recompiled"
-    ],
-    "living": [
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Wind Waker",
-        "Majora's Mask Recompiled"
-    ],
-    "inventory": [
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "A Link Between Worlds",
-        "The Wind Waker",
-        "Majora's Mask Recompiled"
-    ],
-    "bees": [
-        "Minecraft",
-        "Terraria",
-        "A Link Between Worlds",
-        "A Link to the Past",
-        "Raft",
-        "Don"
-    ],
-    "2013": [
-        "Candy Box 2",
-        "Old School Runescape",
-        "Rogue Legacy",
-        "A Link Between Worlds",
-        "Risk of Rain"
-    ],
-    "a link to the past": [
-        "A Link to the Past"
-    ],
-    "mild violence": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "MegaMan Battle Network 3",
-        "Sly Cooper and the Thievius Raccoonus",
-        "A Link to the Past",
-        "Final Fantasy Tactics Advance",
-        "Castlevania - Circle of the Moon",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "mild animated violence": [
-        "A Link to the Past",
-        "Ape Escape",
-        "Lufia II Ancient Cave",
-        "Secret of Evermore"
-    ],
-    "animated": [
-        "Ape Escape",
-        "Banjo-Tooie",
-        "DOOM 1993",
-        "Sonic Adventure DX",
-        "Symphony of the Night",
-        "Skyward Sword",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Castlevania - Circle of the Moon",
-        "Twilight Princess",
-        "Lufia II Ancient Cave",
-        "Majora's Mask Recompiled",
-        "Ratchet & Clank 2",
-        "Xenoblade X",
-        "Chrono Trigger Jets of Time",
-        "Tyrian",
-        "Secret of Evermore"
-    ],
-    "ghosts": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Final Fantasy Mystic Quest",
-        "EarthBound",
-        "An Untitled Story",
-        "Sly Cooper and the Thievius Raccoonus",
-        "VVVVVV",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Cuphead",
-        "Donkey Kong Country 2",
-        "Luigi's Mansion",
-        "Metroid Prime",
-        "Paper Mario",
-        "Wario Land 4",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "mascot": [
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "Link's Awakening DX",
-        "Kirby's Dream Land 3",
-        "Paper Mario",
-        "Mega Man 2",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Spyro 3"
-    ],
-    "death": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Star Fox 64",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Luigi's Mansion",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Golden Sun The Lost Age",
-        "Terraria",
-        "Heretic",
-        "Metroid Prime",
-        "Final Fantasy Tactics Advance",
-        "Castlevania - Circle of the Moon",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "OpenRCT2",
-        "Paper Mario",
-        "Mega Man 2",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Dark Souls III",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX"
-    ],
-    "maze": [
-        "The Witness",
-        "Metroid Zero Mission",
-        "DOOM 1993",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Link's Awakening DX",
-        "OpenRCT2",
-        "Paper Mario"
-    ],
-    "backtracking": [
-        "The Witness",
-        "Faxanadu",
-        "Banjo-Tooie",
-        "Jak and Daxter: The Precursor Legacy",
-        "Metroid Zero Mission",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Link's Awakening DX",
-        "Metroid Prime",
-        "Ocarina of Time",
-        "Final Fantasy Tactics Advance",
-        "Castlevania - Circle of the Moon",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Undertale"
-    ],
-    "undead": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Dark Souls Remastered",
-        "Final Fantasy Mystic Quest",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Terraria",
-        "Heretic",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Link's Awakening DX",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga",
-        "Dark Souls II"
-    ],
-    "campaign": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "pixel art": [
-        "Celeste",
-        "VVVVVV",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Wario Land 4",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Stardew Valley",
-        "CrossCode",
-        "Undertale",
-        "ANIMAL WELL",
-        "Metroid Zero Mission",
-        "Timespinner",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Tyrian",
-        "Blasphemous",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid",
-        "Wargroove",
-        "Rogue Legacy",
-        "Link's Awakening DX"
-    ],
-    "pixel": [
-        "Celeste",
-        "VVVVVV",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Momodora Moonlit Farewell",
-        "Wario Land 4",
-        "The Messenger",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Stardew Valley",
-        "CrossCode",
-        "Undertale",
-        "ANIMAL WELL",
-        "A Short Hike",
-        "Metroid Zero Mission",
-        "Timespinner",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Noita",
-        "Blasphemous",
-        "Tyrian",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid",
-        "Wargroove",
-        "Rogue Legacy",
-        "Link's Awakening DX"
-    ],
-    "art": [
-        "Celeste",
-        "VVVVVV",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Wario Land 4",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Stardew Valley",
-        "CrossCode",
-        "Undertale",
-        "ANIMAL WELL",
-        "Metroid Zero Mission",
-        "Timespinner",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Tyrian",
-        "Blasphemous",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid",
-        "Wargroove",
-        "Rogue Legacy",
-        "Link's Awakening DX"
-    ],
-    "easter egg": [
-        "Ape Escape",
-        "Banjo-Tooie",
-        "DOOM II",
-        "Rogue Legacy",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "OpenRCT2",
-        "Paper Mario"
-    ],
-    "easter": [
-        "Ape Escape",
-        "Banjo-Tooie",
-        "DOOM II",
-        "Rogue Legacy",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "OpenRCT2",
-        "Paper Mario"
-    ],
-    "egg": [
-        "Ape Escape",
-        "Banjo-Tooie",
-        "DOOM II",
-        "Rogue Legacy",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "OpenRCT2",
-        "Paper Mario"
-    ],
-    "teleportation": [
-        "EarthBound",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "DOOM II",
-        "Rogue Legacy",
-        "VVVVVV",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "giant insects": [
-        "Super Mario Sunshine",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Secret of Evermore"
-    ],
-    "giant": [
-        "Super Mario Sunshine",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Secret of Evermore"
-    ],
-    "insects": [
-        "Super Mario Sunshine",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Secret of Evermore"
-    ],
-    "silent protagonist": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Golden Sun The Lost Age",
-        "ULTRAKILL",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Blasphemous",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "silent": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Skyward Sword",
-        "A Link to the Past",
-        "Kirby 64 - The Crystal Shards",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Golden Sun The Lost Age",
-        "ULTRAKILL",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Blasphemous",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "explosion": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Minecraft",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Cuphead",
-        "Metroid Prime",
-        "Final Fantasy Tactics Advance",
-        "Mario Kart 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "OpenRCT2",
-        "Mega Man 2",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid",
-        "Final Fantasy Mystic Quest",
-        "Rogue Legacy",
-        "Donkey Kong Country 3",
-        "Sonic Heroes"
-    ],
-    "block puzzle": [
-        "A Link to the Past",
-        "The Legend of Zelda - Oracle of Seasons",
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
-    ],
-    "block": [
-        "A Link to the Past",
-        "The Legend of Zelda - Oracle of Seasons",
-        "The Legend of Zelda - Oracle of Ages",
-        "Ocarina of Time"
-    ],
-    "monkey": [
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Mario Kart 64",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "nintendo power": [
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "nintendo": [
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "power": [
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "world map": [
-        "Aquaria",
-        "Jak and Daxter: The Precursor Legacy",
-        "VVVVVV",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Pokemon Crystal",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "map": [
-        "Aquaria",
-        "Jak and Daxter: The Precursor Legacy",
-        "VVVVVV",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Pokemon Crystal",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "human": [
-        "Golden Sun The Lost Age",
-        "Ape Escape",
-        "Dark Souls III",
-        "Starcraft 2",
-        "Skyward Sword",
-        "DOOM II",
-        "Symphony of the Night",
-        "Super Mario Sunshine",
-        "Terraria",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Link's Awakening DX",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "shopping": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Digimon World",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Mario & Luigi Superstar Saga",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "ice stage": [
-        "Banjo-Tooie",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Wario Land 4",
-        "Donkey Kong Country"
-    ],
-    "ice": [
-        "Banjo-Tooie",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Wario Land 4",
-        "Donkey Kong Country"
-    ],
-    "stage": [
-        "Banjo-Tooie",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Wario Land 4",
-        "Sonic Heroes",
-        "Donkey Kong Country",
-        "Spyro 3",
-        "Super Mario World"
-    ],
-    "saving the world": [
-        "A Link to the Past",
-        "EarthBound",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "saving": [
-        "A Link to the Past",
-        "EarthBound",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "the": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Banjo-Tooie",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "Golden Sun The Lost Age",
-        "Super Mario Odyssey",
-        "EarthBound",
-        "Terraria",
-        "Cuphead",
-        "Final Fantasy Tactics Advance",
-        "Undertale",
-        "DOOM II",
-        "Hades",
-        "Donkey Kong Country 2",
-        "Overcooked! 2",
-        "Paper Mario",
-        "Blasphemous",
-        "The Sims 4",
-        "Dark Souls II",
-        "Zelda II: The Adventure of Link",
-        "Diddy Kong Racing",
-        "Jak and Daxter: The Precursor Legacy",
-        "Rogue Legacy",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Mario & Luigi Superstar Saga",
-        "Sea of Thieves"
-    ],
-    "secret area": [
-        "The Witness",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "DOOM II",
-        "Heretic",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "secret": [
-        "The Witness",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "DOOM II",
-        "Heretic",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "area": [
-        "The Witness",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "DOOM II",
-        "Heretic",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "shielded enemies": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Rogue Legacy",
-        "A Link to the Past",
-        "Donkey Kong Country 3",
-        "Hollow Knight"
-    ],
-    "shielded": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Rogue Legacy",
-        "A Link to the Past",
-        "Donkey Kong Country 3",
-        "Hollow Knight"
-    ],
-    "enemies": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Rogue Legacy",
-        "A Link to the Past",
-        "Donkey Kong Country 3",
-        "Hollow Knight"
-    ],
-    "walking through walls": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DOOM II",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "walking": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DOOM II",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "through": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DOOM II",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "walls": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DOOM II",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "liberation": [
-        "A Link to the Past",
-        "Super Metroid",
-        "Donkey Kong Country 2",
-        "Super Metroid Map Rando"
-    ],
-    "conveyor belt": [
-        "A Link to the Past",
-        "Mega Man 2",
-        "Cuphead",
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "conveyor": [
-        "A Link to the Past",
-        "Mega Man 2",
-        "Cuphead",
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "belt": [
-        "A Link to the Past",
-        "Mega Man 2",
-        "Cuphead",
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "villain": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Golden Sun The Lost Age",
-        "Banjo-Tooie",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Ocarina of Time",
-        "Paper Mario",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "Castlevania - Circle of the Moon",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "recurring boss": [
-        "Banjo-Tooie",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Paper Mario",
-        "Donkey Kong Country"
-    ],
-    "recurring": [
-        "Banjo-Tooie",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Paper Mario",
-        "Donkey Kong Country"
-    ],
-    "boss": [
-        "Banjo-Tooie",
-        "DOOM II",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Ocarina of Time",
-        "Majora's Mask Recompiled",
-        "Paper Mario",
-        "Pokemon Emerald",
-        "Donkey Kong Country",
-        "Dark Souls II"
-    ],
-    "been here before": [
-        "Golden Sun The Lost Age",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "been": [
-        "Golden Sun The Lost Age",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "here": [
-        "Golden Sun The Lost Age",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "before": [
-        "Golden Sun The Lost Age",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "sleeping": [
-        "Golden Sun The Lost Age",
-        "Minecraft",
-        "Super Mario Sunshine",
-        "A Link to the Past",
-        "Pokemon Crystal",
-        "Paper Mario"
-    ],
-    "merchants": [
-        "Faxanadu",
-        "Candy Box 2",
-        "Terraria",
-        "A Link to the Past",
-        "Hollow Knight",
-        "Timespinner",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "fetch quests": [
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Metroid Prime",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "fetch": [
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Metroid Prime",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link"
-    ],
-    "kidnapping": [
-        "EarthBound",
-        "Yoshi's Island",
-        "Super Mario Sunshine",
-        "A Link to the Past",
-        "OpenRCT2"
-    ],
-    "poisoning": [
-        "A Link to the Past",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Paper Mario",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "time paradox": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64"
-    ],
-    "paradox": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64"
-    ],
-    "status effects": [
-        "The Legend of Zelda - Oracle of Ages",
-        "EarthBound",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "status": [
-        "The Legend of Zelda - Oracle of Ages",
-        "EarthBound",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "effects": [
-        "The Legend of Zelda - Oracle of Ages",
-        "EarthBound",
-        "A Link to the Past",
-        "Link's Awakening DX",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "hidden room": [
-        "A Link to the Past",
-        "DOOM II",
-        "Heretic",
-        "Dark Souls II"
-    ],
-    "hidden": [
-        "A Link to the Past",
-        "DOOM II",
-        "Heretic",
-        "Dark Souls II"
-    ],
-    "room": [
-        "A Link to the Past",
-        "DOOM II",
-        "Heretic",
-        "Dark Souls II"
-    ],
-    "another world": [
-        "A Link to the Past",
-        "DOOM II",
-        "Majora's Mask Recompiled",
-        "Link's Awakening DX"
-    ],
-    "another": [
-        "A Link to the Past",
-        "DOOM II",
-        "Majora's Mask Recompiled",
-        "Link's Awakening DX"
-    ],
-    "damage over time": [
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "damage": [
-        "Minecraft",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "Metroid Prime",
-        "Pokemon Emerald",
-        "Final Fantasy Tactics Advance",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "over": [
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM II",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Crystal",
-        "Donkey Kong Country 3",
-        "Pokemon Emerald",
-        "Final Fantasy Tactics Advance",
-        "Donkey Kong Country",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "monomyth": [
-        "A Link to the Past",
-        "Mega Man 2",
-        "Skyward Sword",
-        "Zelda II: The Adventure of Link"
-    ],
-    "buddy system": [
-        "A Link to the Past",
-        "Donkey Kong Country",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
-    ],
-    "buddy": [
-        "A Link to the Past",
-        "Donkey Kong Country",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3"
+        "hk",
+        "ff1",
+        "shorthike",
+        "hades",
+        "dkc2",
+        "gstla",
+        "ffmq",
+        "landstalker",
+        "ladx",
+        "ror1",
+        "seaofthieves",
+        "kh1",
+        "kh2",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "dsr",
+        "enderlilies",
+        "ffta",
+        "yugioh06",
+        "tunic",
+        "noita",
+        "pokemon_rb",
+        "wargroove",
+        "ctjot",
+        "yugiohddm",
+        "adventure",
+        "undertale",
+        "hylics2",
+        "against_the_storm",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "ahit",
+        "dungeon_clawler",
+        "alttp",
+        "chainedechoes",
+        "sm64hacks",
+        "celeste",
+        "dark_souls_3",
+        "banjo_tooie",
+        "minecraft",
+        "wargroove2",
+        "smo",
+        "heretic",
+        "tloz",
+        "earthbound",
+        "pmd_eos",
+        "blasphemous",
+        "yoshisisland",
+        "cat_quest",
+        "mlss",
+        "smw",
+        "aquaria",
+        "mm_recomp",
+        "sims4",
+        "zelda2",
+        "tloz_oos",
+        "osrs",
+        "ultrakill",
+        "v6",
+        "oribf",
+        "pseudoregalia",
+        "dark_souls_2",
+        "spire",
+        "ss",
+        "stardew_valley",
+        "zork_grand_inquisitor",
+        "pokemon_frlg",
+        "terraria",
+        "fm",
+        "huniepop",
+        "faxanadu",
+        "albw",
+        "pokemon_emerald",
+        "lufia2ac",
+        "tp",
+        "tww",
+        "civ_6",
+        "timespinner",
+        "monster_sanctuary"
+    ],
+    "bbc microcomputer system": [
+        "adventure"
+    ],
+    "bbc": [
+        "adventure"
+    ],
+    "microcomputer": [
+        "adventure"
     ],
     "system": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "EarthBound",
-        "Kingdom Hearts",
-        "A Link to the Past",
-        "Donkey Kong Country 2",
-        "Pokemon Crystal",
-        "Donkey Kong Country 3",
-        "Paper Mario",
-        "Pokemon Emerald",
-        "Final Fantasy Tactics Advance",
-        "Xenoblade X",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "retroachievements": [
-        "Banjo-Tooie",
-        "Star Fox 64",
-        "Tetris Attack",
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "Kirby 64 - The Crystal Shards",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country",
-        "EarthBound",
-        "Super Mario 64",
-        "Mario Kart 64",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Kirby's Dream Land 3",
-        "Paper Mario",
-        "Lufia II Ancient Cave",
-        "Super Mario World",
-        "Final Fantasy Mystic Quest",
-        "Diddy Kong Racing",
-        "Ocarina of Time",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "SM64 Romhack"
-    ],
-    "popular": [
-        "Super Mario 64",
-        "Pokemon FireRed and LeafGreen",
-        "Ocarina of Time",
-        "A Link to the Past",
-        "Hollow Knight",
-        "Super Mario World"
-    ],
-    "1991": [
-        "A Link to the Past",
-        "Final Fantasy IV Free Enterprise",
-        "Mega Man 2"
-    ],
-    "animal well": [
-        "ANIMAL WELL"
-    ],
-    "mild fantasy violence": [
-        "Faxanadu",
-        "ANIMAL WELL",
-        "Final Fantasy Mystic Quest",
-        "The Legend of Zelda",
-        "Sonic Heroes",
-        "Star Wars Episode I Racer",
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Final Fantasy IV Free Enterprise",
-        "Landstalker - The Treasures of King Nole",
-        "Wario Land",
-        "Ori and the Blind Forest",
-        "Chrono Trigger Jets of Time",
-        "Zelda II: The Adventure of Link",
-        "Final Fantasy"
-    ],
-    "side view": [
-        "Slay the Spire",
-        "Celeste",
-        "Aquaria",
-        "Tetris Attack",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Final Fantasy IV Free Enterprise",
-        "Kirby 64 - The Crystal Shards",
-        "Momodora Moonlit Farewell",
-        "Wario Land 4",
-        "Hollow Knight",
-        "Donkey Kong Country",
-        "The Messenger",
-        "Final Fantasy",
-        "SMZ3",
-        "Faxanadu",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Getting Over It",
-        "DLCQuest",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Cuphead",
-        "Pokemon Crystal",
-        "Dungeon Clawler",
-        "Castlevania - Circle of the Moon",
-        "ANIMAL WELL",
-        "Hylics 2",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Muse Dash",
-        "Pokemon Red and Blue",
-        "Donkey Kong Country 2",
-        "Kirby's Dream Land 3",
-        "Paper Mario",
-        "Lufia II Ancient Cave",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Mega Man 2",
-        "Wargroove 2",
-        "Noita",
-        "Blasphemous",
-        "Risk of Rain",
-        "Super Mario World",
-        "Super Mario Land 2",
-        "Super Metroid",
-        "Final Fantasy Mystic Quest",
-        "Yoshi's Island",
-        "Zelda II: The Adventure of Link",
-        "An Untitled Story",
-        "Zillion",
-        "UFO 50",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Rogue Legacy",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Donkey Kong Country 3",
-        "Wario Land",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "horror": [
-        "Shivers",
-        "Resident Evil 2 Remake",
-        "Lethal Company",
-        "Terraria",
-        "DOOM 1993",
-        "DOOM II",
-        "Getting Over It",
-        "Inscryption",
-        "Resident Evil 3 Remake",
-        "Luigi's Mansion",
-        "Castlevania 64",
-        "Symphony of the Night",
-        "Majora's Mask Recompiled",
-        "Undertale",
-        "Don",
-        "Castlevania - Circle of the Moon",
-        "Blasphemous",
-        "ANIMAL WELL"
-    ],
-    "survival": [
-        "Yu-Gi-Oh! 2006",
-        "Dungeon Clawler",
-        "Minecraft",
-        "Resident Evil 2 Remake",
-        "Subnautica",
-        "Lethal Company",
-        "Terraria",
-        "Factorio",
-        "Risk of Rain 2",
-        "Resident Evil 3 Remake",
-        "Raft",
-        "Risk of Rain",
-        "Don",
-        "Factorio - Space Age Without Space",
-        "ANIMAL WELL"
-    ],
-    "mystery": [
-        "The Witness",
-        "Outer Wilds",
-        "Inscryption",
-        "ANIMAL WELL"
-    ],
-    "exploration": [
-        "Celeste",
-        "Subnautica",
-        "Aquaria",
-        "VVVVVV",
-        "TUNIC",
-        "Outer Wilds",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "DLCQuest",
-        "Pokemon Crystal",
-        "Metroid Prime",
-        "ANIMAL WELL",
-        "The Witness",
-        "Hylics 2",
-        "A Short Hike",
-        "Lethal Company",
-        "Castlevania 64",
-        "Super Metroid",
-        "Jak and Daxter: The Precursor Legacy",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Lingo",
-        "Sea of Thieves"
-    ],
-    "retro": [
-        "Super Mario Odyssey",
-        "Celeste",
-        "Minecraft",
-        "Undertale",
-        "Hylics 2",
-        "UFO 50",
-        "Terraria",
-        "VVVVVV",
-        "DLCQuest",
-        "Cuphead",
-        "Timespinner",
-        "Stardew Valley",
-        "The Messenger",
-        "Blasphemous",
-        "ANIMAL WELL"
-    ],
-    "2d": [
-        "Celeste",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Hollow Knight",
-        "The Messenger",
-        "Super Mario Odyssey",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Terraria",
-        "Cuphead",
-        "Stardew Valley",
-        "Undertale",
-        "ANIMAL WELL",
-        "Hylics 2",
-        "Muse Dash",
-        "Zelda II: The Adventure of Link",
-        "Blasphemous",
-        "Super Metroid",
-        "Don"
-    ],
-    "metroidvania": [
-        "Aquaria",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Monster Sanctuary",
-        "Momodora Moonlit Farewell",
-        "Hollow Knight",
-        "The Messenger",
-        "Faxanadu",
-        "Super Metroid Map Rando",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "ANIMAL WELL",
-        "Ender Lilies",
-        "Metroid Zero Mission",
-        "Pseudoregalia",
-        "Ori and the Blind Forest",
-        "Timespinner",
-        "Blasphemous",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II",
-        "Zillion",
-        "Super Metroid",
-        "An Untitled Story",
-        "Rogue Legacy"
-    ],
-    "atmospheric": [
-        "Celeste",
-        "Hylics 2",
-        "TUNIC",
-        "Hollow Knight",
-        "Don",
-        "ANIMAL WELL"
-    ],
-    "pixel graphics": [
-        "Celeste",
-        "A Short Hike",
-        "VVVVVV",
-        "Rogue Legacy",
-        "Momodora Moonlit Farewell",
-        "The Messenger",
-        "Noita",
-        "Undertale",
-        "ANIMAL WELL"
-    ],
-    "graphics": [
-        "Celeste",
-        "A Short Hike",
-        "VVVVVV",
-        "Rogue Legacy",
-        "Momodora Moonlit Farewell",
-        "The Messenger",
-        "Noita",
-        "Undertale",
-        "ANIMAL WELL"
-    ],
-    "relaxing": [
-        "Stardew Valley",
-        "The Sims 4",
-        "A Short Hike",
-        "ANIMAL WELL"
-    ],
-    "2024": [
-        "Balatro",
-        "UFO 50",
-        "Momodora Moonlit Farewell",
-        "DORONKO WANKO",
-        "Celeste 64",
-        "Dungeon Clawler",
-        "Factorio - Space Age Without Space",
-        "ANIMAL WELL"
-    ],
-    "ape escape": [
-        "Ape Escape"
-    ],
-    "anime": [
-        "Hunie Pop",
-        "Ape Escape",
-        "Golden Sun The Lost Age",
-        "osu!",
-        "Hunie Pop 2",
-        "Digimon World",
-        "Muse Dash",
-        "Pokemon Emerald",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Pokemon Crystal",
-        "Wario Land 4",
-        "Zillion",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "dinosaurs": [
-        "Ape Escape",
-        "EarthBound",
-        "Super Mario Odyssey",
-        "Banjo-Tooie",
-        "Yoshi's Island",
-        "Super Mario Sunshine",
-        "Super Mario World"
-    ],
-    "collecting": [
-        "Ape Escape",
-        "Banjo-Tooie",
-        "Metroid Zero Mission",
-        "Pokemon FireRed and LeafGreen",
-        "Pokemon Red and Blue",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Zelda II: The Adventure of Link"
-    ],
-    "multiple endings": [
-        "The Witness",
-        "Ape Escape",
-        "Star Fox 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Cuphead",
-        "Kirby 64 - The Crystal Shards",
-        "Metroid Prime",
-        "Wario Land 4",
-        "Civilization VI",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Undertale"
-    ],
-    "endings": [
-        "The Witness",
-        "Ape Escape",
-        "Star Fox 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Cuphead",
-        "Kirby 64 - The Crystal Shards",
-        "Metroid Prime",
-        "Wario Land 4",
-        "Civilization VI",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Undertale"
-    ],
-    "amnesia": [
-        "The Witness",
-        "Ape Escape",
-        "Aquaria",
-        "Xenoblade X",
-        "Sonic Heroes"
-    ],
-    "voice acting": [
-        "The Witness",
-        "Ape Escape",
-        "Star Fox 64",
-        "Hunie Pop 2",
-        "Digimon World",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Cuphead",
-        "Civilization VI",
-        "Sonic Heroes",
-        "Xenoblade X"
-    ],
-    "voice": [
-        "The Witness",
-        "Ape Escape",
-        "Star Fox 64",
-        "Hunie Pop 2",
-        "Digimon World",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Cuphead",
-        "Civilization VI",
-        "Sonic Heroes",
-        "Xenoblade X"
-    ],
-    "acting": [
-        "The Witness",
-        "Ape Escape",
-        "Star Fox 64",
-        "Hunie Pop 2",
-        "Digimon World",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Cuphead",
-        "Civilization VI",
-        "Sonic Heroes",
-        "Xenoblade X"
-    ],
-    "psone classics": [
-        "Mega Man 2",
-        "Ape Escape",
-        "Symphony of the Night",
-        "Spyro 3"
-    ],
-    "psone": [
-        "Mega Man 2",
-        "Ape Escape",
-        "Symphony of the Night",
-        "Spyro 3"
-    ],
-    "classics": [
-        "Mega Man 2",
-        "Ape Escape",
-        "Symphony of the Night",
-        "Spyro 3"
-    ],
-    "moving platforms": [
-        "VVVVVV",
-        "Symphony of the Night",
-        "Wario Land 4",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Paper Mario",
-        "Mega Man 2",
-        "Blasphemous",
-        "Ape Escape",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Spyro 3"
-    ],
-    "moving": [
-        "VVVVVV",
-        "Symphony of the Night",
-        "Wario Land 4",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Paper Mario",
-        "Mega Man 2",
-        "Blasphemous",
-        "Ape Escape",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Spyro 3"
-    ],
-    "platforms": [
-        "VVVVVV",
-        "Symphony of the Night",
-        "Wario Land 4",
-        "Kirby 64 - The Crystal Shards",
-        "Donkey Kong Country",
-        "Super Metroid Map Rando",
-        "Metroid Prime",
-        "Castlevania - Circle of the Moon",
-        "DOOM II",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Paper Mario",
-        "Ori and the Blind Forest",
-        "Mega Man 2",
-        "Blasphemous",
-        "Zelda II: The Adventure of Link",
-        "Super Metroid",
-        "Ape Escape",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Link's Awakening DX",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Spyro 3"
-    ],
-    "spiky-haired protagonist": [
-        "Ape Escape",
-        "Sonic Heroes",
-        "Jak and Daxter: The Precursor Legacy",
-        "Kingdom Hearts"
-    ],
-    "spiky-haired": [
-        "Ape Escape",
-        "Sonic Heroes",
-        "Jak and Daxter: The Precursor Legacy",
-        "Kingdom Hearts"
-    ],
-    "time trials": [
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Mario Kart 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "VVVVVV",
-        "Spyro 3"
-    ],
-    "trials": [
-        "Ape Escape",
-        "Diddy Kong Racing",
-        "Mario Kart 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "VVVVVV",
-        "Spyro 3"
-    ],
-    "1999": [
-        "Ape Escape",
-        "Star Wars Episode I Racer",
-        "Castlevania 64",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Tyrian"
-    ],
-    "sudoku": [
-        "Sudoku"
-    ],
-    "multiplayer": [
-        "ArchipIDLE",
-        "Clique",
-        "Sudoku",
-        "Wordipelago",
-        "Jigsaw",
-        "Yacht Dice",
-        "ChecksFinder",
-        "Paint"
-    ],
-    "hints": [
-        "ChecksFinder",
-        "Sudoku"
-    ],
-    "archipelago": [
-        "ArchipIDLE",
-        "Clique",
-        "Sudoku",
-        "Wordipelago",
-        "Jigsaw",
-        "Yacht Dice",
-        "ChecksFinder",
-        "Paint"
-    ],
-    "multiworld": [
-        "ArchipIDLE",
-        "Clique",
-        "Sudoku",
-        "Wordipelago",
-        "Jigsaw",
-        "Yacht Dice",
-        "ChecksFinder",
-        "Paint"
-    ],
-    "aquaria": [
-        "Aquaria"
-    ],
-    "drama": [
-        "Aquaria",
-        "EarthBound",
-        "Undertale",
-        "Hades"
-    ],
-    "alternate costumes": [
-        "Super Mario Odyssey",
-        "Aquaria",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Castlevania 64"
-    ],
-    "alternate": [
-        "Super Mario Odyssey",
-        "Aquaria",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Castlevania 64"
-    ],
-    "costumes": [
-        "Super Mario Odyssey",
-        "Aquaria",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Castlevania 64"
-    ],
-    "humble bundle": [
-        "Aquaria",
-        "Getting Over It",
-        "Minecraft",
-        "VVVVVV"
-    ],
-    "humble": [
-        "Aquaria",
-        "Getting Over It",
-        "Minecraft",
-        "VVVVVV"
-    ],
-    "bundle": [
-        "Aquaria",
-        "Getting Over It",
-        "Minecraft",
-        "VVVVVV"
-    ],
-    "underwater gameplay": [
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Terraria",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "SM64 Romhack"
-    ],
-    "underwater": [
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Subnautica",
-        "Banjo-Tooie",
-        "Aquaria",
-        "Terraria",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "SM64 Romhack"
-    ],
-    "shape-shifting": [
-        "Banjo-Tooie",
-        "Aquaria",
-        "Symphony of the Night",
-        "Kirby 64 - The Crystal Shards",
-        "Kirby's Dream Land 3",
-        "Metroid Prime",
-        "Majora's Mask Recompiled"
-    ],
-    "plot twist": [
-        "Aquaria",
-        "Ocarina of Time",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Undertale"
-    ],
-    "plot": [
-        "Aquaria",
-        "Ocarina of Time",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Undertale"
-    ],
-    "twist": [
-        "Aquaria",
-        "Ocarina of Time",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Undertale"
-    ],
-    "2007": [
-        "Aquaria",
-        "An Untitled Story",
-        "osu!"
-    ],
-    "archipidle": [
-        "ArchipIDLE"
-    ],
-    "an untitled story": [
-        "An Untitled Story"
-    ],
-    "balatro": [
-        "Balatro"
-    ],
-    "simulated gambling": [
-        "Stardew Valley",
-        "Balatro",
-        "Undertale"
-    ],
-    "simulated": [
-        "Stardew Valley",
-        "Balatro",
-        "Undertale"
-    ],
-    "gambling": [
-        "Balatro",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Stardew Valley",
-        "Undertale"
-    ],
-    "turn-based strategy (tbs)": [
-        "Monster Sanctuary",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "EarthBound",
-        "Final Fantasy Tactics Advance",
-        "Dungeon Clawler",
-        "Undertale",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Paper Mario",
-        "Civilization VI",
-        "Wargroove 2",
-        "Yu-Gi-Oh! 2006",
-        "Balatro",
-        "Chained Echoes",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Pokemon Emerald",
-        "Yu-Gi-Oh! Forbidden Memories"
-    ],
-    "turn-based": [
-        "Monster Sanctuary",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Dungeon Clawler",
-        "Undertale",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Paper Mario",
-        "Civilization VI",
-        "Wargroove 2",
-        "Yu-Gi-Oh! 2006",
-        "Final Fantasy Mystic Quest",
-        "Balatro",
-        "Chained Echoes",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Pokemon Emerald",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "(tbs)": [
-        "Monster Sanctuary",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "Final Fantasy",
-        "EarthBound",
-        "Final Fantasy Tactics Advance",
-        "Dungeon Clawler",
-        "Undertale",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Hylics 2",
-        "Pokemon Red and Blue",
-        "Paper Mario",
-        "Civilization VI",
-        "Wargroove 2",
-        "Yu-Gi-Oh! 2006",
-        "Balatro",
-        "Chained Echoes",
-        "Wargroove",
-        "Pokemon FireRed and LeafGreen",
-        "Pokemon Emerald",
-        "Yu-Gi-Oh! Forbidden Memories"
-    ],
-    "card & board game": [
-        "Yu-Gi-Oh! 2006",
-        "Slay the Spire",
-        "Balatro",
-        "Inscryption",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Yacht Dice",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "card": [
-        "Yu-Gi-Oh! 2006",
-        "Slay the Spire",
-        "Balatro",
-        "Inscryption",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Yacht Dice",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "board": [
-        "Yu-Gi-Oh! 2006",
-        "Slay the Spire",
-        "Balatro",
-        "Inscryption",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Yacht Dice",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "game": [
-        "The Witness",
-        "Yu-Gi-Oh! 2006",
-        "Super Mario Odyssey",
-        "Balatro",
-        "Slay the Spire",
-        "Yu-Gi-Oh! Dungeon Dice Monsters",
-        "DOOM II",
-        "Rogue Legacy",
-        "Inscryption",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Cuphead",
-        "Yacht Dice",
-        "Hollow Knight",
-        "Spyro 3",
-        "Sea of Thieves"
-    ],
-    "roguelike": [
-        "Slay the Spire",
-        "Balatro",
-        "Rogue Legacy",
-        "Hades",
-        "Dungeon Clawler",
-        "Risk of Rain",
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "banjo-tooie": [
-        "Banjo-Tooie"
-    ],
-    "crude humor": [
-        "The Binding of Isaac Repentance",
-        "Banjo-Tooie",
-        "The Sims 4",
-        "Rogue Legacy",
-        "Don",
-        "The Messenger",
-        "Sea of Thieves"
-    ],
-    "crude": [
-        "The Binding of Isaac Repentance",
-        "Banjo-Tooie",
-        "The Sims 4",
-        "Rogue Legacy",
-        "Don",
-        "The Messenger",
-        "Sea of Thieves"
-    ],
-    "animated violence": [
-        "Banjo-Tooie",
-        "DOOM 1993",
-        "Sonic Adventure DX",
-        "Symphony of the Night",
-        "Castlevania 64",
-        "Majora's Mask Recompiled",
-        "Tyrian"
-    ],
-    "comic mischief": [
-        "Super Mario Odyssey",
-        "Banjo-Tooie",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Toontown",
-        "Wario Land 4",
-        "Paper Mario",
-        "Ratchet & Clank 2",
-        "Zork Grand Inquisitor",
-        "Spyro 3"
-    ],
-    "comic": [
-        "Super Mario Odyssey",
-        "Banjo-Tooie",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Toontown",
-        "Wario Land 4",
-        "Paper Mario",
-        "Ratchet & Clank 2",
-        "Zork Grand Inquisitor",
-        "Spyro 3"
-    ],
-    "mischief": [
-        "Super Mario Odyssey",
-        "Banjo-Tooie",
-        "Skyward Sword",
-        "Super Mario Sunshine",
-        "Toontown",
-        "Wario Land 4",
-        "Paper Mario",
-        "Ratchet & Clank 2",
-        "Zork Grand Inquisitor",
-        "Spyro 3"
-    ],
-    "cartoon violence": [
-        "Super Mario Odyssey",
-        "Banjo-Tooie",
-        "Terraria",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Toontown",
-        "Majora's Mask Recompiled"
-    ],
-    "cartoon": [
-        "Super Mario Odyssey",
-        "Banjo-Tooie",
-        "Terraria",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Toontown",
-        "Majora's Mask Recompiled",
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "quiz/trivia": [
-        "Banjo-Tooie"
-    ],
-    "comedy": [
-        "Banjo-Tooie",
-        "Kingdom Hearts",
-        "Luigi's Mansion",
-        "The Messenger",
-        "Digimon World",
-        "Getting Over It",
-        "DLCQuest",
-        "Cuphead",
-        "Zork Grand Inquisitor",
-        "Undertale",
-        "Lethal Company",
-        "Muse Dash",
-        "Donkey Kong Country 2",
-        "Overcooked! 2",
-        "Paper Mario",
-        "DORONKO WANKO",
-        "The Sims 4",
-        "Hunie Pop",
-        "Diddy Kong Racing",
-        "Candy Box 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Rogue Legacy",
-        "Toontown",
-        "Ratchet & Clank 2",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3"
-    ],
-    "aliens": [
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Banjo-Tooie",
-        "Lethal Company",
-        "Starcraft 2",
-        "Factorio",
-        "Metroid Zero Mission",
-        "Metroid Prime",
-        "Xenoblade X",
-        "Factorio - Space Age Without Space"
-    ],
-    "flight": [
-        "Banjo-Tooie",
-        "Hylics 2",
-        "Diddy Kong Racing",
-        "A Short Hike",
-        "Star Fox 64",
-        "Terraria",
-        "Rogue Legacy",
-        "Wario Land 4",
-        "Xenoblade X",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "Spyro 3"
-    ],
-    "witches": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Banjo-Tooie",
-        "Ender Lilies",
-        "Castlevania 64",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "achievements": [
-        "Minecraft",
-        "Banjo-Tooie",
-        "Hunie Pop 2",
-        "Sonic Heroes",
-        "DOOM II",
-        "Muse Dash",
-        "Symphony of the Night",
-        "VVVVVV",
-        "Cuphead",
-        "Ori and the Blind Forest",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "talking animals": [
-        "Banjo-Tooie",
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "talking": [
-        "Banjo-Tooie",
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "animals": [
-        "Banjo-Tooie",
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "breaking the fourth wall": [
-        "Banjo-Tooie",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM II",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Link's Awakening DX",
-        "Paper Mario",
-        "Final Fantasy Tactics Advance",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Undertale"
-    ],
-    "breaking": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Banjo-Tooie",
-        "Symphony of the Night",
-        "Wario Land 4",
-        "Donkey Kong Country",
-        "Super Metroid Map Rando",
-        "Metroid Prime",
-        "Final Fantasy Tactics Advance",
-        "Undertale",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Donkey Kong Country 2",
-        "Paper Mario",
-        "Super Metroid",
-        "Jak and Daxter: The Precursor Legacy",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Link's Awakening DX",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "fourth": [
-        "Banjo-Tooie",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM II",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Link's Awakening DX",
-        "Paper Mario",
-        "Final Fantasy Tactics Advance",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Undertale"
-    ],
-    "cameo appearance": [
-        "Banjo-Tooie",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Spyro 3"
-    ],
-    "cameo": [
-        "Banjo-Tooie",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Spyro 3"
-    ],
-    "appearance": [
-        "Banjo-Tooie",
-        "Jak and Daxter: The Precursor Legacy",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Spyro 3"
-    ],
-    "invisible wall": [
-        "Mario Kart 64",
-        "Ocarina of Time",
-        "Banjo-Tooie",
-        "Kingdom Hearts"
-    ],
-    "invisible": [
-        "Mario Kart 64",
-        "Ocarina of Time",
-        "Banjo-Tooie",
-        "Kingdom Hearts"
-    ],
-    "temporary invincibility": [
-        "Faxanadu",
-        "Banjo-Tooie",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM II",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Paper Mario",
-        "Sonic Heroes"
-    ],
-    "temporary": [
-        "Faxanadu",
-        "Banjo-Tooie",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM II",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Paper Mario",
-        "Sonic Heroes"
-    ],
-    "invincibility": [
-        "Faxanadu",
-        "Banjo-Tooie",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM II",
-        "Rogue Legacy",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Paper Mario",
-        "Sonic Heroes"
-    ],
-    "gliding": [
-        "Banjo-Tooie",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Spyro 3"
-    ],
-    "lgbtq+": [
-        "Celeste",
-        "Banjo-Tooie",
-        "Rogue Legacy",
-        "Celeste 64",
-        "Timespinner",
-        "The Sims 4"
-    ],
-    "2000": [
-        "Banjo-Tooie",
-        "Kirby 64 - The Crystal Shards",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Majora's Mask Recompiled",
-        "Spyro 3"
-    ],
-    "blasphemous": [
-        "Blasphemous"
-    ],
-    "blood and gore": [
-        "Dark Souls Remastered",
-        "The Binding of Isaac Repentance",
-        "Resident Evil 2 Remake",
-        "ULTRAKILL",
-        "Starcraft 2",
-        "Terraria",
-        "DOOM 1993",
-        "DOOM II",
-        "Symphony of the Night",
-        "Resident Evil 3 Remake",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "gore": [
-        "Shivers",
-        "Dark Souls Remastered",
-        "The Binding of Isaac Repentance",
-        "Resident Evil 2 Remake",
-        "ULTRAKILL",
-        "Starcraft 2",
-        "Terraria",
-        "DOOM 1993",
-        "DOOM II",
-        "Symphony of the Night",
-        "Resident Evil 3 Remake",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "nudity": [
-        "Dark Souls Remastered",
-        "Hunie Pop",
-        "Hunie Pop 2",
-        "Muse Dash",
-        "Symphony of the Night",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "hack and slash/beat 'em up": [
-        "Castlevania 64",
-        "Risk of Rain",
-        "Blasphemous",
-        "Hades"
-    ],
-    "hack": [
-        "Castlevania 64",
-        "Risk of Rain",
-        "Blasphemous",
-        "Hades"
-    ],
-    "slash/beat": [
-        "Castlevania 64",
-        "Risk of Rain",
-        "Blasphemous",
-        "Hades"
-    ],
-    "'em": [
-        "Castlevania 64",
-        "Risk of Rain",
-        "Blasphemous",
-        "Hades"
-    ],
-    "up": [
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Symphony of the Night",
-        "Hades",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Castlevania 64",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Undertale",
-        "Zelda II: The Adventure of Link",
-        "Castlevania - Circle of the Moon",
-        "Risk of Rain",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "bloody": [
-        "Resident Evil 2 Remake",
-        "ULTRAKILL",
-        "DOOM II",
-        "Heretic",
-        "Symphony of the Night",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Blasphemous"
-    ],
-    "difficult": [
-        "Celeste",
-        "Getting Over It",
-        "Hades",
-        "TUNIC",
-        "Zelda II: The Adventure of Link",
-        "Don",
-        "The Messenger",
-        "Risk of Rain",
-        "Blasphemous"
-    ],
-    "side-scrolling": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Yoshi's Island",
-        "Hylics 2",
-        "Metroid Zero Mission",
-        "Muse Dash",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "Donkey Kong Country 2",
-        "Kirby 64 - The Crystal Shards",
-        "Cuphead",
-        "Donkey Kong Country 3",
-        "Kirby's Dream Land 3",
-        "Zelda II: The Adventure of Link",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "Blasphemous"
-    ],
-    "crossover": [
-        "Mario Kart 64",
-        "Blasphemous",
-        "Diddy Kong Racing",
-        "Kingdom Hearts"
-    ],
-    "religion": [
-        "EarthBound",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Civilization VI",
-        "Blasphemous"
-    ],
-    "2d platformer": [
-        "Super Mario Odyssey",
-        "Hylics 2",
-        "VVVVVV",
-        "Hollow Knight",
-        "Blasphemous"
-    ],
-    "great soundtrack": [
-        "Celeste",
-        "ULTRAKILL",
-        "Hylics 2",
-        "A Short Hike",
-        "Getting Over It",
-        "TUNIC",
-        "Bomb Rush Cyberfunk",
-        "Blasphemous",
-        "Undertale"
-    ],
-    "great": [
-        "Celeste",
-        "ULTRAKILL",
-        "Hylics 2",
-        "A Short Hike",
-        "Getting Over It",
-        "TUNIC",
-        "Bomb Rush Cyberfunk",
-        "Blasphemous",
-        "Undertale"
-    ],
-    "soundtrack": [
-        "Celeste",
-        "ULTRAKILL",
-        "Hylics 2",
-        "A Short Hike",
-        "Getting Over It",
-        "TUNIC",
-        "Bomb Rush Cyberfunk",
-        "Blasphemous",
-        "Undertale"
-    ],
-    "parrying": [
-        "Dark Souls III",
-        "Cuphead",
-        "Hollow Knight",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "soulslike": [
-        "Dark Souls Remastered",
-        "Dark Souls III",
-        "Ender Lilies",
-        "TUNIC",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "you can pet the dog": [
-        "Terraria",
-        "Hades",
-        "Overcooked! 2",
-        "The Sims 4",
-        "Blasphemous",
-        "Sea of Thieves",
-        "Undertale"
-    ],
-    "you": [
-        "Terraria",
-        "Hades",
-        "Overcooked! 2",
-        "The Sims 4",
-        "Blasphemous",
-        "Sea of Thieves",
-        "Undertale"
-    ],
-    "can": [
-        "Terraria",
-        "Hades",
-        "Overcooked! 2",
-        "The Sims 4",
-        "Blasphemous",
-        "Sea of Thieves",
-        "Undertale"
-    ],
-    "pet": [
-        "Terraria",
-        "Hades",
-        "Overcooked! 2",
-        "The Sims 4",
-        "Blasphemous",
-        "Sea of Thieves",
-        "Undertale"
-    ],
-    "dog": [
-        "Super Mario Odyssey",
-        "Star Fox 64",
-        "Terraria",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Hades",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Overcooked! 2",
-        "DORONKO WANKO",
-        "Undertale",
-        "The Sims 4",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Blasphemous",
-        "Sea of Thieves",
-        "Secret of Evermore"
-    ],
-    "interconnected-world": [
-        "Dark Souls Remastered",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Dark Souls III",
-        "Metroid Zero Mission",
-        "Symphony of the Night",
-        "Luigi's Mansion",
-        "Hollow Knight",
-        "Blasphemous",
-        "Dark Souls II"
-    ],
-    "2019": [
-        "Outer Wilds",
-        "Resident Evil 2 Remake",
-        "A Short Hike",
-        "Wargroove",
-        "Risk of Rain 2",
-        "Blasphemous"
-    ],
-    "bomb rush cyberfunk": [
-        "Bomb Rush Cyberfunk"
-    ],
-    "suggestive themes": [
-        "Chained Echoes",
-        "Starcraft 2",
-        "Terraria",
-        "Muse Dash",
-        "Hades",
-        "Momodora Moonlit Farewell",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk",
-        "Zork Grand Inquisitor",
-        "Chrono Trigger Jets of Time"
-    ],
-    "suggestive": [
-        "Chained Echoes",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "Muse Dash",
-        "Hades",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk",
-        "Zork Grand Inquisitor",
-        "Chrono Trigger Jets of Time"
-    ],
-    "themes": [
-        "Timespinner",
-        "Chained Echoes",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria",
-        "Muse Dash",
-        "Hades",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Final Fantasy IV Free Enterprise",
-        "Momodora Moonlit Farewell",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk",
-        "Zork Grand Inquisitor",
-        "Chrono Trigger Jets of Time",
-        "The Sims 4"
-    ],
-    "sport": [
-        "Trackmania",
-        "Bomb Rush Cyberfunk"
-    ],
-    "science fiction": [
-        "Subnautica",
-        "Star Fox 64",
-        "VVVVVV",
-        "Xenoblade X",
-        "Outer Wilds",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "ULTRAKILL",
-        "Terraria",
-        "Metroid Prime",
-        "Bomb Rush Cyberfunk",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "The Witness",
-        "Lethal Company",
-        "MegaMan Battle Network 3",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Risk of Rain 2",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "Zillion",
-        "Super Metroid",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Star Wars Episode I Racer",
-        "Ratchet & Clank 2",
-        "Brotato",
-        "Secret of Evermore"
-    ],
-    "science": [
-        "Subnautica",
-        "Star Fox 64",
-        "VVVVVV",
-        "Xenoblade X",
-        "Outer Wilds",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "ULTRAKILL",
-        "Terraria",
-        "Metroid Prime",
-        "Bomb Rush Cyberfunk",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "The Witness",
-        "Lethal Company",
-        "MegaMan Battle Network 3",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Risk of Rain 2",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "Zillion",
-        "Super Metroid",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Star Wars Episode I Racer",
-        "Ratchet & Clank 2",
-        "Brotato",
-        "Secret of Evermore"
-    ],
-    "fiction": [
-        "Subnautica",
-        "Star Fox 64",
-        "VVVVVV",
-        "Xenoblade X",
-        "Outer Wilds",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "ULTRAKILL",
-        "Terraria",
-        "Metroid Prime",
-        "Bomb Rush Cyberfunk",
-        "CrossCode",
-        "Chrono Trigger Jets of Time",
-        "The Witness",
-        "Lethal Company",
-        "MegaMan Battle Network 3",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Risk of Rain 2",
-        "Mega Man 2",
-        "Risk of Rain",
-        "Factorio - Space Age Without Space",
-        "Tyrian",
-        "Zillion",
-        "Super Metroid",
-        "Starcraft 2",
-        "Jak and Daxter: The Precursor Legacy",
-        "DOOM 1993",
-        "Factorio",
-        "Pokemon FireRed and LeafGreen",
-        "Star Wars Episode I Racer",
-        "Ratchet & Clank 2",
-        "Brotato",
-        "Secret of Evermore"
-    ],
-    "spiritual successor": [
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk"
-    ],
-    "spiritual": [
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk"
-    ],
-    "successor": [
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga",
-        "Xenoblade X",
-        "Bomb Rush Cyberfunk"
-    ],
-    "brotato": [
-        "Brotato"
-    ],
-    "fighting": [
-        "Brotato"
-    ],
-    "shooter": [
-        "Star Fox 64",
-        "Resident Evil 2 Remake",
-        "Super Metroid Map Rando",
-        "ULTRAKILL",
-        "Heretic",
-        "Resident Evil 3 Remake",
-        "Cuphead",
-        "Metroid Prime",
-        "CrossCode",
-        "The Binding of Isaac Repentance",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Risk of Rain 2",
-        "Risk of Rain",
-        "Noita",
-        "Tyrian",
-        "Super Metroid",
-        "UFO 50",
-        "DOOM 1993",
-        "Ratchet & Clank 2",
-        "Brotato"
-    ],
-    "arcade": [
-        "ULTRAKILL",
-        "osu!",
-        "Mario Kart 64",
-        "UFO 50",
-        "Trackmania",
-        "VVVVVV",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Overcooked! 2",
-        "Cuphead",
-        "Dungeon Clawler",
-        "The Messenger",
-        "Brotato",
-        "Noita",
-        "Tyrian"
-    ],
-    "bumper stickers": [
-        "Bumper Stickers"
-    ],
-    "candy box 2": [
-        "Candy Box 2"
-    ],
-    "text": [
-        "Yu-Gi-Oh! 2006",
-        "Hunie Pop",
-        "Old School Runescape",
-        "Hunie Pop 2",
-        "Candy Box 2"
-    ],
-    "management": [
-        "The Sims 4",
-        "Final Fantasy Tactics Advance",
-        "Civilization VI",
-        "Candy Box 2"
-    ],
-    "cat quest": [
-        "Cat Quest"
-    ],
-    "celeste": [
-        "Celeste"
-    ],
-    "mild language": [
-        "Celeste",
-        "Subnautica",
-        "VVVVVV",
-        "Hades",
-        "Cuphead",
-        "Ratchet & Clank 2",
-        "Timespinner",
-        "Stardew Valley",
-        "Risk of Rain",
-        "Undertale",
-        "Dark Souls II"
-    ],
-    "story rich": [
-        "Celeste",
-        "Hylics 2",
-        "Getting Over It",
-        "Hades",
-        "Undertale"
-    ],
-    "story": [
-        "Celeste",
-        "Hylics 2",
-        "Getting Over It",
-        "Hades",
-        "Undertale"
-    ],
-    "rich": [
-        "Celeste",
-        "Hylics 2",
-        "Getting Over It",
-        "Hades",
-        "Undertale"
-    ],
-    "conversation": [
-        "VVVVVV",
-        "Ender Lilies",
-        "Celeste",
-        "Undertale"
-    ],
-    "2018": [
-        "Dark Souls Remastered",
-        "Celeste",
-        "Subnautica",
-        "Muse Dash",
-        "The Messenger",
-        "Overcooked! 2",
-        "Timespinner",
-        "CrossCode",
-        "Sea of Thieves",
-        "SMZ3"
-    ],
-    "celeste 64": [
-        "Celeste 64"
-    ],
-    "chained echoes": [
-        "Chained Echoes"
-    ],
-    "strong language": [
-        "Chained Echoes",
-        "Resident Evil 2 Remake",
-        "Inscryption",
-        "Resident Evil 3 Remake"
-    ],
-    "strong": [
-        "Chained Echoes",
-        "Resident Evil 2 Remake",
-        "Inscryption",
-        "Resident Evil 3 Remake"
-    ],
-    "sexual themes": [
-        "Chained Echoes",
-        "Muse Dash",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Timespinner",
-        "The Sims 4"
-    ],
-    "sexual": [
-        "Chained Echoes",
-        "Muse Dash",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Timespinner",
-        "The Sims 4"
-    ],
-    "jrpg": [
-        "Final Fantasy Mystic Quest",
-        "Hylics 2",
-        "Chained Echoes",
-        "Final Fantasy IV Free Enterprise",
-        "Final Fantasy Tactics Advance",
-        "Pokemon Mystery Dungeon Explorers of Sky",
-        "Final Fantasy"
-    ],
-    "2022": [
-        "Chained Echoes",
-        "Raft",
-        "TUNIC"
-    ],
-    "checksfinder": [
-        "ChecksFinder"
-    ],
-    "civilization vi": [
-        "Civilization VI"
-    ],
-    "educational": [
-        "Civilization VI"
-    ],
-    "4x (explore, expand, exploit, and exterminate)": [
-        "OpenRCT2",
-        "Civilization VI"
-    ],
-    "4x": [
-        "OpenRCT2",
-        "Civilization VI"
-    ],
-    "(explore,": [
-        "OpenRCT2",
-        "Civilization VI"
-    ],
-    "expand,": [
-        "OpenRCT2",
-        "Civilization VI"
-    ],
-    "exploit,": [
-        "OpenRCT2",
-        "Civilization VI"
-    ],
-    "exterminate)": [
-        "OpenRCT2",
-        "Civilization VI"
-    ],
-    "construction": [
-        "Terraria",
-        "Minecraft",
-        "Civilization VI",
-        "Xenoblade X"
-    ],
-    "mining": [
-        "Stardew Valley",
-        "Terraria",
-        "Minecraft",
-        "Civilization VI"
-    ],
-    "loot gathering": [
-        "Castlevania 64",
-        "Terraria",
-        "Civilization VI",
-        "Xenoblade X"
-    ],
-    "loot": [
-        "Castlevania 64",
-        "Terraria",
-        "Civilization VI",
-        "Xenoblade X"
-    ],
-    "gathering": [
-        "Castlevania 64",
-        "Terraria",
-        "Civilization VI",
-        "Xenoblade X"
-    ],
-    "royalty": [
-        "EarthBound",
-        "Mario & Luigi Superstar Saga",
-        "Rogue Legacy",
-        "Civilization VI"
-    ],
-    "ambient music": [
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Civilization VI",
-        "Donkey Kong Country",
-        "Secret of Evermore"
-    ],
-    "ambient": [
-        "Metroid Zero Mission",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Civilization VI",
-        "Donkey Kong Country",
-        "Secret of Evermore"
-    ],
-    "music": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "ULTRAKILL",
-        "osu!",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Muse Dash",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Sonic Heroes",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Symphony of the Night",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Civilization VI",
-        "Final Fantasy Tactics Advance",
-        "Donkey Kong Country",
-        "Secret of Evermore"
-    ],
-    "2005": [
-        "Digimon World",
-        "Kingdom Hearts 2",
-        "Civilization VI"
-    ],
-    "clique": [
-        "Clique"
-    ],
-    "meme origin": [
-        "Minecraft",
-        "The Legend of Zelda",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Majora's Mask Recompiled",
-        "Clique",
-        "Zelda II: The Adventure of Link"
-    ],
-    "meme": [
-        "Minecraft",
-        "The Legend of Zelda",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Majora's Mask Recompiled",
-        "Clique",
-        "Zelda II: The Adventure of Link"
-    ],
-    "origin": [
-        "Minecraft",
-        "The Legend of Zelda",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Majora's Mask Recompiled",
-        "Clique",
-        "Zelda II: The Adventure of Link"
-    ],
-    "crosscode": [
-        "CrossCode"
-    ],
-    "16-bit": [
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "Rogue Legacy",
-        "CrossCode"
-    ],
-    "a.i. companion": [
-        "CrossCode",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Kingdom Hearts"
-    ],
-    "a.i.": [
-        "CrossCode",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Kingdom Hearts"
-    ],
-    "companion": [
-        "CrossCode",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Kingdom Hearts"
-    ],
-    "chrono trigger jets of time": [
-        "Chrono Trigger Jets of Time"
-    ],
-    "animated blood": [
-        "Skyward Sword",
-        "Castlevania 64",
-        "Twilight Princess",
-        "Ratchet & Clank 2",
-        "Xenoblade X",
-        "Chrono Trigger Jets of Time",
-        "Castlevania - Circle of the Moon"
-    ],
-    "use of alcohol": [
-        "Terraria",
-        "Kingdom Hearts 2",
-        "Xenoblade X",
-        "Stardew Valley",
-        "Chrono Trigger Jets of Time",
-        "Sea of Thieves"
-    ],
-    "2008": [
-        "Chrono Trigger Jets of Time"
-    ],
-    "cuphead": [
-        "Cuphead"
-    ],
-    "use of alcohol and tobacco": [
-        "Stardew Valley",
-        "Starcraft 2",
-        "Cuphead",
-        "Zork Grand Inquisitor"
-    ],
-    "pirates": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Metroid Zero Mission",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Metroid Prime",
-        "Wargroove 2",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Sea of Thieves"
-    ],
-    "shark": [
-        "Raft",
-        "Cuphead",
-        "Jak and Daxter: The Precursor Legacy",
-        "Donkey Kong Country"
-    ],
-    "robots": [
-        "EarthBound",
-        "ULTRAKILL",
-        "Star Fox 64",
-        "Star Wars Episode I Racer",
-        "Super Mario Sunshine",
-        "Cuphead",
-        "Xenoblade X",
-        "Sonic Heroes",
-        "Mega Man 2"
-    ],
-    "dancing": [
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Donkey Kong Country 3",
-        "The Legend of Zelda - Oracle of Ages"
-    ],
-    "cat": [
-        "Minecraft",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Wario Land 4",
-        "Cuphead",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "violent plants": [
-        "Terraria",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Cuphead",
-        "Metroid Prime"
-    ],
-    "violent": [
-        "Terraria",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Cuphead",
-        "Metroid Prime"
-    ],
-    "plants": [
-        "Terraria",
-        "Skyward Sword",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Cuphead",
-        "Metroid Prime"
-    ],
-    "auto-scrolling levels": [
-        "Star Fox 64",
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Kirby 64 - The Crystal Shards",
-        "Cuphead",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "auto-scrolling": [
-        "Star Fox 64",
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Kirby 64 - The Crystal Shards",
-        "Cuphead",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "levels": [
-        "Star Fox 64",
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Kirby 64 - The Crystal Shards",
-        "Cuphead",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "boss assistance": [
-        "DOOM II",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Metroid Prime",
-        "Paper Mario",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country",
-        "Dark Souls II"
-    ],
-    "assistance": [
-        "DOOM II",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Cuphead",
-        "Metroid Prime",
-        "Paper Mario",
-        "Majora's Mask Recompiled",
-        "Donkey Kong Country",
-        "Dark Souls II"
-    ],
-    "the game awards 2017": [
-        "Cuphead",
-        "Super Mario Odyssey",
-        "Hollow Knight",
-        "Sea of Thieves"
-    ],
-    "awards": [
-        "Cuphead",
-        "Super Mario Odyssey",
-        "Hollow Knight",
-        "Sea of Thieves"
-    ],
-    "castlevania 64": [
-        "Castlevania 64"
-    ],
-    "summoning support": [
-        "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Final Fantasy Tactics Advance"
-    ],
-    "summoning": [
-        "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Final Fantasy Tactics Advance"
-    ],
-    "support": [
-        "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Castlevania 64",
-        "Yu-Gi-Oh! Forbidden Memories",
-        "Final Fantasy Tactics Advance"
-    ],
-    "horse": [
-        "Minecraft",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Castlevania - Circle of the Moon"
-    ],
-    "multiple protagonists": [
-        "EarthBound",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3"
-    ],
-    "protagonists": [
-        "EarthBound",
-        "Rogue Legacy",
-        "Symphony of the Night",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Donkey Kong Country",
-        "Mario & Luigi Superstar Saga",
-        "Spyro 3"
-    ],
-    "traps": [
-        "Minecraft",
-        "DOOM II",
-        "Rogue Legacy",
-        "Castlevania 64",
-        "Dark Souls II"
-    ],
-    "bats": [
-        "Mario Kart 64",
-        "Terraria",
-        "Symphony of the Night",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "Castlevania - Circle of the Moon",
-        "Zelda II: The Adventure of Link"
-    ],
-    "day/night cycle": [
-        "Minecraft",
-        "Jak and Daxter: The Precursor Legacy",
-        "Skyward Sword",
-        "Terraria",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Stardew Valley"
-    ],
-    "day/night": [
-        "Minecraft",
-        "Jak and Daxter: The Precursor Legacy",
-        "Skyward Sword",
-        "Terraria",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Stardew Valley"
-    ],
-    "cycle": [
-        "Minecraft",
-        "Jak and Daxter: The Precursor Legacy",
-        "Skyward Sword",
-        "Terraria",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Pokemon Crystal",
-        "The Wind Waker",
-        "Majora's Mask Recompiled",
-        "Xenoblade X",
-        "Stardew Valley"
-    ],
-    "skeletons": [
-        "Terraria",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Heretic",
-        "Symphony of the Night",
-        "Castlevania 64",
-        "Castlevania - Circle of the Moon",
-        "Undertale",
-        "Sea of Thieves"
-    ],
-    "falling damage": [
-        "Minecraft",
-        "Terraria",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Metroid Prime"
-    ],
-    "falling": [
-        "Minecraft",
-        "Terraria",
-        "Ocarina of Time",
-        "Castlevania 64",
-        "Metroid Prime"
-    ],
-    "unstable platforms": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "VVVVVV",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Ori and the Blind Forest",
-        "Donkey Kong Country",
-        "Castlevania - Circle of the Moon",
-        "Zelda II: The Adventure of Link"
-    ],
-    "unstable": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "VVVVVV",
-        "Super Mario Sunshine",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Ori and the Blind Forest",
-        "Donkey Kong Country",
-        "Castlevania - Circle of the Moon",
-        "Zelda II: The Adventure of Link"
-    ],
-    "melee": [
-        "Golden Sun The Lost Age",
-        "Terraria",
-        "Symphony of the Night",
-        "DOOM 1993",
-        "DOOM II",
-        "Heretic",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Castlevania 64",
-        "Kirby 64 - The Crystal Shards",
-        "Kirby's Dream Land 3",
-        "Paper Mario",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance",
-        "Wario Land 4",
-        "Castlevania - Circle of the Moon",
-        "Dark Souls II"
-    ],
-    "male antagonist": [
-        "Mega Man 2",
-        "Castlevania 64",
-        "EarthBound",
-        "Super Mario Sunshine"
-    ],
-    "male": [
-        "Mega Man 2",
-        "Castlevania 64",
-        "EarthBound",
-        "Super Mario Sunshine"
-    ],
-    "antagonist": [
-        "Mega Man 2",
-        "Castlevania 64",
-        "EarthBound",
-        "Super Mario Sunshine"
-    ],
-    "instant kill": [
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Mega Man 2",
-        "Donkey Kong Country"
-    ],
-    "instant": [
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Mega Man 2",
-        "Donkey Kong Country"
-    ],
-    "kill": [
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Mega Man 2",
-        "Donkey Kong Country"
-    ],
-    "difficulty level": [
-        "Minecraft",
-        "osu!",
-        "Star Fox 64",
-        "Mario Kart 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Muse Dash",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Mega Man 2"
-    ],
-    "difficulty": [
-        "Minecraft",
-        "osu!",
-        "Star Fox 64",
-        "Mario Kart 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Muse Dash",
-        "Castlevania 64",
-        "Metroid Prime",
-        "Mega Man 2"
-    ],
-    "level": [
-        "Minecraft",
-        "osu!",
-        "Star Fox 64",
-        "Mario Kart 64",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Muse Dash",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Donkey Kong Country 2",
-        "Castlevania 64",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "Mega Man 2",
-        "Donkey Kong Country"
-    ],
-    "castlevania - circle of the moon": [
-        "Castlevania - Circle of the Moon"
-    ],
-    "gravity": [
-        "Star Fox 64",
-        "Metroid Zero Mission",
-        "VVVVVV",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Paper Mario",
-        "Donkey Kong Country",
-        "Castlevania - Circle of the Moon"
-    ],
-    "wolf": [
-        "Minecraft",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Rogue Legacy",
-        "Castlevania - Circle of the Moon"
-    ],
-    "leveling up": [
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Castlevania - Circle of the Moon",
-        "Undertale",
-        "Dark Souls II"
-    ],
-    "leveling": [
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Digimon World",
-        "Symphony of the Night",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Landstalker - The Treasures of King Nole",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Zelda II: The Adventure of Link",
-        "Castlevania - Circle of the Moon",
-        "Undertale",
-        "Dark Souls II"
-    ],
-    "2001": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Jak and Daxter: The Precursor Legacy",
-        "Luigi's Mansion",
-        "Wario Land 4",
-        "Castlevania - Circle of the Moon",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
-    ],
-    "dark souls ii": [
-        "Dark Souls II"
-    ],
-    "partial nudity": [
-        "Dark Souls Remastered",
-        "Dark Souls II"
-    ],
-    "partial": [
-        "Dark Souls Remastered",
-        "Dark Souls II"
-    ],
-    "spider": [
-        "Minecraft",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Donkey Kong Country 2",
-        "Ori and the Blind Forest",
-        "Zelda II: The Adventure of Link",
-        "Dark Souls II"
-    ],
-    "customizable characters": [
-        "Dark Souls III",
-        "Terraria",
-        "Xenoblade X",
-        "Stardew Valley",
-        "Dark Souls II"
-    ],
-    "customizable": [
-        "Dark Souls III",
-        "Terraria",
-        "Xenoblade X",
-        "Stardew Valley",
-        "Dark Souls II"
-    ],
-    "checkpoints": [
-        "Super Mario Odyssey",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "VVVVVV",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Mega Man 2",
-        "Donkey Kong Country",
-        "Dark Souls II"
-    ],
-    "sliding down ladders": [
-        "Wario Land 4",
-        "Dark Souls III",
-        "Kirby 64 - The Crystal Shards",
-        "Dark Souls II"
-    ],
-    "sliding": [
-        "Wario Land 4",
-        "Dark Souls III",
-        "Kirby 64 - The Crystal Shards",
-        "Dark Souls II"
-    ],
-    "down": [
-        "Wario Land 4",
-        "Dark Souls III",
-        "Kirby 64 - The Crystal Shards",
-        "Dark Souls II"
-    ],
-    "ladders": [
-        "Wario Land 4",
-        "Dark Souls III",
-        "Kirby 64 - The Crystal Shards",
-        "Dark Souls II"
-    ],
-    "fire manipulation": [
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Minecraft",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Dark Souls II"
-    ],
-    "fire": [
-        "Golden Sun The Lost Age",
-        "EarthBound",
-        "Minecraft",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Dark Souls II"
-    ],
-    "manipulation": [
-        "Golden Sun The Lost Age",
-        "Super Metroid",
-        "EarthBound",
-        "Minecraft",
-        "Super Metroid Map Rando",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Timespinner",
-        "Dark Souls II"
-    ],
-    "2014": [
-        "OpenRCT2",
-        "The Sims 4",
-        "Dark Souls II"
-    ],
-    "dark souls iii": [
-        "Dark Souls III"
-    ],
-    "pick your gender": [
-        "Pokemon Emerald",
-        "Dark Souls III",
-        "Pokemon Crystal",
-        "Terraria"
-    ],
-    "pick": [
-        "Pokemon Emerald",
-        "Dark Souls III",
-        "Pokemon Crystal",
-        "Terraria"
-    ],
-    "your": [
-        "Pokemon Emerald",
-        "Dark Souls III",
-        "Pokemon Crystal",
-        "Terraria"
-    ],
-    "gender": [
-        "Pokemon Emerald",
-        "Dark Souls III",
-        "Pokemon Crystal",
-        "Terraria"
-    ],
-    "entering world in a painting": [
-        "Dark Souls III",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "SM64 Romhack"
-    ],
-    "entering": [
-        "Dark Souls III",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "SM64 Romhack"
-    ],
-    "a": [
-        "Dark Souls III",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "SM64 Romhack"
-    ],
-    "painting": [
-        "Dark Souls III",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "SM64 Romhack"
-    ],
-    "2016": [
-        "Stardew Valley",
-        "Dark Souls III",
-        "Don",
-        "The Witness"
-    ],
-    "diddy kong racing": [
-        "Diddy Kong Racing"
-    ],
-    "racing": [
-        "Diddy Kong Racing",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Trackmania",
-        "Star Wars Episode I Racer"
-    ],
-    "behind the waterfall": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Golden Sun The Lost Age",
-        "Super Mario Odyssey",
-        "Diddy Kong Racing",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Donkey Kong Country 3"
-    ],
-    "behind": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Golden Sun The Lost Age",
-        "Super Mario Odyssey",
-        "Diddy Kong Racing",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Donkey Kong Country 3"
-    ],
-    "waterfall": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Golden Sun The Lost Age",
-        "Super Mario Odyssey",
-        "Diddy Kong Racing",
-        "Skyward Sword",
-        "Symphony of the Night",
-        "Donkey Kong Country 3"
-    ],
-    "1997": [
-        "Diddy Kong Racing",
-        "Star Fox 64",
-        "Symphony of the Night",
-        "Kirby's Dream Land 3",
-        "Zork Grand Inquisitor"
-    ],
-    "donkey kong country": [
-        "Donkey Kong Country"
-    ],
-    "frog": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Jak and Daxter: The Precursor Legacy",
-        "Star Fox 64"
-    ],
-    "overworld": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "The Legend of Zelda",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Final Fantasy Tactics Advance",
-        "Donkey Kong Country",
-        "Zelda II: The Adventure of Link"
-    ],
-    "bonus stage": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Donkey Kong Country",
-        "Spyro 3",
-        "Super Mario World"
-    ],
-    "bonus": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Sonic Heroes",
-        "Donkey Kong Country",
-        "Spyro 3",
-        "Super Mario World"
-    ],
-    "crocodile": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
-    "water level": [
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Kingdom Hearts",
-        "Mega Man 2",
-        "Donkey Kong Country"
-    ],
-    "water": [
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Kingdom Hearts",
-        "Mega Man 2",
-        "Donkey Kong Country"
-    ],
-    "western games based on japanese ips": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "western": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "games": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "based": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "on": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "japanese": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "ips": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Metroid Prime"
-    ],
-    "speedrun": [
-        "Super Mario 64",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Donkey Kong Country",
-        "SM64 Romhack"
-    ],
-    "villain turned good": [
-        "Golden Sun The Lost Age",
-        "Donkey Kong Country",
-        "Symphony of the Night",
-        "Kingdom Hearts"
-    ],
-    "turned": [
-        "Golden Sun The Lost Age",
-        "Donkey Kong Country",
-        "Symphony of the Night",
-        "Kingdom Hearts"
-    ],
-    "good": [
-        "Golden Sun The Lost Age",
-        "Donkey Kong Country",
-        "Symphony of the Night",
-        "Kingdom Hearts"
-    ],
-    "over 100% completion": [
-        "DOOM II",
-        "Symphony of the Night",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "100%": [
-        "DOOM II",
-        "Symphony of the Night",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Donkey Kong Country"
-    ],
-    "completion": [
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Symphony of the Night",
-        "Donkey Kong Country 2",
-        "Donkey Kong Country 3",
-        "Metroid Prime",
-        "Donkey Kong Country"
-    ],
-    "resized enemy": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Rogue Legacy",
-        "Ocarina of Time"
-    ],
-    "resized": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Rogue Legacy",
-        "Ocarina of Time"
-    ],
-    "enemy": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Rogue Legacy",
-        "Ocarina of Time"
-    ],
-    "on-the-fly character switching": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Sonic Heroes"
-    ],
-    "on-the-fly": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Sonic Heroes"
-    ],
-    "character": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Sonic Heroes"
-    ],
-    "switching": [
-        "Donkey Kong Country 2",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3",
-        "Sonic Heroes"
-    ],
-    "ape": [
-        "Donkey Kong Country 2",
-        "Mario Kart 64",
-        "Donkey Kong Country",
-        "Donkey Kong Country 3"
-    ],
-    "1994": [
-        "Super Metroid",
-        "EarthBound",
-        "Super Metroid Map Rando",
-        "DOOM II",
-        "Heretic",
-        "Wario Land",
-        "Donkey Kong Country"
-    ],
-    "donkey kong country 2": [
-        "Donkey Kong Country 2"
-    ],
-    "climbing": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Terraria",
-        "Super Mario Sunshine",
-        "Donkey Kong Country 2",
-        "The Legend of Zelda - Oracle of Seasons"
-    ],
-    "game reference": [
-        "The Witness",
-        "DOOM II",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Spyro 3"
-    ],
-    "sprinting mechanics": [
-        "Super Mario 64",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "SM64 Romhack",
-        "Secret of Evermore"
-    ],
-    "sprinting": [
-        "Super Mario 64",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "SM64 Romhack",
-        "Secret of Evermore"
-    ],
-    "mechanics": [
-        "Super Mario 64",
-        "Super Mario Sunshine",
-        "Ocarina of Time",
-        "Donkey Kong Country 2",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Wario Land 4",
-        "Majora's Mask Recompiled",
-        "SM64 Romhack",
-        "Secret of Evermore"
-    ],
-    "completion percentage": [
-        "Donkey Kong Country 2",
-        "Metroid Zero Mission",
-        "Metroid Prime",
-        "Symphony of the Night"
-    ],
-    "percentage": [
-        "Donkey Kong Country 2",
-        "Metroid Zero Mission",
-        "Metroid Prime",
-        "Symphony of the Night"
-    ],
-    "fireworks": [
-        "Donkey Kong Country 2",
-        "Kirby 64 - The Crystal Shards",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "1995": [
-        "Shivers",
-        "Yoshi's Island",
-        "Donkey Kong Country 2",
-        "Lufia II Ancient Cave",
-        "Secret of Evermore"
-    ],
-    "donkey kong country 3": [
-        "Donkey Kong Country 3"
-    ],
-    "snowman": [
-        "SM64 Romhack",
-        "Super Mario 64",
-        "Donkey Kong Country 3",
-        "Paper Mario"
-    ],
-    "1996": [
-        "Super Mario 64",
-        "Mario Kart 64",
-        "Tetris Attack",
-        "Pokemon Red and Blue",
-        "Donkey Kong Country 3",
-        "SM64 Romhack"
-    ],
-    "dlcquest": [
-        "DLCQuest"
-    ],
-    "deliberately retro": [
-        "Super Mario Odyssey",
-        "Minecraft",
-        "UFO 50",
-        "Terraria",
-        "VVVVVV",
-        "DLCQuest",
-        "Timespinner",
-        "Stardew Valley"
-    ],
-    "deliberately": [
-        "Super Mario Odyssey",
-        "Minecraft",
-        "UFO 50",
-        "Terraria",
-        "VVVVVV",
-        "DLCQuest",
-        "Timespinner",
-        "Stardew Valley"
-    ],
-    "punctuation mark above head": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DLCQuest",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal"
-    ],
-    "punctuation": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DLCQuest",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal"
-    ],
-    "mark": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DLCQuest",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal"
-    ],
-    "above": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DLCQuest",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal"
-    ],
-    "head": [
-        "The Legend of Zelda - Oracle of Ages",
-        "DLCQuest",
-        "Rogue Legacy",
-        "Pokemon Emerald",
-        "Pokemon Crystal"
-    ],
-    "2011": [
-        "Skyward Sword",
-        "Terraria",
-        "Minecraft",
-        "DLCQuest"
-    ],
-    "don": [
-        "Don"
-    ],
-    "crafting": [
-        "Minecraft",
-        "Terraria",
-        "Factorio",
-        "Raft",
-        "Stardew Valley",
-        "Don",
-        "Factorio - Space Age Without Space",
-        "Sea of Thieves"
-    ],
-    "funny": [
-        "A Short Hike",
-        "Hunie Pop 2",
-        "Getting Over It",
-        "Don",
-        "Undertale",
-        "The Sims 4"
-    ],
-    "survival horror": [
-        "Lethal Company",
-        "Don",
-        "Resident Evil 2 Remake",
-        "Resident Evil 3 Remake"
-    ],
-    "doom 1993": [
-        "DOOM 1993"
-    ],
-    "intense violence": [
-        "Resident Evil 2 Remake",
-        "DOOM 1993",
-        "Resident Evil 3 Remake"
-    ],
-    "intense": [
-        "Resident Evil 2 Remake",
-        "DOOM 1993",
-        "Resident Evil 3 Remake"
-    ],
-    "animated blood and gore": [
-        "DOOM 1993",
-        "Symphony of the Night"
-    ],
-    "invisibility": [
-        "Paper Mario",
-        "DOOM 1993",
-        "DOOM II",
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
-    "1993": [
-        "DOOM 1993"
-    ],
-    "doom ii": [
-        "DOOM II"
-    ],
-    "artificial intelligence": [
-        "Star Fox 64",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "Metroid Prime"
-    ],
-    "artificial": [
-        "Star Fox 64",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "Metroid Prime"
-    ],
-    "intelligence": [
-        "Star Fox 64",
-        "Mario Kart 64",
-        "Jak and Daxter: The Precursor Legacy",
-        "Sly Cooper and the Thievius Raccoonus",
-        "DOOM II",
-        "Metroid Prime"
-    ],
-    "stat tracking": [
-        "The Witness",
-        "osu!",
-        "DOOM II",
-        "Rogue Legacy",
-        "Kingdom Hearts",
-        "Final Fantasy Tactics Advance"
-    ],
-    "stat": [
-        "The Witness",
-        "osu!",
-        "DOOM II",
-        "Rogue Legacy",
-        "Kingdom Hearts",
-        "Final Fantasy Tactics Advance"
-    ],
-    "tracking": [
-        "The Witness",
-        "osu!",
-        "DOOM II",
-        "Rogue Legacy",
-        "Kingdom Hearts",
-        "Final Fantasy Tactics Advance"
-    ],
-    "rock music": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "ULTRAKILL",
-        "DOOM II",
-        "Symphony of the Night",
-        "Final Fantasy Tactics Advance",
-        "Sonic Heroes"
-    ],
-    "rock": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "ULTRAKILL",
-        "DOOM II",
-        "Symphony of the Night",
-        "Final Fantasy Tactics Advance",
-        "Sonic Heroes"
-    ],
-    "sequence breaking": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Wario Land 4",
-        "Metroid Prime"
-    ],
-    "sequence": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "DOOM II",
-        "Symphony of the Night",
-        "Ocarina of Time",
-        "Wario Land 4",
-        "Metroid Prime"
-    ],
-    "doronko wanko": [
-        "DORONKO WANKO"
-    ],
-    "dark souls remastered": [
-        "Dark Souls Remastered"
-    ],
-    "dungeon clawler": [
-        "Dungeon Clawler"
-    ],
-    "digimon world": [
-        "Digimon World"
-    ],
-    "earthbound": [
-        "EarthBound"
-    ],
-    "party system": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "EarthBound",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Final Fantasy Tactics Advance",
-        "Xenoblade X",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "party": [
-        "Golden Sun The Lost Age",
-        "Final Fantasy Mystic Quest",
-        "EarthBound",
-        "Mario Kart 64",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Overcooked! 2",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Final Fantasy Tactics Advance",
-        "Xenoblade X",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "censored version": [
-        "Resident Evil 2 Remake",
-        "EarthBound",
-        "Xenoblade X",
-        "Ocarina of Time"
-    ],
-    "censored": [
-        "Resident Evil 2 Remake",
-        "EarthBound",
-        "Xenoblade X",
-        "Ocarina of Time"
-    ],
-    "version": [
-        "Resident Evil 2 Remake",
-        "EarthBound",
-        "Xenoblade X",
-        "Ocarina of Time"
-    ],
-    "ender lilies": [
-        "Ender Lilies"
-    ],
-    "2021": [
-        "The Binding of Isaac Repentance",
-        "Hunie Pop 2",
-        "Ender Lilies",
-        "Inscryption",
-        "Lingo"
-    ],
-    "factorio": [
-        "Factorio"
-    ],
-    "2020": [
-        "ULTRAKILL",
-        "Hylics 2",
-        "Factorio",
-        "Trackmania",
-        "Hatsune Miku Project Diva Mega Mix+",
-        "Hades",
-        "Monster Sanctuary",
-        "Resident Evil 3 Remake",
-        "Noita",
-        "Not an idle game"
-    ],
-    "factorio - space age without space": [
-        "Factorio - Space Age Without Space"
-    ],
-    "faxanadu": [
-        "Faxanadu"
-    ],
-    "1987": [
-        "Zillion",
-        "Faxanadu",
-        "Zelda II: The Adventure of Link",
-        "Final Fantasy"
-    ],
-    "final fantasy": [
-        "Final Fantasy"
-    ],
-    "kids": [
-        "Minecraft",
-        "Yoshi's Island",
-        "Mario Kart 64",
-        "Tetris Attack",
-        "Pokemon Red and Blue",
-        "Pokemon FireRed and LeafGreen",
-        "Pokemon Emerald",
-        "Overcooked! 2",
-        "Pokemon Crystal",
-        "Final Fantasy",
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "final fantasy iv free enterprise": [
-        "Final Fantasy IV Free Enterprise"
-    ],
-    "mild suggestive themes": [
-        "Final Fantasy IV Free Enterprise",
-        "Jak and Daxter: The Precursor Legacy",
-        "Terraria"
-    ],
-    "final fantasy mystic quest": [
-        "Final Fantasy Mystic Quest"
-    ],
-    "casual": [
-        "Final Fantasy Mystic Quest",
-        "A Short Hike",
-        "Getting Over It",
-        "Muse Dash",
-        "The Sims 4"
-    ],
-    "ninja": [
-        "Final Fantasy Mystic Quest",
-        "Rogue Legacy",
-        "Final Fantasy Tactics Advance",
-        "The Messenger"
-    ],
-    "1992": [
-        "Super Mario Land 2",
-        "Landstalker - The Treasures of King Nole",
-        "Final Fantasy Mystic Quest"
-    ],
-    "final fantasy tactics advance": [
-        "Final Fantasy Tactics Advance"
-    ],
-    "tactical": [
-        "Overcooked! 2",
-        "Wargroove",
-        "Final Fantasy Tactics Advance"
-    ],
-    "grinding": [
-        "Old School Runescape",
-        "Kingdom Hearts",
-        "Final Fantasy Tactics Advance",
-        "The Legend of Zelda - Oracle of Seasons",
-        "Sea of Thieves"
-    ],
-    "random encounter": [
-        "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "random": [
-        "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "encounter": [
-        "Golden Sun The Lost Age",
-        "Kingdom Hearts",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Final Fantasy Tactics Advance"
-    ],
-    "2003": [
-        "Toontown",
-        "Ratchet & Clank 2",
-        "Final Fantasy Tactics Advance",
-        "Sonic Heroes",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "yu-gi-oh! forbidden memories": [
-        "Yu-Gi-Oh! Forbidden Memories"
-    ],
-    "getting over it": [
-        "Getting Over It"
-    ],
-    "psychological horror": [
-        "Lethal Company",
-        "Getting Over It",
-        "Undertale",
-        "Majora's Mask Recompiled"
-    ],
-    "psychological": [
-        "Lethal Company",
-        "Getting Over It",
-        "Undertale",
-        "Majora's Mask Recompiled"
-    ],
-    "space": [
-        "Super Mario Land 2",
-        "Starcraft 2",
-        "Getting Over It",
-        "VVVVVV"
-    ],
-    "golden sun the lost age": [
-        "Golden Sun The Lost Age"
-    ],
-    "ancient advanced civilization technology": [
-        "Skyward Sword",
-        "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy",
-        "Metroid Prime"
-    ],
-    "ancient": [
-        "Skyward Sword",
-        "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy",
-        "Metroid Prime"
-    ],
-    "advanced": [
-        "Skyward Sword",
-        "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy",
-        "Metroid Prime"
-    ],
-    "civilization": [
-        "Skyward Sword",
-        "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy",
-        "Metroid Prime"
-    ],
-    "technology": [
-        "Skyward Sword",
-        "Golden Sun The Lost Age",
-        "Jak and Daxter: The Precursor Legacy",
-        "Metroid Prime"
-    ],
-    "battle screen": [
-        "Golden Sun The Lost Age",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "battle": [
-        "Golden Sun The Lost Age",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "screen": [
-        "Golden Sun The Lost Age",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "2002": [
-        "Golden Sun The Lost Age",
-        "MegaMan Battle Network 3",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Super Mario Sunshine",
-        "Kingdom Hearts",
-        "Metroid Prime",
-        "The Wind Waker"
-    ],
-    "gzdoom": [
-        "gzDoom"
-    ],
-    "hades": [
-        "Hades"
-    ],
-    "stylized": [
-        "ULTRAKILL",
-        "Hylics 2",
-        "Hades",
-        "TUNIC"
-    ],
-    "heretic": [
-        "Heretic"
-    ],
-    "hollow knight": [
-        "Hollow Knight"
-    ],
-    "creature compendium": [
-        "Pokemon Emerald",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Hollow Knight"
-    ],
-    "creature": [
-        "Pokemon Emerald",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Hollow Knight"
-    ],
-    "compendium": [
-        "Pokemon Emerald",
-        "Symphony of the Night",
-        "Metroid Prime",
-        "Hollow Knight"
-    ],
-    "hunie pop": [
-        "Hunie Pop"
-    ],
-    "visual novel": [
-        "Hunie Pop 2",
-        "Hunie Pop"
-    ],
-    "visual": [
-        "Hunie Pop 2",
-        "Hunie Pop"
-    ],
-    "novel": [
-        "Hunie Pop 2",
-        "Hunie Pop"
-    ],
-    "erotic": [
-        "Hunie Pop 2",
-        "Hunie Pop"
-    ],
-    "romance": [
-        "Hunie Pop 2",
-        "Hunie Pop",
-        "The Sims 4",
-        "Stardew Valley"
-    ],
-    "2015": [
-        "Hunie Pop",
-        "Undertale",
-        "Xenoblade X",
-        "Ori and the Blind Forest"
-    ],
-    "hunie pop 2": [
-        "Hunie Pop 2"
-    ],
-    "hylics 2": [
-        "Hylics 2"
-    ],
-    "inscryption": [
-        "Inscryption"
-    ],
-    "jak and daxter: the precursor legacy": [
-        "Jak and Daxter: The Precursor Legacy"
-    ],
-    "auto-saving": [
-        "The Witness",
-        "Jak and Daxter: The Precursor Legacy",
-        "Minecraft",
-        "Spyro 3"
-    ],
-    "jigsaw": [
-        "Jigsaw"
-    ],
-    "kirby 64 - the crystal shards": [
-        "Kirby 64 - The Crystal Shards"
-    ],
-    "kid friendly": [
-        "Pokemon Emerald",
-        "Kirby 64 - The Crystal Shards",
-        "Pokemon Crystal",
-        "OpenRCT2"
-    ],
-    "kid": [
-        "Pokemon Emerald",
-        "Kirby 64 - The Crystal Shards",
-        "Pokemon Crystal",
-        "OpenRCT2"
-    ],
-    "friendly": [
-        "Pokemon Emerald",
-        "Kirby 64 - The Crystal Shards",
-        "Pokemon Crystal",
-        "OpenRCT2"
-    ],
-    "whale": [
-        "Super Mario Land 2",
-        "Kirby 64 - The Crystal Shards",
-        "Kirby's Dream Land 3",
-        "Kingdom Hearts"
-    ],
-    "kirby's dream land 3": [
-        "Kirby's Dream Land 3"
-    ],
-    "kingdom hearts": [
-        "Kingdom Hearts"
-    ],
-    "kingdom hearts 2": [
-        "Kingdom Hearts 2"
-    ],
-    "link's awakening dx": [
-        "Link's Awakening DX"
-    ],
-    "fishing": [
-        "Minecraft",
-        "A Short Hike",
-        "Terraria",
-        "Link's Awakening DX",
-        "Stardew Valley"
-    ],
-    "tentacles": [
-        "Super Mario Sunshine",
-        "Link's Awakening DX",
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Metroid Prime",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "animal cruelty": [
-        "Link's Awakening DX",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Ocarina of Time"
-    ],
-    "animal": [
-        "Link's Awakening DX",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Ocarina of Time"
-    ],
-    "cruelty": [
-        "Link's Awakening DX",
-        "Pokemon Crystal",
-        "Pokemon Emerald",
-        "Ocarina of Time"
-    ],
-    "1998": [
-        "Link's Awakening DX",
-        "Ocarina of Time"
-    ],
-    "landstalker - the treasures of king nole": [
-        "Landstalker - The Treasures of King Nole"
-    ],
-    "lethal company": [
-        "Lethal Company"
-    ],
-    "monsters": [
-        "Lethal Company",
-        "Yu-Gi-Oh! 2006",
-        "Minecraft",
-        "Pokemon FireRed and LeafGreen"
-    ],
-    "lingo": [
-        "Lingo"
-    ],
-    "lufia ii ancient cave": [
-        "Lufia II Ancient Cave"
-    ],
-    "luigi's mansion": [
-        "Luigi's Mansion"
-    ],
-    "italian accent": [
-        "Luigi's Mansion",
-        "Mario Kart 64",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "italian": [
-        "Luigi's Mansion",
-        "Mario Kart 64",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "accent": [
-        "Luigi's Mansion",
-        "Mario Kart 64",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "super mario land 2": [
-        "Super Mario Land 2"
-    ],
-    "mario": [
-        "Super Mario Land 2",
-        "Super Mario World",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "turtle": [
-        "Super Mario Land 2",
-        "Mario Kart 64",
-        "Sly Cooper and the Thievius Raccoonus",
-        "Super Mario Sunshine",
-        "Paper Mario",
-        "Mario & Luigi Superstar Saga"
-    ],
-    "hatsune miku project diva mega mix+": [
-        "Hatsune Miku Project Diva Mega Mix+"
-    ],
-    "the messenger": [
-        "The Messenger"
-    ],
-    "metroid prime": [
-        "Metroid Prime"
-    ],
-    "time limit": [
-        "The Witness",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Wario Land 4",
-        "Metroid Prime",
-        "Risk of Rain"
-    ],
-    "limit": [
-        "The Witness",
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Rogue Legacy",
-        "Super Mario Sunshine",
-        "Wario Land 4",
-        "Metroid Prime",
-        "Risk of Rain"
-    ],
-    "countdown timer": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Wario Land 4",
-        "Metroid Prime"
-    ],
-    "countdown": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Wario Land 4",
-        "Metroid Prime"
-    ],
-    "timer": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Wario Land 4",
-        "Metroid Prime"
-    ],
-    "auto-aim": [
-        "Skyward Sword",
-        "Ocarina of Time",
-        "Metroid Prime",
-        "The Wind Waker",
-        "Majora's Mask Recompiled"
-    ],
-    "linear gameplay": [
-        "Super Mario 64",
-        "Metroid Prime",
-        "SM64 Romhack",
-        "Super Mario Sunshine"
-    ],
-    "linear": [
-        "Super Mario 64",
-        "Metroid Prime",
-        "SM64 Romhack",
-        "Super Mario Sunshine"
-    ],
-    "isolation": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Metroid Zero Mission",
-        "Symphony of the Night",
-        "Metroid Prime"
-    ],
-    "minecraft": [
-        "Minecraft"
-    ],
-    "virtual reality": [
-        "Minecraft",
-        "Subnautica"
-    ],
-    "virtual": [
-        "Minecraft",
-        "Subnautica"
-    ],
-    "reality": [
-        "Minecraft",
-        "Subnautica"
-    ],
-    "procedural generation": [
-        "The Witness",
-        "Terraria",
-        "Minecraft",
-        "Rogue Legacy"
-    ],
-    "procedural": [
-        "The Witness",
-        "Terraria",
-        "Minecraft",
-        "Rogue Legacy"
-    ],
-    "generation": [
-        "The Witness",
-        "Terraria",
-        "Minecraft",
-        "Rogue Legacy"
-    ],
-    "mario kart 64": [
-        "Mario Kart 64"
-    ],
-    "mario & luigi superstar saga": [
-        "Mario & Luigi Superstar Saga"
-    ],
-    "super-ness": [
-        "SM64 Romhack",
-        "Super Mario 64",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "wiggler": [
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Super Mario Sunshine",
-        "Mario & Luigi Superstar Saga",
-        "SM64 Romhack"
-    ],
-    "princess peach": [
-        "SM64 Romhack",
-        "Super Mario 64",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "peach": [
-        "SM64 Romhack",
-        "Super Mario 64",
-        "Mario & Luigi Superstar Saga",
-        "Super Mario Sunshine"
-    ],
-    "mega man 2": [
-        "Mega Man 2"
-    ],
-    "megaman battle network 3": [
-        "MegaMan Battle Network 3"
-    ],
-    "majora's mask recompiled": [
-        "Majora's Mask Recompiled"
-    ],
-    "momodora moonlit farewell": [
-        "Momodora Moonlit Farewell"
-    ],
-    "monster sanctuary": [
-        "Monster Sanctuary"
-    ],
-    "tobacco reference": [
-        "Monster Sanctuary"
-    ],
-    "muse dash": [
-        "Muse Dash"
-    ],
-    "mild lyrics": [
-        "Muse Dash",
-        "Sonic Adventure 2 Battle"
-    ],
-    "lyrics": [
-        "Muse Dash",
-        "Sonic Adventure 2 Battle"
-    ],
-    "metroid zero mission": [
-        "Metroid Zero Mission"
-    ],
-    "2004": [
-        "Pokemon Emerald",
-        "Metroid Zero Mission",
-        "Pokemon FireRed and LeafGreen",
-        "Paper Mario The Thousand Year Door"
-    ],
-    "noita": [
-        "Noita"
-    ],
-    "ocarina of time": [
-        "Ocarina of Time"
-    ],
-    "time manipulation": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Rogue Legacy",
-        "Ocarina of Time",
-        "Timespinner"
-    ],
-    "color cartridges": [
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Zelda II: The Adventure of Link",
-        "Ocarina of Time"
-    ],
-    "color": [
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Zelda II: The Adventure of Link",
-        "Ocarina of Time"
-    ],
-    "cartridges": [
-        "Pokemon Emerald",
-        "Pokemon Crystal",
-        "Zelda II: The Adventure of Link",
-        "Ocarina of Time"
-    ],
-    "openrct2": [
-        "OpenRCT2"
-    ],
-    "business": [
-        "Stardew Valley",
-        "OpenRCT2"
-    ],
-    "ori and the blind forest": [
-        "Ori and the Blind Forest"
-    ],
-    "thriller": [
-        "Super Metroid",
-        "Super Metroid Map Rando",
-        "Ori and the Blind Forest"
-    ],
-    "old school runescape": [
-        "Old School Runescape"
-    ],
-    "osu!": [
-        "osu!"
-    ],
-    "auditory": [
-        "osu!"
-    ],
-    "outer wilds": [
-        "Outer Wilds"
-    ],
-    "overcooked! 2": [
-        "Overcooked! 2"
-    ],
-    "paint": [
-        "Paint"
-    ],
-    "paper mario": [
-        "Paper Mario"
-    ],
-    "peaks of yore": [
-        "Peaks of Yore"
-    ],
-    "pokemon mystery dungeon explorers of sky": [
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "mild cartoon violence": [
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "2009": [
-        "Pokemon Mystery Dungeon Explorers of Sky"
-    ],
-    "pokemon crystal": [
-        "Pokemon Crystal"
-    ],
-    "pokemon emerald": [
-        "Pokemon Emerald"
-    ],
-    "pokemon firered and leafgreen": [
-        "Pokemon FireRed and LeafGreen"
-    ],
-    "pokemon red and blue": [
-        "Pokemon Red and Blue"
-    ],
-    "pseudoregalia": [
-        "Pseudoregalia"
-    ],
-    "ratchet & clank 2": [
-        "Ratchet & Clank 2"
-    ],
-    "raft": [
-        "Raft"
-    ],
-    "resident evil 2 remake": [
-        "Resident Evil 2 Remake"
-    ],
-    "resident evil 3 remake": [
-        "Resident Evil 3 Remake"
-    ],
-    "rogue legacy": [
-        "Rogue Legacy"
-    ],
-    "risk of rain": [
-        "Risk of Rain"
-    ],
-    "risk of rain 2": [
-        "Risk of Rain 2"
-    ],
-    "drug reference": [
-        "Risk of Rain 2"
-    ],
-    "drug": [
-        "Risk of Rain 2"
-    ],
-    "sonic adventure 2 battle": [
-        "Sonic Adventure 2 Battle"
-    ],
-    "2012": [
-        "Sonic Adventure 2 Battle"
-    ],
-    "sonic adventure dx": [
-        "Sonic Adventure DX"
-    ],
-    "2010": [
-        "Starcraft 2",
-        "VVVVVV",
-        "Sonic Adventure DX"
-    ],
-    "starcraft 2": [
-        "Starcraft 2"
-    ],
-    "warfare": [
-        "Wargroove 2",
-        "Starcraft 2",
-        "Wargroove"
-    ],
-    "sea of thieves": [
-        "Sea of Thieves"
-    ],
-    "not an idle game": [
-        "Not an idle game"
-    ],
-    "shivers": [
-        "Shivers"
-    ],
-    "realistic blood and gore": [
-        "Shivers"
-    ],
-    "realistic": [
-        "Shivers"
-    ],
-    "realistic blood": [
-        "Shivers"
-    ],
-    "point-and-click": [
-        "Shivers",
-        "Zork Grand Inquisitor"
-    ],
-    "a short hike": [
-        "A Short Hike"
-    ],
-    "the sims 4": [
-        "The Sims 4"
-    ],
-    "sly cooper and the thievius raccoonus": [
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
-    "stealth": [
-        "Sly Cooper and the Thievius Raccoonus"
-    ],
-    "super metroid": [
-        "Super Metroid"
-    ],
-    "super metroid map rando": [
-        "Super Metroid Map Rando"
-    ],
-    "super mario 64": [
-        "Super Mario 64"
-    ],
-    "rabbit": [
-        "The Legend of Zelda - Oracle of Ages",
-        "Super Mario Odyssey",
-        "Super Mario 64",
-        "Terraria",
-        "Sonic Heroes",
-        "SM64 Romhack"
-    ],
-    "sm64 romhack": [
-        "SM64 Romhack"
-    ],
-    "super mario odyssey": [
-        "Super Mario Odyssey"
-    ],
-    "super mario sunshine": [
-        "Super Mario Sunshine"
-    ],
-    "super mario world": [
-        "Super Mario World"
-    ],
-    "1990": [
-        "Super Mario World"
-    ],
-    "smz3": [
-        "SMZ3"
-    ],
-    "secret of evermore": [
-        "Secret of Evermore"
-    ],
-    "sonic heroes": [
-        "Sonic Heroes"
-    ],
-    "symphony of the night": [
-        "Symphony of the Night"
-    ],
-    "playstation plus": [
-        "Spyro 3",
-        "Terraria",
-        "VVVVVV",
-        "Symphony of the Night"
+        "ffta",
+        "ff1",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "kdl3",
+        "soe",
+        "ffmq",
+        "sm",
+        "adventure",
+        "dkc3",
+        "xenobladex",
+        "sm_map_rando",
+        "dkc",
+        "faxanadu",
+        "tetrisattack",
+        "kh1",
+        "yoshisisland",
+        "pokemon_emerald",
+        "lufia2ac",
+        "pokemon_crystal",
+        "ff4fe",
+        "mlss",
+        "smw",
+        "papermario",
+        "zelda2",
+        "alttp",
+        "smz3"
+    ],
+    "acorn electron": [
+        "adventure"
+    ],
+    "acorn": [
+        "adventure"
+    ],
+    "electron": [
+        "adventure"
+    ],
+    "against_the_storm": [
+        "against_the_storm"
+    ],
+    "against the storm": [
+        "against_the_storm"
+    ],
+    "against": [
+        "against_the_storm"
+    ],
+    "the": [
+        "ffta",
+        "banjo_tooie",
+        "oribf",
+        "k64",
+        "dark_souls_2",
+        "hades",
+        "smo",
+        "tloz",
+        "dkc2",
+        "sly1",
+        "spire",
+        "earthbound",
+        "gstla",
+        "ss",
+        "cvcotm",
+        "messenger",
+        "blasphemous",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "terraria",
+        "witness",
+        "undertale",
+        "doom_ii",
+        "ttyd",
+        "dkc",
+        "smz3",
+        "ladx",
+        "against_the_storm",
+        "seaofthieves",
+        "albw",
+        "lufia2ac",
+        "sotn",
+        "mlss",
+        "tp",
+        "tloz_ooa",
+        "overcooked2",
+        "rogue_legacy",
+        "spyro3",
+        "mm_recomp",
+        "sims4",
+        "oot",
+        "papermario",
+        "tww",
+        "zelda2",
+        "jakanddaxter",
+        "alttp",
+        "tboir",
+        "tloz_oos",
+        "celeste64",
+        "enderlilies"
+    ],
+    "storm": [
+        "against_the_storm"
+    ],
+    "real time strategy (rts)": [
+        "sc2",
+        "rimworld",
+        "against_the_storm",
+        "openrct2"
+    ],
+    "real": [
+        "sc2",
+        "rimworld",
+        "against_the_storm",
+        "openrct2"
+    ],
+    "time": [
+        "ffta",
+        "ctjot",
+        "mk64",
+        "wl4",
+        "sly1",
+        "earthbound",
+        "pmd_eos",
+        "sm",
+        "diddy_kong_racing",
+        "outer_wilds",
+        "witness",
+        "sm_map_rando",
+        "apeescape",
+        "rimworld",
+        "ror1",
+        "against_the_storm",
+        "pokemon_emerald",
+        "metroidprime",
+        "cv64",
+        "sc2",
+        "pokemon_crystal",
+        "ahit",
+        "tloz_ooa",
+        "rogue_legacy",
+        "spyro3",
+        "mm_recomp",
+        "oot",
+        "sms",
+        "jakanddaxter",
+        "timespinner",
+        "alttp",
+        "tloz_oos",
+        "v6",
+        "openrct2"
+    ],
+    "strategy": [
+        "ffta",
+        "yugioh06",
+        "factorio",
+        "ff1",
+        "pokemon_rb",
+        "inscryption",
+        "factorio_saws",
+        "wargroove",
+        "wargroove2",
+        "shapez",
+        "spire",
+        "earthbound",
+        "balatro",
+        "stardew_valley",
+        "yugiohddm",
+        "pmd_eos",
+        "pokemon_frlg",
+        "dontstarvetogether",
+        "terraria",
+        "undertale",
+        "fm",
+        "huniepop",
+        "hylics2",
+        "rimworld",
+        "against_the_storm",
+        "pokemon_emerald",
+        "sc2",
+        "ufo50",
+        "ff4fe",
+        "huniepop2",
+        "overcooked2",
+        "papermario",
+        "dungeon_clawler",
+        "civ_6",
+        "chainedechoes",
+        "monster_sanctuary",
+        "satisfactory",
+        "openrct2"
+    ],
+    "(rts)": [
+        "sc2",
+        "rimworld",
+        "against_the_storm",
+        "openrct2"
+    ],
+    "simulator": [
+        "factorio",
+        "minecraft",
+        "noita",
+        "factorio_saws",
+        "powerwashsimulator",
+        "shapez",
+        "stardew_valley",
+        "outer_wilds",
+        "dontstarvetogether",
+        "terraria",
+        "doronko_wanko",
+        "huniepop",
+        "rimworld",
+        "against_the_storm",
+        "seaofthieves",
+        "huniepop2",
+        "overcooked2",
+        "placidplasticducksim",
+        "sims4",
+        "dungeon_clawler",
+        "civ_6",
+        "getting_over_it",
+        "raft",
+        "satisfactory",
+        "openrct2"
+    ],
+    "indie": [
+        "hk",
+        "factorio",
+        "noita",
+        "pseudoregalia",
+        "inscryption",
+        "tunic",
+        "shorthike",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "musedash",
+        "peaks_of_yore",
+        "powerwashsimulator",
+        "aus",
+        "hades",
+        "wargroove",
+        "shapez",
+        "wargroove2",
+        "spire",
+        "shivers",
+        "balatro",
+        "stardew_valley",
+        "messenger",
+        "blasphemous",
+        "momodoramoonlitfarewell",
+        "hcniko",
+        "dontstarvetogether",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "terraria",
+        "undertale",
+        "witness",
+        "hylics2",
+        "huniepop",
+        "animal_well",
+        "rimworld",
+        "ror1",
+        "against_the_storm",
+        "ror2",
+        "ufo50",
+        "cuphead",
+        "cat_quest",
+        "osu",
+        "subnautica",
+        "aquaria",
+        "ahit",
+        "v6",
+        "huniepop2",
+        "overcooked2",
+        "rogue_legacy",
+        "dungeon_clawler",
+        "lethal_company",
+        "timespinner",
+        "chainedechoes",
+        "dlcquest",
+        "tboir",
+        "getting_over_it",
+        "monster_sanctuary",
+        "celeste64",
+        "ultrakill",
+        "celeste",
+        "raft",
+        "satisfactory",
+        "enderlilies"
+    ],
+    "xbox series x|s": [
+        "tunic",
+        "inscryption",
+        "residentevil3remake",
+        "brotato",
+        "residentevil2remake",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "balatro",
+        "momodoramoonlitfarewell",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "animal_well",
+        "trackmania",
+        "against_the_storm",
+        "ror2",
+        "seaofthieves",
+        "subnautica",
+        "placidplasticducksim",
+        "raft",
+        "satisfactory",
+        "enderlilies"
+    ],
+    "xbox": [
+        "hk",
+        "oribf",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "dark_souls_2",
+        "residentevil2remake",
+        "sa2b",
+        "wargroove",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "balatro",
+        "stardew_valley",
+        "dark_souls_3",
+        "messenger",
+        "blasphemous",
+        "momodoramoonlitfarewell",
+        "dw1",
+        "outer_wilds",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "witness",
+        "animal_well",
+        "trackmania",
+        "ror1",
+        "against_the_storm",
+        "ror2",
+        "seaofthieves",
+        "swr",
+        "sadx",
+        "cuphead",
+        "sotn",
+        "subnautica",
+        "ahit",
+        "sonic_heroes",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "sims4",
+        "dsr",
+        "timespinner",
+        "chainedechoes",
+        "dlcquest",
+        "monster_sanctuary",
+        "celeste",
+        "raft",
+        "satisfactory",
+        "enderlilies"
+    ],
+    "series": [
+        "tunic",
+        "inscryption",
+        "residentevil3remake",
+        "brotato",
+        "residentevil2remake",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "balatro",
+        "momodoramoonlitfarewell",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "doom_ii",
+        "animal_well",
+        "trackmania",
+        "against_the_storm",
+        "ror2",
+        "seaofthieves",
+        "doom_1993",
+        "subnautica",
+        "placidplasticducksim",
+        "raft",
+        "satisfactory",
+        "enderlilies"
+    ],
+    "x|s": [
+        "tunic",
+        "inscryption",
+        "residentevil3remake",
+        "brotato",
+        "residentevil2remake",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "balatro",
+        "momodoramoonlitfarewell",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "animal_well",
+        "trackmania",
+        "against_the_storm",
+        "ror2",
+        "seaofthieves",
+        "subnautica",
+        "placidplasticducksim",
+        "raft",
+        "satisfactory",
+        "enderlilies"
+    ],
+    "pc (microsoft windows)": [
+        "hk",
+        "inscryption",
+        "shorthike",
+        "hades",
+        "momodoramoonlitfarewell",
+        "dontstarvetogether",
+        "landstalker",
+        "doronko_wanko",
+        "animal_well",
+        "rimworld",
+        "trackmania",
+        "ror1",
+        "seaofthieves",
+        "toontown",
+        "sadx",
+        "lingo",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "dsr",
+        "raft",
+        "enderlilies",
+        "factorio",
+        "noita",
+        "tunic",
+        "peaks_of_yore",
+        "wargroove",
+        "powerwashsimulator",
+        "aus",
+        "gzdoom",
+        "shivers",
+        "balatro",
+        "messenger",
+        "undertale",
+        "doom_ii",
+        "hylics2",
+        "tyrian",
+        "against_the_storm",
+        "ror2",
+        "cuphead",
+        "bumpstik",
+        "osu",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "dungeon_clawler",
+        "meritous",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "celeste",
+        "dark_souls_3",
+        "minecraft",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove2",
+        "heretic",
+        "blasphemous",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "swr",
+        "sc2",
+        "cat_quest",
+        "aquaria",
+        "sonic_heroes",
+        "overcooked2",
+        "sims4",
+        "lethal_company",
+        "osrs",
+        "ultrakill",
+        "v6",
+        "satisfactory",
+        "oribf",
+        "pseudoregalia",
+        "factorio_saws",
+        "brotato",
+        "dark_souls_2",
+        "sa2b",
+        "residentevil3remake",
+        "musedash",
+        "shapez",
+        "spire",
+        "stardew_valley",
+        "zork_grand_inquisitor",
+        "terraria",
+        "huniepop",
+        "ufo50",
+        "civ_6",
+        "timespinner",
+        "monster_sanctuary",
+        "celeste64",
+        "openrct2"
+    ],
+    "pc": [
+        "hk",
+        "inscryption",
+        "shorthike",
+        "hades",
+        "momodoramoonlitfarewell",
+        "dontstarvetogether",
+        "landstalker",
+        "doronko_wanko",
+        "animal_well",
+        "rimworld",
+        "trackmania",
+        "ror1",
+        "seaofthieves",
+        "toontown",
+        "sadx",
+        "lingo",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "dsr",
+        "raft",
+        "enderlilies",
+        "factorio",
+        "noita",
+        "tunic",
+        "peaks_of_yore",
+        "wargroove",
+        "powerwashsimulator",
+        "aus",
+        "gzdoom",
+        "shivers",
+        "balatro",
+        "messenger",
+        "undertale",
+        "doom_ii",
+        "hylics2",
+        "tyrian",
+        "against_the_storm",
+        "ror2",
+        "cuphead",
+        "bumpstik",
+        "osu",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "dungeon_clawler",
+        "meritous",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "celeste",
+        "dark_souls_3",
+        "minecraft",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove2",
+        "heretic",
+        "blasphemous",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "swr",
+        "sc2",
+        "cat_quest",
+        "aquaria",
+        "sonic_heroes",
+        "overcooked2",
+        "sims4",
+        "lethal_company",
+        "osrs",
+        "ultrakill",
+        "v6",
+        "satisfactory",
+        "oribf",
+        "pseudoregalia",
+        "factorio_saws",
+        "brotato",
+        "dark_souls_2",
+        "sa2b",
+        "residentevil3remake",
+        "musedash",
+        "shapez",
+        "spire",
+        "stardew_valley",
+        "zork_grand_inquisitor",
+        "terraria",
+        "huniepop",
+        "ufo50",
+        "civ_6",
+        "timespinner",
+        "monster_sanctuary",
+        "celeste64",
+        "openrct2"
+    ],
+    "(microsoft": [
+        "hk",
+        "inscryption",
+        "shorthike",
+        "hades",
+        "momodoramoonlitfarewell",
+        "dontstarvetogether",
+        "landstalker",
+        "doronko_wanko",
+        "animal_well",
+        "rimworld",
+        "trackmania",
+        "ror1",
+        "seaofthieves",
+        "toontown",
+        "sadx",
+        "lingo",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "dsr",
+        "raft",
+        "enderlilies",
+        "factorio",
+        "noita",
+        "tunic",
+        "peaks_of_yore",
+        "wargroove",
+        "powerwashsimulator",
+        "aus",
+        "gzdoom",
+        "shivers",
+        "balatro",
+        "messenger",
+        "undertale",
+        "doom_ii",
+        "hylics2",
+        "tyrian",
+        "against_the_storm",
+        "ror2",
+        "cuphead",
+        "bumpstik",
+        "osu",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "dungeon_clawler",
+        "meritous",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "celeste",
+        "dark_souls_3",
+        "minecraft",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove2",
+        "heretic",
+        "blasphemous",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "swr",
+        "sc2",
+        "cat_quest",
+        "aquaria",
+        "sonic_heroes",
+        "overcooked2",
+        "sims4",
+        "lethal_company",
+        "osrs",
+        "ultrakill",
+        "v6",
+        "satisfactory",
+        "oribf",
+        "pseudoregalia",
+        "factorio_saws",
+        "brotato",
+        "dark_souls_2",
+        "sa2b",
+        "residentevil3remake",
+        "musedash",
+        "shapez",
+        "spire",
+        "stardew_valley",
+        "zork_grand_inquisitor",
+        "terraria",
+        "huniepop",
+        "ufo50",
+        "civ_6",
+        "timespinner",
+        "monster_sanctuary",
+        "celeste64",
+        "openrct2"
+    ],
+    "windows)": [
+        "hk",
+        "inscryption",
+        "shorthike",
+        "hades",
+        "momodoramoonlitfarewell",
+        "dontstarvetogether",
+        "landstalker",
+        "doronko_wanko",
+        "animal_well",
+        "rimworld",
+        "trackmania",
+        "ror1",
+        "seaofthieves",
+        "toontown",
+        "sadx",
+        "lingo",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "dsr",
+        "raft",
+        "enderlilies",
+        "factorio",
+        "noita",
+        "tunic",
+        "peaks_of_yore",
+        "wargroove",
+        "powerwashsimulator",
+        "aus",
+        "gzdoom",
+        "shivers",
+        "balatro",
+        "messenger",
+        "undertale",
+        "doom_ii",
+        "hylics2",
+        "tyrian",
+        "against_the_storm",
+        "ror2",
+        "cuphead",
+        "bumpstik",
+        "osu",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "dungeon_clawler",
+        "meritous",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "celeste",
+        "dark_souls_3",
+        "minecraft",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove2",
+        "heretic",
+        "blasphemous",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "swr",
+        "sc2",
+        "cat_quest",
+        "aquaria",
+        "sonic_heroes",
+        "overcooked2",
+        "sims4",
+        "lethal_company",
+        "osrs",
+        "ultrakill",
+        "v6",
+        "satisfactory",
+        "oribf",
+        "pseudoregalia",
+        "factorio_saws",
+        "brotato",
+        "dark_souls_2",
+        "sa2b",
+        "residentevil3remake",
+        "musedash",
+        "shapez",
+        "spire",
+        "stardew_valley",
+        "zork_grand_inquisitor",
+        "terraria",
+        "huniepop",
+        "ufo50",
+        "civ_6",
+        "timespinner",
+        "monster_sanctuary",
+        "celeste64",
+        "openrct2"
+    ],
+    "playstation 5": [
+        "tunic",
+        "inscryption",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "powerwashsimulator",
+        "hades",
+        "balatro",
+        "messenger",
+        "momodoramoonlitfarewell",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "animal_well",
+        "trackmania",
+        "against_the_storm",
+        "ror2",
+        "seaofthieves",
+        "subnautica",
+        "placidplasticducksim",
+        "raft",
+        "satisfactory"
     ],
     "playstation": [
-        "Spyro 3",
-        "Terraria",
-        "VVVVVV",
-        "Symphony of the Night"
+        "hk",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "dark_souls_2",
+        "residentevil2remake",
+        "sa2b",
+        "wargroove",
+        "powerwashsimulator",
+        "hades",
+        "sly1",
+        "balatro",
+        "stardew_valley",
+        "dark_souls_3",
+        "messenger",
+        "blasphemous",
+        "momodoramoonlitfarewell",
+        "dw1",
+        "outer_wilds",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "witness",
+        "fm",
+        "animal_well",
+        "apeescape",
+        "trackmania",
+        "ror1",
+        "against_the_storm",
+        "ror2",
+        "kh1",
+        "seaofthieves",
+        "swr",
+        "rac2",
+        "sadx",
+        "cuphead",
+        "kh2",
+        "cat_quest",
+        "sotn",
+        "subnautica",
+        "ahit",
+        "sonic_heroes",
+        "v6",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "spyro3",
+        "sims4",
+        "dsr",
+        "jakanddaxter",
+        "timespinner",
+        "chainedechoes",
+        "monster_sanctuary",
+        "celeste",
+        "raft",
+        "satisfactory",
+        "enderlilies"
     ],
-    "plus": [
-        "Spyro 3",
-        "Terraria",
-        "VVVVVV",
-        "Symphony of the Night"
+    "5": [
+        "tunic",
+        "inscryption",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "powerwashsimulator",
+        "hades",
+        "balatro",
+        "messenger",
+        "momodoramoonlitfarewell",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "animal_well",
+        "trackmania",
+        "against_the_storm",
+        "ror2",
+        "seaofthieves",
+        "subnautica",
+        "placidplasticducksim",
+        "raft",
+        "satisfactory"
     ],
-    "slay the spire": [
-        "Slay the Spire"
+    "nintendo switch": [
+        "hk",
+        "oribf",
+        "factorio",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "brotato",
+        "crosscode",
+        "musedash",
+        "wargroove",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "smo",
+        "balatro",
+        "stardew_valley",
+        "messenger",
+        "blasphemous",
+        "momodoramoonlitfarewell",
+        "hcniko",
+        "dontstarvetogether",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "terraria",
+        "undertale",
+        "animal_well",
+        "ror1",
+        "against_the_storm",
+        "ror2",
+        "swr",
+        "cuphead",
+        "cat_quest",
+        "subnautica",
+        "ahit",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "megamix",
+        "dsr",
+        "timespinner",
+        "chainedechoes",
+        "tboir",
+        "monster_sanctuary",
+        "celeste",
+        "v6",
+        "enderlilies"
     ],
-    "spyro 3": [
-        "Spyro 3"
+    "nintendo": [
+        "hk",
+        "ff1",
+        "inscryption",
+        "shorthike",
+        "hades",
+        "dkc2",
+        "ffmq",
+        "momodoramoonlitfarewell",
+        "dkc3",
+        "dontstarvetogether",
+        "animal_well",
+        "ladx",
+        "ror1",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "dsr",
+        "sms",
+        "mario_kart_double_dash",
+        "enderlilies",
+        "factorio",
+        "pokemon_rb",
+        "tunic",
+        "wargroove",
+        "ctjot",
+        "mk64",
+        "powerwashsimulator",
+        "balatro",
+        "messenger",
+        "sm",
+        "undertale",
+        "star_fox_64",
+        "sm_map_rando",
+        "against_the_storm",
+        "ror2",
+        "tetrisattack",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "subnautica",
+        "ahit",
+        "tloz_ooa",
+        "megamix",
+        "luigismansion",
+        "alttp",
+        "chainedechoes",
+        "sm64hacks",
+        "celeste",
+        "banjo_tooie",
+        "crosscode",
+        "wargroove2",
+        "smo",
+        "tloz",
+        "earthbound",
+        "kdl3",
+        "pmd_eos",
+        "blasphemous",
+        "diddy_kong_racing",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "dkc",
+        "swr",
+        "yoshisisland",
+        "cat_quest",
+        "smw",
+        "sonic_heroes",
+        "overcooked2",
+        "mm_recomp",
+        "zelda2",
+        "mm2",
+        "tboir",
+        "tloz_oos",
+        "smz3",
+        "v6",
+        "oribf",
+        "k64",
+        "brotato",
+        "marioland2",
+        "musedash",
+        "wl4",
+        "stardew_valley",
+        "soe",
+        "dw1",
+        "terraria",
+        "faxanadu",
+        "albw",
+        "lufia2ac",
+        "cv64",
+        "metroidprime",
+        "dk64",
+        "tww",
+        "timespinner",
+        "monster_sanctuary",
+        "wl"
     ],
-    "skyward sword": [
-        "Skyward Sword"
+    "switch": [
+        "hk",
+        "oribf",
+        "factorio",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "brotato",
+        "crosscode",
+        "musedash",
+        "wargroove",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "smo",
+        "balatro",
+        "stardew_valley",
+        "messenger",
+        "blasphemous",
+        "momodoramoonlitfarewell",
+        "hcniko",
+        "dontstarvetogether",
+        "outer_wilds",
+        "bomb_rush_cyberfunk",
+        "terraria",
+        "undertale",
+        "animal_well",
+        "ror1",
+        "against_the_storm",
+        "ror2",
+        "swr",
+        "cuphead",
+        "cat_quest",
+        "subnautica",
+        "ahit",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "megamix",
+        "dsr",
+        "timespinner",
+        "chainedechoes",
+        "tboir",
+        "monster_sanctuary",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "base building": [
+        "rimworld",
+        "against_the_storm",
+        "shapez",
+        "satisfactory"
+    ],
+    "base": [
+        "rimworld",
+        "against_the_storm",
+        "shapez",
+        "satisfactory"
+    ],
+    "building": [
+        "rimworld",
+        "against_the_storm",
+        "shapez",
+        "satisfactory"
+    ],
+    "roguelite": [
+        "ror1",
+        "against_the_storm",
+        "ror2",
+        "noita",
+        "dungeon_clawler",
+        "brotato",
+        "hades"
+    ],
+    "ahit": [
+        "ahit"
+    ],
+    "a hat in time": [
+        "ahit"
+    ],
+    "a": [
+        "albw",
+        "sm64ex",
+        "shorthike",
+        "alttp",
+        "smo",
+        "sm64hacks",
+        "smz3",
+        "ahit",
+        "dark_souls_3"
+    ],
+    "hat": [
+        "ahit"
+    ],
+    "in": [
+        "smo",
+        "earthbound",
+        "ss",
+        "sm",
+        "sm_map_rando",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "smw",
+        "ahit",
+        "tloz_ooa",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "sms",
+        "zelda2",
+        "alttp",
+        "tloz_oos",
+        "sm64hacks",
+        "dark_souls_3"
+    ],
+    "first person": [
+        "minecraft",
+        "inscryption",
+        "powerwashsimulator",
+        "heretic",
+        "earthbound",
+        "shivers",
+        "yugiohddm",
+        "zork_grand_inquisitor",
+        "outer_wilds",
+        "witness",
+        "star_fox_64",
+        "fm",
+        "doom_ii",
+        "huniepop",
+        "hylics2",
+        "trackmania",
+        "swr",
+        "seaofthieves",
+        "metroidprime",
+        "cv64",
+        "doom_1993",
+        "lingo",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "sims4",
+        "lethal_company",
+        "ultrakill",
+        "raft",
+        "satisfactory"
+    ],
+    "first": [
+        "minecraft",
+        "inscryption",
+        "powerwashsimulator",
+        "heretic",
+        "earthbound",
+        "shivers",
+        "yugiohddm",
+        "zork_grand_inquisitor",
+        "outer_wilds",
+        "witness",
+        "star_fox_64",
+        "fm",
+        "doom_ii",
+        "huniepop",
+        "hylics2",
+        "trackmania",
+        "swr",
+        "seaofthieves",
+        "metroidprime",
+        "cv64",
+        "doom_1993",
+        "lingo",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "sims4",
+        "lethal_company",
+        "ultrakill",
+        "raft",
+        "satisfactory"
+    ],
+    "person": [
+        "inscryption",
+        "gstla",
+        "trackmania",
+        "seaofthieves",
+        "kh1",
+        "toontown",
+        "sadx",
+        "kh2",
+        "lingo",
+        "placidplasticducksim",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "dsr",
+        "sms",
+        "mario_kart_double_dash",
+        "raft",
+        "powerwashsimulator",
+        "mk64",
+        "gzdoom",
+        "shivers",
+        "yugiohddm",
+        "xenobladex",
+        "star_fox_64",
+        "doom_ii",
+        "hylics2",
+        "ror2",
+        "subnautica",
+        "ahit",
+        "huniepop2",
+        "spyro3",
+        "megamix",
+        "luigismansion",
+        "getting_over_it",
+        "sm64hacks",
+        "dark_souls_3",
+        "banjo_tooie",
+        "minecraft",
+        "residentevil2remake",
+        "smo",
+        "heretic",
+        "sly1",
+        "earthbound",
+        "diddy_kong_racing",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "apeescape",
+        "swr",
+        "rac2",
+        "doom_1993",
+        "cat_quest",
+        "sonic_heroes",
+        "mm_recomp",
+        "sims4",
+        "lethal_company",
+        "ultrakill",
+        "satisfactory",
+        "pseudoregalia",
+        "residentevil3remake",
+        "dark_souls_2",
+        "sa2b",
+        "ss",
+        "soe",
+        "zork_grand_inquisitor",
+        "dw1",
+        "fm",
+        "huniepop",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "dk64",
+        "tp",
+        "tww",
+        "jakanddaxter",
+        "celeste64"
+    ],
+    "third person": [
+        "banjo_tooie",
+        "minecraft",
+        "pseudoregalia",
+        "residentevil3remake",
+        "dark_souls_2",
+        "residentevil2remake",
+        "sa2b",
+        "mk64",
+        "smo",
+        "gzdoom",
+        "sly1",
+        "gstla",
+        "ss",
+        "soe",
+        "diddy_kong_racing",
+        "dw1",
+        "hcniko",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "star_fox_64",
+        "hylics2",
+        "apeescape",
+        "trackmania",
+        "swr",
+        "ror2",
+        "kh1",
+        "albw",
+        "toontown",
+        "rac2",
+        "sadx",
+        "cv64",
+        "kh2",
+        "cat_quest",
+        "dk64",
+        "ahit",
+        "sonic_heroes",
+        "tp",
+        "placidplasticducksim",
+        "spyro3",
+        "mm_recomp",
+        "sims4",
+        "megamix",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "tww",
+        "dsr",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "mario_kart_double_dash",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste64",
+        "raft",
+        "dark_souls_3"
+    ],
+    "third": [
+        "banjo_tooie",
+        "minecraft",
+        "pseudoregalia",
+        "residentevil3remake",
+        "dark_souls_2",
+        "residentevil2remake",
+        "sa2b",
+        "mk64",
+        "smo",
+        "gzdoom",
+        "sly1",
+        "gstla",
+        "ss",
+        "soe",
+        "diddy_kong_racing",
+        "dw1",
+        "hcniko",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "star_fox_64",
+        "hylics2",
+        "apeescape",
+        "trackmania",
+        "swr",
+        "ror2",
+        "kh1",
+        "albw",
+        "toontown",
+        "rac2",
+        "sadx",
+        "cv64",
+        "kh2",
+        "cat_quest",
+        "dk64",
+        "ahit",
+        "sonic_heroes",
+        "tp",
+        "placidplasticducksim",
+        "spyro3",
+        "mm_recomp",
+        "sims4",
+        "megamix",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "tww",
+        "dsr",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "mario_kart_double_dash",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste64",
+        "raft",
+        "dark_souls_3"
+    ],
+    "platform": [
+        "banjo_tooie",
+        "hk",
+        "oribf",
+        "pseudoregalia",
+        "k64",
+        "marioland2",
+        "sa2b",
+        "peaks_of_yore",
+        "aus",
+        "smo",
+        "gzdoom",
+        "wl4",
+        "dkc2",
+        "sly1",
+        "kdl3",
+        "cvcotm",
+        "messenger",
+        "blasphemous",
+        "sm",
+        "momodoramoonlitfarewell",
+        "hcniko",
+        "dkc3",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "mzm",
+        "sm_map_rando",
+        "hylics2",
+        "animal_well",
+        "apeescape",
+        "dkc",
+        "smz3",
+        "faxanadu",
+        "ror1",
+        "yoshisisland",
+        "rac2",
+        "sadx",
+        "metroidprime",
+        "cv64",
+        "ufo50",
+        "zillion",
+        "cuphead",
+        "sotn",
+        "smw",
+        "dk64",
+        "ahit",
+        "aquaria",
+        "sonic_heroes",
+        "rogue_legacy",
+        "spyro3",
+        "wl",
+        "sm64hacks",
+        "sm64ex",
+        "sms",
+        "zelda2",
+        "jakanddaxter",
+        "timespinner",
+        "dlcquest",
+        "mm2",
+        "getting_over_it",
+        "monster_sanctuary",
+        "celeste64",
+        "ultrakill",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "action": [
+        "hk",
+        "ff1",
+        "mmbn3",
+        "hades",
+        "dkc2",
+        "gstla",
+        "cvcotm",
+        "ffmq",
+        "momodoramoonlitfarewell",
+        "dkc3",
+        "dontstarvetogether",
+        "landstalker",
+        "mzm",
+        "doronko_wanko",
+        "animal_well",
+        "trackmania",
+        "ladx",
+        "ror1",
+        "seaofthieves",
+        "kh1",
+        "sadx",
+        "kh2",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "dsr",
+        "sms",
+        "mario_kart_double_dash",
+        "enderlilies",
+        "tunic",
+        "noita",
+        "pokemon_rb",
+        "peaks_of_yore",
+        "ctjot",
+        "aus",
+        "mk64",
+        "gzdoom",
+        "messenger",
+        "sm",
+        "xenobladex",
+        "star_fox_64",
+        "sm_map_rando",
+        "doom_ii",
+        "tyrian",
+        "ror2",
+        "tetrisattack",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sotn",
+        "osu",
+        "ahit",
+        "tloz_ooa",
+        "spyro3",
+        "dungeon_clawler",
+        "luigismansion",
+        "alttp",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste",
+        "dark_souls_3",
+        "banjo_tooie",
+        "crosscode",
+        "residentevil2remake",
+        "smo",
+        "tloz",
+        "sly1",
+        "earthbound",
+        "kdl3",
+        "blasphemous",
+        "diddy_kong_racing",
+        "outer_wilds",
+        "hcniko",
+        "bomb_rush_cyberfunk",
+        "apeescape",
+        "dkc",
+        "swr",
+        "yoshisisland",
+        "rac2",
+        "sc2",
+        "doom_1993",
+        "cat_quest",
+        "mlss",
+        "smw",
+        "sonic_heroes",
+        "overcooked2",
+        "mm_recomp",
+        "sims4",
+        "zelda2",
+        "lethal_company",
+        "mm2",
+        "tloz_oos",
+        "smz3",
+        "ultrakill",
+        "v6",
+        "oribf",
+        "pseudoregalia",
+        "k64",
+        "residentevil3remake",
+        "brotato",
+        "dark_souls_2",
+        "marioland2",
+        "sa2b",
+        "musedash",
+        "wl4",
+        "ss",
+        "soe",
+        "pokemon_frlg",
+        "dw1",
+        "terraria",
+        "faxanadu",
+        "albw",
+        "pokemon_emerald",
+        "metroidprime",
+        "cv64",
+        "ufo50",
+        "dk64",
+        "tp",
+        "tww",
+        "jakanddaxter",
+        "timespinner",
+        "monster_sanctuary",
+        "celeste64",
+        "wl"
+    ],
+    "playstation 4": [
+        "hk",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove",
+        "powerwashsimulator",
+        "hades",
+        "balatro",
+        "stardew_valley",
+        "dark_souls_3",
+        "messenger",
+        "blasphemous",
+        "outer_wilds",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "witness",
+        "trackmania",
+        "ror1",
+        "swr",
+        "ror2",
+        "cuphead",
+        "kh2",
+        "cat_quest",
+        "subnautica",
+        "ahit",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "sims4",
+        "dsr",
+        "jakanddaxter",
+        "timespinner",
+        "chainedechoes",
+        "monster_sanctuary",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "4": [
+        "hk",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove",
+        "powerwashsimulator",
+        "hades",
+        "wl4",
+        "balatro",
+        "stardew_valley",
+        "dark_souls_3",
+        "messenger",
+        "blasphemous",
+        "outer_wilds",
+        "dw1",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "witness",
+        "trackmania",
+        "ror1",
+        "swr",
+        "ror2",
+        "cuphead",
+        "kh2",
+        "cat_quest",
+        "subnautica",
+        "ahit",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "sims4",
+        "dsr",
+        "jakanddaxter",
+        "timespinner",
+        "chainedechoes",
+        "monster_sanctuary",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "mac": [
+        "hk",
+        "factorio",
+        "minecraft",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "residentevil3remake",
+        "musedash",
+        "hades",
+        "heretic",
+        "shapez",
+        "balatro",
+        "stardew_valley",
+        "blasphemous",
+        "zork_grand_inquisitor",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "undertale",
+        "landstalker",
+        "doom_ii",
+        "huniepop",
+        "hylics2",
+        "rimworld",
+        "tyrian",
+        "ror1",
+        "swr",
+        "toontown",
+        "sc2",
+        "cuphead",
+        "cat_quest",
+        "osu",
+        "subnautica",
+        "aquaria",
+        "ahit",
+        "huniepop2",
+        "overcooked2",
+        "rogue_legacy",
+        "osrs",
+        "sims4",
+        "dungeon_clawler",
+        "civ_6",
+        "timespinner",
+        "chainedechoes",
+        "dlcquest",
+        "getting_over_it",
+        "monster_sanctuary",
+        "celeste",
+        "v6",
+        "openrct2"
+    ],
+    "xbox one": [
+        "hk",
+        "oribf",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "balatro",
+        "stardew_valley",
+        "dark_souls_3",
+        "messenger",
+        "blasphemous",
+        "outer_wilds",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "witness",
+        "trackmania",
+        "ror1",
+        "seaofthieves",
+        "ror2",
+        "swr",
+        "cuphead",
+        "subnautica",
+        "ahit",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "sims4",
+        "dsr",
+        "timespinner",
+        "chainedechoes",
+        "monster_sanctuary",
+        "celeste",
+        "enderlilies"
+    ],
+    "one": [
+        "hk",
+        "oribf",
+        "tunic",
+        "inscryption",
+        "shorthike",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "wargroove",
+        "powerwashsimulator",
+        "wargroove2",
+        "hades",
+        "balatro",
+        "stardew_valley",
+        "dark_souls_3",
+        "messenger",
+        "blasphemous",
+        "outer_wilds",
+        "terraria",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "witness",
+        "trackmania",
+        "ror1",
+        "seaofthieves",
+        "ror2",
+        "swr",
+        "cuphead",
+        "subnautica",
+        "ahit",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "sims4",
+        "dsr",
+        "timespinner",
+        "chainedechoes",
+        "monster_sanctuary",
+        "celeste",
+        "enderlilies"
+    ],
+    "time travel": [
+        "pmd_eos",
+        "mm_recomp",
+        "oot",
+        "outer_wilds",
+        "timespinner",
+        "ctjot",
+        "tloz_ooa",
+        "tloz_oos",
+        "apeescape",
+        "ahit",
+        "earthbound"
+    ],
+    "travel": [
+        "pmd_eos",
+        "mm_recomp",
+        "oot",
+        "albw",
+        "outer_wilds",
+        "tloz_oos",
+        "timespinner",
+        "alttp",
+        "ctjot",
+        "tloz_ooa",
+        "doom_ii",
+        "apeescape",
+        "ahit",
+        "earthbound"
+    ],
+    "spaceship": [
+        "metroidprime",
+        "civ_6",
+        "mzm",
+        "star_fox_64",
+        "ahit",
+        "v6"
+    ],
+    "female protagonist": [
+        "rogue_legacy",
+        "shorthike",
+        "metroidprime",
+        "cv64",
+        "sm",
+        "hcniko",
+        "dkc3",
+        "timespinner",
+        "mzm",
+        "undertale",
+        "earthbound",
+        "sm_map_rando",
+        "dkc2",
+        "celeste64",
+        "ahit",
+        "celeste",
+        "enderlilies"
+    ],
+    "female": [
+        "rogue_legacy",
+        "shorthike",
+        "metroidprime",
+        "cv64",
+        "sm",
+        "hcniko",
+        "dkc3",
+        "timespinner",
+        "mzm",
+        "undertale",
+        "earthbound",
+        "sm_map_rando",
+        "dkc2",
+        "celeste64",
+        "ahit",
+        "celeste",
+        "enderlilies"
+    ],
+    "protagonist": [
+        "hk",
+        "k64",
+        "shorthike",
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "ss",
+        "blasphemous",
+        "sm",
+        "hcniko",
+        "dkc3",
+        "undertale",
+        "mzm",
+        "sm_map_rando",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "kh1",
+        "pokemon_emerald",
+        "metroidprime",
+        "cv64",
+        "doom_1993",
+        "mlss",
+        "ahit",
+        "sonic_heroes",
+        "tloz_ooa",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "zelda2",
+        "jakanddaxter",
+        "timespinner",
+        "alttp",
+        "tloz_oos",
+        "celeste64",
+        "ultrakill",
+        "celeste",
+        "enderlilies"
+    ],
+    "action-adventure": [
+        "banjo_tooie",
+        "hk",
+        "minecraft",
+        "crosscode",
+        "dark_souls_2",
+        "aus",
+        "ss",
+        "cvcotm",
+        "sm",
+        "dontstarvetogether",
+        "terraria",
+        "xenobladex",
+        "landstalker",
+        "sm_map_rando",
+        "ladx",
+        "seaofthieves",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "zillion",
+        "sotn",
+        "aquaria",
+        "ahit",
+        "tloz_ooa",
+        "rogue_legacy",
+        "mm_recomp",
+        "tww",
+        "oot",
+        "sms",
+        "zelda2",
+        "luigismansion",
+        "alttp",
+        "timespinner",
+        "tloz_oos",
+        "dark_souls_3"
+    ],
+    "cute": [
+        "sims4",
+        "tunic",
+        "shorthike",
+        "hcniko",
+        "musedash",
+        "undertale",
+        "animal_well",
+        "ahit",
+        "celeste"
+    ],
+    "snow": [
+        "ffta",
+        "minecraft",
+        "albw",
+        "metroidprime",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "terraria",
+        "jakanddaxter",
+        "mk64",
+        "ahit",
+        "celeste",
+        "gstla",
+        "dkc",
+        "stardew_valley"
+    ],
+    "wall jump": [
+        "cvcotm",
+        "oribf",
+        "sm",
+        "sms",
+        "mzm",
+        "smo",
+        "sm_map_rando",
+        "ahit"
+    ],
+    "wall": [
+        "ffta",
+        "banjo_tooie",
+        "oribf",
+        "mk64",
+        "smo",
+        "dkc2",
+        "cvcotm",
+        "sm",
+        "undertale",
+        "mzm",
+        "sm_map_rando",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "kh1",
+        "mlss",
+        "dk64",
+        "ahit",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "sms",
+        "jakanddaxter"
+    ],
+    "jump": [
+        "cvcotm",
+        "oribf",
+        "sm",
+        "sms",
+        "mzm",
+        "smo",
+        "sm_map_rando",
+        "ahit"
+    ],
+    "3d platformer": [
+        "sm64ex",
+        "shorthike",
+        "hcniko",
+        "sms",
+        "bomb_rush_cyberfunk",
+        "sonic_heroes",
+        "smo",
+        "sm64hacks",
+        "ahit"
+    ],
+    "3d": [
+        "minecraft",
+        "tunic",
+        "k64",
+        "shorthike",
+        "dark_souls_2",
+        "powerwashsimulator",
+        "mk64",
+        "smo",
+        "sly1",
+        "ss",
+        "dw1",
+        "hcniko",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "star_fox_64",
+        "hylics2",
+        "apeescape",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "lingo",
+        "sotn",
+        "dk64",
+        "ahit",
+        "sonic_heroes",
+        "spyro3",
+        "oot",
+        "sm64ex",
+        "dsr",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "sm64hacks",
+        "v6",
+        "dark_souls_3"
+    ],
+    "platformer": [
+        "hk",
+        "blasphemous",
+        "sm64ex",
+        "shorthike",
+        "hcniko",
+        "sms",
+        "bomb_rush_cyberfunk",
+        "sonic_heroes",
+        "smo",
+        "hylics2",
+        "sm64hacks",
+        "ahit",
+        "v6"
+    ],
+    "swimming": [
+        "banjo_tooie",
+        "minecraft",
+        "smo",
+        "wl4",
+        "dkc2",
+        "hcniko",
+        "dkc3",
+        "terraria",
+        "dkc",
+        "kh1",
+        "albw",
+        "subnautica",
+        "aquaria",
+        "ahit",
+        "tloz_ooa",
+        "spyro3",
+        "oot",
+        "sm64ex",
+        "sms",
+        "jakanddaxter",
+        "alttp",
+        "sm64hacks"
+    ],
+    "steam greenlight": [
+        "timespinner",
+        "ror1",
+        "ahit",
+        "dlcquest"
+    ],
+    "steam": [
+        "timespinner",
+        "ror1",
+        "ahit",
+        "dlcquest"
+    ],
+    "greenlight": [
+        "timespinner",
+        "ror1",
+        "ahit",
+        "dlcquest"
+    ],
+    "crowdfunding": [
+        "hk",
+        "ror1",
+        "crosscode",
+        "timespinner",
+        "ahit"
+    ],
+    "crowd funded": [
+        "hk",
+        "ror1",
+        "crosscode",
+        "timespinner",
+        "ahit"
+    ],
+    "crowd": [
+        "hk",
+        "ror1",
+        "crosscode",
+        "timespinner",
+        "ahit"
+    ],
+    "funded": [
+        "hk",
+        "ror1",
+        "crosscode",
+        "timespinner",
+        "ahit"
+    ],
+    "collection marathon": [
+        "banjo_tooie",
+        "k64",
+        "sms",
+        "dk64",
+        "ahit"
+    ],
+    "collection": [
+        "banjo_tooie",
+        "k64",
+        "sms",
+        "dk64",
+        "ahit"
+    ],
+    "marathon": [
+        "banjo_tooie",
+        "k64",
+        "sms",
+        "dk64",
+        "ahit"
+    ],
+    "albw": [
+        "albw"
+    ],
+    "the legend of zelda: a link between worlds": [
+        "albw"
+    ],
+    "legend": [
+        "ladx",
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "alttp",
+        "tloz",
+        "tloz_oos",
+        "tp",
+        "tloz_ooa",
+        "ss"
+    ],
+    "of": [
+        "ffta",
+        "oribf",
+        "peaks_of_yore",
+        "tloz",
+        "dkc2",
+        "sly1",
+        "earthbound",
+        "ss",
+        "cvcotm",
+        "pmd_eos",
+        "soe",
+        "dkc3",
+        "star_fox_64",
+        "dkc",
+        "ladx",
+        "ror1",
+        "seaofthieves",
+        "ror2",
+        "albw",
+        "pokemon_emerald",
+        "lufia2ac",
+        "cv64",
+        "sc2",
+        "pokemon_crystal",
+        "sotn",
+        "dk64",
+        "tp",
+        "tloz_ooa",
+        "rogue_legacy",
+        "spyro3",
+        "mm_recomp",
+        "tww",
+        "oot",
+        "sms",
+        "zelda2",
+        "jakanddaxter",
+        "luigismansion",
+        "alttp",
+        "tboir",
+        "tloz_oos",
+        "celeste64",
+        "enderlilies"
+    ],
+    "zelda:": [
+        "ladx",
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tp",
+        "tloz_ooa",
+        "ss"
+    ],
+    "link": [
+        "ladx",
+        "tww",
+        "oot",
+        "albw",
+        "zelda2",
+        "alttp",
+        "tloz_oos",
+        "smz3",
+        "tp",
+        "ss"
+    ],
+    "between": [
+        "albw"
+    ],
+    "worlds": [
+        "albw"
+    ],
+    "puzzle": [
+        "oribf",
+        "tunic",
+        "inscryption",
+        "crosscode",
+        "wl4",
+        "shapez",
+        "shivers",
+        "ss",
+        "yugiohddm",
+        "zork_grand_inquisitor",
+        "outer_wilds",
+        "hcniko",
+        "witness",
+        "undertale",
+        "doom_ii",
+        "huniepop",
+        "animal_well",
+        "ttyd",
+        "ladx",
+        "tetrisattack",
+        "albw",
+        "lufia2ac",
+        "cv64",
+        "metroidprime",
+        "ufo50",
+        "zillion",
+        "lingo",
+        "bumpstik",
+        "tp",
+        "tloz_ooa",
+        "huniepop2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "mm_recomp",
+        "candybox2",
+        "oot",
+        "spyro3",
+        "tww",
+        "alttp",
+        "tloz_oos",
+        "v6"
+    ],
+    "historical": [
+        "candybox2",
+        "soe",
+        "albw",
+        "civ_6",
+        "heretic",
+        "fm",
+        "ss"
+    ],
+    "sandbox": [
+        "factorio",
+        "minecraft",
+        "noita",
+        "factorio_saws",
+        "powerwashsimulator",
+        "smo",
+        "shapez",
+        "stardew_valley",
+        "dontstarvetogether",
+        "terraria",
+        "xenobladex",
+        "landstalker",
+        "faxanadu",
+        "albw",
+        "placidplasticducksim",
+        "sims4",
+        "oot",
+        "sms",
+        "zelda2",
+        "osrs",
+        "satisfactory"
+    ],
+    "open world": [
+        "minecraft",
+        "pokemon_rb",
+        "shorthike",
+        "smo",
+        "tloz",
+        "gstla",
+        "ss",
+        "outer_wilds",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "xenobladex",
+        "mzm",
+        "seaofthieves",
+        "albw",
+        "toontown",
+        "metroidprime",
+        "lingo",
+        "sotn",
+        "subnautica",
+        "mm_recomp",
+        "oot",
+        "sm64ex",
+        "jakanddaxter",
+        "osrs",
+        "sm64hacks",
+        "smz3",
+        "satisfactory"
+    ],
+    "open": [
+        "minecraft",
+        "pokemon_rb",
+        "shorthike",
+        "smo",
+        "tloz",
+        "gstla",
+        "ss",
+        "outer_wilds",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "xenobladex",
+        "mzm",
+        "seaofthieves",
+        "albw",
+        "toontown",
+        "metroidprime",
+        "lingo",
+        "sotn",
+        "subnautica",
+        "mm_recomp",
+        "oot",
+        "sm64ex",
+        "jakanddaxter",
+        "osrs",
+        "sm64hacks",
+        "smz3",
+        "satisfactory"
+    ],
+    "world": [
+        "yugioh06",
+        "minecraft",
+        "pokemon_rb",
+        "shorthike",
+        "dark_souls_2",
+        "smo",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "ss",
+        "outer_wilds",
+        "dw1",
+        "dkc3",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "mzm",
+        "xenobladex",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "seaofthieves",
+        "albw",
+        "toontown",
+        "yoshisisland",
+        "metroidprime",
+        "pokemon_crystal",
+        "lingo",
+        "sotn",
+        "smw",
+        "subnautica",
+        "aquaria",
+        "mm_recomp",
+        "oot",
+        "sm64ex",
+        "zelda2",
+        "jakanddaxter",
+        "alttp",
+        "tloz_oos",
+        "osrs",
+        "sm64hacks",
+        "smz3",
+        "v6",
+        "satisfactory",
+        "dark_souls_3"
+    ],
+    "nintendo 3ds": [
+        "ladx",
+        "wl",
+        "ff1",
+        "pokemon_rb",
+        "albw",
+        "marioland2",
+        "terraria",
+        "zelda2",
+        "pokemon_crystal",
+        "mm2",
+        "tloz",
+        "tloz_oos",
+        "wl4",
+        "tloz_ooa",
+        "v6"
+    ],
+    "3ds": [
+        "ff1",
+        "pokemon_rb",
+        "marioland2",
+        "wl4",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "sm",
+        "dkc3",
+        "terraria",
+        "sm_map_rando",
+        "dkc",
+        "ladx",
+        "albw",
+        "pokemon_crystal",
+        "smw",
+        "tloz_ooa",
+        "wl",
+        "zelda2",
+        "alttp",
+        "mm2",
+        "tloz_oos",
+        "v6"
+    ],
+    "medieval": [
+        "rogue_legacy",
+        "candybox2",
+        "soe",
+        "albw",
+        "dark_souls_2",
+        "heretic",
+        "ss",
+        "dark_souls_3"
+    ],
+    "magic": [
+        "ffta",
+        "noita",
+        "dark_souls_2",
+        "ctjot",
+        "heretic",
+        "gstla",
+        "cvcotm",
+        "zork_grand_inquisitor",
+        "terraria",
+        "ladx",
+        "faxanadu",
+        "albw",
+        "cv64",
+        "cuphead",
+        "sotn",
+        "aquaria",
+        "rogue_legacy",
+        "candybox2",
+        "dsr",
+        "zelda2",
+        "alttp",
+        "tloz_oos"
+    ],
+    "minigames": [
+        "rogue_legacy",
+        "spyro3",
+        "kh1",
+        "albw",
+        "k64",
+        "oot",
+        "pokemon_emerald",
+        "toontown",
+        "apeescape",
+        "hcniko",
+        "dkc3",
+        "pokemon_crystal",
+        "tloz_ooa",
+        "wl4",
+        "dk64",
+        "gstla",
+        "stardew_valley"
+    ],
+    "2.5d": [
+        "albw",
+        "k64",
+        "doom_1993",
+        "dkc3",
+        "heretic",
+        "doom_ii",
+        "dkc"
+    ],
+    "archery": [
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "alttp",
+        "ss"
+    ],
+    "fairy": [
+        "huniepop2",
+        "ladx",
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "k64",
+        "terraria",
+        "zelda2",
+        "alttp",
+        "landstalker",
+        "tloz",
+        "tloz_oos",
+        "dk64",
+        "tloz_ooa",
+        "stardew_valley"
+    ],
+    "princess": [
+        "ladx",
+        "kh1",
+        "albw",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "sms",
+        "tloz_oos",
+        "alttp",
+        "mk64",
+        "mario_kart_double_dash",
+        "mlss",
+        "smw",
+        "sm64hacks",
+        "tp",
+        "tloz_ooa",
+        "ss"
+    ],
+    "sequel": [
+        "ffta",
+        "banjo_tooie",
+        "dark_souls_2",
+        "mk64",
+        "smo",
+        "wl4",
+        "dkc2",
+        "gstla",
+        "dw1",
+        "dontstarvetogether",
+        "hylics2",
+        "doom_ii",
+        "albw",
+        "mm_recomp",
+        "oot",
+        "sms",
+        "zelda2",
+        "civ_6",
+        "alttp",
+        "mm2",
+        "dark_souls_3"
+    ],
+    "sword & sorcery": [
+        "ladx",
+        "spyro3",
+        "mm_recomp",
+        "tww",
+        "ffmq",
+        "albw",
+        "kh1",
+        "oot",
+        "dark_souls_2",
+        "terraria",
+        "heretic",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss",
+        "dark_souls_3"
+    ],
+    "sword": [
+        "ladx",
+        "spyro3",
+        "mm_recomp",
+        "tww",
+        "ffmq",
+        "albw",
+        "kh1",
+        "oot",
+        "dark_souls_2",
+        "terraria",
+        "heretic",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss",
+        "dark_souls_3"
+    ],
+    "&": [
+        "yugioh06",
+        "inscryption",
+        "dark_souls_2",
+        "heretic",
+        "spire",
+        "ss",
+        "balatro",
+        "yugiohddm",
+        "ffmq",
+        "terraria",
+        "fm",
+        "ladx",
+        "kh1",
+        "albw",
+        "rac2",
+        "mlss",
+        "tloz_ooa",
+        "spyro3",
+        "mm_recomp",
+        "tww",
+        "oot",
+        "tloz_oos",
+        "dark_souls_3"
+    ],
+    "sorcery": [
+        "ladx",
+        "spyro3",
+        "mm_recomp",
+        "tww",
+        "ffmq",
+        "albw",
+        "kh1",
+        "oot",
+        "dark_souls_2",
+        "terraria",
+        "heretic",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss",
+        "dark_souls_3"
+    ],
+    "darkness": [
+        "ladx",
+        "rogue_legacy",
+        "minecraft",
+        "albw",
+        "sm",
+        "dkc3",
+        "terraria",
+        "witness",
+        "luigismansion",
+        "alttp",
+        "zelda2",
+        "sm_map_rando",
+        "doom_ii",
+        "dkc2",
+        "aquaria",
+        "earthbound",
+        "dkc"
+    ],
+    "digital distribution": [
+        "banjo_tooie",
+        "oribf",
+        "factorio",
+        "minecraft",
+        "tunic",
+        "crosscode",
+        "musedash",
+        "wl4",
+        "heretic",
+        "dkc2",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "doom_ii",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "seaofthieves",
+        "albw",
+        "yoshisisland",
+        "ufo50",
+        "cuphead",
+        "sotn",
+        "mlss",
+        "smw",
+        "dk64",
+        "huniepop2",
+        "rogue_legacy",
+        "oot",
+        "sm64ex",
+        "civ_6",
+        "timespinner",
+        "dlcquest",
+        "tloz_oos",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste",
+        "v6"
+    ],
+    "digital": [
+        "banjo_tooie",
+        "oribf",
+        "factorio",
+        "minecraft",
+        "tunic",
+        "crosscode",
+        "musedash",
+        "wl4",
+        "heretic",
+        "dkc2",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "doom_ii",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "seaofthieves",
+        "albw",
+        "yoshisisland",
+        "ufo50",
+        "cuphead",
+        "sotn",
+        "mlss",
+        "smw",
+        "dk64",
+        "huniepop2",
+        "rogue_legacy",
+        "oot",
+        "sm64ex",
+        "civ_6",
+        "timespinner",
+        "dlcquest",
+        "tloz_oos",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste",
+        "v6"
+    ],
+    "distribution": [
+        "banjo_tooie",
+        "oribf",
+        "factorio",
+        "minecraft",
+        "tunic",
+        "crosscode",
+        "musedash",
+        "wl4",
+        "heretic",
+        "dkc2",
+        "dontstarvetogether",
+        "terraria",
+        "witness",
+        "doom_ii",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "seaofthieves",
+        "albw",
+        "yoshisisland",
+        "ufo50",
+        "cuphead",
+        "sotn",
+        "mlss",
+        "smw",
+        "dk64",
+        "huniepop2",
+        "rogue_legacy",
+        "oot",
+        "sm64ex",
+        "civ_6",
+        "timespinner",
+        "dlcquest",
+        "tloz_oos",
+        "getting_over_it",
+        "sm64hacks",
+        "celeste",
+        "v6"
+    ],
+    "anthropomorphism": [
+        "banjo_tooie",
+        "tunic",
+        "k64",
+        "mk64",
+        "dkc2",
+        "sly1",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "undertale",
+        "star_fox_64",
+        "apeescape",
+        "dkc",
+        "kh1",
+        "albw",
+        "cv64",
+        "cuphead",
+        "mlss",
+        "dk64",
+        "sonic_heroes",
+        "tloz_ooa",
+        "spyro3",
+        "papermario",
+        "sms",
+        "jakanddaxter",
+        "tloz_oos"
+    ],
+    "polygonal 3d": [
+        "minecraft",
+        "k64",
+        "mk64",
+        "sly1",
+        "ss",
+        "dw1",
+        "xenobladex",
+        "witness",
+        "star_fox_64",
+        "apeescape",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "dk64",
+        "spyro3",
+        "oot",
+        "sms",
+        "jakanddaxter",
+        "luigismansion"
+    ],
+    "polygonal": [
+        "minecraft",
+        "k64",
+        "mk64",
+        "sly1",
+        "ss",
+        "dw1",
+        "xenobladex",
+        "witness",
+        "star_fox_64",
+        "apeescape",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "dk64",
+        "spyro3",
+        "oot",
+        "sms",
+        "jakanddaxter",
+        "luigismansion"
+    ],
+    "bow and arrow": [
+        "ffta",
+        "ladx",
+        "rogue_legacy",
+        "ror1",
+        "minecraft",
+        "oot",
+        "albw",
+        "dark_souls_2",
+        "terraria",
+        "cuphead",
+        "alttp",
+        "tloz_oos",
+        "ss"
+    ],
+    "bow": [
+        "ffta",
+        "ladx",
+        "rogue_legacy",
+        "ror1",
+        "minecraft",
+        "oot",
+        "albw",
+        "dark_souls_2",
+        "terraria",
+        "cuphead",
+        "alttp",
+        "tloz_oos",
+        "ss"
+    ],
+    "and": [
+        "ffta",
+        "oribf",
+        "minecraft",
+        "dark_souls_2",
+        "hades",
+        "sly1",
+        "ss",
+        "blasphemous",
+        "terraria",
+        "ladx",
+        "ror1",
+        "albw",
+        "cv64",
+        "cuphead",
+        "rogue_legacy",
+        "oot",
+        "civ_6",
+        "jakanddaxter",
+        "alttp",
+        "tloz_oos",
+        "smz3",
+        "openrct2"
+    ],
+    "arrow": [
+        "ffta",
+        "ladx",
+        "rogue_legacy",
+        "ror1",
+        "minecraft",
+        "oot",
+        "albw",
+        "dark_souls_2",
+        "terraria",
+        "cuphead",
+        "alttp",
+        "tloz_oos",
+        "ss"
+    ],
+    "damsel in distress": [
+        "kh1",
+        "albw",
+        "oot",
+        "papermario",
+        "sm",
+        "metroidprime",
+        "sms",
+        "tloz_oos",
+        "zelda2",
+        "alttp",
+        "tloz_ooa",
+        "sm_map_rando",
+        "smw",
+        "earthbound",
+        "ss"
+    ],
+    "damsel": [
+        "kh1",
+        "albw",
+        "oot",
+        "papermario",
+        "sm",
+        "metroidprime",
+        "sms",
+        "tloz_oos",
+        "zelda2",
+        "alttp",
+        "tloz_ooa",
+        "sm_map_rando",
+        "smw",
+        "earthbound",
+        "ss"
+    ],
+    "distress": [
+        "kh1",
+        "albw",
+        "oot",
+        "papermario",
+        "sm",
+        "metroidprime",
+        "sms",
+        "tloz_oos",
+        "zelda2",
+        "alttp",
+        "tloz_ooa",
+        "sm_map_rando",
+        "smw",
+        "earthbound",
+        "ss"
+    ],
+    "upgradeable weapons": [
+        "albw",
+        "metroidprime",
+        "cv64",
+        "dark_souls_2",
+        "mzm",
+        "mm2",
+        "dk64"
+    ],
+    "upgradeable": [
+        "albw",
+        "metroidprime",
+        "cv64",
+        "dark_souls_2",
+        "mzm",
+        "mm2",
+        "dk64"
+    ],
+    "weapons": [
+        "albw",
+        "metroidprime",
+        "cv64",
+        "dark_souls_2",
+        "mzm",
+        "mm2",
+        "dk64"
+    ],
+    "disorientation zone": [
+        "ladx",
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "disorientation": [
+        "ladx",
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "zone": [
+        "ladx",
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "descendants of other characters": [
+        "rogue_legacy",
+        "mm_recomp",
+        "oot",
+        "albw",
+        "cv64",
+        "sly1",
+        "dkc3",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "star_fox_64",
+        "sotn",
+        "tloz_ooa",
+        "dkc2",
+        "dk64",
+        "earthbound",
+        "dkc"
+    ],
+    "descendants": [
+        "rogue_legacy",
+        "mm_recomp",
+        "oot",
+        "albw",
+        "cv64",
+        "sly1",
+        "dkc3",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "star_fox_64",
+        "sotn",
+        "tloz_ooa",
+        "dkc2",
+        "dk64",
+        "earthbound",
+        "dkc"
+    ],
+    "other": [
+        "rogue_legacy",
+        "mm_recomp",
+        "oot",
+        "albw",
+        "cv64",
+        "sly1",
+        "dkc3",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "star_fox_64",
+        "sotn",
+        "tloz_ooa",
+        "dkc2",
+        "dk64",
+        "earthbound",
+        "dkc"
+    ],
+    "characters": [
+        "dark_souls_2",
+        "dkc2",
+        "sly1",
+        "earthbound",
+        "stardew_valley",
+        "dkc3",
+        "terraria",
+        "xenobladex",
+        "star_fox_64",
+        "dkc",
+        "albw",
+        "cv64",
+        "sotn",
+        "dk64",
+        "tloz_ooa",
+        "rogue_legacy",
+        "mm_recomp",
+        "oot",
+        "sms",
+        "jakanddaxter",
+        "luigismansion",
+        "dark_souls_3"
+    ],
+    "save point": [
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "cvcotm",
+        "sm",
+        "dkc3",
+        "mzm",
+        "sm_map_rando",
+        "dkc",
+        "faxanadu",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "mlss",
+        "aquaria",
+        "papermario",
+        "jakanddaxter",
+        "luigismansion",
+        "v6"
+    ],
+    "save": [
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "cvcotm",
+        "sm",
+        "dkc3",
+        "mzm",
+        "sm_map_rando",
+        "dkc",
+        "faxanadu",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "mlss",
+        "aquaria",
+        "papermario",
+        "jakanddaxter",
+        "luigismansion",
+        "v6"
+    ],
+    "point": [
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "cvcotm",
+        "sm",
+        "dkc3",
+        "mzm",
+        "sm_map_rando",
+        "dkc",
+        "faxanadu",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "mlss",
+        "aquaria",
+        "papermario",
+        "jakanddaxter",
+        "luigismansion",
+        "v6"
+    ],
+    "stereoscopic 3d": [
+        "minecraft",
+        "albw",
+        "luigismansion",
+        "sly1",
+        "v6"
+    ],
+    "stereoscopic": [
+        "minecraft",
+        "albw",
+        "luigismansion",
+        "sly1",
+        "v6"
+    ],
+    "side quests": [
+        "ladx",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "sc2",
+        "dark_souls_2",
+        "xenobladex",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "side": [
+        "hk",
+        "oribf",
+        "ff1",
+        "noita",
+        "pokemon_rb",
+        "k64",
+        "marioland2",
+        "dark_souls_2",
+        "musedash",
+        "wargroove",
+        "wargroove2",
+        "aus",
+        "wl4",
+        "dkc2",
+        "spire",
+        "kdl3",
+        "cvcotm",
+        "ffmq",
+        "blasphemous",
+        "messenger",
+        "sm",
+        "pokemon_frlg",
+        "momodoramoonlitfarewell",
+        "dkc3",
+        "terraria",
+        "xenobladex",
+        "mzm",
+        "sm_map_rando",
+        "hylics2",
+        "animal_well",
+        "dkc",
+        "ladx",
+        "faxanadu",
+        "ror1",
+        "tetrisattack",
+        "albw",
+        "yoshisisland",
+        "pokemon_emerald",
+        "lufia2ac",
+        "sc2",
+        "ufo50",
+        "zillion",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sotn",
+        "mlss",
+        "smw",
+        "aquaria",
+        "tloz_ooa",
+        "rogue_legacy",
+        "wl",
+        "megamix",
+        "oot",
+        "dungeon_clawler",
+        "papermario",
+        "zelda2",
+        "timespinner",
+        "alttp",
+        "dlcquest",
+        "mm2",
+        "tloz_oos",
+        "getting_over_it",
+        "monster_sanctuary",
+        "smz3",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "quests": [
+        "ladx",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "metroidprime",
+        "sc2",
+        "dark_souls_2",
+        "xenobladex",
+        "zelda2",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "potion": [
+        "ladx",
+        "rogue_legacy",
+        "minecraft",
+        "kh1",
+        "albw",
+        "pokemon_emerald",
+        "zelda2",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos",
+        "gstla",
+        "ss"
+    ],
+    "real-time combat": [
+        "minecraft",
+        "dark_souls_2",
+        "ss",
+        "sm",
+        "xenobladex",
+        "landstalker",
+        "sm_map_rando",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "doom_1993",
+        "sotn",
+        "dk64",
+        "tloz_ooa",
+        "spyro3",
+        "oot",
+        "sm64ex",
+        "sms",
+        "zelda2",
+        "alttp",
+        "tloz_oos",
+        "sm64hacks"
+    ],
+    "real-time": [
+        "minecraft",
+        "dark_souls_2",
+        "ss",
+        "sm",
+        "xenobladex",
+        "landstalker",
+        "sm_map_rando",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "doom_1993",
+        "sotn",
+        "dk64",
+        "tloz_ooa",
+        "spyro3",
+        "oot",
+        "sm64ex",
+        "sms",
+        "zelda2",
+        "alttp",
+        "tloz_oos",
+        "sm64hacks"
+    ],
+    "combat": [
+        "minecraft",
+        "dark_souls_2",
+        "ss",
+        "sm",
+        "xenobladex",
+        "landstalker",
+        "sm_map_rando",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "doom_1993",
+        "sotn",
+        "dk64",
+        "tloz_ooa",
+        "spyro3",
+        "oot",
+        "sm64ex",
+        "sms",
+        "zelda2",
+        "alttp",
+        "tloz_oos",
+        "sm64hacks"
+    ],
+    "self-referential humor": [
+        "papermario",
+        "albw",
+        "mlss",
+        "dkc2",
+        "earthbound"
+    ],
+    "self-referential": [
+        "papermario",
+        "albw",
+        "mlss",
+        "dkc2",
+        "earthbound"
+    ],
+    "humor": [
+        "papermario",
+        "albw",
+        "mlss",
+        "dkc2",
+        "earthbound"
+    ],
+    "multiple gameplay perspectives": [
+        "minecraft",
+        "albw",
+        "metroidprime",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "multiple": [
+        "minecraft",
+        "k64",
+        "wl4",
+        "dkc2",
+        "earthbound",
+        "dkc3",
+        "witness",
+        "undertale",
+        "mzm",
+        "star_fox_64",
+        "doom_ii",
+        "apeescape",
+        "dkc",
+        "kh1",
+        "albw",
+        "metroidprime",
+        "cv64",
+        "cuphead",
+        "sotn",
+        "mlss",
+        "dk64",
+        "sonic_heroes",
+        "tloz_ooa",
+        "rogue_legacy",
+        "spyro3",
+        "civ_6",
+        "tloz_oos"
+    ],
+    "gameplay": [
+        "banjo_tooie",
+        "minecraft",
+        "kh1",
+        "albw",
+        "oot",
+        "sm64ex",
+        "sm64hacks",
+        "metroidprime",
+        "sms",
+        "terraria",
+        "smo",
+        "mm2",
+        "subnautica",
+        "tloz_oos",
+        "dkc2",
+        "aquaria",
+        "tloz_ooa",
+        "dkc"
+    ],
+    "perspectives": [
+        "minecraft",
+        "albw",
+        "metroidprime",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "rpg elements": [
+        "banjo_tooie",
+        "oribf",
+        "minecraft",
+        "albw",
+        "dark_souls_2",
+        "zelda2",
+        "mzm",
+        "sotn",
+        "mlss"
+    ],
+    "rpg": [
+        "banjo_tooie",
+        "oribf",
+        "minecraft",
+        "albw",
+        "dark_souls_2",
+        "zelda2",
+        "mzm",
+        "sotn",
+        "mlss"
+    ],
+    "elements": [
+        "banjo_tooie",
+        "oribf",
+        "minecraft",
+        "albw",
+        "dark_souls_2",
+        "zelda2",
+        "mzm",
+        "sotn",
+        "mlss"
+    ],
+    "mercenary": [
+        "oot",
+        "albw",
+        "sm",
+        "metroidprime",
+        "sc2",
+        "dark_souls_2",
+        "alttp",
+        "sm_map_rando",
+        "ss"
+    ],
+    "coming of age": [
+        "ffta",
+        "oribf",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp"
+    ],
+    "coming": [
+        "ffta",
+        "oribf",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp"
+    ],
+    "age": [
+        "ffta",
+        "oribf",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "factorio_saws",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "gstla"
+    ],
+    "dimension travel": [
+        "alttp",
+        "mm_recomp",
+        "albw",
+        "doom_ii"
+    ],
+    "dimension": [
+        "alttp",
+        "mm_recomp",
+        "albw",
+        "doom_ii"
+    ],
+    "androgyny": [
+        "ffta",
+        "oot",
+        "albw",
+        "sotn",
+        "gstla",
+        "ss"
+    ],
+    "fast traveling": [
+        "hk",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "undertale",
+        "alttp"
+    ],
+    "fast": [
+        "hk",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "undertale",
+        "alttp"
+    ],
+    "traveling": [
+        "hk",
+        "oot",
+        "albw",
+        "pokemon_emerald",
+        "undertale",
+        "alttp"
+    ],
+    "context sensitive": [
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss"
+    ],
+    "context": [
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss"
+    ],
+    "sensitive": [
+        "oot",
+        "albw",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss"
+    ],
+    "living inventory": [
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "alttp",
+        "ss"
+    ],
+    "living": [
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "alttp",
+        "ss"
+    ],
+    "inventory": [
+        "mm_recomp",
+        "tww",
+        "oot",
+        "albw",
+        "alttp",
+        "ss"
+    ],
+    "bees": [
+        "minecraft",
+        "albw",
+        "dontstarvetogether",
+        "terraria",
+        "alttp",
+        "raft"
+    ],
+    "zelda": [
+        "ladx",
+        "tww",
+        "oot",
+        "albw",
+        "zelda2",
+        "alttp",
+        "tloz",
+        "tloz_oos",
+        "tp",
+        "ss"
+    ],
+    "legend of zelda": [
+        "ladx",
+        "tww",
+        "oot",
+        "albw",
+        "tloz_oos",
+        "tp",
+        "ss"
+    ],
+    "alttp": [
+        "alttp"
+    ],
+    "the legend of zelda: a link to the past": [
+        "alttp"
+    ],
+    "to": [
+        "alttp",
+        "smz3"
+    ],
+    "past": [
+        "alttp",
+        "smz3"
+    ],
+    "satellaview": [
+        "alttp",
+        "yoshisisland"
+    ],
+    "super nintendo entertainment system": [
+        "soe",
+        "ffmq",
+        "tetrisattack",
+        "yoshisisland",
+        "sm",
+        "lufia2ac",
+        "dkc3",
+        "alttp",
+        "ff4fe",
+        "sm_map_rando",
+        "smw",
+        "dkc2",
+        "smz3",
+        "earthbound",
+        "dkc",
+        "kdl3"
+    ],
+    "super": [
+        "marioland2",
+        "smo",
+        "dkc2",
+        "earthbound",
+        "kdl3",
+        "soe",
+        "ffmq",
+        "sm",
+        "dkc3",
+        "sm_map_rando",
+        "dkc",
+        "tetrisattack",
+        "yoshisisland",
+        "lufia2ac",
+        "ff4fe",
+        "smw",
+        "sm64ex",
+        "sms",
+        "alttp",
+        "sm64hacks",
+        "smz3",
+        "wl"
+    ],
+    "entertainment": [
+        "ff1",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "kdl3",
+        "soe",
+        "ffmq",
+        "sm",
+        "dkc3",
+        "sm_map_rando",
+        "dkc",
+        "faxanadu",
+        "tetrisattack",
+        "yoshisisland",
+        "lufia2ac",
+        "ff4fe",
+        "smw",
+        "zelda2",
+        "alttp",
+        "smz3"
+    ],
+    "wii": [
+        "ffta",
+        "hk",
+        "ff1",
+        "k64",
+        "mmbn3",
+        "mk64",
+        "wl4",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "kdl3",
+        "ss",
+        "stardew_valley",
+        "cvcotm",
+        "pmd_eos",
+        "ffmq",
+        "sm",
+        "dkc3",
+        "terraria",
+        "xenobladex",
+        "landstalker",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "dkc",
+        "faxanadu",
+        "ff4fe",
+        "mlss",
+        "smw",
+        "dk64",
+        "tp",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "zelda2",
+        "alttp",
+        "sm64hacks"
+    ],
+    "wii u": [
+        "ffta",
+        "hk",
+        "ff1",
+        "k64",
+        "mmbn3",
+        "mk64",
+        "wl4",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "kdl3",
+        "ss",
+        "stardew_valley",
+        "cvcotm",
+        "pmd_eos",
+        "ffmq",
+        "sm",
+        "dkc3",
+        "terraria",
+        "xenobladex",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "dkc",
+        "mlss",
+        "smw",
+        "dk64",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "zelda2",
+        "alttp",
+        "sm64hacks"
+    ],
+    "u": [
+        "ffta",
+        "hk",
+        "ff1",
+        "k64",
+        "mmbn3",
+        "mk64",
+        "wl4",
+        "tloz",
+        "dkc2",
+        "earthbound",
+        "gstla",
+        "kdl3",
+        "ss",
+        "stardew_valley",
+        "cvcotm",
+        "pmd_eos",
+        "ffmq",
+        "sm",
+        "dkc3",
+        "terraria",
+        "xenobladex",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "dkc",
+        "mlss",
+        "smw",
+        "dk64",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "zelda2",
+        "alttp",
+        "sm64hacks"
+    ],
+    "new nintendo 3ds": [
+        "sm",
+        "dkc3",
+        "alttp",
+        "sm_map_rando",
+        "smw",
+        "dkc2",
+        "earthbound",
+        "dkc"
+    ],
+    "new": [
+        "sm",
+        "dkc3",
+        "alttp",
+        "sm_map_rando",
+        "smw",
+        "dkc2",
+        "earthbound",
+        "dkc"
+    ],
+    "super famicom": [
+        "ffmq",
+        "yoshisisland",
+        "sm",
+        "lufia2ac",
+        "dkc3",
+        "alttp",
+        "sm_map_rando",
+        "smw",
+        "dkc2",
+        "earthbound",
+        "dkc",
+        "kdl3"
+    ],
+    "famicom": [
+        "ffmq",
+        "yoshisisland",
+        "sm",
+        "lufia2ac",
+        "dkc3",
+        "alttp",
+        "sm_map_rando",
+        "smw",
+        "dkc2",
+        "earthbound",
+        "dkc",
+        "kdl3"
+    ],
+    "ghosts": [
+        "rogue_legacy",
+        "ffmq",
+        "papermario",
+        "metroidprime",
+        "cv64",
+        "sms",
+        "cuphead",
+        "luigismansion",
+        "alttp",
+        "aus",
+        "sotn",
+        "mlss",
+        "tloz_ooa",
+        "wl4",
+        "dkc2",
+        "sly1",
+        "earthbound",
+        "v6"
+    ],
+    "mascot": [
+        "ladx",
+        "spyro3",
+        "papermario",
+        "k64",
+        "jakanddaxter",
+        "alttp",
+        "mm2",
+        "tloz_oos",
+        "sly1",
+        "kdl3"
+    ],
+    "death": [
+        "ffta",
+        "minecraft",
+        "dark_souls_2",
+        "mk64",
+        "heretic",
+        "sly1",
+        "gstla",
+        "cvcotm",
+        "terraria",
+        "mzm",
+        "star_fox_64",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "kh1",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "dk64",
+        "tloz_ooa",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "sms",
+        "zelda2",
+        "luigismansion",
+        "alttp",
+        "mm2",
+        "tloz_oos",
+        "openrct2",
+        "v6",
+        "dark_souls_3"
+    ],
+    "maze": [
+        "ladx",
+        "papermario",
+        "cv64",
+        "doom_1993",
+        "witness",
+        "alttp",
+        "mzm",
+        "openrct2"
+    ],
+    "backtracking": [
+        "ffta",
+        "banjo_tooie",
+        "faxanadu",
+        "cvcotm",
+        "ladx",
+        "kh1",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "jakanddaxter",
+        "undertale",
+        "alttp",
+        "mzm",
+        "sotn",
+        "witness",
+        "tloz_oos"
+    ],
+    "undead": [
+        "ladx",
+        "ffmq",
+        "oot",
+        "papermario",
+        "cv64",
+        "dsr",
+        "dark_souls_2",
+        "terraria",
+        "alttp",
+        "sotn",
+        "mlss",
+        "heretic",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "campaign": [
+        "ladx",
+        "oot",
+        "zelda2",
+        "alttp",
+        "tloz_oos",
+        "tloz_ooa",
+        "ss"
+    ],
+    "pixel art": [
+        "crosscode",
+        "wargroove",
+        "wl4",
+        "stardew_valley",
+        "blasphemous",
+        "sm",
+        "hcniko",
+        "terraria",
+        "undertale",
+        "mzm",
+        "sm_map_rando",
+        "animal_well",
+        "tyrian",
+        "ladx",
+        "ror1",
+        "sotn",
+        "rogue_legacy",
+        "zelda2",
+        "timespinner",
+        "alttp",
+        "mm2",
+        "tloz_oos",
+        "celeste",
+        "v6"
+    ],
+    "pixel": [
+        "crosscode",
+        "wargroove",
+        "wl4",
+        "stardew_valley",
+        "blasphemous",
+        "sm",
+        "hcniko",
+        "terraria",
+        "undertale",
+        "mzm",
+        "sm_map_rando",
+        "animal_well",
+        "tyrian",
+        "ladx",
+        "ror1",
+        "sotn",
+        "rogue_legacy",
+        "zelda2",
+        "timespinner",
+        "alttp",
+        "mm2",
+        "tloz_oos",
+        "celeste",
+        "v6"
+    ],
+    "art": [
+        "crosscode",
+        "wargroove",
+        "wl4",
+        "stardew_valley",
+        "blasphemous",
+        "sm",
+        "hcniko",
+        "terraria",
+        "undertale",
+        "mzm",
+        "sm_map_rando",
+        "animal_well",
+        "tyrian",
+        "ladx",
+        "ror1",
+        "sotn",
+        "rogue_legacy",
+        "zelda2",
+        "timespinner",
+        "alttp",
+        "mm2",
+        "tloz_oos",
+        "celeste",
+        "v6"
+    ],
+    "easter egg": [
+        "ladx",
+        "banjo_tooie",
+        "rogue_legacy",
+        "papermario",
+        "alttp",
+        "doom_ii",
+        "apeescape",
+        "openrct2"
+    ],
+    "easter": [
+        "ladx",
+        "banjo_tooie",
+        "rogue_legacy",
+        "papermario",
+        "alttp",
+        "doom_ii",
+        "apeescape",
+        "openrct2"
+    ],
+    "egg": [
+        "ladx",
+        "banjo_tooie",
+        "rogue_legacy",
+        "papermario",
+        "alttp",
+        "doom_ii",
+        "apeescape",
+        "openrct2"
+    ],
+    "teleportation": [
+        "rogue_legacy",
+        "pokemon_emerald",
+        "cv64",
+        "terraria",
+        "tloz_oos",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "doom_ii",
+        "earthbound",
+        "v6"
+    ],
+    "giant insects": [
+        "hk",
+        "soe",
+        "pokemon_emerald",
+        "dkc3",
+        "sms",
+        "alttp",
+        "mlss",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "giant": [
+        "hk",
+        "soe",
+        "pokemon_emerald",
+        "dkc3",
+        "sms",
+        "alttp",
+        "mlss",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "insects": [
+        "hk",
+        "soe",
+        "pokemon_emerald",
+        "dkc3",
+        "sms",
+        "alttp",
+        "mlss",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "silent protagonist": [
+        "hk",
+        "k64",
+        "dkc2",
+        "gstla",
+        "ss",
+        "blasphemous",
+        "dkc",
+        "ladx",
+        "pokemon_emerald",
+        "doom_1993",
+        "mlss",
+        "tloz_ooa",
+        "oot",
+        "papermario",
+        "zelda2",
+        "jakanddaxter",
+        "alttp",
+        "tloz_oos",
+        "ultrakill"
+    ],
+    "silent": [
+        "hk",
+        "k64",
+        "dkc2",
+        "gstla",
+        "ss",
+        "blasphemous",
+        "dkc",
+        "ladx",
+        "pokemon_emerald",
+        "doom_1993",
+        "mlss",
+        "tloz_ooa",
+        "oot",
+        "papermario",
+        "zelda2",
+        "jakanddaxter",
+        "alttp",
+        "tloz_oos",
+        "ultrakill"
+    ],
+    "explosion": [
+        "ffta",
+        "minecraft",
+        "mk64",
+        "dkc2",
+        "ffmq",
+        "sm",
+        "dkc3",
+        "terraria",
+        "mzm",
+        "sm_map_rando",
+        "doom_ii",
+        "metroidprime",
+        "cv64",
+        "cuphead",
+        "sotn",
+        "sonic_heroes",
+        "tloz_ooa",
+        "rogue_legacy",
+        "sms",
+        "zelda2",
+        "alttp",
+        "mm2",
+        "openrct2"
+    ],
+    "block puzzle": [
+        "alttp",
+        "tloz_ooa",
+        "oot",
+        "tloz_oos"
+    ],
+    "block": [
+        "alttp",
+        "tloz_ooa",
+        "oot",
+        "tloz_oos"
+    ],
+    "monkey": [
+        "ladx",
+        "diddy_kong_racing",
+        "apeescape",
+        "dkc3",
+        "alttp",
+        "mk64",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "nintendo power": [
+        "sm",
+        "dkc3",
+        "alttp",
+        "sm_map_rando",
+        "dkc2",
+        "earthbound",
+        "dkc"
+    ],
+    "power": [
+        "sm",
+        "dkc3",
+        "alttp",
+        "sm_map_rando",
+        "dkc2",
+        "earthbound",
+        "dkc"
+    ],
+    "world map": [
+        "ladx",
+        "oot",
+        "metroidprime",
+        "dkc3",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos",
+        "dkc2",
+        "aquaria",
+        "v6",
+        "dkc"
+    ],
+    "map": [
+        "ladx",
+        "oot",
+        "metroidprime",
+        "dkc3",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos",
+        "dkc2",
+        "aquaria",
+        "v6",
+        "dkc"
+    ],
+    "human": [
+        "ladx",
+        "papermario",
+        "cv64",
+        "sc2",
+        "dark_souls_2",
+        "sms",
+        "terraria",
+        "zelda2",
+        "alttp",
+        "sotn",
+        "doom_ii",
+        "apeescape",
+        "gstla",
+        "ss",
+        "dark_souls_3"
+    ],
+    "shopping": [
+        "yugiohddm",
+        "pokemon_emerald",
+        "cv64",
+        "dw1",
+        "cuphead",
+        "pokemon_crystal",
+        "alttp",
+        "sotn",
+        "mlss",
+        "tloz_oos",
+        "tloz_ooa"
+    ],
+    "ice stage": [
+        "banjo_tooie",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "dkc3",
+        "terraria",
+        "jakanddaxter",
+        "alttp",
+        "mk64",
+        "wl4",
+        "dkc2",
+        "dkc"
+    ],
+    "ice": [
+        "banjo_tooie",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "dkc3",
+        "terraria",
+        "jakanddaxter",
+        "alttp",
+        "mk64",
+        "wl4",
+        "dkc2",
+        "dkc"
+    ],
+    "stage": [
+        "banjo_tooie",
+        "spyro3",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "dkc3",
+        "terraria",
+        "jakanddaxter",
+        "alttp",
+        "mk64",
+        "wl4",
+        "smw",
+        "dkc2",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "saving the world": [
+        "alttp",
+        "earthbound",
+        "dark_souls_2",
+        "zelda2"
+    ],
+    "saving": [
+        "alttp",
+        "earthbound",
+        "dark_souls_2",
+        "zelda2"
+    ],
+    "secret area": [
+        "rogue_legacy",
+        "tunic",
+        "sm",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "tloz_oos",
+        "witness",
+        "zelda2",
+        "alttp",
+        "star_fox_64",
+        "sotn",
+        "sm_map_rando",
+        "heretic",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "secret": [
+        "rogue_legacy",
+        "soe",
+        "tunic",
+        "sm",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "tloz_oos",
+        "witness",
+        "zelda2",
+        "alttp",
+        "star_fox_64",
+        "sotn",
+        "sm_map_rando",
+        "heretic",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "area": [
+        "rogue_legacy",
+        "tunic",
+        "sm",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "tloz_oos",
+        "witness",
+        "zelda2",
+        "alttp",
+        "star_fox_64",
+        "sotn",
+        "sm_map_rando",
+        "heretic",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "shielded enemies": [
+        "rogue_legacy",
+        "hk",
+        "dkc3",
+        "alttp",
+        "tloz_ooa"
+    ],
+    "shielded": [
+        "rogue_legacy",
+        "hk",
+        "dkc3",
+        "alttp",
+        "tloz_ooa"
+    ],
+    "enemies": [
+        "rogue_legacy",
+        "hk",
+        "dkc3",
+        "alttp",
+        "tloz_ooa"
+    ],
+    "walking through walls": [
+        "ladx",
+        "oot",
+        "tloz_oos",
+        "alttp",
+        "doom_ii",
+        "tloz_ooa"
+    ],
+    "walking": [
+        "ladx",
+        "oot",
+        "tloz_oos",
+        "alttp",
+        "doom_ii",
+        "tloz_ooa"
+    ],
+    "through": [
+        "ladx",
+        "oot",
+        "tloz_oos",
+        "alttp",
+        "doom_ii",
+        "tloz_ooa"
+    ],
+    "walls": [
+        "ladx",
+        "oot",
+        "tloz_oos",
+        "alttp",
+        "doom_ii",
+        "tloz_ooa"
+    ],
+    "liberation": [
+        "dkc2",
+        "alttp",
+        "sm",
+        "sm_map_rando"
+    ],
+    "conveyor belt": [
+        "alttp",
+        "tloz_ooa",
+        "mm2",
+        "cuphead"
+    ],
+    "conveyor": [
+        "alttp",
+        "tloz_ooa",
+        "mm2",
+        "cuphead"
+    ],
+    "belt": [
+        "alttp",
+        "tloz_ooa",
+        "mm2",
+        "cuphead"
+    ],
+    "villain": [
+        "banjo_tooie",
+        "cvcotm",
+        "kh1",
+        "oot",
+        "papermario",
+        "zelda2",
+        "alttp",
+        "star_fox_64",
+        "sotn",
+        "mm2",
+        "tloz_ooa",
+        "tloz_oos",
+        "gstla",
+        "dkc"
+    ],
+    "recurring boss": [
+        "banjo_tooie",
+        "kh1",
+        "papermario",
+        "pokemon_emerald",
+        "dkc3",
+        "alttp",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "recurring": [
+        "banjo_tooie",
+        "kh1",
+        "papermario",
+        "pokemon_emerald",
+        "dkc3",
+        "alttp",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "boss": [
+        "banjo_tooie",
+        "rogue_legacy",
+        "mm_recomp",
+        "kh1",
+        "oot",
+        "papermario",
+        "pokemon_emerald",
+        "metroidprime",
+        "dark_souls_2",
+        "dkc3",
+        "cuphead",
+        "sms",
+        "alttp",
+        "doom_ii",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "been here before": [
+        "ffta",
+        "oot",
+        "sms",
+        "pokemon_crystal",
+        "alttp",
+        "gstla"
+    ],
+    "been": [
+        "ffta",
+        "oot",
+        "sms",
+        "pokemon_crystal",
+        "alttp",
+        "gstla"
+    ],
+    "here": [
+        "ffta",
+        "oot",
+        "hcniko",
+        "sms",
+        "pokemon_crystal",
+        "alttp",
+        "gstla"
+    ],
+    "before": [
+        "ffta",
+        "oot",
+        "sms",
+        "pokemon_crystal",
+        "alttp",
+        "gstla"
+    ],
+    "sleeping": [
+        "minecraft",
+        "papermario",
+        "sms",
+        "pokemon_crystal",
+        "alttp",
+        "gstla"
+    ],
+    "merchants": [
+        "yugiohddm",
+        "faxanadu",
+        "hk",
+        "candybox2",
+        "terraria",
+        "timespinner",
+        "alttp"
+    ],
+    "fetch quests": [
+        "ladx",
+        "metroidprime",
+        "zelda2",
+        "alttp",
+        "tloz_oos"
+    ],
+    "fetch": [
+        "ladx",
+        "metroidprime",
+        "zelda2",
+        "alttp",
+        "tloz_oos"
+    ],
+    "kidnapping": [
+        "yoshisisland",
+        "sms",
+        "alttp",
+        "earthbound",
+        "openrct2"
+    ],
+    "poisoning": [
+        "papermario",
+        "pokemon_emerald",
+        "cv64",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos"
+    ],
+    "time paradox": [
+        "oot",
+        "cv64",
+        "jakanddaxter",
+        "alttp",
+        "tloz_ooa"
+    ],
+    "paradox": [
+        "oot",
+        "cv64",
+        "jakanddaxter",
+        "alttp",
+        "tloz_ooa"
+    ],
+    "status effects": [
+        "ladx",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "zelda2",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_ooa",
+        "tloz_oos",
+        "earthbound"
+    ],
+    "status": [
+        "ladx",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "zelda2",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_ooa",
+        "tloz_oos",
+        "earthbound"
+    ],
+    "effects": [
+        "ladx",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "zelda2",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_ooa",
+        "tloz_oos",
+        "earthbound"
+    ],
+    "hidden room": [
+        "alttp",
+        "dark_souls_2",
+        "heretic",
+        "doom_ii"
+    ],
+    "hidden": [
+        "alttp",
+        "dark_souls_2",
+        "heretic",
+        "doom_ii"
+    ],
+    "room": [
+        "alttp",
+        "dark_souls_2",
+        "heretic",
+        "doom_ii"
+    ],
+    "another world": [
+        "ladx",
+        "alttp",
+        "mm_recomp",
+        "doom_ii"
+    ],
+    "another": [
+        "ladx",
+        "alttp",
+        "mm_recomp",
+        "doom_ii"
+    ],
+    "damage over time": [
+        "ffta",
+        "oot",
+        "pokemon_emerald",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos"
+    ],
+    "damage": [
+        "ffta",
+        "minecraft",
+        "oot",
+        "pokemon_emerald",
+        "metroidprime",
+        "cv64",
+        "terraria",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "tloz_oos"
+    ],
+    "over": [
+        "ffta",
+        "oot",
+        "pokemon_emerald",
+        "dkc3",
+        "tloz_oos",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "alttp",
+        "sotn",
+        "doom_ii",
+        "getting_over_it",
+        "dk64",
+        "dkc"
+    ],
+    "monomyth": [
+        "alttp",
+        "mm2",
+        "ss",
+        "zelda2"
+    ],
+    "buddy system": [
+        "dkc3",
+        "dkc2",
+        "alttp",
+        "dkc"
+    ],
+    "buddy": [
+        "dkc3",
+        "dkc2",
+        "alttp",
+        "dkc"
+    ],
+    "retroachievements": [
+        "banjo_tooie",
+        "k64",
+        "mk64",
+        "dkc2",
+        "earthbound",
+        "kdl3",
+        "ffmq",
+        "diddy_kong_racing",
+        "dkc3",
+        "star_fox_64",
+        "dkc",
+        "tetrisattack",
+        "lufia2ac",
+        "cv64",
+        "ff4fe",
+        "smw",
+        "dk64",
+        "sonic_heroes",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "sm64ex",
+        "alttp",
+        "sm64hacks"
+    ],
+    "popular": [
+        "hk",
+        "oot",
+        "sm64ex",
+        "pokemon_emerald",
+        "sc2",
+        "kh2",
+        "alttp",
+        "stardew_valley",
+        "dark_souls_3"
+    ],
+    "animal_well": [
+        "animal_well"
+    ],
+    "animal well": [
+        "animal_well"
+    ],
+    "animal": [
+        "ladx",
+        "oot",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "animal_well"
+    ],
+    "well": [
+        "animal_well"
+    ],
+    "side view": [
+        "hk",
+        "oribf",
+        "ff1",
+        "noita",
+        "pokemon_rb",
+        "k64",
+        "marioland2",
+        "musedash",
+        "wargroove",
+        "wargroove2",
+        "aus",
+        "wl4",
+        "dkc2",
+        "spire",
+        "kdl3",
+        "cvcotm",
+        "ffmq",
+        "blasphemous",
+        "messenger",
+        "sm",
+        "pokemon_frlg",
+        "momodoramoonlitfarewell",
+        "dkc3",
+        "terraria",
+        "mzm",
+        "sm_map_rando",
+        "hylics2",
+        "animal_well",
+        "dkc",
+        "ladx",
+        "faxanadu",
+        "ror1",
+        "tetrisattack",
+        "yoshisisland",
+        "pokemon_emerald",
+        "lufia2ac",
+        "zillion",
+        "ufo50",
+        "cuphead",
+        "pokemon_crystal",
+        "ff4fe",
+        "sotn",
+        "mlss",
+        "smw",
+        "aquaria",
+        "rogue_legacy",
+        "wl",
+        "megamix",
+        "papermario",
+        "dungeon_clawler",
+        "zelda2",
+        "timespinner",
+        "dlcquest",
+        "mm2",
+        "getting_over_it",
+        "monster_sanctuary",
+        "smz3",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "horror": [
+        "cvcotm",
+        "mm_recomp",
+        "blasphemous",
+        "inscryption",
+        "cv64",
+        "doom_1993",
+        "residentevil3remake",
+        "dontstarvetogether",
+        "residentevil2remake",
+        "terraria",
+        "lethal_company",
+        "luigismansion",
+        "undertale",
+        "sotn",
+        "doom_ii",
+        "getting_over_it",
+        "animal_well",
+        "shivers"
+    ],
+    "survival": [
+        "yugioh06",
+        "ror1",
+        "factorio",
+        "minecraft",
+        "ror2",
+        "dungeon_clawler",
+        "factorio_saws",
+        "residentevil3remake",
+        "dontstarvetogether",
+        "residentevil2remake",
+        "terraria",
+        "lethal_company",
+        "subnautica",
+        "animal_well",
+        "rimworld",
+        "raft"
+    ],
+    "mystery": [
+        "pmd_eos",
+        "inscryption",
+        "outer_wilds",
+        "witness",
+        "animal_well"
+    ],
+    "exploration": [
+        "tunic",
+        "shorthike",
+        "sm",
+        "outer_wilds",
+        "hcniko",
+        "terraria",
+        "witness",
+        "sm_map_rando",
+        "hylics2",
+        "animal_well",
+        "seaofthieves",
+        "pokemon_emerald",
+        "metroidprime",
+        "cv64",
+        "pokemon_crystal",
+        "lingo",
+        "subnautica",
+        "aquaria",
+        "rogue_legacy",
+        "jakanddaxter",
+        "lethal_company",
+        "dlcquest",
+        "celeste",
+        "v6"
+    ],
+    "retro": [
+        "minecraft",
+        "messenger",
+        "blasphemous",
+        "ufo50",
+        "terraria",
+        "cuphead",
+        "timespinner",
+        "undertale",
+        "smo",
+        "dlcquest",
+        "hylics2",
+        "animal_well",
+        "celeste",
+        "v6",
+        "stardew_valley"
+    ],
+    "dark": [
+        "hk",
+        "dsr",
+        "dark_souls_2",
+        "undertale",
+        "animal_well",
+        "dark_souls_3"
+    ],
+    "2d": [
+        "hk",
+        "musedash",
+        "smo",
+        "earthbound",
+        "stardew_valley",
+        "messenger",
+        "blasphemous",
+        "sm",
+        "dontstarvetogether",
+        "terraria",
+        "undertale",
+        "sm_map_rando",
+        "hylics2",
+        "animal_well",
+        "cuphead",
+        "sotn",
+        "zelda2",
+        "celeste",
+        "v6"
+    ],
+    "metroidvania": [
+        "hk",
+        "oribf",
+        "pseudoregalia",
+        "dark_souls_2",
+        "aus",
+        "cvcotm",
+        "messenger",
+        "blasphemous",
+        "sm",
+        "momodoramoonlitfarewell",
+        "mzm",
+        "sm_map_rando",
+        "animal_well",
+        "faxanadu",
+        "metroidprime",
+        "zillion",
+        "sotn",
+        "aquaria",
+        "rogue_legacy",
+        "zelda2",
+        "timespinner",
+        "monster_sanctuary",
+        "v6",
+        "enderlilies"
+    ],
+    "atmospheric": [
+        "hk",
+        "tunic",
+        "dontstarvetogether",
+        "powerwashsimulator",
+        "hylics2",
+        "animal_well",
+        "celeste"
+    ],
+    "relaxing": [
+        "sims4",
+        "shorthike",
+        "hcniko",
+        "powerwashsimulator",
+        "animal_well",
+        "stardew_valley"
+    ],
+    "controller support": [
+        "hk",
+        "tunic",
+        "hcniko",
+        "animal_well",
+        "v6",
+        "stardew_valley"
+    ],
+    "controller": [
+        "hk",
+        "tunic",
+        "hcniko",
+        "animal_well",
+        "v6",
+        "stardew_valley"
+    ],
+    "support": [
+        "ffta",
+        "hk",
+        "tunic",
+        "kh1",
+        "cv64",
+        "hcniko",
+        "fm",
+        "animal_well",
+        "gstla",
+        "v6",
+        "stardew_valley"
+    ],
+    "apeescape": [
+        "apeescape"
+    ],
+    "ape escape": [
+        "apeescape"
+    ],
+    "ape": [
+        "apeescape",
+        "dkc3",
+        "mk64",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "escape": [
+        "apeescape"
+    ],
+    "playstation 3": [
+        "rogue_legacy",
+        "spyro3",
+        "sadx",
+        "dark_souls_2",
+        "sa2b",
+        "kh2",
+        "terraria",
+        "sotn",
+        "apeescape"
+    ],
+    "3": [
+        "rogue_legacy",
+        "spyro3",
+        "sadx",
+        "mmbn3",
+        "residentevil3remake",
+        "dark_souls_2",
+        "sa2b",
+        "kh2",
+        "terraria",
+        "sotn",
+        "apeescape",
+        "wl",
+        "kdl3"
+    ],
+    "playstation portable": [
+        "spyro3",
+        "apeescape",
+        "sotn"
+    ],
+    "portable": [
+        "spyro3",
+        "apeescape",
+        "sotn"
+    ],
+    "anime": [
+        "huniepop2",
+        "yugiohddm",
+        "pokemon_emerald",
+        "zillion",
+        "dw1",
+        "musedash",
+        "pokemon_crystal",
+        "wl4",
+        "osu",
+        "fm",
+        "huniepop",
+        "apeescape",
+        "gstla"
+    ],
+    "dinosaurs": [
+        "banjo_tooie",
+        "yoshisisland",
+        "sms",
+        "smo",
+        "smw",
+        "apeescape",
+        "earthbound"
+    ],
+    "collecting": [
+        "banjo_tooie",
+        "pokemon_rb",
+        "pokemon_emerald",
+        "pokemon_frlg",
+        "zelda2",
+        "pokemon_crystal",
+        "mzm",
+        "apeescape"
+    ],
+    "multiple endings": [
+        "kh1",
+        "k64",
+        "metroidprime",
+        "cv64",
+        "apeescape",
+        "cuphead",
+        "civ_6",
+        "tloz_oos",
+        "mzm",
+        "star_fox_64",
+        "sotn",
+        "undertale",
+        "witness",
+        "doom_ii",
+        "wl4",
+        "dkc2",
+        "dk64"
+    ],
+    "endings": [
+        "kh1",
+        "k64",
+        "metroidprime",
+        "cv64",
+        "apeescape",
+        "cuphead",
+        "civ_6",
+        "tloz_oos",
+        "mzm",
+        "star_fox_64",
+        "sotn",
+        "undertale",
+        "witness",
+        "doom_ii",
+        "wl4",
+        "dkc2",
+        "dk64"
+    ],
+    "amnesia": [
+        "xenobladex",
+        "witness",
+        "apeescape",
+        "sonic_heroes",
+        "aquaria"
+    ],
+    "voice acting": [
+        "huniepop2",
+        "kh1",
+        "cv64",
+        "sly1",
+        "dw1",
+        "sms",
+        "cuphead",
+        "civ_6",
+        "jakanddaxter",
+        "witness",
+        "star_fox_64",
+        "xenobladex",
+        "doom_ii",
+        "apeescape",
+        "sonic_heroes"
+    ],
+    "voice": [
+        "huniepop2",
+        "kh1",
+        "cv64",
+        "sly1",
+        "dw1",
+        "sms",
+        "cuphead",
+        "civ_6",
+        "jakanddaxter",
+        "witness",
+        "star_fox_64",
+        "xenobladex",
+        "doom_ii",
+        "apeescape",
+        "sonic_heroes"
+    ],
+    "acting": [
+        "huniepop2",
+        "kh1",
+        "cv64",
+        "sly1",
+        "dw1",
+        "sms",
+        "cuphead",
+        "civ_6",
+        "jakanddaxter",
+        "witness",
+        "star_fox_64",
+        "xenobladex",
+        "doom_ii",
+        "apeescape",
+        "sonic_heroes"
+    ],
+    "psone classics": [
+        "spyro3",
+        "apeescape",
+        "sotn",
+        "mm2"
+    ],
+    "psone": [
+        "spyro3",
+        "apeescape",
+        "sotn",
+        "mm2"
+    ],
+    "classics": [
+        "spyro3",
+        "apeescape",
+        "sotn",
+        "mm2"
+    ],
+    "moving platforms": [
+        "k64",
+        "wl4",
+        "sly1",
+        "cvcotm",
+        "blasphemous",
+        "dkc3",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "dk64",
+        "sonic_heroes",
+        "spyro3",
+        "papermario",
+        "sms",
+        "jakanddaxter",
+        "mm2",
+        "v6"
+    ],
+    "moving": [
+        "k64",
+        "wl4",
+        "sly1",
+        "cvcotm",
+        "blasphemous",
+        "dkc3",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "dk64",
+        "sonic_heroes",
+        "spyro3",
+        "papermario",
+        "sms",
+        "jakanddaxter",
+        "mm2",
+        "v6"
+    ],
+    "platforms": [
+        "oribf",
+        "k64",
+        "wl4",
+        "sly1",
+        "cvcotm",
+        "blasphemous",
+        "sm",
+        "dkc3",
+        "sm_map_rando",
+        "doom_ii",
+        "apeescape",
+        "dkc",
+        "ladx",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "dk64",
+        "sonic_heroes",
+        "spyro3",
+        "papermario",
+        "sms",
+        "zelda2",
+        "jakanddaxter",
+        "mm2",
+        "v6"
+    ],
+    "spiky-haired protagonist": [
+        "jakanddaxter",
+        "apeescape",
+        "sonic_heroes",
+        "kh1"
+    ],
+    "spiky-haired": [
+        "jakanddaxter",
+        "apeescape",
+        "sonic_heroes",
+        "kh1"
+    ],
+    "time trials": [
+        "spyro3",
+        "diddy_kong_racing",
+        "apeescape",
+        "mk64",
+        "sly1",
+        "v6"
+    ],
+    "trials": [
+        "spyro3",
+        "diddy_kong_racing",
+        "apeescape",
+        "mk64",
+        "sly1",
+        "v6"
+    ],
+    "apsudoku": [
+        "apsudoku"
+    ],
+    "multiplayer": [
+        "paint",
+        "generic",
+        "jigsaw",
+        "saving_princess",
+        "checksfinder",
+        "archipidle",
+        "apsudoku",
+        "tracker",
+        "chatipelago",
+        "yachtdice",
+        "wordipelago",
+        "clique"
+    ],
+    "archipelago": [
+        "paint",
+        "generic",
+        "jigsaw",
+        "saving_princess",
+        "checksfinder",
+        "archipidle",
+        "apsudoku",
+        "tracker",
+        "chatipelago",
+        "bumpstik",
+        "yachtdice",
+        "wordipelago",
+        "clique"
+    ],
+    "hints": [
+        "paint",
+        "generic",
+        "jigsaw",
+        "saving_princess",
+        "checksfinder",
+        "archipidle",
+        "apsudoku",
+        "tracker",
+        "chatipelago",
+        "yachtdice",
+        "wordipelago",
+        "clique"
+    ],
+    "multiworld": [
+        "paint",
+        "generic",
+        "jigsaw",
+        "saving_princess",
+        "checksfinder",
+        "archipidle",
+        "apsudoku",
+        "tracker",
+        "chatipelago",
+        "yachtdice",
+        "wordipelago",
+        "clique"
+    ],
+    "aquaria": [
+        "aquaria"
+    ],
+    "drama": [
+        "undertale",
+        "aquaria",
+        "earthbound",
+        "hades"
+    ],
+    "linux": [
+        "hk",
+        "factorio",
+        "minecraft",
+        "inscryption",
+        "shorthike",
+        "factorio_saws",
+        "crosscode",
+        "shapez",
+        "stardew_valley",
+        "blasphemous",
+        "dontstarvetogether",
+        "terraria",
+        "undertale",
+        "landstalker",
+        "huniepop",
+        "rimworld",
+        "ror1",
+        "doom_1993",
+        "bumpstik",
+        "cat_quest",
+        "osu",
+        "aquaria",
+        "overcooked2",
+        "rogue_legacy",
+        "dungeon_clawler",
+        "timespinner",
+        "chainedechoes",
+        "getting_over_it",
+        "monster_sanctuary",
+        "celeste64",
+        "celeste",
+        "v6",
+        "openrct2"
+    ],
+    "android": [
+        "osrs",
+        "blasphemous",
+        "dungeon_clawler",
+        "brotato",
+        "terraria",
+        "musedash",
+        "cat_quest",
+        "osu",
+        "shapez",
+        "getting_over_it",
+        "subnautica",
+        "aquaria",
+        "v6",
+        "balatro",
+        "stardew_valley"
+    ],
+    "ios": [
+        "residentevil3remake",
+        "brotato",
+        "residentevil2remake",
+        "musedash",
+        "hades",
+        "shapez",
+        "balatro",
+        "stardew_valley",
+        "blasphemous",
+        "terraria",
+        "witness",
+        "cat_quest",
+        "osu",
+        "subnautica",
+        "aquaria",
+        "getting_over_it",
+        "dungeon_clawler",
+        "osrs",
+        "v6"
+    ],
+    "alternate costumes": [
+        "kh1",
+        "cv64",
+        "sms",
+        "smo",
+        "aquaria"
+    ],
+    "alternate": [
+        "kh1",
+        "cv64",
+        "sms",
+        "smo",
+        "aquaria"
+    ],
+    "costumes": [
+        "kh1",
+        "cv64",
+        "sms",
+        "smo",
+        "aquaria"
+    ],
+    "underwater gameplay": [
+        "banjo_tooie",
+        "kh1",
+        "oot",
+        "sm64ex",
+        "sm64hacks",
+        "metroidprime",
+        "sms",
+        "terraria",
+        "smo",
+        "mm2",
+        "subnautica",
+        "dkc2",
+        "aquaria",
+        "dkc"
+    ],
+    "underwater": [
+        "banjo_tooie",
+        "kh1",
+        "oot",
+        "sm64ex",
+        "sm64hacks",
+        "metroidprime",
+        "sms",
+        "terraria",
+        "smo",
+        "mm2",
+        "subnautica",
+        "dkc2",
+        "aquaria",
+        "dkc"
+    ],
+    "shape-shifting": [
+        "banjo_tooie",
+        "mm_recomp",
+        "k64",
+        "metroidprime",
+        "sotn",
+        "aquaria",
+        "kdl3"
+    ],
+    "plot twist": [
+        "oot",
+        "kh1",
+        "cv64",
+        "undertale",
+        "aquaria"
+    ],
+    "plot": [
+        "oot",
+        "kh1",
+        "cv64",
+        "undertale",
+        "aquaria"
+    ],
+    "twist": [
+        "oot",
+        "kh1",
+        "cv64",
+        "undertale",
+        "aquaria"
+    ],
+    "archipidle": [
+        "archipidle"
+    ],
+    "aus": [
+        "aus"
+    ],
+    "an untitled story": [
+        "aus"
+    ],
+    "an": [
+        "aus"
+    ],
+    "untitled": [
+        "aus"
+    ],
+    "story": [
+        "undertale",
+        "powerwashsimulator",
+        "aus",
+        "hades",
+        "hylics2",
+        "getting_over_it",
+        "celeste"
+    ],
+    "balatro": [
+        "balatro"
+    ],
+    "turn-based strategy (tbs)": [
+        "ffta",
+        "yugioh06",
+        "ff1",
+        "pokemon_rb",
+        "wargroove",
+        "wargroove2",
+        "earthbound",
+        "balatro",
+        "yugiohddm",
+        "pmd_eos",
+        "pokemon_frlg",
+        "undertale",
+        "fm",
+        "hylics2",
+        "pokemon_emerald",
+        "ff4fe",
+        "papermario",
+        "dungeon_clawler",
+        "civ_6",
+        "chainedechoes",
+        "monster_sanctuary"
+    ],
+    "turn-based": [
+        "ffta",
+        "yugioh06",
+        "ff1",
+        "pokemon_rb",
+        "wargroove",
+        "wargroove2",
+        "earthbound",
+        "gstla",
+        "balatro",
+        "yugiohddm",
+        "pmd_eos",
+        "ffmq",
+        "pokemon_frlg",
+        "undertale",
+        "fm",
+        "hylics2",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "ff4fe",
+        "mlss",
+        "papermario",
+        "dungeon_clawler",
+        "civ_6",
+        "chainedechoes",
+        "monster_sanctuary"
+    ],
+    "(tbs)": [
+        "ffta",
+        "yugioh06",
+        "ff1",
+        "pokemon_rb",
+        "wargroove",
+        "wargroove2",
+        "earthbound",
+        "balatro",
+        "yugiohddm",
+        "pmd_eos",
+        "pokemon_frlg",
+        "undertale",
+        "fm",
+        "hylics2",
+        "pokemon_emerald",
+        "ff4fe",
+        "papermario",
+        "dungeon_clawler",
+        "civ_6",
+        "chainedechoes",
+        "monster_sanctuary"
+    ],
+    "card & board game": [
+        "yugiohddm",
+        "yugioh06",
+        "inscryption",
+        "fm",
+        "spire",
+        "balatro"
+    ],
+    "card": [
+        "yugiohddm",
+        "yugioh06",
+        "inscryption",
+        "fm",
+        "spire",
+        "balatro"
+    ],
+    "board": [
+        "yugiohddm",
+        "yugioh06",
+        "inscryption",
+        "fm",
+        "spire",
+        "balatro"
+    ],
+    "game": [
+        "ffta",
+        "yugioh06",
+        "pokemon_rb",
+        "inscryption",
+        "mmbn3",
+        "marioland2",
+        "wl4",
+        "dkc2",
+        "spire",
+        "earthbound",
+        "gstla",
+        "balatro",
+        "yugiohddm",
+        "cvcotm",
+        "pokemon_frlg",
+        "hcniko",
+        "witness",
+        "mzm",
+        "fm",
+        "doom_ii",
+        "ladx",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "mlss",
+        "tloz_ooa",
+        "rogue_legacy",
+        "spyro3",
+        "oot",
+        "mm2",
+        "tloz_oos",
+        "wl"
+    ],
+    "roguelike": [
+        "rogue_legacy",
+        "pmd_eos",
+        "ror1",
+        "dungeon_clawler",
+        "hades",
+        "spire",
+        "balatro"
+    ],
+    "banjo_tooie": [
+        "banjo_tooie"
+    ],
+    "banjo-tooie": [
+        "banjo_tooie"
+    ],
+    "quiz/trivia": [
+        "banjo_tooie"
+    ],
+    "comedy": [
+        "banjo_tooie",
+        "musedash",
+        "dkc2",
+        "sly1",
+        "messenger",
+        "zork_grand_inquisitor",
+        "diddy_kong_racing",
+        "dw1",
+        "hcniko",
+        "undertale",
+        "doronko_wanko",
+        "huniepop",
+        "kh1",
+        "toontown",
+        "rac2",
+        "cuphead",
+        "mlss",
+        "dk64",
+        "overcooked2",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "spyro3",
+        "candybox2",
+        "papermario",
+        "sims4",
+        "jakanddaxter",
+        "lethal_company",
+        "luigismansion",
+        "dlcquest",
+        "getting_over_it"
+    ],
+    "nintendo 64": [
+        "banjo_tooie",
+        "swr",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "k64",
+        "sm64ex",
+        "cv64",
+        "diddy_kong_racing",
+        "mk64",
+        "star_fox_64",
+        "sm64hacks",
+        "dk64"
+    ],
+    "64": [
+        "banjo_tooie",
+        "swr",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "k64",
+        "sm64ex",
+        "cv64",
+        "diddy_kong_racing",
+        "mk64",
+        "star_fox_64",
+        "sm64hacks",
+        "dk64"
+    ],
+    "aliens": [
+        "banjo_tooie",
+        "factorio",
+        "sm",
+        "metroidprime",
+        "factorio_saws",
+        "sc2",
+        "hcniko",
+        "xenobladex",
+        "lethal_company",
+        "mzm",
+        "sm_map_rando",
+        "earthbound"
+    ],
+    "animals": [
+        "banjo_tooie",
+        "minecraft",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "star_fox_64",
+        "dkc2",
+        "sly1",
+        "dkc",
+        "stardew_valley"
+    ],
+    "flight": [
+        "banjo_tooie",
+        "rogue_legacy",
+        "spyro3",
+        "shorthike",
+        "diddy_kong_racing",
+        "terraria",
+        "xenobladex",
+        "star_fox_64",
+        "mm2",
+        "wl4",
+        "hylics2",
+        "dkc"
+    ],
+    "witches": [
+        "banjo_tooie",
+        "cv64",
+        "tloz_oos",
+        "tloz_ooa",
+        "enderlilies"
+    ],
+    "achievements": [
+        "huniepop2",
+        "banjo_tooie",
+        "hk",
+        "oribf",
+        "minecraft",
+        "tunic",
+        "blasphemous",
+        "dark_souls_2",
+        "hcniko",
+        "cuphead",
+        "musedash",
+        "sotn",
+        "doom_ii",
+        "sonic_heroes",
+        "v6",
+        "stardew_valley"
+    ],
+    "talking animals": [
+        "banjo_tooie",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "star_fox_64",
+        "dkc2",
+        "sly1",
+        "dkc"
+    ],
+    "talking": [
+        "banjo_tooie",
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "star_fox_64",
+        "dkc2",
+        "sly1",
+        "dkc"
+    ],
+    "breaking the fourth wall": [
+        "ffta",
+        "banjo_tooie",
+        "ladx",
+        "rogue_legacy",
+        "papermario",
+        "jakanddaxter",
+        "undertale",
+        "mlss",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "breaking": [
+        "ffta",
+        "banjo_tooie",
+        "wl4",
+        "dkc2",
+        "sm",
+        "undertale",
+        "mzm",
+        "sm_map_rando",
+        "doom_ii",
+        "dkc",
+        "ladx",
+        "metroidprime",
+        "sotn",
+        "mlss",
+        "tloz_ooa",
+        "rogue_legacy",
+        "oot",
+        "papermario",
+        "jakanddaxter"
+    ],
+    "fourth": [
+        "ffta",
+        "banjo_tooie",
+        "ladx",
+        "rogue_legacy",
+        "papermario",
+        "jakanddaxter",
+        "undertale",
+        "mlss",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "cameo appearance": [
+        "banjo_tooie",
+        "spyro3",
+        "oot",
+        "jakanddaxter",
+        "dkc2"
+    ],
+    "cameo": [
+        "banjo_tooie",
+        "spyro3",
+        "oot",
+        "jakanddaxter",
+        "dkc2"
+    ],
+    "appearance": [
+        "banjo_tooie",
+        "spyro3",
+        "oot",
+        "jakanddaxter",
+        "dkc2"
+    ],
+    "character growth": [
+        "pokemon_crystal",
+        "banjo_tooie",
+        "dk64",
+        "oot"
+    ],
+    "character": [
+        "banjo_tooie",
+        "oot",
+        "dkc3",
+        "pokemon_crystal",
+        "dkc2",
+        "dk64",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "growth": [
+        "pokemon_crystal",
+        "banjo_tooie",
+        "dk64",
+        "oot"
+    ],
+    "invisible wall": [
+        "banjo_tooie",
+        "oot",
+        "kh1",
+        "mk64",
+        "dk64"
+    ],
+    "invisible": [
+        "banjo_tooie",
+        "oot",
+        "kh1",
+        "mk64",
+        "dk64"
+    ],
+    "temporary invincibility": [
+        "banjo_tooie",
+        "faxanadu",
+        "rogue_legacy",
+        "papermario",
+        "cuphead",
+        "jakanddaxter",
+        "mk64",
+        "doom_ii",
+        "dkc2",
+        "sonic_heroes"
+    ],
+    "temporary": [
+        "banjo_tooie",
+        "faxanadu",
+        "rogue_legacy",
+        "papermario",
+        "cuphead",
+        "jakanddaxter",
+        "mk64",
+        "doom_ii",
+        "dkc2",
+        "sonic_heroes"
+    ],
+    "invincibility": [
+        "banjo_tooie",
+        "faxanadu",
+        "rogue_legacy",
+        "papermario",
+        "cuphead",
+        "jakanddaxter",
+        "mk64",
+        "doom_ii",
+        "dkc2",
+        "sonic_heroes"
+    ],
+    "gliding": [
+        "banjo_tooie",
+        "spyro3",
+        "kh1",
+        "sms",
+        "sly1"
+    ],
+    "lgbtq+": [
+        "banjo_tooie",
+        "rogue_legacy",
+        "sims4",
+        "timespinner",
+        "celeste64",
+        "celeste"
+    ],
+    "blasphemous": [
+        "blasphemous"
+    ],
+    "role-playing (rpg)": [
+        "ffta",
+        "ff1",
+        "noita",
+        "pokemon_rb",
+        "tunic",
+        "mmbn3",
+        "brotato",
+        "crosscode",
+        "dark_souls_2",
+        "ctjot",
+        "wargroove2",
+        "hades",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "stardew_valley",
+        "cvcotm",
+        "dark_souls_3",
+        "pmd_eos",
+        "ffmq",
+        "blasphemous",
+        "soe",
+        "pokemon_frlg",
+        "dw1",
+        "terraria",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "huniepop",
+        "faxanadu",
+        "ror1",
+        "kh1",
+        "toontown",
+        "pokemon_emerald",
+        "lufia2ac",
+        "ufo50",
+        "kh2",
+        "pokemon_crystal",
+        "ff4fe",
+        "cat_quest",
+        "mlss",
+        "sotn",
+        "tloz_ooa",
+        "rogue_legacy",
+        "candybox2",
+        "papermario",
+        "sims4",
+        "dungeon_clawler",
+        "dsr",
+        "meritous",
+        "zelda2",
+        "timespinner",
+        "chainedechoes",
+        "tloz_oos",
+        "osrs",
+        "monster_sanctuary",
+        "enderlilies"
+    ],
+    "role-playing": [
+        "ffta",
+        "ff1",
+        "noita",
+        "pokemon_rb",
+        "tunic",
+        "mmbn3",
+        "brotato",
+        "crosscode",
+        "dark_souls_2",
+        "ctjot",
+        "wargroove2",
+        "hades",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "stardew_valley",
+        "cvcotm",
+        "dark_souls_3",
+        "pmd_eos",
+        "ffmq",
+        "blasphemous",
+        "soe",
+        "pokemon_frlg",
+        "dw1",
+        "terraria",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "huniepop",
+        "faxanadu",
+        "ror1",
+        "kh1",
+        "toontown",
+        "pokemon_emerald",
+        "lufia2ac",
+        "ufo50",
+        "kh2",
+        "pokemon_crystal",
+        "ff4fe",
+        "cat_quest",
+        "mlss",
+        "sotn",
+        "tloz_ooa",
+        "rogue_legacy",
+        "candybox2",
+        "papermario",
+        "sims4",
+        "dungeon_clawler",
+        "dsr",
+        "meritous",
+        "zelda2",
+        "timespinner",
+        "chainedechoes",
+        "tloz_oos",
+        "osrs",
+        "monster_sanctuary",
+        "enderlilies"
+    ],
+    "(rpg)": [
+        "ffta",
+        "ff1",
+        "noita",
+        "pokemon_rb",
+        "tunic",
+        "mmbn3",
+        "brotato",
+        "crosscode",
+        "dark_souls_2",
+        "ctjot",
+        "wargroove2",
+        "hades",
+        "tloz",
+        "earthbound",
+        "gstla",
+        "stardew_valley",
+        "cvcotm",
+        "dark_souls_3",
+        "pmd_eos",
+        "ffmq",
+        "blasphemous",
+        "soe",
+        "pokemon_frlg",
+        "dw1",
+        "terraria",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "landstalker",
+        "hylics2",
+        "huniepop",
+        "faxanadu",
+        "ror1",
+        "kh1",
+        "toontown",
+        "pokemon_emerald",
+        "lufia2ac",
+        "ufo50",
+        "kh2",
+        "pokemon_crystal",
+        "ff4fe",
+        "cat_quest",
+        "mlss",
+        "sotn",
+        "tloz_ooa",
+        "rogue_legacy",
+        "candybox2",
+        "papermario",
+        "sims4",
+        "dungeon_clawler",
+        "dsr",
+        "meritous",
+        "zelda2",
+        "timespinner",
+        "chainedechoes",
+        "tloz_oos",
+        "osrs",
+        "monster_sanctuary",
+        "enderlilies"
+    ],
+    "hack and slash/beat 'em up": [
+        "ror1",
+        "cv64",
+        "hades",
+        "blasphemous"
+    ],
+    "hack": [
+        "ror1",
+        "cv64",
+        "hades",
+        "blasphemous"
+    ],
+    "slash/beat": [
+        "ror1",
+        "cv64",
+        "hades",
+        "blasphemous"
+    ],
+    "'em": [
+        "ror1",
+        "cv64",
+        "hades",
+        "blasphemous"
+    ],
+    "up": [
+        "cvcotm",
+        "ror1",
+        "kh1",
+        "blasphemous",
+        "papermario",
+        "pokemon_emerald",
+        "cv64",
+        "dark_souls_2",
+        "dw1",
+        "zelda2",
+        "pokemon_crystal",
+        "undertale",
+        "landstalker",
+        "hades",
+        "sotn",
+        "earthbound",
+        "gstla"
+    ],
+    "bloody": [
+        "blasphemous",
+        "metroidprime",
+        "cv64",
+        "residentevil2remake",
+        "sotn",
+        "heretic",
+        "doom_ii",
+        "ultrakill"
+    ],
+    "difficult": [
+        "ror1",
+        "tunic",
+        "messenger",
+        "blasphemous",
+        "dontstarvetogether",
+        "zelda2",
+        "hades",
+        "getting_over_it",
+        "celeste"
+    ],
+    "side-scrolling": [
+        "rogue_legacy",
+        "blasphemous",
+        "k64",
+        "yoshisisland",
+        "sm",
+        "dkc3",
+        "cuphead",
+        "musedash",
+        "zelda2",
+        "mzm",
+        "sotn",
+        "mm2",
+        "sm_map_rando",
+        "hylics2",
+        "dkc2",
+        "dkc",
+        "kdl3"
+    ],
+    "crossover": [
+        "kh1",
+        "blasphemous",
+        "diddy_kong_racing",
+        "hcniko",
+        "mk64",
+        "smz3"
+    ],
+    "religion": [
+        "oot",
+        "blasphemous",
+        "cv64",
+        "civ_6",
+        "earthbound"
+    ],
+    "nudity": [
+        "huniepop2",
+        "blasphemous",
+        "musedash",
+        "sotn",
+        "huniepop"
+    ],
+    "2d platformer": [
+        "hk",
+        "blasphemous",
+        "smo",
+        "hylics2",
+        "v6"
+    ],
+    "great soundtrack": [
+        "tunic",
+        "blasphemous",
+        "shorthike",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "hylics2",
+        "getting_over_it",
+        "ultrakill",
+        "celeste"
+    ],
+    "great": [
+        "tunic",
+        "blasphemous",
+        "shorthike",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "hylics2",
+        "getting_over_it",
+        "ultrakill",
+        "celeste"
+    ],
+    "soundtrack": [
+        "tunic",
+        "blasphemous",
+        "shorthike",
+        "bomb_rush_cyberfunk",
+        "undertale",
+        "hylics2",
+        "getting_over_it",
+        "ultrakill",
+        "celeste"
+    ],
+    "parrying": [
+        "hk",
+        "blasphemous",
+        "dark_souls_2",
+        "cuphead",
+        "dark_souls_3"
+    ],
+    "soulslike": [
+        "dark_souls_3",
+        "tunic",
+        "blasphemous",
+        "dsr",
+        "dark_souls_2",
+        "enderlilies"
+    ],
+    "you can pet the dog": [
+        "overcooked2",
+        "seaofthieves",
+        "sims4",
+        "blasphemous",
+        "terraria",
+        "undertale",
+        "hades"
+    ],
+    "you": [
+        "overcooked2",
+        "seaofthieves",
+        "sims4",
+        "blasphemous",
+        "terraria",
+        "undertale",
+        "hades"
+    ],
+    "can": [
+        "overcooked2",
+        "seaofthieves",
+        "sims4",
+        "blasphemous",
+        "terraria",
+        "undertale",
+        "hades"
+    ],
+    "pet": [
+        "overcooked2",
+        "seaofthieves",
+        "sims4",
+        "blasphemous",
+        "terraria",
+        "undertale",
+        "hades"
+    ],
+    "dog": [
+        "overcooked2",
+        "seaofthieves",
+        "sims4",
+        "oot",
+        "blasphemous",
+        "soe",
+        "cv64",
+        "hcniko",
+        "terraria",
+        "undertale",
+        "star_fox_64",
+        "hades",
+        "smo",
+        "doronko_wanko",
+        "tloz_oos",
+        "sly1"
+    ],
+    "interconnected-world": [
+        "hk",
+        "blasphemous",
+        "sm",
+        "dsr",
+        "dark_souls_2",
+        "luigismansion",
+        "mzm",
+        "sotn",
+        "sm_map_rando",
+        "dark_souls_3"
+    ],
+    "bomb_rush_cyberfunk": [
+        "bomb_rush_cyberfunk"
+    ],
+    "bomb rush cyberfunk": [
+        "bomb_rush_cyberfunk"
+    ],
+    "bomb": [
+        "bomb_rush_cyberfunk"
+    ],
+    "rush": [
+        "bomb_rush_cyberfunk"
+    ],
+    "cyberfunk": [
+        "bomb_rush_cyberfunk"
+    ],
+    "sport": [
+        "bomb_rush_cyberfunk",
+        "trackmania"
+    ],
+    "science fiction": [
+        "factorio",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "ctjot",
+        "earthbound",
+        "soe",
+        "sm",
+        "pokemon_frlg",
+        "outer_wilds",
+        "terraria",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "doom_ii",
+        "rimworld",
+        "tyrian",
+        "ror1",
+        "swr",
+        "ror2",
+        "rac2",
+        "metroidprime",
+        "sc2",
+        "doom_1993",
+        "zillion",
+        "subnautica",
+        "jakanddaxter",
+        "lethal_company",
+        "mm2",
+        "ultrakill",
+        "v6",
+        "satisfactory"
+    ],
+    "science": [
+        "factorio",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "ctjot",
+        "earthbound",
+        "soe",
+        "sm",
+        "pokemon_frlg",
+        "outer_wilds",
+        "terraria",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "doom_ii",
+        "rimworld",
+        "tyrian",
+        "ror1",
+        "swr",
+        "ror2",
+        "rac2",
+        "metroidprime",
+        "sc2",
+        "doom_1993",
+        "zillion",
+        "subnautica",
+        "jakanddaxter",
+        "lethal_company",
+        "mm2",
+        "ultrakill",
+        "v6",
+        "satisfactory"
+    ],
+    "fiction": [
+        "factorio",
+        "mmbn3",
+        "factorio_saws",
+        "brotato",
+        "crosscode",
+        "ctjot",
+        "earthbound",
+        "soe",
+        "sm",
+        "pokemon_frlg",
+        "outer_wilds",
+        "terraria",
+        "xenobladex",
+        "bomb_rush_cyberfunk",
+        "witness",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "doom_ii",
+        "rimworld",
+        "tyrian",
+        "ror1",
+        "swr",
+        "ror2",
+        "rac2",
+        "metroidprime",
+        "sc2",
+        "doom_1993",
+        "zillion",
+        "subnautica",
+        "jakanddaxter",
+        "lethal_company",
+        "mm2",
+        "ultrakill",
+        "v6",
+        "satisfactory"
+    ],
+    "spiritual successor": [
+        "bomb_rush_cyberfunk",
+        "papermario",
+        "mlss",
+        "xenobladex"
+    ],
+    "spiritual": [
+        "bomb_rush_cyberfunk",
+        "papermario",
+        "mlss",
+        "xenobladex"
+    ],
+    "successor": [
+        "bomb_rush_cyberfunk",
+        "papermario",
+        "mlss",
+        "xenobladex"
+    ],
+    "brotato": [
+        "brotato"
+    ],
+    "fighting": [
+        "brotato"
+    ],
+    "shooter": [
+        "noita",
+        "residentevil3remake",
+        "brotato",
+        "crosscode",
+        "residentevil2remake",
+        "heretic",
+        "sm",
+        "mzm",
+        "star_fox_64",
+        "sm_map_rando",
+        "doom_ii",
+        "tyrian",
+        "ror1",
+        "ror2",
+        "rac2",
+        "metroidprime",
+        "doom_1993",
+        "ufo50",
+        "cuphead",
+        "tboir",
+        "ultrakill"
+    ],
+    "arcade": [
+        "overcooked2",
+        "megamix",
+        "messenger",
+        "dungeon_clawler",
+        "noita",
+        "brotato",
+        "ufo50",
+        "cuphead",
+        "mk64",
+        "mario_kart_double_dash",
+        "osu",
+        "smw",
+        "tyrian",
+        "trackmania",
+        "ultrakill",
+        "v6"
+    ],
+    "bumpstik": [
+        "bumpstik"
+    ],
+    "bumper stickers archipelago edition": [
+        "bumpstik"
+    ],
+    "bumper": [
+        "bumpstik"
+    ],
+    "stickers": [
+        "bumpstik"
+    ],
+    "edition": [
+        "bumpstik",
+        "minecraft"
+    ],
+    "candybox2": [
+        "candybox2"
+    ],
+    "candy box 2": [
+        "candybox2"
+    ],
+    "candy": [
+        "candybox2"
+    ],
+    "box": [
+        "candybox2"
+    ],
+    "2": [
+        "overcooked2",
+        "candybox2",
+        "kh1",
+        "ror2",
+        "rac2",
+        "dw1",
+        "residentevil2remake",
+        "kh2",
+        "jakanddaxter",
+        "wargroove2",
+        "smo",
+        "hylics2",
+        "sly1",
+        "sonic_heroes"
+    ],
+    "text": [
+        "huniepop2",
+        "yugioh06",
+        "candybox2",
+        "osrs",
+        "huniepop"
+    ],
+    "web browser": [
+        "ttyd",
+        "candybox2"
+    ],
+    "web": [
+        "ttyd",
+        "candybox2"
+    ],
+    "browser": [
+        "ttyd",
+        "candybox2"
+    ],
+    "management": [
+        "ffta",
+        "candybox2",
+        "sims4",
+        "civ_6",
+        "rimworld"
+    ],
+    "cat_quest": [
+        "cat_quest"
+    ],
+    "cat quest": [
+        "cat_quest"
+    ],
+    "cat": [
+        "minecraft",
+        "kh1",
+        "cuphead",
+        "cat_quest",
+        "wl4",
+        "tloz_oos",
+        "dkc2"
+    ],
+    "quest": [
+        "dkc2",
+        "ffmq",
+        "cat_quest",
+        "dlcquest"
+    ],
+    "celeste": [
+        "celeste64",
+        "celeste"
+    ],
+    "google stadia": [
+        "ror2",
+        "celeste",
+        "terraria"
+    ],
+    "google": [
+        "ror2",
+        "celeste",
+        "terraria"
+    ],
+    "stadia": [
+        "ror2",
+        "celeste",
+        "terraria"
+    ],
+    "story rich": [
+        "undertale",
+        "powerwashsimulator",
+        "hades",
+        "hylics2",
+        "getting_over_it",
+        "celeste"
+    ],
+    "rich": [
+        "undertale",
+        "powerwashsimulator",
+        "hades",
+        "hylics2",
+        "getting_over_it",
+        "celeste"
+    ],
+    "conversation": [
+        "undertale",
+        "celeste",
+        "v6",
+        "enderlilies"
+    ],
+    "celeste64": [
+        "celeste64"
+    ],
+    "celeste 64: fragments of the mountain": [
+        "celeste64"
+    ],
+    "64:": [
+        "celeste64",
+        "k64"
+    ],
+    "fragments": [
+        "celeste64"
+    ],
+    "mountain": [
+        "celeste64"
+    ],
+    "chainedechoes": [
+        "chainedechoes"
+    ],
+    "chained echoes": [
+        "chainedechoes"
+    ],
+    "chained": [
+        "chainedechoes"
+    ],
+    "echoes": [
+        "chainedechoes"
+    ],
+    "jrpg": [
+        "ffta",
+        "pmd_eos",
+        "ff1",
+        "ffmq",
+        "chainedechoes",
+        "ff4fe",
+        "hylics2"
+    ],
+    "chatipelago": [
+        "chatipelago"
+    ],
+    "checksfinder": [
+        "checksfinder"
+    ],
+    "civ_6": [
+        "civ_6"
+    ],
+    "sid meier's civilization iv": [
+        "civ_6"
+    ],
+    "sid": [
+        "civ_6"
+    ],
+    "meier's": [
+        "civ_6"
+    ],
+    "civilization": [
+        "metroidprime",
+        "civ_6",
+        "jakanddaxter",
+        "gstla",
+        "ss"
+    ],
+    "iv": [
+        "civ_6"
+    ],
+    "educational": [
+        "civ_6"
+    ],
+    "4x (explore, expand, exploit, and exterminate)": [
+        "civ_6",
+        "openrct2"
+    ],
+    "4x": [
+        "civ_6",
+        "openrct2"
+    ],
+    "(explore,": [
+        "civ_6",
+        "openrct2"
+    ],
+    "expand,": [
+        "civ_6",
+        "openrct2"
+    ],
+    "exploit,": [
+        "civ_6",
+        "openrct2"
+    ],
+    "exterminate)": [
+        "civ_6",
+        "openrct2"
+    ],
+    "construction": [
+        "civ_6",
+        "minecraft",
+        "terraria",
+        "xenobladex"
+    ],
+    "mining": [
+        "civ_6",
+        "minecraft",
+        "terraria",
+        "stardew_valley"
+    ],
+    "loot gathering": [
+        "cv64",
+        "xenobladex",
+        "terraria",
+        "civ_6",
+        "dk64"
+    ],
+    "loot": [
+        "cv64",
+        "xenobladex",
+        "terraria",
+        "civ_6",
+        "dk64"
+    ],
+    "gathering": [
+        "cv64",
+        "xenobladex",
+        "terraria",
+        "civ_6",
+        "dk64"
+    ],
+    "royalty": [
+        "civ_6",
+        "rogue_legacy",
+        "earthbound",
+        "mlss"
+    ],
+    "ambient music": [
+        "soe",
+        "metroidprime",
+        "cv64",
+        "dkc3",
+        "civ_6",
+        "mzm",
+        "dkc2",
+        "dkc"
+    ],
+    "ambient": [
+        "soe",
+        "metroidprime",
+        "cv64",
+        "dkc3",
+        "civ_6",
+        "mzm",
+        "dkc2",
+        "dkc"
+    ],
+    "music": [
+        "ffta",
+        "musedash",
+        "dkc2",
+        "gstla",
+        "soe",
+        "ffmq",
+        "dkc3",
+        "mzm",
+        "doom_ii",
+        "dkc",
+        "metroidprime",
+        "cv64",
+        "sotn",
+        "osu",
+        "sonic_heroes",
+        "placidplasticducksim",
+        "megamix",
+        "civ_6",
+        "ultrakill"
+    ],
+    "clique": [
+        "clique"
+    ],
+    "crosscode": [
+        "crosscode"
+    ],
+    "16-bit": [
+        "rogue_legacy",
+        "sm",
+        "crosscode",
+        "sm_map_rando",
+        "earthbound"
+    ],
+    "a.i. companion": [
+        "oot",
+        "kh1",
+        "crosscode",
+        "star_fox_64",
+        "sotn"
+    ],
+    "a.i.": [
+        "oot",
+        "kh1",
+        "crosscode",
+        "star_fox_64",
+        "sotn"
+    ],
+    "companion": [
+        "oot",
+        "kh1",
+        "crosscode",
+        "star_fox_64",
+        "sotn"
+    ],
+    "ctjot": [
+        "ctjot"
+    ],
+    "chrono trigger": [
+        "ctjot"
+    ],
+    "chrono": [
+        "ctjot"
+    ],
+    "trigger": [
+        "ctjot"
+    ],
+    "nintendo ds": [
+        "ctjot",
+        "pmd_eos"
+    ],
+    "ds": [
+        "ctjot",
+        "pmd_eos"
+    ],
+    "cuphead": [
+        "cuphead"
+    ],
+    "pirates": [
+        "seaofthieves",
+        "kh1",
+        "metroidprime",
+        "cuphead",
+        "mzm",
+        "wargroove2",
+        "tloz_oos",
+        "dkc2",
+        "tloz_ooa"
+    ],
+    "shark": [
+        "jakanddaxter",
+        "raft",
+        "dkc",
+        "cuphead"
+    ],
+    "robots": [
+        "swr",
+        "sms",
+        "cuphead",
+        "xenobladex",
+        "star_fox_64",
+        "ultrakill",
+        "mm2",
+        "sonic_heroes",
+        "earthbound"
+    ],
+    "dancing": [
+        "dkc2",
+        "tloz_ooa",
+        "dkc3",
+        "cuphead"
+    ],
+    "violent plants": [
+        "rogue_legacy",
+        "metroidprime",
+        "sms",
+        "cuphead",
+        "terraria",
+        "ss"
+    ],
+    "violent": [
+        "rogue_legacy",
+        "metroidprime",
+        "sms",
+        "cuphead",
+        "terraria",
+        "ss"
+    ],
+    "plants": [
+        "rogue_legacy",
+        "metroidprime",
+        "sms",
+        "cuphead",
+        "terraria",
+        "ss"
+    ],
+    "auto-scrolling levels": [
+        "k64",
+        "dkc3",
+        "cuphead",
+        "star_fox_64",
+        "dkc2",
+        "v6",
+        "dkc"
+    ],
+    "auto-scrolling": [
+        "k64",
+        "dkc3",
+        "cuphead",
+        "star_fox_64",
+        "dkc2",
+        "v6",
+        "dkc"
+    ],
+    "levels": [
+        "k64",
+        "dkc3",
+        "cuphead",
+        "star_fox_64",
+        "dkc2",
+        "v6",
+        "dkc"
+    ],
+    "boss assistance": [
+        "rogue_legacy",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "metroidprime",
+        "dark_souls_2",
+        "sms",
+        "cuphead",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "assistance": [
+        "rogue_legacy",
+        "mm_recomp",
+        "oot",
+        "papermario",
+        "metroidprime",
+        "dark_souls_2",
+        "sms",
+        "cuphead",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "cv64": [
+        "cv64"
+    ],
+    "castlevania": [
+        "cv64"
+    ],
+    "summoning support": [
+        "ffta",
+        "kh1",
+        "cv64",
+        "fm",
+        "gstla"
+    ],
+    "summoning": [
+        "ffta",
+        "kh1",
+        "cv64",
+        "fm",
+        "gstla"
+    ],
+    "horse": [
+        "rogue_legacy",
+        "cvcotm",
+        "minecraft",
+        "oot",
+        "cv64",
+        "sotn"
+    ],
+    "multiple protagonists": [
+        "rogue_legacy",
+        "spyro3",
+        "cv64",
+        "dkc3",
+        "sotn",
+        "mlss",
+        "dkc2",
+        "dk64",
+        "sonic_heroes",
+        "earthbound",
+        "dkc"
+    ],
+    "protagonists": [
+        "rogue_legacy",
+        "spyro3",
+        "cv64",
+        "dkc3",
+        "sotn",
+        "mlss",
+        "dkc2",
+        "dk64",
+        "sonic_heroes",
+        "earthbound",
+        "dkc"
+    ],
+    "traps": [
+        "rogue_legacy",
+        "minecraft",
+        "cv64",
+        "dark_souls_2",
+        "doom_ii"
+    ],
+    "bats": [
+        "cvcotm",
+        "cv64",
+        "terraria",
+        "zelda2",
+        "pokemon_crystal",
+        "mk64",
+        "sotn"
+    ],
+    "day/night cycle": [
+        "mm_recomp",
+        "minecraft",
+        "oot",
+        "tww",
+        "cv64",
+        "terraria",
+        "xenobladex",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "sotn",
+        "dk64",
+        "ss",
+        "stardew_valley"
+    ],
+    "day/night": [
+        "mm_recomp",
+        "minecraft",
+        "oot",
+        "tww",
+        "cv64",
+        "terraria",
+        "xenobladex",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "sotn",
+        "dk64",
+        "ss",
+        "stardew_valley"
+    ],
+    "cycle": [
+        "mm_recomp",
+        "minecraft",
+        "oot",
+        "tww",
+        "cv64",
+        "terraria",
+        "xenobladex",
+        "jakanddaxter",
+        "pokemon_crystal",
+        "sotn",
+        "dk64",
+        "ss",
+        "stardew_valley"
+    ],
+    "skeletons": [
+        "cvcotm",
+        "seaofthieves",
+        "cv64",
+        "terraria",
+        "undertale",
+        "sotn",
+        "heretic",
+        "sly1"
+    ],
+    "falling damage": [
+        "minecraft",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "terraria"
+    ],
+    "falling": [
+        "minecraft",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "terraria"
+    ],
+    "unstable platforms": [
+        "cvcotm",
+        "oribf",
+        "sm",
+        "metroidprime",
+        "cv64",
+        "sms",
+        "zelda2",
+        "sm_map_rando",
+        "doom_ii",
+        "sly1",
+        "v6",
+        "dkc"
+    ],
+    "unstable": [
+        "cvcotm",
+        "oribf",
+        "sm",
+        "metroidprime",
+        "cv64",
+        "sms",
+        "zelda2",
+        "sm_map_rando",
+        "doom_ii",
+        "sly1",
+        "v6",
+        "dkc"
+    ],
+    "melee": [
+        "ffta",
+        "cvcotm",
+        "kh1",
+        "papermario",
+        "k64",
+        "pokemon_emerald",
+        "cv64",
+        "doom_1993",
+        "dark_souls_2",
+        "terraria",
+        "pokemon_crystal",
+        "sotn",
+        "wl4",
+        "heretic",
+        "doom_ii",
+        "sly1",
+        "gstla",
+        "kdl3"
+    ],
+    "male antagonist": [
+        "cv64",
+        "earthbound",
+        "mm2",
+        "sms"
+    ],
+    "male": [
+        "cv64",
+        "earthbound",
+        "mm2",
+        "sms"
+    ],
+    "antagonist": [
+        "cv64",
+        "earthbound",
+        "mm2",
+        "sms"
+    ],
+    "instant kill": [
+        "cv64",
+        "mm2",
+        "dkc2",
+        "v6",
+        "dkc"
+    ],
+    "instant": [
+        "cv64",
+        "mm2",
+        "dkc2",
+        "v6",
+        "dkc"
+    ],
+    "kill": [
+        "cv64",
+        "mm2",
+        "dkc2",
+        "v6",
+        "dkc"
+    ],
+    "difficulty level": [
+        "minecraft",
+        "metroidprime",
+        "cv64",
+        "musedash",
+        "mzm",
+        "mk64",
+        "star_fox_64",
+        "mm2",
+        "osu",
+        "doom_ii"
+    ],
+    "difficulty": [
+        "minecraft",
+        "metroidprime",
+        "cv64",
+        "musedash",
+        "mzm",
+        "mk64",
+        "star_fox_64",
+        "mm2",
+        "osu",
+        "doom_ii"
+    ],
+    "level": [
+        "minecraft",
+        "kh1",
+        "oot",
+        "metroidprime",
+        "cv64",
+        "sms",
+        "musedash",
+        "mzm",
+        "mk64",
+        "star_fox_64",
+        "mm2",
+        "osu",
+        "doom_ii",
+        "dkc2",
+        "dkc"
+    ],
+    "cvcotm": [
+        "cvcotm"
+    ],
+    "castlevania: circle of the moon": [
+        "cvcotm"
+    ],
+    "castlevania:": [
+        "cvcotm",
+        "sotn"
+    ],
+    "circle": [
+        "cvcotm"
+    ],
+    "moon": [
+        "cvcotm"
+    ],
+    "game boy advance": [
+        "ffta",
+        "yugioh06",
+        "cvcotm",
+        "yugiohddm",
+        "pokemon_emerald",
+        "mmbn3",
+        "pokemon_frlg",
+        "mzm",
+        "mlss",
+        "wl4",
+        "earthbound",
+        "gstla"
+    ],
+    "boy": [
+        "ffta",
+        "yugioh06",
+        "pokemon_rb",
+        "mmbn3",
+        "marioland2",
+        "wl4",
+        "earthbound",
+        "gstla",
+        "yugiohddm",
+        "cvcotm",
+        "pokemon_frlg",
+        "mzm",
+        "ladx",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "mlss",
+        "tloz_ooa",
+        "mm2",
+        "tloz_oos",
+        "wl"
+    ],
+    "advance": [
+        "ffta",
+        "yugioh06",
+        "cvcotm",
+        "yugiohddm",
+        "pokemon_emerald",
+        "mmbn3",
+        "pokemon_frlg",
+        "mzm",
+        "mlss",
+        "wl4",
+        "earthbound",
+        "gstla"
+    ],
+    "gravity": [
+        "cvcotm",
+        "oot",
+        "papermario",
+        "metroidprime",
+        "dkc3",
+        "mzm",
+        "star_fox_64",
+        "sotn",
+        "dkc2",
+        "dk64",
+        "v6",
+        "dkc"
+    ],
+    "wolf": [
+        "rogue_legacy",
+        "cvcotm",
+        "minecraft",
+        "star_fox_64",
+        "sotn"
+    ],
+    "leveling up": [
+        "cvcotm",
+        "kh1",
+        "papermario",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "dw1",
+        "zelda2",
+        "pokemon_crystal",
+        "undertale",
+        "landstalker",
+        "sotn",
+        "earthbound",
+        "gstla"
+    ],
+    "leveling": [
+        "cvcotm",
+        "kh1",
+        "papermario",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "dw1",
+        "zelda2",
+        "pokemon_crystal",
+        "undertale",
+        "landstalker",
+        "sotn",
+        "earthbound",
+        "gstla"
+    ],
+    "dark_souls_2": [
+        "dark_souls_2"
+    ],
+    "dark souls ii": [
+        "dark_souls_2"
+    ],
+    "souls": [
+        "dark_souls_2",
+        "dark_souls_3"
+    ],
+    "ii": [
+        "dark_souls_2",
+        "kh2",
+        "ff4fe",
+        "mm2",
+        "spire"
+    ],
+    "xbox 360": [
+        "sadx",
+        "dark_souls_2",
+        "sa2b",
+        "terraria",
+        "sotn",
+        "dlcquest"
+    ],
+    "360": [
+        "sadx",
+        "dark_souls_2",
+        "sa2b",
+        "terraria",
+        "sotn",
+        "dlcquest"
+    ],
+    "spider": [
+        "oribf",
+        "minecraft",
+        "dark_souls_2",
+        "zelda2",
+        "dkc2",
+        "sly1"
+    ],
+    "customizable characters": [
+        "dark_souls_3",
+        "dark_souls_2",
+        "xenobladex",
+        "terraria",
+        "stardew_valley"
+    ],
+    "customizable": [
+        "dark_souls_3",
+        "dark_souls_2",
+        "xenobladex",
+        "terraria",
+        "stardew_valley"
+    ],
+    "checkpoints": [
+        "dark_souls_2",
+        "dkc3",
+        "jakanddaxter",
+        "smo",
+        "mm2",
+        "dkc2",
+        "sly1",
+        "sonic_heroes",
+        "v6",
+        "dkc"
+    ],
+    "sliding down ladders": [
+        "k64",
+        "dark_souls_2",
+        "wl4",
+        "dark_souls_3"
+    ],
+    "sliding": [
+        "k64",
+        "dark_souls_2",
+        "wl4",
+        "dark_souls_3"
+    ],
+    "down": [
+        "k64",
+        "dark_souls_2",
+        "wl4",
+        "dark_souls_3"
+    ],
+    "ladders": [
+        "k64",
+        "dark_souls_2",
+        "wl4",
+        "dark_souls_3"
+    ],
+    "fire manipulation": [
+        "rogue_legacy",
+        "minecraft",
+        "papermario",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "pokemon_crystal",
+        "earthbound",
+        "gstla"
+    ],
+    "fire": [
+        "rogue_legacy",
+        "minecraft",
+        "papermario",
+        "pokemon_emerald",
+        "dark_souls_2",
+        "pokemon_crystal",
+        "earthbound",
+        "gstla"
+    ],
+    "manipulation": [
+        "rogue_legacy",
+        "minecraft",
+        "oot",
+        "papermario",
+        "pokemon_emerald",
+        "sm",
+        "dark_souls_2",
+        "pokemon_crystal",
+        "timespinner",
+        "earthbound",
+        "sm_map_rando",
+        "gstla"
+    ],
+    "dark_souls_3": [
+        "dark_souls_3"
+    ],
+    "dark souls iii": [
+        "dark_souls_3"
+    ],
+    "iii": [
+        "zillion",
+        "dark_souls_3"
+    ],
+    "pick your gender": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "terraria",
+        "dark_souls_3"
+    ],
+    "pick": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "terraria",
+        "dark_souls_3"
+    ],
+    "your": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "terraria",
+        "dark_souls_3"
+    ],
+    "gender": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "terraria",
+        "dark_souls_3"
+    ],
+    "entering world in a painting": [
+        "sm64ex",
+        "sm64hacks",
+        "smo",
+        "dark_souls_3"
+    ],
+    "entering": [
+        "sm64ex",
+        "sm64hacks",
+        "smo",
+        "dark_souls_3"
+    ],
+    "painting": [
+        "sm64ex",
+        "sm64hacks",
+        "smo",
+        "dark_souls_3"
+    ],
+    "diddy_kong_racing": [
+        "diddy_kong_racing"
+    ],
+    "diddy kong racing": [
+        "diddy_kong_racing"
+    ],
+    "diddy": [
+        "diddy_kong_racing"
+    ],
+    "kong": [
+        "diddy_kong_racing",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "racing": [
+        "swr",
+        "diddy_kong_racing",
+        "jakanddaxter",
+        "mk64",
+        "mario_kart_double_dash",
+        "trackmania"
+    ],
+    "go-kart": [
+        "diddy_kong_racing",
+        "mk64",
+        "mario_kart_double_dash",
+        "toontown"
+    ],
+    "behind the waterfall": [
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "tloz_ooa",
+        "smo",
+        "sotn",
+        "gstla",
+        "ss"
+    ],
+    "behind": [
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "tloz_ooa",
+        "smo",
+        "sotn",
+        "gstla",
+        "ss"
+    ],
+    "waterfall": [
+        "diddy_kong_racing",
+        "hcniko",
+        "dkc3",
+        "tloz_ooa",
+        "smo",
+        "sotn",
+        "gstla",
+        "ss"
+    ],
+    "dk64": [
+        "dk64"
+    ],
+    "donkey kong 64": [
+        "dk64"
+    ],
+    "donkey": [
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "artificial intelligence": [
+        "metroidprime",
+        "sly1",
+        "jakanddaxter",
+        "mk64",
+        "star_fox_64",
+        "doom_ii",
+        "dk64"
+    ],
+    "artificial": [
+        "metroidprime",
+        "sly1",
+        "jakanddaxter",
+        "mk64",
+        "star_fox_64",
+        "doom_ii",
+        "dk64"
+    ],
+    "intelligence": [
+        "metroidprime",
+        "sly1",
+        "jakanddaxter",
+        "mk64",
+        "star_fox_64",
+        "doom_ii",
+        "dk64"
+    ],
+    "death match": [
+        "dk64",
+        "mk64",
+        "heretic",
+        "doom_ii"
+    ],
+    "match": [
+        "dk64",
+        "mk64",
+        "heretic",
+        "doom_ii"
+    ],
+    "gorilla": [
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "franchise reboot": [
+        "ffta",
+        "dk64",
+        "ffmq",
+        "dkc"
+    ],
+    "franchise": [
+        "ffta",
+        "dk64",
+        "ffmq",
+        "dkc"
+    ],
+    "reboot": [
+        "ffta",
+        "dk64",
+        "ffmq",
+        "dkc"
+    ],
+    "western games based on japanese ips": [
+        "metroidprime",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "western": [
+        "metroidprime",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "games": [
+        "metroidprime",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "based": [
+        "metroidprime",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "on": [
+        "metroidprime",
+        "dkc3",
+        "doom_ii",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "japanese": [
+        "metroidprime",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "ips": [
+        "metroidprime",
+        "dkc3",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "over 100% completion": [
+        "dkc3",
+        "sotn",
+        "doom_ii",
+        "dk64",
+        "dkc"
+    ],
+    "100%": [
+        "dkc3",
+        "sotn",
+        "doom_ii",
+        "dk64",
+        "dkc"
+    ],
+    "completion": [
+        "metroidprime",
+        "dkc3",
+        "mzm",
+        "sotn",
+        "doom_ii",
+        "dkc2",
+        "dk64",
+        "dkc"
+    ],
+    "completion percentage": [
+        "metroidprime",
+        "mzm",
+        "sotn",
+        "dkc2",
+        "dk64"
+    ],
+    "percentage": [
+        "metroidprime",
+        "mzm",
+        "sotn",
+        "dkc2",
+        "dk64"
+    ],
+    "mine cart sequence": [
+        "dkc2",
+        "dk64",
+        "ss",
+        "dkc"
+    ],
+    "mine": [
+        "dkc2",
+        "dk64",
+        "ss",
+        "dkc"
+    ],
+    "cart": [
+        "dkc2",
+        "dk64",
+        "ss",
+        "dkc"
+    ],
+    "sequence": [
+        "oot",
+        "sm",
+        "metroidprime",
+        "mzm",
+        "sotn",
+        "sm_map_rando",
+        "wl4",
+        "doom_ii",
+        "dkc2",
+        "dk64",
+        "tloz_ooa",
+        "ss",
+        "dkc"
+    ],
+    "invisibility": [
+        "papermario",
+        "sly1",
+        "doom_1993",
+        "doom_ii",
+        "dk64"
+    ],
+    "foreshadowing": [
+        "metroidprime",
+        "dk64",
+        "mzm",
+        "sms"
+    ],
+    "dkc": [
+        "dkc"
+    ],
+    "donkey kong country": [
+        "dkc"
+    ],
+    "country": [
+        "dkc3",
+        "dkc2",
+        "dkc"
+    ],
+    "frog": [
+        "hcniko",
+        "jakanddaxter",
+        "star_fox_64",
+        "dkc2",
+        "dkc"
+    ],
+    "overworld": [
+        "ffta",
+        "ffmq",
+        "dkc3",
+        "zelda2",
+        "tloz",
+        "dkc2",
+        "gstla",
+        "dkc"
+    ],
+    "bonus stage": [
+        "spyro3",
+        "dkc3",
+        "smw",
+        "dkc2",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "bonus": [
+        "spyro3",
+        "dkc3",
+        "smw",
+        "dkc2",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "crocodile": [
+        "dkc3",
+        "dkc2",
+        "sly1",
+        "dkc"
+    ],
+    "water level": [
+        "oot",
+        "kh1",
+        "sms",
+        "mm2",
+        "dkc2",
+        "dkc"
+    ],
+    "water": [
+        "oot",
+        "kh1",
+        "sms",
+        "mm2",
+        "dkc2",
+        "dkc"
+    ],
+    "speedrun": [
+        "sm64ex",
+        "metroidprime",
+        "sotn",
+        "sm64hacks",
+        "dkc"
+    ],
+    "villain turned good": [
+        "sotn",
+        "gstla",
+        "kh1",
+        "dkc"
+    ],
+    "turned": [
+        "sotn",
+        "gstla",
+        "kh1",
+        "dkc"
+    ],
+    "good": [
+        "sotn",
+        "gstla",
+        "kh1",
+        "dkc"
+    ],
+    "resized enemy": [
+        "dkc2",
+        "oot",
+        "dkc",
+        "rogue_legacy"
+    ],
+    "resized": [
+        "dkc2",
+        "oot",
+        "dkc",
+        "rogue_legacy"
+    ],
+    "enemy": [
+        "dkc2",
+        "oot",
+        "dkc",
+        "rogue_legacy"
+    ],
+    "on-the-fly character switching": [
+        "dkc3",
+        "dkc2",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "on-the-fly": [
+        "dkc3",
+        "dkc2",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "switching": [
+        "dkc3",
+        "dkc2",
+        "sonic_heroes",
+        "dkc"
+    ],
+    "dkc2": [
+        "dkc2"
+    ],
+    "donkey kong country 2: diddy's kong quest": [
+        "dkc2"
+    ],
+    "2:": [
+        "huniepop2",
+        "yoshisisland",
+        "marioland2",
+        "sa2b",
+        "dkc2"
+    ],
+    "diddy's": [
+        "dkc2"
+    ],
+    "climbing": [
+        "terraria",
+        "sms",
+        "jakanddaxter",
+        "tloz_oos",
+        "dkc2",
+        "sly1",
+        "tloz_ooa"
+    ],
+    "game reference": [
+        "rogue_legacy",
+        "spyro3",
+        "oot",
+        "hcniko",
+        "witness",
+        "doom_ii",
+        "dkc2"
+    ],
+    "reference": [
+        "placidplasticducksim",
+        "rogue_legacy",
+        "spyro3",
+        "oot",
+        "hcniko",
+        "witness",
+        "doom_ii",
+        "dkc2"
+    ],
+    "sprinting mechanics": [
+        "mm_recomp",
+        "soe",
+        "oot",
+        "sm64hacks",
+        "sm64ex",
+        "pokemon_emerald",
+        "sms",
+        "pokemon_crystal",
+        "wl4",
+        "dkc2"
+    ],
+    "sprinting": [
+        "mm_recomp",
+        "soe",
+        "oot",
+        "sm64hacks",
+        "sm64ex",
+        "pokemon_emerald",
+        "sms",
+        "pokemon_crystal",
+        "wl4",
+        "dkc2"
+    ],
+    "mechanics": [
+        "mm_recomp",
+        "soe",
+        "oot",
+        "sm64hacks",
+        "sm64ex",
+        "pokemon_emerald",
+        "sms",
+        "pokemon_crystal",
+        "wl4",
+        "dkc2"
+    ],
+    "fireworks": [
+        "dkc2",
+        "sly1",
+        "mlss",
+        "k64"
+    ],
+    "dkc3": [
+        "dkc3"
+    ],
+    "donkey kong country 3: dixie kong's double trouble!": [
+        "dkc3"
+    ],
+    "3:": [
+        "dkc3"
+    ],
+    "dixie": [
+        "dkc3"
+    ],
+    "kong's": [
+        "dkc3"
+    ],
+    "double": [
+        "huniepop2",
+        "mario_kart_double_dash",
+        "dkc3"
+    ],
+    "trouble!": [
+        "dkc3"
+    ],
+    "snowman": [
+        "sm64hacks",
+        "papermario",
+        "dkc3",
+        "sm64ex"
+    ],
+    "dlcquest": [
+        "dlcquest"
+    ],
+    "dlc quest": [
+        "dlcquest"
+    ],
+    "dlc": [
+        "dlcquest"
+    ],
+    "deliberately retro": [
+        "minecraft",
+        "ufo50",
+        "terraria",
+        "timespinner",
+        "smo",
+        "dlcquest",
+        "v6",
+        "stardew_valley"
+    ],
+    "deliberately": [
+        "minecraft",
+        "ufo50",
+        "terraria",
+        "timespinner",
+        "smo",
+        "dlcquest",
+        "v6",
+        "stardew_valley"
+    ],
+    "punctuation mark above head": [
+        "rogue_legacy",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "dlcquest",
+        "tloz_ooa"
+    ],
+    "punctuation": [
+        "rogue_legacy",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "dlcquest",
+        "tloz_ooa"
+    ],
+    "mark": [
+        "rogue_legacy",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "dlcquest",
+        "tloz_ooa"
+    ],
+    "above": [
+        "rogue_legacy",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "dlcquest",
+        "tloz_ooa"
+    ],
+    "head": [
+        "rogue_legacy",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "dlcquest",
+        "tloz_ooa"
+    ],
+    "dontstarvetogether": [
+        "dontstarvetogether"
+    ],
+    "don't starve together": [
+        "dontstarvetogether"
+    ],
+    "don't": [
+        "dontstarvetogether"
+    ],
+    "starve": [
+        "dontstarvetogether"
+    ],
+    "together": [
+        "dontstarvetogether"
+    ],
+    "crafting": [
+        "seaofthieves",
+        "factorio",
+        "minecraft",
+        "factorio_saws",
+        "dontstarvetogether",
+        "terraria",
+        "raft",
+        "satisfactory",
+        "stardew_valley"
+    ],
+    "funny": [
+        "huniepop2",
+        "sims4",
+        "shorthike",
+        "dontstarvetogether",
+        "undertale",
+        "powerwashsimulator",
+        "getting_over_it"
+    ],
+    "survival horror": [
+        "lethal_company",
+        "residentevil3remake",
+        "dontstarvetogether",
+        "residentevil2remake"
+    ],
+    "doom_1993": [
+        "doom_1993"
+    ],
+    "doom": [
+        "doom_1993",
+        "doom_ii"
+    ],
+    "windows mobile": [
+        "doom_1993"
+    ],
+    "windows": [
+        "doom_1993",
+        "terraria"
+    ],
+    "mobile": [
+        "doom_1993"
+    ],
+    "pc-9800 series": [
+        "doom_1993",
+        "doom_ii"
+    ],
+    "pc-9800": [
+        "doom_1993",
+        "doom_ii"
+    ],
+    "dos": [
+        "tyrian",
+        "doom_1993",
+        "heretic",
+        "doom_ii"
+    ],
+    "doom_ii": [
+        "doom_ii"
+    ],
+    "doom ii: hell on earth": [
+        "doom_ii"
+    ],
+    "ii:": [
+        "lufia2ac",
+        "sc2",
+        "zelda2",
+        "doom_ii"
+    ],
+    "hell": [
+        "doom_ii"
+    ],
+    "earth": [
+        "doom_ii"
+    ],
+    "tapwave zodiac": [
+        "doom_ii"
+    ],
+    "tapwave": [
+        "doom_ii"
+    ],
+    "zodiac": [
+        "doom_ii"
+    ],
+    "pop culture reference": [
+        "witness",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "doom_ii"
+    ],
+    "pop": [
+        "witness",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "doom_ii"
+    ],
+    "culture": [
+        "witness",
+        "placidplasticducksim",
+        "rogue_legacy",
+        "doom_ii"
+    ],
+    "stat tracking": [
+        "ffta",
+        "rogue_legacy",
+        "kh1",
+        "witness",
+        "osu",
+        "doom_ii"
+    ],
+    "stat": [
+        "ffta",
+        "rogue_legacy",
+        "kh1",
+        "witness",
+        "osu",
+        "doom_ii"
+    ],
+    "tracking": [
+        "ffta",
+        "rogue_legacy",
+        "kh1",
+        "witness",
+        "osu",
+        "doom_ii"
+    ],
+    "rock music": [
+        "ffta",
+        "ffmq",
+        "ultrakill",
+        "sotn",
+        "doom_ii",
+        "sonic_heroes",
+        "gstla"
+    ],
+    "rock": [
+        "ffta",
+        "ffmq",
+        "ultrakill",
+        "sotn",
+        "doom_ii",
+        "sonic_heroes",
+        "gstla"
+    ],
+    "sequence breaking": [
+        "oot",
+        "sm",
+        "metroidprime",
+        "mzm",
+        "sotn",
+        "sm_map_rando",
+        "wl4",
+        "doom_ii",
+        "tloz_ooa"
+    ],
+    "doronko_wanko": [
+        "doronko_wanko"
+    ],
+    "doronko wanko": [
+        "doronko_wanko"
+    ],
+    "doronko": [
+        "doronko_wanko"
+    ],
+    "wanko": [
+        "doronko_wanko"
+    ],
+    "dsr": [
+        "dsr"
+    ],
+    "dark souls: remastered": [
+        "dsr"
+    ],
+    "souls:": [
+        "dsr"
+    ],
+    "remastered": [
+        "dsr"
+    ],
+    "dungeon_clawler": [
+        "dungeon_clawler"
+    ],
+    "dungeon clawler": [
+        "dungeon_clawler"
+    ],
+    "dungeon": [
+        "yugiohddm",
+        "dungeon_clawler"
+    ],
+    "clawler": [
+        "dungeon_clawler"
+    ],
+    "dw1": [
+        "dw1"
+    ],
+    "digimon world 4": [
+        "dw1"
+    ],
+    "digimon": [
+        "dw1"
+    ],
+    "nintendo gamecube": [
+        "tww",
+        "metroidprime",
+        "dw1",
+        "sms",
+        "luigismansion",
+        "mario_kart_double_dash",
+        "sonic_heroes"
+    ],
+    "gamecube": [
+        "tww",
+        "metroidprime",
+        "dw1",
+        "sms",
+        "luigismansion",
+        "mario_kart_double_dash",
+        "sonic_heroes"
+    ],
+    "playstation 2": [
+        "kh1",
+        "rac2",
+        "dw1",
+        "kh2",
+        "jakanddaxter",
+        "sly1",
+        "sonic_heroes"
+    ],
+    "earthbound": [
+        "earthbound"
+    ],
+    "party system": [
+        "ffta",
+        "kh1",
+        "ffmq",
+        "papermario",
+        "pokemon_emerald",
+        "xenobladex",
+        "pokemon_crystal",
+        "earthbound",
+        "mlss",
+        "gstla"
+    ],
+    "party": [
+        "ffta",
+        "overcooked2",
+        "placidplasticducksim",
+        "kh1",
+        "ffmq",
+        "papermario",
+        "pokemon_emerald",
+        "xenobladex",
+        "pokemon_crystal",
+        "mk64",
+        "earthbound",
+        "mlss",
+        "gstla"
+    ],
+    "censored version": [
+        "earthbound",
+        "oot",
+        "residentevil2remake",
+        "xenobladex"
+    ],
+    "censored": [
+        "earthbound",
+        "oot",
+        "residentevil2remake",
+        "xenobladex"
+    ],
+    "version": [
+        "oot",
+        "pokemon_rb",
+        "pokemon_emerald",
+        "pokemon_frlg",
+        "residentevil2remake",
+        "xenobladex",
+        "pokemon_crystal",
+        "earthbound"
+    ],
+    "enderlilies": [
+        "enderlilies"
+    ],
+    "ender lilies: quietus of the knights": [
+        "enderlilies"
+    ],
+    "ender": [
+        "enderlilies"
+    ],
+    "lilies:": [
+        "enderlilies"
+    ],
+    "quietus": [
+        "enderlilies"
+    ],
+    "knights": [
+        "enderlilies"
+    ],
+    "forest": [
+        "oribf",
+        "tunic",
+        "hcniko",
+        "enderlilies"
+    ],
+    "factorio": [
+        "factorio"
+    ],
+    "factorio_saws": [
+        "factorio_saws"
+    ],
+    "factorio: space age": [
+        "factorio_saws"
+    ],
+    "factorio:": [
+        "factorio_saws"
+    ],
+    "space": [
+        "sc2",
+        "factorio_saws",
+        "marioland2",
+        "getting_over_it",
+        "v6"
+    ],
+    "faxanadu": [
+        "faxanadu"
+    ],
+    "family computer": [
+        "faxanadu",
+        "ff1",
+        "tloz"
+    ],
+    "family": [
+        "faxanadu",
+        "sims4",
+        "ff1",
+        "tunic",
+        "shorthike",
+        "zelda2",
+        "powerwashsimulator",
+        "tloz"
+    ],
+    "computer": [
+        "faxanadu",
+        "ff1",
+        "tloz",
+        "zelda2"
+    ],
+    "nintendo entertainment system": [
+        "faxanadu",
+        "ff1",
+        "tloz",
+        "zelda2"
+    ],
+    "ff1": [
+        "ff1"
+    ],
+    "final fantasy": [
+        "ff1"
+    ],
+    "final": [
+        "ffta",
+        "ff4fe",
+        "ff1",
+        "ffmq"
+    ],
+    "kids": [
+        "overcooked2",
+        "placidplasticducksim",
+        "pmd_eos",
+        "minecraft",
+        "ff1",
+        "pokemon_rb",
+        "tetrisattack",
+        "yoshisisland",
+        "pokemon_emerald",
+        "pokemon_frlg",
+        "pokemon_crystal",
+        "mk64",
+        "mario_kart_double_dash"
+    ],
+    "ff4fe": [
+        "ff4fe"
+    ],
+    "final fantasy ii": [
+        "ff4fe"
+    ],
+    "ffmq": [
+        "ffmq"
+    ],
+    "final fantasy: mystic quest": [
+        "ffmq"
+    ],
+    "fantasy:": [
+        "ffmq"
+    ],
+    "mystic": [
+        "ffmq"
+    ],
+    "casual": [
+        "placidplasticducksim",
+        "sims4",
+        "ffmq",
+        "shorthike",
+        "musedash",
+        "getting_over_it"
+    ],
+    "ninja": [
+        "ffta",
+        "rogue_legacy",
+        "ffmq",
+        "messenger"
+    ],
+    "ffta": [
+        "ffta"
+    ],
+    "final fantasy tactics advance": [
+        "ffta"
+    ],
+    "tactics": [
+        "ffta"
+    ],
+    "tactical": [
+        "ffta",
+        "wargroove",
+        "overcooked2"
+    ],
+    "grinding": [
+        "ffta",
+        "seaofthieves",
+        "kh1",
+        "tloz_oos",
+        "osrs"
+    ],
+    "random encounter": [
+        "ffta",
+        "kh1",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "gstla"
+    ],
+    "random": [
+        "ffta",
+        "kh1",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "gstla"
+    ],
+    "encounter": [
+        "ffta",
+        "kh1",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "gstla"
+    ],
+    "fm": [
+        "fm"
+    ],
+    "yu-gi-oh! forbidden memories": [
+        "fm"
+    ],
+    "yu-gi-oh!": [
+        "yugiohddm",
+        "yugioh06",
+        "fm"
+    ],
+    "forbidden": [
+        "fm"
+    ],
+    "memories": [
+        "fm"
+    ],
+    "generic": [
+        "generic"
+    ],
+    "getting_over_it": [
+        "getting_over_it"
+    ],
+    "getting over it with bennett foddy": [
+        "getting_over_it"
+    ],
+    "getting": [
+        "getting_over_it"
+    ],
+    "it": [
+        "getting_over_it"
+    ],
+    "with": [
+        "getting_over_it"
+    ],
+    "bennett": [
+        "getting_over_it"
+    ],
+    "foddy": [
+        "getting_over_it"
+    ],
+    "psychological horror": [
+        "getting_over_it",
+        "lethal_company",
+        "mm_recomp",
+        "undertale"
+    ],
+    "psychological": [
+        "getting_over_it",
+        "lethal_company",
+        "mm_recomp",
+        "undertale"
+    ],
+    "gstla": [
+        "gstla"
+    ],
+    "golden sun: the lost age": [
+        "gstla"
+    ],
+    "golden": [
+        "marioland2",
+        "gstla"
+    ],
+    "sun:": [
+        "gstla"
+    ],
+    "lost": [
+        "gstla"
+    ],
+    "ancient advanced civilization technology": [
+        "jakanddaxter",
+        "metroidprime",
+        "gstla",
+        "ss"
+    ],
+    "ancient": [
+        "jakanddaxter",
+        "metroidprime",
+        "gstla",
+        "ss"
+    ],
+    "advanced": [
+        "jakanddaxter",
+        "metroidprime",
+        "gstla",
+        "ss"
+    ],
+    "technology": [
+        "jakanddaxter",
+        "metroidprime",
+        "gstla",
+        "ss"
+    ],
+    "battle screen": [
+        "papermario",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "mlss",
+        "gstla"
+    ],
+    "battle": [
+        "papermario",
+        "pokemon_emerald",
+        "mmbn3",
+        "sa2b",
+        "pokemon_crystal",
+        "mlss",
+        "gstla"
+    ],
+    "screen": [
+        "papermario",
+        "pokemon_emerald",
+        "pokemon_crystal",
+        "mlss",
+        "gstla"
+    ],
+    "gzdoom": [
+        "gzdoom"
+    ],
+    "gzdoom sm64": [
+        "gzdoom"
+    ],
+    "sm64": [
+        "gzdoom"
+    ],
+    "hades": [
+        "hades"
+    ],
+    "stylized": [
+        "tunic",
+        "hcniko",
+        "hades",
+        "hylics2",
+        "ultrakill"
+    ],
+    "hcniko": [
+        "hcniko"
+    ],
+    "here comes niko!": [
+        "hcniko"
+    ],
+    "comes": [
+        "hcniko"
+    ],
+    "niko!": [
+        "hcniko"
+    ],
+    "fishing": [
+        "ladx",
+        "minecraft",
+        "shorthike",
+        "hcniko",
+        "terraria",
+        "stardew_valley"
+    ],
+    "heretic": [
+        "heretic"
+    ],
+    "hk": [
+        "hk"
+    ],
+    "hollow knight": [
+        "hk"
+    ],
+    "hollow": [
+        "hk"
+    ],
+    "knight": [
+        "hk"
+    ],
+    "creature compendium": [
+        "metroidprime",
+        "hk",
+        "sotn",
+        "pokemon_emerald"
+    ],
+    "creature": [
+        "metroidprime",
+        "hk",
+        "sotn",
+        "pokemon_emerald"
+    ],
+    "compendium": [
+        "metroidprime",
+        "hk",
+        "sotn",
+        "pokemon_emerald"
+    ],
+    "huniepop": [
+        "huniepop",
+        "huniepop2"
+    ],
+    "visual novel": [
+        "huniepop",
+        "huniepop2"
+    ],
+    "visual": [
+        "huniepop",
+        "huniepop2"
+    ],
+    "novel": [
+        "huniepop",
+        "huniepop2"
+    ],
+    "erotic": [
+        "huniepop",
+        "huniepop2"
+    ],
+    "romance": [
+        "huniepop",
+        "stardew_valley",
+        "huniepop2",
+        "sims4"
+    ],
+    "huniepop2": [
+        "huniepop2"
+    ],
+    "huniepop 2: double date": [
+        "huniepop2"
+    ],
+    "date": [
+        "huniepop2"
+    ],
+    "hylics2": [
+        "hylics2"
+    ],
+    "hylics 2": [
+        "hylics2"
+    ],
+    "hylics": [
+        "hylics2"
+    ],
+    "inscryption": [
+        "inscryption"
+    ],
+    "jakanddaxter": [
+        "jakanddaxter"
+    ],
+    "jak and daxter: the precursor legacy": [
+        "jakanddaxter"
+    ],
+    "jak": [
+        "jakanddaxter"
+    ],
+    "daxter:": [
+        "jakanddaxter"
+    ],
+    "precursor": [
+        "jakanddaxter"
+    ],
+    "legacy": [
+        "jakanddaxter",
+        "rogue_legacy"
+    ],
+    "language selection": [
+        "jakanddaxter",
+        "sly1",
+        "minecraft",
+        "yugiohddm"
+    ],
+    "language": [
+        "jakanddaxter",
+        "sly1",
+        "minecraft",
+        "yugiohddm"
+    ],
+    "selection": [
+        "jakanddaxter",
+        "sly1",
+        "minecraft",
+        "yugiohddm"
+    ],
+    "auto-saving": [
+        "jakanddaxter",
+        "spyro3",
+        "witness",
+        "minecraft"
+    ],
+    "jigsaw": [
+        "jigsaw"
+    ],
+    "k64": [
+        "k64"
+    ],
+    "kirby 64: the crystal shards": [
+        "k64"
+    ],
+    "kirby": [
+        "k64"
+    ],
+    "crystal": [
+        "pokemon_crystal",
+        "k64"
+    ],
+    "shards": [
+        "k64"
+    ],
+    "kid friendly": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "openrct2",
+        "k64"
+    ],
+    "kid": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "openrct2",
+        "k64"
+    ],
+    "friendly": [
+        "sims4",
+        "tunic",
+        "k64",
+        "pokemon_emerald",
+        "shorthike",
+        "pokemon_crystal",
+        "powerwashsimulator",
+        "openrct2"
+    ],
+    "whale": [
+        "marioland2",
+        "kh1",
+        "kdl3",
+        "k64"
+    ],
+    "kdl3": [
+        "kdl3"
+    ],
+    "kirby's dream land 3": [
+        "kdl3"
+    ],
+    "kirby's": [
+        "kdl3"
+    ],
+    "dream": [
+        "kdl3"
+    ],
+    "land": [
+        "marioland2",
+        "wl",
+        "kdl3",
+        "wl4"
+    ],
+    "kh1": [
+        "kh1"
+    ],
+    "kingdom hearts": [
+        "kh1"
+    ],
+    "kingdom": [
+        "kh1",
+        "kh2"
+    ],
+    "hearts": [
+        "kh1",
+        "kh2"
+    ],
+    "kh2": [
+        "kh2"
+    ],
+    "kingdom hearts ii": [
+        "kh2"
+    ],
+    "ladx": [
+        "ladx"
+    ],
+    "the legend of zelda: link's awakening dx": [
+        "ladx"
+    ],
+    "link's": [
+        "ladx"
+    ],
+    "awakening": [
+        "ladx"
+    ],
+    "dx": [
+        "ladx",
+        "sadx"
+    ],
+    "game boy color": [
+        "ladx",
+        "tloz_oos",
+        "tloz_ooa",
+        "pokemon_crystal"
+    ],
+    "color": [
+        "ladx",
+        "tloz_oos",
+        "tloz_ooa",
+        "pokemon_crystal"
+    ],
+    "chicken": [
+        "ladx",
+        "minecraft",
+        "oot",
+        "stardew_valley"
+    ],
+    "tentacles": [
+        "ladx",
+        "papermario",
+        "pokemon_emerald",
+        "metroidprime",
+        "sms",
+        "pokemon_crystal",
+        "mlss"
+    ],
+    "animal cruelty": [
+        "ladx",
+        "pokemon_emerald",
+        "oot",
+        "pokemon_crystal"
+    ],
+    "cruelty": [
+        "ladx",
+        "pokemon_emerald",
+        "oot",
+        "pokemon_crystal"
+    ],
+    "landstalker": [
+        "landstalker"
+    ],
+    "sega mega drive/genesis": [
+        "landstalker"
+    ],
+    "sega": [
+        "zillion",
+        "landstalker"
+    ],
+    "mega": [
+        "mm2",
+        "landstalker",
+        "mmbn3",
+        "megamix"
+    ],
+    "drive/genesis": [
+        "landstalker"
+    ],
+    "lethal_company": [
+        "lethal_company"
+    ],
+    "lethal company": [
+        "lethal_company"
+    ],
+    "lethal": [
+        "lethal_company"
+    ],
+    "company": [
+        "lethal_company"
+    ],
+    "monsters": [
+        "yugiohddm",
+        "yugioh06",
+        "minecraft",
+        "pokemon_frlg",
+        "lethal_company",
+        "stardew_valley"
+    ],
+    "lingo": [
+        "lingo"
+    ],
+    "lufia2ac": [
+        "lufia2ac"
+    ],
+    "lufia ii: rise of the sinistrals": [
+        "lufia2ac"
+    ],
+    "lufia": [
+        "lufia2ac"
+    ],
+    "rise": [
+        "lufia2ac"
+    ],
+    "sinistrals": [
+        "lufia2ac"
+    ],
+    "luigismansion": [
+        "luigismansion"
+    ],
+    "luigi's mansion": [
+        "luigismansion"
+    ],
+    "luigi's": [
+        "luigismansion"
+    ],
+    "mansion": [
+        "luigismansion"
+    ],
+    "italian accent": [
+        "luigismansion",
+        "mk64",
+        "mlss",
+        "sms"
+    ],
+    "italian": [
+        "luigismansion",
+        "mk64",
+        "mlss",
+        "sms"
+    ],
+    "accent": [
+        "luigismansion",
+        "mk64",
+        "mlss",
+        "sms"
+    ],
+    "marioland2": [
+        "marioland2"
+    ],
+    "super mario land 2: 6 golden coins": [
+        "marioland2"
+    ],
+    "mario": [
+        "papermario",
+        "sm64ex",
+        "yoshisisland",
+        "marioland2",
+        "sms",
+        "mk64",
+        "smo",
+        "mlss",
+        "mario_kart_double_dash",
+        "smw",
+        "sm64hacks",
+        "wl"
+    ],
+    "6": [
+        "marioland2"
+    ],
+    "coins": [
+        "marioland2"
+    ],
+    "game boy": [
+        "wl",
+        "marioland2",
+        "mm2",
+        "pokemon_rb"
+    ],
+    "turtle": [
+        "papermario",
+        "marioland2",
+        "sms",
+        "mk64",
+        "mlss",
+        "sly1"
+    ],
+    "mario_kart_double_dash": [
+        "mario_kart_double_dash"
+    ],
+    "mario kart: double dash!!": [
+        "mario_kart_double_dash"
+    ],
+    "kart:": [
+        "mario_kart_double_dash"
+    ],
+    "dash!!": [
+        "mario_kart_double_dash"
+    ],
+    "yoshi": [
+        "yoshisisland",
+        "mario_kart_double_dash",
+        "sms",
+        "smw"
+    ],
+    "princess peach": [
+        "sm64ex",
+        "sms",
+        "mlss",
+        "mario_kart_double_dash",
+        "sm64hacks"
+    ],
+    "peach": [
+        "sm64ex",
+        "sms",
+        "mlss",
+        "mario_kart_double_dash",
+        "sm64hacks"
+    ],
+    "megamix": [
+        "megamix"
+    ],
+    "hatsune miku: project diva mega mix": [
+        "megamix"
+    ],
+    "hatsune": [
+        "megamix"
+    ],
+    "miku:": [
+        "megamix"
+    ],
+    "project": [
+        "megamix"
+    ],
+    "diva": [
+        "megamix"
+    ],
+    "mix": [
+        "megamix"
+    ],
+    "meritous": [
+        "meritous"
+    ],
+    "messenger": [
+        "messenger"
+    ],
+    "the messenger": [
+        "messenger"
+    ],
+    "metroidprime": [
+        "metroidprime"
+    ],
+    "metroid prime": [
+        "metroidprime"
+    ],
+    "metroid": [
+        "sm",
+        "metroidprime",
+        "sm_map_rando",
+        "smz3"
+    ],
+    "prime": [
+        "metroidprime"
+    ],
+    "time limit": [
+        "rogue_legacy",
+        "ror1",
+        "sm",
+        "metroidprime",
+        "sms",
+        "witness",
+        "sm_map_rando",
+        "wl4"
+    ],
+    "limit": [
+        "rogue_legacy",
+        "ror1",
+        "sm",
+        "metroidprime",
+        "sms",
+        "witness",
+        "sm_map_rando",
+        "wl4"
+    ],
+    "countdown timer": [
+        "rogue_legacy",
+        "oot",
+        "sm",
+        "metroidprime",
+        "mzm",
+        "sm_map_rando",
+        "wl4"
+    ],
+    "countdown": [
+        "rogue_legacy",
+        "oot",
+        "sm",
+        "metroidprime",
+        "mzm",
+        "sm_map_rando",
+        "wl4"
+    ],
+    "timer": [
+        "rogue_legacy",
+        "oot",
+        "sm",
+        "metroidprime",
+        "mzm",
+        "sm_map_rando",
+        "wl4"
+    ],
+    "auto-aim": [
+        "mm_recomp",
+        "tww",
+        "oot",
+        "metroidprime",
+        "ss"
+    ],
+    "linear gameplay": [
+        "sm64hacks",
+        "metroidprime",
+        "sms",
+        "sm64ex"
+    ],
+    "linear": [
+        "sm64hacks",
+        "metroidprime",
+        "sms",
+        "sm64ex"
+    ],
+    "meme origin": [
+        "mm_recomp",
+        "minecraft",
+        "metroidprime",
+        "zelda2",
+        "star_fox_64",
+        "sotn",
+        "tloz"
+    ],
+    "meme": [
+        "mm_recomp",
+        "minecraft",
+        "metroidprime",
+        "zelda2",
+        "star_fox_64",
+        "sotn",
+        "tloz"
+    ],
+    "origin": [
+        "mm_recomp",
+        "minecraft",
+        "metroidprime",
+        "zelda2",
+        "star_fox_64",
+        "sotn",
+        "tloz"
+    ],
+    "isolation": [
+        "sm",
+        "metroidprime",
+        "mzm",
+        "sotn",
+        "sm_map_rando"
+    ],
+    "minecraft": [
+        "minecraft"
+    ],
+    "minecraft: java edition": [
+        "minecraft"
+    ],
+    "minecraft:": [
+        "minecraft"
+    ],
+    "java": [
+        "minecraft"
+    ],
+    "virtual reality": [
+        "subnautica",
+        "minecraft"
+    ],
+    "virtual": [
+        "subnautica",
+        "minecraft"
+    ],
+    "reality": [
+        "subnautica",
+        "minecraft"
+    ],
+    "procedural generation": [
+        "witness",
+        "rogue_legacy",
+        "minecraft",
+        "terraria"
+    ],
+    "procedural": [
+        "witness",
+        "rogue_legacy",
+        "minecraft",
+        "terraria"
+    ],
+    "generation": [
+        "witness",
+        "rogue_legacy",
+        "minecraft",
+        "terraria"
+    ],
+    "mk64": [
+        "mk64"
+    ],
+    "mario kart 64": [
+        "mk64"
+    ],
+    "kart": [
+        "mk64"
+    ],
+    "mlss": [
+        "mlss"
+    ],
+    "mario & luigi: superstar saga": [
+        "mlss"
+    ],
+    "luigi:": [
+        "mlss"
+    ],
+    "superstar": [
+        "mlss"
+    ],
+    "saga": [
+        "mlss"
+    ],
+    "super-ness": [
+        "sm64hacks",
+        "mlss",
+        "sms",
+        "sm64ex"
+    ],
+    "wiggler": [
+        "sm64ex",
+        "sms",
+        "smo",
+        "mlss",
+        "sm64hacks"
+    ],
+    "mm2": [
+        "mm2"
+    ],
+    "mega man ii": [
+        "mm2"
+    ],
+    "man": [
+        "mmbn3",
+        "mm2"
+    ],
+    "mmbn3": [
+        "mmbn3"
+    ],
+    "mega man battle network 3 blue": [
+        "mmbn3"
+    ],
+    "network": [
+        "mmbn3"
+    ],
+    "blue": [
+        "mmbn3"
+    ],
+    "mm_recomp": [
+        "mm_recomp"
+    ],
+    "the legend of zelda: majora's mask": [
+        "mm_recomp"
+    ],
+    "majora's": [
+        "mm_recomp"
+    ],
+    "mask": [
+        "mm_recomp"
+    ],
+    "64dd": [
+        "mm_recomp",
+        "oot"
+    ],
+    "momodoramoonlitfarewell": [
+        "momodoramoonlitfarewell"
+    ],
+    "momodora: moonlit farewell": [
+        "momodoramoonlitfarewell"
+    ],
+    "momodora:": [
+        "momodoramoonlitfarewell"
+    ],
+    "moonlit": [
+        "momodoramoonlitfarewell"
+    ],
+    "farewell": [
+        "momodoramoonlitfarewell"
+    ],
+    "monster_sanctuary": [
+        "monster_sanctuary"
+    ],
+    "monster sanctuary": [
+        "monster_sanctuary"
+    ],
+    "monster": [
+        "monster_sanctuary"
+    ],
+    "sanctuary": [
+        "monster_sanctuary"
+    ],
+    "musedash": [
+        "musedash"
+    ],
+    "muse dash": [
+        "musedash"
+    ],
+    "muse": [
+        "musedash"
+    ],
+    "dash": [
+        "musedash"
+    ],
+    "mzm": [
+        "mzm"
+    ],
+    "metroid: zero mission": [
+        "mzm"
+    ],
+    "metroid:": [
+        "mzm"
+    ],
+    "zero": [
+        "mzm"
+    ],
+    "mission": [
+        "mzm"
+    ],
+    "noita": [
+        "noita"
+    ],
+    "oot": [
+        "oot"
+    ],
+    "the legend of zelda: ocarina of time": [
+        "oot"
+    ],
+    "ocarina": [
+        "oot"
+    ],
+    "time manipulation": [
+        "rogue_legacy",
+        "oot",
+        "sm",
+        "timespinner",
+        "sm_map_rando"
+    ],
+    "openrct2": [
+        "openrct2"
+    ],
+    "business": [
+        "stardew_valley",
+        "powerwashsimulator",
+        "openrct2"
+    ],
+    "oribf": [
+        "oribf"
+    ],
+    "ori and the blind forest": [
+        "oribf"
+    ],
+    "ori": [
+        "oribf"
+    ],
+    "blind": [
+        "oribf"
+    ],
+    "thriller": [
+        "sm",
+        "oribf",
+        "sm_map_rando"
+    ],
+    "osrs": [
+        "osrs"
+    ],
+    "old school runescape": [
+        "osrs"
+    ],
+    "old": [
+        "osrs"
+    ],
+    "school": [
+        "osrs"
+    ],
+    "runescape": [
+        "osrs"
+    ],
+    "osu": [
+        "osu"
+    ],
+    "osu!": [
+        "osu"
+    ],
+    "auditory": [
+        "osu"
+    ],
+    "outer_wilds": [
+        "outer_wilds"
+    ],
+    "outer wilds": [
+        "outer_wilds"
+    ],
+    "outer": [
+        "outer_wilds"
+    ],
+    "wilds": [
+        "outer_wilds"
+    ],
+    "overcooked2": [
+        "overcooked2"
+    ],
+    "overcooked! 2": [
+        "overcooked2"
+    ],
+    "overcooked!": [
+        "overcooked2"
+    ],
+    "paint": [
+        "paint"
+    ],
+    "papermario": [
+        "papermario"
+    ],
+    "paper mario": [
+        "papermario"
+    ],
+    "paper": [
+        "ttyd",
+        "papermario"
+    ],
+    "gambling": [
+        "pokemon_crystal",
+        "pokemon_emerald",
+        "papermario",
+        "rogue_legacy"
+    ],
+    "peaks_of_yore": [
+        "peaks_of_yore"
+    ],
+    "peaks of yore": [
+        "peaks_of_yore"
+    ],
+    "peaks": [
+        "peaks_of_yore"
+    ],
+    "yore": [
+        "peaks_of_yore"
+    ],
+    "placidplasticducksim": [
+        "placidplasticducksim"
+    ],
+    "placid plastic duck simulator": [
+        "placidplasticducksim"
+    ],
+    "placid": [
+        "placidplasticducksim"
+    ],
+    "plastic": [
+        "placidplasticducksim"
+    ],
+    "duck": [
+        "placidplasticducksim"
+    ],
+    "pmd_eos": [
+        "pmd_eos"
+    ],
+    "pok\u00e9mon mystery dungeon: explorers of sky": [
+        "pmd_eos"
+    ],
+    "pok\u00e9mon": [
+        "pmd_eos",
+        "pokemon_rb",
+        "pokemon_emerald",
+        "pokemon_frlg",
+        "pokemon_crystal"
+    ],
+    "dungeon:": [
+        "pmd_eos"
+    ],
+    "explorers": [
+        "pmd_eos"
+    ],
+    "sky": [
+        "pmd_eos"
+    ],
+    "pokemon_crystal": [
+        "pokemon_crystal"
+    ],
+    "pok\u00e9mon crystal version": [
+        "pokemon_crystal"
+    ],
+    "pokemon_emerald": [
+        "pokemon_emerald"
+    ],
+    "pok\u00e9mon emerald version": [
+        "pokemon_emerald"
+    ],
+    "emerald": [
+        "pokemon_emerald"
+    ],
+    "pokemon_frlg": [
+        "pokemon_frlg"
+    ],
+    "pok\u00e9mon leafgreen version": [
+        "pokemon_frlg"
+    ],
+    "leafgreen": [
+        "pokemon_frlg"
+    ],
+    "pokemon_rb": [
+        "pokemon_rb"
+    ],
+    "pok\u00e9mon red version": [
+        "pokemon_rb"
+    ],
+    "red": [
+        "pokemon_rb"
+    ],
+    "powerwashsimulator": [
+        "powerwashsimulator"
+    ],
+    "powerwash simulator": [
+        "powerwashsimulator"
+    ],
+    "powerwash": [
+        "powerwashsimulator"
+    ],
+    "family friendly": [
+        "shorthike",
+        "powerwashsimulator",
+        "sims4",
+        "tunic"
+    ],
+    "pseudoregalia": [
+        "pseudoregalia"
+    ],
+    "pseudoregalia: jam ver.": [
+        "pseudoregalia"
+    ],
+    "pseudoregalia:": [
+        "pseudoregalia"
+    ],
+    "jam": [
+        "pseudoregalia"
+    ],
+    "ver.": [
+        "pseudoregalia"
+    ],
+    "rac2": [
+        "rac2"
+    ],
+    "ratchet & clank: going commando": [
+        "rac2"
+    ],
+    "ratchet": [
+        "rac2"
+    ],
+    "clank:": [
+        "rac2"
+    ],
+    "going": [
+        "rac2"
+    ],
+    "commando": [
+        "rac2"
+    ],
+    "raft": [
+        "raft"
+    ],
+    "residentevil2remake": [
+        "residentevil2remake"
+    ],
+    "resident evil 2": [
+        "residentevil2remake"
+    ],
+    "resident": [
+        "residentevil3remake",
+        "residentevil2remake"
+    ],
+    "evil": [
+        "residentevil3remake",
+        "residentevil2remake"
+    ],
+    "residentevil3remake": [
+        "residentevil3remake"
+    ],
+    "resident evil 3": [
+        "residentevil3remake"
+    ],
+    "rimworld": [
+        "rimworld"
+    ],
+    "rogue_legacy": [
+        "rogue_legacy"
+    ],
+    "rogue legacy": [
+        "rogue_legacy"
+    ],
+    "rogue": [
+        "rogue_legacy"
+    ],
+    "playstation vita": [
+        "rogue_legacy",
+        "ror1",
+        "terraria",
+        "timespinner",
+        "undertale",
+        "v6",
+        "stardew_valley"
+    ],
+    "vita": [
+        "rogue_legacy",
+        "ror1",
+        "terraria",
+        "timespinner",
+        "undertale",
+        "v6",
+        "stardew_valley"
+    ],
+    "ror1": [
+        "ror1"
+    ],
+    "risk of rain": [
+        "ror1"
+    ],
+    "risk": [
+        "ror1",
+        "ror2"
+    ],
+    "rain": [
+        "ror1",
+        "ror2"
+    ],
+    "ror2": [
+        "ror2"
+    ],
+    "risk of rain 2": [
+        "ror2"
+    ],
+    "sa2b": [
+        "sa2b"
+    ],
+    "sonic adventure 2: battle": [
+        "sa2b"
+    ],
+    "sonic": [
+        "sadx",
+        "sonic_heroes",
+        "sa2b"
+    ],
+    "sadx": [
+        "sadx"
+    ],
+    "sonic adventure: sonic adventure dx upgrade": [
+        "sadx"
+    ],
+    "adventure:": [
+        "sadx"
+    ],
+    "upgrade": [
+        "sadx"
+    ],
+    "satisfactory": [
+        "satisfactory"
+    ],
+    "saving_princess": [
+        "saving_princess"
+    ],
+    "sc2": [
+        "sc2"
+    ],
+    "starcraft ii: wings of liberty": [
+        "sc2"
+    ],
+    "starcraft": [
+        "sc2"
+    ],
+    "wings": [
+        "sc2"
+    ],
+    "liberty": [
+        "sc2"
+    ],
+    "warfare": [
+        "wargroove",
+        "wargroove2",
+        "sc2"
+    ],
+    "seaofthieves": [
+        "seaofthieves"
+    ],
+    "sea of thieves": [
+        "seaofthieves"
+    ],
+    "sea": [
+        "seaofthieves"
+    ],
+    "thieves": [
+        "seaofthieves"
+    ],
+    "shapez": [
+        "shapez"
+    ],
+    "shivers": [
+        "shivers"
+    ],
+    "point-and-click": [
+        "zork_grand_inquisitor",
+        "shivers"
+    ],
+    "shorthike": [
+        "shorthike"
+    ],
+    "a short hike": [
+        "shorthike"
+    ],
+    "short": [
+        "shorthike"
+    ],
+    "hike": [
+        "shorthike"
+    ],
+    "sims4": [
+        "sims4"
+    ],
+    "the sims 4": [
+        "sims4"
+    ],
+    "sims": [
+        "sims4"
+    ],
+    "sly1": [
+        "sly1"
+    ],
+    "sly cooper and the thievius raccoonus": [
+        "sly1"
+    ],
+    "sly": [
+        "sly1"
+    ],
+    "cooper": [
+        "sly1"
+    ],
+    "thievius": [
+        "sly1"
+    ],
+    "raccoonus": [
+        "sly1"
+    ],
+    "stealth": [
+        "sly1"
+    ],
+    "sm": [
+        "sm"
+    ],
+    "super metroid": [
+        "sm",
+        "sm_map_rando"
+    ],
+    "sm64ex": [
+        "sm64ex"
+    ],
+    "super mario 64": [
+        "sm64hacks",
+        "sm64ex"
+    ],
+    "rabbit": [
+        "sm64ex",
+        "terraria",
+        "smo",
+        "sm64hacks",
+        "sonic_heroes",
+        "tloz_ooa"
+    ],
+    "sm64hacks": [
+        "sm64hacks"
+    ],
+    "smo": [
+        "smo"
+    ],
+    "super mario odyssey": [
+        "smo"
+    ],
+    "odyssey": [
+        "smo"
+    ],
+    "nintendo switch 2": [
+        "smo"
+    ],
+    "sms": [
+        "sms"
+    ],
+    "super mario sunshine": [
+        "sms"
+    ],
+    "sunshine": [
+        "sms"
+    ],
+    "smw": [
+        "smw"
+    ],
+    "super mario world": [
+        "smw"
+    ],
+    "smz3": [
+        "smz3"
+    ],
+    "super metroid and a link to the past crossover randomizer": [
+        "smz3"
+    ],
+    "randomizer": [
+        "smz3"
+    ],
+    "sm_map_rando": [
+        "sm_map_rando"
+    ],
+    "soe": [
+        "soe"
+    ],
+    "secret of evermore": [
+        "soe"
+    ],
+    "evermore": [
+        "soe"
+    ],
+    "sonic_heroes": [
+        "sonic_heroes"
+    ],
+    "sonic heroes": [
+        "sonic_heroes"
+    ],
+    "heroes": [
+        "sonic_heroes"
+    ],
+    "sotn": [
+        "sotn"
+    ],
+    "castlevania: symphony of the night": [
+        "sotn"
+    ],
+    "symphony": [
+        "sotn"
+    ],
+    "night": [
+        "sotn"
+    ],
+    "spire": [
+        "spire"
+    ],
+    "slay the spire ii": [
+        "spire"
+    ],
+    "slay": [
+        "spire"
+    ],
+    "spyro3": [
+        "spyro3"
+    ],
+    "spyro: year of the dragon": [
+        "spyro3"
+    ],
+    "spyro:": [
+        "spyro3"
+    ],
+    "year": [
+        "spyro3"
+    ],
+    "dragon": [
+        "spyro3"
+    ],
+    "ss": [
+        "ss"
+    ],
+    "the legend of zelda: skyward sword": [
+        "ss"
+    ],
+    "skyward": [
+        "ss"
+    ],
+    "stardew_valley": [
+        "stardew_valley"
     ],
     "stardew valley": [
-        "Stardew Valley"
+        "stardew_valley"
+    ],
+    "stardew": [
+        "stardew_valley"
+    ],
+    "valley": [
+        "stardew_valley"
+    ],
+    "star_fox_64": [
+        "star_fox_64"
     ],
     "star fox 64": [
-        "Star Fox 64"
+        "star_fox_64"
+    ],
+    "star": [
+        "swr",
+        "star_fox_64"
+    ],
+    "fox": [
+        "star_fox_64"
     ],
     "subnautica": [
-        "Subnautica"
+        "subnautica"
     ],
-    "star wars episode i racer": [
-        "Star Wars Episode I Racer"
+    "steamvr": [
+        "subnautica"
     ],
-    "the binding of isaac repentance": [
-        "The Binding of Isaac Repentance"
+    "oculus rift": [
+        "subnautica"
+    ],
+    "oculus": [
+        "subnautica"
+    ],
+    "rift": [
+        "subnautica"
+    ],
+    "swr": [
+        "swr"
+    ],
+    "star wars: episode i - racer": [
+        "swr"
+    ],
+    "wars:": [
+        "swr"
+    ],
+    "episode": [
+        "swr"
+    ],
+    "i": [
+        "swr"
+    ],
+    "-": [
+        "swr"
+    ],
+    "racer": [
+        "swr"
+    ],
+    "dreamcast": [
+        "swr"
+    ],
+    "tboir": [
+        "tboir"
+    ],
+    "the binding of isaac: repentance": [
+        "tboir"
+    ],
+    "binding": [
+        "tboir"
+    ],
+    "isaac:": [
+        "tboir"
+    ],
+    "repentance": [
+        "tboir"
     ],
     "terraria": [
-        "Terraria"
+        "terraria"
+    ],
+    "windows phone": [
+        "terraria"
+    ],
+    "phone": [
+        "terraria"
+    ],
+    "tetrisattack": [
+        "tetrisattack"
     ],
     "tetris attack": [
-        "Tetris Attack"
+        "tetrisattack"
+    ],
+    "tetris": [
+        "tetrisattack"
+    ],
+    "attack": [
+        "tetrisattack"
     ],
     "timespinner": [
-        "Timespinner"
+        "timespinner"
+    ],
+    "tloz": [
+        "tloz"
     ],
     "the legend of zelda": [
-        "The Legend of Zelda"
+        "tloz"
     ],
-    "1986": [
-        "The Legend of Zelda"
+    "family computer disk system": [
+        "tloz",
+        "zelda2"
     ],
-    "the legend of zelda - oracle of ages": [
-        "The Legend of Zelda - Oracle of Ages"
+    "disk": [
+        "tloz",
+        "zelda2"
     ],
-    "the legend of zelda - oracle of seasons": [
-        "The Legend of Zelda - Oracle of Seasons"
+    "tloz_ooa": [
+        "tloz_ooa"
+    ],
+    "the legend of zelda: oracle of ages": [
+        "tloz_ooa"
+    ],
+    "oracle": [
+        "tloz_ooa",
+        "tloz_oos"
+    ],
+    "ages": [
+        "tloz_ooa"
+    ],
+    "tloz_oos": [
+        "tloz_oos"
+    ],
+    "the legend of zelda: oracle of seasons": [
+        "tloz_oos"
+    ],
+    "seasons": [
+        "tloz_oos"
     ],
     "toontown": [
-        "Toontown"
+        "toontown"
     ],
-    "twilight princess": [
-        "Twilight Princess"
+    "toontown online": [
+        "toontown"
     ],
-    "2006": [
-        "Yu-Gi-Oh! 2006",
-        "Twilight Princess"
+    "online": [
+        "toontown"
+    ],
+    "tp": [
+        "tp"
+    ],
+    "the legend of zelda: twilight princess": [
+        "tp"
+    ],
+    "twilight": [
+        "tp"
+    ],
+    "tracker": [
+        "tracker"
     ],
     "trackmania": [
-        "Trackmania"
+        "trackmania"
     ],
-    "paper mario the thousand year door": [
-        "Paper Mario The Thousand Year Door"
+    "ttyd": [
+        "ttyd"
+    ],
+    "paper mario: the thousand-year door": [
+        "ttyd"
+    ],
+    "mario:": [
+        "ttyd"
+    ],
+    "thousand-year": [
+        "ttyd"
+    ],
+    "door": [
+        "ttyd"
     ],
     "tunic": [
-        "TUNIC"
+        "tunic"
     ],
-    "the wind waker": [
-        "The Wind Waker"
+    "tww": [
+        "tww"
+    ],
+    "the legend of zelda: the wind waker": [
+        "tww"
+    ],
+    "wind": [
+        "tww"
+    ],
+    "waker": [
+        "tww"
     ],
     "tyrian": [
-        "Tyrian"
+        "tyrian"
+    ],
+    "tyrian 2000": [
+        "tyrian"
+    ],
+    "2000": [
+        "tyrian"
+    ],
+    "ufo50": [
+        "ufo50"
     ],
     "ufo 50": [
-        "UFO 50"
+        "ufo50"
+    ],
+    "ufo": [
+        "ufo50"
+    ],
+    "50": [
+        "ufo50"
     ],
     "ultrakill": [
-        "ULTRAKILL"
+        "ultrakill"
     ],
     "undertale": [
-        "Undertale"
+        "undertale"
+    ],
+    "v6": [
+        "v6"
     ],
     "vvvvvv": [
-        "VVVVVV"
+        "v6"
+    ],
+    "ouya": [
+        "v6"
     ],
     "wargroove": [
-        "Wargroove"
+        "wargroove",
+        "wargroove2"
+    ],
+    "wargroove2": [
+        "wargroove2"
     ],
     "wargroove 2": [
-        "Wargroove 2"
+        "wargroove2"
+    ],
+    "witness": [
+        "witness"
     ],
     "the witness": [
-        "The Witness"
+        "witness"
     ],
-    "wario land": [
-        "Wario Land"
+    "wl": [
+        "wl"
+    ],
+    "wario land: super mario land 3": [
+        "wl"
+    ],
+    "wario": [
+        "wl",
+        "wl4"
+    ],
+    "land:": [
+        "wl"
+    ],
+    "wl4": [
+        "wl4"
     ],
     "wario land 4": [
-        "Wario Land 4"
+        "wl4"
     ],
     "wordipelago": [
-        "Wordipelago"
+        "wordipelago"
     ],
-    "xenoblade x": [
-        "Xenoblade X"
+    "xenobladex": [
+        "xenobladex"
     ],
-    "yacht dice": [
-        "Yacht Dice"
+    "xenoblade chronicles x": [
+        "xenobladex"
     ],
-    "yoshi's island": [
-        "Yoshi's Island"
+    "xenoblade": [
+        "xenobladex"
     ],
-    "yu-gi-oh! 2006": [
-        "Yu-Gi-Oh! 2006"
+    "chronicles": [
+        "xenobladex"
+    ],
+    "x": [
+        "xenobladex"
+    ],
+    "yachtdice": [
+        "yachtdice"
+    ],
+    "yoshisisland": [
+        "yoshisisland"
+    ],
+    "super mario world 2: yoshi's island": [
+        "yoshisisland"
+    ],
+    "yoshi's": [
+        "yoshisisland"
+    ],
+    "island": [
+        "yoshisisland"
+    ],
+    "yugioh06": [
+        "yugioh06"
+    ],
+    "yu-gi-oh! ultimate masters: world championship tournament 2006": [
+        "yugioh06"
+    ],
+    "ultimate": [
+        "yugioh06"
+    ],
+    "masters:": [
+        "yugioh06"
+    ],
+    "championship": [
+        "yugioh06"
+    ],
+    "tournament": [
+        "yugioh06"
+    ],
+    "2006": [
+        "yugioh06"
+    ],
+    "yugiohddm": [
+        "yugiohddm"
     ],
     "yu-gi-oh! dungeon dice monsters": [
-        "Yu-Gi-Oh! Dungeon Dice Monsters"
+        "yugiohddm"
+    ],
+    "dice": [
+        "yugiohddm"
+    ],
+    "zelda2": [
+        "zelda2"
     ],
     "zelda ii: the adventure of link": [
-        "Zelda II: The Adventure of Link"
+        "zelda2"
     ],
     "zillion": [
-        "Zillion"
+        "zillion"
     ],
-    "zork grand inquisitor": [
-        "Zork Grand Inquisitor"
+    "sega master system/mark iii": [
+        "zillion"
+    ],
+    "master": [
+        "zillion"
+    ],
+    "system/mark": [
+        "zillion"
+    ],
+    "zork_grand_inquisitor": [
+        "zork_grand_inquisitor"
+    ],
+    "zork: grand inquisitor": [
+        "zork_grand_inquisitor"
+    ],
+    "zork:": [
+        "zork_grand_inquisitor"
+    ],
+    "grand": [
+        "zork_grand_inquisitor"
+    ],
+    "inquisitor": [
+        "zork_grand_inquisitor"
     ]
-}
+} # type: ignore

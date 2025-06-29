@@ -77,12 +77,20 @@ def get_game_and_igdb_id_from_world(init_path: str) -> Optional[Tuple[str, int]]
         with open(init_path, 'r', encoding='utf-8') as f:
             content = f.read()
             
-        # Look for game name with type annotation
-        game_match = re.search(r'GAME_NAME\s*:\s*str\s*=\s*["\'](.*?)["\']', content)
+        # Look for game name with type annotation - handle apostrophes properly
+        game_match = re.search(r'GAME_NAME\s*:\s*str\s*=\s*(.+)', content)
         if not game_match:
             return None
             
-        game_name = game_match.group(1)
+        # Extract the value and clean it up
+        game_value = game_match.group(1).strip()
+        # Remove quotes from the beginning and end
+        if game_value.startswith('"') and game_value.endswith('"'):
+            game_name = game_value[1:-1]
+        elif game_value.startswith("'") and game_value.endswith("'"):
+            game_name = game_value[1:-1]
+        else:
+            game_name = game_value
         
         # Look for igdb_id with type annotation
         id_match = re.search(r'IGDB_ID\s*:\s*int\s*=\s*(\d+)', content)

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tp"
 dynamic = ["version"]
-description = "The Legend of Zelda: Twilight Princess"
+description = "Twilight Princess"
 authors = [
     {name = "WritingHusky"}
 ]
