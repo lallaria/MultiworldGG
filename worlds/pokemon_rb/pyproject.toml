@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pokemon_rb"
 dynamic = ["version"]
-description = "Pokemon Red and Blue"
+description = "MultiWorld: Pokemon Red and Blue"
 authors = [
     {name = "Alchav"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

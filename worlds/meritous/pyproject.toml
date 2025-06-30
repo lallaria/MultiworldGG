@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "meritous"
 dynamic = ["version"]
-description = "Meritous Gaiden is a procedurally generated bullet-hell dungeon crawl game."
+description = "MultiWorld: Meritous"
 authors = [
     {name = "FelicitusNeko"}
 ]

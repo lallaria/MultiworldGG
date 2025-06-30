@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "oot"
 dynamic = ["version"]
-description = "Ocarina of Time"
+description = "MultiWorld: Ocarina of Time"
 authors = [
     {name = "espeon65536 (currenty unmaintained)"}
 ]
 license = "MIT AND (GPL-2.0-or-later)"
-license_files = [
+license-files = [
     "LICENSE",
     "data/Compress/src/crc.c",
     "data/Decompress/src/crc.c"

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kh1"
 dynamic = ["version"]
-description = "Kingdom Hearts"
+description = "MultiWorld: Kingdom Hearts"
 authors = [
     {name = "gaithern"}
 ]

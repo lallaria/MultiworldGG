@@ -5,18 +5,18 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tloz"
 dynamic = ["version"]
-description = "The Legend of Zelda"
+description = "MultiWorld: The Legend of Zelda"
 authors = [
-    {name = "Rosalie-A & t3hf1gm3nt"}
+    {name = "Rosalie-A"},
+    {name = "t3hf1gm3nt"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
 requires-python = ">=3.12"
 
 dependencies = [
-    "bsdiff4>=1.2.2",
+    "bsdiff4>=1.2.2"
 ]
 
 [project.entry-points."mwgg.plugins"]

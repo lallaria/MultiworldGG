@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wargroove"
 dynamic = ["version"]
-description = "Wargroove"
+description = "MultiWorld: Wargroove"
 authors = [
     {name = "FlySniper"}
 ]

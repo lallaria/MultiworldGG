@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "spire"
 dynamic = ["version"]
-description = "Slay the Spire"
+description = "MultiWorld: Slay the Spire"
 authors = [
     {name = "KonoTyran"}
 ]

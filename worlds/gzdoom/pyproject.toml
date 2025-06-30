@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gzdoom"
 dynamic = ["version"]
-description = "gzDoom"
+description = "MultiWorld: gzDoom"
 authors = [
     {name = "ToxicFrog"}
 ]

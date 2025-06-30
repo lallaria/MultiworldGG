@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "diddy_kong_racing"
 dynamic = ["version"]
-description = "Diddy Kong Racing"
+description = "MultiWorld: Diddy Kong Racing"
 authors = [
     {name = "zakwiz"}
 ]

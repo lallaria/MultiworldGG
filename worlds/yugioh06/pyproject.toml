@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "yugioh06"
 dynamic = ["version"]
-description = "Yu-Gi-Oh! 2006"
+description = "MultiWorld: Yu-Gi-Oh! 2006"
 authors = [
     {name = "Rensen3"}
 ]

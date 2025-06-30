@@ -172,7 +172,7 @@ class SoEWorld(World):
     Secret of Evermore is a SNES action RPG. You learn alchemy spells, fight bosses and gather rocket parts to visit a
     space station where the final boss must be defeated.
     """
-    game: typing.ClassVar[str] = "Secret of Evermore"
+    game: typing.ClassVar[str] = GAME_NAME
     author: str = AUTHOR
     igdb_id = IGDB_ID
     options_dataclass = SoEOptions

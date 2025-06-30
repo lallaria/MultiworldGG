@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hcniko"
 dynamic = ["version"]
-description = "Here Comes Niko!"
+description = "MultiWorld: Here Comes Niko!"
 authors = [
     {name = "nieli"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "xenobladex"
 dynamic = ["version"]
-description = "Xenoblade X"
+description = "MultiWorld: Xenoblade X"
 authors = [
     {name = "Maragon"}
 ]

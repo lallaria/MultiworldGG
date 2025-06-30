@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "factorio_saws"
 dynamic = ["version"]
-description = "Factorio Space Age Without Space"
+description = "MultiWorld: Factorio Space Age Without Space"
 authors = [
     {name = "Alchav & Berserker66"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

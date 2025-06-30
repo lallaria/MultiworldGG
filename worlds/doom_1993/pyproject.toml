@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "doom_1993"
 dynamic = ["version"]
-description = "DOOM 1993"
+description = "MultiWorld: DOOM 1993"
 authors = [
     {name = "Daivuk"},
     {name = "Kaito Sinclaire"}
 ]
 license = "Zlib"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

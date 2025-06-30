@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bomb_rush_cyberfunk"
 dynamic = ["version"]
-description = "Bomb Rush Cyberfunk"
+description = "MultiWorld: Bomb Rush Cyberfunk"
 authors = [
     {name = "CookieCat45"}
 ]

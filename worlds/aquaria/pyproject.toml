@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aquaria"
 dynamic = ["version"]
-description = "Aquaria"
+description = "MultiWorld: Aquaria"
 authors = [
     {name = "tioui"}
 ]

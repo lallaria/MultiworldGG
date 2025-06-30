@@ -61,9 +61,9 @@ class SotnWorld(World):
     Symphony of the Night is a metroidvania developed by Konami
     and released for Sony Playstation and Sega Saturn in 1997.
     """
-    game: ClassVar[str] = "Symphony of the Night"
+    game: ClassVar[str] = GAME_NAME
     igdb_id = IGDB_ID
-    author: ClassVar[str] = "Lockmau"
+    author: ClassVar[str] = AUTHOR
     web: ClassVar[WebWorld] = SotnWeb()
     settings_key = "sotn_settings"
     settings: ClassVar[SotnSettings]

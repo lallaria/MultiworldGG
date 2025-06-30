@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pokemon_emerald"
 dynamic = ["version"]
-description = "Pokemon Emerald"
+description = "MultiWorld: Pokemon Emerald"
 authors = [
     {name = "Zunawe"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

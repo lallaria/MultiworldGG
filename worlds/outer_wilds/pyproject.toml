@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "outer_wilds"
 dynamic = ["version"]
-description = "Outer Wilds"
+description = "MultiWorld: Outer Wilds"
 authors = [
     {name = "Ixrec"}
 ]

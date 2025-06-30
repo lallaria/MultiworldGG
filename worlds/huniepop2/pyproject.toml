@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "huniepop2"
 dynamic = ["version"]
-description = "Hunie Pop 2"
+description = "MultiWorld: Hunie Pop 2"
 authors = [
     {name = "dotsofdarkness"}
 ]

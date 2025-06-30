@@ -24,7 +24,7 @@ class Hylics2World(World):
     Hylics 2 is a surreal and unusual RPG, with a bizarre yet unique visual style. Play as Wayne,
     travel the world, and gather your allies to defeat the nefarious Gibby in his Hylemxylem!
     """
-    game: str = "Hylics 2"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     web = Hylics2Web()

@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chatipelago"
 dynamic = ["version"]
-description = "Chat plays MultiworldGG!"
+description = "MultiWorld: Chatipelago"
 authors = [
     {name = "Delilah, Dranzior, LMarioza"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

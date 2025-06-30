@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hades"
 dynamic = ["version"]
-description = "Hades"
+description = "MultiWorld: Hades"
 authors = [
     {name = "Naix"}
 ]

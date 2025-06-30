@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "saving_princess"
 dynamic = ["version"]
-description = "Explore a space station crawling with rogue machines and even rival bounty hunters"
+description = "MultiWorld: Saving Princess"
 authors = [
     {name = "LeonarthCG"}
 ]

@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "civ_6"
 dynamic = ["version"]
-description = "Civilization VI"
+description = "MultiWorld: Civilization VI"
 authors = [
     {name = "hesto2"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE.md"
 ]
 classifiers = [

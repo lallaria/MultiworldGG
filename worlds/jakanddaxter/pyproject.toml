@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "jakanddaxter"
 dynamic = ["version"]
-description = "Jak and Daxter: The Precursor Legacy"
+description = "MultiWorld: Jak and Daxter: The Precursor Legacy"
 authors = [
     {name = "massimilianodelliubaldini"}
 ]

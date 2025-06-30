@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "against_the_storm"
 dynamic = ["version"]
-description = "Against the Storm"
+description = "MultiWorld: Against the Storm"
 authors = [
     {name = "Ryguy9999"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

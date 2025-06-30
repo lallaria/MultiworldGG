@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "landstalker"
 dynamic = ["version"]
-description = "Landstalker - The Treasures of King Nole"
+description = "MultiWorld: Landstalker - The Treasures of King Nole"
 authors = [
     {name = "Dinopony"}
 ]

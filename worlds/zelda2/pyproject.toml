@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "zelda2"
 dynamic = ["version"]
-description = "Zelda II: The Adventure of Link"
+description = "MultiWorld: Zelda II: The Adventure of Link"
 authors = [
     {name = "Pink Switch"}
 ]

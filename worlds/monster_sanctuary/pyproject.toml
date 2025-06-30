@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "monster_sanctuary"
 dynamic = ["version"]
-description = "Monster Sanctuary"
+description = "MultiWorld: Monster Sanctuary"
 authors = [
     {name = "Saagael"}
 ]

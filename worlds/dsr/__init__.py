@@ -33,7 +33,7 @@ class DSRWorld(World):
     Dark Souls is a game where you die.
     """
 
-    game: str = "Dark Souls Remastered"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     options_dataclass = DSROption

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "oribf"
 dynamic = ["version"]
-description = "Ori and the Blind Forest"
+description = "MultiWorld: Ori and the Blind Forest"
 authors = [
     {name = "Gray"}
 ]

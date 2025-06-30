@@ -24,7 +24,7 @@ class ChatipelagoWorld(World):
     """
     Chat plays MultiworldGG!
     """
-    game = Chati.name
+    game = GAME_NAME
     author: str = AUTHOR
     options_dataclass = PerGameCommonOptions
     web = ChatipelagoWeb()

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cvcotm"
 dynamic = ["version"]
-description = "Castlevania - Circle of the Moon"
+description = "MultiWorld: Castlevania - Circle of the Moon"
 authors = [
     {name = "LiquidCat64"}
 ]

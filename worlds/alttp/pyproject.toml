@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "alttp"
 dynamic = ["version"]
-description = "A Link to the Past"
+description = "MultiWorld: A Link to the Past"
 authors = [
     {name = "Berserker66"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

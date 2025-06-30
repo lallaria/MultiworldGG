@@ -5,11 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dk64"
 dynamic = ["version"]
-description = "Donkey Kong 64 is a 3D collectathon platforming game."
+description = "MultiWorld: Donkey Kong 64"
 authors = [
-    {name = "2dos, Killklli, & Ballaam"}
+    {name = "2dos"}, 
+    {name = "Killklli"}, 
+    {name = "Ballaam"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lufia2ac"
 dynamic = ["version"]
-description = "Lufia II: Ancient Cave"
+description = "MultiWorld: Lufia II: Ancient Cave"
 authors = [
     {name = "el-u & word_fcuk"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tboir"
 dynamic = ["version"]
-description = "The Binding of Isaac Repentance"
+description = "MultiWorld: The Binding of Isaac Repentance"
 authors = [
     {name = "Cyb3R"}
 ]

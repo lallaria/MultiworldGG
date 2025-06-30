@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sc2"
 dynamic = ["version"]
-description = "Starcraft 2"
+description = "MultiWorld: Starcraft 2"
 authors = [
     {name = "Ziktofel"}
 ]

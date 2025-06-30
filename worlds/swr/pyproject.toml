@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "swr"
 dynamic = ["version"]
-description = "Star Wars Episode I Racer"
+description = "MultiWorld: Star Wars Episode I Racer"
 authors = [
     {name = "Johnny Hamcobbler"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

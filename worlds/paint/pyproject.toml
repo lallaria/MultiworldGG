@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "paint"
 dynamic = ["version"]
-description = "Paint"
+description = "MultiWorld: Paint"
 authors = [
     {name = "MairoManTAW"}
 ]

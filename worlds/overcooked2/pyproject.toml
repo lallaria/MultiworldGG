@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "overcooked2"
 dynamic = ["version"]
-description = "Overcooked! 2"
+description = "MultiWorld: Overcooked! 2"
 authors = [
     {name = "toasterparty"}
 ]

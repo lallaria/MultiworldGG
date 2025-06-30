@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "hylics2"
 dynamic = ["version"]
-description = "Hylics 2 is a surreal and unusual RPG, with a bizarre yet unique visual style. Play as Wayne,"
+description = "MultiWorld: Hylics 2"
 authors = [
     {name = "TRPG"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

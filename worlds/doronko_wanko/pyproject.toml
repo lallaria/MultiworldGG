@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "doronko_wanko"
 dynamic = ["version"]
-description = "DORONKO WANKO"
+description = "MultiWorld: DORONKO WANKO"
 authors = [
     {name = "Vendily"}
 ]

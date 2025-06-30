@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dkc"
 dynamic = ["version"]
-description = "Donkey Kong Country"
+description = "MultiWorld: Donkey Kong Country"
 authors = [
     {name = "lx5"}
 ]

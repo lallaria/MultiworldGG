@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mm2"
 dynamic = ["version"]
-description = "Mega Man 2"
+description = "MultiWorld: Mega Man 2"
 authors = [
     {name = "Silvris"}
 ]

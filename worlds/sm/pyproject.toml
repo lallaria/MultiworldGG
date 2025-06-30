@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sm"
 dynamic = ["version"]
-description = "Super Metroid"
+description = "MultiWorld: Super Metroid"
 authors = [
     {name = "lordlou"}
 ]
 license = "MIT AND (GPL-2.0-only)"
-license_files = [
+license-files = [
     "variaRandomizer/LICENSE",
     "variaRandomizer/patches/ips.pl"
 ]
@@ -27,7 +27,7 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["sm*", "sm"]
-exclude = ["*test*", "test*"]
+exclude = ["sm_*", "sm6*", "smo*", "sms*", "smw*", "smz*", "*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]

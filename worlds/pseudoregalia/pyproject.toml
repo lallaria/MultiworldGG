@@ -5,9 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pseudoregalia"
 dynamic = ["version"]
-description = "Pseudoregalia"
+description = "MultiWorld: Pseudoregalia"
 authors = [
-    {name = "LittleMeowMeow", name = "qwint"}
+    {name = "LittleMeowMeow"},
+    {name = "qwint"}
 ]
 classifiers = [
     "Private :: Do Not Upload"

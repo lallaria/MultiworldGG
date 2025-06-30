@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "zork_grand_inquisitor"
 dynamic = ["version"]
-description = "Zork Grand Inquisitor"
+description = "MultiWorld: Zork Grand Inquisitor"
 authors = [
     {name = "nbrochu"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

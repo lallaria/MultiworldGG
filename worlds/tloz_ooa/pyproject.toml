@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tloz_ooa"
 dynamic = ["version"]
-description = "The Legend of Zelda - Oracle of Ages"
+description = "MultiWorld: The Legend of Zelda - Oracle of Ages"
 authors = [
     {name = "Dinopony"}
 ]

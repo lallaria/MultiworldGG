@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dsr"
 dynamic = ["version"]
-description = "Dark Souls is a game where you die."
+description = "MultiWorld: Dark Souls Remastered"
 authors = [
     {name = "ArsonAssassin"}
 ]

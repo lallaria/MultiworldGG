@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mm_recomp"
 dynamic = ["version"]
-description = "Majora"
+description = "MultiWorld: Majora's Mask Recompiled"
 authors = [
     {name = "LittleCube"}
 ]

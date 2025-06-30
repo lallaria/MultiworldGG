@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sm64ex"
 dynamic = ["version"]
-description = "Super Mario 64"
+description = "MultiWorld: Super Mario 64"
 authors = [
     {name = "N00byKing"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "raft"
 dynamic = ["version"]
-description = "Raft"
+description = "MultiWorld: Raft"
 authors = [
     {name = "SunnyBat"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "getting_over_it"
 dynamic = ["version"]
-description = "Getting Over It"
+description = "MultiWorld: Getting Over It"
 authors = [
     {name = "Slimey"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wordipelago"
 dynamic = ["version"]
-description = "Wordipelago"
+description = "MultiWorld: Wordipelago"
 authors = [
     {name = "ProfDeCube"}
 ]

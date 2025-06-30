@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "crosscode"
 dynamic = ["version"]
-description = "CrossCode"
+description = "MultiWorld: CrossCode"
 authors = [
     {name = "CodeTriangle"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cv64"
 dynamic = ["version"]
-description = "Castlevania 64"
+description = "MultiWorld: Castlevania 64"
 authors = [
     {name = "LiquidCat64"}
 ]

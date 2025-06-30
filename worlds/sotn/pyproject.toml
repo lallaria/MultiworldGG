@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sotn"
 dynamic = ["version"]
-description = "Symphony of the Night is a metroidvania developed by Konami"
+description = "MultiWorld: Symphony of the Night"
 authors = [
-    {name = "Unknown"}
+    {name = "Lockmau"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

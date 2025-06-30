@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "factorio"
 dynamic = ["version"]
-description = "Factorio"
+description = "MultiWorld: Factorio"
 authors = [
     {name = "Berserker66"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

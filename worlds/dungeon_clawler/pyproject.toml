@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dungeon_clawler"
 dynamic = ["version"]
-description = "Dungeon Clawler"
+description = "MultiWorld: Dungeon Clawler"
 authors = [
     {name = "Kaito Kid"}
 ]

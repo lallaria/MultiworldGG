@@ -54,7 +54,7 @@ class OsuWorld(World):
     """
 
     # Lots of code is taken from Mushdash, Clique, and various other APworlds
-    game: str = "osu!"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     options_dataclass = OsuOptions

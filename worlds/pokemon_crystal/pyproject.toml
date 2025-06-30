@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pokemon_crystal"
 dynamic = ["version"]
-description = "Pokemon Crystal"
+description = "MultiWorld: Pokemon Crystal"
 authors = [
     {name = "James"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

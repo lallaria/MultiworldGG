@@ -5,9 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "animal_well"
 dynamic = ["version"]
-description = "ANIMAL WELL"
+description = "MultiWorld: ANIMAL WELL"
 authors = [
-    {name = "ScipioWright, RoobyRoo, Franklesby & Dicene"}
+    {name = "ScipioWright"},
+    {name = "RoobyRoo"},
+    {name = "Franklesby"},
+    {name = "Dicene"}
 ]
 license = "MIT"
 classifiers = [
@@ -17,7 +20,7 @@ requires-python = ">=3.12"
 
 dependencies = [
     "Pymem>=1.13.1",
-    "pywin32>=306; sys_platform == "win32"",
+    "pywin32>=306; sys_platform == 'win32'",
 ]
 
 [project.entry-points."mwgg.plugins"]

@@ -46,10 +46,9 @@ class CupheadWorld(World):
     A classic run and gun action game heavily focused on boss battles
     """
 
-    GAME_NAME: str = "Cuphead"
     APWORLD_VERSION: str = "preview03f"
 
-    game: str = "Cuphead"
+    game: str = GAME_NAME
     author: str = AUTHOR
     igdb_id = IGDB_ID
     web = CupheadWebWorld()

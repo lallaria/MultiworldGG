@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ffmq"
 dynamic = ["version"]
-description = "Final Fantasy Mystic Quest"
+description = "MultiWorld: Final Fantasy Mystic Quest"
 authors = [
     {name = "Alchav"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

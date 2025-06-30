@@ -1,7 +1,7 @@
 [project]
 name = "zillion"
 dynamic = ["version"]
-description = "Zillion"
+description = "MultiWorld: Zillion"
 authors = [
     {name = "beauxq"}
 ]

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pokemon_frlg"
 dynamic = ["version"]
-description = "Pokemon FireRed and LeafGreen"
+description = "MultiWorld: Pokemon FireRed and LeafGreen"
 authors = [
     {name = "Vyneras"}
 ]

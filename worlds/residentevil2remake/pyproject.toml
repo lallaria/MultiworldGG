@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "residentevil2remake"
 dynamic = ["version"]
-description = "Resident Evil 2 Remake"
+description = "MultiWorld: Resident Evil 2 Remake"
 authors = [
     {name = "Fuzzy"}
 ]

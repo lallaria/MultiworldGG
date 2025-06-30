@@ -12,15 +12,15 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $ScriptDir
 
 # Activate virtual environment
-$VenvPath = Join-Path $ScriptDir "..\venv\Scripts\Activate.ps1"
-if (Test-Path $VenvPath) {
-    Write-Host "Activating virtual environment..." -ForegroundColor Cyan
-    & $VenvPath
-    Write-Host "Virtual environment activated" -ForegroundColor Green
-} else {
-    Write-Host "Warning: Virtual environment not found at $VenvPath" -ForegroundColor Yellow
-    Write-Host "Continuing with system Python..." -ForegroundColor Yellow
-}
+# $VenvPath = Join-Path $ScriptDir "..\venv\Scripts\Activate.ps1"
+# if (Test-Path $VenvPath) {
+#     Write-Host "Activating virtual environment..." -ForegroundColor Cyan
+#     & $VenvPath
+#     Write-Host "Virtual environment activated" -ForegroundColor Green
+# } else {
+#     Write-Host "Warning: Virtual environment not found at $VenvPath" -ForegroundColor Yellow
+#     Write-Host "Continuing with system Python..." -ForegroundColor Yellow
+# }
 
 # Find all pyproject.toml files in subdirectories
 $WorldsWithPyProject = Get-ChildItem -Path "." -Name "pyproject.toml" -Recurse | ForEach-Object {
@@ -39,11 +39,16 @@ New-Item -ItemType Directory -Path $BackupDir | Out-Null
 # Track successful and failed builds
 $SuccessfulBuilds = @()
 $FailedBuilds = @()
+$SkippedBuilds = @()
 
 foreach ($World in $WorldsWithPyProject) {
     $WorldPath = Join-Path $ScriptDir $World
+    $eggname = "$World" + ".egg-info"
+    $EggPath = Join-Path $ScriptDir $eggname
     $PyProjectPath = Join-Path $WorldPath "pyproject.toml"
     $BackupPath = Join-Path $BackupDir "$World.pyproject.toml"
+    
+    # Create MANIFEST.in for this world
     "global-exclude *" | Out-File -FilePath "MANIFEST.in"
     "graft $World" | Out-File -FilePath "MANIFEST.in" -Append
     "global-exclude *~ *.py[cod]" | Out-File -FilePath "MANIFEST.in" -Append
@@ -51,14 +56,19 @@ foreach ($World in $WorldsWithPyProject) {
     
     Write-Host "Processing world: $World" -ForegroundColor Yellow
     
+    # Check if pyproject.toml exists and if egg.info already exists
+    if (Test-Path $EggPath) {
+        Write-Host "  Skipping $World - egg-info found" -ForegroundColor Red
+        $SkippedBuilds += "$World (egg-info)"
+        continue
+    }
+    if (-not (Test-Path $PyProjectPath)) {
+        Write-Host "  Skipping $World - no pyproject.toml found" -ForegroundColor Red
+        $FailedBuilds += "$World (no pyproject.toml)"
+        continue
+    }
+    
     try {
-        # Check if pyproject.toml exists
-        if (-not (Test-Path $PyProjectPath)) {
-            Write-Host "  Skipping $World - no pyproject.toml found" -ForegroundColor Red
-            $FailedBuilds += "$World (no pyproject.toml)"
-            continue
-        }
-        
         # Backup original pyproject.toml
         Copy-Item $PyProjectPath $BackupPath
         
@@ -78,10 +88,8 @@ foreach ($World in $WorldsWithPyProject) {
             $SuccessfulBuilds += $World
         } else {
             Write-Host "  ✗ Build failed for $World" -ForegroundColor Red
-            if ($Verbose) {
-                Write-Host "  Build output:" -ForegroundColor Gray
-                $BuildResult | ForEach-Object { Write-Host "    $_" -ForegroundColor Gray }
-            }
+            Write-Host "  Build output:" -ForegroundColor Gray
+            $BuildResult | ForEach-Object { Write-Host "    $_" -ForegroundColor Gray }
             $FailedBuilds += $World
         }
         
@@ -121,8 +129,14 @@ Remove-Item "MANIFEST.in"
 # Summary
 Write-Host "`nBuild Summary:" -ForegroundColor Magenta
 Write-Host "=============" -ForegroundColor Magenta
+Write-Host "Skipped builds: $($SkippedBuilds.Count)" -ForegroundColor Yellow
 Write-Host "Successful builds: $($SuccessfulBuilds.Count)" -ForegroundColor Green
 Write-Host "Failed builds: $($FailedBuilds.Count)" -ForegroundColor Red
+
+if ($SkippedBuilds.Count -gt 0) {
+    Write-Host "`nSkipped builds:" -ForegroundColor Yellow
+    $SkippedBuilds | ForEach-Object { Write-Host "  ✗ $_" -ForegroundColor Yellow }
+}
 
 if ($SuccessfulBuilds.Count -gt 0) {
     Write-Host "`nSuccessful builds:" -ForegroundColor Green

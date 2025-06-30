@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "seaofthieves"
 dynamic = ["version"]
-description = "Sea of Thieves"
+description = "MultiWorld: Sea of Thieves"
 authors = [
     {name = "EthanTheEpic"}
 ]

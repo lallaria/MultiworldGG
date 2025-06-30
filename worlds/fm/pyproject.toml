@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fm"
 dynamic = ["version"]
-description = "Yu-Gi-Oh! Forbidden Memories"
+description = "MultiWorld: Yu-Gi-Oh! Forbidden Memories"
 authors = [
     {name = "sg4e"}
 ]

@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "heretic"
 dynamic = ["version"]
-description = "Heretic"
+description = "MultiWorld: Heretic"
 authors = [
     {name = "Daivuk & Kaito Sinclaire"}
 ]
 license = "Zlib"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

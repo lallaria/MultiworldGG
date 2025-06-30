@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tracker"
 dynamic = ["version"]
-description = "Universal Tracker"
+description = "MultiWorld: Universal Tracker"
 authors = [
     {name = "Unknown"}
 ]

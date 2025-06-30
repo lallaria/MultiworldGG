@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "albw"
 dynamic = ["version"]
-description = "A Link Between Worlds"
+description = "MultiWorld: A Link Between Worlds"
 authors = [
     {name = "randomsalience"}
 ]
 license = "GPL-2.0-only"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

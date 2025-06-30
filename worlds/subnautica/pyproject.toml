@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "subnautica"
 dynamic = ["version"]
-description = "Subnautica"
+description = "MultiWorld: Subnautica"
 authors = [
     {name = "Berserker66"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

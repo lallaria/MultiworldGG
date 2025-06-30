@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dark_souls_3"
 dynamic = ["version"]
-description = "Dark Souls III"
+description = "MultiWorld: Dark Souls III"
 authors = [
     {name = "Marech & nex3"}
 ]

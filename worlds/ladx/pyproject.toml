@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ladx"
 dynamic = ["version"]
-description = "Link's Awakening DX Beta"
+description = "MultiWorld: Link's Awakening DX Beta"
 authors = [
     {name = "threeandthree"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LADXR/LADXR_LICENSE"
 ]
 classifiers = [

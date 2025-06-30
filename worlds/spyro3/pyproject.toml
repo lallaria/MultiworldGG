@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "spyro3"
 dynamic = ["version"]
-description = "Spyro 3 is a game about a purple dragon who likes eggs."
+description = "MultiWorld: Spyro 3"
 authors = [
     {name = "ArsonAssassin"}
 ]

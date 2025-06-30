@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mzm"
 dynamic = ["version"]
-description = "Metroid: Zero Mission is a retelling of the first Metroid on NES. Relive Samus' first adventure on planet Zebes with"
+description = "MultiWorld: Metroid Zero Mission"
 authors = [
     {name = "Noise"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

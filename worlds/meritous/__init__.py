@@ -36,7 +36,7 @@ class MeritousWorld(World):
         structure on the moon are tearing at the very fabric of reality...
     """
 
-    game: str = "Meritous"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     topology_present: False

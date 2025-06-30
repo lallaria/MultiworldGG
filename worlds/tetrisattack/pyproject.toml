@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tetrisattack"
 dynamic = ["version"]
-description = "Tetris Attack"
+description = "MultiWorld: Tetris Attack"
 authors = [
     {name = "AgStarRay"}
 ]

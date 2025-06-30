@@ -1,11 +1,10 @@
 [project]
 name = "celeste64"
 dynamic = ["version"]
-description = "Celeste 64"
+description = "MultiWorld: Celeste 64"
 authors = [
     {name = "PoryGone"}
 ]
-requires-python = ">=3.12"
 classifiers = [
     "Private :: Do Not Upload"
 ]

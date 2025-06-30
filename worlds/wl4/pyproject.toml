@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wl4"
 dynamic = ["version"]
-description = "Wario Land 4"
+description = "MultiWorld: Wario Land 4"
 authors = [
     {name = "lil David"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dkc3"
 dynamic = ["version"]
-description = "Donkey Kong Country 3 is an action platforming game."
+description = "MultiWorld: Donkey Kong Country 3"
 authors = [
     {name = "PoryGone"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

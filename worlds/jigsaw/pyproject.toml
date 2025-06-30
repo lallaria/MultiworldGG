@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "jigsaw"
 dynamic = ["version"]
-description = "Jigsaw"
+description = "MultiWorld: Jigsaw"
 authors = [
     {name = "spinerak"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

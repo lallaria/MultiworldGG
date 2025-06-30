@@ -53,7 +53,7 @@ class DKC3World(World):
     Play as Dixie Kong and her baby cousin Kiddy as they try to solve the
     mystery of why Donkey Kong and Diddy disappeared while on vacation.
     """
-    game: str = "Donkey Kong Country 3"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     settings: typing.ClassVar[DK3Settings]

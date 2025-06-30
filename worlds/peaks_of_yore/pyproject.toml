@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "peaks_of_yore"
 dynamic = ["version"]
-description = "Peaks of Yore"
+description = "MultiWorld: Peaks of Yore"
 authors = [
     {name = "c0der23"}
 ]

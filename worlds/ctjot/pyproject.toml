@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ctjot"
 dynamic = ["version"]
-description = "Chrono Trigger Jets of Time"
+description = "MultiWorld: Chrono Trigger Jets of Time"
 authors = [
     {name = "Anguirel"}
 ]

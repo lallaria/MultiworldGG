@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "lethal_company"
 dynamic = ["version"]
-description = "Lethal Company"
+description = "MultiWorld: Lethal Company"
 authors = [
     {name = "T0r1nn"}
 ]

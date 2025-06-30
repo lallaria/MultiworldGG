@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ffta"
 dynamic = ["version"]
-description = "Final Fantasy Tactics Advance"
+description = "MultiWorld: Final Fantasy Tactics Advance"
 authors = [
     {name = "spicynun"}
 ]

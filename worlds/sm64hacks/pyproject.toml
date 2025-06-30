@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sm64hacks"
 dynamic = ["version"]
-description = "SM64 Romhack"
+description = "MultiWorld: SM64 Romhack"
 authors = [
     {name = "DNVIC"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

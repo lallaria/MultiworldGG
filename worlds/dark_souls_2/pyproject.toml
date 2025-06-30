@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dark_souls_2"
 dynamic = ["version"]
-description = "Dark Souls II"
+description = "MultiWorld: Dark Souls II"
 authors = [
     {name = "WildBunnie"}
 ]

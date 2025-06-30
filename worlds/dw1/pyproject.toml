@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dw1"
 dynamic = ["version"]
-description = "Digimon World is a game about raising digital monsters and recruiting allies to save the digital world."
+description = "MultiWorld: Digimon World"
 authors = [
     {name = "ArsonAssassin"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]

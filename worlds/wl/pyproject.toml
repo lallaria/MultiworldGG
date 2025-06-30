@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wl"
 dynamic = ["version"]
-description = "Wario Land"
+description = "MultiWorld: Wario Land"
 authors = [
     {name = "rand0"}
 ]

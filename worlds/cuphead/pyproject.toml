@@ -5,11 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cuphead"
 dynamic = ["version"]
-description = "Log options that are overridden from incompatible combinations to console."
+description = "MultiWorld: Cuphead"
 authors = [
     {name = "JKL"}
 ]
 license = "MIT"
+license-files = [
+    "LICENSE.md"
+]
 classifiers = [
     "Private :: Do Not Upload"
 ]

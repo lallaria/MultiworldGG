@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cat_quest"
 dynamic = ["version"]
-description = "Cat Quest"
+description = "MultiWorld: Cat Quest"
 authors = [
     {name = "Nikkilite"}
 ]

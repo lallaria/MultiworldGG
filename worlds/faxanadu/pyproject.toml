@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "faxanadu"
 dynamic = ["version"]
-description = "Faxanadu"
+description = "MultiWorld: Faxanadu"
 authors = [
     {name = "Daivuk"}
 ]

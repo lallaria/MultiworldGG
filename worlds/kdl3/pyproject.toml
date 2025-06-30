@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kdl3"
 dynamic = ["version"]
-description = "Kirby's Dream Land 3"
+description = "MultiWorld: Kirby's Dream Land 3"
 authors = [
     {name = "Silvris"}
 ]

@@ -34,7 +34,7 @@ class DigimonWorldWorld(World):
     Digimon World is a game about raising digital monsters and recruiting allies to save the digital world.
     """
 
-    game: str = "Digimon World"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     options_dataclass = DigimonWorldOption

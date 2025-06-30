@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "rogue_legacy"
 dynamic = ["version"]
-description = "Rogue Legacy"
+description = "MultiWorld: Rogue Legacy"
 authors = [
     {name = "Phar"}
 ]

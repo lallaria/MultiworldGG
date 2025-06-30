@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "placidplasticducksim"
 dynamic = ["version"]
-description = "Placid Plastic Duck Simulator"
+description = "MultiWorld: Placid Plastic Duck Simulator"
 authors = [
     {name = "SW_CreeperKing"}
 ]

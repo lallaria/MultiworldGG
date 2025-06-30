@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "banjo_tooie"
 dynamic = ["version"]
-description = "Banjo-Tooie is a single-player platform game in which the protagonists are controlled from a third-person perspective."
+description = "MultiWorld: Banjo-Tooie"
 authors = [
     {name = "jjjj12212"}
 ]

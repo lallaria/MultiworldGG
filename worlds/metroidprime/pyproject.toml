@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "metroidprime"
 dynamic = ["version"]
-description = "Metroid Prime"
+description = "MultiWorld: Metroid Prime"
 authors = [
     {name = "Electro15"}
 ]
 license = "MIT AND (GPL-3.0-only)"
-license_files = [
+license-files = [
     "lib/dolphin_memory_engine/LICENSE",
     "lib/ppc_asm/LICENSE",
     "lib/py_randomprime/LICENSE"

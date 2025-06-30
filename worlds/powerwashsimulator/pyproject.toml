@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "powerwashsimulator"
 dynamic = ["version"]
-description = "Powerwash Simulator"
+description = "MultiWorld: Powerwash Simulator"
 authors = [
     {name = "SW_CreeperKing"}
 ]

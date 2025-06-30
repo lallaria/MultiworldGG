@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "osu"
 dynamic = ["version"]
-description = "osu! is a free to play rhythm game featuring 4 modes, an online ranking system/statistics,"
+description = "MultiWorld: osu!"
 authors = [
     {name = "Kanave"}
 ]

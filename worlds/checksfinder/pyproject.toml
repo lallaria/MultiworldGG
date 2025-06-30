@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "checksfinder"
 dynamic = ["version"]
-description = "ChecksFinder"
+description = "MultiWorld: ChecksFinder"
 authors = [
     {name = "SunCatMC"}
 ]

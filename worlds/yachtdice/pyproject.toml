@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "yachtdice"
 dynamic = ["version"]
-description = "Yacht Dice is a straightforward game, custom-made for Archipelago,"
+description = "MultiWorld: Yacht Dice"
 authors = [
     {name = "Spineraks"}
 ]

@@ -59,7 +59,7 @@ class MZMWorld(World):
     new areas, items, enemies, and story! Logic based on Metroid: Zero Mission Randomizer by Biosp4rk and Dragonfangs,
     used with permission.
     """
-    game: str = "Metroid Zero Mission"
+    game: str = GAME_NAME
     igdb_id = IGDB_ID
     author: str = AUTHOR
     options_dataclass = MZMOptions

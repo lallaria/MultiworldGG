@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "trackmania"
 dynamic = ["version"]
-description = "Trackmania"
+description = "MultiWorld: Trackmania"
 authors = [
     {name = "SerialBoxes"}
 ]

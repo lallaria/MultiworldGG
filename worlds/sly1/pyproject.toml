@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sly1"
 dynamic = ["version"]
-description = "Sly Cooper and the Thievius Raccoonus"
+description = "MultiWorld: Sly Cooper and the Thievius Raccoonus"
 authors = [
     {name = "Philiard"}
 ]

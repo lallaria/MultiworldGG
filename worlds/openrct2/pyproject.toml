@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "openrct2"
 dynamic = ["version"]
-description = "OpenRCT2"
+description = "MultiWorld: OpenRCT2"
 authors = [
     {name = "Crazycolbster"}
 ]

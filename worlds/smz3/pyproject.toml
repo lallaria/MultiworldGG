@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "smz3"
 dynamic = ["version"]
-description = "SMZ3"
+description = "MultiWorld: SMZ3"
 authors = [
     {name = "lordlou"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [

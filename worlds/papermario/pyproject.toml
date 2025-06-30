@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "papermario"
 dynamic = ["version"]
-description = "Paper Mario"
+description = "MultiWorld: Paper Mario"
 authors = [
     {name = "JKB"}
 ]
 license = "MIT"
-license_files = [
+license-files = [
     "LICENSE"
 ]
 classifiers = [
