@@ -65,10 +65,14 @@ def confirm(msg: str):
         print("\nAborting")
         sys.exit(1)
 
-
-def update_command(files: RequirementsSet):
+def update_world_wheels():
     check_pip()
-    for file in files:
+    for wheel in wheels_files: ##TODO: change this to upgrade
+        subprocess.call([sys.executable, "-m", "pip", "install", wheel, "--force-reinstall", "--upgrade", "--target", os.path.join(local_dir, "worlds", "Lib")])
+
+def update_command():
+    check_pip()
+    for file in requirements_files:
         subprocess.call([sys.executable, "-m", "pip", "install", "-r", file, "--upgrade"])
 
 
@@ -91,10 +95,10 @@ def update(yes: bool = False, force: bool = False) -> None:
         import pkg_resources
 
         if force:
-            update_command(requirements_files)
+            update_command()
             return
 
-        update_command(wheels_files) #install wheels if they aren't
+        update_world_wheels() #install wheels if they aren't
 
         prev = ""  # if a line ends in \ we store here and merge later
         for req_file in requirements_files:
@@ -151,7 +155,7 @@ def update(yes: bool = False, force: bool = False) -> None:
                                 import traceback
                                 traceback.print_exc()
                                 confirm(f"Requirement {requirement} is not satisfied, press enter to install it")
-                            update_command(requirements_files)
+                            update_command()
                             return
 
 

@@ -31,6 +31,11 @@ Builder.load_string('''
         bold: True
         theme_font_style: "Custom"
         pos_hint: {"x": .05}
+    MDTopAppBarTitle:
+        id: address_bar_label
+        text: root.address_bar
+        pos_hint: {"right": .05}
+
 
     MDTopAppBarTrailingButtonContainer:
         MDActionTopAppBarButton:
@@ -107,12 +112,16 @@ class Timer(MDTopAppBarTitle):
 
 class TopAppBar(MDTopAppBar):
     timer: ObjectProperty
+    address_bar: StringProperty
+    address_bar_label: ObjectProperty
 
     def __init__(self, **kwargs):
+        self.address_bar = "Not Connected"
         super().__init__(**kwargs)
         self.timer = self.ids.timer
+        self.address_bar_label = self.ids.address_bar_label
         self.item_data = None
-        
+
     def toggle_timer(self):
         """Toggle timer on/off (pause/resume)"""
         if self.timer.is_running:
@@ -127,6 +136,10 @@ class TopAppBar(MDTopAppBar):
     def update_slot_data(self, slot_data):
         """Update slot_data in the timer"""
         self.timer.set_slot_data(slot_data)
+
+    def update_address_bar(self, text: str):
+        if self.address_bar_label:
+            self.address_bar = text
 
 class TopAppBarLayout(AnchorLayout):
     top_appbar: ObjectProperty

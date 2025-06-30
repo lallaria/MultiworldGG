@@ -1,4 +1,5 @@
 import ModuleUpdate
+import Utils
 
 ModuleUpdate.update()
 
@@ -45,8 +46,9 @@ class KH2Context(CommonContext):
         "HitPointFunc": 0x3D0720
     }
 
-    def __init__(self, server_address, password):
+    def __init__(self, server_address: str, slot_name: str = None, password: str = None):
         super(KH2Context, self).__init__(server_address, password)
+        self.slot_name = slot_name
         self.goofy_ability_to_slot = dict()
         self.donald_ability_to_slot = dict()
         self.all_weapon_location_id = None
@@ -72,7 +74,7 @@ class KH2Context(CommonContext):
         self.location_name_to_worlddata = {name: data for name, data, in all_world_locations.items()}
 
         self.sending = []
-        self.slot_name = None
+        self.auth = slot_name
         self.disconnect_from_server = False
         # list used to keep track of locations+items player has. Used for disoneccting
         self.kh2_seed_save_cache = {
@@ -207,21 +209,14 @@ class KH2Context(CommonContext):
         self.base_item_slots = 3
         self.front_ability_slots = [0x2546, 0x2658, 0x276C, 0x2548, 0x254A, 0x254C, 0x265A, 0x265C, 0x265E, 0x276E,
                                     0x2770, 0x2772]
+        logger.info(f"Slot name: {self.slot_name}")
 
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             await super(KH2Context, self).server_auth(password_requested)
-        await self.get_username()
-        # if slot name != first time login or previous name
-        # and seed name is none or saved seed name
-        if not self.slot_name and not self.kh2seedname:
-            await self.send_connect()
-        elif self.slot_name == self.auth and self.kh2seedname:
-            await self.send_connect()
-        else:
-            logger.info(f"You are trying to connect with data still cached in the client. Close client or connect to the correct slot: {self.slot_name}")
-            self.serverconnected = False
-            self.disconnect_from_server = True
+        
+        if not self.auth:
+            await self.get_username()
 
     async def connection_closed(self):
         self.kh2connected = False
@@ -279,11 +274,36 @@ class KH2Context(CommonContext):
             if not self.kh2seedname:
                 self.kh2seedname = args['seed_name']
             elif self.kh2seedname != args['seed_name']:
-                self.disconnect_from_server = True
-                self.serverconnected = False
-                self.kh2connected = False
-                logger.info("Connection to the wrong seed, connect to the correct seed or close the client.")
-                return
+                # Clear cached data when connecting to a different seed
+                logger.info(f"Connecting to different seed, clearing cached data. Old: {self.kh2seedname}, New: {args['seed_name']}")
+                self.kh2seedname = args['seed_name']
+                self.kh2_seed_save = None
+                self.kh2_seed_save_cache = {
+                    "itemIndex": -1,
+                    "SoraInvo": [0x25D8, 0x2546],
+                    "DonaldInvo": [0x26F4, 0x2658],
+                    "GoofyInvo": [0x2808, 0x276C],
+                    "AmountInvo": {
+                        "Ability": {},
+                        "Amount": {"Bounty": 0},
+                        "Growth": {
+                            "High Jump": 0, "Quick Run": 0, "Dodge Roll": 0,
+                            "Aerial Dodge": 0, "Glide": 0
+                        },
+                        "Bitmask": [],
+                        "Weapon": {"Sora": [], "Donald": [], "Goofy": []},
+                        "Equipment": [],
+                        "Magic": {
+                            "Fire Element": 0, "Blizzard Element": 0, "Thunder Element": 0,
+                            "Cure Element": 0, "Magnet Element": 0, "Reflect Element": 0
+                        },
+                        "StatIncrease": {
+                            ItemName.MaxHPUp: 0, ItemName.MaxMPUp: 0, ItemName.DriveGaugeUp: 0,
+                            ItemName.ArmorSlotUp: 0, ItemName.AccessorySlotUp: 0, ItemName.ItemSlotUp: 0,
+                        },
+                    },
+                }
+                self.locations_checked = set()
 
             self.kh2_seed_save_path = f"kh2save2{self.kh2seedname}{self.auth}.json"
             self.kh2_seed_save_path_join = os.path.join(self.game_communication_path, self.kh2_seed_save_path)
@@ -305,7 +325,6 @@ class KH2Context(CommonContext):
                 }
                 with open(self.kh2_seed_save_path_join, 'wt') as f:
                     pass
-                # self.locations_checked = set()
             elif os.path.exists(self.kh2_seed_save_path_join):
                 with open(self.kh2_seed_save_path_join) as f:
                     self.kh2_seed_save = json.load(f)
@@ -322,14 +341,15 @@ class KH2Context(CommonContext):
                             },
                             "SoldEquipment": [],
                         }
-                    # self.locations_checked = set(self.kh2_seed_save_cache["LocationsChecked"])
-            # self.serverconneced = True
 
         if cmd == "Connected":
             self.kh2slotdata = args['slot_data']
 
-            self.kh2_data_package = Utils.load_data_package_for_checksum(
-                    "Kingdom Hearts 2", self.checksums["Kingdom Hearts 2"])
+            if Utils:
+                self.kh2_data_package = Utils.load_data_package_for_checksum(
+                        "Kingdom Hearts 2", self.checksums["Kingdom Hearts 2"])
+            else:
+                self.kh2_data_package = {}
 
             if "location_name_to_id" in self.kh2_data_package:
                 self.data_package_kh2_cache(
@@ -398,31 +418,29 @@ class KH2Context(CommonContext):
                 self.data_package_kh2_cache(
                         args["data"]["games"]["Kingdom Hearts 2"]["location_name_to_id"],
                         args["data"]["games"]["Kingdom Hearts 2"]["item_name_to_id"])
-                self.connect_to_game()
                 asyncio.create_task(self.send_msgs([{'cmd': 'Sync'}]))
 
     def connect_to_game(self):
-        if "KeybladeAbilities" in self.kh2slotdata.keys():
+        if self.kh2slotdata and "KeybladeAbilities" in self.kh2slotdata.keys():
                 # sora ability to slot
             self.AbilityQuantityDict.update(self.kh2slotdata["KeybladeAbilities"])
                 # itemid:[slots that are available for that item]
             self.AbilityQuantityDict.update(self.kh2slotdata["StaffAbilities"])
             self.AbilityQuantityDict.update(self.kh2slotdata["ShieldAbilities"])
 
-        self.all_weapon_location_id = {self.kh2_loc_name_to_id[loc] for loc in all_weapon_slot}
+        if self.kh2_loc_name_to_id:
+            self.all_weapon_location_id = {self.kh2_loc_name_to_id[loc] for loc in all_weapon_slot}
 
         try:
             if not self.kh2:
                 self.kh2 = pymem.Pymem(process_name="KINGDOM HEARTS II FINAL MIX")
                 self.get_addresses()
-#
         except Exception as e:
             if self.kh2connected:
                 self.kh2connected = False
             logger.info("Game is not open.")
 
         self.serverconnected = True
-        self.slot_name = self.auth
 
     def data_package_kh2_cache(self, loc_to_id, item_to_id):
         self.kh2_loc_name_to_id = loc_to_id
@@ -1009,31 +1027,66 @@ async def kh2_watcher(ctx: KH2Context):
         await asyncio.sleep(0.5)
 
 
-def launch():
+def launch(server_address: str = None, slot_name: str = None, password: str = None):
     async def main(args):
-        ctx = KH2Context(args.connect, args.password)
+        ctx = KH2Context(server_address, slot_name, password)
         if ctx._can_takeover_existing_gui():
-            await ctx._takeover_existing_gui()
+            await ctx._takeover_existing_gui() 
         else:
-            ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
-            if gui_enabled:
-                ctx.run_gui()
-            ctx.run_cli()
-            progression_watcher = asyncio.create_task(
-                    kh2_watcher(ctx), name="KH2ProgressionWatcher")
-
+            ctx.run_gui()
             await ctx.exit_event.wait()
-            ctx.server_address = None
 
-            await progression_watcher
-
-            await ctx.shutdown()
+        ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+        #ctx.run_cli()
+        await ctx.server_auth()
+        progression_watcher = asyncio.create_task(
+                kh2_watcher(ctx), name="KH2ProgressionWatcher")
+        await progression_watcher
+        await ctx.shutdown()
 
     import colorama
 
-    parser = get_base_parser(description="KH2 Client, for text interfacing.")
+    # Check if we're already in an event loop (GUI mode) first
+    try:
+        loop = asyncio.get_running_loop()
+        # We're in an existing event loop, create a task
+        logger.info("Running in existing event loop (GUI mode)")
+        
+        # Create a simple namespace object to mimic argparse.Namespace
+        class Args:
+            def __init__(self, server_address, slot_name, password):
+                self.server_address = server_address
+                self.slot_name = slot_name
+                self.password = password
+        
+        args = Args(server_address, slot_name, password)
+        task = asyncio.create_task(main(args), name="KH2Main")
+        return task
+    except RuntimeError:
+        # No event loop running, create a new one (standalone mode)
+        logger.info("Creating new event loop (standalone mode)")
+        colorama.just_fix_windows_console()
+        
+        # If arguments are provided, use them directly
+        if server_address is not None:
+            # Create a simple namespace object to mimic argparse.Namespace
+            class Args:
+                def __init__(self, server_address, slot_name, password):
+                    self.server_address = server_address
+                    self.slot_name = slot_name
+                    self.password = password
+            
+            args = Args(server_address, slot_name, password)
+            asyncio.run(main(args))
+        else:
+            # Original behavior for standalone usage
+            parser = get_base_parser(description="KH2 Client, for text interfacing.")
+            args, rest = parser.parse_known_args()
+            asyncio.run(main(args))
+        
+        colorama.deinit()
 
-    args, rest = parser.parse_known_args()
-    colorama.just_fix_windows_console()
-    asyncio.run(main(args))
-    colorama.deinit()
+
+def main(server_address: str, slot_name: str = None, password: str = None):
+    """Main entry point for integration with Archipelago system"""
+    launch(server_address, slot_name, password)

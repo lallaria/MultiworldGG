@@ -104,6 +104,13 @@ from .topappbar import TopAppBarLayout, TopAppBar
 from .launcher import LauncherScreen
 from .kivydi.loadinglayout import MWGGLoadingLayout
 
+if typing.TYPE_CHECKING:
+    import CommonClient
+
+    context_type = CommonClient.CommonContext
+else:
+    context_type = object
+
 class BottomAppBar(MDBottomAppBar):
     def hide_me(self, *args):
         self.hide_bar()
@@ -121,22 +128,22 @@ class MainScreenMgr(MDScreenManager):
         super().__init__(*args, **kwargs)
         # self.transition = MDFadeSlideTransition()
 
-class GuiContext:
-    def __init__(self):
-        self.loop = asyncio.get_event_loop()
-        self.exit_event = asyncio.Event()
-        self.splash_process = None
+# class GuiContext:
+#     def __init__(self):
+#         self.loop = asyncio.get_event_loop()
+#         self.exit_event = asyncio.Event()
+#         self.splash_process = None
 
-    def run_gui(self):
-        """Run the GUI as self.ui_task."""
-        self.ui = MultiMDApp(self)
-        # Launch splash screen before starting the UI
-        self.ui.launch_splash_screen()
-        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+#     def run_gui(self):
+#         """Run the GUI as self.ui_task."""
+#         self.ui = MultiMDApp(self)
+#         # Launch splash screen before starting the UI
+#         self.ui.launch_splash_screen()
+#         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-    async def shutdown(self):
-        if self.ui_task:
-            await self.ui_task
+#     async def shutdown(self):
+#         if self.ui_task:
+#             await self.ui_task
 
 class MultiMDApp(MDApp): 
 
@@ -168,7 +175,7 @@ class MultiMDApp(MDApp):
     pixelate_effect: EffectWidget
     ui_console: ObjectProperty
 
-    def __init__(self, ctx: GuiContext, **kwargs):
+    def __init__(self, ctx: context_type, **kwargs):
         super().__init__(**kwargs)
         RegisterFonts(self)
         self.ctx = ctx
@@ -416,8 +423,8 @@ class MultiMDApp(MDApp):
         self.screen_manager.current_heroes = ["logo"]
         if item in self.screen_manager.screen_names:
             self.screen_manager.current = item
-            self.top_appbar_menu.dismiss()
-            return
+            if self.top_appbar_menu:
+                self.top_appbar_menu.dismiss()
         else:
             self._create_screen(item)
 
@@ -446,6 +453,7 @@ class MultiMDApp(MDApp):
             self.screen_manager.current = "launcher"
 
     def _console_init(self):
+        self.commandprocessor = self.ctx.command_processor(self.ctx)
         self.ui_console = self.console_screen.ui_console
         self.ui_console.console_handler()
 
@@ -477,26 +485,57 @@ class MultiMDApp(MDApp):
                 width_mult=3,
             )
         self.top_appbar_menu.open()
-    
+
+    def update_address_bar(self, text: str):
+        if hasattr(self, "top_appbar"):
+            self.top_appbar.update_address_bar(text)
+
+    def focus_textinput(self):
+        self.change_screen("console")
+
+    def on_message(self):
+        try:
+            input_text = self.bottom_sheet.input_field.text.strip()
+            self.bottom_sheet.input_field.text = ""
+            #self.bottom_sheet.input_field.update_history(input_text)
+
+            if self.ctx.input_requests > 0:
+                self.ctx.input_requests -= 1
+                self.ctx.input_queue.put_nowait(input_text)
+            elif is_command_input(input_text):
+                self.ctx.on_ui_command(input_text)
+                self.commandprocessor(input_text)
+            elif input_text:
+                self.commandprocessor(input_text)
+
+        except Exception as e:
+            logging.getLogger("Client").exception(e)
+
+    def update_hints(self):
+        hints = self.ctx.stored_data.get(f"_read_hints_{self.ctx.team}_{self.ctx.slot}", [])
+        #self.hint_log.refresh_hints(hints)
+
+def is_command_input(string: str) -> bool:
+    return len(string) > 0 and string[0] in "/!"
 # KivyMDGUI().run()
 
-def run_client(*args):
-    class TextContext(GuiContext):
-        tags = {"TextOnly"}
-        game = ""
-        items_handling = 0b111
-        want_slot_data = False
+# def run_client(*args):
+#     class TextContext(GuiContext):
+#         tags = {"TextOnly"}
+#         game = ""
+#         items_handling = 0b111
+#         want_slot_data = False
 
-    async def main(args):
-        ctx = TextContext()
+#     async def main(args):
+#         ctx = TextContext()
         
-        ctx.run_gui()
+#         ctx.run_gui()
 
-        await ctx.exit_event.wait()
-        await ctx.shutdown()
-        sys.exit()
+#         await ctx.exit_event.wait()
+#         await ctx.shutdown()
+#         sys.exit()
 
-    asyncio.run(main(args))
+#     asyncio.run(main(args))
 
-if __name__ == '__main__':
-    run_client(*sys.argv[1:])
+# if __name__ == '__main__':
+#     run_client(*sys.argv[1:])

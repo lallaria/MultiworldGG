@@ -2,44 +2,27 @@ from __future__ import annotations
 __all__ = ['LauncherScreen', 'LauncherLayout']
 import asynckivy
 from textwrap import wrap
-from kivy.uix.image import AsyncImage
-from kivy.animation import Animation
 from kivy.metrics import dp
 from kivy.properties import StringProperty, DictProperty, ObjectProperty
-from kivy.uix.behaviors import ButtonBehavior
-from kivymd.uix.behaviors import RotateBehavior
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.scrollview import MDScrollView
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.relativelayout import MDRelativeLayout
-from kivymd.uix.floatlayout import MDFloatLayout
-from kivymd.uix.gridlayout import MDGridLayout
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 from kivymd.uix.sliverappbar import MDSliverAppbar, MDSliverAppbarHeader, MDSliverAppbarContent
 from kivymd.uix.appbar import MDTopAppBar
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.fitimage import FitImage
-from kivymd.uix.label import MDLabel
-from kivymd.uix.chip import MDChip, MDChipLeadingIcon, MDChipText
 from kivymd.uix.list import *
 from kivymd.uix.expansionpanel import *
-from kivymd.uix.textfield import MDTextField, MDTextFieldLeadingIcon, MDTextFieldHelperText
-from kivymd.uix.tooltip import MDTooltip
-
-import os
-import json
+from .kivydi.expansionlist import *
+from kivymd.uix.textfield import MDTextField
 import logging
-import importlib.metadata
 
-from kivy.logger import Logger
-from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from data.game_index import GameIndex
-from .kivydi.expansionlist import *
+
 from .bottomappbar import BottomAppBar
 
 from Utils import discover_and_launch_module
@@ -280,6 +263,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     game_tag_filter: StringProperty
     bottom_appbar: BottomAppBar
     selected_game: StringProperty = ""
+    app: MDApp
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -289,6 +273,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         self.games_mdlist = MDList(width=260)
         self.game_tag_filter = "popular"
         self.selected_game = ""
+        self.app = MDApp.get_running_app()
 
         self.bottom_appbar = BottomAppBar(screen_name="launcher")
         self.important_appbar = LauncherSliverAppbar()
@@ -371,9 +356,13 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         logger.info(f"Server: {server_address}, Password: {'*' * len(password) if password else 'None'}")
         
         try:
-            # Launch the selected game module via entrypoints
-            discover_and_launch_module(self.selected_game, server_address=server_address, slot_name=slot_name, password=password)
+            # Show loading screen
+            Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(speed=0.033), 0)
+            # Launch the selected game module via entrypoints with a loading screen
+            Clock.schedule_once(lambda dt: discover_and_launch_module(
+                self.selected_game, server_address = server_address, slot_name = slot_name, password = password), 1)
             logger.info(f"Successfully launched {self.selected_game} module")
+            self.app.loading_layout.hide_loading()
         except Exception as e:
             logger.error(f"Failed to launch {self.selected_game} module: {e}")
             # You might want to show an error dialog here

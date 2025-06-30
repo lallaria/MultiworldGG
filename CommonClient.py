@@ -840,9 +840,9 @@ class CommonContext(InitContext):
             text = parts[1] + '\n\n' + text
             title = parts[0]
         # display error
-        self._messagebox = MessageBox(title, text, error=True)
-        self._messagebox.open()
-        return self._messagebox
+        #self._messagebox = MessageBox(title, text, error=True)
+        # self._messagebox.open()
+        # return self._messagebox
 
     def handle_connection_loss(self, msg: str) -> None:
         """Helper for logging and displaying a loss of connection. Must be called from an except block."""

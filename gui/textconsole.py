@@ -43,7 +43,7 @@ class TextConsole(MarkupTextField, ThemableBehavior):
 
         Clock.schedule_interval(self.add_text_from_buffer, 0.1)
 
-    def add_text_from_buffer(self):
+    def add_text_from_buffer(self, dt):
         try:
             text = self.text_buffer.get_nowait()
             self.text = self.text + "\n" + text.msg
@@ -73,26 +73,26 @@ class ConsoleView(MDFloatLayout):
                                         size_hint=(1-(4/Window.width),1-(185/Window.height)))
         self.add_widget(self.text_console)
         
-        # Create the "To Bottom" button
-        self.to_bottom_button = MDExtendedFabButton(MDExtendedFabButtonText(text="Current"),
-            pos_hint={"center_x": 0.5, "y": 0},
-            on_release=self.scroll_to_bottom
-        )
-        self.add_widget(self.to_bottom_button)
-        self.to_bottom_button.opacity = 0
-        self.to_bottom_button.disabled = True
-        self.text_console.bind(on_scroll_y=lambda x: self._show_to_bottom_button(x))
+        # # Create the "To Bottom" button
+        # self.to_bottom_button = MDExtendedFabButton(MDExtendedFabButtonText(text="Current"),
+        #     pos_hint={"center_x": 0.5, "y": 0},
+        #     on_release=self.scroll_to_bottom
+        # )
+        # self.add_widget(self.to_bottom_button)
+        # self.to_bottom_button.opacity = 0
+        # self.to_bottom_button.disabled = True
+        # self.text_console.bind(on_scroll_y=lambda x: self._show_to_bottom_button(x))
 
-    def _show_to_bottom_button(self, value):
-        if value > self.text_console.cursor_row:
-            self.to_bottom_button.opacity = 1
-            self.to_bottom_button.disabled = False
+    # def _show_to_bottom_button(self, value):
+    #     if value > self.text_console.cursor_row:
+    #         self.to_bottom_button.opacity = 1
+    #         self.to_bottom_button.disabled = False
 
-    def scroll_to_bottom(self, *args):
-        """Callback for the To Bottom button"""
-        self.to_bottom_button.opacity = 0
-        self.to_bottom_button.disabled = True
-        self.text_console.scroll_to_bottom(self.to_bottom_button.x, self.to_bottom_button.y)
+    # def scroll_to_bottom(self, *args):
+    #     """Callback for the To Bottom button"""
+    #     self.to_bottom_button.opacity = 0
+    #     self.to_bottom_button.disabled = True
+    #     self.text_console.scroll_to_bottom(self.to_bottom_button.x, self.to_bottom_button.y)
 
     def console_handler(self) -> QueueHandler:
         """Create a StreamHandler that writes directly to the text_buffer"""

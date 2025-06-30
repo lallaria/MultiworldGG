@@ -10,7 +10,6 @@ authors = [
     {name = "JaredWeakStrike"},
     {name = "Shananas"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -25,9 +24,11 @@ dependencies = [
 "kh2.WebWorldClass" = "kh2.Register:WEB_WORLD_CLASS"
 "kh2.Client" = "kh2.Register:CLIENT_FUNCTION"
 
-[tool.setuptools.dynamic]
-version = {"attr" = "Constants.VERSION"}
-
 [tool.setuptools.packages.find]
-include = ["kh2", "kh2.*"]
-exclude = ["data", "test", "docs"]
+where = ["."]  # list of folders that contain the packages (["."] by default)
+include = ["kh2*", "kh2", "docs*", "data*"]  # package names should match these glob patterns (["*"] by default)
+exclude = ["kh2/test*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.setuptools.dynamic]
+version = {"attr" = "kh2.Constants.VERSION"}
