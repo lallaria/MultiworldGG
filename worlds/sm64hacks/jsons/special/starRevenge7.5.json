@@ -1224,7 +1224,7 @@
     "Vanish Cap": {
         "Stars": [
             {
-                "exists": false
+                "exists": true
             },
             {
                 "exists": false
@@ -1252,7 +1252,7 @@
             "exists": true
         },
         "StarRequirement": "50",
-        "Requirements": "Super Badge"
+        "Requirements": ["Super Badge"]
     },
     "Overworld": {
         "Stars": [

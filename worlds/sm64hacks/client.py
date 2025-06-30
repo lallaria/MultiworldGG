@@ -621,7 +621,7 @@ class SM64HackClient(BizHawkClient):
                                     b = await self.get_level_badges((0x34CB88,), level, ctx)
                                     badges_to_send = [x for x in ["Super Badge"] if x not in b]
                             case 0x1A:
-                                b = await self.get_level_badges((0x342548,), level, ctx)
+                                b = await self.get_level_badges((0x342A08,), level, ctx)
                                 badges_to_send = [x for x in ["Ultra Badge"] if x not in b]
                 locs = []
                 for badge in badges_to_send:

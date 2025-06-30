@@ -35,13 +35,14 @@ class MkddItemData(NamedTuple):
     meta: Any = None
 
 
-PROGRESSIVE_CLASS = "Progressive Class"
-PROGRESSIVE_CUP_SKIP = "Progressive Cup Skip"
+PROGRESSIVE_CLASS = "Progressive CC"
+PROGRESSIVE_CUP_SKIP = "Progressive GP Race Skip"
 PROGRESSIVE_TIME_TRIAL_ITEM = "Progressive Time Trial Item"
-PROGRESSIVE_ENGINE = "Progressive Engine Upgrade"
+PROGRESSIVE_ENGINE = "Progressive Speed Upgrade"
 RANDOM_ITEM = "Nothing"
 TROPHY = "Trophy"
 VICTORY = "Victory"
+SKIP_DIFFICULTY = "Skip Difficulty Calculation"
 
 def get_item_name_tt_course(course: str) -> str:
     return f"{course} Time Trial"
@@ -61,7 +62,7 @@ data_table: list[MkddItemData] = [
     MkddItemData(PROGRESSIVE_CLASS, PROG, count = 3),
     MkddItemData(PROGRESSIVE_CUP_SKIP, USEF, count = 2),
     MkddItemData(PROGRESSIVE_TIME_TRIAL_ITEM, PROG, count = 3),
-    MkddItemData(PROGRESSIVE_ENGINE, PROG, count = 3),
+    MkddItemData(PROGRESSIVE_ENGINE, PROG, count = 0), # Count depends on options.
     MkddItemData(RANDOM_ITEM, FILL),
     MkddItemData(TROPHY, PROG, count = 0),
     MkddItemData(VICTORY, PROG, count = 0),
@@ -89,5 +90,8 @@ for item in game_data.ITEMS:
                 get_item_name_character_item(character.name, item.name), classification,
                 ItemType.ITEM_UNLOCK, count = 0, meta = {"character":character, "item":item}
                 ))
+
+# Used by Universal Tracker glitched logic.
+data_table.append(MkddItemData(SKIP_DIFFICULTY, PROG, count = 0))
 
 name_to_id: dict[str, int] = {item.name:id for (id, item) in enumerate(data_table) if id > 0}

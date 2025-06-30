@@ -1,7 +1,7 @@
-import copy
 import logging
 import pkgutil
 from collections import defaultdict
+from dataclasses import replace
 from threading import Event
 from typing import ClassVar, Any
 
@@ -129,16 +129,16 @@ class PokemonCrystalWorld(World):
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
-        self.generated_moves = crystal_data.moves.copy()
-        self.generated_pokemon = crystal_data.pokemon.copy()
-        self.generated_trainers = crystal_data.trainers.copy()
-        self.generated_tms = crystal_data.tmhm.copy()
-        self.generated_wild = {key: encounters.copy() for key, encounters in crystal_data.wild.items()}
+        self.generated_moves = dict(crystal_data.moves)
+        self.generated_pokemon = dict(crystal_data.pokemon)
+        self.generated_trainers = dict(crystal_data.trainers)
+        self.generated_tms = dict(crystal_data.tmhm)
+        self.generated_wild = {key: list(encounters) for key, encounters in crystal_data.wild.items()}
         self.generated_wild_region_logic = defaultdict(lambda: LogicalAccess.Inaccessible)
-        self.generated_static = crystal_data.static.copy()
-        self.generated_trades = crystal_data.trades.copy()
+        self.generated_static = dict(crystal_data.static)
+        self.generated_trades = list(crystal_data.trades)
         self.generated_dexsanity = set()
-        self.generated_dexcountsanity = list()
+        self.generated_dexcountsanity = []
         self.generated_wooper = "WOOPER"
         self.generated_starters = (["CYNDAQUIL", "QUILAVA", "TYPHLOSION"],
                                    ["TOTODILE", "CROCONAW", "FERALIGATR"],
@@ -146,8 +146,8 @@ class PokemonCrystalWorld(World):
         self.generated_starter_helditems = ("BERRY", "BERRY", "BERRY")
         self.generated_palettes = {}
         self.generated_breeding = defaultdict(lambda: set())
-        self.generated_music = copy.copy(crystal_data.music)
-        self.generated_misc = copy.copy(crystal_data.misc)
+        self.generated_music = replace(crystal_data.music)
+        self.generated_misc = replace(crystal_data.misc)
         self.generated_phone_traps = []
         self.generated_phone_indices = []
 

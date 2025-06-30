@@ -30,7 +30,9 @@ def randomize_mischief(world: "PokemonCrystalWorld"):
 
     if MiscOption.FuchsiaGym.value in world.generated_misc.selected:
         # shuffle positions of trainers in fuchsia gym
-        world.random.shuffle(world.generated_misc.fuchsia_gym_trainers)
+        fuchsia_gym_trainers = list(world.generated_misc.fuchsia_gym_trainers)
+        world.random.shuffle(fuchsia_gym_trainers)
+        world.generated_misc = replace(world.generated_misc, fuchsia_gym_trainers=fuchsia_gym_trainers)
 
     if MiscOption.SaffronGym.value in world.generated_misc.selected:
         shuffled_saffron_warps = {}

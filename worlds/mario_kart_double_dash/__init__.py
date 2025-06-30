@@ -46,9 +46,11 @@ class MkddWorld(World):
 
     item_name_to_id = items.name_to_id
     location_name_to_id = locations.name_to_id
-    location_name_groups = locations.groups    
+    location_name_groups = locations.groups
 
+    # Universal Tracker.
     ut_can_gen_without_yaml = True
+    glitches_item_name = items.SKIP_DIFFICULTY
 
     def __init__(self, world, player):
         self.current_locations: list[MkddLocationData] = []
@@ -61,8 +63,16 @@ class MkddWorld(World):
         super(MkddWorld, self).__init__(world, player)
 
     def generate_early(self):
+        # Adjust trophy requirement to match amount of trophies in the pool.
+        max_requirement: int = self.options.shuffle_extra_trophies.value
+        if self.options.grand_prix_trophies:
+            max_requirement += 16
+        self.options.trophy_requirement.value = min(self.options.trophy_requirement.value, max_requirement)
+
+        # Universal Tracker passthrough.
         if hasattr(self.multiworld, "re_gen_passthrough"):
             slot_data: dict = self.multiworld.re_gen_passthrough["Mario Kart Double Dash"]
+            self.options.trophy_requirement = slot_data["trophy_requirement"]
             self.options.logic_difficulty = slot_data["logic_difficulty"]
             # Staff ghosts were on by default before this option was introduced.
             self.options.time_trials = slot_data.get("time_trials", options.TimeTrials.option_include_staff_ghosts)
@@ -103,23 +113,24 @@ class MkddWorld(World):
             if region_name in game_data.NORMAL_CUPS:
                 cup_no = game_data.CUPS.index(region_name)
                 region.add_exits([game_data.RACE_COURSES[self.cups_courses[cup_no][i]].name + " GP" for i in range(4)])
-            if region_name == game_data.CUPS[game_data.CUP_ALL_CUP_TOUR]:
-                region.add_exits([c.name + " GP" for c in game_data.RACE_COURSES])
             self.current_entrances.update([e.name for e in region.exits])
 
             # Create locations.
             for id, location_data in enumerate(locations.data_table):
                 if self.options.time_trials != options.TimeTrials.option_include_staff_ghosts and locations.TAG_TT_GHOST in location_data.tags:
                     continue
+                if not self.options.grand_prix_trophies and locations.TAG_CUP_TROPHY in location_data.tags:
+                    continue
                 if id > 0 and location_data.region == region_name:
                     region.add_locations({location_data.name: id})
                     self.current_locations.append(location_data)
         
         # Locked items.
-        for cup in game_data.NORMAL_CUPS:
-            for vehicle_class in range(4):
-                self.get_location(locations.get_loc_name_trophy(cup, vehicle_class))\
-                    .place_locked_item(self.create_item(items.TROPHY))
+        if self.options.grand_prix_trophies:
+            for cup in game_data.NORMAL_CUPS:
+                for vehicle_class in range(4):
+                    self.get_location(locations.get_loc_name_trophy(cup, vehicle_class))\
+                        .place_locked_item(self.create_item(items.TROPHY))
         if self.options.goal == options.Goal.option_all_cup_tour:
             self.get_location(locations.TROPHY_GOAL).place_locked_item(self.create_item(game_data.CUPS[game_data.CUP_ALL_CUP_TOUR]))
             self.get_location(locations.WIN_ALL_CUP_TOUR).place_locked_item(self.create_item("Victory"))
@@ -144,6 +155,10 @@ class MkddWorld(World):
         for weight in range(3):
             karts: list[str] = [kart.name for kart in game_data.KARTS if kart.weight == weight]
             precollected.append(self.random.choice(karts))
+        if not self.options.speed_upgrades:
+            precollected.append(items.PROGRESSIVE_ENGINE)
+            # Set minimum difficulty on "hard", otherwise the seed can be unbeatable.
+            self.options.logic_difficulty.value = max(self.options.logic_difficulty.value, game_data.ENGINE_UPGRADE_USEFULNESS)
         for item in precollected:
             self.multiworld.push_precollected(self.create_item(item))
 
@@ -157,6 +172,13 @@ class MkddWorld(World):
                 count -= precollected.count(item.name)
                 for i in range(count):
                     item_pool.append(self.create_item(item.name))
+        
+        for i in range(self.options.shuffle_extra_trophies):
+            item_pool.append(self.create_item(items.TROPHY))
+
+        if self.options.speed_upgrades:
+            for i in range(3):
+                item_pool.append(self.create_item(items.PROGRESSIVE_ENGINE))
         
         # Kart upgrades generation.
         if self.options.kart_upgrades > 0:
@@ -180,12 +202,16 @@ class MkddWorld(World):
             items_left.pop(id)
             weights.pop(id)
 
+        # If there's too much global items there's going to be multiples.
+        # Make the pool bigger to avoid every character having the same items.
+        if len(items_left) < self.options.start_items_per_character + self.options.items_per_character:
+            items_left = [item for item in game_data.ITEMS if item != game_data.ITEM_NONE]
         # Character specific items.
-        # Ensure that every item is in pool at least once.
-        items_left_characters_pool = items_left.copy()
+        # Use items that aren't used as global items.
+        items_left_characters_pool: list[game_data.Item] = items_left.copy()
         weights = [1 for _ in items_left]
         items_per_character: dict[game_data.Character, list[game_data.Item]] = {character:[] for character in game_data.CHARACTERS}
-        for i in range(self.options.items_per_character):
+        for i in range(self.options.start_items_per_character + self.options.items_per_character):
             for character in game_data.CHARACTERS:
                 # Try rolling for unique items.
                 for j in range(50):
@@ -198,7 +224,10 @@ class MkddWorld(World):
                         weights = [10 - item.usefulness for item in items_left]
 
                 items_per_character[character].append(item)
-                item_pool.append(self.create_item(items.get_item_name_character_item(character.name, item.name)))
+                if i < self.options.start_items_per_character:
+                    self.multiworld.push_precollected(self.create_item(items.get_item_name_character_item(character.name, item.name)))
+                else:
+                    item_pool.append(self.create_item(items.get_item_name_character_item(character.name, item.name)))
                 id = items_left.index(item)
                 weights[id] -= 1
                 if weights[id] == 0:
@@ -261,7 +290,7 @@ class MkddWorld(World):
                 lap_counts[course] = laps
         return {
             "version": version.get_str(),
-            "trophy_amount": int(self.options.trophy_amount),
+            "trophy_requirement": int(self.options.trophy_requirement),
             "logic_difficulty": int(self.options.logic_difficulty) if not self.options.tracker_unrestricted_logic else 100,
             "time_trials": int(self.options.time_trials),
             "cups_courses": self.cups_courses,

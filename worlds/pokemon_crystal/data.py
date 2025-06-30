@@ -1,4 +1,5 @@
 import pkgutil
+from collections.abc import Sequence, Mapping
 from dataclasses import dataclass, field, replace
 from enum import Enum, StrEnum
 from typing import Any
@@ -46,14 +47,14 @@ class TrainerPokemon:
     level: int
     pokemon: str
     item: str | None
-    moves: list[str]
+    moves: Sequence[str]
 
 
 @dataclass(frozen=True)
 class TrainerData:
     name: str
     trainer_type: str
-    pokemon: list[TrainerPokemon]
+    pokemon: Sequence[TrainerPokemon]
     name_length: int
 
 
@@ -93,14 +94,14 @@ class EvolutionData:
 class PokemonData:
     id: int
     friendly_name: str
-    base_stats: list[int]
-    types: list[str]
-    evolutions: list[EvolutionData]
-    learnset: list[LearnsetData]
-    tm_hm: list[str]
+    base_stats: Sequence[int]
+    types: Sequence[str]
+    evolutions: Sequence[EvolutionData]
+    learnset: Sequence[LearnsetData]
+    tm_hm: Sequence[str]
     is_base: bool
     bst: int
-    egg_groups: list[str]
+    egg_groups: Sequence[str]
     gender_ratio: str
 
 
@@ -152,8 +153,8 @@ class MiscWarp:
 
 @dataclass(frozen=True)
 class MiscSaffronWarps:
-    warps: dict[str, MiscWarp]
-    pairs: list[tuple[str, str]]
+    warps: Mapping[str, MiscWarp]
+    pairs: Sequence[tuple[str, str]]
 
 
 @dataclass(frozen=True)
@@ -164,12 +165,12 @@ class MiscMomItem:
 
 @dataclass(frozen=True)
 class MiscData:
-    fuchsia_gym_trainers: list[list[int]]
-    radio_tower_questions: list[str]
+    fuchsia_gym_trainers: Sequence[Sequence[int]]
+    radio_tower_questions: Sequence[str]
     saffron_gym_warps: MiscSaffronWarps
-    radio_channel_addresses: list[int]
-    mom_items: list[MiscMomItem]
-    selected: list[MiscOption] = field(default_factory=lambda: MiscOption.all())
+    radio_channel_addresses: Sequence[int]
+    mom_items: Sequence[MiscMomItem]
+    selected: Sequence[MiscOption] = field(default_factory=lambda: MiscOption.all())
 
 
 @dataclass(frozen=True)
@@ -180,18 +181,18 @@ class MusicConst:
 
 @dataclass(frozen=True)
 class MusicData:
-    consts: dict[str, MusicConst]
-    maps: dict[str, str]
-    encounters: list[str]
-    scripts: dict[str, str]
+    consts: Mapping[str, MusicConst]
+    maps: Mapping[str, str]
+    encounters: Sequence[str]
+    scripts: Mapping[str, str]
 
     def __copy__(self):
         return replace(
             self,
-            consts=self.consts.copy(),
-            maps=self.maps.copy(),
-            encounters=self.encounters.copy(),
-            scripts=self.scripts.copy()
+            consts=dict(self.consts),
+            maps=dict(self.maps),
+            encounters=list(self.encounters),
+            scripts=dict(self.scripts)
         )
 
 
@@ -351,7 +352,7 @@ class PokemonCrystalGameSetting:
     option_byte_index: int
     offset: int
     length: int
-    values: dict[str, int]
+    values: Mapping[str, int]
     default: int
 
     def set_option_byte(self, option_selection: str | None, option_bytes: bytearray):
@@ -384,39 +385,39 @@ class PokemonCrystalMapSizeData:
 class PokemonCrystalData:
     rom_version: int
     rom_version_11: int
-    rom_addresses: dict[str, int]
-    ram_addresses: dict[str, int]
-    event_flags: dict[str, int]
-    regions: dict[str, RegionData]
-    locations: dict[str, LocationData]
-    items: dict[int, ItemData]
-    trainers: dict[str, TrainerData]
-    pokemon: dict[str, PokemonData]
-    moves: dict[str, MoveData]
-    wild: dict[EncounterKey, list[EncounterMon]]
-    types: list[str]
-    type_ids: dict[str, int]
-    tmhm: dict[str, TMHMData]
+    rom_addresses: Mapping[str, int]
+    ram_addresses: Mapping[str, int]
+    event_flags: Mapping[str, int]
+    regions: Mapping[str, RegionData]
+    locations: Mapping[str, LocationData]
+    items: Mapping[int, ItemData]
+    trainers: Mapping[str, TrainerData]
+    pokemon: Mapping[str, PokemonData]
+    moves: Mapping[str, MoveData]
+    wild: Mapping[EncounterKey, Sequence[EncounterMon]]
+    types: Sequence[str]
+    type_ids: Mapping[str, int]
+    tmhm: Mapping[str, TMHMData]
     misc: MiscData
     music: MusicData
-    static: dict[EncounterKey, StaticPokemon]
-    trades: list[TradeData]
-    fly_regions: list[FlyRegion]
-    starting_towns: list[StartingTown]
-    game_settings: dict[str, PokemonCrystalGameSetting]
-    phone_scripts: list[PhoneScriptData]
-    map_sizes: dict[str, tuple[int, int]]
+    static: Mapping[EncounterKey, StaticPokemon]
+    trades: Sequence[TradeData]
+    fly_regions: Sequence[FlyRegion]
+    starting_towns: Sequence[StartingTown]
+    game_settings: Mapping[str, PokemonCrystalGameSetting]
+    phone_scripts: Sequence[PhoneScriptData]
+    map_sizes: Mapping[str, tuple[int, int]]
 
 
-def load_json_data(data_name: str) -> list[Any] | dict[str, Any]:
+def load_json_data(data_name: str) -> list[Any] | Mapping[str, Any]:
     return orjson.loads(pkgutil.get_data(__name__, "data/" + data_name).decode('utf-8-sig'))
 
 
-def load_yaml_data(data_name: str) -> list[Any] | dict[str, Any]:
+def load_yaml_data(data_name: str) -> list[Any] | Mapping[str, Any]:
     return yaml.safe_load(pkgutil.get_data(__name__, "data/" + data_name).decode('utf-8-sig'))
 
 
-def _parse_encounters(encounter_list: list) -> list[EncounterMon]:
+def _parse_encounters(encounter_list: list) -> Sequence[EncounterMon]:
     return [EncounterMon(int(pkmn["level"]), pkmn["pokemon"]) for pkmn in encounter_list]
 
 
@@ -596,7 +597,7 @@ def _init() -> None:
         ) for move_name, move_attributes in move_data.items()
     }
 
-    wild = dict[EncounterKey, list[EncounterMon]]()
+    wild = dict[EncounterKey, Sequence[EncounterMon]]()
 
     for grass_name, grass_data in wild_data["grass"].items():
         wild[EncounterKey.grass(grass_name)] = _parse_encounters(
