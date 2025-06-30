@@ -46,9 +46,10 @@ class KH2Context(CommonContext):
         "HitPointFunc": 0x3D0720
     }
 
-    def __init__(self, server_address: str, slot_name: str = None, password: str = None):
-        super(KH2Context, self).__init__(server_address, password)
+    def __init__(self, slot_name: str = None, ready_callback=None, **kwargs):
+        super(KH2Context, self).__init__(**kwargs)
         self.slot_name = slot_name
+        self.ready_callback = ready_callback
         self.goofy_ability_to_slot = dict()
         self.donald_ability_to_slot = dict()
         self.all_weapon_location_id = None
@@ -441,6 +442,10 @@ class KH2Context(CommonContext):
             logger.info("Game is not open.")
 
         self.serverconnected = True
+        
+        # Call ready callback if provided
+        if self.ready_callback:
+            self.ready_callback()
 
     def data_package_kh2_cache(self, loc_to_id, item_to_id):
         self.kh2_loc_name_to_id = loc_to_id
@@ -1027,9 +1032,9 @@ async def kh2_watcher(ctx: KH2Context):
         await asyncio.sleep(0.5)
 
 
-def launch(server_address: str = None, slot_name: str = None, password: str = None):
+def launch(server_address: str = None, slot_name: str = None, password: str = None, ready_callback=None):
     async def main(args):
-        ctx = KH2Context(server_address, slot_name, password)
+        ctx = KH2Context(server_address, slot_name, password, ready_callback)
         if ctx._can_takeover_existing_gui():
             await ctx._takeover_existing_gui() 
         else:
@@ -1087,6 +1092,6 @@ def launch(server_address: str = None, slot_name: str = None, password: str = No
         colorama.deinit()
 
 
-def main(server_address: str, slot_name: str = None, password: str = None):
-    """Main entry point for integration with Archipelago system"""
-    launch(server_address, slot_name, password)
+def main(server_address: str, slot_name: str = None, password: str = None, ready_callback=None):
+    """Main entry point for integration with MultiWorld system"""
+    launch(server_address, slot_name, password, ready_callback)
