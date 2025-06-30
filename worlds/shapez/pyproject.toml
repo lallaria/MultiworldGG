@@ -22,8 +22,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["shapez*", "shapez"]
-exclude = ["shapez/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "shapez.Constants.VERSION"}

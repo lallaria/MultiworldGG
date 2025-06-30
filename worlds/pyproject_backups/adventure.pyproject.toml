@@ -3,11 +3,11 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "dkc2"
+name = "adventure"
 dynamic = ["version"]
-description = "Donkey Kong Country 2"
+description = "Adventure"
 authors = [
-    {name = "lx5"}
+    {name = "JusticePS"}
 ]
 license = "MIT"
 classifiers = [
@@ -16,15 +16,15 @@ classifiers = [
 requires-python = ">=3.12"
 
 [project.entry-points."mwgg.plugins"]
-"dkc2.WorldClass" = "dkc2.Register:WORLD_CLASS"
-"dkc2.WebWorldClass" = "dkc2.Register:WEB_WORLD_CLASS"
-"dkc2.Client" = "dkc2.Register:CLIENT_FUNCTION"
+"adventure.WorldClass" = "adventure.Register:WORLD_CLASS"
+"adventure.WebWorldClass" = "adventure.Register:WEB_WORLD_CLASS"
+"adventure.Client" = "adventure.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["dkc2*", "dkc2"]
-exclude = ["*test*", "test*"]
+include = ["adventure*", "adventure"]
+exclude = ["adventure/test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "dkc2.Constants.VERSION"}
+version = {attr = "Constants.VERSION"}

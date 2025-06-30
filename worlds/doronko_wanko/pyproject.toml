@@ -23,8 +23,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["doronko_wanko*", "doronko_wanko"]
-exclude = ["doronko_wanko/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "doronko_wanko.Constants.VERSION"}

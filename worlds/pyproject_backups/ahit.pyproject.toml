@@ -3,11 +3,11 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "dkc2"
+name = "ahit"
 dynamic = ["version"]
-description = "Donkey Kong Country 2"
+description = "A Hat in Time"
 authors = [
-    {name = "lx5"}
+    {name = "CookieCat45"}
 ]
 license = "MIT"
 classifiers = [
@@ -16,15 +16,15 @@ classifiers = [
 requires-python = ">=3.12"
 
 [project.entry-points."mwgg.plugins"]
-"dkc2.WorldClass" = "dkc2.Register:WORLD_CLASS"
-"dkc2.WebWorldClass" = "dkc2.Register:WEB_WORLD_CLASS"
-"dkc2.Client" = "dkc2.Register:CLIENT_FUNCTION"
+"ahit.WorldClass" = "ahit.Register:WORLD_CLASS"
+"ahit.WebWorldClass" = "ahit.Register:WEB_WORLD_CLASS"
+"ahit.Client" = "ahit.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["dkc2*", "dkc2"]
-exclude = ["*test*", "test*"]
+include = ["ahit*", "ahit"]
+exclude = ["ahit/test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "dkc2.Constants.VERSION"}
+version = {attr = "Constants.VERSION"}

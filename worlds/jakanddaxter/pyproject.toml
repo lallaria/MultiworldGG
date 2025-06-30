@@ -26,8 +26,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["jakanddaxter*", "jakanddaxter"]
-exclude = ["jakanddaxter/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "jakanddaxter.Constants.VERSION"}

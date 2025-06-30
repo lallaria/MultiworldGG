@@ -26,8 +26,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ss*", "ss"]
-exclude = ["ss/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "ss.Constants.VERSION"}

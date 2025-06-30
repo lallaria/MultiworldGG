@@ -30,8 +30,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["factorio*", "factorio"]
-exclude = ["factorio/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "factorio.Constants.VERSION"}

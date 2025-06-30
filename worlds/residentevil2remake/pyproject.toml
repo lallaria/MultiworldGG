@@ -23,8 +23,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["residentevil2remake*", "residentevil2remake"]
-exclude = ["residentevil2remake/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "residentevil2remake.Constants.VERSION"}

@@ -28,8 +28,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["metroidprime*", "metroidprime"]
-exclude = ["metroidprime/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "metroidprime.Constants.VERSION"}

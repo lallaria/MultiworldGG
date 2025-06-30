@@ -28,8 +28,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["animal_well*", "animal_well"]
-exclude = ["animal_well/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "animal_well.Constants.VERSION"}

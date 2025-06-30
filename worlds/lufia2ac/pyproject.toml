@@ -22,8 +22,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["lufia2ac*", "lufia2ac"]
-exclude = ["lufia2ac/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "lufia2ac.Constants.VERSION"}

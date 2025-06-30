@@ -20,8 +20,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["zillion*", "zillion"]
-exclude = ["test*", "*test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {"attr" = "zillion.Constants.VERSION"}
+version = {attr = "zillion.Constants.VERSION"}

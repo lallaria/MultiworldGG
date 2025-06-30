@@ -22,8 +22,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["lethal_company*", "lethal_company"]
-exclude = ["lethal_company/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "lethal_company.Constants.VERSION"}

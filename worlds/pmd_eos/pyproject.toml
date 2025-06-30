@@ -23,8 +23,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["pmd_eos*", "pmd_eos"]
-exclude = ["pmd_eos/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "pmd_eos.Constants.VERSION"}

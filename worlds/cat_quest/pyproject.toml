@@ -23,8 +23,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["cat_quest*", "cat_quest"]
-exclude = ["cat_quest/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "cat_quest.Constants.VERSION"}

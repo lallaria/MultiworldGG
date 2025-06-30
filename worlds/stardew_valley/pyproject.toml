@@ -22,7 +22,7 @@ requires-python = ">=3.12"
 
 [tool.setuptools.packages.find]
 where = ["."]
-exclude = ["test*", "test"]
+exclude = ["*test*", "test*"]
 include = ["stardew_valley*", "stardew_valley"]
 namespaces = false
 

@@ -47,8 +47,8 @@ dynamic = ["version"]
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["sm_map_rando*", "sm_map_rando"]
-exclude = ["sm_map_rando/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "sm_map_rando.Constants.VERSION"}

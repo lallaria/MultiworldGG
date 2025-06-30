@@ -3,13 +3,13 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tyrian"
+name = "albw"
 dynamic = ["version"]
-description = "Tyrian"
+description = "A Link Between Worlds"
 authors = [
-    {name = "Kaito Sinclaire"}
+    {name = "randomsalience"}
 ]
-license = "Zlib"
+license = "GPL-2.0-only"
 license_files = [
     "LICENSE"
 ]
@@ -19,15 +19,15 @@ classifiers = [
 requires-python = ">=3.12"
 
 [project.entry-points."mwgg.plugins"]
-"tyrian.WorldClass" = "tyrian.Register:WORLD_CLASS"
-"tyrian.WebWorldClass" = "tyrian.Register:WEB_WORLD_CLASS"
-"tyrian.Client" = "tyrian.Register:CLIENT_FUNCTION"
+"albw.WorldClass" = "albw.Register:WORLD_CLASS"
+"albw.WebWorldClass" = "albw.Register:WEB_WORLD_CLASS"
+"albw.Client" = "albw.Register:CLIENT_FUNCTION"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["tyrian*", "tyrian"]
-exclude = ["*test*", "test*"]
+include = ["albw*", "albw"]
+exclude = ["albw/test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "tyrian.Constants.VERSION"}
+version = {attr = "Constants.VERSION"}

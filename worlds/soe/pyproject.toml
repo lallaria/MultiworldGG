@@ -63,8 +63,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["soe*", "soe"]
-exclude = ["soe/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "soe.Constants.VERSION"}

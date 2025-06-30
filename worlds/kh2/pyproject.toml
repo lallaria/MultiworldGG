@@ -27,8 +27,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]  # list of folders that contain the packages (["."] by default)
 include = ["kh2*", "kh2"]
-exclude = ["kh2/test*"]  # exclude packages matching these glob patterns (empty by default)
+exclude = ["*test*", "test*"]
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.setuptools.dynamic]
-version = {"attr" = "kh2.Constants.VERSION"}
+version = {attr = "kh2.Constants.VERSION"}

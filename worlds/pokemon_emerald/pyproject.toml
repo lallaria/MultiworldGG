@@ -26,8 +26,8 @@ requires-python = ">=3.12"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["pokemon_emerald*", "pokemon_emerald"]
-exclude = ["pokemon_emerald/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "pokemon_emerald.Constants.VERSION"}

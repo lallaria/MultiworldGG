@@ -27,8 +27,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ttyd*", "ttyd"]
-exclude = ["ttyd/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "ttyd.Constants.VERSION"}

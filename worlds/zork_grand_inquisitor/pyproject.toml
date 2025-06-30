@@ -30,8 +30,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["zork_grand_inquisitor*", "zork_grand_inquisitor"]
-exclude = ["zork_grand_inquisitor/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "zork_grand_inquisitor.Constants.VERSION"}

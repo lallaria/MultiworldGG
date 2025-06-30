@@ -37,8 +37,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ff4fe*", "ff4fe"]
-exclude = ["ff4fe/test*"]
+exclude = ["*test*", "test*"]
 namespaces = false
 
 [tool.setuptools.dynamic]
-version = {attr = "Constants.VERSION"}
+version = {attr = "ff4fe.Constants.VERSION"}
