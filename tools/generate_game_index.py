@@ -29,11 +29,11 @@ def clean_game_data(games_data: dict) -> dict:
         Cleaned game data dictionary
     """
     cleaned_data = {}
-    for game_name, game_data in games_data.items():
+    for world_name, game_data in games_data.items():
         cleaned_game = {}
         for field, value in game_data.items():
             # Preserve original world_name
-            if field == "world_name":
+            if field == "game_name":
                 cleaned_game[field] = value
             elif value is None:
                 cleaned_game[field] = ""
@@ -43,7 +43,7 @@ def clean_game_data(games_data: dict) -> dict:
                 cleaned_game[field] = {k: clean_value(v) for k, v in value.items()}
             else:
                 cleaned_game[field] = clean_value(value)
-        cleaned_data[game_name] = cleaned_game
+        cleaned_data[world_name] = cleaned_game
     return cleaned_data
 
 def build_search_index(games_data: dict) -> Dict[str, Set[str]]:
@@ -68,9 +68,9 @@ def build_search_index(games_data: dict) -> Dict[str, Set[str]]:
         'player_perspectives'
     }
     
-    for game_name, game_data in games_data.items():
+    for world_name, game_data in games_data.items():
         # Index game name
-        _add_to_index(search_index, game_name, game_name)
+        _add_to_index(search_index, game_data["game_name"], world_name)
         
         # Index only searchable fields
         for field, value in game_data.items():
@@ -81,20 +81,20 @@ def build_search_index(games_data: dict) -> Dict[str, Set[str]]:
                 for item in value:
                     if item:  # Only index non-empty values
                         # Add both the full term and individual words
-                        _add_to_index(search_index, clean_value(item), game_name)
+                        _add_to_index(search_index, clean_value(item), world_name)
                         for word in clean_value(item).split():
-                            _add_to_index(search_index, word, game_name)
+                            _add_to_index(search_index, word, world_name)
             elif isinstance(value, (str, int, float, bool)):
                 if value:  # Only index non-empty values
                     value_str = clean_value(value)
-                    _add_to_index(search_index, value_str, game_name)
+                    _add_to_index(search_index, value_str, world_name)
                     # Add individual words for multi-word values
                     for word in value_str.split():
-                        _add_to_index(search_index, word, game_name)
+                        _add_to_index(search_index, word, world_name)
     
     return search_index
 
-def _add_to_index(index: Dict[str, Set[str]], term: str, game_name: str) -> None:
+def _add_to_index(index: Dict[str, Set[str]], term: str, world_name: str) -> None:
     """
     Add a term to the search index.
     
@@ -107,7 +107,7 @@ def _add_to_index(index: Dict[str, Set[str]], term: str, game_name: str) -> None
     if term:  # Only index non-empty terms
         if term not in index:
             index[term] = set()
-        index[term].add(game_name)
+        index[term].add(world_name)
 
 def validate_generated_index(games_data: dict, search_index: Dict[str, Set[str]]) -> bool:
     """
@@ -121,7 +121,8 @@ def validate_generated_index(games_data: dict, search_index: Dict[str, Set[str]]
         True if validation passes, False otherwise
     """
     # Check that all game names are in the index
-    for game_name in games_data:
+    for world_name in games_data:
+        game_name = games_data[world_name]["game_name"]
         if game_name not in search_index.get(game_name.lower(), set()):
             print(f"Warning: Game name '{game_name}' not properly indexed")
             return False

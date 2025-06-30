@@ -1,5 +1,3 @@
-__all__ = ("MinecraftMain")
-from __future__ import annotations
 import argparse
 import json
 import os
@@ -16,7 +14,7 @@ import requests
 
 import Utils
 from Utils import is_windows
-from .factory import Launch
+from settings import get_settings
 
 atexit.register(input, "Press enter to exit.")
 
@@ -150,9 +148,11 @@ def find_jdk(version: str) -> str:
         if os.path.isfile(jdk_exe):
             return jdk_exe
     else:
-        jdk_exe = shutil.which(options["minecraft_options"].get("java", "java"))
+        jdk_exe = shutil.which(options.java)
         if not jdk_exe:
-            raise Exception("Could not find Java. Is Java installed on the system?")
+            jdk_exe = shutil.which("java") # try to fall back to system java
+            if not jdk_exe:
+                raise Exception("Could not find Java. Is Java installed on the system?")
         return jdk_exe
 
 
@@ -267,83 +267,81 @@ def is_correct_forge(forge_dir) -> bool:
     return False
 
 
-class MinecraftMain(Launch):
-    '''Concrete MinecraftMain MWGGMain for factory method'''
-    async def launch_client(self, args):
-        Utils.init_logging("MinecraftClient")
-        parser = argparse.ArgumentParser()
-        parser.add_argument("apmc_file", default=None, nargs='?', help="Path to an MultiworldGG Minecraft data file (.apmc)")
-        parser.add_argument('--install', '-i', dest='install', default=False, action='store_true',
-                            help="Download and install Java and the Forge server. Does not launch the client afterwards.")
-        parser.add_argument('--release_channel', '-r', dest="channel", type=str, action='store',
-                            help="Specify release channel to use.")
-        parser.add_argument('--java', '-j', metavar='17', dest='java', type=str, default=False, action='store',
-                            help="specify java version.")
-        parser.add_argument('--forge', '-f', metavar='1.18.2-40.1.0', dest='forge', type=str, default=False, action='store',
-                            help="specify forge version. (Minecraft Version-Forge Version)")
-        parser.add_argument('--version', '-v', metavar='9', dest='data_version', type=int, action='store',
-                            help="specify Mod data version to download.")
+if __name__ == '__main__':
+    Utils.init_logging("MinecraftClient")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("apmc_file", default=None, nargs='?', help="Path to an MultiworldGG Minecraft data file (.apmc)")
+    parser.add_argument('--install', '-i', dest='install', default=False, action='store_true',
+                        help="Download and install Java and the Forge server. Does not launch the client afterwards.")
+    parser.add_argument('--release_channel', '-r', dest="channel", type=str, action='store',
+                        help="Specify release channel to use.")
+    parser.add_argument('--java', '-j', metavar='17', dest='java', type=str, default=False, action='store',
+                        help="specify java version.")
+    parser.add_argument('--forge', '-f', metavar='1.18.2-40.1.0', dest='forge', type=str, default=False, action='store',
+                        help="specify forge version. (Minecraft Version-Forge Version)")
+    parser.add_argument('--version', '-v', metavar='9', dest='data_version', type=int, action='store',
+                        help="specify Mod data version to download.")
 
-        args = parser.parse_args()
-        apmc_file = os.path.abspath(args.apmc_file) if args.apmc_file else None
+    args = parser.parse_args()
+    apmc_file = os.path.abspath(args.apmc_file) if args.apmc_file else None
 
-        # Change to executable's working directory
-        os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
+    # Change to executable's working directory
+    os.chdir(os.path.abspath(os.path.dirname(sys.argv[0])))
 
-        options = Utils.get_options()
-        channel = args.channel or options["minecraft_options"]["release_channel"]
-        apmc_data = None
-        data_version = args.data_version or None
+    options = get_settings().minecraft_options
+    channel = args.channel or options.release_channel
+    apmc_data = None
+    data_version = args.data_version or None
 
-        if apmc_file is None and not args.install:
-            apmc_file = Utils.open_filename('Select APMC file', (('APMC File', ('.apmc',)),))
+    if apmc_file is None and not args.install:
+        apmc_file = Utils.open_filename('Select APMC file', (('APMC File', ('.apmc',)),))
 
-        if apmc_file is not None and data_version is None:
-            apmc_data = read_apmc_file(apmc_file)
-            data_version = apmc_data.get('client_version', '')
+    if apmc_file is not None and data_version is None:
+        apmc_data = read_apmc_file(apmc_file)
+        data_version = apmc_data.get('client_version', '')
 
-        versions = get_minecraft_versions(data_version, channel)
+    versions = get_minecraft_versions(data_version, channel)
 
-        forge_dir = options["minecraft_options"]["forge_directory"]
-        max_heap = options["minecraft_options"]["max_heap_size"]
-        forge_version = args.forge or versions["forge"]
-        java_version = args.java or versions["java"]
-        mod_url = versions["url"]
-        java_dir = find_jdk_dir(java_version)
+    forge_dir = options.forge_directory
+    max_heap = options.max_heap_size
+    forge_version = args.forge or versions["forge"]
+    java_version = args.java or versions["java"]
+    mod_url = versions["url"]
+    java_dir = find_jdk_dir(java_version)
 
-        if args.install:
-            if is_windows:
-                print("Installing Java")
-                download_java(java_version)
-            if not is_correct_forge(forge_dir):
-                print("Installing Minecraft Forge")
-                install_forge(forge_dir, forge_version, java_version)
-            else:
-                print("Correct Forge version already found, skipping install.")
-            sys.exit(0)
-
-        if apmc_data is None:
-            raise FileNotFoundError(f"APMC file does not exist or is inaccessible at the given location ({apmc_file})")
-
+    if args.install:
         if is_windows:
-            if java_dir is None or not os.path.isdir(java_dir):
-                if prompt_yes_no("Did not find java directory. Download and install java now?"):
-                    download_java(java_version)
-                    java_dir = find_jdk_dir(java_version)
-                if java_dir is None or not os.path.isdir(java_dir):
-                    raise NotADirectoryError(f"Path {java_dir} does not exist or could not be accessed.")
-
+            print("Installing Java")
+            download_java(java_version)
         if not is_correct_forge(forge_dir):
-            if prompt_yes_no(f"Did not find forge version {forge_version} download and install it now?"):
-                install_forge(forge_dir, forge_version, java_version)
-            if not os.path.isdir(forge_dir):
-                raise NotADirectoryError(f"Path {forge_dir} does not exist or could not be accessed.")
+            print("Installing Minecraft Forge")
+            install_forge(forge_dir, forge_version, java_version)
+        else:
+            print("Correct Forge version already found, skipping install.")
+        sys.exit(0)
 
-        if not max_heap_re.match(max_heap):
-            raise Exception(f"Max heap size {max_heap} in incorrect format. Use a number followed by M or G, e.g. 512M or 2G.")
+    if apmc_data is None:
+        raise FileNotFoundError(f"APMC file does not exist or is inaccessible at the given location ({apmc_file})")
 
-        update_mod(forge_dir, mod_url)
-        replace_apmc_files(forge_dir, apmc_file)
-        check_eula(forge_dir)
-        server_process = run_forge_server(forge_dir, java_version, max_heap)
-        server_process.wait()
+    if is_windows:
+        if java_dir is None or not os.path.isdir(java_dir):
+            if prompt_yes_no("Did not find java directory. Download and install java now?"):
+                download_java(java_version)
+                java_dir = find_jdk_dir(java_version)
+            if java_dir is None or not os.path.isdir(java_dir):
+                raise NotADirectoryError(f"Path {java_dir} does not exist or could not be accessed.")
+
+    if not is_correct_forge(forge_dir):
+        if prompt_yes_no(f"Did not find forge version {forge_version} download and install it now?"):
+            install_forge(forge_dir, forge_version, java_version)
+        if not os.path.isdir(forge_dir):
+            raise NotADirectoryError(f"Path {forge_dir} does not exist or could not be accessed.")
+
+    if not max_heap_re.match(max_heap):
+        raise Exception(f"Max heap size {max_heap} in incorrect format. Use a number followed by M or G, e.g. 512M or 2G.")
+
+    update_mod(forge_dir, mod_url)
+    replace_apmc_files(forge_dir, apmc_file)
+    check_eula(forge_dir)
+    server_process = run_forge_server(forge_dir, java_version, max_heap)
+    server_process.wait()

@@ -1,6 +1,5 @@
 # Based (read: copied almost wholesale and edited) off the FF1 Client.
-__all__ = ("ZeldaContext","ZeldaCommandProcessor","ZeldaMain")
-from __future__ import annotations
+
 import asyncio
 import copy
 import json
@@ -21,8 +20,6 @@ from CommonClient import CommonContext, server_loop, gui_enabled, console_loop, 
 from worlds.tloz.Items import item_game_ids
 from worlds.tloz.Locations import location_ids
 from worlds.tloz import Items, Locations, Rom
-
-from .factory import Launch
 
 SYSTEM_MESSAGE_ID = 0
 
@@ -340,16 +337,15 @@ async def nes_sync_task(ctx: ZeldaContext):
                 continue
 
 
-class Zelda1Main(Launch):
-    '''Concrete ZeldaMain MWGGMain for factory method'''
+if __name__ == '__main__':
+    # Text Mode to use !hint and such with games that have no text entry
+    Utils.init_logging("ZeldaClient")
+
     options = Utils.get_options()
     DISPLAY_MSGS = options["tloz_options"]["display_msgs"]
 
-    def __init__(self):
-        # Text Mode to use !hint and such with games that have no text entry
-        Utils.init_logging("ZeldaClient")
 
-    async def run_game(self, romfile: str) -> None:
+    async def run_game(romfile: str) -> None:
         auto_start = typing.cast(typing.Union[bool, str],
                                  Utils.get_options()["tloz_options"].get("rom_start", True))
         if auto_start is True:
@@ -359,7 +355,8 @@ class Zelda1Main(Launch):
             subprocess.Popen([auto_start, romfile],
                              stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    async def launch_client(self, args):
+
+    async def main(args):
         if args.diff_file:
             import Patch
             logging.info("Patch file was supplied. Creating nes rom..")
@@ -367,7 +364,7 @@ class Zelda1Main(Launch):
             if "server" in meta:
                 args.connect = meta["server"]
             logging.info(f"Wrote rom file to {romfile}")
-            async_start(self.run_game(romfile))
+            async_start(run_game(romfile))
         ctx = ZeldaContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
         if gui_enabled:
@@ -384,13 +381,13 @@ class Zelda1Main(Launch):
             await ctx.nes_sync_task
 
 
-        import colorama
+    import colorama
 
-        parser = get_base_parser()
-        parser.add_argument('diff_file', default="", type=str, nargs="?",
-                            help='Path to a MultiworldGG Binary Patch file')
-        args = parser.parse_args()
-        colorama.just_fix_windows_console()
+    parser = get_base_parser()
+    parser.add_argument('diff_file', default="", type=str, nargs="?",
+                        help='Path to a MultiworldGG Binary Patch file')
+    args = parser.parse_args()
+    colorama.just_fix_windows_console()
 
-        #asyncio.run(main(args)) TODO: move the run to the client main
-        colorama.deinit()
+    asyncio.run(main(args))
+    colorama.deinit()

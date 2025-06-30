@@ -44,7 +44,7 @@ authors = [
    "AUTHOR"
 ]
 license = "GPL-3.0-or-later AND (MIT)"
-license_files = [
+license-files = [
    "LICENSE",
    "LICENSE-original.md"
    ]

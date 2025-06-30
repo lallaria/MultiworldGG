@@ -358,13 +358,35 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         try:
             # Show loading screen
             Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(speed=0.033), 0)
-            # Launch the selected game module via entrypoints with a loading screen
-            Clock.schedule_once(lambda dt: discover_and_launch_module(
-                self.selected_game, server_address = server_address, slot_name = slot_name, password = password), 1)
+
+            # Define ready callback to hide loading layout
+            def ready_callback():
+                logger.info(f"Client {self.selected_game} is ready, hiding loading layout")
+                self.app.loading_layout.hide_loading()
+
+            def launch_module():
+                global result
+                result = discover_and_launch_module(
+                    self.selected_game, server_address = server_address, slot_name = slot_name, \
+                    password = password, ready_callback=ready_callback
+                )
+                # Launch the selected game module via entrypoints with a loading screen
+            Clock.schedule_once(lambda x: launch_module(), 1)
+            
             logger.info(f"Successfully launched {self.selected_game} module")
-            self.app.loading_layout.hide_loading()
+            
+            # Check if the result is a task (GUI mode)
+            if hasattr(result, '_coro'):
+                # It's a task, so the ready callback will handle hiding the loading layout
+                pass
+            else:
+                # It's not a task, so hide loading immediately
+                self.app.loading_layout.hide_loading()
+                
         except Exception as e:
             logger.error(f"Failed to launch {self.selected_game} module: {e}")
+            # Hide loading layout on error
+            self.app.loading_layout.hide_loading()
             # You might want to show an error dialog here
             # from .dialog import show_error_dialog
             # show_error_dialog("Launch Error", f"Failed to launch {self.selected_game}: {str(e)}")
