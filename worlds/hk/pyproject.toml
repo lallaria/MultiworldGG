@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "hk.WebWorldClass" = "hk.Register:WEB_WORLD_CLASS"
 "hk.Client" = "hk.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hk*", "hk"]
+exclude = ["hk/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

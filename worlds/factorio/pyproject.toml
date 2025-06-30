@@ -27,5 +27,11 @@ dependencies = [
 "factorio.WebWorldClass" = "factorio.Register:WEB_WORLD_CLASS"
 "factorio.Client" = "factorio.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["factorio*", "factorio"]
+exclude = ["factorio/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

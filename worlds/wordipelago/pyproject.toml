@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "wordipelago.WebWorldClass" = "wordipelago.Register:WEB_WORLD_CLASS"
 "wordipelago.Client" = "wordipelago.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wordipelago*", "wordipelago"]
+exclude = ["wordipelago/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

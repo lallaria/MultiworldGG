@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dungeon_clawler.WebWorldClass" = "dungeon_clawler.Register:WEB_WORLD_CLASS"
 "dungeon_clawler.Client" = "dungeon_clawler.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dungeon_clawler*", "dungeon_clawler"]
+exclude = ["dungeon_clawler/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

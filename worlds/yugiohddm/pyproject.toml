@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "yugiohddm.WebWorldClass" = "yugiohddm.Register:WEB_WORLD_CLASS"
 "yugiohddm.Client" = "yugiohddm.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yugiohddm*", "yugiohddm"]
+exclude = ["yugiohddm/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

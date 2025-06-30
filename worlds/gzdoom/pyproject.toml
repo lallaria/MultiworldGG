@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "gzdoom.WebWorldClass" = "gzdoom.Register:WEB_WORLD_CLASS"
 "gzdoom.Client" = "gzdoom.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gzdoom*", "gzdoom"]
+exclude = ["gzdoom/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "hylics2.WebWorldClass" = "hylics2.Register:WEB_WORLD_CLASS"
 "hylics2.Client" = "hylics2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hylics2*", "hylics2"]
+exclude = ["hylics2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

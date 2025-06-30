@@ -28,5 +28,11 @@ dependencies = [
 "alttp.WebWorldClass" = "alttp.Register:WEB_WORLD_CLASS"
 "alttp.Client" = "alttp.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["alttp*", "alttp"]
+exclude = ["alttp/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

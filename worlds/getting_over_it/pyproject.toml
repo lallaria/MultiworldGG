@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "getting_over_it.WebWorldClass" = "getting_over_it.Register:WEB_WORLD_CLASS"
 "getting_over_it.Client" = "getting_over_it.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["getting_over_it*", "getting_over_it"]
+exclude = ["getting_over_it/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

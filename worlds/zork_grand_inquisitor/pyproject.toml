@@ -27,5 +27,11 @@ dependencies = [
 "zork_grand_inquisitor.WebWorldClass" = "zork_grand_inquisitor.Register:WEB_WORLD_CLASS"
 "zork_grand_inquisitor.Client" = "zork_grand_inquisitor.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["zork_grand_inquisitor*", "zork_grand_inquisitor"]
+exclude = ["zork_grand_inquisitor/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "tloz_oos.WebWorldClass" = "tloz_oos.Register:WEB_WORLD_CLASS"
 "tloz_oos.Client" = "tloz_oos.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tloz_oos*", "tloz_oos"]
+exclude = ["tloz_oos/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

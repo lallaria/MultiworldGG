@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "faxanadu.WebWorldClass" = "faxanadu.Register:WEB_WORLD_CLASS"
 "faxanadu.Client" = "faxanadu.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["faxanadu*", "faxanadu"]
+exclude = ["faxanadu/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

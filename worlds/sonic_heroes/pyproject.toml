@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "sonic_heroes.WebWorldClass" = "sonic_heroes.Register:WEB_WORLD_CLASS"
 "sonic_heroes.Client" = "sonic_heroes.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sonic_heroes*", "sonic_heroes"]
+exclude = ["sonic_heroes/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

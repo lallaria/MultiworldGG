@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "inscryption.WebWorldClass" = "inscryption.Register:WEB_WORLD_CLASS"
 "inscryption.Client" = "inscryption.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["inscryption*", "inscryption"]
+exclude = ["inscryption/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

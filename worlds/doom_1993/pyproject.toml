@@ -24,5 +24,11 @@ requires-python = ">=3.12"
 "doom_1993.WebWorldClass" = "doom_1993.Register:WEB_WORLD_CLASS"
 "doom_1993.Client" = "doom_1993.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["doom_1993*", "doom_1993"]
+exclude = ["doom_1993/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

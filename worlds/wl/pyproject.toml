@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "wl.WebWorldClass" = "wl.Register:WEB_WORLD_CLASS"
 "wl.Client" = "wl.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wl*", "wl"]
+exclude = ["wl/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

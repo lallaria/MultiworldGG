@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "smw"
 dynamic = ["version"]
-description = "Super Mario World is an action platforming game."
+description = "Super Mario World"
 authors = [
     {name = "PoryGone"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -19,6 +18,12 @@ requires-python = ">=3.12"
 "smw.WorldClass" = "smw.Register:WORLD_CLASS"
 "smw.WebWorldClass" = "smw.Register:WEB_WORLD_CLASS"
 "smw.Client" = "smw.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smw*", "smw"]
+exclude = ["smw/test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

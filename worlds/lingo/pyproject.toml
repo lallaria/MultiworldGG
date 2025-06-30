@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "lingo.WebWorldClass" = "lingo.Register:WEB_WORLD_CLASS"
 "lingo.Client" = "lingo.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lingo*", "lingo"]
+exclude = ["lingo/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

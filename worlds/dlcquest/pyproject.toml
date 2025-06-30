@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dlcquest.WebWorldClass" = "dlcquest.Register:WEB_WORLD_CLASS"
 "dlcquest.Client" = "dlcquest.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dlcquest*", "dlcquest"]
+exclude = ["dlcquest/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

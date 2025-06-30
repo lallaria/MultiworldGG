@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "wargroove.WebWorldClass" = "wargroove.Register:WEB_WORLD_CLASS"
 "wargroove.Client" = "wargroove.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wargroove*", "wargroove"]
+exclude = ["wargroove/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "tetrisattack.WebWorldClass" = "tetrisattack.Register:WEB_WORLD_CLASS"
 "tetrisattack.Client" = "tetrisattack.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tetrisattack*", "tetrisattack"]
+exclude = ["tetrisattack/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

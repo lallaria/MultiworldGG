@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "mmbn3.WebWorldClass" = "mmbn3.Register:WEB_WORLD_CLASS"
 "mmbn3.Client" = "mmbn3.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mmbn3*", "mmbn3"]
+exclude = ["mmbn3/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

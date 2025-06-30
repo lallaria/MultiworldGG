@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "sadx.WebWorldClass" = "sadx.Register:WEB_WORLD_CLASS"
 "sadx.Client" = "sadx.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sadx*", "sadx"]
+exclude = ["sadx/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

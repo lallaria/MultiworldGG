@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "subnautica.WebWorldClass" = "subnautica.Register:WEB_WORLD_CLASS"
 "subnautica.Client" = "subnautica.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["subnautica*", "subnautica"]
+exclude = ["subnautica/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

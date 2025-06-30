@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "terraria.WebWorldClass" = "terraria.Register:WEB_WORLD_CLASS"
 "terraria.Client" = "terraria.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["terraria*", "terraria"]
+exclude = ["terraria/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

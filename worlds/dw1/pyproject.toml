@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dw1.WebWorldClass" = "dw1.Register:WEB_WORLD_CLASS"
 "dw1.Client" = "dw1.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dw1*", "dw1"]
+exclude = ["dw1/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

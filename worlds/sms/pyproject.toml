@@ -24,5 +24,11 @@ dependencies = [
 "sms.WebWorldClass" = "sms.Register:WEB_WORLD_CLASS"
 "sms.Client" = "sms.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sms*", "sms"]
+exclude = ["sms/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

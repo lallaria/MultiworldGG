@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "ror1.WebWorldClass" = "ror1.Register:WEB_WORLD_CLASS"
 "ror1.Client" = "ror1.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ror1*", "ror1"]
+exclude = ["ror1/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

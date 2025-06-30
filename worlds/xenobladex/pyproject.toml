@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "xenobladex.WebWorldClass" = "xenobladex.Register:WEB_WORLD_CLASS"
 "xenobladex.Client" = "xenobladex.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["xenobladex*", "xenobladex"]
+exclude = ["xenobladex/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

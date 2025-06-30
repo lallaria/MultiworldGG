@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "paint.WebWorldClass" = "paint.Register:WEB_WORLD_CLASS"
 "paint.Client" = "paint.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["paint*", "paint"]
+exclude = ["paint/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

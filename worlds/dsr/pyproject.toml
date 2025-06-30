@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dsr.WebWorldClass" = "dsr.Register:WEB_WORLD_CLASS"
 "dsr.Client" = "dsr.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dsr*", "dsr"]
+exclude = ["dsr/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

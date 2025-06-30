@@ -9,7 +9,6 @@ description = "Kingdom Hearts"
 authors = [
     {name = "gaithern"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -19,6 +18,12 @@ requires-python = ">=3.12"
 "kh1.WorldClass" = "kh1.Register:WORLD_CLASS"
 "kh1.WebWorldClass" = "kh1.Register:WEB_WORLD_CLASS"
 "kh1.Client" = "kh1.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kh1*", "kh1"]
+exclude = ["kh1/test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

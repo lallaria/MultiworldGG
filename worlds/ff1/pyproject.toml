@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "ff1.WebWorldClass" = "ff1.Register:WEB_WORLD_CLASS"
 "ff1.Client" = "ff1.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ff1*", "ff1"]
+exclude = ["ff1/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

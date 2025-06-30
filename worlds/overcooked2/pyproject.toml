@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "overcooked2.WebWorldClass" = "overcooked2.Register:WEB_WORLD_CLASS"
 "overcooked2.Client" = "overcooked2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["overcooked2*", "overcooked2"]
+exclude = ["overcooked2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

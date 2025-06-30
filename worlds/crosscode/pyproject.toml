@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "crosscode.WebWorldClass" = "crosscode.Register:WEB_WORLD_CLASS"
 "crosscode.Client" = "crosscode.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["crosscode*", "crosscode"]
+exclude = ["crosscode/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

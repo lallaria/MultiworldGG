@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "heretic.WebWorldClass" = "heretic.Register:WEB_WORLD_CLASS"
 "heretic.Client" = "heretic.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["heretic*", "heretic"]
+exclude = ["heretic/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

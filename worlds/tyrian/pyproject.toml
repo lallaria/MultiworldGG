@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "tyrian.WebWorldClass" = "tyrian.Register:WEB_WORLD_CLASS"
 "tyrian.Client" = "tyrian.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tyrian*", "tyrian"]
+exclude = ["tyrian/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

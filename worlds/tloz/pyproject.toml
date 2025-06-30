@@ -24,5 +24,11 @@ dependencies = [
 "tloz.WebWorldClass" = "tloz.Register:WEB_WORLD_CLASS"
 "tloz.Client" = "tloz.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tloz*", "tloz"]
+exclude = ["tloz/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

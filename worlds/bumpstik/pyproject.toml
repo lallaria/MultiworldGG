@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "bumpstik.WebWorldClass" = "bumpstik.Register:WEB_WORLD_CLASS"
 "bumpstik.Client" = "bumpstik.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bumpstik*", "bumpstik"]
+exclude = ["bumpstik/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

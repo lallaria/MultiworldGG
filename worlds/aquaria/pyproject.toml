@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "aquaria.WebWorldClass" = "aquaria.Register:WEB_WORLD_CLASS"
 "aquaria.Client" = "aquaria.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aquaria*", "aquaria"]
+exclude = ["aquaria/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

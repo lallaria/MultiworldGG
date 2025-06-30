@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "tracker.WorldClass" = "tracker.Register:WORLD_CLASS"
 "tracker.Client" = "tracker.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tracker*", "tracker"]
+exclude = ["tracker/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

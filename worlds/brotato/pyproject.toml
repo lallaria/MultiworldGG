@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "brotato.WebWorldClass" = "brotato.Register:WEB_WORLD_CLASS"
 "brotato.Client" = "brotato.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["brotato*", "brotato"]
+exclude = ["brotato/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -27,5 +27,11 @@ dependencies = [
 "factorio_saws.WebWorldClass" = "factorio_saws.Register:WEB_WORLD_CLASS"
 "factorio_saws.Client" = "factorio_saws.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["factorio_saws*", "factorio_saws"]
+exclude = ["factorio_saws/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

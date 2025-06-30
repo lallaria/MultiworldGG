@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "chainedechoes.WebWorldClass" = "chainedechoes.Register:WEB_WORLD_CLASS"
 "chainedechoes.Client" = "chainedechoes.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["chainedechoes*", "chainedechoes"]
+exclude = ["chainedechoes/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

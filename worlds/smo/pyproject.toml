@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "smo.WebWorldClass" = "smo.Register:WEB_WORLD_CLASS"
 "smo.Client" = "smo.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smo*", "smo"]
+exclude = ["smo/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

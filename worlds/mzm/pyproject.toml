@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "mzm.WebWorldClass" = "mzm.Register:WEB_WORLD_CLASS"
 "mzm.Client" = "mzm.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mzm*", "mzm"]
+exclude = ["mzm/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

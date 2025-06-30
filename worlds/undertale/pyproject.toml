@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "undertale.WebWorldClass" = "undertale.Register:WEB_WORLD_CLASS"
 "undertale.Client" = "undertale.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["undertale*", "undertale"]
+exclude = ["undertale/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

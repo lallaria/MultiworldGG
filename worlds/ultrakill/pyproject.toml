@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "ultrakill.WebWorldClass" = "ultrakill.Register:WEB_WORLD_CLASS"
 "ultrakill.Client" = "ultrakill.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ultrakill*", "ultrakill"]
+exclude = ["ultrakill/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

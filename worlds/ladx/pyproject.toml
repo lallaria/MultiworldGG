@@ -22,5 +22,11 @@ requires-python = ">=3.12"
 "ladx.WorldClass" = "ladx.Register:WORLD_CLASS"
 "ladx.WebWorldClass" = "ladx.Register:WEB_WORLD_CLASS"
 "ladx.Client" = "ladx.Register:CLIENT_FUNCTION"
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ladx*", "ladx"]
+exclude = ["ladx/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

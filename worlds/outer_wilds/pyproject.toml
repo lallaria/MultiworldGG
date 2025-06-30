@@ -9,7 +9,6 @@ description = "Outer Wilds"
 authors = [
     {name = "Ixrec"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -19,6 +18,12 @@ requires-python = ">=3.12"
 "outer_wilds.WorldClass" = "outer_wilds.Register:WORLD_CLASS"
 "outer_wilds.WebWorldClass" = "outer_wilds.Register:WEB_WORLD_CLASS"
 "outer_wilds.Client" = "outer_wilds.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["outer_wilds*", "outer_wilds"]
+exclude = ["outer_wilds/test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

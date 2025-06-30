@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "cv64.WebWorldClass" = "cv64.Register:WEB_WORLD_CLASS"
 "cv64.Client" = "cv64.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cv64*", "cv64"]
+exclude = ["cv64/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

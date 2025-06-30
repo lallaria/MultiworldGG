@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "chatipelago.WebWorldClass" = "chatipelago.Register:WEB_WORLD_CLASS"
 "chatipelago.Client" = "chatipelago.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["chatipelago*", "chatipelago"]
+exclude = ["chatipelago/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

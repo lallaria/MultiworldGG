@@ -23,5 +23,11 @@ dependencies = [
 "jakanddaxter.WebWorldClass" = "jakanddaxter.Register:WEB_WORLD_CLASS"
 "jakanddaxter.Client" = "jakanddaxter.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jakanddaxter*", "jakanddaxter"]
+exclude = ["jakanddaxter/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

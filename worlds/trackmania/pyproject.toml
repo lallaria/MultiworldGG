@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "trackmania.WebWorldClass" = "trackmania.Register:WEB_WORLD_CLASS"
 "trackmania.Client" = "trackmania.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["trackmania*", "trackmania"]
+exclude = ["trackmania/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

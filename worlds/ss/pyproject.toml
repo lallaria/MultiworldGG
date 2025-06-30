@@ -5,11 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ss"
 dynamic = ["version"]
-description = "What if that's Zelda down there, and she's sending me a signal? It's a sign!"
+description = "Skyward Sword"
 authors = [
     {name = "Battlecats59"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -23,6 +22,12 @@ dependencies = [
 "ss.WorldClass" = "ss.Register:WORLD_CLASS"
 "ss.WebWorldClass" = "ss.Register:WEB_WORLD_CLASS"
 "ss.Client" = "ss.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ss*", "ss"]
+exclude = ["ss/test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

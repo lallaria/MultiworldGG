@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "witness.WebWorldClass" = "witness.Register:WEB_WORLD_CLASS"
 "witness.Client" = "witness.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["witness*", "witness"]
+exclude = ["witness/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

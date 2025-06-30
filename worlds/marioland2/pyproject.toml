@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "marioland2.WebWorldClass" = "marioland2.Register:WEB_WORLD_CLASS"
 "marioland2.Client" = "marioland2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["marioland2*", "marioland2"]
+exclude = ["marioland2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

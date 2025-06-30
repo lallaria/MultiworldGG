@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "shapez.WebWorldClass" = "shapez.Register:WEB_WORLD_CLASS"
 "shapez.Client" = "shapez.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shapez*", "shapez"]
+exclude = ["shapez/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

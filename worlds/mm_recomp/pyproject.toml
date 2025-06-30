@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "mm_recomp.WebWorldClass" = "mm_recomp.Register:WEB_WORLD_CLASS"
 "mm_recomp.Client" = "mm_recomp.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mm_recomp*", "mm_recomp"]
+exclude = ["mm_recomp/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

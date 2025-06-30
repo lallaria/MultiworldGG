@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "peaks_of_yore.WebWorldClass" = "peaks_of_yore.Register:WEB_WORLD_CLASS"
 "peaks_of_yore.Client" = "peaks_of_yore.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["peaks_of_yore*", "peaks_of_yore"]
+exclude = ["peaks_of_yore/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

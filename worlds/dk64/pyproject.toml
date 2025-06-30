@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dk64.WebWorldClass" = "dk64.Register:WEB_WORLD_CLASS"
 "dk64.Client" = "dk64.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dk64*", "dk64"]
+exclude = ["dk64/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

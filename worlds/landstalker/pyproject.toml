@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "landstalker.WebWorldClass" = "landstalker.Register:WEB_WORLD_CLASS"
 "landstalker.Client" = "landstalker.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["landstalker*", "landstalker"]
+exclude = ["landstalker/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

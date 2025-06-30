@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "yachtdice.WebWorldClass" = "yachtdice.Register:WEB_WORLD_CLASS"
 "yachtdice.Client" = "yachtdice.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yachtdice*", "yachtdice"]
+exclude = ["yachtdice/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

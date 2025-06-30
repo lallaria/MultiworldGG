@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "smz3.WebWorldClass" = "smz3.Register:WEB_WORLD_CLASS"
 "smz3.Client" = "smz3.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smz3*", "smz3"]
+exclude = ["smz3/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

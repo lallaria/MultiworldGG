@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "openrct2.WebWorldClass" = "openrct2.Register:WEB_WORLD_CLASS"
 "openrct2.Client" = "openrct2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["openrct2*", "openrct2"]
+exclude = ["openrct2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

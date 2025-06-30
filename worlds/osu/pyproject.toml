@@ -25,5 +25,11 @@ dependencies = [
 "osu.WebWorldClass" = "osu.Register:WEB_WORLD_CLASS"
 "osu.Client" = "osu.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["osu*", "osu"]
+exclude = ["osu/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

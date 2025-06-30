@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "swr.WebWorldClass" = "swr.Register:WEB_WORLD_CLASS"
 "swr.Client" = "swr.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["swr*", "swr"]
+exclude = ["swr/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

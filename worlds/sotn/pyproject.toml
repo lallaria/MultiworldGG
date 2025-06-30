@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "sotn.WebWorldClass" = "sotn.Register:WEB_WORLD_CLASS"
 "sotn.Client" = "sotn.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sotn*", "sotn"]
+exclude = ["sotn/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

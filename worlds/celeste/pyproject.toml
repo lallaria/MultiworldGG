@@ -25,5 +25,11 @@ dependencies = [
 "celeste.WebWorldClass" = "celeste.Register:WEB_WORLD_CLASS"
 "celeste.Client" = "celeste.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["celeste*", "celeste"]
+exclude = ["celeste/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

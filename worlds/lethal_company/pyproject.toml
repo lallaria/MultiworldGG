@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "lethal_company.WebWorldClass" = "lethal_company.Register:WEB_WORLD_CLASS"
 "lethal_company.Client" = "lethal_company.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lethal_company*", "lethal_company"]
+exclude = ["lethal_company/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

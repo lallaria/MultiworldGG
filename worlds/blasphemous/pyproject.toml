@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "blasphemous.WebWorldClass" = "blasphemous.Register:WEB_WORLD_CLASS"
 "blasphemous.Client" = "blasphemous.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["blasphemous*", "blasphemous"]
+exclude = ["blasphemous/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

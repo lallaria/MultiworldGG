@@ -44,5 +44,11 @@ dynamic = ["version"]
 "sm_map_rando.WebWorldClass" = "sm_map_rando.Register:WEB_WORLD_CLASS"
 "sm_map_rando.Client" = "sm_map_rando.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sm_map_rando*", "sm_map_rando"]
+exclude = ["sm_map_rando/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

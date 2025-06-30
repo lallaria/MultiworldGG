@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "sims4.WebWorldClass" = "sims4.Register:WEB_WORLD_CLASS"
 "sims4.Client" = "sims4.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sims4*", "sims4"]
+exclude = ["sims4/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

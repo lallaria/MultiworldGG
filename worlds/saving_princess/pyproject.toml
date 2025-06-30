@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "saving_princess.WebWorldClass" = "saving_princess.Register:WEB_WORLD_CLASS"
 "saving_princess.Client" = "saving_princess.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["saving_princess*", "saving_princess"]
+exclude = ["saving_princess/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

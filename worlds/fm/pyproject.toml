@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "fm.WebWorldClass" = "fm.Register:WEB_WORLD_CLASS"
 "fm.Client" = "fm.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fm*", "fm"]
+exclude = ["fm/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

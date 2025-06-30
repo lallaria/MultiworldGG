@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "rac2.WebWorldClass" = "rac2.Register:WEB_WORLD_CLASS"
 "rac2.Client" = "rac2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rac2*", "rac2"]
+exclude = ["rac2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

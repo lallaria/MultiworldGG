@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "papermario.WebWorldClass" = "papermario.Register:WEB_WORLD_CLASS"
 "papermario.Client" = "papermario.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["papermario*", "papermario"]
+exclude = ["papermario/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

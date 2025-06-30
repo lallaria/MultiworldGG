@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "hcniko.WebWorldClass" = "hcniko.Register:WEB_WORLD_CLASS"
 "hcniko.Client" = "hcniko.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hcniko*", "hcniko"]
+exclude = ["hcniko/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

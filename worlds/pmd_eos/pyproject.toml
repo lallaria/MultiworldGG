@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "pmd_eos.WebWorldClass" = "pmd_eos.Register:WEB_WORLD_CLASS"
 "pmd_eos.Client" = "pmd_eos.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pmd_eos*", "pmd_eos"]
+exclude = ["pmd_eos/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

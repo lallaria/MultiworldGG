@@ -24,5 +24,11 @@ dependencies = [
 "gstla.WebWorldClass" = "gstla.Register:WEB_WORLD_CLASS"
 "gstla.Client" = "gstla.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gstla*", "gstla"]
+exclude = ["gstla/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

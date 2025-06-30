@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "pokemon_crystal.WebWorldClass" = "pokemon_crystal.Register:WEB_WORLD_CLASS"
 "pokemon_crystal.Client" = "pokemon_crystal.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pokemon_crystal*", "pokemon_crystal"]
+exclude = ["pokemon_crystal/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

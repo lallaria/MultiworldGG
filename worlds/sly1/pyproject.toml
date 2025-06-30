@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "sly1.WebWorldClass" = "sly1.Register:WEB_WORLD_CLASS"
 "sly1.Client" = "sly1.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sly1*", "sly1"]
+exclude = ["sly1/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

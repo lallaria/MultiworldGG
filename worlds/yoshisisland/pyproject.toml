@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "yoshisisland.WebWorldClass" = "yoshisisland.Register:WEB_WORLD_CLASS"
 "yoshisisland.Client" = "yoshisisland.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yoshisisland*", "yoshisisland"]
+exclude = ["yoshisisland/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

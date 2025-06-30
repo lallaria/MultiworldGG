@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "banjo_tooie.WebWorldClass" = "banjo_tooie.Register:WEB_WORLD_CLASS"
 "banjo_tooie.Client" = "banjo_tooie.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["banjo_tooie*", "banjo_tooie"]
+exclude = ["banjo_tooie/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

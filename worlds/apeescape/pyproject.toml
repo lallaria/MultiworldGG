@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "apeescape.WebWorldClass" = "apeescape.Register:WEB_WORLD_CLASS"
 "apeescape.Client" = "apeescape.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["apeescape*", "apeescape"]
+exclude = ["apeescape/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

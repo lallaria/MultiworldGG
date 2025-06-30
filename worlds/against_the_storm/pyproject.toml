@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "against_the_storm.WebWorldClass" = "against_the_storm.Register:WEB_WORLD_CLASS"
 "against_the_storm.Client" = "against_the_storm.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["against_the_storm*", "against_the_storm"]
+exclude = ["against_the_storm/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

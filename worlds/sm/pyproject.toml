@@ -24,5 +24,11 @@ requires-python = ">=3.12"
 "sm.WebWorldClass" = "sm.Register:WEB_WORLD_CLASS"
 "sm.Client" = "sm.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sm*", "sm"]
+exclude = ["sm/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

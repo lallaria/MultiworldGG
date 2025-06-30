@@ -9,7 +9,6 @@ description = "Old School Runescape"
 authors = [
     {name = "digiholic"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -19,6 +18,12 @@ requires-python = ">=3.12"
 "osrs.WorldClass" = "osrs.Register:WORLD_CLASS"
 "osrs.WebWorldClass" = "osrs.Register:WEB_WORLD_CLASS"
 "osrs.Client" = "osrs.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["osrs*", "osrs"]
+exclude = ["osrs/test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

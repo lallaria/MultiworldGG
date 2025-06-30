@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "monster_sanctuary.WebWorldClass" = "monster_sanctuary.Register:WEB_WORLD_CLASS"
 "monster_sanctuary.Client" = "monster_sanctuary.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["monster_sanctuary*", "monster_sanctuary"]
+exclude = ["monster_sanctuary/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

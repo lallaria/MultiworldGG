@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "residentevil3remake.WebWorldClass" = "residentevil3remake.Register:WEB_WORLD_CLASS"
 "residentevil3remake.Client" = "residentevil3remake.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["residentevil3remake*", "residentevil3remake"]
+exclude = ["residentevil3remake/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

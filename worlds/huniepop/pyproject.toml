@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "huniepop.WebWorldClass" = "huniepop.Register:WEB_WORLD_CLASS"
 "huniepop.Client" = "huniepop.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["huniepop*", "huniepop"]
+exclude = ["huniepop/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

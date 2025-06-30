@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "jigsaw.WebWorldClass" = "jigsaw.Register:WEB_WORLD_CLASS"
 "jigsaw.Client" = "jigsaw.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jigsaw*", "jigsaw"]
+exclude = ["jigsaw/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

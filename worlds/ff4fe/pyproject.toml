@@ -34,5 +34,11 @@ dependencies = [
 "ff4fe.WebWorldClass" = "ff4fe.Register:WEB_WORLD_CLASS"
 "ff4fe.Client" = "ff4fe.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ff4fe*", "ff4fe"]
+exclude = ["ff4fe/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

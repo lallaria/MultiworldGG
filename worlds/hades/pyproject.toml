@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "hades.WebWorldClass" = "hades.Register:WEB_WORLD_CLASS"
 "hades.Client" = "hades.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hades*", "hades"]
+exclude = ["hades/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

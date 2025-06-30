@@ -1,7 +1,7 @@
 [project]
 name = "zillion"
 dynamic = ["version"]
-description = "Zillion is a metroidvania style game released in 1987 for the 8-bit Sega Master System. It's based on the anime Zillion (赤い光弾ジリオン, Akai Koudan Zillion)."
+description = "Zillion"
 authors = [
     {name = "beauxq"}
 ]
@@ -17,5 +17,11 @@ dependencies = [
 "zillion.WebWorldClass" = "zillion.Register:WEB_WORLD_CLASS"
 "zillion.Client" = "zillion.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["zillion*", "zillion"]
+exclude = ["test*", "*test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
-version = {"attr" = "Constants.VERSION"}
+version = {"attr" = "zillion.Constants.VERSION"}

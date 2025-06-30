@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "yugioh06.WebWorldClass" = "yugioh06.Register:WEB_WORLD_CLASS"
 "yugioh06.Client" = "yugioh06.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["yugioh06*", "yugioh06"]
+exclude = ["yugioh06/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

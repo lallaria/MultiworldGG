@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "ctjot.WebWorldClass" = "ctjot.Register:WEB_WORLD_CLASS"
 "ctjot.Client" = "ctjot.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ctjot*", "ctjot"]
+exclude = ["ctjot/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

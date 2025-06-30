@@ -60,5 +60,11 @@ dependencies = [
 "soe.WebWorldClass" = "soe.Register:WEB_WORLD_CLASS"
 "soe.Client" = "soe.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["soe*", "soe"]
+exclude = ["soe/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

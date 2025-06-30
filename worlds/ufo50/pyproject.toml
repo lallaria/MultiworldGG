@@ -21,5 +21,11 @@ requires-python = ">=3.12"
 "ufo50.WebWorldClass" = "ufo50.Register:WEB_WORLD_CLASS"
 "ufo50.Client" = "ufo50.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ufo50*", "ufo50"]
+exclude = ["ufo50/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

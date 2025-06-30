@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "adventure.WebWorldClass" = "adventure.Register:WEB_WORLD_CLASS"
 "adventure.Client" = "adventure.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["adventure*", "adventure"]
+exclude = ["adventure/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

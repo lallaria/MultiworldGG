@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "tp.WebWorldClass" = "tp.Register:WEB_WORLD_CLASS"
 "tp.Client" = "tp.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tp*", "tp"]
+exclude = ["tp/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

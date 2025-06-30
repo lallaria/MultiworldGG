@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "ahit.WebWorldClass" = "ahit.Register:WEB_WORLD_CLASS"
 "ahit.Client" = "ahit.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ahit*", "ahit"]
+exclude = ["ahit/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "sm64ex.WebWorldClass" = "sm64ex.Register:WEB_WORLD_CLASS"
 "sm64ex.Client" = "sm64ex.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sm64ex*", "sm64ex"]
+exclude = ["sm64ex/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

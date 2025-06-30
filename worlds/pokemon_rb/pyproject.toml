@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "pokemon_rb.WebWorldClass" = "pokemon_rb.Register:WEB_WORLD_CLASS"
 "pokemon_rb.Client" = "pokemon_rb.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pokemon_rb*", "pokemon_rb"]
+exclude = ["pokemon_rb/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

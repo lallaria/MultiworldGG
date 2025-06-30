@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "tunic.WebWorldClass" = "tunic.Register:WEB_WORLD_CLASS"
 "tunic.Client" = "tunic.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tunic*", "tunic"]
+exclude = ["tunic/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

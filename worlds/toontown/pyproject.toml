@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "toontown.WebWorldClass" = "toontown.Register:WEB_WORLD_CLASS"
 "toontown.Client" = "toontown.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["toontown*", "toontown"]
+exclude = ["toontown/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

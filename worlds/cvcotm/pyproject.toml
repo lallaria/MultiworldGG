@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "cvcotm.WebWorldClass" = "cvcotm.Register:WEB_WORLD_CLASS"
 "cvcotm.Client" = "cvcotm.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cvcotm*", "cvcotm"]
+exclude = ["cvcotm/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

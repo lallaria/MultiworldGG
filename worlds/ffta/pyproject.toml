@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "ffta.WebWorldClass" = "ffta.Register:WEB_WORLD_CLASS"
 "ffta.Client" = "ffta.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ffta*", "ffta"]
+exclude = ["ffta/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

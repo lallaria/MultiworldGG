@@ -9,7 +9,6 @@ description = "Sea of Thieves"
 authors = [
     {name = "EthanTheEpic"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -19,6 +18,12 @@ requires-python = ">=3.12"
 "seaofthieves.WorldClass" = "seaofthieves.Register:WORLD_CLASS"
 "seaofthieves.WebWorldClass" = "seaofthieves.Register:WEB_WORLD_CLASS"
 "seaofthieves.Client" = "seaofthieves.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["seaofthieves*", "seaofthieves"]
+exclude = ["seaofthieves/Test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

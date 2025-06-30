@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "powerwashsimulator.WebWorldClass" = "powerwashsimulator.Register:WEB_WORLD_CLASS"
 "powerwashsimulator.Client" = "powerwashsimulator.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["powerwashsimulator*", "powerwashsimulator"]
+exclude = ["powerwashsimulator/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

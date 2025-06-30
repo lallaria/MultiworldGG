@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "balatro.WebWorldClass" = "balatro.Register:WEB_WORLD_CLASS"
 "balatro.Client" = "balatro.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["balatro*", "balatro"]
+exclude = ["balatro/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

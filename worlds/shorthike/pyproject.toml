@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "shorthike.WebWorldClass" = "shorthike.Register:WEB_WORLD_CLASS"
 "shorthike.Client" = "shorthike.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shorthike*", "shorthike"]
+exclude = ["shorthike/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

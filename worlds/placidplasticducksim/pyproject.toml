@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "placidplasticducksim.WebWorldClass" = "placidplasticducksim.Register:WEB_WORLD_CLASS"
 "placidplasticducksim.Client" = "placidplasticducksim.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["placidplasticducksim*", "placidplasticducksim"]
+exclude = ["placidplasticducksim/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

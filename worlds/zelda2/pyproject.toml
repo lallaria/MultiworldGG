@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "zelda2.WebWorldClass" = "zelda2.Register:WEB_WORLD_CLASS"
 "zelda2.Client" = "zelda2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["zelda2*", "zelda2"]
+exclude = ["zelda2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

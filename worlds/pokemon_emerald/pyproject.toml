@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "pokemon_emerald.WebWorldClass" = "pokemon_emerald.Register:WEB_WORLD_CLASS"
 "pokemon_emerald.Client" = "pokemon_emerald.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pokemon_emerald*", "pokemon_emerald"]
+exclude = ["pokemon_emerald/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

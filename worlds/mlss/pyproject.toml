@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "mlss.WebWorldClass" = "mlss.Register:WEB_WORLD_CLASS"
 "mlss.Client" = "mlss.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mlss*", "mlss"]
+exclude = ["mlss/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

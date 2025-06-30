@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "diddy_kong_racing.WebWorldClass" = "diddy_kong_racing.Register:WEB_WORLD_CLASS"
 "diddy_kong_racing.Client" = "diddy_kong_racing.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["diddy_kong_racing*", "diddy_kong_racing"]
+exclude = ["diddy_kong_racing/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

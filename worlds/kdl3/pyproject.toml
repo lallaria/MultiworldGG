@@ -9,7 +9,6 @@ description = "Kirby's Dream Land 3"
 authors = [
     {name = "Silvris"}
 ]
-license = "MIT"
 classifiers = [
     "Private :: Do Not Upload"
 ]
@@ -19,6 +18,12 @@ requires-python = ">=3.12"
 "kdl3.WorldClass" = "kdl3.Register:WORLD_CLASS"
 "kdl3.WebWorldClass" = "kdl3.Register:WEB_WORLD_CLASS"
 "kdl3.Client" = "kdl3.Register:CLIENT_FUNCTION"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kdl3*", "kdl3"]
+exclude = ["kdl3/test*"]
+namespaces = false
 
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

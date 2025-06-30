@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "spire.WebWorldClass" = "spire.Register:WEB_WORLD_CLASS"
 "spire.Client" = "spire.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["spire*", "spire"]
+exclude = ["spire/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

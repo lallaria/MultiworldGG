@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "generic.WebWorldClass" = "generic.Register:WEB_WORLD_CLASS"
 "generic.Client" = "generic.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["generic*", "generic"]
+exclude = ["generic/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

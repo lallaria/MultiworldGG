@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "mm2.WebWorldClass" = "mm2.Register:WEB_WORLD_CLASS"
 "mm2.Client" = "mm2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mm2*", "mm2"]
+exclude = ["mm2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

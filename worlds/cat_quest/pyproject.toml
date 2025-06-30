@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "cat_quest.WebWorldClass" = "cat_quest.Register:WEB_WORLD_CLASS"
 "cat_quest.Client" = "cat_quest.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cat_quest*", "cat_quest"]
+exclude = ["cat_quest/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -22,5 +22,11 @@ dependencies = [
 "tww.WebWorldClass" = "tww.Register:WEB_WORLD_CLASS"
 "tww.Client" = "tww.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tww*", "tww"]
+exclude = ["tww/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

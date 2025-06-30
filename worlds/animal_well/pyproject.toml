@@ -25,5 +25,11 @@ dependencies = [
 "animal_well.WebWorldClass" = "animal_well.Register:WEB_WORLD_CLASS"
 "animal_well.Client" = "animal_well.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["animal_well*", "animal_well"]
+exclude = ["animal_well/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

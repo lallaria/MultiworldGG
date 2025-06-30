@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "sm64hacks.WebWorldClass" = "sm64hacks.Register:WEB_WORLD_CLASS"
 "sm64hacks.Client" = "sm64hacks.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sm64hacks*", "sm64hacks"]
+exclude = ["sm64hacks/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

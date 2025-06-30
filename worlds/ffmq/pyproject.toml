@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "ffmq.WebWorldClass" = "ffmq.Register:WEB_WORLD_CLASS"
 "ffmq.Client" = "ffmq.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ffmq*", "ffmq"]
+exclude = ["ffmq/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

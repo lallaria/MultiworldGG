@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "momodoramoonlitfarewell.WebWorldClass" = "momodoramoonlitfarewell.Register:WEB_WORLD_CLASS"
 "momodoramoonlitfarewell.Client" = "momodoramoonlitfarewell.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["momodoramoonlitfarewell*", "momodoramoonlitfarewell"]
+exclude = ["momodoramoonlitfarewell/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

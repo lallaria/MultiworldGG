@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dkc3.WebWorldClass" = "dkc3.Register:WEB_WORLD_CLASS"
 "dkc3.Client" = "dkc3.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dkc3*", "dkc3"]
+exclude = ["dkc3/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

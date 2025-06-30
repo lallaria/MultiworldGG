@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "megamix.WebWorldClass" = "megamix.Register:WEB_WORLD_CLASS"
 "megamix.Client" = "megamix.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["megamix*", "megamix"]
+exclude = ["megamix/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

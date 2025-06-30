@@ -24,5 +24,11 @@ dependencies = [
 "luigismansion.WebWorldClass" = "luigismansion.Register:WEB_WORLD_CLASS"
 "luigismansion.Client" = "luigismansion.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["luigismansion*", "luigismansion"]
+exclude = ["luigismansion/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "enderlilies.WebWorldClass" = "enderlilies.Register:WEB_WORLD_CLASS"
 "enderlilies.Client" = "enderlilies.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["enderlilies*", "enderlilies"]
+exclude = ["enderlilies/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

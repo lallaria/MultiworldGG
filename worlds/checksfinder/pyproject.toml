@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "checksfinder.WebWorldClass" = "checksfinder.Register:WEB_WORLD_CLASS"
 "checksfinder.Client" = "checksfinder.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["checksfinder*", "checksfinder"]
+exclude = ["checksfinder/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

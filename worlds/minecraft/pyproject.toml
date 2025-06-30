@@ -24,5 +24,11 @@ dependencies = [
 "minecraft.WebWorldClass" = "minecraft.Register:WEB_WORLD_CLASS"
 "minecraft.Client" = "minecraft.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["minecraft*", "minecraft"]
+exclude = ["minecraft/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

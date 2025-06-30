@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "tboir.WebWorldClass" = "tboir.Register:WEB_WORLD_CLASS"
 "tboir.Client" = "tboir.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tboir*", "tboir"]
+exclude = ["tboir/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

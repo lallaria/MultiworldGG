@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "bomb_rush_cyberfunk.WebWorldClass" = "bomb_rush_cyberfunk.Register:WEB_WORLD_CLASS"
 "bomb_rush_cyberfunk.Client" = "bomb_rush_cyberfunk.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bomb_rush_cyberfunk*", "bomb_rush_cyberfunk"]
+exclude = ["bomb_rush_cyberfunk/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

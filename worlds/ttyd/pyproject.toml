@@ -24,5 +24,11 @@ dependencies = [
 "ttyd.WebWorldClass" = "ttyd.Register:WEB_WORLD_CLASS"
 "ttyd.Client" = "ttyd.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ttyd*", "ttyd"]
+exclude = ["ttyd/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

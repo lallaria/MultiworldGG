@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "cuphead.WebWorldClass" = "cuphead.Register:WEB_WORLD_CLASS"
 "cuphead.Client" = "cuphead.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cuphead*", "cuphead"]
+exclude = ["cuphead/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

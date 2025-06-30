@@ -24,5 +24,11 @@ dependencies = [
 "sc2.WebWorldClass" = "sc2.Register:WEB_WORLD_CLASS"
 "sc2.Client" = "sc2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sc2*", "sc2"]
+exclude = ["sc2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

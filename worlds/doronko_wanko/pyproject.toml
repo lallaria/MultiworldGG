@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "doronko_wanko.WebWorldClass" = "doronko_wanko.Register:WEB_WORLD_CLASS"
 "doronko_wanko.Client" = "doronko_wanko.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["doronko_wanko*", "doronko_wanko"]
+exclude = ["doronko_wanko/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

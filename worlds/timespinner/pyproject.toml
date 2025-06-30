@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "timespinner.WebWorldClass" = "timespinner.Register:WEB_WORLD_CLASS"
 "timespinner.Client" = "timespinner.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["timespinner*", "timespinner"]
+exclude = ["timespinner/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

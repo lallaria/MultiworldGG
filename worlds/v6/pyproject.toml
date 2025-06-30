@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "v6.WebWorldClass" = "v6.Register:WEB_WORLD_CLASS"
 "v6.Client" = "v6.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["v6*", "v6"]
+exclude = ["v6/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "spyro3.WebWorldClass" = "spyro3.Register:WEB_WORLD_CLASS"
 "spyro3.Client" = "spyro3.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["spyro3*", "spyro3"]
+exclude = ["spyro3/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

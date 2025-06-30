@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "meritous.WebWorldClass" = "meritous.Register:WEB_WORLD_CLASS"
 "meritous.Client" = "meritous.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["meritous*", "meritous"]
+exclude = ["meritous/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

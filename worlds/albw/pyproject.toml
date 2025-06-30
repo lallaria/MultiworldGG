@@ -23,5 +23,11 @@ requires-python = ">=3.12"
 "albw.WebWorldClass" = "albw.Register:WEB_WORLD_CLASS"
 "albw.Client" = "albw.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["albw*", "albw"]
+exclude = ["albw/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

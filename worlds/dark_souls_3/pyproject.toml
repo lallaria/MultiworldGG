@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "dark_souls_3.WebWorldClass" = "dark_souls_3.Register:WEB_WORLD_CLASS"
 "dark_souls_3.Client" = "dark_souls_3.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dark_souls_3*", "dark_souls_3"]
+exclude = ["dark_souls_3/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

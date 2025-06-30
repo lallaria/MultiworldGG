@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "rogue_legacy.WebWorldClass" = "rogue_legacy.Register:WEB_WORLD_CLASS"
 "rogue_legacy.Client" = "rogue_legacy.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rogue_legacy*", "rogue_legacy"]
+exclude = ["rogue_legacy/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

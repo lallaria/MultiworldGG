@@ -19,5 +19,11 @@ requires-python = ">=3.12"
 "candybox2.WebWorldClass" = "candybox2.Register:WEB_WORLD_CLASS"
 "candybox2.Client" = "candybox2.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["candybox2*", "candybox2"]
+exclude = ["candybox2/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}

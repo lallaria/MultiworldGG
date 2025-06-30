@@ -20,5 +20,11 @@ requires-python = ">=3.12"
 "messenger.WebWorldClass" = "messenger.Register:WEB_WORLD_CLASS"
 "messenger.Client" = "messenger.Register:CLIENT_FUNCTION"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["messenger*", "messenger"]
+exclude = ["messenger/test*"]
+namespaces = false
+
 [tool.setuptools.dynamic]
 version = {attr = "Constants.VERSION"}
