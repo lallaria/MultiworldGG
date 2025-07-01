@@ -29,6 +29,7 @@ tmc_logger = logging.getLogger("The Minish Cap")
 
 class MinishCapWebWorld(WebWorld):
     """ Minish Cap Webpage configuration """
+    display_name = "The Legend of Zelda: The Minish Cap"
 
     theme = "grassFlowers"
     bug_report_page = "https://github.com/eternalcode0/Archipelago/issues"
