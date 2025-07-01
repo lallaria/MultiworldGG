@@ -64,9 +64,9 @@ deathlink_sent_this_death: we interacted with the multiworld on this death, wait
 bt_loc_name_to_id = network_data_package["games"]["Banjo-Tooie"]["location_name_to_id"]
 bt_itm_name_to_id = network_data_package["games"]["Banjo-Tooie"]["item_name_to_id"]
 script_version: int = 5
-version: str = "V4.6"
-game_append_version: str = "V46"
-patch_md5: str = "c300778ca54dbe2cc067bb9baa6daa64"
+version: str = "V4.6.1"
+game_append_version: str = "V461"
+patch_md5: str = "3e1d5beda86573f3c9a78d3a958ddc0d"
 
 def get_item_value(ap_id):
     return ap_id
@@ -1005,7 +1005,7 @@ async def n64_sync_task(ctx: BanjoTooieContext):
                         if not ctx.version_warning:
                             logger.warning(f"Your Lua script is version {reported_version}, expected {script_version}. "
                                 "Please update to the latest version. "
-                                "Your connection to the MultiworldGG server will not be accepted.")
+                                f"Your connection to the {apname} server will not be accepted.")
                             ctx.version_warning = True
                 except asyncio.TimeoutError:
                     logger.debug("Read Timed Out, Reconnecting")
