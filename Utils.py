@@ -23,6 +23,7 @@ from time import sleep
 from typing import BinaryIO, Coroutine, Optional, Set, Dict, Any, Union, TypeGuard
 from yaml import load, load_all, dump
 from zipfile import ZipFile
+import ModuleUpdate
 
 try:
     from yaml import CLoader as UnsafeLoader, CSafeLoader as SafeLoader, CDumper as Dumper
@@ -92,36 +93,89 @@ is_linux = sys.platform.startswith("linux")
 is_macos = sys.platform == "darwin"
 is_windows = sys.platform in ("win32", "cygwin", "msys")
 
-worlds_wheels_dir = os.path.abspath(os.path.join("worlds", "Wheels"))
-worlds_modules_dir = os.path.abspath(os.path.join("worlds", "Lib"))
+def get_available_worlds() -> dict[str, importlib.metadata.EntryPoints]:
+    """Get a list of available world names"""
+    from data.game_index import GAMES_DATA
 
-def discover_and_launch_module(module_name: str, **kwargs):
-    """Discover and launch module via entrypoints"""
-    try:
-        # Discover entrypoints for mwgg.plugins
-        entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
-        
-        # Check if module exists in entry points
-        module_found = False
-        for entry_point in entry_points:
-            if entry_point.name == module_name:
-                module_found = True
+    available_worlds = dict()
+    entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
+    for game, game_data in GAMES_DATA.items():
+        for game_name, entry_point in zip(game_data["game_name"], entry_points):
+            if game_name.join(".WorldClass") == entry_point.name:
+                available_worlds[game_name] = entry_point
+    return available_worlds
+
+def discover_module(module_name: str) -> tuple[bool, importlib.metadata.EntryPoints | None]:
+    """Discover module via entrypoints"""
+    worlds_wheels_dir = os.path.abspath(os.path.join("worlds", "Wheels"))
+    worlds_modules_dir = os.path.abspath(os.path.join("worlds", "Lib"))
+
+    entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
+
+    module_found = False
+    for entry_point in entry_points:
+        if module_name in entry_point.name:
+            module_found = True
+            break
+    
+    if not module_found:
+        # If it's not in the entry points, see if there's a wheel file for it
+        wheel_files = os.listdir(worlds_wheels_dir)
+        file_name = None
+        for file in wheel_files:
+            match = re.search(f"{module_name}-.*\\.whl", file)
+            if match:
+                file_name = match.group(0)
                 break
+        if file_name:
+            wheels_to_update = ModuleUpdate.RequirementsSet.add(file_name)
+            wheels_to_update.update(yes=True, force=True)
+            entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
+        else:
+            raise ValueError(f"Module {module_name} not found")
+
+    return module_found, entry_points
+
+def discover_world_class(game_name: str):
+    """Discover and load a world class for a given game name using module discovery"""
+    # Use GAMES_DATA for display name to module name mapping
+    from data.game_index import GAMES_DATA
+
+    module_name = next((i for i, data in GAMES_DATA.items() if data['game_name'] == game_name), game_name)
+    try:
+        module_found, entry_points = discover_module(module_name)
         
         if not module_found:
-            # If it's not in the entry points, see if there's a wheel file for it
-            wheel_files = os.listdir(worlds_wheels_dir)
-            file_name = None
-            for file in wheel_files:
-                match = re.search(f"{module_name}-.*\\.whl", file)
-                if match:
-                    file_name = match.group(0)
-                    break
-            if file_name:
-                unpack_wheel(file_name)
-                entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
-            else:
-                raise ValueError(f"Module {module_name} not found")
+            return None
+            
+        # Look for the world entry point
+        world_entry_key = f"{module_name}.WorldClass"
+        world_entry_point = None
+        
+        for entry_point in entry_points:
+            if entry_point.name == world_entry_key:
+                world_entry_point = entry_point
+                break
+        
+        if world_entry_point:
+            # Load and return the world class
+            world_class = world_entry_point.load()
+            return world_class
+        else:
+            return None
+                
+    except Exception as e:
+        logging.warning(f"Failed to discover world class for {game_name}: {e}")
+        return None
+
+
+def discover_and_launch_module(module_name: str, **kwargs) -> None:
+    """Discover and launch module via entrypoints"""
+    try:
+        module_found, entry_points = discover_module(module_name)
+
+        if not module_found:
+            raise ValueError(f"Module {module_name} not found")
 
         # Look for the client entry point
         client_entry_key = f"{module_name}.Client"
@@ -151,11 +205,6 @@ def discover_and_launch_module(module_name: str, **kwargs):
     except Exception as e:
         logging.error(f"Failed to launch module {module_name}: {e}")
         raise
-
-def unpack_wheel(file_name: str):
-    """Unpack a wheel file into the worlds directory"""
-    with ZipFile(os.path.join(worlds_wheels_dir, file_name)) as zip_ref:
-        zip_ref.extractall(worlds_modules_dir)
 
 def int16_as_bytes(value: int) -> typing.List[int]:
     value = value & 0xFFFF

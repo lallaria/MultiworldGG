@@ -76,14 +76,14 @@ def update_command():
         subprocess.call([sys.executable, "-m", "pip", "install", "-r", file, "--upgrade"])
 
 
-def install_pkg_resources(yes=False):
+def install_packaging(yes=False):
     try:
-        import pkg_resources  # noqa: F401
+        import packaging.requirements 
     except ImportError:
         check_pip()
         if not yes:
-            confirm("pkg_resources not found, press enter to install it")
-        subprocess.call([sys.executable, "-m", "pip", "install", "--upgrade", "setuptools"])
+            confirm("packaging not found, press enter to install it")
+        subprocess.call([sys.executable, "-m", "pip", "install", "--upgrade", "packaging"])
 
 
 def update(yes: bool = False, force: bool = False) -> None:
@@ -91,8 +91,9 @@ def update(yes: bool = False, force: bool = False) -> None:
     if not update_ran:
         update_ran = True
 
-        install_pkg_resources(yes=yes)
-        import pkg_resources
+        install_packaging(yes=yes)
+        import packaging.requirements
+        import importlib.metadata
 
         if force:
             update_command()
@@ -146,17 +147,25 @@ def update(yes: bool = False, force: bool = False) -> None:
                         line = f"{name.rstrip()}=={version}"
                         if ";" in rest:  # keep marker
                             line += rest[rest.find(";"):]
-                    requirements = pkg_resources.parse_requirements(line)
-                    for requirement in map(str, requirements):
+                    
+                    # Skip empty lines or lines that don't look like requirements
+                    if not line.strip():
+                        continue
+                    
+                    try:
+                        requirement = packaging.requirements.Requirement(line)
                         try:
-                            pkg_resources.require(requirement)
-                        except pkg_resources.ResolutionError:
+                            importlib.metadata.distribution(requirement.name)
+                        except importlib.metadata.PackageNotFoundError:
                             if not yes:
                                 import traceback
                                 traceback.print_exc()
-                                confirm(f"Requirement {requirement} is not satisfied, press enter to install it")
+                                confirm(f"Requirement {requirement.name} is not satisfied, press enter to install it")
                             update_command()
                             return
+                    except packaging.requirements.InvalidRequirement:
+                        # Skip invalid requirement lines (like comments, empty lines, etc.)
+                        continue
 
 
 if __name__ == "__main__":

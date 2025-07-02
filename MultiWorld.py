@@ -5,7 +5,7 @@ import os
 import re
 from Utils import discover_and_launch_module
 
-worlds_modules_dir = os.path.abspath(os.path.join("worlds", "Lib"))
+worlds_modules_dir = os.path.abspath(os.path.join("worlds"))
 if worlds_modules_dir not in sys.path:
     sys.path.insert(0, worlds_modules_dir)
 
@@ -41,7 +41,11 @@ def run_client(*args):
         await ctx.shutdown()
         sys.exit()
 
+    import colorama
+    colorama.just_fix_windows_console()
+
     asyncio.run(main(args))
+    colorama.deinit()
 
 if __name__ == "__main__":
    run_client(*sys.argv[1:])

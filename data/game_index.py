@@ -2550,7 +2550,7 @@ GAMES_DATA = {
     "generic": {
         "igdb_id": "",
         "cover_url": "",
-        "game_name": "Generic",
+        "game_name": "Archipelago",
         "igdb_name": "",
         "rating": "",
         "player_perspectives": [],

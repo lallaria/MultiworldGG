@@ -18,6 +18,7 @@ from kivymd.uix.expansionpanel import *
 from .kivydi.expansionlist import *
 from kivymd.uix.textfield import MDTextField
 import logging
+from typing import Any
 
 from kivy.clock import Clock
 from kivymd.app import MDApp
@@ -264,7 +265,7 @@ class LauncherScreen(MDScreen, ThemableBehavior):
     bottom_appbar: BottomAppBar
     selected_game: StringProperty = ""
     app: MDApp
-    
+    result: Any
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.size_hint = (1, 1)
@@ -357,31 +358,19 @@ class LauncherScreen(MDScreen, ThemableBehavior):
         
         try:
             # Show loading screen
-            Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(speed=0.033), 0)
+            #Clock.schedule_once(lambda dt: self.app.loading_layout.show_loading(speed=0.033), 0)
 
             # Define ready callback to hide loading layout
             def ready_callback():
                 logger.info(f"Client {self.selected_game} is ready, hiding loading layout")
                 self.app.loading_layout.hide_loading()
-
-            def launch_module():
-                global result
-                result = discover_and_launch_module(
+            discover_and_launch_module(
                     self.selected_game, server_address = server_address, slot_name = slot_name, \
                     password = password, ready_callback=ready_callback
-                )
-                # Launch the selected game module via entrypoints with a loading screen
-            Clock.schedule_once(lambda x: launch_module(), 1)
-            
+            )
+
+            self.app.loading_layout.hide_loading()
             logger.info(f"Successfully launched {self.selected_game} module")
-            
-            # Check if the result is a task (GUI mode)
-            if hasattr(result, '_coro'):
-                # It's a task, so the ready callback will handle hiding the loading layout
-                pass
-            else:
-                # It's not a task, so hide loading immediately
-                self.app.loading_layout.hide_loading()
                 
         except Exception as e:
             logger.error(f"Failed to launch {self.selected_game} module: {e}")

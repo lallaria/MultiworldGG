@@ -46,8 +46,8 @@ class KH2Context(CommonContext):
         "HitPointFunc": 0x3D0720
     }
 
-    def __init__(self, slot_name: str = None, ready_callback=None, **kwargs):
-        super(KH2Context, self).__init__(**kwargs)
+    def __init__(self, server_address: str = None, slot_name: str = None, password: str = None, ready_callback=None):
+        super(KH2Context, self).__init__(server_address = server_address, password = password)
         self.slot_name = slot_name
         self.ready_callback = ready_callback
         self.goofy_ability_to_slot = dict()
