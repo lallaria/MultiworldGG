@@ -28,7 +28,10 @@
             {
                 "exists": true,
                 "StarRequirement": "80",
-                "Requirements": [],
+                "Requirements": [
+                    "Bowser 2 Cannon Star",
+                    "Key 1"
+                ],
                 "ConditionalRequirements": []
             }
         ],
