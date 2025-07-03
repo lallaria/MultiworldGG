@@ -10,7 +10,6 @@ import dataclasses
 from typing import Dict, List, TypedDict
 
 from Utils import local_path, user_path
-from .AutoWorld import AutoWorldRegister
 
 local_folder = os.path.dirname(__file__)
 user_folder = user_path("worlds") if user_path() != local_path() else user_path("custom_worlds")
@@ -48,28 +47,26 @@ class DataPackage(TypedDict):
 
 @dataclasses.dataclass(order=True)
 class WorldSource:
-    path: str  # typically relative path from this module
-    is_zip: bool = False
-    relative: bool = True  # relative to regular world import folder
+    entry_point: importlib.metadata.EntryPoint
     time_taken: float = -1.0
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.path}, is_zip={self.is_zip}, relative={self.relative})"
+        return f"{self.__class__.__name__}({self.entry_point})"
 
     def load(self) -> bool:
         try:
             start = time.perf_counter()
-            mod = importlib.util.module_from_spec(self.entry_point.spec)
-            mod.__package__ = f"worlds.{mod.__package__}"
-            mod.__name__ = f"worlds.{mod.__name__}"
+            mod = self.entry_point.load()
+            # mod.__package__ = f"worlds.{mod.__package__}"
+            # mod.__name__ = f"worlds.{mod.__name__}"
             sys.modules[mod.__name__] = mod
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", message="__package__ != __spec__.parent")
-                # Found no equivalent for < 3.10
-                if hasattr(self.entry_point.loader, "exec_module"):
-                    self.entry_point.loader.exec_module(mod)
-                else:
-                    importlib.import_module(f".{self.entry_point.name.rsplit(".", 1)[0]}", "worlds")
+                # # Found no equivalent for < 3.10
+                # if hasattr(self.entry_point.loader, "exec_module"):
+                #     self.entry_point.loader.exec_module(mod)
+                # else:
+                #     importlib.import_module(f".{self.entry_point.name.rsplit(".", 1)[0]}", "worlds")
             self.time_taken = time.perf_counter()-start
             return True
 
@@ -85,41 +82,25 @@ class WorldSource:
             failed_world_loads.append(os.path.basename(self.entry_point.name).rsplit(".", 1)[0])
             return False
 
+#find potential world containers, currently folders and zip-importable .apworld's
+from data.game_index import GAMES_DATA
 
-class _NetworkDataPackage:
-    """Network data package that always reflects the current state of registered worlds."""
-    
-    def __getitem__(self, key: str):
-        return self._construct_data_package()[key]
-    
-    def get(self, key: str, default=None):
-        return self._construct_data_package().get(key, default)
-    
-    def keys(self):
-        return self._construct_data_package().keys()
-    
-    def values(self):
-        return self._construct_data_package().values()
-    
-    def items(self):
-        return self._construct_data_package().items()
-    
-    def _construct_data_package(self) -> DataPackage:
-        """Construct the network data package from loaded worlds in a deterministic order"""
-        from worlds.AutoWorld import AutoWorldRegister
-        # Sort world types by name to ensure consistent ordering
-        sorted_worlds = sorted(AutoWorldRegister.world_types.items(), key=lambda x: x[0])
-        
-        # Build games dict in sorted order to ensure consistent serialization
-        games_dict = {}
-        for world_name, world in sorted_worlds:
-            games_dict[world_name] = world.get_data_package_data()
-        
-        return {
-            "games": games_dict,
-        }
+world_sources: List[WorldSource] = []
+entry_points = importlib.metadata.entry_points(group="mwgg.plugins")
+for game, game_data in GAMES_DATA.items():
+    for entry_point in entry_points:
+        class_name = game+".WorldClass"
+        if class_name == entry_point.name:
+            world_sources.append(WorldSource(entry_point))
 
+world_sources.sort()
+for world_source in world_sources:
+    world_source.load()
 
-# Create the always-up-to-date network data package instance
-network_data_package = _NetworkDataPackage()
+# Build the data package for each game.
+from .AutoWorld import AutoWorldRegister
+    
+network_data_package: DataPackage = {
+    "games": {world_name: world.get_data_package_data() for world_name, world in AutoWorldRegister.world_types.items()},
+}
 

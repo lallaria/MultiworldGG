@@ -164,8 +164,8 @@ def main(args=None) -> tuple[argparse.Namespace, int]:
         raise Exception(f"No weights found. "
                         f"Provide a general weights file ({args.weights_file_path}) or individual player files. "
                         f"A mix is also permitted.")
-
-    from worlds.alttp.EntranceRandomizer import parse_arguments
+    
+    from legacyalttpArgumentParser import parse_arguments
     erargs = parse_arguments(['--multi', str(args.multi)])
     erargs.seed = seed
     erargs.plando_options = args.plando
@@ -193,6 +193,7 @@ def main(args=None) -> tuple[argparse.Namespace, int]:
                             if category_name is None:
                                 for category in yaml:
                                     world_class = discover_world_class(category)
+                                    print(world_class)
                                     if world_class is not None and \
                                             key in Options.CommonOptions.type_hints:
                                         yaml[category][key] = option
