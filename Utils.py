@@ -113,6 +113,38 @@ def set_game_names(game_names: typing.List[str]) -> typing.List[(str, bool)]:
                 _unknown_worlds.remove(world) # Not unknown
 
     if _worlds_to_install:
+        # --- git-pull resolver (feature-flagged via MWGG_USE_GIT_RESOLVER=1) ---
+        # Build the set of slugs currently covered by custom_worlds/ so the
+        # resolver can honour the custom_worlds precedence rule.
+        custom_worlds_slugs: set[str] = set()
+        if custom_worlds_dir.exists():
+            for _cw_file in custom_worlds_dir.iterdir():
+                if _cw_file.suffix in (".whl", ".apworld"):
+                    custom_worlds_slugs.add(_cw_file.stem)
+
+        git_results = ModuleUpdate.install_worlds_via_git_resolver(
+            list(_worlds_to_install.keys()),
+            custom_worlds_slugs=custom_worlds_slugs,
+        )
+
+        # Consume any slugs the git resolver handled successfully.
+        for slug, entry_point in git_results.items():
+            if entry_point is not None:
+                _worlds_to_load.append(entry_point)
+                _worlds_to_install.pop(slug, None)
+                update_logger.info(f"[git-resolver] {slug}: loaded via git path as {entry_point!r}")
+            else:
+                from git_resolver import git_resolver_enabled
+                if git_resolver_enabled():
+                    update_logger.warning(
+                        f"[git-resolver] {slug}: git path failed (flag is ON); "
+                        "world will be unavailable this session"
+                    )
+                    _worlds_to_install.pop(slug, None)
+                else:
+                    update_logger.debug(f"[git-resolver] {slug}: falling through to pypi path")
+        # --- end git-pull resolver ---
+
         modules_to_install = [module for module in _worlds_to_install.values() if module]
         custom_worlds = ModuleUpdate.install_worlds(modules_to_install)
         if _unknown_worlds:

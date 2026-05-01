@@ -19,7 +19,7 @@ if not logging.getLogger().hasHandlers():
     logging.basicConfig(level=logging.DEBUG, format='%(message)s', stream=sys.stdout)
 
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from importlib import invalidate_caches
 from BaseUtils import tuplize_version, Version
@@ -442,6 +442,36 @@ def find_world_modules() -> set[str]:
     return world_modules_set
 
 
+def install_worlds_via_git_resolver(
+    slugs: List[str],
+    *,
+    custom_worlds_slugs: Optional[set] = None,
+) -> dict:
+    """
+    Attempt to resolve and install *slugs* via the git-pull resolver.
+
+    Feature-gated by the MWGG_USE_GIT_RESOLVER environment variable.
+    When the flag is off this is a no-op that returns an empty dict so the
+    caller can fall through to the normal pypi path.
+
+    Returns a dict mapping slug -> entry_point_module (str) for every slug
+    that was successfully installed.  Slugs that failed or were skipped map
+    to None and should be handed to install_worlds() as usual.
+    """
+    from git_resolver import git_resolver_enabled, resolve_worlds_via_git
+
+    if not git_resolver_enabled():
+        logger.debug("[git-resolver] MWGG_USE_GIT_RESOLVER not set — skipping git path")
+        return {}
+
+    logger.info(f"[git-resolver] feature flag on — attempting git resolution for: {slugs}")
+    return resolve_worlds_via_git(
+        slugs,
+        python_cmd,
+        custom_worlds_slugs=custom_worlds_slugs,
+    )
+
+
 def install_worlds(worlds: List[str], update: bool = False, no_recurse: bool = False) -> list[str]:
     """
     Install worlds from the multiworld repository.
@@ -574,32 +604,147 @@ def install_worlds(worlds: List[str], update: bool = False, no_recurse: bool = F
     
     return apworlds
 
+_ZERO_VERSION = Version(0, 0, 0)
+
+
+def _parse_apworld_version(apworld_path: Path) -> Version:
+    """Return the world_version from a .apworld archive.
+
+    Delegates to ``parse_world_version_from_apworld`` from APContainer when
+    available (added by worlds-infra).  Falls back to reading the archive
+    directly so the call-site never crashes while that consolidation is
+    in-flight.
+
+    Returns ``Version(0, 0, 0)`` when the manifest is absent or the field is
+    missing, matching the contract of the helper we're coordinating with.
+    """
+    try:
+        # TODO: import from APContainer once worlds-infra consolidates the helper
+        from APContainer import parse_world_version_from_apworld  # type: ignore[attr-defined]
+        return parse_world_version_from_apworld(apworld_path)
+    except (ImportError, AttributeError):
+        pass
+
+    # Fallback: read the manifest ourselves
+    try:
+        apworld_container = APWorldContainer(str(apworld_path))
+        with zipfile.ZipFile(str(apworld_path), 'r') as apworld_zip:
+            manifest = apworld_container.read_contents(apworld_zip)
+        if "world_version" in manifest:
+            return tuplize_version(manifest["world_version"])
+    except Exception as e:
+        logger.warning(f"[custom_worlds] Failed to read version from {apworld_path.name}: {e}")
+    return _ZERO_VERSION
+
+
+def _pick_world_source(
+    slug: str,
+    apworld_path: Path,
+    installed_version: Optional[Version],
+) -> "Literal['apworld', 'wheel']":
+    """Decide whether to use a custom .apworld or the installed wheel for *slug*.
+
+    Policy:
+    - No installed wheel yet   -> always use the apworld.
+    - apworld_version > wheel  -> use the apworld.
+    - apworld_version <= wheel -> use the wheel (tiebreak: wheel wins).
+
+    Both versions default to ``Version(0, 0, 0)`` when the source has no
+    manifest / world_version field; the tiebreak then means the wheel wins.
+
+    Returns the string ``'apworld'`` or ``'wheel'`` so the caller can branch
+    on it and the logic is testable without touching pip.
+    """
+    apworld_version = _parse_apworld_version(apworld_path)
+
+    if installed_version is None:
+        logger.info(
+            f"[custom_worlds] {slug}: no installed wheel found — using .apworld "
+            f"(version {apworld_version.as_simple_string()})"
+        )
+        return "apworld"
+
+    if apworld_version == _ZERO_VERSION or installed_version == _ZERO_VERSION:
+        logger.info(
+            f"[custom_worlds] {slug}: version comparison defaulted to 0.0.0 "
+            f"(apworld={apworld_version.as_simple_string()}, "
+            f"wheel={installed_version.as_simple_string()})"
+        )
+
+    if apworld_version > installed_version:
+        logger.info(
+            f"[custom_worlds] {slug}: .apworld {apworld_version.as_simple_string()} "
+            f"> installed wheel {installed_version.as_simple_string()} — using .apworld"
+        )
+        return "apworld"
+
+    logger.info(
+        f"[custom_worlds] {slug}: .apworld {apworld_version.as_simple_string()} "
+        f"<= installed wheel {installed_version.as_simple_string()} — "
+        f"skipping .apworld (wheel wins; tiebreak: wheel)"
+    )
+    return "wheel"
+
+
+def _get_installed_version(slug: str) -> Optional[Version]:
+    """Query pip for the installed version of worlds.<slug>.
+
+    Returns ``None`` when the package is not installed or the version cannot
+    be parsed.
+    """
+    package_name = f"worlds.{slug}"
+    try:
+        result = subprocess.run(
+            [python_cmd, "-m", "pip", "show", package_name],
+            capture_output=True, text=True, timeout=10,
+        )
+        if result.returncode == 0:
+            for line in result.stdout.splitlines():
+                if line.startswith("Version:"):
+                    version_str = line.split(":", 1)[1].strip()
+                    v = tuplize_version(version_str)
+                    logger.info(
+                        f"[custom_worlds] {slug}: installed wheel version is {version_str}"
+                    )
+                    return v
+            logger.info(
+                f"[custom_worlds] {slug}: pip show succeeded but no Version: line found"
+            )
+        else:
+            logger.info(f"[custom_worlds] {slug}: no installed wheel found via pip show")
+    except Exception as e:
+        logger.warning(
+            f"[custom_worlds] {slug}: could not query installed version via pip show: {e}"
+        )
+    return None
+
+
 def update_world_from_package() -> None:
-    """Install/update wheel files from custom_worlds directory."""
+    """Install/update wheel and .apworld files from custom_worlds directory."""
     # Use threading version if frozen, otherwise use subprocess
     if is_frozen():
         for world in worlds_files["wheels"]:
             logger.info(f"Installing wheel: {world}")
-            executable_args = [python_cmd, "-m", "pip", "install", world, "--upgrade", 
+            executable_args = [python_cmd, "-m", "pip", "install", world, "--upgrade",
                     "--prefer-binary", "--no-cache-dir"]
-            
+
             # Use threading instead of multiprocessing to avoid argument contamination
             import threading
             import queue
-            
+
             result_queue = queue.Queue()
-            
+
             def _pip_install_thread():
                 try:
                     result = subprocess.run(executable_args, capture_output=True, text=True)
                     result_queue.put((result.returncode, result.stdout, result.stderr))
                 except Exception as e:
                     result_queue.put((1, "", str(e)))
-            
+
             install_thread = threading.Thread(target=_pip_install_thread, daemon=True)
             install_thread.start()
             install_thread.join()
-            
+
             # Get the return values from the worker thread
             try:
                 returncode, stdout, stderr = result_queue.get_nowait()
@@ -608,7 +753,7 @@ def update_world_from_package() -> None:
                 returncode = 1  # Assume failure if we can't get the result
                 stdout = ""
                 stderr = "Failed to get process result"
-            
+
             if returncode != 0:
                 logger.warning(f"Failed to install wheel {wheel}")
                 if stderr:
@@ -617,65 +762,34 @@ def update_world_from_package() -> None:
                 logger.info(f"Successfully installed wheel {wheel}")
 
         for world in worlds_files["apworlds"]:
-            logger.info(f"APWorld found, checking versions: {world}")
+            logger.info(f"[custom_worlds] APWorld found, applying precedence policy: {world}")
             try:
-                # Extract module name from apworld filename (e.g., "world_name.apworld" -> "world_name")
                 world_path = Path(world)
-                module_name = world_path.stem  # Gets filename without extension
-                
-                # Read version from the apworld zip file using APWorldContainer
-                new_version: Optional[Version] = None
-                manifest: dict[str, object] = {}
-                try:
-                    apworld_container = APWorldContainer(world)
-                    # Set manifest path to expected location
-                    with zipfile.ZipFile(world, 'r') as apworld_zip:
-                        manifest = apworld_container.read_contents(apworld_zip)
-                    if "world_version" in manifest:
-                        new_version = tuplize_version(manifest["world_version"])
-                        logger.info(f"APworld {world} has version {new_version}")
-                    else:
-                        logger.info(f"APworld {world} has no world_version specified")
-                except Exception as e:
-                    logger.warning(f"Failed to read version from APworld {world}: {e}")
-                
-                # Check if world is already installed using pip show
-                package_name = f"worlds.{module_name}"
-                installed_version: Optional[Version] = None
-                
-                try:
-                    executable_args = [python_cmd, "-m", "pip", "show", package_name]
-                    result = subprocess.run(executable_args, capture_output=True, text=True, timeout=10)
-                    
-                    if result.returncode == 0:
-                        # Package is installed, parse version from output
-                        for line in result.stdout.splitlines():
-                            if line.startswith("Version:"):
-                                version_str = line.split(":", 1)[1].strip()
-                                installed_version = tuplize_version(version_str)
-                                logger.info(f"Installed world {module_name} has version {version_str}")
-                                break
-                        else:
-                            logger.info(f"Installed world {module_name} found but no version in pip show output")
-                    else:
-                        # Package not installed
-                        logger.info(f"World {module_name} is not installed")
-                except (subprocess.TimeoutExpired, Exception) as e:
-                    logger.warning(f"Failed to check installed version for {module_name} using pip show: {e}")
-                
-                # Compare versions: install if new_version > installed_version
-                # According to spec: "An APWorld without a world_version is always treated as older than one with a version"
-                if new_version is None and installed_version is not None:
-                    logger.info(f"There is a custom apworld file with no world version specified, please remove it from your custom_worlds directory.")
-                elif installed_version is None or new_version > installed_version:
+                slug = world_path.stem  # e.g. "my_game" from "my_game.apworld"
+                package_name = f"worlds.{slug}"
+
+                installed_version = _get_installed_version(slug)
+                choice = _pick_world_source(slug, world_path, installed_version)
+
+                if choice == "apworld":
+                    # Uninstall the stale wheel first so the .apworld is picked up
                     if installed_version is not None:
                         uninstall_worlds([package_name])
-                        logger.info(f"New version {new_version.as_simple_string()} > installed {installed_version.as_simple_string()}, uninstalling old version so new version will be picked up.")
+                        logger.info(
+                            f"[custom_worlds] {slug}: uninstalled old wheel so "
+                            f".apworld will be loaded at runtime"
+                        )
+                    # The .apworld is discovered by worlds/__init__.py at load time;
+                    # no pip install step is needed here.
                 else:
-                    logger.info(f"There is a custom apworld file with an older version than what is installed. Please remove it from your custom_worlds directory.")
+                    # wheel wins — nothing to do
+                    logger.info(
+                        f"[custom_worlds] {slug}: .apworld skipped; installed wheel "
+                        f"takes precedence"
+                    )
 
             except Exception as e:
-                logger.warning(f"Failed to check versions for APworld {world}: {e}")
+                logger.warning(f"[custom_worlds] Failed to apply precedence policy for {world}: {e}")
     else:
         for wheel in worlds_files["wheels"]:
             logger.info(f"Installing wheel: {wheel}")
@@ -685,6 +799,32 @@ def update_world_from_package() -> None:
                 logger.warning(f"Failed to install wheel {wheel}")
             else:
                 logger.info(f"Successfully installed wheel {wheel}")
+
+        for world in worlds_files["apworlds"]:
+            logger.info(f"[custom_worlds] APWorld found, applying precedence policy: {world}")
+            try:
+                world_path = Path(world)
+                slug = world_path.stem
+                package_name = f"worlds.{slug}"
+
+                installed_version = _get_installed_version(slug)
+                choice = _pick_world_source(slug, world_path, installed_version)
+
+                if choice == "apworld":
+                    if installed_version is not None:
+                        uninstall_worlds([package_name])
+                        logger.info(
+                            f"[custom_worlds] {slug}: uninstalled old wheel so "
+                            f".apworld will be loaded at runtime"
+                        )
+                else:
+                    logger.info(
+                        f"[custom_worlds] {slug}: .apworld skipped; installed wheel "
+                        f"takes precedence"
+                    )
+
+            except Exception as e:
+                logger.warning(f"[custom_worlds] Failed to apply precedence policy for {world}: {e}")
 
 
 def update_requirements(needed_packages: List[str]) -> None:

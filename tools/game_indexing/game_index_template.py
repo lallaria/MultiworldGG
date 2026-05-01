@@ -114,12 +114,16 @@ class _GameIndexClass(object):
     def get_game(self, game_module: str) -> dict:
         """
         Get full game data for a specific game.
-        
+
         Args:
             game_module: The module name of the game to retrieve
-            
+
         Returns:
             Dictionary containing all game data
+
+        Note: If get_upstream_info() ever diverges from the raw GAMES_DATA shape
+        (e.g. post-processing, injected defaults), this dict access becomes a
+        separate code path that consumers depend on — coordinate before changing.
         """
         return self.games.get(game_module, {})
 
@@ -129,5 +133,37 @@ class _GameIndexClass(object):
         self.game_names = game_data['game_name'], game_module
         for term in game_module.lower().split():
             self.search_index = term, game_module
+
+    def get_all_games(self) -> dict:
+        """Return all games in the index, keyed by module slug."""
+        return self._games
+
+    def get_all_game_names(self) -> dict:
+        """Return {game_name: module_slug} mapping."""
+        return self._game_names
+
+    def get_game_name_for_module(self, module_name: str) -> str:
+        """Given a module slug, return the display game name, or empty string if not found."""
+        game_data = self._games.get(module_name, {})
+        return game_data.get("game_name", "")
+
+    def get_module_for_game(self, game_name: str, worlds: bool = False) -> str:
+        """Given a display game name, return the module slug, or empty string if not found.
+        If worlds=True, prepends 'worlds.' to the result."""
+        module = self._game_names.get(game_name, "")
+        if module and worlds:
+            return f"worlds.{module}"
+        return module
+
+    def get_upstream_info(self, game_module: str) -> dict:
+        """Return distribution fields for a game: upstream_repo_url, release_ref, entry_point_module.
+        release_ref is list[dict] | null; each entry is {"kind": "git-tag"|"git-sha"|"wheel-url", "value": "..."}.
+        The runtime resolver tries each entry in order; null or empty list means not yet split."""
+        game_data = self._games.get(game_module, {})
+        return {
+            "upstream_repo_url": game_data.get("upstream_repo_url", None),
+            "release_ref": game_data.get("release_ref", None),
+            "entry_point_module": game_data.get("entry_point_module", None),
+        }
 
 GameIndex = _GameIndexClass()

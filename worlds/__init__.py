@@ -9,6 +9,7 @@ from typing import Optional, Union
 
 from NetUtils import DataPackage
 from BaseUtils import Version, write_path, is_frozen, get_archipelago_json, tuplize_version
+from APContainer import APWorldContainer
 
 # Extend __path__ to include venv site-packages for namespace package behavior
 if is_frozen():

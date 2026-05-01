@@ -374,7 +374,19 @@ class World(metaclass=AutoWorldRegister):
     __file__: ClassVar[str]
     """path it was loaded from"""
     world_version: ClassVar[Version] = Version(0, 0, 0)
-    """Optional world version loaded from archipelago.json"""
+    """World version, populated at import time from the archipelago.json"""
+
+    slot_data_schema_version: ClassVar[int] = 1
+    """Schema version for the data returned by fill_slot_data().
+
+    Increment this whenever you make a breaking change to the slot-data format
+    so that clients can gate on the version before reading fields.  The base
+    class provides the default of 1; the generation pipeline does not enforce
+    this — it is a convention for world authors and client authors to agree on.
+
+    When shipping slot data, include it like:
+        return {"schema_version": self.slot_data_schema_version, ...}
+    """
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         assert multiworld is not None

@@ -242,7 +242,11 @@ def generate_game_details_json() -> dict:
                 'platforms': igdb_details.get('platforms', []),
                 'storyline': igdb_details.get('storyline', ''),
                 'keywords': igdb_details.get('keywords', []),
-                'release_date': igdb_details.get('release_date', '')
+                'release_date': igdb_details.get('release_date', ''),
+                # Distribution fields — not sourced from IGDB; populate via tools/game_indexing/upstream_repos.json
+                'upstream_repo_url': None,
+                'release_ref': [],
+                'entry_point_module': f'worlds.{world}',
             }
         else:
             # Create empty entry for worlds without IGDB IDs
@@ -261,7 +265,11 @@ def generate_game_details_json() -> dict:
                 'platforms': ["Archipelago"],
                 'storyline': '',
                 'keywords': ["hints","archipelago","multiworld"],
-                'release_date': '2025'
+                'release_date': '2025',
+                # Distribution fields — not sourced from IGDB; populate via tools/game_indexing/upstream_repos.json
+                'upstream_repo_url': None,
+                'release_ref': [],
+                'entry_point_module': f'worlds.{world}',
             }
             print(f"Created empty entry for {world} (original world/hint world)")
     

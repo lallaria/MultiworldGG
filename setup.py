@@ -368,9 +368,32 @@ class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
             f"Unknown world {non_apworlds - set(AutoWorldRegister.world_types)} designated for .apworld"
         folders_to_remove: list[str] = []
         generate_yaml_templates(self.buildfolder / "Players" / "Templates", False)
+
+        # Worlds whose directory name starts with "_" (infra worlds: _bizhawk,
+        # _manual, _sni, _tracker, _debug) plus "generic" are built into the
+        # frozen exe.  All other per-game worlds (no-underscore directories) are
+        # fetched at runtime by the git-pull resolver / pypi path, so we must NOT
+        # bundle them as .apworld zips — doing so would pin the frozen build to a
+        # snapshot and conflict with the resolver's installs.
+        def _is_infra_world(world_file_name: str) -> bool:
+            """Return True for underscore-prefixed and 'generic' world directories."""
+            return world_file_name.startswith("_") or world_file_name == "generic"
+
         for worldname, worldtype in AutoWorldRegister.world_types.items():
             if worldname not in non_apworlds:
                 file_name = os.path.split(os.path.dirname(worldtype.__file__))[1]
+
+                # Per-game worlds are NOT bundled into the frozen build.
+                # They are resolved at runtime via the git-pull resolver or PyPI.
+                # Only infra worlds (_bizhawk, _manual, _sni, _tracker, _debug,
+                # generic) are packaged here.
+                if not _is_infra_world(file_name):
+                    world_directory = self.libfolder / "worlds" / file_name
+                    if world_directory.exists():
+                        print(f"Removing per-game world from frozen build (runtime-fetched): {file_name}")
+                        shutil.rmtree(world_directory)
+                    continue
+
                 world_directory = self.libfolder / "worlds" / file_name
                 if os.path.isfile(world_directory / "archipelago.json"):
                     with open(os.path.join(world_directory, "archipelago.json"), mode="r", encoding="utf-8") as manifest_file:
@@ -404,6 +427,21 @@ class BuildExeCommand(cx_Freeze.command.build_exe.build_exe):
                     zf.writestr(apworld.manifest_path, json.dumps(manifest))
                     folders_to_remove.append(file_name)
                 shutil.rmtree(world_directory)
+
+        # Write a runtime-flags sidecar so the distribution-loader can activate
+        # the git-pull resolver on first launch without requiring a user env var.
+        # TODO (distribution-loader agent): read mwgg_runtime_flags.ini at
+        # launcher startup and call os.environ.update() before importing
+        # ModuleUpdate, then this file becomes the canonical flag source for
+        # frozen builds.
+        runtime_flags_path = self.buildfolder / "mwgg_runtime_flags.ini"
+        with open(runtime_flags_path, "w", encoding="utf-8") as rf:
+            rf.write("[RuntimeFlags]\n")
+            rf.write("# Activate the git-pull world resolver on first launch.\n")
+            rf.write("# All index entries are currently null so this is a safe no-op\n")
+            rf.write("# until the per-world-release-pr agent populates real values.\n")
+            rf.write("MWGG_USE_GIT_RESOLVER=1\n")
+        print(f"Written runtime flags to {runtime_flags_path}")
         shutil.copyfile("meta.yaml", self.buildfolder / "Players" / "Templates" / "meta.yaml")
         try:
             from maseya import z3pr  # type: ignore[import-untyped]

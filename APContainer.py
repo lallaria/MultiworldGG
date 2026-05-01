@@ -50,6 +50,8 @@ class APContainer:
     compression_level: int = 9
     compression_method: int = zipfile.ZIP_DEFLATED
     manifest_path: str = "archipelago.json"
+    # path is Path only. Union[str, Path] was the prior form and may be needed again
+    # if callers pass strings — keep the door open without requiring the wider type now.
     path: Optional[Path]
 
     def __init__(self, path: Optional[Path] = None):
@@ -115,7 +117,7 @@ class APContainer:
     def get_manifest(self) -> dict[str, Any]:
         return {
             # minimum version of patch system expected for patching to be successful
-            "compatible_version": 5,
+            "compatible_version": 7,
             "version": container_version,
         }
 
@@ -134,8 +136,8 @@ class APWorldContainer(APContainer):
         try:
             manifest = super().read_contents(opened_zipfile)
         except KeyError as e:
-            # Feature gate: archipelago.json is optional for versions < 0.7.250
-            if version_tuple < (0, 7, 250):
+            # Feature gate: archipelago.json is optional for versions < 0.7.300
+            if version_tuple < (0, 7, 300):
                 # Return empty manifest, metadata will remain None
                 return {}
             raise
@@ -149,7 +151,7 @@ class APWorldContainer(APContainer):
     def get_manifest(self) -> dict[str, Any]:
         manifest = super().get_manifest()
         manifest["game"] = self.game
-        manifest["compatible_version"] = 7
+        # compatible_version is already 7 from APContainer.get_manifest; no override needed.
         for version_key in ("world_version", "minimum_ap_version", "maximum_ap_version"):
             version = getattr(self, version_key)
             if version:
@@ -161,11 +163,16 @@ class APWorldContainer(APContainer):
         Import custom apworlds into the sys.modules namespace.
 
         Pulled from worlds.__init__.py to prevent being called unless necessary.
+
+        Sets self.apworld_spec; callers should read self.game_module.apworld_spec
+        after this call (Option B).
+        This could equivalently be done by returning spec.name from this method
+        and having the caller pass the return value directly to importlib.import_module
+        (Option A), if a future refactor needs that shape.
         """
         from zipimport import zipimporter
         importer = zipimporter(str(self.path.absolute()))
         spec = importer.find_spec(f"worlds.{self.path.stem}")
-        
         self.apworld_spec = spec
 
 class APPlayerContainer(APContainer):
@@ -222,9 +229,13 @@ class APPatch(APPlayerContainer):
 def parse_client_function(init_py_content: str) -> Optional[str]:
     """
     Parse __init__.py to find client function from Component with Type.CLIENT.
-    
+
     Looks for: components.append(Component(..., func=function_name, component_type=Type.CLIENT, ...))
-    
+
+    This is the intended discovery mechanism for client components declared inside .apworld files.
+    LauncherComponents is on the long-term deprecation path (it launches whole new client copies);
+    do NOT remove or replace this AST-walk with a direct LauncherComponents import.
+
     Returns:
         Function name if found, None otherwise
     """
@@ -269,3 +280,29 @@ def parse_client_function(init_py_content: str) -> Optional[str]:
     except Exception as e:
         logger.warning(f"Failed to parse __init__.py for client function: {e}")
         return None
+
+
+def parse_world_version_from_apworld(path: Path) -> "Version":
+    """
+    Open a .apworld zip at *path*, read archipelago.json, and return the
+    world_version as a Version namedtuple.
+
+    Returns Version(0, 0, 0) if:
+    - the zip contains no archipelago.json, or
+    - the manifest has no "world_version" key.
+
+    Import path for distribution-loader: ``from APContainer import parse_world_version_from_apworld``
+    """
+    from BaseUtils import Version, tuplize_version
+    try:
+        with zipfile.ZipFile(path, "r") as zf:
+            if "archipelago.json" not in zf.namelist():
+                return Version(0, 0, 0)
+            with zf.open("archipelago.json") as f:
+                manifest = json.load(f)
+        if "world_version" in manifest:
+            return tuplize_version(manifest["world_version"])
+        return Version(0, 0, 0)
+    except Exception as e:
+        logger.warning(f"parse_world_version_from_apworld({path}): {e}")
+        return Version(0, 0, 0)

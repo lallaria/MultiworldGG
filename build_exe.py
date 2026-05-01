@@ -267,16 +267,37 @@ def main():
         if not install_wheels("default"):
             sys.exit(1)
 
-    # Install worlds wheels
-    if not args.skip_wheels:
-        if not install_wheels("worlds"):
-            sys.exit(1)
+    # NOTE: worlds_wheels/ is deprecated for per-game worlds now that the
+    # git-pull resolver fetches them at runtime.  The directory only contains
+    # infra wheels (worlds, worlds_bizhawk, worlds_manual, worlds_sni,
+    # worlds_tracker, worlds_generic) and their tarballs.  Those are still
+    # installed via default_wheels/ above; nothing here needs worlds_wheels/.
+    # If you see worlds_wheels/ on disk, it can be left as-is for now but no
+    # longer participates in the frozen build.
+
+    # Reinstall mwgg_igdb from the canonical sixteen variant so the runtime
+    # resolver and build have the new upstream_repo_url / release_ref /
+    # entry_point_module fields available.  The installed package in
+    # site-packages is currently stale (v0.0.8, missing the new fields).
+    mwgg_igdb_src = Path(__file__).parent / "game_index" / "sixteen"
+    if mwgg_igdb_src.exists():
+        logger.info(f"Reinstalling mwgg_igdb from {mwgg_igdb_src} (sixteen variant, v0.0.13)...")
+        try:
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install", "--force-reinstall",
+                "--no-deps", str(mwgg_igdb_src),
+            ])
+            logger.info("[OK] mwgg_igdb (sixteen) installed")
+        except subprocess.CalledProcessError as e:
+            logger.warning(f"[WARN] mwgg_igdb reinstall failed: {e} — resolver may use stale index")
+    else:
+        logger.warning(f"game_index/sixteen not found at {mwgg_igdb_src} — skipping mwgg_igdb reinstall")
 
     # Update modules
     # if not args.skip_modules:
     #     if not update_modules():
     #         sys.exit(1)
-    
+
     # Generate setup.ini for Inno Setup (Windows installer)
     if is_windows():
         if not generate_setup_ini():

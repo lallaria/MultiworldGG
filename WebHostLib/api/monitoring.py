@@ -15,6 +15,25 @@ from ..models import Room, Command
 from . import api_endpoints
 
 
+def _get_index_metadata(slug: str) -> Dict[str, Any]:
+    """Return the full mwgg_igdb GAMES_DATA entry for *slug*.
+
+    Includes the three new distribution fields (upstream_repo_url, release_ref,
+    entry_point_module) when the installed mwgg_igdb has been upgraded; returns
+    them as None otherwise so callers always see a consistent shape.
+    """
+    try:
+        from mwgg_igdb import GAMES_DATA
+        entry = GAMES_DATA.get(slug, {})
+    except Exception:
+        entry = {}
+    return {
+        "upstream_repo_url": entry.get("upstream_repo_url"),
+        "release_ref": entry.get("release_ref"),
+        "entry_point_module": entry.get("entry_point_module"),
+    }
+
+
 def require_admin_token():
     """Check if admin token is required and validate it from request."""
     admin_token = app.config.get("MONITORING_ADMIN_TOKEN")
@@ -156,15 +175,32 @@ def monitoring_games() -> Dict[str, Any]:
                     "time_until_timeout": int(room.timeout - (now - room.last_activity).total_seconds()),
                 })
         
+        # Resolve module slug -> index metadata outside the inner loop for efficiency.
+        # The slug is the AutoWorldRegister module name with the "worlds." prefix stripped.
+        from worlds.AutoWorld import AutoWorldRegister
+        slug_cache: Dict[str, Dict[str, Any]] = {}
+        for game in games_dict:
+            world_type = AutoWorldRegister.world_types.get(game)
+            if world_type is not None:
+                module = world_type.__module__
+                slug = module.split(".")[-1] if "." in module else module
+            else:
+                slug = game.lower().replace(" ", "_")
+            slug_cache[game] = _get_index_metadata(slug)
+
         games_list = [
             {
                 "game": game,
                 "active_instances": instances,
                 "instance_count": len(instances),
+                # Distribution provenance — null until per-world splits land.
+                "upstream_repo_url": slug_cache[game]["upstream_repo_url"],
+                "release_ref": slug_cache[game]["release_ref"],
+                "entry_point_module": slug_cache[game]["entry_point_module"],
             }
             for game, instances in sorted(games_dict.items())
         ]
-        
+
         return jsonify({
             "games": games_list,
             "total_games": len(games_dict),
@@ -216,3 +252,32 @@ def broadcast() -> Dict[str, Any]:
             "count": count,
             "timestamp": now.isoformat(),
         })
+
+
+@api_endpoints.route('/monitoring/index')
+def monitoring_index() -> Dict[str, Any]:
+    """Admin diagnostic: full index metadata for all loaded games.
+
+    Returns one entry per loaded world (keyed by game display name) containing
+    the three new distribution fields.  All three are null until the
+    mwgg-igdb-index package upgrade ships individual per-world entries.
+    Requires admin token.
+    """
+    require_admin_token()
+    from worlds.AutoWorld import AutoWorldRegister
+
+    result: Dict[str, Any] = {}
+    for game_name, world_type in sorted(AutoWorldRegister.world_types.items()):
+        module = world_type.__module__
+        slug = module.split(".")[-1] if "." in module else module
+        meta = _get_index_metadata(slug)
+        result[game_name] = {
+            "slug": slug,
+            **meta,
+        }
+
+    return jsonify({
+        "games": result,
+        "game_count": len(result),
+        "timestamp": utcnow().isoformat(),
+    })
