@@ -135,6 +135,12 @@ class JunkHint(Range):
     default = 20
 
 
+class IAmAGooner(Toggle):
+    """Turning this on turns the cutscenes back on."""
+    internal_name = "i_am_a_gooner"
+    display_name = "I Am A Gooner"
+
+
 class FuckLink(Toggle):
     """When you get fucked, everyone gets fucked (or dies, I suppose). Of course the reverse is true too.
     This is just Death Link btw."""
@@ -162,4 +168,5 @@ class FlipwitchOptions(PerGameCommonOptions):
     quest_for_sex: QuestForSex
     crystal_teleports: CrystalTeleports
     junk_hint: JunkHint
+    i_am_a_gooner: IAmAGooner
     death_link: FuckLink

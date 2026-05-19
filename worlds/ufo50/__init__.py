@@ -114,6 +114,7 @@ class UFO50World(World):
     Their goal is to combine a familiar 8-bit aesthetic with new ideas and modern game design sensibilities.
     """  # Excerpt from https://50games.fun/
     game = GAME_NAME
+    author: str = "ScipioWright"
     web = UFO50Web()
     required_client_version = (0, 5, 0)
     topology_present = False

@@ -5,7 +5,7 @@
 BizHawk support.
 - Ape Escape (USA) ISO or BIN/CUE. Either an original black label version or the Greatest Hits version should work.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 to 2.9.1. Bizhawk version 2.10 or other emulators are **not** supported.
-- (Only if you are not using the MWGG client:) The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `MultiworldGG/custom_worlds` folder.
+- If you are using AP: The latest `apeescape.apworld` file. You can find this on the [Releases page](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Put this in your `Archipelago/custom_worlds` folder.
 
 ## Configuring BizHawk
 Once you have installed BizHawk, open `EmuHawk.exe` and change the following settings:
@@ -39,15 +39,15 @@ locate `EmuHawk.exe` in your BizHawk install.
 2. Open your Ape Escape (USA) ISO or CUE file in EmuHawk.
 3. In EmuHawk, go to `Tools > Lua Console`. This window must stay open while playing. Be careful to avoid clicking "TAStudio" below it in the menu, as this is known to delete your savefile.
 4. In the Lua Console window, go to `Script > Open Script…`.
-5. Navigate to your Archipelago install folder and open `data/lua/connector_bizhawk_generic.lua`.
+5. Navigate to your MultiworldGG install folder and open `data/lua/connector_bizhawk_generic.lua`.
 6. The emulator and client will eventually connect to each other. The BizHawk Client window should indicate that it
 connected and recognized Ape Escape.
-7. To connect the client to the server, enter your room's address and port (e.g. `archipelago.gg:38281`) into the
+7. To connect the client to the server, enter your room's address and port (e.g. `multiworld.gg:38281`) into the
 top text field of the client and click Connect.
 
 You should now be able to receive and send items. You'll need to do these steps every time you want to reconnect.
 
 ## Ending a session
 - Ape Escape does not automatically save your progress. When you're done playing, either save your game to a virtual
-memory card in the save station (recommended) or make a savestate to resume later. When reconnecting later, Archipelago
+memory card in the save station (recommended) or make a savestate to resume later. When reconnecting later, MultiworldGG
 will send you any items you received while disconnected.

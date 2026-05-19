@@ -4,15 +4,36 @@ from Options import Toggle, DefaultOnToggle, Option, Range, Choice, ItemDict, Op
 from Options import OptionGroup
 
 
-
+# QoL
 class CanWarpWithoutLordvessel(DefaultOnToggle):
-    """Gain the ability to warp as soon as you have rested at any warpable bonfire.
-    You will still need to actually rest at the warpable points to be able to warp to them.
-
-    Warpable bonfires are synced between all saves on the slot, regardless of your choice.
-    Warning: If you start a new save, don't warp out of the Asylum without getting your Estus Flask."""
+    """Gain the ability to warp as soon as you have rested at any warpable bonfire."""
     display_name = "Can Warp Without Lordvessel"
 
+class WarpToAllBonfires(DefaultOnToggle):
+    """Makes all bonfires eligible to be warped to via the in-game menu.
+    No matter your settings, you will still need to actually rest at the warpable points to be able to warp to them.
+
+    As a side-effect, this will also make warping set your destination as your "return" point upon next death, homeward, etc.
+    Warpable bonfires are synced between all saves on the slot, regardless of your choice."""
+    display_name = "Warp To All Bonfires"
+
+# Difficulty
+class GhostDifficulty(Choice):
+    """How to manage difficulty for ghosts.
+
+    - **Normal:** Ghost's behavior is unchanged and no mitigations are made to make them easier to deal with.
+    - **Ghosts Are Not Ghostly:** Ghosts can be damaged by all weapons and items.
+      Similar to having a transient curse always active.
+    - **Rickert Sells Curses:** Rickert, the blacksmith/shopkeeper in the safe part of New Londo, 
+      will sell unlimited transient curse items, 1500 souls apiece.
+    """
+    display_name = "Ghost Difficulty"
+    option_normal = 0
+    option_ghosts_are_not_ghostly = 1
+    option_rickert_sells_curses = 2
+    default = 2
+
+# Game Options
 class GuaranteedItemsOption(ItemDict):
     """Guarantees that the specified items will be in the item pool"""
     display_name = "Guaranteed Items"
@@ -67,7 +88,7 @@ class LogicToAccessCatacombs(Choice):
 
 class RandomizeStartingLoadouts(DefaultOnToggle):
     """Randomize each class's starting weapons, shields, and armors.
-    This will also randomize the thief's master key, which would break logic.
+    This will also replace the thief's master key, which would break logic.
     Shields will always be 1-handed-wieldable with starting stats.
     Weapons will always be at least 2-handed-wieldable with starting stats.
     You can see what weapons/shield/item each class starts with in their description.
@@ -203,6 +224,10 @@ class GoalConditionOption(Choice):
 option_groups = [
     OptionGroup("Quality of Life", [
         CanWarpWithoutLordvessel,
+        WarpToAllBonfires,
+        ]),
+    OptionGroup("Difficulty", [
+        GhostDifficulty,
         ]),
     OptionGroup("Sanity", [
         FogwallSanity,
@@ -236,14 +261,26 @@ option_groups = [
 
 @dataclass
 class DSROption(PerGameCommonOptions):
-    #goal: GoalOption
-    can_warp_without_lordvessel: CanWarpWithoutLordvessel
+
+    # Game Options
+    enable_deathlink: EnableDeathlinkOption
+    goal_condition: GoalConditionOption
     guaranteed_items: GuaranteedItemsOption
     excluded_location_behavior: ExcludedLocationBehaviorOption
+
+    # QoL
+    can_warp_without_lordvessel: CanWarpWithoutLordvessel
+    warp_to_all_bonfires: WarpToAllBonfires
+
+    # Difficulty
+    ghost_difficulty: GhostDifficulty
+
+    # Sanity
     fogwall_sanity: FogwallSanity
     boss_fogwall_sanity: BossFogwallSanity
     logic_to_access_catacombs: LogicToAccessCatacombs
 
+    # Equipment
     randomize_starting_loadouts: RandomizeStartingLoadouts
     randomize_starting_gifts: RandomizeStartingGifts
     require_one_handed_starting_weapons: RequireOneHandedStartingWeapons
@@ -256,10 +293,9 @@ class DSROption(PerGameCommonOptions):
     no_spell_stat_requirements: NoSpellStatRequirements
     no_miracle_covenant_requirements: NoMiracleCovenantRequirements
 
+    # Upgraded Weapons
     upgraded_weapons_percentage: UpgradedWeaponsPercentage
     upgraded_weapons_allowed_infusions: UpgradedWeaponsAllowedInfusions
     upgraded_weapons_adjusted_levels : UpgradedWeaponsAdjustedLevels
     upgraded_weapons_min_level: UpgradedWeaponsMinLevel
     upgraded_weapons_max_level: UpgradedWeaponsMaxLevel
-    enable_deathlink: EnableDeathlinkOption
-    goal_condition: GoalConditionOption

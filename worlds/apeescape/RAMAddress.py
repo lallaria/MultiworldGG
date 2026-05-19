@@ -2472,8 +2472,14 @@ class RAM:
     squareGadgetAddress = 0x0F51A9
     circleGadgetAddress = 0x0F51AA
     crossGadgetAddress = 0x0F51AB
+    Training_triangleGadgetAddress = 0x0F51AC
+    Training_squareGadgetAddress = 0x0F51AD
+    Training_circleGadgetAddress = 0x0F51AE
+    Training_crossGadgetAddress = 0x0F51AF
+
     # which gadget is currently selected for use
     heldGadgetAddress = 0x0EC2D2
+    Training_heldGadgetAddress = 0x0F51B0
 
     GadgetValues = 0x0F5124 #32 bytes
     GadgetValues2 = 0x0F5154 #32 bytes
@@ -2534,19 +2540,20 @@ class RAM:
     }
 
     HoopValues = {
-        0x0F5124: 0x0000,      # Hoop_Activated
-        0x0F5126: 0x0000,      # Hoop_Standby
-        0x0F5128: 0x0000,      # Hoop_SpinProgress
+        0x0F5124: [2,0x0000],      # Hoop_Activated
+        0x0F5126: [2,0x0000],      # Hoop_Standby
+        0x0F5128: [2,0x0000],      # Hoop_SpinProgress
 
-        0x0F512A: 0x0000,      # Hoop_AnimationReset
-        0x0F512C: 0x00000000,  # Hoop_AnimationState1
-        0x0F5130: 0x00000000,  # Hoop_AnimationState2
-        0x0F5134: 0x00000000,  # Hoop_AnimationState3
+        0x0F512A: [2,0x0000],      # Hoop_AnimationReset
+        0x0F512C: [4,0x00000000],  # Hoop_AnimationState1
+        0x0F5130: [4,0x00000000],  # Hoop_AnimationState2
+        0x0F5134: [4,0x00000000],  # Hoop_AnimationState3
 
-        0x0F5138: 0x00000000,  # Hoop_Orientation_X (Relative)
-        0x0F513C: 0x00000000,  # Hoop_Orientation_Z (Relative)
+        0x0F5138: [4,0x00000000],  # Hoop_Orientation_X (Relative)
+        0x0F513C: [4,0x00000000],  # Hoop_Orientation_Z (Relative)
 
-        0x0F5140: 0xFFFFFFFF,  # Hoop_SoundChannel (Might need to reset it to last value)
+        # Do not touch sound, could do it last forever like vanilla bug
+        #0x0F5140: [4,0xFFFFFFFF],  # Hoop_SoundChannel (Might need to reset it to last value)
 
     }
 
@@ -2573,9 +2580,11 @@ class RAM:
     canDiveAddress = 0x061970 #08018664 - default value (4 bytes)
     canWaterCatchAddress = 0x063C35 # 04 - default value
     swim_oxygenLevelAddress = 0x0F4DC8 # 0x258 = 20 seconds, 0x64 = 3 seconds
+    swim_oxygenreplenishMaxAddress = 0x0613C8 # The max oxygen that you will be able to replenish on surfacing : 0x258 = 20 seconds, 0x64 = 3 seconds
     swim_oxygenReplenishSoundAddress = 0x06140C # Default: 0C021DFE, disable: 00000000 4 bytes
     swim_ReplenishOxygenUWAddress = 0x06141C # Default: A4500018, Disable: 00000000 4 bytes
     swim_replenishOxygenOnEntryAddress = 0x0665E8  # Default: A4434DC8, Disable: 00000000 4 bytes
+    swim_initialAirAmountAddress = 0x0665E4 #Oxygen level when entering water 0x258 = 20 seconds, 0x64 = 3 seconds
     swim_surfaceDetectionAddress = 0x061420 # Default: 0801853A, disable: 0
     swim_oxygenLowLevelSoundAddress = 0x061458  # Default: 3C02800F, disable: 3C028004 4 bytes
     swim_oxygenMidLevelSoundAddress = 0x061490  # Default: 3C02800F, disable: 3C028004 4 bytes
@@ -2792,6 +2801,8 @@ class RAM:
     spike_GreenColorUpdate = 0x063B00
     spike_BlueColorUpdate = 0x063B04
     spike_LavaOrIceTimer = 0x0EC2D0 # 0100 means Spike is being launched in the air
+
+    spike_UsingBoat = 0x0BAD7B
 
     Spike_X_PosAddress = 0x0EC204 #4 bytes
     Spike_Y_PosAddress = 0x0EC208 #4 bytes

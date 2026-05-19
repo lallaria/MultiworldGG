@@ -1,11 +1,9 @@
-from .Utils import data_path, __version__
+from .Utils import data_path
 from .Colors import *
 import logging
 from . import Music as music
 from . import Sounds as sfx
 from . import IconManip as icon
-from .JSONDump import dump_obj, CollapseList, CollapseDict, AlignedDict, SortedDict
-import json
 
 logger = logging.getLogger('')
 
@@ -33,7 +31,7 @@ def patch_targeting(rom, ootworld, symbols):
 
 def patch_dpad(rom, ootworld, symbols):
     # Display D-Pad HUD
-    if ootworld.display_dpad:
+    if ootworld.display_dpad != 'off':
         rom.write_byte(symbols['CFG_DISPLAY_DPAD'], 0x01)
     else:
         rom.write_byte(symbols['CFG_DISPLAY_DPAD'], 0x00)
@@ -47,22 +45,74 @@ def patch_dpad_info(rom, ootworld, symbols):
         rom.write_byte(symbols['CFG_DPAD_DUNGEON_INFO_ENABLE'], 0x00)
 
 
+def patch_music_changes(rom, ootworld, symbols):
+    if 'CFG_SPEEDUP_MUSIC_FOR_LAST_TRIFORCE_PIECE' in symbols and hasattr(ootworld, 'speedup_music_for_last_triforce_piece'):
+        rom.write_byte(symbols['CFG_SPEEDUP_MUSIC_FOR_LAST_TRIFORCE_PIECE'], int(bool(ootworld.speedup_music_for_last_triforce_piece)))
+    if 'CFG_SLOWDOWN_MUSIC_WHEN_LOWHP' in symbols and hasattr(ootworld, 'slowdown_music_when_lowhp'):
+        rom.write_byte(symbols['CFG_SLOWDOWN_MUSIC_WHEN_LOWHP'], int(bool(ootworld.slowdown_music_when_lowhp)))
+
+
+def patch_correct_model_colors(rom, ootworld, symbols):
+    if 'CFG_CORRECT_MODEL_COLORS' in symbols and hasattr(ootworld, 'correct_model_colors'):
+        rom.write_byte(symbols['CFG_CORRECT_MODEL_COLORS'], int(bool(ootworld.correct_model_colors)))
+
+
+def patch_yaxis(rom, ootworld, symbols):
+    if 'CFG_UNINVERT_YAXIS_IN_FIRST_PERSON_CAMERA' in symbols and hasattr(ootworld, 'uninvert_y_axis_in_first_person_camera'):
+        rom.write_byte(symbols['CFG_UNINVERT_YAXIS_IN_FIRST_PERSON_CAMERA'], int(bool(ootworld.uninvert_y_axis_in_first_person_camera)))
+
+
+def patch_dpad_left(rom, ootworld, symbols):
+    if 'CFG_DPAD_ON_THE_LEFT' in symbols:
+        rom.write_byte(symbols['CFG_DPAD_ON_THE_LEFT'], 0x01 if ootworld.display_dpad == 'left' else 0x00)
+
+
+def patch_input_viewer(rom, ootworld, symbols):
+    if 'CFG_INPUT_VIEWER' in symbols:
+        rom.write_byte(symbols['CFG_INPUT_VIEWER'], int(bool(getattr(ootworld, 'input_viewer', False))))
+
+
+def patch_song_names(rom, ootworld, symbols):
+    if 'CFG_SONG_NAME_STATE' not in symbols:
+        return
+    mode = getattr(ootworld, 'display_custom_song_names', 'off')
+    if mode == 'top':
+        rom.write_byte(symbols['CFG_SONG_NAME_STATE'], 0x01)
+    elif mode == 'pause':
+        rom.write_byte(symbols['CFG_SONG_NAME_STATE'], 0x02)
+    else:
+        rom.write_byte(symbols['CFG_SONG_NAME_STATE'], 0x00)
+
+
 def patch_music(rom, ootworld, symbols):
-    # patch music
+    music_dir = getattr(ootworld, 'music_dir', None) or None
+    log = {}
     if ootworld.background_music != 'normal' or ootworld.fanfares != 'normal':
         music.restore_music(rom)
-        log, errors = music.randomize_music(rom, ootworld, {})
+        log, errors = music.randomize_music(rom, ootworld, {}, music_dir=music_dir)
         if errors:
             logger.error(errors)
     else:
         music.restore_music(rom)
+    if getattr(ootworld, 'disable_battle_music', False):
+        rom.write_byte(0xBE447F, 0x00)
+    if 'CFG_SONG_NAMES' in symbols:
+        # Only write names if music was re-randomized (log non-empty) or the table is uninitialized.
+        # This preserves names the generator already wrote when the adjuster runs without re-randomizing.
+        first_entry_blank = all(rom.read_byte(symbols['CFG_SONG_NAMES'] + j) == 0 for j in range(50))
+        if log or first_entry_blank:
+            for i, (name, seq_id) in enumerate(music.bgm_sequence_ids):
+                display_name = log.get(name, name)
+                name_bytes = display_name[:49].encode('ascii', errors='replace')
+                name_bytes = name_bytes + b'\x00' * (50 - len(name_bytes))
+                rom.write_bytes(symbols['CFG_SONG_NAMES'] + i * 50, list(name_bytes))
 
 
 def patch_model_colors(rom, color, model_addresses):
-    main_addresses, dark_addresses = model_addresses
+    main_addresses, dark_addresses, light_addresses = model_addresses
 
     if color is None:
-        for address in main_addresses + dark_addresses:
+        for address in main_addresses + dark_addresses + light_addresses:
             original = rom.original.read_bytes(address, 3)
             rom.write_bytes(address, original)
         return
@@ -73,6 +123,10 @@ def patch_model_colors(rom, color, model_addresses):
     darkened_color = list(map(lambda light: int(max((light - 0x32) * 0.6, 0)), color))
     for address in dark_addresses:
         rom.write_bytes(address, darkened_color)
+
+    lightened_color = list(map(lambda main_color: int(min((main_color / 0.6) + 0x32, 255)), color))
+    for address in light_addresses:
+        rom.write_bytes(address, lightened_color)
 
 
 def patch_tunic_icon(rom, tunic, color):
@@ -93,10 +147,11 @@ def patch_tunic_icon(rom, tunic, color):
 
 def patch_tunic_colors(rom, ootworld, symbols):
     # patch tunic colors
+    tunic_address = symbols.get('CFG_TUNIC_COLORS', 0x00B6DA38)
     tunics = [
-        ('Kokiri Tunic', 'kokiri_color', 0x00B6DA38),
-        ('Goron Tunic',  'goron_color',  0x00B6DA3B),
-        ('Zora Tunic',   'zora_color',   0x00B6DA3E),
+        ('Kokiri Tunic', 'kokiri_color', tunic_address),
+        ('Goron Tunic',  'goron_color',  tunic_address + 3),
+        ('Zora Tunic',   'zora_color',   tunic_address + 6),
     ]
     tunic_color_list = get_tunic_colors()
 
@@ -382,9 +437,9 @@ def patch_gauntlet_colors(rom, ootworld, symbols):
     # patch gauntlet colors
     gauntlets = [
         ('Silver Gauntlets', 'silver_gauntlets_color', 0x00B6DA44,
-            ([0x173B4CC], [0x173B4D4, 0x173B50C, 0x173B514])), # GI Model DList colors
+            ([0x173B4CC], [0x173B4D4, 0x173B50C, 0x173B514], [])), # GI Model DList colors
         ('Gold Gauntlets', 'golden_gauntlets_color',  0x00B6DA47,
-            ([0x173B4EC], [0x173B4F4, 0x173B52C, 0x173B534])), # GI Model DList colors
+            ([0x173B4EC], [0x173B4F4, 0x173B52C, 0x173B534], [])), # GI Model DList colors
     ]
     gauntlet_color_list = get_gauntlet_colors()
 
@@ -415,7 +470,7 @@ def patch_shield_frame_colors(rom, ootworld, symbols):
     shield_frames = [
         ('Mirror Shield Frame', 'mirror_shield_frame_color',
             [0xFA7274, 0xFA776C, 0xFAA27C, 0xFAC564, 0xFAC984, 0xFAEDD4],
-            ([0x1616FCC], [0x1616FD4])),
+            ([0x1616FCC], [0x1616FD4], [])),
     ]
     shield_frame_color_list = get_shield_frame_colors()
 
@@ -447,9 +502,10 @@ def patch_heart_colors(rom, ootworld, symbols):
     # patch heart colors
     hearts = [
         ('Heart Color', 'heart_color', symbols['CFG_HEART_COLOR'], 0xBB0994,
-            ([0x14DA474, 0x14DA594, 0x14B701C, 0x14B70DC],
+            ([0x14DA474, 0x14DA594, 0x14B701C, 0x14B70DC, 0x160929C, 0x1609304, 0x160939C],
              [0x14B70FC, 0x14DA494, 0x14DA5B4, 0x14B700C, 0x14B702C, 0x14B703C, 0x14B704C, 0x14B705C,
-              0x14B706C, 0x14B707C, 0x14B708C, 0x14B709C, 0x14B70AC, 0x14B70BC, 0x14B70CC])), # GI Model DList colors
+              0x14B706C, 0x14B707C, 0x14B708C, 0x14B709C, 0x14B70AC, 0x14B70BC, 0x14B70CC, 0x16092A4],
+             [0x16092FC, 0x1609394])), # GI Model and Potion DList colors
     ]
     heart_color_list = get_heart_colors()
 
@@ -487,7 +543,9 @@ def patch_magic_colors(rom, ootworld, symbols):
     # patch magic colors
     magic = [
         ('Magic Meter Color', 'magic_color', symbols["CFG_MAGIC_COLOR"],
-            ([0x154C654, 0x154CFB4], [0x154C65C, 0x154CFBC])), # GI Model DList colors
+            ([0x154C654, 0x154CFB4, 0x160927C, 0x160927C, 0x16092E4, 0x1609344],
+             [0x154C65C, 0x154CFBC, 0x1609284],
+             [0x16092DC, 0x160933C])), # GI Model and Potion DList colors
     ]
     magic_color_list = get_magic_colors()
 
@@ -596,18 +654,31 @@ def patch_button_colors(rom, ootworld, symbols):
 def patch_sfx(rom, ootworld, symbols):
     # Configurable Sound Effects
     sfx_config = [
-          ('sfx_navi_overworld', sfx.SoundHooks.NAVI_OVERWORLD),
-          ('sfx_navi_enemy',     sfx.SoundHooks.NAVI_ENEMY),
-          ('sfx_low_hp',         sfx.SoundHooks.HP_LOW),
-          ('sfx_menu_cursor',    sfx.SoundHooks.MENU_CURSOR),
-          ('sfx_menu_select',    sfx.SoundHooks.MENU_SELECT),
-          ('sfx_nightfall',      sfx.SoundHooks.NIGHTFALL),
-          ('sfx_horse_neigh',    sfx.SoundHooks.HORSE_NEIGH),
-          ('sfx_hover_boots',    sfx.SoundHooks.BOOTS_HOVER),
+          ('sfx_navi_overworld',  sfx.SoundHooks.NAVI_OVERWORLD),
+          ('sfx_navi_enemy',      sfx.SoundHooks.NAVI_ENEMY),
+          ('sfx_low_hp',          sfx.SoundHooks.HP_LOW),
+          ('sfx_menu_cursor',     sfx.SoundHooks.MENU_CURSOR),
+          ('sfx_menu_select',     sfx.SoundHooks.MENU_SELECT),
+          ('sfx_nightfall',       sfx.SoundHooks.NIGHTFALL),
+          ('sfx_horse_neigh',     sfx.SoundHooks.HORSE_NEIGH),
+          ('sfx_hover_boots',     sfx.SoundHooks.BOOTS_HOVER),
+          ('sfx_iron_boots',      sfx.SoundHooks.BOOTS_IRON),
+          ('sfx_silver_rupee',    sfx.SoundHooks.SILVER_RUPEE),
+          ('sfx_boomerang_throw', sfx.SoundHooks.BOOMERANG_THROW),
+          ('sfx_hookshot_chain',  sfx.SoundHooks.HOOKSHOT_CHAIN),
+          ('sfx_arrow_shot',      sfx.SoundHooks.ARROW_SHOT),
+          ('sfx_slingshot_shot',  sfx.SoundHooks.SLINGSHOT_SHOT),
+          ('sfx_magic_arrow_shot',sfx.SoundHooks.MAGIC_ARROW_SHOT),
+          ('sfx_bombchu_move',    sfx.SoundHooks.BOMBCHU_MOVE),
+          ('sfx_get_small_item',  sfx.SoundHooks.GET_SMALL_ITEM),
+          ('sfx_explosion',       sfx.SoundHooks.EXPLOSION),
+          ('sfx_daybreak',        sfx.SoundHooks.DAYBREAK),
+          ('sfx_cucco',           sfx.SoundHooks.CUCCO),
     ]
+    # These hooks store sound IDs with the SFX bank bit set; strip it before writing
+    sfx_flag_hooks = {sfx.SoundHooks.BOOMERANG_THROW, sfx.SoundHooks.HOOKSHOT_CHAIN, sfx.SoundHooks.BOMBCHU_MOVE}
+
     sound_dict = sfx.get_patch_dict()
-    sounds_keyword_label = {sound.value.keyword: sound.value.label for sound in sfx.Sounds}
-    sounds_label_keyword = {sound.value.label: sound.value.keyword for sound in sfx.Sounds}
 
     for setting, hook in sfx_config:
         selection = ootworld.__dict__[setting].replace('_', '-')
@@ -623,9 +694,14 @@ def patch_sfx(rom, ootworld, symbols):
                 selection = ootworld.random.choice(sfx.get_hook_pool(hook, "TRUE")).value.keyword
             elif selection == 'completely-random':
                 selection = ootworld.random.choice(sfx.standard).value.keyword
-            sound_id  = sound_dict[selection]
+            sound_id = sound_dict[selection]
+            if hook in sfx_flag_hooks and sound_id > 0x7FF:
+                sound_id -= 0x800
             for loc in hook.value.locations:
                 rom.write_int16(loc, sound_id)
+
+        if setting == 'sfx_get_small_item' and 'GET_ITEM_SEQ_ID' in symbols:
+            rom.write_int16(symbols['GET_ITEM_SEQ_ID'], sound_id if selection != 'default' else rom.original.read_int16(hook.value.locations[0]))
 
 
 
@@ -766,9 +842,111 @@ patch_sets[0x1F073FD9] = {
     }
 }
 
+# 7.1.79
+patch_sets[0x1F073FDA] = {
+    "patches": patch_sets[0x1F073FD9]["patches"] + [
+        patch_sfx,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FD9]["symbols"],
+        "GET_ITEM_SEQ_ID": 0x0056,
+    }
+}
+
+# 7.1.96
+patch_sets[0x1F073FDB] = {
+    "patches": patch_sets[0x1F073FDA]["patches"] + [
+        patch_tunic_colors,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FDA]["symbols"],
+        "CFG_RAINBOW_TUNIC_ENABLED": 0x005A,
+        "CFG_TUNIC_COLORS": 0x005B,
+    }
+}
+
+# 7.1.110
+patch_sets[0x1F073FDC] = {
+    "patches": patch_sets[0x1F073FDB]["patches"] + [
+        patch_music_changes,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FDB]["symbols"],
+        "CFG_SPEEDUP_MUSIC_FOR_LAST_TRIFORCE_PIECE": 0x0058,
+        "CFG_SLOWDOWN_MUSIC_WHEN_LOWHP": 0x0059,
+    }
+}
+
+# 7.1.123
+patch_sets[0x1F073FDD] = {
+    "patches": patch_sets[0x1F073FDC]["patches"] + [
+        patch_music,  # Versioned after custom instrument-set support.
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FDC]["symbols"],
+        "CFG_AUDIOBANK_TABLE_EXTENDED_ADDR": 0x0064,
+    }
+}
+
+# 7.1.134
+patch_sets[0x1F073FDE] = {
+    "patches": patch_sets[0x1F073FDD]["patches"] + [
+        patch_correct_model_colors,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FDD]["symbols"],
+        "CFG_CORRECT_MODEL_COLORS": 0x0068,
+    }
+}
+
+# 7.1.144
+patch_sets[0x1F073FDF] = {
+    "patches": patch_sets[0x1F073FDE]["patches"] + [
+        patch_yaxis,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FDE]["symbols"],
+        "CFG_UNINVERT_YAXIS_IN_FIRST_PERSON_CAMERA": 0x0069,
+    }
+}
+
+# 8.0
+patch_sets[0x1F073FE0] = {
+    "patches": patch_sets[0x1F073FDF]["patches"] + [
+        patch_dpad_left,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FDF]["symbols"],
+        "CFG_DPAD_ON_THE_LEFT": 0x006A,
+    }
+}
+
+# 8.1.4
+patch_sets[0x1F073FE1] = {
+    "patches": patch_sets[0x1F073FE0]["patches"] + [
+        patch_input_viewer,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FE0]["symbols"],
+        "CFG_INPUT_VIEWER": 0x006B,
+    }
+}
+
+# 8.1.29
+patch_sets[0x1F073FE2] = {
+    "patches": patch_sets[0x1F073FE1]["patches"] + [
+        patch_song_names,
+    ],
+    "symbols": {
+        **patch_sets[0x1F073FE1]["symbols"],
+        "CFG_SONG_NAME_STATE": 0x006C,
+        "CFG_SONG_NAMES": 0x006D,
+    }
+}
+
 
 def patch_cosmetics(ootworld, rom):
-    # Use the world's slot seed for cosmetics
+    from worlds.oot.Models import patch_model_adult, patch_model_child
 
     # try to detect the cosmetic patch data format
     versioned_patch_set = None
@@ -812,3 +990,9 @@ def patch_cosmetics(ootworld, rom):
 
         # Unknown patch format
         logger.error("Unable to patch some cosmetics. ROM uses unknown cosmetic patch format.")
+
+    # adjuster-only; skipped during normal generation
+    if getattr(ootworld, 'model_adult', 'Default') != 'Default' or getattr(ootworld, 'model_adult_filepicker', ''):
+        patch_model_adult(rom, ootworld)
+    if getattr(ootworld, 'model_child', 'Default') != 'Default' or getattr(ootworld, 'model_child_filepicker', ''):
+        patch_model_child(rom, ootworld)

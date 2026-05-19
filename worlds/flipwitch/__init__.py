@@ -270,7 +270,7 @@ class FlipwitchWorld(World):
         slot_data = {
             "ut_seed": self.seed,
             "seed": self.random.randrange(1000000000),  # Seed should be max 9 digits
-            "client_version": "1.1.0",
+            "client_version": "1.1.6",
             "animal_order": self.animal_order,
             "bunny_order": self.bunny_order,
             "monster_order": self.monster_order,
@@ -279,7 +279,7 @@ class FlipwitchWorld(World):
             "path": self.necessary_to_do_order,
             **self.options.as_dict("starting_gender", "gachapon_shuffle", "shopsanity", "shop_prices", "stat_shuffle", "pottery_lottery",
                                    "shuffle_chaos_pieces", "gachapon_shuffle", "quest_for_sex", "crystal_teleports", "death_link", "starting_area",
-                                   "shuffle_double_jump", "shuffle_dodge"),
+                                   "shuffle_double_jump", "shuffle_dodge", "i_am_a_gooner"),
         }
         return slot_data
 

@@ -1,10 +1,10 @@
 import typing
 import random
 from dataclasses import dataclass
-from Options import Option, DefaultOnToggle, Toggle, Range, OptionSet, DeathLink, PlandoConnections, \
+from Options import Option, OptionDict, DefaultOnToggle, Toggle, Range, OptionSet, DeathLink, PlandoConnections, \
     PerGameCommonOptions, OptionGroup
 from .EntranceShuffle import entrance_shuffle_table
-from .LogicTricks import normalized_name_tricks
+from .LogicTricks import normalized_name_tricks, normalized_name_advanced_tricks
 from .ColorSFXOptions import *
 
 
@@ -37,11 +37,17 @@ class OoTPlandoConnections(PlandoConnections):
     exits = set([connection[2][0] for connection in entrance_shuffle_table if len(connection) > 2])
 
 
+class PlandomizedLocations(OptionDict):
+    """Compatibility-only field for importing upstream settings/presets."""
+    display_name = "Plandomized Locations"
+    default = {}
+
+
 class Logic(Choice): 
     """Set the logic used for the generator.
     Glitchless: Normal gameplay. Can enable more difficult logical paths using the Logic Tricks option.
-    Glitched: Many powerful glitches expected, such as bomb hovering and clipping.
-    Glitched is incompatible with the following settings:
+    Advanced: Many powerful glitches expected, such as bomb hovering and clipping.
+    Advanced is incompatible with the following settings:
     - All forms of entrance randomizer
     - MQ dungeons
     - Pot shuffle
@@ -51,7 +57,7 @@ class Logic(Choice):
     No Logic: No logic is used when placing items. Not recommended for most players."""
     display_name = "Logic Rules"
     option_glitchless = 0
-    option_glitched = 1
+    option_advanced = 1
     option_no_logic = 2
 
 
@@ -85,9 +91,24 @@ class Gate(Choice):
     option_closed = 2
 
 
-class DoorOfTime(DefaultOnToggle):
-    """When enabled, the Door of Time starts opened, without needing Song of Time."""
-    display_name = "Open Door of Time"
+class DoorOfTime(Choice):
+    """Set how the Door of Time is opened.
+    Open: The Door of Time starts opened.
+    Song of Time: Requires Song of Time.
+    OoT + Song of Time: Requires Song of Time and level 2 Ocarina progression.
+    3 Stones: Requires all 3 Spiritual Stones.
+    3 Stones + Song of Time: Requires Stones and Song of Time.
+    3 Stones + OoT + SoT: Requires Stones, Song of Time, and level 2 Ocarina progression."""
+    display_name = "Door of Time"
+    option_open = 0
+    option_sot = 1
+    option_oot_sot = 2
+    option_stones = 3
+    option_stones_sot = 4
+    option_stones_oot_sot = 5
+    default = 1
+    alias_true = 0
+    alias_false = 1
 
 
 class Fountain(Choice): 
@@ -196,9 +217,34 @@ class BossEntrances(Choice):
     option_full = 2
 
 
+class ShuffleGanonTower(Toggle):
+    """Shuffle the entrance from Ganon's Castle Main to Ganon's Tower into the boss entrance pool."""
+    display_name = "Shuffle Ganon's Tower Entrance"
+
+
 class OverworldEntrances(Toggle):
     """Shuffles overworld loading zones."""
     display_name = "Shuffle Overworld Entrances"
+
+
+class ShuffleHideoutEntrances(Toggle):
+    """Shuffles the 4 interior entrances to different rooms within Gerudo Fortress."""
+    display_name = "Shuffle Hideout Entrances"
+
+
+class ShuffleGerudoFortressHeartPiece(Choice):
+    """Controls the child-only Heart Piece in Gerudo Fortress when Thieves' Hideout entrances are shuffled.
+    Remove: exclude it. Vanilla: leave it in place. Shuffle: add it to the item pool."""
+    display_name = "Shuffle Gerudo Fortress Heart Piece"
+    option_remove = 0
+    option_vanilla = 1
+    option_shuffle = 2
+    default = 1
+
+
+class ShuffleGerudoValleyRiverExit(Toggle):
+    """Shuffles the river exit from Gerudo Valley that drops you at Lake Hylia."""
+    display_name = "Shuffle Gerudo Valley River Exit"
 
 
 class OwlDrops(Toggle):
@@ -258,12 +304,14 @@ class ExtraTriforces(Range):
     default = 50
 
 
-class LogicalChus(Toggle):
-    """Bombchus are properly considered in logic.
-    The first found pack will always have 20 chus. 
-    Kokiri Shop and Bazaar will sell refills at reduced cost.
+class FreeBombchuDrops(Toggle):
+    """The first Bombchu pack found becomes a Bombchu Bag, giving the same amount of bombchus
+    as the original pack (e.g., finding Bombchus (5) first gives Bombchu Bag with 5 bombchus).
+
+    After finding the bag, bombchu refills drop from grass, pots, crates, and enemies.
+    Bombchus can be purchased from shops for 60/99/180 rupees.
     Bombchus open Bombchu Bowling."""
-    display_name = "Bombchus Considered in Logic"
+    display_name = "Add Bombchu Bag and Drops"
 
 
 class DungeonShortcuts(Choice):
@@ -368,16 +416,20 @@ world_options: typing.Dict[str, type(Option)] = {
     "shuffle_grotto_entrances": GrottoEntrances,
     "shuffle_dungeon_entrances": DungeonEntrances,
     "shuffle_overworld_entrances": OverworldEntrances,
+    "shuffle_hideout_entrances": ShuffleHideoutEntrances,
+    "shuffle_gerudo_fortress_heart_piece": ShuffleGerudoFortressHeartPiece,
+    "shuffle_gerudo_valley_river_exit": ShuffleGerudoValleyRiverExit,
     "owl_drops": OwlDrops,
     "warp_songs": WarpSongs,
     "spawn_positions": SpawnPositions,
     "shuffle_bosses": BossEntrances,
+    "shuffle_ganon_tower": ShuffleGanonTower,
     # "mix_entrance_pools": MixEntrancePools,
     # "decouple_entrances": DecoupleEntrances,
     "triforce_hunt": TriforceHunt, 
     "triforce_goal": TriforceGoal,
     "extra_triforce_percentage": ExtraTriforces,
-    "bombchus_in_logic": LogicalChus,
+    "free_bombchu_drops": FreeBombchuDrops,
 
     "dungeon_shortcuts": DungeonShortcuts,
     "dungeon_shortcuts_list": DungeonShortcutsList,
@@ -441,7 +493,7 @@ bridge_options: typing.Dict[str, type(Option)] = {
 }
 
 
-class SongShuffle(Choice): 
+class SongShuffle(Choice):
     """Set where songs can appear.
     Song: Songs are shuffled into other song locations.
     Dungeon: Songs are placed into end-of-dungeon locations:
@@ -455,6 +507,35 @@ class SongShuffle(Choice):
     option_song = 0
     option_dungeon = 1
     option_any = 2
+    default = 0
+
+
+class OcarinaSongs(OptionSet):
+    """Randomize ocarina melody assignments.
+    frog: Randomize the six standard songs.
+    warp: Randomize the six warp songs.
+    frogs2: Randomize the Zora's River Frogs Ocarina Game melody.
+
+    Backward compatibility:
+    all -> {'frog', 'warp'}
+    """
+    display_name = "Randomize Ocarina Melodies"
+    valid_keys = {"frog", "warp", "frogs2"}
+    default = set()
+
+    @classmethod
+    def from_any(cls, data):
+        if isinstance(data, bool):
+            return cls({"frog", "warp"} if data else set())
+        if isinstance(data, str):
+            lowered = data.strip().lower()
+            if lowered in {"all", "true", "on", "yes", "1"}:
+                return cls({"frog", "warp"})
+            if lowered in {"frog", "warp", "frogs2"}:
+                return cls({lowered})
+            if lowered in {"false", "off", "no", "0", "none"}:
+                return cls(set())
+        return super().from_any(data)
 
 
 class ShopShuffle(Choice): 
@@ -475,21 +556,32 @@ class ShopSlots(Range):
     range_end = 4
 
 
-class ShopPrices(Choice):
-    """Controls prices of shop locations.
-    Normal: Balanced distribution from 0 to 300.
-    Affordable: Every shop location costs 10 rupees.
-    Starting Wallet: Prices capped at 99 rupees.
-    Adult's Wallet: Prices capped at 200 rupees.
-    Giant's Wallet: Prices capped at 500 rupees.
-    Tycoon's Wallet: Prices capped at 999 rupees."""
-    display_name = "Shopsanity Prices"
-    option_normal = 0
-    option_affordable = 1
-    option_starting_wallet = 2
-    option_adults_wallet = 3
-    option_giants_wallet = 4
-    option_tycoons_wallet = 5
+class SpecialDealPriceDistribution(Choice):
+    """Controls how prices are selected for shuffled shop special deal slots.
+    Vanilla: Use the vanilla price tied to each shop slot.
+    Betavariate: Weighted distribution across the min/max range.
+    Uniform: Uniform distribution across the min/max range."""
+    display_name = "Special Deal Prices"
+    option_vanilla = 0
+    option_betavariate = 1
+    option_uniform = 2
+    default = 1
+
+
+class SpecialDealPriceMin(Range):
+    """Minimum rupee price for shuffled shop special deal slots."""
+    display_name = "Minimum Special Deal Price"
+    range_start = 0
+    range_end = 995
+    default = 0
+
+
+class SpecialDealPriceMax(Range):
+    """Maximum rupee price for shuffled shop special deal slots."""
+    display_name = "Maximum Special Deal Price"
+    range_start = 0
+    range_end = 995
+    default = 300
 
 
 class TokenShuffle(Choice): 
@@ -604,16 +696,97 @@ class ShuffleBeehives(Toggle):
     display_name = "Shuffle Beehives"
 
 
+class ShuffleWonderitems(Toggle):
+    """Shuffles Wonderitems into the item pool."""
+    display_name = "Shuffle Wonderitems"
+
+
 class ShuffleFrogRupees(Toggle):
     """Shuffles the purple rupees received from the Zora's River frogs."""
     display_name = "Shuffle Frog Song Rupees"
 
 
+class Shuffle100SkulltulaRupee(Toggle):
+    """Shuffle the repeatable 200-rupee reward for collecting all 100 Gold Skulltulas."""
+    display_name = "Shuffle 100 Skulltula Rupee Reward"
+
+
+class ShuffleSilverRupees(Choice):
+    """Shuffles the Silver Rupee puzzles into the item pool.
+    Remove: Silver rupees are removed and puzzles are pre-solved.
+    Vanilla: Silver rupees remain in their vanilla locations.
+    Dungeon: Silver rupees are shuffled within their own dungeon.
+    Overworld: Silver rupees are shuffled to overworld locations only.
+    Any Dungeon: Silver rupees are shuffled across any dungeon.
+    Regional: Silver rupees are shuffled within their region.
+    Anywhere: Silver rupees can be anywhere in the multiworld."""
+    display_name = "Shuffle Silver Rupees"
+    option_vanilla = 0
+    option_remove = 1
+    option_dungeon = 2
+    option_overworld = 3
+    option_any_dungeon = 4
+    option_regional = 5
+    option_anywhere = 6
+    default = 0
+
+
+class ShuffleTCGKeys(Choice):
+    """Shuffle Treasure Chest Game keys outside the minigame.
+    Vanilla: Keys remain in the Treasure Chest Game.
+    Shuffle: Keys are shuffled into the item pool.
+    Remove: Keys are removed and chests are unlocked."""
+    display_name = "Shuffle TCG Keys"
+    option_vanilla = 0
+    option_shuffle = 1
+    option_remove = 2
+    default = 0
+
+
+class ShuffleIndividualOcarinaNotes(Toggle):
+    """Locks all Ocarina inputs and adds 5 new items (A, C-up, C-down, C-left, C-right)
+    that each unlock one of the 5 Ocarina notes."""
+    display_name = "Shuffle Individual Ocarina Notes"
+
+
+class TCGRequiresLens(Toggle):
+    """Treasure Chest Game requires Lens of Truth to see which chests contain keys."""
+    display_name = "TCG Requires Lens of Truth"
+
+
+class ShuffleLoachReward(Toggle):
+    """Shuffle the Hyrule Loach reward from the Fishing Pond."""
+    display_name = "Shuffle Loach Reward"
+
+
+class KeyRingsGiveBossKeys(Toggle):
+    """When enabled, obtaining a key ring also grants the corresponding boss key."""
+    display_name = "Key Rings Give Boss Keys"
+
+
+class KeyAppearanceMatchesDungeon(Toggle):
+    """Small key models match their dungeon. Requires keysanity or key ring shuffle."""
+    display_name = "Key Appearance Matches Dungeon"
+
+
+class RutoAlreadyAtF1(Toggle):
+    """Ruto starts at the first switch in Jabu instead of needing to be carried."""
+    display_name = "Ruto Already at F1"
+
+
+class MaintainMaskEquips(Toggle):
+    """Equipped masks stay equipped when using ocarina or picking up items."""
+    display_name = "Maintain Mask Equips"
+
+
 shuffle_options: typing.Dict[str, type(Option)] = {
     "shuffle_song_items": SongShuffle,
+    "ocarina_songs": OcarinaSongs,
     "shopsanity": ShopShuffle,
     "shop_slots": ShopSlots,
-    "shopsanity_prices": ShopPrices,
+    "special_deal_price_distribution": SpecialDealPriceDistribution,
+    "special_deal_price_min": SpecialDealPriceMin,
+    "special_deal_price_max": SpecialDealPriceMax,
     "tokensanity": TokenShuffle,
     "shuffle_scrubs": ScrubShuffle,
     "shuffle_child_trade": ShuffleChildTrade,
@@ -622,26 +795,76 @@ shuffle_options: typing.Dict[str, type(Option)] = {
     "shuffle_crates": ShuffleCrates,
     "shuffle_cows": ShuffleCows,
     "shuffle_beehives": ShuffleBeehives,
+    "shuffle_wonderitems": ShuffleWonderitems,
     "shuffle_kokiri_sword": ShuffleSword,
     "shuffle_ocarinas": ShuffleOcarinas,
     "shuffle_gerudo_card": ShuffleCard,
     "shuffle_beans": ShuffleBeans,
     "shuffle_medigoron_carpet_salesman": ShuffleMedigoronCarpet,
     "shuffle_frog_song_rupees": ShuffleFrogRupees,
+    "shuffle_100_skulltula_rupee": Shuffle100SkulltulaRupee,
+    "shuffle_silver_rupees": ShuffleSilverRupees,
+    "shuffle_tcgkeys": ShuffleTCGKeys,
+    "shuffle_individual_ocarina_notes": ShuffleIndividualOcarinaNotes,
+    "tcg_requires_lens": TCGRequiresLens,
+    "shuffle_loach_reward": ShuffleLoachReward,
 }
 
 
-class ShuffleMapCompass(Choice): 
-    """Control where to shuffle dungeon maps and compasses.
-    Remove: There will be no maps or compasses in the itempool.
-    Startwith: You start with all maps and compasses.
-    Vanilla: Maps and compasses remain vanilla.
-    Dungeon: Maps and compasses are shuffled within their original dungeon.
-    Regional: Maps and compasses are shuffled only in regions near the original dungeon.
-    Overworld: Maps and compasses are shuffled locally outside of dungeons.
-    Any Dungeon: Maps and compasses are shuffled locally in any dungeon.
-    Keysanity: Maps and compasses can be anywhere in the multiworld."""
-    display_name = "Maps & Compasses"
+class ShuffleDungeonRewards(Choice):
+    """Control where Medallions and Spiritual Stones can be placed.
+    Vanilla: Rewards appear at their vanilla locations (blue warps in their respective dungeons).
+    Reward: Rewards are shuffled among all nine blue-warp reward locations.
+    Dungeon: Each reward is shuffled within its own dungeon.
+    Regional: Rewards are shuffled within their region.
+    Overworld: Rewards are shuffled into overworld locations only.
+    Any Dungeon: Rewards are shuffled into any dungeon location.
+    Anywhere: Rewards are shuffled into any location in the pool."""
+    display_name = "Shuffle Dungeon Rewards"
+    option_vanilla = 0
+    option_reward = 1
+    option_dungeon = 2
+    option_regional = 3
+    option_overworld = 4
+    option_any_dungeon = 5
+    option_anywhere = 6
+    default = 1
+
+
+class ShuffleMap(Choice):
+    """Control where to shuffle dungeon maps.
+    Remove: There will be no maps in the itempool.
+    Startwith: You start with all maps.
+    Vanilla: Maps remain vanilla.
+    Dungeon: Maps are shuffled within their original dungeon.
+    Regional: Maps are shuffled only in regions near the original dungeon.
+    Overworld: Maps are shuffled locally outside of dungeons.
+    Any Dungeon: Maps are shuffled locally in any dungeon.
+    Keysanity: Maps can be anywhere in the multiworld."""
+    display_name = "Maps"
+    option_remove = 0
+    option_startwith = 1
+    option_vanilla = 2
+    option_dungeon = 3
+    option_regional = 4
+    option_overworld = 5
+    option_any_dungeon = 6
+    option_keysanity = 7
+    default = 1
+    alias_anywhere = 7
+
+
+class ShuffleCompass(Choice):
+    """Control where to shuffle dungeon compasses.
+    Remove: There will be no compasses in the itempool.
+    Startwith: You start with all compasses.
+    Vanilla: Compasses remain vanilla.
+    Dungeon: Compasses are shuffled within their original dungeon.
+    Regional: Compasses are shuffled only in regions near the original dungeon.
+    Overworld: Compasses are shuffled locally outside of dungeons.
+    Any Dungeon: Compasses are shuffled locally in any dungeon.
+    Keysanity: Compasses can be anywhere in the multiworld."""
+    display_name = "Compasses"
     option_remove = 0
     option_startwith = 1
     option_vanilla = 2
@@ -749,9 +972,32 @@ class ShuffleGanonBK(Choice):
     alias_anywhere = 7
 
 
-class EnhanceMC(Toggle):
-    """Map tells if a dungeon is vanilla or MQ. Compass tells what the dungeon reward is."""
+class EnhanceMC(OptionSet):
+    """Gives maps/compasses extra functionality.
+    map_mq: Map tells if a dungeon is vanilla or MQ.
+    map_dungeon_location: Map tells where a dungeon entrance leads.
+    compass_boss_location: Compass tells which boss is in the dungeon.
+    compass_reward: Compass tells what dungeon reward is in the dungeon.
+
+    Backward compatibility:
+    true -> {'map_mq', 'compass_reward'}
+    false -> {}
+    """
     display_name = "Maps and Compasses Give Information"
+    valid_keys = {"map_mq", "map_dungeon_location", "compass_boss_location", "compass_reward"}
+    default = set()
+
+    @classmethod
+    def from_any(cls, data):
+        if isinstance(data, bool):
+            return cls({"map_mq", "compass_reward"} if data else set())
+        if isinstance(data, str):
+            lowered = data.strip().lower()
+            if lowered in {"true", "on", "yes", "1"}:
+                return cls({"map_mq", "compass_reward"})
+            if lowered in {"false", "off", "no", "0"}:
+                return cls(set())
+        return super().from_any(data)
 
 
 class GanonBKMedallions(Range):
@@ -817,13 +1063,16 @@ class KeyRingList(OptionSet):
         "Spirit Temple",
         "Bottom of the Well",
         "Gerudo Training Ground",
-        "Ganon's Castle"
+        "Ganon's Castle",
+        "Treasure Chest Game"
     }
 
 
 dungeon_items_options: typing.Dict[str, type(Option)] = {
-    "shuffle_mapcompass": ShuffleMapCompass, 
-    "shuffle_smallkeys": ShuffleKeys, 
+    "shuffle_dungeon_rewards": ShuffleDungeonRewards,
+    "shuffle_map": ShuffleMap,
+    "shuffle_compass": ShuffleCompass,
+    "shuffle_smallkeys": ShuffleKeys,
     "shuffle_hideoutkeys": ShuffleGerudoKeys,
     "shuffle_bosskeys": ShuffleBossKeys,
     "enhance_map_compass": EnhanceMC,
@@ -835,6 +1084,7 @@ dungeon_items_options: typing.Dict[str, type(Option)] = {
     "ganon_bosskey_hearts": GanonBKHearts,
     "key_rings": KeyRings,
     "key_rings_list": KeyRingList,
+    "key_rings_give_bosskeys": KeyRingsGiveBossKeys
 }
 
 
@@ -865,7 +1115,7 @@ class CompleteMaskQuest(Toggle):
 
 class UsefulCutscenes(Toggle):
     """Reenables the Poe cutscene in Forest Temple, Darunia in Fire Temple, and Twinrova introduction. Mostly useful for
-     glitched."""
+     advanced logic."""
     display_name = "Enable Useful Cutscenes"
 
 
@@ -874,9 +1124,18 @@ class FastChests(DefaultOnToggle):
     display_name = "Fast Chest Cutscenes"
 
 
-class FreeScarecrow(Toggle):
-    """Pulling out the ocarina near a scarecrow spot spawns Pierre without needing the song."""
-    display_name = "Free Scarecrow's Song"
+class ScarecrowBehavior(Choice):
+    """Set scarecrow song behavior.
+    Vanilla: Standard game behavior.
+    Fast: Shared scarecrow song behavior is simplified.
+    Free: Pierre can be summoned without setting the song."""
+    display_name = "Scarecrow Song"
+    option_vanilla = 0
+    option_fast = 1
+    option_free = 2
+    default = 0
+    alias_false = 0
+    alias_true = 2
 
 
 class FastBunny(Toggle):
@@ -910,24 +1169,53 @@ class FAETorchCount(Range):
     Does not affect logic; use the trick Shadow Temple Entry with Fire Arrows if desired."""
     display_name = "Fire Arrow Entry Torch Count"
     range_start = 1
-    range_end = 24
-    default = 24
+    range_end = 23
+    default = 3
+
+
+class EasierFireArrowEntry(Toggle):
+    """Allow reducing the number of lit torches required to open Shadow Temple with Fire Arrows."""
+    display_name = "Easier Fire Arrow Entry"
+
+
+class FastShadowBoat(Toggle):
+    """Speed up the boat ride in the Shadow Temple."""
+    display_name = "Fast Shadow Temple Boat"
+
+
+class SkipRewardFromRauru(Choice):
+    """Control whether the item Rauru gives beyond the Door of Time is given as a starting item.
+    Not Free: Rauru gives the reward when you go beyond the Door of Time.
+    Free: You begin the game with the reward Rauru normally gives. If dungeon rewards are shuffled
+    elsewhere, the Rauru reward is shuffled along with them.
+    Free Forced: You begin the game with the reward Rauru normally gives, and the ToT Reward
+    location is forced to contain a dungeon reward even when rewards are shuffled to other pools."""
+    display_name = "Free Reward from Rauru"
+    option_not_free = 0
+    option_free = 1
+    option_free_forced = 2
+    default = 0
+    alias_false = 0
+    alias_true = 1
 
 
 timesavers_options: typing.Dict[str, type(Option)] = {
-    "no_escape_sequence": SkipEscape, 
-    "no_guard_stealth": SkipStealth, 
-    "no_epona_race": SkipEponaRace, 
-    "skip_some_minigame_phases": SkipMinigamePhases, 
-    "complete_mask_quest": CompleteMaskQuest, 
-    "useful_cutscenes": UsefulCutscenes, 
-    "fast_chests": FastChests, 
-    "free_scarecrow": FreeScarecrow, 
+    "no_escape_sequence": SkipEscape,
+    "no_guard_stealth": SkipStealth,
+    "no_epona_race": SkipEponaRace,
+    "skip_some_minigame_phases": SkipMinigamePhases,
+    "complete_mask_quest": CompleteMaskQuest,
+    "useful_cutscenes": UsefulCutscenes,
+    "fast_chests": FastChests,
+    "scarecrow_behavior": ScarecrowBehavior,
     "fast_bunny_hood": FastBunny,
     "plant_beans": PlantBeans,
+    "easier_fire_arrow_entry": EasierFireArrowEntry,
     "chicken_count": ChickenCount,
     "big_poe_count": BigPoeCount,
     "fae_torch_count": FAETorchCount,
+    "fast_shadow_boat": FastShadowBoat,
+    "skip_reward_from_rauru": SkipRewardFromRauru,
 }
 
 
@@ -944,9 +1232,21 @@ class CorrectChestAppearance(Choice):
     option_classic = 3
 
 
-class MinorInMajor(Toggle):
-    """Hylian Shield, Deku Shield, and Bombchus appear in big/gold chests."""
+class MinorInMajor(OptionSet):
+    """Minor items appear in big/gold chests.
+    bombchus: Bombchus appear in big/gold chests.
+    shields: Hylian Shield and Deku Shield appear in big/gold chests.
+    capacity: Deku Stick and Deku Nut capacity upgrades appear in big/gold chests."""
     display_name = "Minor Items in Big/Gold Chests"
+    valid_keys = {"bombchus", "shields", "capacity"}
+
+    @classmethod
+    def from_any(cls, data) -> "MinorInMajor":
+        if data is True or data == 1:
+            return cls.from_any({"bombchus", "shields", "capacity"})
+        if data is False or data == 0:
+            return cls.from_any(set())
+        return super().from_any(data)
 
 
 class InvisibleChests(Toggle):
@@ -981,14 +1281,50 @@ class Hints(Choice):
     default = 3
 
 
-class MiscHints(DefaultOnToggle):
-    """The Temple of Time altar hints dungeon rewards, bridge info, and Ganon BK info; Ganondorf hints the Light Arrows; Dampe's diary hints a local Hookshot if one exists; Skulltula House locations hint their item."""
+class MiscHints(OptionSet):
+    """Choose which miscellaneous hints are enabled.
+
+    Temple of Time Altar hints dungeon rewards, bridge info, and Ganon BK info.
+    Ganondorf hints the Light Arrows.
+    Dampe's Diary hints a local Hookshot if one exists.
+    Skulltula House locations hint their item at various token counts.
+    Frogs Ocarina Game hints the final reward."""
     display_name = "Misc Hints"
+    valid_keys = {
+        "altar",
+        "dampe_diary",
+        "ganondorf",
+        "warp_songs_and_owls",
+        "10_skulltulas",
+        "20_skulltulas",
+        "30_skulltulas",
+        "40_skulltulas",
+        "50_skulltulas",
+        "100_skulltulas",
+        "frogs2",
+        "skull_mask",
+        "mask_of_truth",
+        "mask_shop",
+        "unique_merchants",
+        "big_poes",
+    }
+    default = {
+        "altar",
+        "dampe_diary",
+        "ganondorf",
+        "warp_songs_and_owls",
+        "10_skulltulas",
+        "20_skulltulas",
+        "30_skulltulas",
+        "40_skulltulas",
+        "50_skulltulas",
+        "frogs2",
+    }
 
 
 class HintDistribution(Choice):
     """Choose the hint distribution to use. Affects the frequency of strong hints, which items are always hinted, etc.
-    Detailed documentation on hint distributions can be found on the MultiworldGG GitHub or OoTRandomizer.com.
+    Detailed documentation on hint distributions can be found on OoTRandomizer.com.
     The Async hint distribution is intended for async multiworlds. It removes Way of the Hero hints to improve generation times, since they are not very useful in asyncs."""
     display_name = "Hint Distribution"
     option_balanced = 0
@@ -1082,6 +1418,9 @@ misc_options: typing.Dict[str, type(Option)] = {
     "minor_items_as_major_chest": MinorInMajor,
     "invisible_chests": InvisibleChests,
     "correct_potcrate_appearances": CorrectPotCrateAppearance,
+    "key_appearance_matches_dungeon": KeyAppearanceMatchesDungeon,
+    "ruto_already_at_f1": RutoAlreadyAtF1,
+    "maintain_mask_equips": MaintainMaskEquips,
     "hints": Hints,
     "misc_hints": MiscHints,
     "hint_dist": HintDistribution,
@@ -1092,7 +1431,7 @@ misc_options: typing.Dict[str, type(Option)] = {
     "starting_tod": StartingToD,
     "blue_fire_arrows": BlueFireArrows,
     "fix_broken_drops": FixBrokenDrops,
-    "start_with_consumables": ConsumableStart, 
+    "start_with_consumables": ConsumableStart,
     "start_with_rupees": RupeeStart,
 }
 
@@ -1123,8 +1462,26 @@ class IceTraps(Choice):
     option_on = 2
     option_mayhem = 3
     option_onslaught = 4
+    option_custom_count = 5
+    option_custom_percent = 6
     default = 1
     alias_extra = 2
+
+
+class CustomIceTrapPercent(Range):
+    """Percentage of junk items replaced by ice traps when Ice Traps is set to Custom (%)."""
+    display_name = "Custom Ice Trap Percent"
+    range_start = 0
+    range_end = 100
+    default = 50
+
+
+class CustomIceTrapCount(Range):
+    """Number of junk items replaced by ice traps when Ice Traps is set to Custom (count)."""
+    display_name = "Custom Ice Trap Count"
+    range_start = 0
+    range_end = 2000
+    default = 100
 
 
 class IceTrapVisual(Choice): 
@@ -1135,27 +1492,65 @@ class IceTrapVisual(Choice):
     option_anything = 2
 
 
-class AdultTradeStart(Choice):
-    """Choose the item that starts the adult trade sequence."""
-    display_name = "Adult Trade Sequence Start"
-    option_pocket_egg = 0
-    option_pocket_cucco = 1
-    option_cojiro = 2
-    option_odd_mushroom = 3
-    option_poachers_saw = 4
-    option_broken_sword = 5
-    option_prescription = 6
-    option_eyeball_frog = 7
-    option_eyedrops = 8
-    option_claim_check = 9
-    default = 9
+adult_trade_items = frozenset({
+    "Pocket Egg",
+    "Pocket Cucco",
+    "Cojiro",
+    "Odd Mushroom",
+    "Odd Potion",
+    "Poachers Saw",
+    "Broken Sword",
+    "Prescription",
+    "Eyeball Frog",
+    "Eyedrops",
+    "Claim Check",
+})
+
+class AdultTradeStart(OptionSet):
+    """Select the adult trade sequence items to shuffle.
+    If Shuffle All Selected Adult Trade Items is off, one selected item starts the adult trade sequence.
+    If Shuffle All Selected Adult Trade Items is on, every selected item is shuffled."""
+    display_name = "Shuffle Adult Trade Sequence Items"
+    valid_keys = adult_trade_items
+    default = adult_trade_items
+
+
+class AdultTradeShuffleOption(Toggle):
+    """Shuffle every selected adult trade sequence item into the item pool."""
+    display_name = "Shuffle All Selected Adult Trade Items"
+
+
+class AddRandomStartingItems(Toggle):
+    """Add random progression-safe starting items to start inventory."""
+    display_name = "Additional Random Starting Items"
+
+
+class RandomStartingItemsCount(Range):
+    """How many additional random starting items to grant."""
+    display_name = "Amount of Random Starting Items"
+    range_start = 0
+    range_end = 10
+    default = 0
+
+
+class RandomStartingItemsExclude(OptionSet):
+    """Exclude item categories from random starting item selection."""
+    display_name = "Exclude From Random Starting Items"
+    valid_keys = {"songs", "bombchus", "shields", "deku_upgrades", "health_upgrades", "junk"}
+    default = set()
 
 
 itempool_options: typing.Dict[str, type(Option)] = {
-    "item_pool_value": ItemPoolValue, 
+    "item_pool_value": ItemPoolValue,
     "junk_ice_traps": IceTraps,
-    "ice_trap_appearance": IceTrapVisual, 
+    "custom_ice_trap_percent": CustomIceTrapPercent,
+    "custom_ice_trap_count": CustomIceTrapCount,
+    "ice_trap_appearance": IceTrapVisual,
+    "adult_trade_shuffle": AdultTradeShuffleOption,
     "adult_trade_start": AdultTradeStart,
+    "add_random_starting_items": AddRandomStartingItems,
+    "random_starting_items_count": RandomStartingItemsCount,
+    "random_starting_items_exclude": RandomStartingItemsExclude,
 }
 
 # Start of cosmetic options
@@ -1167,9 +1562,16 @@ class Targeting(Choice):
     option_switch = 1
 
 
-class DisplayDpad(DefaultOnToggle):
-    """Show dpad icon on HUD for quick actions (ocarina, hover boots, iron boots, mask)."""
+class DisplayDpad(Choice):
+    """Show dpad icon on HUD for quick actions (ocarina, hover boots, iron boots, mask).
+    On: D-Pad shown on the right side (default).
+    Left: D-Pad shown on the left side.
+    Off: D-Pad hidden."""
     display_name = "Display D-Pad HUD"
+    option_off = 0
+    option_on = 1
+    option_left = 2
+    default = 1
 
 
 class DpadDungeonMenu(DefaultOnToggle):
@@ -1211,10 +1613,55 @@ class SwordTrailDuration(Range):
     default = 4
 
 
+class SpeedupMusicForLastTriforcePiece(Toggle):
+    """In Triforce Hunt, speed up the music slightly when one piece away from the goal."""
+    display_name = "Speed Up Music for Last Triforce Piece"
+
+
+class SlowdownMusicWhenLowhp(Toggle):
+    """Slow down the background music when at critically low health."""
+    display_name = "Slowdown Music When Low HP"
+
+
+class UninvertYAxisInFirstPersonCamera(Toggle):
+    """Uninvert the Y-axis when in first-person camera mode (e.g. arrow aiming)."""
+    display_name = "Uninvert Y-Axis in First Person Camera"
+
+
+class InputViewer(Toggle):
+    """Show a controller input display on screen."""
+    display_name = "Input Viewer"
+
+
+class DisableBattleMusic(Toggle):
+    """Prevent background music from being interrupted by the battle theme when near enemies."""
+    display_name = "Disable Battle Music"
+
+
+class DisplayCustomSongNames(Choice):
+    """When music is randomized, display the custom track name on screen."""
+    display_name = "Display Custom Song Names"
+    option_off = 0
+    option_top = 1
+    option_pause = 2
+
+
+class CreditsMusic(Toggle):
+    """Include the credits roll sequences in the background music shuffle pool."""
+    display_name = "Credits Music as BGM"
+
+
 cosmetic_options: typing.Dict[str, type(Option)] = {
     "default_targeting": Targeting,
     "display_dpad": DisplayDpad,
     "dpad_dungeon_menu": DpadDungeonMenu,
+    "speedup_music_for_last_triforce_piece": SpeedupMusicForLastTriforcePiece,
+    "slowdown_music_when_lowhp": SlowdownMusicWhenLowhp,
+    "uninvert_y_axis_in_first_person_camera": UninvertYAxisInFirstPersonCamera,
+    "input_viewer": InputViewer,
+    "disable_battle_music": DisableBattleMusic,
+    "display_custom_song_names": DisplayCustomSongNames,
+    "credits_music": CreditsMusic,
     "correct_model_colors": CorrectColors,
     "background_music": BackgroundMusic,
     "fanfares": Fanfares,
@@ -1268,28 +1715,50 @@ sfx_options: typing.Dict[str, type(Option)] = {
     "sfx_nightfall":        sfx_nightfall,
     "sfx_horse_neigh":      sfx_horse_neigh,
     "sfx_hover_boots":      sfx_hover_boots,
+    "sfx_iron_boots":       sfx_iron_boots,
+    "sfx_silver_rupee":     sfx_silver_rupee,
+    "sfx_boomerang_throw":  sfx_boomerang_throw,
+    "sfx_hookshot_chain":   sfx_hookshot_chain,
+    "sfx_arrow_shot":       sfx_arrow_shot,
+    "sfx_slingshot_shot":   sfx_slingshot_shot,
+    "sfx_magic_arrow_shot": sfx_magic_arrow_shot,
+    "sfx_bombchu_move":     sfx_bombchu_move,
+    "sfx_get_small_item":   sfx_get_small_item,
+    "sfx_explosion":        sfx_explosion,
+    "sfx_daybreak":         sfx_daybreak,
+    "sfx_cucco":            sfx_cucco,
     "sfx_ocarina":          SfxOcarina,
 }
 
 
 class LogicTricks(OptionSet):
-    """Set various tricks for logic in Ocarina of Time. 
+    """Set various tricks for logic in Ocarina of Time.
     Format as a comma-separated list of "nice" names: ["Fewer Tunic Requirements", "Hidden Grottos without Stone of Agony"].
-    A full list of supported tricks can be found at:
-    https://github.com/MultiworldGG/MultiworldGG/blob/main/worlds/oot/LogicTricks.py
     """
     display_name = "Logic Tricks"
     valid_keys = tuple(normalized_name_tricks.keys())
     valid_keys_casefold = True
 
 
+class AdvancedAllowedTricks(OptionSet):
+    """When Logic Rules is set to Advanced, choose which glitch and advanced tricks are in logic.
+    Format as a comma-separated list of "nice" names:
+    ["(Glitch) Infinite Sword Glitch (ISG)", "(Glitch) Hovering with Explosives"].
+    """
+    display_name = "Advanced Allowed Tricks"
+    valid_keys = tuple(normalized_name_advanced_tricks.keys())
+    valid_keys_casefold = True
+
+
 @dataclass
 class OoTOptions(PerGameCommonOptions):
     plando_connections: OoTPlandoConnections
+    plandomized_locations: PlandomizedLocations
     death_link: DeathLink
     logic_rules: Logic
     logic_no_night_tokens_without_suns_song: NightTokens
     logic_tricks: LogicTricks
+    advanced_allowed_tricks: AdvancedAllowedTricks
     open_forest: Forest
     open_kakariko: Gate
     open_door_of_time: DoorOfTime
@@ -1306,12 +1775,13 @@ class OoTOptions(PerGameCommonOptions):
     warp_songs: WarpSongs
     spawn_positions: SpawnPositions
     shuffle_bosses: BossEntrances
+    shuffle_ganon_tower: ShuffleGanonTower
     # mix_entrance_pools: MixEntrancePools
     # decouple_entrances: DecoupleEntrances
     triforce_hunt: TriforceHunt
     triforce_goal: TriforceGoal
     extra_triforce_percentage: ExtraTriforces
-    bombchus_in_logic: LogicalChus
+    free_bombchu_drops: FreeBombchuDrops
     dungeon_shortcuts: DungeonShortcuts
     dungeon_shortcuts_list: DungeonShortcutsList
     mq_dungeons_mode: MQDungeons
@@ -1325,7 +1795,9 @@ class OoTOptions(PerGameCommonOptions):
     bridge_rewards: BridgeRewards
     bridge_tokens: BridgeTokens
     bridge_hearts: BridgeHearts
-    shuffle_mapcompass: ShuffleMapCompass
+    shuffle_dungeon_rewards: ShuffleDungeonRewards
+    shuffle_map: ShuffleMap
+    shuffle_compass: ShuffleCompass
     shuffle_smallkeys: ShuffleKeys
     shuffle_hideoutkeys: ShuffleGerudoKeys
     shuffle_bosskeys: ShuffleBossKeys
@@ -1339,9 +1811,12 @@ class OoTOptions(PerGameCommonOptions):
     key_rings: KeyRings
     key_rings_list: KeyRingList
     shuffle_song_items: SongShuffle
+    ocarina_songs: OcarinaSongs
     shopsanity: ShopShuffle
     shop_slots: ShopSlots
-    shopsanity_prices: ShopPrices
+    special_deal_price_distribution: SpecialDealPriceDistribution
+    special_deal_price_min: SpecialDealPriceMin
+    special_deal_price_max: SpecialDealPriceMax
     tokensanity: TokenShuffle
     shuffle_scrubs: ScrubShuffle
     shuffle_child_trade: ShuffleChildTrade
@@ -1350,12 +1825,23 @@ class OoTOptions(PerGameCommonOptions):
     shuffle_crates: ShuffleCrates
     shuffle_cows: ShuffleCows
     shuffle_beehives: ShuffleBeehives
+    shuffle_wonderitems: ShuffleWonderitems
     shuffle_kokiri_sword: ShuffleSword
     shuffle_ocarinas: ShuffleOcarinas
     shuffle_gerudo_card: ShuffleCard
     shuffle_beans: ShuffleBeans
     shuffle_medigoron_carpet_salesman: ShuffleMedigoronCarpet
     shuffle_frog_song_rupees: ShuffleFrogRupees
+    shuffle_100_skulltula_rupee: Shuffle100SkulltulaRupee
+    shuffle_silver_rupees: ShuffleSilverRupees
+    shuffle_tcgkeys: ShuffleTCGKeys
+    shuffle_individual_ocarina_notes: ShuffleIndividualOcarinaNotes
+    tcg_requires_lens: TCGRequiresLens
+    shuffle_loach_reward: ShuffleLoachReward
+    shuffle_hideout_entrances: ShuffleHideoutEntrances
+    shuffle_gerudo_fortress_heart_piece: ShuffleGerudoFortressHeartPiece
+    shuffle_gerudo_valley_river_exit: ShuffleGerudoValleyRiverExit
+    key_rings_give_bosskeys: KeyRingsGiveBossKeys
     no_escape_sequence: SkipEscape
     no_guard_stealth: SkipStealth
     no_epona_race: SkipEponaRace
@@ -1363,16 +1849,22 @@ class OoTOptions(PerGameCommonOptions):
     complete_mask_quest: CompleteMaskQuest
     useful_cutscenes: UsefulCutscenes
     fast_chests: FastChests
-    free_scarecrow: FreeScarecrow
+    scarecrow_behavior: ScarecrowBehavior
     fast_bunny_hood: FastBunny
     plant_beans: PlantBeans
+    easier_fire_arrow_entry: EasierFireArrowEntry
     chicken_count: ChickenCount
     big_poe_count: BigPoeCount
     fae_torch_count: FAETorchCount
+    fast_shadow_boat: FastShadowBoat
+    skip_reward_from_rauru: SkipRewardFromRauru
     correct_chest_appearances: CorrectChestAppearance
     minor_items_as_major_chest: MinorInMajor
     invisible_chests: InvisibleChests
     correct_potcrate_appearances: CorrectPotCrateAppearance
+    key_appearance_matches_dungeon: KeyAppearanceMatchesDungeon
+    ruto_already_at_f1: RutoAlreadyAtF1
+    maintain_mask_equips: MaintainMaskEquips
     hints: Hints
     misc_hints: MiscHints
     hint_dist: HintDistribution
@@ -1387,11 +1879,24 @@ class OoTOptions(PerGameCommonOptions):
     start_with_rupees: RupeeStart
     item_pool_value: ItemPoolValue
     junk_ice_traps: IceTraps
+    custom_ice_trap_percent: CustomIceTrapPercent
+    custom_ice_trap_count: CustomIceTrapCount
     ice_trap_appearance: IceTrapVisual
+    add_random_starting_items: AddRandomStartingItems
+    random_starting_items_count: RandomStartingItemsCount
+    random_starting_items_exclude: RandomStartingItemsExclude
+    adult_trade_shuffle: AdultTradeShuffleOption
     adult_trade_start: AdultTradeStart
     default_targeting: Targeting
     display_dpad: DisplayDpad
     dpad_dungeon_menu: DpadDungeonMenu
+    speedup_music_for_last_triforce_piece: SpeedupMusicForLastTriforcePiece
+    slowdown_music_when_lowhp: SlowdownMusicWhenLowhp
+    uninvert_y_axis_in_first_person_camera: UninvertYAxisInFirstPersonCamera
+    input_viewer: InputViewer
+    disable_battle_music: DisableBattleMusic
+    display_custom_song_names: DisplayCustomSongNames
+    credits_music: CreditsMusic
     correct_model_colors: CorrectColors
     background_music: BackgroundMusic
     fanfares: Fanfares
@@ -1431,6 +1936,18 @@ class OoTOptions(PerGameCommonOptions):
     sfx_nightfall:        sfx_nightfall
     sfx_horse_neigh:      sfx_horse_neigh
     sfx_hover_boots:      sfx_hover_boots
+    sfx_iron_boots:       sfx_iron_boots
+    sfx_silver_rupee:     sfx_silver_rupee
+    sfx_boomerang_throw:  sfx_boomerang_throw
+    sfx_hookshot_chain:   sfx_hookshot_chain
+    sfx_arrow_shot:       sfx_arrow_shot
+    sfx_slingshot_shot:   sfx_slingshot_shot
+    sfx_magic_arrow_shot: sfx_magic_arrow_shot
+    sfx_bombchu_move:     sfx_bombchu_move
+    sfx_get_small_item:   sfx_get_small_item
+    sfx_explosion:        sfx_explosion
+    sfx_daybreak:         sfx_daybreak
+    sfx_cucco:            sfx_cucco
     sfx_ocarina:          SfxOcarina
 
 

@@ -49,15 +49,20 @@ def can_exit_ruined_shrine(world: "MetroidPrimeWorld", state: CollectionState) -
 
 def can_climb_sun_tower(world: "MetroidPrimeWorld", state: CollectionState) -> bool:
     return (
-        can_spider(world, state)
+        can_scan(world, state)
+        and can_spider(world, state)
         and can_super_missile(world, state)
-        and (can_bomb(world, state) or can_ball_jump(world, state))
+        and can_bomb(world, state)
     )
 
 
 def can_flaahgra(world: "MetroidPrimeWorld", state: CollectionState) -> bool:
+    pb_req = 4 if world.starting_room_data.name == RoomName.Sunchamber_Lobby.value else 5
+
     bomb_req = can_bomb(world, state) or (
-        can_power_bomb(world, state) and has_power_bomb_count(world, state, 4)
+        bool(world.options.flaahgra_power_bombs)
+        and can_power_bomb(world, state)
+        and has_power_bomb_count(world, state, pb_req)
     )
     if world.starting_room_data.name == RoomName.Sunchamber_Lobby.value:
         return bomb_req

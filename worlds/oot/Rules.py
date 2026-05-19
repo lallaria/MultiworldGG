@@ -1,5 +1,6 @@
 from collections import deque
 import logging
+import re
 import typing
 
 from .Regions import TimeOfDay
@@ -21,13 +22,13 @@ class OOTLogic(LogicMixin):
                            if parent.worlds[player].game == "Ocarina of Time"}
 
     def _oot_has_stones(self, count, player): 
-        return self.has_group("stones", player, count)
+        return self.has_group_unique("stones", player, count)
 
     def _oot_has_medallions(self, count, player): 
-        return self.has_group("medallions", player, count)
+        return self.has_group_unique("medallions", player, count)
 
     def _oot_has_dungeon_rewards(self, count, player): 
-        return self.has_group("rewards", player, count)
+        return self.has_group_unique("rewards", player, count)
 
     def _oot_has_hearts(self, count, player):
         containers = self.count("Heart Container", player)
@@ -52,6 +53,53 @@ class OOTLogic(LogicMixin):
     # Figure out if the given region's parent dungeon has shortcuts enabled
     def _oot_region_has_shortcuts(self, player, regionname):
         return self.multiworld.worlds[player].region_has_shortcuts(regionname)
+
+    def _oot_has_all_notes_for_song(self, player, song):
+        world = self.multiworld.worlds[player]
+
+        # Scarecrow Song needs at least 2 different notes
+        if song == 'Scarecrow Song' or song == 'Scarecrow_Song':
+            if world.scarecrow_behavior == 'free':
+                return True
+            # Count how many ocarina buttons we have
+            button_count = 0
+            if self.has("Ocarina A Button", player):
+                button_count += 1
+            if self.has("Ocarina C up Button", player):
+                button_count += 1
+            if self.has("Ocarina C down Button", player):
+                button_count += 1
+            if self.has("Ocarina C left Button", player):
+                button_count += 1
+            if self.has("Ocarina C right Button", player):
+                button_count += 1
+            return button_count >= 2
+
+        # Check if we have song_notes defined on the world
+        if not hasattr(world, 'song_notes'):
+            # If shuffle_individual_ocarina_notes is off, we have all notes
+            return not world.shuffle_individual_ocarina_notes
+
+        # Get the notes required for this song
+        song_key = song.replace('_', ' ')
+        if song_key not in world.song_notes:
+            return True  # Unknown song, assume no notes needed
+
+        notes = str(world.song_notes[song_key])
+
+        # Check each note type
+        if 'A' in notes and not self.has("Ocarina A Button", player):
+            return False
+        if '<' in notes and not self.has("Ocarina C left Button", player):
+            return False
+        if '^' in notes and not self.has("Ocarina C up Button", player):
+            return False
+        if 'v' in notes and not self.has("Ocarina C down Button", player):
+            return False
+        if '>' in notes and not self.has("Ocarina C right Button", player):
+            return False
+
+        return True
 
 
     # This function operates by assuming different behavior based on the "level of recursion", handled manually. 
@@ -150,7 +198,17 @@ def set_rules(ootworld):
     for location in filter(lambda location: location.name in ootworld.shop_prices
         or location.type in {'Scrub', 'GrottoScrub'}, ootworld.get_locations()):
         if location.type == 'Shop':
-            location.price = ootworld.shop_prices[location.name]
+            price = ootworld.shop_prices[location.name]
+            placed_item = location.item
+            if placed_item is not None and getattr(placed_item, 'market_price', None) is not None:
+                non_chu_drops_only = getattr(placed_item, 'market_price_non_chu_drops_only', False)
+                if not (non_chu_drops_only and ootworld.free_bombchu_drops) and price >= placed_item.market_price:
+                    # Reduce frequency of obvious scams by rerolling once and taking the lower price.
+                    price = min(price, ootworld.new_shop_price(location))
+                    ootworld.shop_prices[location.name] = price
+            location.price = price
+            if placed_item is not None:
+                placed_item.price = price
         add_rule(location, create_shop_rule(location, ootworld.parser))
 
     if (ootworld.dungeon_mq['Forest Temple'] and ootworld.shuffle_bosskeys == 'dungeon'
@@ -176,6 +234,8 @@ def set_rules(ootworld):
     # TODO: re-add hints once they are working
     # if location.type == 'HintStone' and ootworld.hints == 'mask':
     #     location.add_rule(is_child)
+
+    set_ocarina_note_rules(ootworld)
 
 
 def create_shop_rule(location, parser):
@@ -241,3 +301,71 @@ def set_entrances_based_rules(ootworld):
             forbid_item(location, 'Buy Goron Tunic', ootworld.player)
             forbid_item(location, 'Buy Zora Tunic', ootworld.player)
 
+
+def set_ocarina_note_rules(ootworld):
+    """Prevent ocarina note buttons from being placed at locations whose access requires those same notes.
+
+    When shuffle_individual_ocarina_notes is enabled, a note button needed for song X must not
+    be placed at a location whose rule requires can_play(X). Without this, the fill can create
+    circular dependencies that pass the greedy fill check but fail the sphere-based accessibility check.
+
+    This also handles one level of event indirection: if a location's rule references an event
+    (e.g. 'Mask of Truth Access') whose own rule contains can_play(), those buttons are forbidden
+    at the location too.
+    """
+    if not ootworld.shuffle_individual_ocarina_notes:
+        return
+    if not hasattr(ootworld, 'song_notes'):
+        return
+
+    note_to_button = {
+        'A': 'Ocarina A Button',
+        '<': 'Ocarina C left Button',
+        '^': 'Ocarina C up Button',
+        'v': 'Ocarina C down Button',
+        '>': 'Ocarina C right Button',
+    }
+
+    song_to_buttons: dict = {}
+    for song, notes in ootworld.song_notes.items():
+        buttons = frozenset(note_to_button[c] for c in str(notes) if c in note_to_button)
+        if buttons:
+            song_to_buttons[song.replace(' ', '_')] = buttons
+
+    can_play_re = re.compile(r'can_play\((\w+)\)')
+    # Matches single-quoted tokens used as event references in rule strings, e.g. 'Mask of Truth Access'
+    event_ref_re = re.compile(r"'([^']+)'")
+
+    # Build event_name -> required buttons from event locations' rule strings.
+    # Event location names have the form "EventName from RegionName".
+    event_buttons: dict = {}
+    for location in ootworld.get_locations():
+        if location.type != 'Event':
+            continue
+        rule_string = getattr(location, 'rule_string', None)
+        if not rule_string:
+            continue
+        songs = can_play_re.findall(rule_string)
+        if not songs:
+            continue
+        event_name = location.name.rsplit(' from ', 1)[0]
+        buttons = frozenset().union(*(song_to_buttons.get(s, frozenset()) for s in songs))
+        if event_name in event_buttons:
+            event_buttons[event_name] = event_buttons[event_name] | buttons
+        else:
+            event_buttons[event_name] = buttons
+
+    for location in ootworld.get_locations():
+        if location.type == 'Event':
+            continue
+        rule_string = getattr(location, 'rule_string', None)
+        if not rule_string:
+            continue
+        songs_needed = can_play_re.findall(rule_string)
+        forbidden = frozenset().union(*(song_to_buttons.get(s, frozenset()) for s in songs_needed))
+        for event_name in event_ref_re.findall(rule_string):
+            if event_name in event_buttons:
+                forbidden = forbidden | event_buttons[event_name]
+        if not forbidden:
+            continue
+        add_item_rule(location, lambda item, f=forbidden: item.name not in f)

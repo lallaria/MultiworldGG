@@ -442,7 +442,7 @@ class Quest:
     let_the_dog_out = add_spirit_town_location("Rover: Let the Dog Out")
     rat_problem = add_spirit_town_location("Cabaret Cafe: Rat Problem")
     ghost_hunters = add_spirit_town_location("Cabaret Cafe: Ghost Hunters")
-    haunted_bedroom = add_spirit_town_location("Cabaret Cafe: Haunted Bathroom")
+    haunted_bathroom = add_spirit_town_location("Cabaret Cafe: Haunted Bathroom")
     ectogasm = add_spirit_town_location("Cabaret Cafe: Ectogasm")
     jelly_mushroom = add_spirit_town_location("Cabaret Cafe: Jelly Mushroom")
     booze_bunny = add_spirit_town_location("Cabaret Cafe: Booze Bunny")

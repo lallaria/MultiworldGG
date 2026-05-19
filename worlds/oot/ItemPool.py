@@ -1,5 +1,3 @@
-from collections import namedtuple
-from itertools import chain
 from .Items import item_table
 from .Location import DisableType
 from .LocationList import location_groups
@@ -214,7 +212,7 @@ trade_items = (
     "Pocket Cucco",
     "Cojiro",
     "Odd Mushroom",
-    #"Odd Potion",
+    "Odd Potion",
     "Poachers Saw",
     "Broken Sword",
     "Prescription",
@@ -234,6 +232,14 @@ normal_bottles.append('Bottle with Big Poe')
 song_list = [k for k, v in item_table.items() if v[0] == 'Song']
 junk_pool_base = [(k, v[3]['junk']) for k, v in item_table.items() if get_spec(v, 'junk', -1) > 0]
 remove_junk_items = [k for k, v in item_table.items() if get_spec(v, 'junk', -1) >= 0]
+
+ocarina_button_items = [
+    'Ocarina A Button',
+    'Ocarina C up Button',
+    'Ocarina C down Button',
+    'Ocarina C left Button',
+    'Ocarina C right Button',
+]
 
 remove_junk_ludicrous_items = [
     'Ice Arrows',
@@ -292,7 +298,6 @@ item_groups = {
 
 random = None
 
-
 def get_junk_pool(ootworld):
     junk_pool[:] = list(junk_pool_base)
     if ootworld.options.junk_ice_traps == 'on':
@@ -335,6 +340,22 @@ def replace_max_item(items, item, max, rand):
             count += 1
 
 
+def get_pool_count(pool, item_list):
+    return sum(1 for value in pool if value in item_list)
+
+
+def replace_x_items(items, replace_list, count, rand):
+    rand.shuffle(items)
+    replaced = 0
+    for index, value in enumerate(items):
+        if value in replace_list:
+            if replaced < count:
+                items[index] = get_junk_item(rand)[0]
+                replaced += 1
+            else:
+                return
+
+
 def generate_itempool(ootworld):
     multiworld = ootworld.multiworld
     player = ootworld.player
@@ -358,9 +379,12 @@ def get_pool_core(world):
     placed_items = {}
     remain_shop_items = []
     ruto_bottles = 1
+    ganon_bk_setting = world.shuffle_ganon_bosskey
 
     if world.zora_fountain == 'open':
         ruto_bottles = 0
+
+    adult_trade_shuffle_items = [item for item in trade_items if item in world.adult_trade_start]
 
     if world.shopsanity not in ['off', '0']:
         pending_junk_pool.append('Progressive Wallet')
@@ -381,6 +405,11 @@ def get_pool_core(world):
                 pending_junk_pool.extend(['Small Key Ring (Thieves Hideout)'])
             else:
                 pending_junk_pool.append('Small Key (Thieves Hideout)')
+        if world.shuffle_tcgkeys in ['any_dungeon', 'overworld', 'keysanity', 'regional']:
+            if 'Treasure Chest Game' in world.key_rings:
+                pending_junk_pool.append('Small Key Ring (Treasure Chest Game)')
+            else:
+                pending_junk_pool.append('Small Key (Treasure Chest Game)')
         if world.shuffle_gerudo_card:
             pending_junk_pool.append('Gerudo Membership Card')
         if world.shuffle_smallkeys in ['any_dungeon', 'overworld', 'keysanity', 'regional']:
@@ -392,11 +421,20 @@ def get_pool_core(world):
                     pending_junk_pool.append(f"Small Key ({dungeon})")
         if world.shuffle_bosskeys in ['any_dungeon', 'overworld', 'keysanity', 'regional']:
             for dungeon in ['Forest Temple', 'Fire Temple', 'Water Temple', 'Shadow Temple', 'Spirit Temple']:
-                pending_junk_pool.append(f"Boss Key ({dungeon})")
-        if world.shuffle_ganon_bosskey in ['any_dungeon', 'overworld', 'keysanity', 'regional']:
+                if not world.keyring_give_bk(dungeon):
+                    pending_junk_pool.append(f"Boss Key ({dungeon})")
+        if ganon_bk_setting in ['any_dungeon', 'overworld', 'keysanity', 'regional']:
             pending_junk_pool.append('Boss Key (Ganons Castle)')
         if world.shuffle_song_items == 'any':
             pending_junk_pool.extend(song_list)
+        if world.adult_trade_shuffle:
+            pending_junk_pool.extend(adult_trade_shuffle_items)
+            # Pocket Egg is always chosen if both Egg and Pocket Cucco are shuffled.
+            if 'Pocket Egg' in adult_trade_shuffle_items and 'Pocket Cucco' in adult_trade_shuffle_items:
+                pending_junk_pool.remove('Pocket Cucco')
+        elif world.adult_trade_start:
+            # With adult trade shuffle off, add another copy of the selected adult trade item.
+            pending_junk_pool.append(world.selected_adult_trade_item)
 
     if world.item_pool_value == 'ludicrous':
         pending_junk_pool.extend(ludicrous_health)
@@ -405,6 +443,12 @@ def get_pool_core(world):
         triforce_count = int((Decimal(100 + world.extra_triforce_percentage)/100 * world.triforce_goal).to_integral_value(rounding=ROUND_HALF_UP))
         pending_junk_pool.extend(['Triforce Piece'] * triforce_count)
 
+    if world.shuffle_dungeon_rewards in ('dungeon', 'regional', 'overworld', 'any_dungeon', 'anywhere'):
+        pool.extend(world.item_name_groups['rewards'])
+
+    if world.shuffle_individual_ocarina_notes:
+        pending_junk_pool.extend(ocarina_button_items)
+
     # Use the vanilla items in the world's locations when appropriate.
     for location in world.get_locations():
         if location.vanilla_item is None:
@@ -412,6 +456,14 @@ def get_pool_core(world):
 
         item = location.vanilla_item
         shuffle_item = None  # None for don't handle, False for place item, True for add to pool.
+
+        # Locations whose vanilla drop is nothing (empty pots/crates) are never shuffled
+        # here because there is no upstream shuffle_empty_X option ported yet.
+        if location.vanilla_item == 'Nothing':
+            location.disabled = DisableType.DISABLED
+            location.show_in_spoiler = False
+            placed_items[location.name] = IGNORE_LOCATION
+            continue
 
         # Always Placed Items
         if (location.vanilla_item in ['Zeldas Letter', 'Triforce', 'Scarecrow Song',
@@ -431,7 +483,7 @@ def get_pool_core(world):
         # Shops
         elif location.type == "Shop":
             if world.shopsanity == 'off':
-                if world.bombchus_in_logic and location.name in ['KF Shop Item 8', 'Market Bazaar Item 4', 'Kak Bazaar Item 4']:
+                if world.free_bombchu_drops and location.name in ['KF Shop Item 8', 'Market Bazaar Item 4', 'Kak Bazaar Item 4']:
                     item = 'Buy Bombchu (5)'
                 shuffle_item = False
                 location.show_in_spoiler = False
@@ -476,9 +528,14 @@ def get_pool_core(world):
             if not shuffle_item:
                 location.show_in_spoiler = False
 
+        # Bombchu Bowling 3rd and 4th prizes are renewable fallback rewards, not shuffled checks.
+        elif location.name in ['Market Bombchu Bowling Bombchus', 'Market Bombchu Bowling Bomb']:
+            shuffle_item = False
+            location.show_in_spoiler = False
+
         # Bombchus
         elif location.vanilla_item in ['Bombchus', 'Bombchus (5)', 'Bombchus (10)', 'Bombchus (20)']:
-            if world.bombchus_in_logic:
+            if world.free_bombchu_drops:
                 item = 'Bombchus'
             shuffle_item = location.name != 'Wasteland Bombchu Salesman' or world.shuffle_medigoron_carpet_salesman
             if not shuffle_item:
@@ -523,12 +580,41 @@ def get_pool_core(world):
             if not shuffle_item:
                 location.show_in_spoiler = False
 
-        # Adult Trade Item
-        elif location.vanilla_item == 'Pocket Egg':
-            potential_trade_items = world.adult_trade_start if world.adult_trade_start else trade_items
-            item = world.random.choice(sorted(potential_trade_items))
-            world.selected_adult_trade_item = item
-            shuffle_item = True
+        # 100 Gold Skulltula Reward
+        elif location.scene == 0x50 and location.vanilla_item == 'Rupees (200)':
+            shuffle_item = world.shuffle_100_skulltula_rupee
+
+        # Adult Trade Quest Items
+        elif location.vanilla_item in trade_items:
+            if not world.adult_trade_shuffle:
+                if location.vanilla_item == 'Pocket Egg' and world.adult_trade_start:
+                    item = world.selected_adult_trade_item
+                    shuffle_item = True
+                else:
+                    shuffle_item = False
+            elif location.vanilla_item in adult_trade_shuffle_items:
+                shuffle_item = True
+            else:
+                # Upgrade Pocket Egg to Pocket Cucco if the Cucco is shuffled but not the Egg.
+                # If both are selected to be shuffled, only the Egg gets shuffled.
+                if location.vanilla_item == 'Pocket Egg' and 'Pocket Cucco' in adult_trade_shuffle_items:
+                    item = 'Pocket Cucco'
+                    shuffle_item = True
+                else:
+                    shuffle_item = False
+
+        # Gerudo Fortress freestanding Heart Piece (child-only, normally out of logic)
+        elif location.vanilla_item == 'Piece of Heart (Out of Logic)':
+            if world.shuffle_gerudo_fortress_heart_piece == 'shuffle':
+                shuffle_item = True
+                item = 'Piece of Heart'
+            elif world.shuffle_gerudo_fortress_heart_piece == 'remove':
+                shuffle_item = False
+                item = IGNORE_LOCATION
+                location.show_in_spoiler = False
+            else:  # vanilla
+                shuffle_item = False
+                location.show_in_spoiler = False
 
         # Thieves' Hideout
         elif location.vanilla_item == 'Small Key (Thieves Hideout)':
@@ -589,6 +675,30 @@ def get_pool_core(world):
                 location.disabled = DisableType.DISABLED
                 location.show_in_spoiler = False
 
+        # Wonderitems
+        elif location.type == 'Wonderitem':
+            if world.shuffle_wonderitems:
+                shuffle_item = True
+            else:
+                shuffle_item = False
+                location.disabled = DisableType.DISABLED
+                location.show_in_spoiler = False
+
+        # GC BK lives in the tower/boss data rather than a dungeon-tagged region
+        elif location.vanilla_item == 'Boss Key (Ganons Castle)':
+            if ganon_bk_setting == 'vanilla':
+                shuffle_item = False
+            elif ganon_bk_setting == 'remove':
+                world.multiworld.push_precollected(world.create_item(item))
+                world.remove_from_start_inventory.append(item)
+                item = get_junk_item(world.random)[0]
+                shuffle_item = True
+            elif ganon_bk_setting in ['any_dungeon', 'overworld', 'keysanity', 'regional']:
+                shuffle_item = True
+            else:
+                dungeon = next(dungeon for dungeon in world.dungeons if dungeon.name == 'Ganons Castle')
+                dungeon.boss_key.append(world.create_item(item))
+
         # Dungeon Items
         elif location.dungeon is not None:
             dungeon = location.dungeon
@@ -597,14 +707,24 @@ def get_pool_core(world):
 
             # Boss Key
             if location.vanilla_item == dungeon.item_name("Boss Key"):
-                shuffle_setting = world.shuffle_bosskeys if dungeon.name != 'Ganons Castle' else world.shuffle_ganon_bosskey
-                dungeon_collection = dungeon.boss_key
+                if world.keyring_give_bk(dungeon.name):
+                    item = get_junk_item(world.random)[0]
+                    shuffle_item = True
+                else:
+                    shuffle_setting = world.shuffle_bosskeys if dungeon.name != 'Ganons Castle' else ganon_bk_setting
+                    dungeon_collection = dungeon.boss_key
+                    if shuffle_setting == 'vanilla':
+                        shuffle_item = False
+            # Map
+            elif location.vanilla_item == dungeon.item_name("Map"):
+                shuffle_setting = world.shuffle_map
+                dungeon_collection = dungeon.maps
                 if shuffle_setting == 'vanilla':
                     shuffle_item = False
-            # Map or Compass
-            elif location.vanilla_item in [dungeon.item_name("Map"), dungeon.item_name("Compass")]:
-                shuffle_setting = world.shuffle_mapcompass
-                dungeon_collection = dungeon.dungeon_items
+            # Compass
+            elif location.vanilla_item == dungeon.item_name("Compass"):
+                shuffle_setting = world.shuffle_compass
+                dungeon_collection = dungeon.compasses
                 if shuffle_setting == 'vanilla':
                     shuffle_item = False
             # Small Key
@@ -617,6 +737,18 @@ def get_pool_core(world):
                     item = dungeon.item_name("Small Key Ring")
                 elif dungeon.name in world.key_rings:
                     item = get_junk_item(world.random)[0]
+                    shuffle_item = True
+            # Silver Rupees in dungeons
+            elif location.type == 'SilverRupee':
+                if world.shuffle_silver_rupees == 'vanilla':
+                    shuffle_item = False
+                    location.show_in_spoiler = False
+                elif world.shuffle_silver_rupees == 'remove':
+                    item = IGNORE_LOCATION
+                    shuffle_item = False
+                    location.show_in_spoiler = False
+                else:
+                    # dungeon, overworld, any_dungeon, regional, anywhere
                     shuffle_item = True
             # Any other item in a dungeon.
             elif location.type in ["Chest", "NPC", "Song", "Collectable", "Cutscene", "BossHeart"]:
@@ -633,9 +765,58 @@ def get_pool_core(world):
                 elif shuffle_setting in ['any_dungeon', 'overworld', 'regional']:
                     dungeon_collection[-1].priority = True
 
+        elif location.type == 'SilverRupee':
+            # This handles non-dungeon silver rupees (if any exist)
+            if world.shuffle_silver_rupees == 'vanilla':
+                shuffle_item = False
+                location.show_in_spoiler = False
+            elif world.shuffle_silver_rupees == 'remove':
+                item = IGNORE_LOCATION
+                shuffle_item = False
+                location.show_in_spoiler = False
+            else:
+                # dungeon, overworld, any_dungeon, regional, anywhere
+                shuffle_item = True
+
+        # Mask Shop items - always vanilla (masks are not shuffled)
+        elif location.type == 'MaskShop':
+            shuffle_item = False
+            location.show_in_spoiler = False
+
+        elif location.type == 'TCGSmallKey' or (location.scene == 0x10 and location.vanilla_item != 'Piece of Heart (Treasure Chest Game)'):
+            if world.shuffle_tcgkeys == 'vanilla':
+                shuffle_item = False
+                location.show_in_spoiler = False
+            elif world.shuffle_tcgkeys == 'remove':
+                if 'Key' in location.vanilla_item:
+                    item = IGNORE_LOCATION
+                shuffle_item = False
+                location.show_in_spoiler = False
+            else:
+                shuffle_item = True
+                if 'Treasure Chest Game' in world.key_rings and location.vanilla_item == 'Small Key (Treasure Chest Game)':
+                    item = 'Small Key Ring (Treasure Chest Game)' if location.name == 'Market Treasure Chest Game Salesman' else get_junk_item(world.random)[0]
+
+        elif location.vanilla_item and location.vanilla_item.startswith('Ocarina') and 'Button' in location.vanilla_item:
+            shuffle_item = world.shuffle_individual_ocarina_notes
+            if not shuffle_item:
+                item = IGNORE_LOCATION
+                shuffle_item = False
+                location.show_in_spoiler = False
+
+        elif location.name == 'LH Hyrule Loach':
+            shuffle_item = world.shuffle_loach_reward
+            if not shuffle_item:
+                location.show_in_spoiler = False
+
         # The rest of the overworld items.
         elif location.type in ["Chest", "NPC", "Song", "Collectable", "Cutscene", "BossHeart"]:
             shuffle_item = True
+
+        # Deku Shield broken drop fix: Spirit Temple pot that can't actually give the item
+        if shuffle_item and not world.fix_broken_drops and location.vanilla_item == 'Deku Shield' and location.type in ['Pot', 'FlyingPot']:
+            item = 'Nothing'
+            shuffle_item = False
 
         # Now, handle the item as necessary.
         if shuffle_item:
@@ -668,13 +849,36 @@ def get_pool_core(world):
             else:
                 pending_junk_pool.append(rupee)
 
-    if world.free_scarecrow:
+    if world.scarecrow_behavior == 'free':
         world.multiworld.push_precollected(world.create_item('Scarecrow Song'))
         world.remove_from_start_inventory.append('Scarecrow Song')
     
     if world.no_epona_race:
         world.multiworld.push_precollected(world.create_item('Epona', allow_arbitrary_name=True))
         world.remove_from_start_inventory.append('Epona')
+
+    if not world.shuffle_individual_ocarina_notes:
+        for button in ['Ocarina A Button', 'Ocarina C up Button', 'Ocarina C down Button',
+                       'Ocarina C left Button', 'Ocarina C right Button']:
+            world.multiworld.push_precollected(world.create_item(button))
+            world.remove_from_start_inventory.append(button)
+
+    if world.add_random_starting_items:
+        world.randomized_starting_items = {}
+        for _ in range(world.random_starting_items_count):
+            random_starting_items_pool = configure_random_starting_items_pool(world, pool)
+            if random_starting_items_pool:
+                selected_item = world.random.choice(random_starting_items_pool)
+                world.randomized_starting_items[selected_item] = \
+                    world.randomized_starting_items.get(selected_item, 0) + 1
+                pool.remove(selected_item)
+                pool.extend(get_junk_item(world.random))
+        reward_names = world.item_name_groups['rewards']
+        for item_name, count in world.randomized_starting_items.items():
+            if item_name in reward_names and count > 0:
+                world.hinted_dungeon_reward_locations[item_name] = None
+            for _ in range(count):
+                world.multiworld.push_precollected(world.create_item(item_name))
 
     if world.shuffle_smallkeys == 'vanilla':
         # Logic cannot handle vanilla key layout in some dungeons
@@ -694,22 +898,22 @@ def get_pool_core(world):
                 world.multiworld.push_precollected(k)
                 world.remove_from_start_inventory.append(k.name)
 
-    if (not world.keysanity or (world.empty_dungeons['Fire Temple'] and world.shuffle_smallkeys != 'remove'))\
+    if (not world.keysanity or (world.precompleted_dungeons.get('Fire Temple', False) and world.shuffle_smallkeys != 'remove'))\
         and not world.dungeon_mq['Fire Temple']:
         world.multiworld.push_precollected(world.create_item('Small Key (Fire Temple)'))
         world.remove_from_start_inventory.append('Small Key (Fire Temple)')
 
-    if world.shuffle_ganon_bosskey == 'on_lacs':
+    if ganon_bk_setting == 'on_lacs':
         placed_items['ToT Light Arrows Cutscene'] = 'Boss Key (Ganons Castle)'
 
-    if world.shuffle_ganon_bosskey in ['stones', 'medallions', 'dungeons', 'tokens', 'hearts', 'triforce']:
+    if ganon_bk_setting in ['stones', 'medallions', 'dungeons', 'tokens', 'hearts', 'triforce']:
         placed_items['Gift from Sages'] = 'Boss Key (Ganons Castle)'
         pool.extend(get_junk_item(world.random))
     else:
         placed_items['Gift from Sages'] = IGNORE_LOCATION
     world.get_location('Gift from Sages').show_in_spoiler = False
 
-    if world.junk_ice_traps == 'off':
+    if world.junk_ice_traps in ['off', 'custom_count', 'custom_percent']:
         replace_max_item(pool, 'Ice Trap', 0, world.random)
     elif world.junk_ice_traps == 'onslaught':
         for item in [item for item, weight in junk_pool_base] + ['Recovery Heart', 'Bombs (20)', 'Arrows (30)']:
@@ -717,6 +921,11 @@ def get_pool_core(world):
 
     for item, maximum in item_difficulty_max[world.item_pool_value].items():
         replace_max_item(pool, item, maximum, world.random)
+    if world.item_pool_value in ['plentiful', 'ludicrous']:
+        heart_piece_indices = [item_index for item_index, value in enumerate(pool) if value == 'Piece of Heart']
+        full_hearts = (len(heart_piece_indices) // 4) * 4
+        for heart_index, item_index in enumerate(heart_piece_indices[:full_hearts]):
+            pool[item_index] = 'Heart Container' if heart_index % 4 == 0 else get_junk_item(world.random)[0]
 
     # world.distribution.alter_pool(world, pool)
 
@@ -751,6 +960,16 @@ def get_pool_core(world):
             pool.remove(junk_item)
             pool.append(pending_item)
 
+    if world.junk_ice_traps in ['custom_count', 'custom_percent']:
+        junk_pool[:] = [('Ice Trap', 1)]
+        junk = [item for item, _ in junk_pool_base] + ['Rupee (1)', 'Recovery Heart', 'Bombs (20)', 'Arrows (30)']
+        junk_count = get_pool_count(pool, junk)
+        if world.junk_ice_traps == 'custom_percent':
+            num_to_replace = int((world.custom_ice_trap_percent / 100.0) * junk_count)
+        else:
+            num_to_replace = world.custom_ice_trap_count
+        replace_x_items(pool, junk, num_to_replace, world.random)
+
     return pool, placed_items
 
 
@@ -758,13 +977,38 @@ def get_unrestricted_dungeon_items(ootworld):
     """Adds maps, compasses, small keys, boss keys, and Ganon boss key into item pool if they are not placed."""
     unrestricted_dungeon_items = []
     add_settings = {'dungeon', 'any_dungeon', 'overworld', 'keysanity', 'regional'}
+    ganon_bk_setting = ootworld.shuffle_ganon_bosskey
     for dungeon in ootworld.dungeons:
-        if ootworld.shuffle_mapcompass in add_settings:
-            unrestricted_dungeon_items.extend(dungeon.dungeon_items)
+        if ootworld.shuffle_map in add_settings:
+            unrestricted_dungeon_items.extend(dungeon.maps)
+        if ootworld.shuffle_compass in add_settings:
+            unrestricted_dungeon_items.extend(dungeon.compasses)
         if ootworld.shuffle_smallkeys in add_settings:
             unrestricted_dungeon_items.extend(dungeon.small_keys)
         if dungeon.name != 'Ganons Castle' and ootworld.shuffle_bosskeys in add_settings:
             unrestricted_dungeon_items.extend(dungeon.boss_key)
-        if dungeon.name == 'Ganons Castle' and ootworld.shuffle_ganon_bosskey in add_settings:
+        if dungeon.name == 'Ganons Castle' and ganon_bk_setting in add_settings:
             unrestricted_dungeon_items.extend(dungeon.boss_key)
     return unrestricted_dungeon_items
+
+
+def configure_random_starting_items_pool(world, pool: list) -> list:
+    exclude = world.random_starting_items_exclude
+    exclude_list = []
+    if 'songs' in exclude:
+        exclude_list.extend(item_groups['Song'])
+    if 'bombchus' in exclude:
+        exclude_list.extend(item for item in pool if 'Bombchus' in item)
+    if 'shields' in exclude:
+        exclude_list.extend(item_groups['Shield'])
+    if 'deku_upgrades' in exclude:
+        exclude_list.extend(('Deku Stick Capacity', 'Deku Nut Capacity'))
+    if 'health_upgrades' in exclude:
+        exclude_list.extend(item_groups['HealthUpgrade'])
+    # Only include items with advancement=True in item_table — this filters out junk, fillers,
+    # Ice Traps, and ammo-only items. Junk replacements added each iteration would otherwise
+    # become eligible for selection in subsequent picks.
+    return sorted({item for item in pool
+                   if item not in exclude_list
+                   and item_table.get(item, (None, False, None, None))[1]
+                   and item_table.get(item, ('',))[0] != 'Shop'})

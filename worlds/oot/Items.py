@@ -2,23 +2,50 @@ import typing
 
 from BaseClasses import Item, ItemClassification
 
+REWARD_COLORS = {
+    'Kokiri Emerald':   'Green',
+    'Goron Ruby':       'Red',
+    'Zora Sapphire':    'Blue',
+    'Light Medallion':  'Light Blue',
+    'Forest Medallion': 'Green',
+    'Fire Medallion':   'Red',
+    'Water Medallion':  'Blue',
+    'Shadow Medallion': 'Pink',
+    'Spirit Medallion': 'Yellow',
+}
 
-def oot_data_to_ap_id(data, event): 
-    if event or data[2] is None or data[0] == 'Shop': 
+REWARD_TO_DUNGEON = {
+    'Kokiri Emerald':   'Deku Tree',
+    'Goron Ruby':       'Dodongos Cavern',
+    'Zora Sapphire':    'Jabu Jabus Belly',
+    'Light Medallion':  None,
+    'Forest Medallion': 'Forest Temple',
+    'Fire Medallion':   'Fire Temple',
+    'Water Medallion':  'Water Temple',
+    'Shadow Medallion': 'Shadow Temple',
+    'Spirit Medallion': 'Spirit Temple',
+}
+
+
+def oot_data_to_ap_id(data, event):
+    item_type, _, index, special = data
+    if event or item_type == 'Shop':
         return None
     offset = 66000
-    if data[0] in ['Item', 'BossKey', 'Compass', 'Map', 'SmallKey', 'Token', 'GanonBossKey', 'HideoutSmallKey', 'Song']:
-        return offset + data[2]
-    else: 
-        raise Exception(f'Unexpected OOT item type found: {data[0]}')
+    if item_type == 'DungeonReward':
+        gi_id = (special or {}).get('gi_id')
+        return None if gi_id is None else offset + gi_id
+    if index is None:
+        return None
+    if item_type in ['Item', 'BossKey', 'Compass', 'Map', 'SmallKey', 'Token', 'GanonBossKey', 'HideoutSmallKey', 'Song', 'TCGSmallKey', 'SilverRupee']:
+        return offset + index
+    raise Exception(f'Unexpected OOT item type found: {item_type}')
 
 
 def ap_id_to_oot_data(ap_id): 
-    offset = 66000
-    val = ap_id - offset
-    try: 
-        return list(filter(lambda d: d[1][0] == 'Item' and d[1][2] == val, item_table.items()))[0]
-    except IndexError: 
+    try:
+        return next((name, data) for name, data in item_table.items() if oot_data_to_ap_id(data, False) == ap_id)
+    except StopIteration:
         raise Exception(f'Could not find desired item ID: {ap_id}')
 
 
@@ -52,11 +79,13 @@ class OOTItem(Item):
         self.index = index
         self.special = special or {}
         self.price = special.get('price', None) if special else None
+        self.market_price = special.get('market_price', None) if special else None
+        self.market_price_non_chu_drops_only = special.get('market_price_non_chu_drops_only', False) if special else False
         self.internal = False
 
     @property
     def dungeonitem(self) -> bool:
-        return self.type in ['SmallKey', 'HideoutSmallKey', 'BossKey', 'GanonBossKey', 'Map', 'Compass']
+        return self.type in ['SmallKey', 'HideoutSmallKey', 'BossKey', 'GanonBossKey', 'Map', 'Compass', 'TCGSmallKey']
 
 
 # Progressive: True  -> Advancement
@@ -64,24 +93,26 @@ class OOTItem(Item):
 #              None  -> Normal
 #    Item:                                            (type, Progressive, GetItemID, special),
 item_table = {
-    'Bombs (5)':                                       ('Item',     None,  0x01, {'junk': 8}),
-    'Deku Nuts (5)':                                   ('Item',     None,  0x02, {'junk': 5}),
-    'Bombchus (10)':                                   ('Item',     True,  0x03, None),
+    'Bomb (1)':                                        ('Item',     None,  0x65, {'junk': -1}),
+    'Bombs (5)':                                       ('Item',     None,  0x01, {'junk': 8, 'market_price': 25}),
+    'Deku Nuts (5)':                                   ('Item',     None,  0x02, {'junk': 5, 'market_price': 15}),
+    'Bombchus (10)':                                   ('Item',     True,  0x03, {'market_price': 99, 'market_price_non_chu_drops_only': True}),
     'Boomerang':                                       ('Item',     True,  0x06, None),
-    'Deku Stick (1)':                                  ('Item',     None,  0x07, {'junk': 5}),
+    'Deku Stick (1)':                                  ('Item',     None,  0x07, {'junk': 5, 'market_price': 10}),
     'Lens of Truth':                                   ('Item',     True,  0x0A, None),
     'Megaton Hammer':                                  ('Item',     True,  0x0D, None),
     'Cojiro':                                          ('Item',     True,  0x0E, {'trade': True}),
     'Bottle':                                          ('Item',     True,  0x0F, {'bottle': float('Inf')}),
+    'Blue Potion':                                     ('Item',     True,  0x12, None),
     'Bottle with Milk':                                ('Item',     True,  0x14, {'bottle': float('Inf')}),
     'Rutos Letter':                                    ('Item',     True,  0x15, None),
     'Deliver Letter':                                  ('Item',     True,  None, {'bottle': float('Inf')}),
     'Sell Big Poe':                                    ('Item',     True,  None, {'bottle': float('Inf')}),
     'Magic Bean':                                      ('Item',     True,  0x16, {'progressive': 10}),
     'Skull Mask':                                      ('Item',     True,  0x17, {'trade': True}),
-    'Spooky Mask':                                     ('Item',     None,  0x18, {'trade': True}),
-    'Keaton Mask':                                     ('Item',     None,  0x1A, {'trade': True}),
-    'Bunny Hood':                                      ('Item',     None,  0x1B, {'trade': True}),
+    'Spooky Mask':                                     ('Item',     True,  0x18, {'trade': True}),
+    'Keaton Mask':                                     ('Item',     True,  0x1A, {'trade': True}),
+    'Bunny Hood':                                      ('Item',     True,  0x1B, {'trade': True}),
     'Mask of Truth':                                   ('Item',     True,  0x1C, {'trade': True}),
     'Pocket Egg':                                      ('Item',     True,  0x1D, {'trade': True}),
     'Pocket Cucco':                                    ('Item',     True,  0x1E, {'trade': True}),
@@ -95,8 +126,8 @@ item_table = {
     'Claim Check':                                     ('Item',     True,  0x26, {'trade': True}),
     'Kokiri Sword':                                    ('Item',     True,  0x27, None),
     'Giants Knife':                                    ('Item',     True,  0x28, None),
-    'Deku Shield':                                     ('Item',     None,  0x29, None),
-    'Hylian Shield':                                   ('Item',     None,  0x2A, None),
+    'Deku Shield':                                     ('Item',     None,  0x29, {'market_price': 40}),
+    'Hylian Shield':                                   ('Item',     None,  0x2A, {'market_price': 80}),
     'Mirror Shield':                                   ('Item',     True,  0x2B, None),
     'Goron Tunic':                                     ('Item',     True,  0x2C, None),
     'Zora Tunic':                                      ('Item',     True,  0x2D, None),
@@ -111,19 +142,19 @@ item_table = {
     'Map':                                             ('Map',      None,  0x41, None),
     'Small Key':                                       ('SmallKey', True,  0x42, {'progressive': float('Inf')}),
     'Weird Egg':                                       ('Item',     True,  0x47, {'trade': True}),
-    'Recovery Heart':                                  ('Item',     None,  0x48, {'junk': 0}),
+    'Recovery Heart':                                  ('Item',     None,  0x48, {'junk': 0, 'market_price': 10}),
     'Arrows (5)':                                      ('Item',     None,  0x49, {'junk': 8}),
-    'Arrows (10)':                                     ('Item',     None,  0x4A, {'junk': 2}),
-    'Arrows (30)':                                     ('Item',     None,  0x4B, {'junk': 0}),
-    'Rupee (1)':                                       ('Item',     None,  0x4C, {'junk': -1}),
-    'Rupees (5)':                                      ('Item',     None,  0x4D, {'junk': 10}),
-    'Rupees (20)':                                     ('Item',     None,  0x4E, {'junk': 4}),
+    'Arrows (10)':                                     ('Item',     None,  0x4A, {'junk': 2, 'market_price': 20}),
+    'Arrows (30)':                                     ('Item',     None,  0x4B, {'junk': 0, 'market_price': 60}),
+    'Rupee (1)':                                       ('Item',     None,  0x4C, {'junk': -1, 'market_price': 1}),
+    'Rupees (5)':                                      ('Item',     None,  0x4D, {'junk': 10, 'market_price': 5}),
+    'Rupees (20)':                                     ('Item',     None,  0x4E, {'junk': 4, 'market_price': 20}),
     'Milk':                                            ('Item',     None,  0x50, None),
     'Goron Mask':                                      ('Item',     None,  0x51, None),
     'Zora Mask':                                       ('Item',     None,  0x52, None),
     'Gerudo Mask':                                     ('Item',     None,  0x53, None),
-    'Rupees (50)':                                     ('Item',     None,  0x55, {'junk': 1}),
-    'Rupees (200)':                                    ('Item',     None,  0x56, {'junk': 0}),
+    'Rupees (50)':                                     ('Item',     None,  0x55, {'junk': 1, 'market_price': 50}),
+    'Rupees (200)':                                    ('Item',     None,  0x56, {'junk': 0, 'market_price': 200}),
     'Biggoron Sword':                                  ('Item',     True,  0x57, None),
     'Fire Arrows':                                     ('Item',     True,  0x58, None),
     'Ice Arrows':                                      ('Item',     True,  0x59, None),
@@ -132,12 +163,12 @@ item_table = {
     'Dins Fire':                                       ('Item',     True,  0x5C, None),
     'Nayrus Love':                                     ('Item',     True,  0x5E, None),
     'Farores Wind':                                    ('Item',     True,  0x5D, None),
-    'Deku Nuts (10)':                                  ('Item',     None,  0x64, {'junk': 0}),
-    'Bombs (10)':                                      ('Item',     None,  0x66, {'junk': 2}),
-    'Bombs (20)':                                      ('Item',     None,  0x67, {'junk': 0}),
-    'Deku Seeds (30)':                                 ('Item',     None,  0x69, {'junk': 5}),
-    'Bombchus (5)':                                    ('Item',     True,  0x6A, None),
-    'Bombchus (20)':                                   ('Item',     True,  0x6B, None),
+    'Deku Nuts (10)':                                  ('Item',     None,  0x64, {'junk': 0, 'market_price': 30}),
+    'Bombs (10)':                                      ('Item',     None,  0x66, {'junk': 2, 'market_price': 50}),
+    'Bombs (20)':                                      ('Item',     None,  0x67, {'junk': 0, 'market_price': 80}),
+    'Deku Seeds (30)':                                 ('Item',     None,  0x69, {'junk': 5, 'market_price': 30}),
+    'Bombchus (5)':                                    ('Item',     True,  0x6A, {'market_price': 60, 'market_price_non_chu_drops_only': True}),
+    'Bombchus (20)':                                   ('Item',     True,  0x6B, {'market_price': 180, 'market_price_non_chu_drops_only': True}),
     'Rupee (Treasure Chest Game)':                     ('Item',     None,  0x72, None),
     'Piece of Heart (Treasure Chest Game)':            ('Item',     True,  0x76, {'alias': ('Piece of Heart', 1), 'progressive': float('Inf')}),
     'Ice Trap':                                        ('Item',     None,  0x7C, {'junk': 0}),
@@ -152,7 +183,7 @@ item_table = {
     'Deku Stick Capacity':                             ('Item',     None,  0x88, None),
     'Bombchus':                                        ('Item',     True,  0x89, None),
     'Magic Meter':                                     ('Item',     True,  0x8A, None),
-    'Ocarina':                                         ('Item',     True,  0x8B, None),
+    'Ocarina':                                         ('Item',     True,  0x8B, {'progressive': 2}),
     'Bottle with Red Potion':                          ('Item',     True,  0x8C, {'bottle': True, 'shop_object': 0x0F}),
     'Bottle with Green Potion':                        ('Item',     True,  0x8D, {'bottle': True, 'shop_object': 0x0F}),
     'Bottle with Blue Potion':                         ('Item',     True,  0x8E, {'bottle': True, 'shop_object': 0x0F}),
@@ -202,6 +233,62 @@ item_table = {
     'Magic Bean Pack':                                 ('Item',     True,  0xC9, {'alias': ('Magic Bean', 10), 'progressive': 10}),
     'Triforce Piece':                                  ('Item',     True,  0xCA, {'progressive': float('Inf')}),
     'Zeldas Letter':                                   ('Item',     True,  0x0B, {'trade': True}),
+    'Small Key (Treasure Chest Game)':                 ('TCGSmallKey', True,  0x0071, {'progressive': float('Inf')}),
+    'Rupee (Treasure Chest Game) (1)':                 ('Item',     None,  0x0072, None),
+    'Rupees (Treasure Chest Game) (5)':                ('Item',     None,  0x0073, None),
+    'Rupees (Treasure Chest Game) (20)':               ('Item',     None,  0x0074, None),
+    'Rupees (Treasure Chest Game) (50)':               ('Item',     None,  0x0075, None),
+    'Piece of Heart (Treasure Chest Game)':            ('Item',     True,  0x0076, {'alias': ('Piece of Heart', 1), 'progressive': float('Inf')}),
+    'Small Key Ring (Treasure Chest Game)':            ('TCGSmallKey', True,  0x00D7, {'alias': ('Small Key (Treasure Chest Game)', 10), 'progressive': float('Inf')}),
+    'Silver Rupee (Dodongos Cavern Staircase)':                 ('SilverRupee', True,  0x00D8, {'progressive': 5}),
+    'Silver Rupee (Ice Cavern Spinning Scythe)':                ('SilverRupee', True,  0x00D9, {'progressive': 5}),
+    'Silver Rupee (Ice Cavern Push Block)':                     ('SilverRupee', True,  0x00DA, {'progressive': 5}),
+    'Silver Rupee (Bottom of the Well Basement)':               ('SilverRupee', True,  0x00DB, {'progressive': 5}),
+    'Silver Rupee (Shadow Temple Scythe Shortcut)':             ('SilverRupee', True,  0x00DC, {'progressive': 5}),
+    'Silver Rupee (Shadow Temple Invisible Blades)':            ('SilverRupee', True,  0x00DD, {'progressive': 10}),
+    'Silver Rupee (Shadow Temple Huge Pit)':                    ('SilverRupee', True,  0x00DE, {'progressive': 5}),
+    'Silver Rupee (Shadow Temple Invisible Spikes)':            ('SilverRupee', True,  0x00DF, {'progressive': 10}),
+    'Silver Rupee (Gerudo Training Ground Slopes)':             ('SilverRupee', True,  0x00E0, {'progressive': 5}),
+    'Silver Rupee (Gerudo Training Ground Lava)':               ('SilverRupee', True,  0x00E1, {'progressive': 6}),
+    'Silver Rupee (Gerudo Training Ground Water)':              ('SilverRupee', True,  0x00E2, {'progressive': 5}),
+    'Silver Rupee (Spirit Temple Child Early Torches)':         ('SilverRupee', True,  0x00E3, {'progressive': 5}),
+    'Silver Rupee (Spirit Temple Adult Boulders)':              ('SilverRupee', True,  0x00E4, {'progressive': 5}),
+    'Silver Rupee (Spirit Temple Lobby and Lower Adult)':       ('SilverRupee', True,  0x00E5, {'progressive': 5}),
+    'Silver Rupee (Spirit Temple Sun Block)':                   ('SilverRupee', True,  0x00E6, {'progressive': 5}),
+    'Silver Rupee (Spirit Temple Adult Climb)':                 ('SilverRupee', True,  0x00E7, {'progressive': 5}),
+    'Silver Rupee (Ganons Castle Spirit Trial)':                ('SilverRupee', True,  0x00E8, {'progressive': 5}),
+    'Silver Rupee (Ganons Castle Light Trial)':                 ('SilverRupee', True,  0x00E9, {'progressive': 5}),
+    'Silver Rupee (Ganons Castle Fire Trial)':                  ('SilverRupee', True,  0x00EA, {'progressive': 5}),
+    'Silver Rupee (Ganons Castle Shadow Trial)':                ('SilverRupee', True,  0x00EB, {'progressive': 5}),
+    'Silver Rupee (Ganons Castle Water Trial)':                 ('SilverRupee', True,  0x00EC, {'progressive': 5}),
+    'Silver Rupee (Ganons Castle Forest Trial)':                ('SilverRupee', True,  0x00ED, {'progressive': 5}),
+    'Silver Rupee Pouch (Dodongos Cavern Staircase)':           ('SilverRupee', True,  0x00EE, {'alias': ('Silver Rupee (Dodongos Cavern Staircase)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ice Cavern Spinning Scythe)':          ('SilverRupee', True,  0x00EF, {'alias': ('Silver Rupee (Ice Cavern Spinning Scythe)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ice Cavern Push Block)':               ('SilverRupee', True,  0x00F0, {'alias': ('Silver Rupee (Ice Cavern Push Block)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Bottom of the Well Basement)':         ('SilverRupee', True,  0x00F1, {'alias': ('Silver Rupee (Bottom of the Well Basement)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Shadow Temple Scythe Shortcut)':       ('SilverRupee', True,  0x00F2, {'alias': ('Silver Rupee (Shadow Temple Scythe Shortcut)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Shadow Temple Invisible Blades)':      ('SilverRupee', True,  0x00F3, {'alias': ('Silver Rupee (Shadow Temple Invisible Blades)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Shadow Temple Huge Pit)':              ('SilverRupee', True,  0x00F4, {'alias': ('Silver Rupee (Shadow Temple Huge Pit)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Shadow Temple Invisible Spikes)':      ('SilverRupee', True,  0x00F5, {'alias': ('Silver Rupee (Shadow Temple Invisible Spikes)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Gerudo Training Ground Slopes)':       ('SilverRupee', True,  0x00F6, {'alias': ('Silver Rupee (Gerudo Training Ground Slopes)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Gerudo Training Ground Lava)':         ('SilverRupee', True,  0x00F7, {'alias': ('Silver Rupee (Gerudo Training Ground Lava)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Gerudo Training Ground Water)':        ('SilverRupee', True,  0x00F8, {'alias': ('Silver Rupee (Gerudo Training Ground Water)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Spirit Temple Child Early Torches)':   ('SilverRupee', True,  0x00F9, {'alias': ('Silver Rupee (Spirit Temple Child Early Torches)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Spirit Temple Adult Boulders)':        ('SilverRupee', True,  0x00FA, {'alias': ('Silver Rupee (Spirit Temple Adult Boulders)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Spirit Temple Lobby and Lower Adult)': ('SilverRupee', True,  0x00FB, {'alias': ('Silver Rupee (Spirit Temple Lobby and Lower Adult)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Spirit Temple Sun Block)':             ('SilverRupee', True,  0x00FC, {'alias': ('Silver Rupee (Spirit Temple Sun Block)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Spirit Temple Adult Climb)':           ('SilverRupee', True,  0x00FD, {'alias': ('Silver Rupee (Spirit Temple Adult Climb)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ganons Castle Spirit Trial)':          ('SilverRupee', True,  0x00FE, {'alias': ('Silver Rupee (Ganons Castle Spirit Trial)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ganons Castle Light Trial)':           ('SilverRupee', True,  0x00FF, {'alias': ('Silver Rupee (Ganons Castle Light Trial)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ganons Castle Fire Trial)':            ('SilverRupee', True,  0x0100, {'alias': ('Silver Rupee (Ganons Castle Fire Trial)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ganons Castle Shadow Trial)':          ('SilverRupee', True,  0x0101, {'alias': ('Silver Rupee (Ganons Castle Shadow Trial)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ganons Castle Water Trial)':           ('SilverRupee', True,  0x0102, {'alias': ('Silver Rupee (Ganons Castle Water Trial)', 10), 'progressive': 1}),
+    'Silver Rupee Pouch (Ganons Castle Forest Trial)':          ('SilverRupee', True,  0x0103, {'alias': ('Silver Rupee (Ganons Castle Forest Trial)', 10), 'progressive': 1}),
+    'Ocarina A Button':                                ('Item',     True,  0x0104, {'ocarina_button': True}),
+    'Ocarina C up Button':                             ('Item',     True,  0x0105, {'ocarina_button': True}),
+    'Ocarina C down Button':                           ('Item',     True,  0x0106, {'ocarina_button': True}),
+    'Ocarina C left Button':                           ('Item',     True,  0x0107, {'ocarina_button': True}),
+    'Ocarina C right Button':                          ('Item',     True,  0x0108, {'ocarina_button': True}),
     'Time Travel':                                     ('Event',    True,  None, None),
     'Scarecrow Song':                                  ('Event',    True,  None, None),
     'Triforce':                                        ('Event',    True,  None, None),
@@ -355,6 +442,7 @@ item_table = {
                                                 'addr2_data': 0x80,
                                                 'bit_mask':   0x00040000,
                                                 'item_id':    0x6C,
+                                                'gi_id':      0x127,
                                                 'actor_type': 0x13,
                                                 'object_id':  0x00AD,
                                             }),
@@ -364,6 +452,7 @@ item_table = {
                                                 'addr2_data': 0x81,
                                                 'bit_mask':   0x00080000,
                                                 'item_id':    0x6D,
+                                                'gi_id':      0x128,
                                                 'actor_type': 0x14,
                                                 'object_id':  0x00AD,
                                             }),
@@ -373,6 +462,7 @@ item_table = {
                                                 'addr2_data': 0x82,
                                                 'bit_mask':   0x00100000,
                                                 'item_id':    0x6E,
+                                                'gi_id':      0x129,
                                                 'actor_type': 0x15,
                                                 'object_id':  0x00AD,
                                             }),
@@ -382,6 +472,7 @@ item_table = {
                                                 'addr2_data': 0x3E,
                                                 'bit_mask':   0x00000001,
                                                 'item_id':    0x66,
+                                                'gi_id':      0x12B,
                                                 'actor_type': 0x0B,
                                                 'object_id':  0x00BA,
                                             }),
@@ -391,6 +482,7 @@ item_table = {
                                                 'addr2_data': 0x3C,
                                                 'bit_mask':   0x00000002,
                                                 'item_id':    0x67,
+                                                'gi_id':      0x12C,
                                                 'actor_type': 0x09,
                                                 'object_id':  0x00BA,
                                             }),
@@ -400,6 +492,7 @@ item_table = {
                                                 'addr2_data': 0x3D,
                                                 'bit_mask':   0x00000004,
                                                 'item_id':    0x68,
+                                                'gi_id':      0x12D,
                                                 'actor_type': 0x0A,
                                                 'object_id':  0x00BA,
                                             }),
@@ -409,6 +502,7 @@ item_table = {
                                                 'addr2_data': 0x3F,
                                                 'bit_mask':   0x00000008,
                                                 'item_id':    0x69,
+                                                'gi_id':      0x12F,
                                                 'actor_type': 0x0C,
                                                 'object_id':  0x00BA,
                                             }),
@@ -418,6 +512,7 @@ item_table = {
                                                 'addr2_data': 0x41,
                                                 'bit_mask':   0x00000010,
                                                 'item_id':    0x6A,
+                                                'gi_id':      0x12E,
                                                 'actor_type': 0x0D,
                                                 'object_id':  0x00BA,
                                             }),
@@ -427,6 +522,7 @@ item_table = {
                                                 'addr2_data': 0x40,
                                                 'bit_mask':   0x00000020,
                                                 'item_id':    0x6B,
+                                                'gi_id':      0x12A,
                                                 'actor_type': 0x0E,
                                                 'object_id':  0x00BA,
                                             }),

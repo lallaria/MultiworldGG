@@ -164,7 +164,9 @@
                 </div>
                 <div id="lobby-main">
                     <div id="lobby-sidebar">
-                        <h3>Players <span id="player-count-badge" class="player-count-badge">({{ player_count }}{% if lobby.max_players > 0 %}/{{ lobby.max_players }}{% endif %})</span></h3>
+                        <h3 class="lobby-sidebar-title">
+                            <span>Players <span id="player-count-badge" class="player-count-badge">({{ player_count }}{% if lobby.max_players > 0 %}/{{ lobby.max_players }}{% endif %})</span></span>
+                        </h3>
                         <ul id="lobby-players">
                             <li class="lobby-player-loading">Loading players&hellip;</li>
                         </ul>
@@ -226,7 +228,15 @@
                 <div id="lobby-main">
                     {# Left: Players #}
                     <div id="lobby-sidebar">
-                        <h3>Players <span id="player-count-badge" class="player-count-badge">({{ player_count }}{% if lobby.max_players > 0 %}/{{ lobby.max_players }}{% endif %})</span></h3>
+                        <h3 class="lobby-sidebar-title">
+                            <span>Players <span id="player-count-badge" class="player-count-badge">({{ player_count }}{% if lobby.max_players > 0 %}/{{ lobby.max_players }}{% endif %})</span></span>
+                            {% if is_owner and lobby.state in (0, 3) %}
+                                <button id="remove-all-yamls-btn" class="lobby-btn lobby-btn-danger"
+                                        {% if yaml_count == 0 %}disabled{% endif %}>
+                                    Remove all YAMLs
+                                </button>
+                            {% endif %}
+                        </h3>
                         <ul id="lobby-players">
                             <li class="lobby-player-loading">Loading players&hellip;</li>
                         </ul>
@@ -283,7 +293,10 @@
                                         <ul id="upgrade-apworlds-list" style="margin:4px 0 0 0; padding-left:18px;"></ul>
                                     </div>
                                 </div>
-                                <button id="download-package-btn" class="lobby-btn lobby-btn-primary">&#x2B07; Download Package</button>
+                                <button id="download-package-btn" class="lobby-btn lobby-btn-primary"
+                                        {% if yaml_count == 0 %}disabled{% endif %}>
+                                    &#x2B07; Download Package
+                                </button>
                                 <div id="upload-game-zone" class="drop-zone" style="margin-top:10px">
                                     <p>Drop AP_*.zip file here, or
                                         <label for="game-file-input" class="drop-zone-label">browse...</label>
@@ -528,6 +541,7 @@
         let currentState = {{ lobby.state }};
         let hasCustomYamls = {{ "true" if has_custom else "false" }};
         let forceLocalGeneration = {{ "true" if force_local_generation else "false" }};
+        let currentTotalYamls = {{ yaml_count }};
         let MAX_YAMLS_PER_PLAYER = {{ lobby.max_yamls_per_player }};
         let TIMEOUT_MINUTES = {{ lobby.timeout_minutes }};
     </script>

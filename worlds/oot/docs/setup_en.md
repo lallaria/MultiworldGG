@@ -1,46 +1,28 @@
-# Setup Guide for Ocarina of Time Archipelago
-
-## Important
-
-As we are using BizHawk, this guide is only applicable to Windows and Linux systems.
+# Setup Guide for Ocarina of Time MultiworldGG
 
 ## Required Software
 
-- BizHawk: [BizHawk Releases from TASVideos](https://tasvideos.org/BizHawk/ReleaseHistory)
-  - Version 2.10 and later are supported. Version 2.10 is recommended for stability.
-  - Detailed installation instructions for BizHawk can be found at the above link.
-  - Windows users must run the prereq installer first, which can also be found at the above link.
-- The built-in MultiworldGG client, which can be installed [here](https://github.com/MultiworldGG/MultiworldGG/releases).
-- An Ocarina of Time v1.0 ROM.
+- An Emulator of choice
+  - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) (v2.10+)
+  - [Project 64](https://www.pj64-emu.com/windows-downloads)
+  - [simple64](https://simple64.github.io/)
+  - [Rosalie's Mupen GUI](https://github.com/Rosalie241/RMG)
+  - [Gopher64](https://github.com/gopher64/gopher64) (Windows/Linux)
+  - [ares](https://ares-emu.net/) (Windows/Linux)
+  - [RetroArch](https://www.retroarch.com/?page=platforms) (works on MacOS) 
+- The built-in Ocarina of Time client, which gets installed alongside [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases).
+- An Ocarina of Time v1.0 NTSC-U or NTSC-J ROM.
 
-## Configuring BizHawk
+## Configuring the Emulator
 
-Once BizHawk has been installed, open EmuHawk and change the following settings:
-
-- Under Config > Customize > Advanced, make sure the box for AutoSaveRAM is checked, and click the 5s button.
-  This reduces the possibility of losing save data in emulator crashes.
-- Under Config > Customize, check the "Run in background" and "Accept background input" boxes. This will allow you to
-  continue playing in the background, even if another window is selected.
-- Under Config > Hotkeys, many hotkeys are listed, with many bound to common keys on the keyboard. You will likely want
-  to disable most of these, which you can do quickly using `Esc`.
-- If playing with a controller, when you bind controls, disable "P1 A Up", "P1 A Down", "P1 A Left", and "P1 A Right"
-  as these interfere with aiming if bound. Set directional input using the Analog tab instead.
-- Under N64 enable "Use Expansion Slot". This is required for savestates to work.
-  (The N64 menu only appears after loading a ROM.)
-
-It is strongly recommended to associate N64 rom extensions (\*.n64, \*.z64) to the EmuHawk we've just installed.
-To do so, we simply have to search any N64 rom we happened to own, right click and select "Open with...", unfold
-the list that appears and select the bottom option "Look for another application", then browse to the BizHawk folder
-and select EmuHawk.exe.
-
-An alternative BizHawk setup guide as well as various pieces of troubleshooting advice can be found
-[here](https://wiki.ootrandomizer.com/index.php?title=Bizhawk).
+- Good guides to set up your emulator for choice for OoT Randomizer can be found in the official [OoTR wiki](https://wiki.ootrandomizer.com/index.php?title=Setup#Emulators)
+  - Please note that Dolphin is currently not supported.
 
 ## Create a Config (.yaml) File
 
 ### What is a config file and why do I need one?
 
-See the guide on setting up a basic YAML at the Archipelago setup
+See the guide on setting up a basic YAML at the MultiworldGG setup
 guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
 
 ### Where do I get a config file?
@@ -62,14 +44,16 @@ the host will provide you with either a link to download your data file, or with
 files. Your data file should have a `.apz5` extension.
 
 Double-click on your `.apz5` file to start your client and start the ROM patch process. Once the process is finished
-(this can take a while), the client and the emulator will be started automatically (if you associated the extension
-to the emulator as recommended).
+(this can take a while), the client and the emulator will be started automatically.
+To choose a specific emulator for auto-launch, set `oot_options.emulator_path` in your `host.yaml` to your emulator
+executable. If it is blank, the patching process will ask you to select an emulator executable before auto-launching.
 
 ### Connect to the Multiserver
 
-Once both the client and the emulator are started, you must connect them. Navigate to your MultiworldGG install folder,
-then to `data/lua`, and drag+drop the `connector_oot.lua` script onto the main EmuHawk window. (You could instead open
-the Lua Console manually, click `Script` 〉 `Open Script`, and navigate to `connector_oot.lua` with the file picker.)
+Once both the client and the emulator are started, the Ocarina of Time Client will connect to the loaded ROM automatically. You do
+not need to open the BizHawk Lua console or drag in a connector script. If the client is not connecting, make sure the
+patched ROM is loaded in a supported emulator and use `/n64` in the client to check the emulator connection status.
+For RetroArch, enable `Settings > Network > Network Commands` and leave the Network Command Port at `55355`.
 
 To connect the client to the multiserver simply put `<address>:<port>` on the textfield on top and press enter (if the
 server uses password, type in the bottom textfield `/connect <address>:<port> [password]`)

@@ -9,10 +9,14 @@ from .Citra import CitraInterface, CitraException
 from .Triple import TripleInterface, TripleException
 from .Locations import LocationData, LocationType, all_locations, location_table
 from .Items import item_code_table
+from .Data import flag_data, nice_items, scoot_fruit_flag, golden_bee_flag
 from . import albw_base_id
 import time
 import Utils
 import random
+import os
+import logging
+
 
 try:
     from Utils import instance_name as apname
@@ -62,6 +66,7 @@ class ALBWClientContext(CommonContext):
     interface_connected: bool
     server_connected: bool
     initial_delay: bool
+    save_validated: bool
     slot_data: Optional[Dict[str, any]]
     save_ptr: int
     event_flags_ptr: int
@@ -70,6 +75,11 @@ class ALBWClientContext(CommonContext):
     event_flags: bytes
     course_flags: List[bytes]
     minigame_flags: int
+    messages: List[Any]
+    server_storage_flags: Set[int]
+    shuffle_maiamai_rewards: bool
+    last_maiamai_count: int
+    maiamai_count: int
     course: int
     stage: int
     new_stage: bool
@@ -102,12 +112,18 @@ class ALBWClientContext(CommonContext):
         self.interface_connected = False
         self.server_connected = False
         self.initial_delay = True
+        self.save_validated = False
         self.slot_data = None
         self.course_flags = []
+        self.messages = []
+        self.server_storage_flags = set()
+        self.shuffle_maiamai_rewards = False
+        self.last_maiamai_count = 0
+        self.maiamai_count = 0
         self.course = -1
         self.stage = -1
         self.new_stage = False
-        self.inventory = [0 for _ in range(45)]
+        self.inventory = [0 for _ in range(50)]
         self.ravio_scouted = False
         self.get_hints = False
         self.to_hint = []
@@ -161,6 +177,7 @@ class ALBWClientContext(CommonContext):
         else:
             self.interface_connected = True
             self.initial_delay = True
+            self.save_validated = False
             if self.server_connected:
                 logger.info("Emulator connected")
             else:
@@ -177,6 +194,8 @@ class ALBWClientContext(CommonContext):
             self.auth = name.decode("utf-8")
     
     async def validate_save(self) -> None:
+        display_message = not self.save_validated
+        self.save_validated = False
         self.save_ptr = 0
         all_saves_ptr = await self.interface.read_u32(self.SAVES_LOCATION)
         if all_saves_ptr != 0:
@@ -191,6 +210,10 @@ class ALBWClientContext(CommonContext):
             self.last_error = ""
         elif await self.interface.read_u32(self.save_ptr + 0xde8) != await self.interface.read_u32(self.AP_HEADER_LOCATION + 0x8):
             self.error("The loaded save file was created for a different multiworld. Choose a different save file.")
+        else:
+            self.save_validated = True
+            if display_message:
+                logger.info("Connected and good to go!")
 
     async def validate_seed(self) -> None:
         if not self.server_connected or not self.slot_data:
@@ -213,6 +236,8 @@ class ALBWClientContext(CommonContext):
             if "death_link" in args["slot_data"]:
                 Utils.async_start(self.update_death_link(
                     bool(args["slot_data"]["death_link"])))
+            if "shuffle_maiamai_rewards" in args["slot_data"]:
+                self.shuffle_maiamai_rewards = bool(args["slot_data"]["shuffle_maiamai_rewards"])
             self.server_connected = True
 
         if cmd == "LocationInfo" and self.get_hints:
@@ -266,6 +291,7 @@ class ALBWClientContext(CommonContext):
         save_minigame_flags = (await self.interface.read(self.save_ptr + 0xda5, 1))[0]
         self.minigame_flags = cur_minigame_flags | save_minigame_flags
 
+        self.course_flags = []
         for course in range(0, 0x20):
             cur_course_flags = (await self.interface.read(self.course_flags_ptr + course * 0x16c + 0x160, 0x20)) \
                              + (await self.interface.read(self.course_flags_ptr + course * 0x16c + 0x1a0, 0x10))
@@ -275,14 +301,22 @@ class ALBWClientContext(CommonContext):
     async def read_stage(self) -> None:
         course = (await self.interface.read(self.game_ptr + 0x18, 1))[0]
         stage = await self.interface.read_u32(self.game_ptr + 0x1c)
+
+        if course != self.course:
+            logger.debug(f"Changing course to {course}")
+            self.messages.append({
+                "cmd": "Bounce",
+                "slots": [self.slot],
+                "data": {"albw_course": course},
+            })
+
         self.new_stage = course != self.course or stage != self.stage
         self.course = course
         self.stage = stage
 
     async def read_inventory(self) -> None:
-        player_object_ptr = await self.interface.read_u32(self.player_ptr + 0x10)
-        if player_object_ptr:
-            self.inventory = [await self.interface.read_u32(player_object_ptr + 0x434 + 4 * i) for i in range(45)]
+        self.inventory = [await self.interface.read_u32(self.player_ptr + 0x434 + 4 * i) for i in range(50)]
+        self.maiamai_count = int.from_bytes(await self.interface.read(self.player_ptr + 0x508, 1), "little")
 
     def check_flag(self, course: Optional[int], flag: int) -> bool:
         byte = flag >> 3
@@ -306,64 +340,119 @@ class ALBWClientContext(CommonContext):
             return True
         return False
 
-    async def check_locations(self) -> None:
+    def check_locations(self) -> None:
+        updated_flags = {}
+        for flag, name in flag_data:
+            if self.check_flag(None, flag) and not name in self.server_storage_flags:
+                self.server_storage_flags.add(name)
+                updated_flags[name] = True
+        
+        for slot, name in nice_items:
+            if self.inventory[slot] == 3 and not name in self.server_storage_flags:
+                self.server_storage_flags.add(name)
+                updated_flags[name] = True
+
+        if self.inventory[16] != 0 and not scoot_fruit_flag in self.server_storage_flags:
+            self.server_storage_flags.add(scoot_fruit_flag)
+            updated_flags[scoot_fruit_flag] = True
+        
+        has_golden_bee = False
+        for slot in range(45, 50):
+            if self.inventory[slot] == 7:
+                has_golden_bee = True
+                break
+        if has_golden_bee and not golden_bee_flag in self.server_storage_flags:
+            self.server_storage_flags.add(golden_bee_flag)
+            updated_flags[golden_bee_flag] = True
+
         checks = []
-
-        self.event_flags = b""
-        self.course_flags.clear()
-        self.minigame_flags = 0
-
-        await self.read_flags()
-
         for loc in all_locations:
             if self.check_location(loc):
                 code = loc.code + albw_base_id
                 if code not in self.locations_checked:
                     self.locations_checked.add(code)
                     checks.append(code)
+                if loc.loctype == LocationType.Maiamai and not loc.name in self.server_storage_flags:
+                    self.server_storage_flags.add(loc.name)
+                    updated_flags[loc.name] = True
+
+        if len(updated_flags) > 0:
+            logger.debug("Updating flags " + ", ".join(updated_flags.keys()))
+            self.messages.append({
+                "cmd": "Set",
+                "key": f"albw_flags_{self.slot}",
+                "default": {},
+                "want_reply": False,
+                "operations": [{
+                    "operation": "update",
+                    "value": updated_flags,
+                }],
+            })
+
+        if self.maiamai_count != self.last_maiamai_count:
+            self.last_maiamai_count = self.maiamai_count
+            logger.debug(f"Updating maiamai count: {self.maiamai_count}")
+            self.messages.append({
+                "cmd": "Set",
+                "key": f"albw_maiamai_{self.slot}",
+                "default": 0,
+                "want_reply": False,
+                "operations": [{
+                    "operation": "replace",
+                    "value": self.maiamai_count,
+                }]
+            })
 
         if len(checks) > 0:
-            await self.send_msgs([{
+            self.messages.append({
                 "cmd": "LocationChecks",
                 "locations": checks,
-            }])
+            })
 
         if self.check_flag(None, 685):
-            await self.send_msgs([{
+            self.messages.append({
                 "cmd": "StatusUpdate",
                 "status": ClientStatus.CLIENT_GOAL,
-            }])
+            })
 
-    async def scout_hints(self) -> None:
-        await self.read_stage()
-
+    def scout_hints(self) -> None:
         if not self.ravio_scouted and self.check_location(location_table["Ravio's Gift"]):
             ravio_locations = [loc.code + albw_base_id for loc in all_locations if loc.loctype == LocationType.Ravio]
-            await self.send_msgs([{
+            self.messages.append({
                 "cmd": "LocationScouts",
                 "create_as_hint": 0,
                 "locations": ravio_locations,
-            }])
+            })
             self.get_hints = True
             self.ravio_scouted = True
         
-        if self.new_stage and self.course == 4 and self.stage == 14:
-            await self.read_inventory()
+        if self.new_stage and self.course == 0 and self.stage == 15:
+            merchant_locations = [22 + albw_base_id] # Street Merchant (Left)
+            if "shady_guy" in self.server_storage_flags:
+                merchant_locations.append(23 + albw_base_id) # Street Merchant (Right)
+            self.messages.append({
+                "cmd": "LocationScouts",
+                "create_as_hint": 0,
+                "locations": merchant_locations,
+            })
+            self.get_hints = True
+
+        if self.shuffle_maiamai_rewards and self.new_stage and self.course == 4 and self.stage == 14:
             maiamai_locations = [loc.code + albw_base_id for loc in all_locations if loc.loctype == LocationType.Upgrade]
             seen_maiamai_locations = [code for i, code in enumerate(maiamai_locations[:9]) if self.inventory[self.RAVIO_ITEM[i]] != 0]
-            await self.send_msgs([{
+            self.messages.append({
                 "cmd": "LocationScouts",
                 "create_as_hint": 0,
                 "locations": seen_maiamai_locations,
-            }])
+            })
             self.get_hints = True
 
         if self.to_hint:
-            await self.send_msgs([{
+            self.messages.append({
                 "cmd": "LocationScouts",
                 "create_as_hint": 2,
                 "locations": self.to_hint,
-            }])
+            })
             self.to_hint = []
     
     async def handle_deathlink(self) -> None:
@@ -394,7 +483,6 @@ class ALBWClientContext(CommonContext):
             logger.debug(f"Link back to life")
             self.link_is_dead = False
             self.sent_deathlink = False
-        
 
     def on_deathlink(self, data: Dict[str, Any]) -> None:
         """Gets dispatched when a new DeathLink is triggered by another linked player."""
@@ -413,6 +501,10 @@ class ALBWClientContext(CommonContext):
     async def get_null_item(self) -> None:
         await self.interface.write_u32(self.AP_HEADER_LOCATION + 0xc, 0xffffffff)
 
+    async def send_message_queue(self) -> None:
+        await self.send_msgs(self.messages)
+        self.messages = []
+
 async def game_watcher(ctx: ALBWClientContext) -> None:
     global citra
     global triple
@@ -421,6 +513,9 @@ async def game_watcher(ctx: ALBWClientContext) -> None:
     while not ctx.exit_event.is_set():
         try:
             ctx.invalid = False
+            if triple_addr == "" and ctx.interface == triple:
+                ctx.interface_connected = False
+                triple.disconnect()
             if not ctx.interface_connected:
                 if triple_addr != "":
                     if await triple.connect(triple_addr):
@@ -431,6 +526,7 @@ async def game_watcher(ctx: ALBWClientContext) -> None:
                         ctx.interface_connected = True
                         ctx.show_citra_connect_message = False
                         ctx.show_triple_connected_message = False
+                        ctx.save_validated = False
                     else:
                         logger.info("Couldn't connect to 3ds.")
                         ctx.interface_connected = False
@@ -454,16 +550,19 @@ async def game_watcher(ctx: ALBWClientContext) -> None:
                     await ctx.validate_seed()
                 if not ctx.invalid:
                     if await ctx.is_in_game():
+                        if not ctx.save_validated:
+                            await asyncio.sleep(1)
                         await ctx.validate_save()
-                        if triple_addr == "" and ctx.interface == triple:
-                            ctx.interface_connected = False
-                            triple.disconnect()
                         if not ctx.invalid and ctx.server_connected and (await ctx.get_pointers()):
                             if "DeathLink" in ctx.tags:
                                 await ctx.handle_deathlink()
-                            await ctx.check_locations()
-                            await ctx.scout_hints()
+                            await ctx.read_flags()
+                            await ctx.read_inventory()
+                            await ctx.read_stage()
+                            ctx.check_locations()
+                            ctx.scout_hints()
                             await ctx.get_item()
+                            await ctx.send_message_queue()
                         else:
                             ctx.initial_delay = True
                     else:
@@ -518,6 +617,8 @@ def launch(*launch_args) -> None:
         await ctx.exit_event.wait()
         await ctx.shutdown()
 
+    if os.getenv("ALBW_DEBUG", False):
+        logger.setLevel(logging.DEBUG)
     import colorama
     colorama.init()
     asyncio.run(main())

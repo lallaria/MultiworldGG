@@ -11,6 +11,15 @@ from .ntype import BigStream
 from .crc import calculate_crc
 
 DMADATA_START = 0x7430
+OVERLAY_TABLE_START = 0xB5E490
+OVERLAY_TABLE_OFFSET = 0
+OVERLAY_TABLE_ENTRY_SIZE = 0x20
+PAUSE_PLAYER_OVERLAY_TABLE_START = 0xB743E0
+PAUSE_PLAYER_OVERLAY_TABLE_ENTRY_SIZE = 0x1C
+PAUSE_PLAYER_OVERLAY_TABLE_OFFSET = 4
+
+NUM_OVERLAY_ENTRIES = 0x1D7
+NUM_PAUSE_PLAYER_OVERLAY_ENTRIES = 2
 
 double_cache_prevention = threading.Lock()
 
@@ -30,8 +39,16 @@ class Rom(BigStream):
         decomp_file = user_path('ZOOTDEC.z64')
 
         with open(data_path('generated/symbols.json'), 'r') as stream:
-            symbols = json.load(stream)
-            self.symbols = {name: int(addr, 16) for name, addr in symbols.items()}
+            raw_symbols = json.load(stream)
+        self.symbols = {}
+        for name, entry in raw_symbols.items():
+            if isinstance(entry, dict):
+                self.symbols[name] = {'address': int(entry['address'], 16), 'length': entry.get('length', 1)}
+            else:
+                self.symbols[name] = {'address': int(entry, 16), 'length': 1}
+
+        with open(data_path('generated/patch_symbols.json'), 'r') as stream:
+            self.patch_symbols = json.load(stream)
 
         # If decompressed file already exists, read from it
         if not force_use:
@@ -59,6 +76,12 @@ class Rom(BigStream):
         with double_cache_prevention:
             if not self.original:
                 Rom.original = self.copy()
+        self.overlay_table = OverlayTable.read_overlay_table(
+            self, OVERLAY_TABLE_START, OVERLAY_TABLE_OFFSET, OVERLAY_TABLE_ENTRY_SIZE, NUM_OVERLAY_ENTRIES
+        ) + OverlayTable.read_overlay_table(
+            self, PAUSE_PLAYER_OVERLAY_TABLE_START, PAUSE_PLAYER_OVERLAY_TABLE_OFFSET,
+            PAUSE_PLAYER_OVERLAY_TABLE_ENTRY_SIZE, NUM_PAUSE_PLAYER_OVERLAY_ENTRIES
+        )
 
         # Add version number to header.
         self.write_bytes(0x35, get_version_bytes(__version__))
@@ -84,11 +107,11 @@ class Rom(BigStream):
         romCRC = list(self.buffer[0x10:0x18])
         if romCRC not in validCRC and not skip_crc_check:
             # Bad CRC validation
-            raise RuntimeError('ROM file %s is not a valid OoT 1.0 US ROM.' % file)
+            raise RuntimeError('ROM file %s is not a valid OoT 1.0 NTSC-U/J ROM.' % file)
         elif len(self.buffer) < 0x2000000 or len(self.buffer) > (0x4000000) or file_name[1].lower() not in ['.z64',
                                                                                                             '.n64']:
             # ROM is too big, or too small, or not a bad type
-            raise RuntimeError('ROM file %s is not a valid OoT 1.0 US ROM.' % file)
+            raise RuntimeError('ROM file %s is not a valid OoT 1.0 NTSC-U/J ROM.' % file)
         elif len(self.buffer) == 0x2000000:
             # If Input ROM is compressed, then Decompress it
 
@@ -109,7 +132,7 @@ class Rom(BigStream):
 
             if not os.path.exists(subcall[0]):
                 raise RuntimeError(f'Decompressor does not exist! Please place it at {subcall[0]}.')
-            subprocess.call(subcall, **subprocess_args())
+            subprocess.check_call(subcall, **subprocess_args())
             self.read_rom(decomp_file)
         else:
             # ROM file is a valid and already uncompressed
@@ -123,6 +146,16 @@ class Rom(BigStream):
         super().write_bytes(address, values)
         self.changed_address.update(zip(range(address, address + len(values)), values))
 
+    def revert_patch(self, patch_name):
+        patch_start_symbol = patch_name + "_START"
+        patch_end_symbol = patch_name + "_END"
+        if patch_start_symbol not in self.patch_symbols or patch_end_symbol not in self.patch_symbols:
+            return
+        patch_start = OverlayTable.VRAM_2_VROM(self.overlay_table, self.patch_symbols[patch_start_symbol])
+        patch_end = OverlayTable.VRAM_2_VROM(self.overlay_table, self.patch_symbols[patch_end_symbol])
+        original_bytes = self.original.read_bytes(patch_start, patch_end - patch_start)
+        self.write_bytes(patch_start, original_bytes)
+
     def restore(self):
         self.buffer = copy.copy(self.original.buffer)
         self.changed_address = {}
@@ -133,7 +166,12 @@ class Rom(BigStream):
         self.force_patch.extend([0x35, 0x36, 0x37])
 
     def sym(self, symbol_name):
-        return self.symbols.get(symbol_name)
+        entry = self.symbols.get(symbol_name)
+        return entry['address'] if entry else None
+
+    def sym_length(self, symbol_name):
+        entry = self.symbols.get(symbol_name)
+        return entry['length'] if entry else 0
 
     def write_to_file(self, file):
         self.verify_dmadata()
@@ -227,6 +265,10 @@ class Rom(BigStream):
                     from_file = key
             self.changed_dma[dma_index] = (from_file, start, end - start)
 
+    def extend_dmadata(self, extra_entries):
+        _, dma_data_end = self.get_dma_table_range()
+        self.write_int32(DMADATA_START + 0x04, dma_data_end + extra_entries * 0x10)
+
     def get_dma_table_range(self):
         cur = DMADATA_START
         dma_start, dma_end, dma_size = self._get_dmadata_record(cur)
@@ -282,7 +324,90 @@ class Rom(BigStream):
 
 
 def compress_rom_file(input_file, output_file):
-    compressor_path = "."
+    input_file = os.path.abspath(input_file)
+    output_file = os.path.abspath(output_file)
+    compressor_dir = data_path("Compress")
+
+    def _read_dmadata_entries(path):
+        entries = []
+        with open(path, 'rb') as stream:
+            index = 0
+            cur = DMADATA_START
+            while True:
+                stream.seek(cur)
+                data = stream.read(0x10)
+                if len(data) < 0x10:
+                    break
+                start, end, pstart, pend = struct.unpack('>IIII', data)
+                if start == 0 and end == 0:
+                    break
+                entries.append((index, start, end, pstart, pend))
+                cur += 0x10
+                index += 1
+        return entries
+
+    def _read_extended_object_indices(path):
+        with open(data_path('generated/symbols.json'), 'r') as stream:
+            symbols = json.load(stream)
+        ext_symbol = symbols.get('EXTENDED_OBJECT_TABLE')
+        if ext_symbol is None:
+            return []
+        if isinstance(ext_symbol, dict):
+            ext_addr = int(ext_symbol['address'], 16)
+            ext_len = ext_symbol.get('length', 0)
+        else:
+            ext_addr = int(ext_symbol, 16)
+            ext_len = 0
+        if ext_len <= 0 or ext_len % 8 != 0:
+            return []
+
+        dmadata = _read_dmadata_entries(path)
+        if not dmadata:
+            return []
+
+        indices = set()
+        with open(path, 'rb') as stream:
+            stream.seek(ext_addr)
+            table = stream.read(ext_len)
+        if len(table) < ext_len:
+            return []
+
+        for off in range(0, ext_len, 8):
+            obj_start, obj_end = struct.unpack_from('>II', table, off)
+            if obj_start == 0 and obj_end == 0:
+                continue
+            for dma_index, dma_start, dma_end, _pstart, _pend in dmadata:
+                if dma_start <= obj_start < dma_end:
+                    indices.add(dma_index)
+                    break
+        return sorted(indices)
+
+    dma_table_backup = None
+    dma_table_path = os.path.join(compressor_dir, 'dmaTable.dat')
+    try:
+        extended_dma_indices = _read_extended_object_indices(input_file)
+    except Exception:
+        extended_dma_indices = []
+
+    if extended_dma_indices and os.path.exists(dma_table_path):
+        with open(dma_table_path, 'r', encoding='utf-8') as stream:
+            dma_table_backup = stream.read()
+
+        try:
+            current_values = [int(tok) for tok in dma_table_backup.split()]
+        except ValueError:
+            current_values = []
+
+        changed = False
+        for dma_index in extended_dma_indices:
+            # Positive entries in dmaTable.dat are left uncompressed by Compress.
+            if dma_index not in current_values and -dma_index not in current_values:
+                current_values.append(dma_index)
+                changed = True
+
+        if changed:
+            with open(dma_table_path, 'w', encoding='utf-8') as stream:
+                stream.write(' '.join(str(v) for v in current_values) + '\n')
 
     if platform.system() == 'Windows':
         executable_path = "Compress.exe"
@@ -295,9 +420,44 @@ def compress_rom_file(input_file, output_file):
         executable_path = "Compress.out"
     else:
         raise RuntimeError('Unsupported operating system for compression.')
-    compressor_path = os.path.join(compressor_path, executable_path)
+    compressor_path = os.path.join(compressor_dir, executable_path)
     if not os.path.exists(compressor_path):
         raise RuntimeError(f'Compressor does not exist! Please place it at {compressor_path}.')
     import logging
-    logging.info(subprocess.check_output([compressor_path, input_file, output_file],
+    try:
+        logging.info(subprocess.check_output([compressor_path, input_file, output_file],
+                                             cwd=compressor_dir,
                                              **subprocess_args(include_stdout=False)))
+    finally:
+        if dma_table_backup is not None:
+            with open(dma_table_path, 'w', encoding='utf-8') as stream:
+                stream.write(dma_table_backup)
+
+
+class OverlayEntry:
+    def __init__(self, vrom_start, vrom_end, vram_start, vram_end):
+        self.vrom_start = vrom_start
+        self.vrom_end = vrom_end
+        self.vram_start = vram_start
+        self.vram_end = vram_end
+
+
+class OverlayTable:
+    @staticmethod
+    def read_overlay_table(rom, ovl_table_start, offset, entry_size, num_entries):
+        overlay_entries = []
+        for i in range(0, num_entries):
+            entry_bytes = rom.read_bytes(ovl_table_start + i * entry_size, entry_size)
+            vrom_start = int.from_bytes(entry_bytes[offset + 0:offset + 4], 'big')
+            vrom_end = int.from_bytes(entry_bytes[offset + 4:offset + 8], 'big')
+            vram_start = int.from_bytes(entry_bytes[offset + 8:offset + 12], 'big')
+            vram_end = int.from_bytes(entry_bytes[offset + 12:offset + 16], 'big')
+            overlay_entries.append(OverlayEntry(vrom_start, vrom_end, vram_start, vram_end))
+        return overlay_entries
+
+    @staticmethod
+    def VRAM_2_VROM(overlay_entries, vram_address):
+        for overlay_entry in overlay_entries:
+            if overlay_entry.vram_start <= vram_address < overlay_entry.vram_end:
+                return vram_address - overlay_entry.vram_start + overlay_entry.vrom_start
+        raise Exception("Overlay address not found in table")

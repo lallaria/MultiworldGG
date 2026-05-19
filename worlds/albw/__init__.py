@@ -279,8 +279,13 @@ class ALBWWorld(World):
             "dark_rooms_lampless",
             "swordless_mode",
             "chest_size_matches_contents",
+            "shuffle_maiamai_rewards",
+            "maiamai_limit",
+            "hint_ghosts",
         )
         slot_data["seed"] = self.seed
+        slot_data["crack_map"] = self.seed_info.get_crack_map_json()
+        slot_data["vane_map"] = self.seed_info.get_vane_map_json()
         return slot_data
 
     def generate_output(self, output_directory: str) -> None:

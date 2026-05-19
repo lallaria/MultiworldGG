@@ -1,14 +1,112 @@
 import io, re, json
-import os, sys
+import os
+import pkgutil
+import shutil
 import subprocess
-import Utils
+import tempfile
+import zipfile
 from functools import lru_cache
 
-__version__ = '7.1.0'
+OOT_PLAYER_NAME_LENGTH = 8
+OOT_PLAYER_NAME_PAD = 0xDF
+OOT_PLAYER_NAME_CHARACTERS = {
+    **{str(i): i for i in range(10)},
+    **{chr(c): c + 0x6A for c in range(ord('A'), ord('Z') + 1)},
+    **{chr(c): c + 0x64 for c in range(ord('a'), ord('z') + 1)},
+    '.': 0xEA,
+    '-': 0xE4,
+    ' ': OOT_PLAYER_NAME_PAD,
+}
+
+
+def encode_oot_player_name(name: str, max_length: int = OOT_PLAYER_NAME_LENGTH) -> bytearray:
+    encoded = bytearray()
+    for c in name:
+        value = OOT_PLAYER_NAME_CHARACTERS.get(c)
+        if value is None:
+            continue
+        encoded.append(value)
+        if len(encoded) >= max_length:
+            break
+
+    if not encoded:
+        return encode_oot_player_name("Player", max_length)
+
+    encoded.extend([OOT_PLAYER_NAME_PAD] * (max_length - len(encoded)))
+    return encoded
+
+
+def _is_apworld_archive(path):
+    return path and path.lower().endswith(".apworld")
+
+
+def _apworld_archive_path():
+    archive = getattr(globals().get("__loader__"), "archive", None)
+    if _is_apworld_archive(archive):
+        return os.path.abspath(archive)
+
+    module_path = os.path.abspath(__file__)
+    while True:
+        if _is_apworld_archive(module_path):
+            return module_path
+        parent = os.path.dirname(module_path)
+        if parent == module_path:
+            return None
+        module_path = parent
+
+
+_version_data = pkgutil.get_data(__name__, "archipelago.json")
+if _version_data is None:
+    raise FileNotFoundError("archipelago.json")
+__version__: str = json.loads(_version_data.decode('utf-8'))['world_version']
+
+
+def _restore_executable_mode(path):
+    if os.path.basename(path).startswith(('Compress', 'Decompress')):
+        try:
+            os.chmod(path, 0o755)
+        except OSError:
+            pass
+
+
+@lru_cache(maxsize=1)
+def _data_root():
+    apworld_path = _apworld_archive_path()
+    if not apworld_path:
+        return os.path.join(os.path.dirname(__file__), 'data')
+
+    stat = os.stat(apworld_path)
+    temp_root = os.path.join(
+        tempfile.gettempdir(), f"oot_apworld_data_{__version__}_{stat.st_mtime_ns}_{stat.st_size}")
+    data_root = os.path.join(temp_root, "data")
+    marker_path = os.path.join(temp_root, ".extracted")
+    if os.path.exists(marker_path) and os.path.isdir(data_root):
+        return data_root
+
+    os.makedirs(data_root, exist_ok=True)
+    prefix = "oot/data/"
+    data_root_abs = os.path.abspath(data_root)
+    with zipfile.ZipFile(apworld_path, 'r') as apworld:
+        for info in apworld.infolist():
+            if info.is_dir() or not info.filename.startswith(prefix):
+                continue
+            relative_path = info.filename[len(prefix):]
+            target_path = os.path.abspath(os.path.join(data_root, *relative_path.split('/')))
+            if os.path.commonpath([data_root_abs, target_path]) != data_root_abs:
+                raise RuntimeError(f"Unexpected path in OOT apworld: {info.filename}")
+
+            os.makedirs(os.path.dirname(target_path), exist_ok=True)
+            with apworld.open(info, 'r') as source, open(target_path, 'wb') as target:
+                shutil.copyfileobj(source, target)
+            _restore_executable_mode(target_path)
+
+    with open(marker_path, 'w', encoding='utf-8') as marker:
+        marker.write(apworld_path)
+    return data_root
 
 
 def data_path(*args):
-    return os.path.join(os.path.dirname(__file__), 'data', *args)
+    return os.path.join(_data_root(), *args)
 
 
 @lru_cache

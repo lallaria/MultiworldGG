@@ -25,7 +25,8 @@
             "Deku Tree Near Compass Room": "here(has_fire_source_with_torch or can_use(Bow))",
             "Deku Tree Basement Water Room Front": "
                 here(can_use(Slingshot) or can_use(Bow)) and here(has_fire_source_with_torch)",
-            "Deku Tree Basement Ledge": "deku_tree_shortcuts or here(is_adult) or logic_deku_b1_skip"
+            "Deku Tree Basement Ledge": "deku_tree_shortcuts or here(is_adult) or logic_deku_b1_skip",
+            "Farores Wind Warp": "can_use(Farores_Wind)"
         }
     },
     {
@@ -87,7 +88,11 @@
                 (can_play(Song_of_Time) and (can_use(Boomerang) or can_use(Hookshot)))",
             "Deku Tree MQ GS Basement Back Room": "
                 here(has_fire_source_with_torch) and
-                (can_use(Hookshot) or can_use(Boomerang))"
+                (can_use(Hookshot) or can_use(Boomerang))",
+            "Deku Tree MQ Basement Graves Wonderitem 1": "can_jumpslash",
+            "Deku Tree MQ Basement Graves Wonderitem 2": "can_jumpslash",
+            "Deku Tree MQ Basement Graves Wonderitem 3": "can_jumpslash",
+            "Deku Tree MQ Basement Graves Wonderitem 4": "can_jumpslash"
         },
         "exits": {
             "Deku Tree Basement Ledge": "is_child",
@@ -109,13 +114,15 @@
     {
         "region_name": "Deku Tree Before Boss",
         "dungeon": "Deku Tree",
+        "savewarp": "KF Outside Deku Tree -> Deku Tree Lobby",
         "locations": {
             "Deku Tree MQ Basement Recovery Heart 1": "True",
             "Deku Tree MQ Basement Recovery Heart 2": "True",
             "Deku Tree MQ Basement Recovery Heart 3": "True"
         },
         "exits": {
-            "Deku Tree Boss Door": "deku_tree_shortcuts or here(has_shield)"
+            "Deku Tree Basement Ledge": "deku_tree_shortcuts or logic_visible_collisions",
+            "Queen Gohma Boss Room": "deku_tree_shortcuts or here(has_shield)"
         }
     }
 ]

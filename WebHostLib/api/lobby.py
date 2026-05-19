@@ -1382,6 +1382,38 @@ def lobby_delete_yaml(lobby: UUID, yaml_id: int):
     return jsonify({"success": True})
 
 
+@api_endpoints.route('/lobby/<suuid:lobby>/yamls', methods=['DELETE'])
+def lobby_delete_all_yamls(lobby: UUID):
+    lobby = Lobby.get(id=lobby)
+    if not lobby:
+        return jsonify({"error": "Lobby not found"}), 404
+
+    if lobby.owner != session["_id"]:
+        return jsonify({"error": "Only the lobby owner can remove all YAMLs"}), 403
+
+    if lobby.state not in (LOBBY_OPEN, LOBBY_LOCKED):
+        return jsonify({"error": "Cannot modify YAMLs in current lobby state"}), 400
+
+    yaml_records = select(y for y in LobbyYaml if y.lobby == lobby)[:]
+    deleted_count = len(yaml_records)
+    for yaml_record in yaml_records:
+        _delete_yaml_record(yaml_record)
+
+    if deleted_count:
+        owner_player = LobbyPlayer.get(lobby=lobby, session_id=lobby.owner)
+        owner_name = owner_player.player_name if owner_player else "Host"
+        LobbyMessage(
+            lobby=lobby,
+            player=None,
+            sender_name="System",
+            content=f"All YAMLs were removed by host {owner_name}.",
+        )
+        lobby.last_activity = utcnow()
+        commit()
+
+    return jsonify({"success": True, "deleted_count": deleted_count})
+
+
 @api_endpoints.route('/lobby/<suuid:lobby>/message/<int:message_id>', methods=['DELETE'])
 @limiter.limit("30 per minute")
 def lobby_delete_message(lobby: UUID, message_id: int):
@@ -2260,6 +2292,9 @@ def lobby_download_package(lobby: UUID):
         (y.id, y.yaml_player_name, y.yaml_game, y.filename, y.content, y.player.player_name)
         for y in LobbyYaml if y.lobby == lobby
     ).order_by(lambda i, n, g, f, c, p: i)[:]
+    if not yaml_rows:
+        return jsonify({"error": "Cannot download a package without any YAMLs"}), 400
+
     apworlds = select(a for a in LobbyApworld if a.lobby == lobby)[:]
 
     meta = json.loads(lobby.meta)

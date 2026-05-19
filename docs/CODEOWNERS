@@ -354,6 +354,9 @@
 # Noita
 /worlds/noita/ @ScipioWright @heinermann
 
+# Ocarina of Time
+/worlds/oot/ @trezc0_
+
 # Old School Runescape
 /worlds/osrs/ @digiholic
 
@@ -670,16 +673,6 @@
 
 # Zork Grand Inquisitor
 /worlds/zork_grand_inquisitor/ @nbrochu
-
-
-## Active Unmaintained Worlds
-
-# The following worlds in this repo are currently unmaintained, but currently still work in core. If any update breaks
-# compatibility, these worlds may be deleted. If you are interested in stepping up as maintainer for
-# any of these worlds, please review `/docs/world maintainer.md` documentation.
-
-# Ocarina of Time
-# /worlds/oot/
 
 ###################
 ## Documentation ##

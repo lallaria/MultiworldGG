@@ -198,6 +198,9 @@ class PhazonMinesAreaData(AreaData):
                         and can_scan(world, state)
                         and can_combat_beam_pirates(
                             world, state, SuitUpgrade.Power_Beam
+                        )
+                        and can_combat_beam_pirates(
+                            world, state, SuitUpgrade.Wave_Beam
                         ),
                         tricks=[Tricks.elite_research_spinner_no_boost],
                     ),
@@ -221,6 +224,9 @@ class PhazonMinesAreaData(AreaData):
                         and can_scan(world, state)
                         and can_combat_beam_pirates(
                             world, state, SuitUpgrade.Power_Beam
+                        )
+                        and can_combat_beam_pirates(
+                            world, state, SuitUpgrade.Wave_Beam
                         ),
                         tricks=[Tricks.elite_research_spinner_no_boost],
                     ),
@@ -320,8 +326,7 @@ class PhazonMinesAreaData(AreaData):
                 pickups=[
                     PickupData(
                         "Phazon Mines: Main Quarry",
-                        rule_func=lambda world, state: can_morph_ball(world, state)
-                        and can_spider(world, state)
+                        rule_func=lambda world, state: can_spider(world, state)
                         and (can_bomb(world, state) or can_ball_jump(world, state))
                         and can_thermal(world, state)
                         and can_wave_beam(world, state)
@@ -448,18 +453,18 @@ class PhazonMinesAreaData(AreaData):
                     0: DoorData(
                         RoomName.Security_Access_A,
                         defaultLock=DoorLockType.Ice,
-                        rule_func=can_wave_beam,
+                        rule_func=lambda world, state: can_combat_beam_pirates(world, state, SuitUpgrade.Wave_Beam),
                     ),
                     1: DoorData(
                         RoomName.Security_Access_B,
                         defaultLock=DoorLockType.Wave,
-                        rule_func=can_wave_beam,
+                        rule_func=lambda world, state: can_combat_beam_pirates(world, state, SuitUpgrade.Wave_Beam),
                     ),
                     2: DoorData(
                         RoomName.Storage_Depot_A,
                         defaultLock=DoorLockType.Plasma,
                         rule_func=lambda world, state: can_power_bomb(world, state)
-                        and can_plasma_beam(world, state)
+                        and can_combat_beam_pirates(world, state, SuitUpgrade.Wave_Beam)
                         and can_scan(world, state),
                     ),
                 }
@@ -541,9 +546,7 @@ class PhazonMinesAreaData(AreaData):
                             world, state, SuitUpgrade.Power_Beam
                         )
                         and can_spider(world, state)
-                        and can_grapple(world, state)
                         and can_bomb(world, state)
-                        and can_power_bomb(world, state)
                         and can_space_jump(world, state),
                         tricks=[Tricks.ore_processing_climb_no_grapple_spider],
                     ),

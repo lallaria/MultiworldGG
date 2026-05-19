@@ -172,6 +172,9 @@ class Portal2World(World):
                 elif self.options.ratman_dens and sub_location in ratman_den_locations_table:
                     ratman_requirements = ratman_den_locations_table[sub_location].required_items
                     self.create_in_level_check(sub_location, ratman_requirements, region_start)
+                elif self.options.vitrified_doors and sub_location in vitrified_door_locations_table:
+                    vitrified_requirements = vitrified_door_locations_table[sub_location].required_items
+                    self.create_in_level_check(sub_location, vitrified_requirements, region_start)
             
             # Connect to chapter region if there was no previous level or if open world
             if self.options.game_mode == GameModeOption.OPEN_WORLD or last_region == None:
@@ -289,10 +292,10 @@ class Portal2World(World):
             "chapter_dict": {int(name[-1]): values for name, values in self.chapter_maps_dict.items()}
         })
         # Check if portal gun items are in their locations
-        if self.multiworld.find_item(portal_gun_2, self.player).name == portal_gun_2:
+        if portal_gun_2 not in self.options.start_inventory_from_pool and self.multiworld.find_item(portal_gun_2, self.player).name == portal_gun_2:
             slot_data["portal_gun_upgrade_inplace"] = True
 
-        if self.multiworld.find_item(potatos, self.player).name == potatos:
+        if potatos not in self.options.start_inventory_from_pool and self.multiworld.find_item(potatos, self.player).name == potatos:
             slot_data["potatos_inplace"] = True
             
         return slot_data

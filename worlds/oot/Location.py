@@ -2,7 +2,7 @@ from enum import Enum
 from .LocationList import location_table
 from BaseClasses import Location
 
-non_indexed_location_types = {'Boss', 'Event', 'Drop', 'HintStone', 'Hint'}
+non_indexed_location_types = {'Event', 'Drop', 'HintStone', 'Hint'}
 
 location_id_offset = 67000
 locnames_pre_70 = {
@@ -14,8 +14,10 @@ locnames_pre_70 = {
     "ZR Frogs Song of Time",
 }
 loctypes_70 = {'Beehive', 'Pot', 'FlyingPot', 'Crate', 'SmallCrate', 'RupeeTower', 'Freestanding', 'ActorOverride'}
+loctypes_81 = {'Wonderitem'}
 new_name_order = sorted(location_table.keys(),
-    key=lambda name: 2 if location_table[name][0] in loctypes_70
+    key=lambda name: 3 if location_table[name][0] in loctypes_81
+                else 2 if location_table[name][0] in loctypes_70
                 else 1 if name in locnames_pre_70
                 else 0)
 
@@ -48,10 +50,21 @@ class OOTLocation(Location):
             self.filter_tags = list(filter_tags)
         self.never = False # no idea what this does
         self.disabled = DisableType.ENABLED
+        self._locked = False
 
     @property
     def dungeon(self):
         return self.parent_region.dungeon
+
+    @property
+    def locked(self):
+        return self._locked or self.disabled != DisableType.ENABLED
+
+    @locked.setter
+    def locked(self, value: bool):
+        self._locked = value
+        if value:
+            self.disabled = DisableType.DISABLED
 
 
 def LocationFactory(locations, player: int):
@@ -111,15 +124,15 @@ def build_location_name_groups() -> dict:
     }
 
     # Delete tags which are a combination of other tags
-    del ret['Death Mountain']
-    del ret['Forest']
-    del ret['Gerudo']
-    del ret['Kakariko']
-    del ret['Market']
+    ret.pop('Death Mountain', None)
+    ret.pop('Forest', None)
+    ret.pop('Gerudo', None)
+    ret.pop('Kakariko', None)
+    ret.pop('Market', None)
 
     # Delete Vanilla and MQ tags because they are just way too broad
-    del ret['Vanilla']
-    del ret['Master Quest']
+    ret.pop('Vanilla', None)
+    ret.pop('Master Quest', None)
 
     rename(ret, 'Beehive', 'Beehives')
     rename(ret, 'Cow', 'Cows')
@@ -133,6 +146,7 @@ def build_location_name_groups() -> dict:
     rename(ret, 'the Market', 'Market')
     rename(ret, 'the Graveyard', 'Graveyard')
     rename(ret, 'the Lost Woods', 'Lost Woods')
+    if 'Wonderitem' in ret:
+        rename(ret, 'Wonderitem', 'Wonderitems')
 
     return ret
-

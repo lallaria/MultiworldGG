@@ -7,6 +7,7 @@
     const generateBtn = document.getElementById("generate-btn");
     const leaveBtn = document.getElementById("leave-btn");
     const abandonBtn = document.getElementById("abandon-btn");
+    const removeAllYamlsBtn = document.getElementById("remove-all-yamls-btn");
     const reopenBtn = document.getElementById("reopen-btn");
     const lockBtn = document.getElementById("lock-btn");
     const settingsEditBtn = document.getElementById("settings-edit-btn");
@@ -448,6 +449,8 @@
 
     function updateGenerateButton(data) {
         const info = document.getElementById("generate-info");
+        const hasYamls = data.total_yamls > 0;
+        currentTotalYamls = data.total_yamls;
         if (info) {
             const maxP = data.max_players > 0 ? `/${data.max_players}` : "";
             info.textContent = `Players: ${data.player_count}${maxP} | YAMLs: ${data.total_yamls} | Ready: ${data.ready_count}/${data.player_count}`;
@@ -513,7 +516,6 @@
         }
 
         if (generateBtn) {
-            const hasYamls = data.total_yamls > 0;
             generateBtn.disabled = !hasYamls || (currentState !== LOBBY_STATE_OPEN && currentState !== LOBBY_STATE_LOCKED);
             if (currentState === LOBBY_STATE_GENERATING) {
                 generateBtn.textContent = "Generating...";
@@ -521,6 +523,12 @@
             } else {
                 generateBtn.textContent = "Generate Seed";
             }
+        }
+        if (downloadPackageBtn) {
+            downloadPackageBtn.disabled = !hasYamls || !isActiveGenerationState;
+        }
+        if (removeAllYamlsBtn) {
+            removeAllYamlsBtn.disabled = !hasYamls || !isActiveGenerationState;
         }
     }
 
@@ -622,6 +630,9 @@
         }
         if (abandonBtn) {
             abandonBtn.style.display = isGeneratingOrDone ? "none" : "";
+        }
+        if (removeAllYamlsBtn) {
+            removeAllYamlsBtn.style.display = isActiveState ? "" : "none";
         }
         if (lockBtn) {
             lockBtn.style.display = isActiveState ? "" : "none";
@@ -1197,6 +1208,7 @@
 
     if (downloadPackageBtn) {
         downloadPackageBtn.addEventListener("click", () => {
+            if (downloadPackageBtn.disabled || currentTotalYamls <= 0) return;
             if (lastReadyCount < lastTotalCount) {
                 const unready = lastTotalCount - lastReadyCount;
                 if (!confirm(`${unready} player(s) are not ready yet. Download package anyway?`)) return;
@@ -1346,6 +1358,27 @@
                     else window.location.href = "/lobbies";
                 })
                 .catch(err => console.error("Abandon error:", err));
+        });
+    }
+
+    if (removeAllYamlsBtn) {
+        removeAllYamlsBtn.addEventListener("click", () => {
+            if (removeAllYamlsBtn.disabled || currentTotalYamls <= 0) return;
+            if (!confirm(`Remove all ${currentTotalYamls} YAML(s) from this lobby? This cannot be undone.`)) return;
+
+            removeAllYamlsBtn.disabled = true;
+            resetPollRate();
+            fetch(API_BASE + "/yamls", { method: "DELETE" })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) showToast(data.error);
+                    else pollStatus();
+                })
+                .catch(err => console.error("Remove all YAMLs error:", err))
+                .finally(() => {
+                    const isActiveGenerationState = currentState === LOBBY_STATE_OPEN || currentState === LOBBY_STATE_LOCKED;
+                    removeAllYamlsBtn.disabled = currentTotalYamls <= 0 || !isActiveGenerationState;
+                });
         });
     }
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict, get_type_hints
-from Options import PerGameCommonOptions, Choice, Range, Toggle, DeathLink
+from Options import PerGameCommonOptions, Choice, Range, Toggle, DeathLink, StartInventoryPool
 import albwrandomizer
 
 class LogicMode(Choice):
@@ -236,6 +236,7 @@ class ALBWOptions(PerGameCommonOptions):
     treacherous_tower_floors: TreacherousTowerFloors
     purple_potion_bottles: PurplePotionBottles
     keysy: Keysy
+    start_inventory_from_pool: StartInventoryPool
 
     @classmethod
     def option_names(cls):

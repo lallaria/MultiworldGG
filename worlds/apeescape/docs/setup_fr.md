@@ -4,7 +4,7 @@
 - [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases). Veuillez utiliser la version 0.7.80 ou ultérieure pour le support intégré dans Bizhawk.
 - Fichier ISO ou BIN/CUE Ape Escape (USA). Soit une version originale en label noir, soit la version Greatest Hits devrait fonctionner.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) version 2.7 à 2.9.1. La version 2.10 de BizHawk ou tout autre émulateur n'est **pas** pris en charge.
-- (N'est pas necessaire avec MWGG:) Le fichier `apeescape.apworld` le plus récent. Vous pouvez le trouver sur la [page GitHub](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Déposer le fichier dans le dossier `MultiworldGG/custom_worlds`.
+- En AP: Le fichier `apeescape.apworld` le plus récent. Vous pouvez le trouver sur la [page GitHub](https://github.com/Thedragon005/Archipelago-Ape-Escape/releases/latest). Déposer le fichier dans le dossier `Archipelago/custom_worlds`.
 
 ### Configuration de BizHawk
 Après avoir installé BizHawk, ouvrez `EmuHawk.exe` et allez changer les configurations suivantes :
@@ -27,7 +27,7 @@ le raccourci, puis appuyez sur Esc pour l'effacer.
 ## Générer une partie
 
 1. Créez votre fichier de configuration (YAML). Après avoir installé le fichier `apeescape.apworld`, vous pouvez générer un modèle dans le menu MultiworldGG Launcher en cliquant sur l'option `Generate Template Settings`.
-2. Suivez les instructions générales du MultiworldGG pour [Générer une partie](https://multiworld.gg/tutorial/Archipelago/setup/en#generating-a-game) (En anglais).
+2. Suivez les instructions générales du MultiworldGG pour [Générer une partie](/tutorial/Archipelago/setup/en#generating-a-game) (En anglais).
 3. Ouvrez `MultiworldGGLauncher.exe`
 4. Sélectionnez "BizHawk Client" dans la colonne de droite. À la première ouverture, on vous demandera également de 
 repérer `EmuHawk.exe` dans votre installation de Bizhawk.
@@ -48,5 +48,5 @@ Vous devriez maintenant être en mesure de recevoir et d'envoyer des objets. Vou
 ## Terminer une session
 - Ape Escape ne sauvegarde pas automatiquement votre progression. Quand vous avez fini de jouer, sauvegardez soit votre 
 partie dans une carte mémoire virtuelle à partir de la station de sauvegarde (recommandé) ou bien effectuez une 
-sauvegarde d'état (savestate) pour pouvoir reprendre plus tard. Lors d'une reconnexion ultérieure, Archipelago
+sauvegarde d'état (savestate) pour pouvoir reprendre plus tard. Lors d'une reconnexion ultérieure, MultiworldGG
 vous enverra tous les objets que vous avez reçus pendant la déconnexion.

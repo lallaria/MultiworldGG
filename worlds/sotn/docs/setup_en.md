@@ -1,4 +1,6 @@
+# Setup Guide for Symphony of the Night
 
+Symphony of the Night is a metroidvania from playstation 1
 
 [Installation video guide here](https://youtu.be/F_yL3QM4qYw)
 
@@ -6,9 +8,6 @@
 [0.82 changes](https://www.youtube.com/watch?v=F_yL3QM4qYw&t=8s)
 
 [GRAB THE LAST RELEASE HERE](https://github.com/fdelduque/Archipelago/releases) (ships with MultiworldGG)
-
-## Symphony of the Night
-Symphony of the Night is a metroidvania from playstation 1
 
 ### Requirements
 * MultiworldGG Client

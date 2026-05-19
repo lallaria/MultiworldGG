@@ -4,6 +4,7 @@ import typing
 
 from BaseClasses import (
     CollectionState,
+    ItemClassification,
     LocationProgressType,
     Region,
 )
@@ -154,7 +155,8 @@ class RoomData:
                 if f"{door_id}" not in door_data:
                     door_data[f"{door_id}"] = {}
                 door_data[f"{door_id}"]["shieldType"] = DoorShieldFromBlastShieldType[door.blast_shield]
-                door_data[f"{door_id}"]["blastShieldType"] = door.blast_shield.value
+                if door.blast_shield != BlastShieldType.Disabled:
+                    door_data[f"{door_id}"]["blastShieldType"] = door.blast_shield.value
 
         return door_data
 
@@ -177,6 +179,23 @@ class RoomData:
                     if door_data.default_destination == self.room_name:
                         return door_data
         return None
+
+
+def sub_region_access_rule_func(
+        state: CollectionState,
+        world: "MetroidPrimeWorld",
+        origin_door_data: DoorData,
+        target_door_data: DoorData,
+):
+    meets_origin_door_requirements = (
+        origin_door_data.sub_region_access_override(world, state)
+        and _can_open_door(world, state, origin_door_data)
+        if origin_door_data.sub_region_access_override is not None
+        else _can_access_door(world, state, origin_door_data)
+    )  # Use override if any, otherwise use default access rule
+    return meets_origin_door_requirements and _can_open_door(
+        world, state, target_door_data
+    )
 
 
 class AreaData:
@@ -214,6 +233,11 @@ class AreaData:
                 location.access_rule = (
                     lambda state, w=world, p=pickup: _can_reach_pickup(w, state, p)
                 )
+
+                if location.name in world.prefilled_item_map.keys():
+                    item_name = world.prefilled_item_map[location.name]
+                    item = world.create_item(item_name, ItemClassification.progression)
+                    location.place_locked_item(item)
 
         # Once each region is created, connect the doors and assign their locks
         color_mapping: Dict[str, str] = (
@@ -263,22 +287,6 @@ class AreaData:
 
                     if shield_applied:
                         door_data.lock = DoorLockType.Blue
-
-                def sub_region_access_rule_func(
-                    state: CollectionState,
-                    world: "MetroidPrimeWorld",
-                    origin_door_data: DoorData,
-                    target_door_data: DoorData,
-                ):
-                    meets_origin_door_requirements = (
-                        origin_door_data.sub_region_access_override(world, state)
-                        and _can_open_door(world, state, origin_door_data)
-                        if origin_door_data.sub_region_access_override is not None
-                        else _can_access_door(world, state, origin_door_data)
-                    )  # Use override if any, otherwise use default access rule
-                    return meets_origin_door_requirements and _can_open_door(
-                        world, state, target_door_data
-                    )
 
                 def get_connection_name(
                     door_data: DoorData,

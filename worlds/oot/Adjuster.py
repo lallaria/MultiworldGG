@@ -7,15 +7,21 @@ from itertools import chain
 
 from BaseClasses import MultiWorld
 from Options import Choice, Range, Toggle
-from worlds.oot import OOTWorld
-from worlds.oot.Cosmetics import patch_cosmetics
-from worlds.oot.Options import cosmetic_options, sfx_options
-from worlds.oot.Rom import Rom, compress_rom_file
-from worlds.oot.N64Patch import apply_patch_file
-from worlds.oot.Utils import data_path
-from Utils import local_path
+from . import OOTWorld, launch_rom as launch_oot_rom
+from .Cosmetics import patch_cosmetics
+from .Options import (cosmetic_options, sfx_options,
+    DpadDungeonMenu, SpeedupMusicForLastTriforcePiece, SlowdownMusicWhenLowhp,
+    UninvertYAxisInFirstPersonCamera, InputViewer, DisableBattleMusic, CreditsMusic)
+from .Rom import Rom, compress_rom_file
+from .N64Patch import apply_patch_file
+from .Utils import __version__ as oot_version
+from Utils import local_path, user_path
 
 logger = logging.getLogger('OoTAdjuster')
+
+def launch_rom(path: str) -> None:
+    launch_oot_rom(path, logger)
+
 
 def main(launcher_args):
     parser = argparse.ArgumentParser()
@@ -27,8 +33,12 @@ def main(launcher_args):
     for name, option in chain(cosmetic_options.items(), sfx_options.items()):
         parser.add_argument('--'+name, default=None,
             help=option.__doc__)
-    parser.add_argument('--is_glitched', default=False, action='store_true',
-        help='Setting this to true will enable protection on kokiri tunic colors for weirdshot.')
+    parser.add_argument('--music_dir', default=None,
+        help='Path to a folder of custom music files (.ootrs, .mmrs) to include in randomization.')
+    parser.add_argument('--model_adult', default='Default',
+        help='Adult Link model name from data/Models/Adult/ folder, or Default.')
+    parser.add_argument('--model_child', default='Default',
+        help='Child Link model name from data/Models/Child/ folder, or Default.')
     parser.add_argument('--deathlink',
         help='Enable DeathLink system', action='store_true')
 
@@ -50,7 +60,7 @@ def adjustGUI():
         apname = "Archipelago"
 
     window = tk.Tk()
-    window.wm_title(f"{apname} {MWVersion} OoT Adjuster")
+    window.wm_title(f"Ocarina of Time Adjuster (OoT APWorld {oot_version}) | {apname} {MWVersion}")
     set_icon(window)
 
     opts = Namespace()
@@ -80,6 +90,41 @@ def adjustGUI():
     vanillaLabel.pack(side=LEFT)
     vanillaEntry.pack(side=LEFT, expand=True, fill=X)
     vanillaSelectButton.pack(side=LEFT)
+
+    # Custom music folder picker
+    musicFolderFrame = Frame(window)
+    musicFolderLabel = Label(musicFolderFrame, text='Custom Music Folder (.ootrs/.mmrs)')
+    opts.music_dir = StringVar()
+
+    def MusicDirSelect():
+        d = filedialog.askdirectory(title='Select Custom Music Folder')
+        if d:
+            opts.music_dir.set(d)
+
+    musicFolderEntry = Entry(musicFolderFrame, textvariable=opts.music_dir)
+    musicFolderButton = Button(musicFolderFrame, text='Select Folder', command=MusicDirSelect)
+    musicFolderFrame.pack(side=TOP, expand=True, fill=X)
+    musicFolderLabel.pack(side=LEFT)
+    musicFolderEntry.pack(side=LEFT, expand=True, fill=X)
+    musicFolderButton.pack(side=LEFT)
+
+    from .Models import get_model_choices
+
+    adultModelFrame = Frame(window)
+    adultModelLabel = Label(adultModelFrame, text='Adult Link Model')
+    opts.model_adult = StringVar(value='Default')
+    adultModelMenu = OptionMenu(adultModelFrame, opts.model_adult, *get_model_choices(0))
+    adultModelFrame.pack(side=TOP, expand=True, fill=X)
+    adultModelLabel.pack(side=LEFT)
+    adultModelMenu.pack(side=LEFT)
+
+    childModelFrame = Frame(window)
+    childModelLabel = Label(childModelFrame, text='Child Link Model')
+    opts.model_child = StringVar(value='Default')
+    childModelMenu = OptionMenu(childModelFrame, opts.model_child, *get_model_choices(1))
+    childModelFrame.pack(side=TOP, expand=True, fill=X)
+    childModelLabel.pack(side=LEFT)
+    childModelMenu.pack(side=LEFT)
 
     # Cosmetic options
     romSettingsFrame = Frame(window)
@@ -132,6 +177,14 @@ def adjustGUI():
     dropdown_option('cosmetic', 'c_button_color', 12, 1)
     dropdown_option('cosmetic', 'start_button_color', 12, 2)
 
+    dropdown_option('cosmetic', 'display_custom_song_names', 13, 0)
+
+    opts.credits_music = IntVar(value=CreditsMusic.default)
+    Checkbutton(romSettingsFrame, text="Credits Music as BGM", variable=opts.credits_music).grid(row=13, column=1, sticky=W)
+
+    opts.disable_battle_music = IntVar(value=DisableBattleMusic.default)
+    Checkbutton(romSettingsFrame, text="Disable Battle Music", variable=opts.disable_battle_music).grid(row=13, column=2, sticky=W)
+
     dropdown_option('sfx', 'sfx_navi_overworld', 14, 0)
     dropdown_option('sfx', 'sfx_navi_enemy', 14, 1)
     dropdown_option('sfx', 'sfx_low_hp', 14, 2)
@@ -141,6 +194,19 @@ def adjustGUI():
     dropdown_option('sfx', 'sfx_horse_neigh', 16, 0)
     dropdown_option('sfx', 'sfx_hover_boots', 16, 1)
     dropdown_option('sfx', 'sfx_ocarina', 16, 2)
+
+    dropdown_option('sfx', 'sfx_iron_boots', 17, 0)
+    dropdown_option('sfx', 'sfx_silver_rupee', 17, 1)
+    dropdown_option('sfx', 'sfx_boomerang_throw', 17, 2)
+    dropdown_option('sfx', 'sfx_hookshot_chain', 18, 0)
+    dropdown_option('sfx', 'sfx_arrow_shot', 18, 1)
+    dropdown_option('sfx', 'sfx_slingshot_shot', 18, 2)
+    dropdown_option('sfx', 'sfx_magic_arrow_shot', 19, 0)
+    dropdown_option('sfx', 'sfx_bombchu_move', 19, 1)
+    dropdown_option('sfx', 'sfx_get_small_item', 19, 2)
+    dropdown_option('sfx', 'sfx_explosion', 20, 0)
+    dropdown_option('sfx', 'sfx_daybreak', 20, 1)
+    dropdown_option('sfx', 'sfx_cucco', 20, 2)
 
     # Special cases
     # Sword trail duration is a range
@@ -154,15 +220,27 @@ def adjustGUI():
     optionMenu = OptionMenu(optionFrame, getattr(opts, 'sword_trail_duration'), *range(4, 21))
     optionMenu.pack(side=LEFT)
 
-    # Glitched is a checkbox
-    opts.is_glitched = IntVar(value=0)
-    glitched_checkbox = Checkbutton(romSettingsFrame, text="Glitched Logic?", variable=opts.is_glitched)
-    glitched_checkbox.grid(row=17, column=0, sticky=W)
+    # Toggle cosmetic options as checkboxes
+    opts.dpad_dungeon_menu = IntVar(value=DpadDungeonMenu.default)
+    Checkbutton(romSettingsFrame, text="D-Pad Dungeon Info", variable=opts.dpad_dungeon_menu).grid(row=21, column=0, sticky=W)
+
+    opts.speedup_music_for_last_triforce_piece = IntVar(value=SpeedupMusicForLastTriforcePiece.default)
+    Checkbutton(romSettingsFrame, text="Speed Up Music (Last Triforce Piece)", variable=opts.speedup_music_for_last_triforce_piece).grid(row=21, column=1, sticky=W)
+
+    opts.slowdown_music_when_lowhp = IntVar(value=SlowdownMusicWhenLowhp.default)
+    Checkbutton(romSettingsFrame, text="Slowdown Music When Low HP", variable=opts.slowdown_music_when_lowhp).grid(row=21, column=2, sticky=W)
+
+    opts.uninvert_y_axis_in_first_person_camera = IntVar(value=UninvertYAxisInFirstPersonCamera.default)
+    Checkbutton(romSettingsFrame, text="Uninvert Y-Axis (First Person)", variable=opts.uninvert_y_axis_in_first_person_camera).grid(row=22, column=0, sticky=W)
+
+    opts.input_viewer = IntVar(value=InputViewer.default)
+    Checkbutton(romSettingsFrame, text="Input Viewer", variable=opts.input_viewer).grid(row=22, column=1, sticky=W)
+
 
     # Deathlink is a checkbox
     opts.deathlink = IntVar(value=0)
     deathlink_checkbox = Checkbutton(romSettingsFrame, text="DeathLink (Team Deaths)", variable=opts.deathlink)
-    deathlink_checkbox.grid(row=17, column=1, sticky=W)
+    deathlink_checkbox.grid(row=23, column=1, sticky=W)
 
     romSettingsFrame.pack(side=TOP)
 
@@ -183,7 +261,11 @@ def adjustGUI():
             logging.exception(e)
             messagebox.showerror(title="Error while adjusting Rom", message=str(e))
         else:
-            messagebox.showinfo(title="Success", message=f"Rom patched successfully to {path}")
+            from worlds.LauncherComponents import launch_subprocess
+            from .client import main as client_main
+            launch_rom(path)
+            launch_subprocess(client_main, name="OoTClient")
+            messagebox.showinfo(title="Success", message=f"Rom adjusted to {path}")
 
     # Adjust button
     bottomFrame = Frame(window)
@@ -212,8 +294,13 @@ def adjust(args):
             else:
                 raise Exception("Unsupported option type")
         setattr(ootworld, name, result)
-    ootworld.logic_rules = 'glitched' if args.is_glitched else 'glitchless'
+    ootworld.logic_rules = 'glitchless'
     ootworld.death_link = args.deathlink
+    ootworld.music_dir = getattr(args, 'music_dir', None) or None
+    ootworld.model_adult = getattr(args, 'model_adult', 'Default')
+    ootworld.model_adult_filepicker = ''
+    ootworld.model_child = getattr(args, 'model_child', 'Default')
+    ootworld.model_child_filepicker = ''
 
     delete_zootdec = False
     if os.path.splitext(args.rom)[-1] in ['.z64', '.n64']:
@@ -241,13 +328,13 @@ def adjust(args):
         decomp_path = path_pieces[0] + '-adjusted-decomp.n64'
         comp_path = path_pieces[0] + '-adjusted.n64'
         rom.write_to_file(decomp_path)
-        os.chdir(data_path("Compress"))
         compress_rom_file(decomp_path, comp_path)
         os.remove(decomp_path)
     finally:
         if delete_zootdec:
-            os.chdir(os.path.split(__file__)[0])
-            os.remove("ZOOTDEC.z64")
+            decomp_file = user_path('ZOOTDEC.z64')
+            if os.path.exists(decomp_file):
+                os.remove(decomp_file)
     return comp_path
 
 def launch(*launcher_args: str):

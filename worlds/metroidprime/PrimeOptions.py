@@ -1,19 +1,19 @@
-from enum import Enum
 from typing import List
 from Options import (
+    Choice,
     DeathLink,
     DefaultOnToggle,
-    OptionSet,
-    Toggle,
-    Range,
-    StartInventoryPool,
-    Choice,
-    PerGameCommonOptions,
     OptionGroup,
+    OptionSet,
+    PerGameCommonOptions,
+    Range,
+    Removed,
+    StartInventoryPool,
+    Toggle,
 )
 from dataclasses import dataclass
 
-from .Enum import CombatLogicDifficulty, HudColor, StartRoomDifficulty
+from .Enum import CombatLogicDifficulty, StartRoomDifficulty
 from .data.Tricks import TrickInfo, Tricks
 
 
@@ -81,7 +81,10 @@ class ShuffleUnlimitedPowerBombs(Toggle):
 
 
 class SpringBall(Choice):
-    """Enables the spring ball when you receive Morph Ball Bombs or Spring Ball. This will allow you to jump while in morph ball form by pressing up on the c stick, reducing the complexity of double bomb jumps. Progressive means you get Spring Ball then Bombs."""
+    """Enables the spring ball when you receive Morph Ball Bombs or Spring Ball.
+    This will allow you to jump while in morph ball form by pressing up on the c stick,
+    reducing the complexity of double bomb jumps.
+    Progressive means you get Spring Ball then Bombs."""
 
     display_name = "Add Spring Ball"
     option_disabled = 0
@@ -113,15 +116,10 @@ class StaggeredSuitDamage(Choice):
 
 
 class RemoveHiveMecha(Toggle):
-    """If enabled, the trigger for the Hive Mecha boss will be removed from the game. Can be forced on if you don't start with Power Beam and you start at Tallon Overworld - Landing Site or Chozo Ruins - Save Station 1."""
+    """If enabled, the trigger for the Hive Mecha boss will be removed from the game.
+    Can be forced on if you don't start with Power Beam and you start at Tallon Overworld - Landing Site or Chozo Ruins - Save Station 1."""
 
     display_name = "Remove Hive Mecha"
-
-
-class FusionSuit(Toggle):
-    """If enabled, will replace all the suits in game with the Fusion Suit variants (cosmetic only). Suit color randomization will have no effect if this is enabled."""
-
-    display_name = "Fusion Suit"
 
 
 class TrickDifficulty(Choice):
@@ -204,7 +202,8 @@ class RemoveThermalRequirements(Choice):
 
 class StartingRoom(Choice):
     """Determines the starting room of the game. This will change your starting loadout depending on the room.
-    Normal: Start at the Talon Overworld Landing Site. Most randomization options, when enabled, will move the starting room to Save Station 1 in Chozo Ruins due to the restrictive nature of the landing site starting room.
+    Normal: Start at the Talon Overworld Landing Site. Most randomization options, when enabled, will move the
+    starting room to Save Station 1 in Chozo Ruins due to the restrictive nature of the landing site starting room.
     Safe: Start in rooms that will not require a significant combat challenge to progress from.
     Buckle Up: Start in rooms that will pose a significant challenge to players with no energy tanks or suit upgrades. Fun for the aspiring masochist (less fun for their friends waiting in BK).
     """
@@ -273,7 +272,9 @@ class BlastShieldAvailableTypes(Choice):
 
 
 class BlastShieldFrequency(Choice):
-    """If using 'Mix It Up' for blast shield randomization, how many blast shields should be added per region? These are added using a percentage of total possible placements so exact numbers will vary by region. Higher numbers will have more difficulty genning in solo worlds with less tricks.
+    """If using 'Mix It Up' for blast shield randomization, how many blast shields should be added per region?
+    These are added using a percentage of total possible placements so exact numbers will vary by region.
+    Higher numbers will have more difficulty genning in solo worlds with less tricks.
     Low: 10%
     Medium: 30%
     High: 50%
@@ -287,7 +288,8 @@ class BlastShieldFrequency(Choice):
 
 
 class LockedDoorCount(Range):
-    """If greater than 0, locked doors will be placed in the game (maximum of 1 per level). These will only be placed in spots that will not prevent progression but may force alternate paths."""
+    """If greater than 0, locked doors will be placed in the game (maximum of 1 per level).
+    These will only be placed in spots that will not prevent progression but may force alternate paths."""
 
     display_name = "Number of Locked Doors to Include"
     range_start = 0
@@ -296,7 +298,8 @@ class LockedDoorCount(Range):
 
 
 class IncludePowerBeamDoors(Toggle):
-    """If enabled, Power Beam doors will be an available door color for randomization. If the starting beam is also randomized, it will remove the new starting beam's color from the pool of available door colors."""
+    """If enabled, Power Beam doors will be an available door color for randomization.
+    If the starting beam is also randomized, it will remove the new starting beam's color from the pool of available door colors."""
 
     display_name = "Include Power Beam Doors"
 
@@ -325,100 +328,124 @@ class ProgressiveBeamUpgrades(Toggle):
     display_name = "Progressive Beam Upgrades"
 
 
-# COSMETIC OPTIONS
+# COSMETIC OPTIONS (Moved to host.yaml)
 
 
-class RandomizeSuitColors(Toggle):
-    """Randomize the colors of the suits. Is overridden if any of the color overrides are greater than 0. Note: This is not compatible with the Fusion Suit and will have no effect."""
+class FusionSuit(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
+
+    display_name = "Fusion Suit"
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
+
+
+class RandomizeSuitColors(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "Randomize Suit Colors"
 
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
 
-class PowerSuitColorOverride(Range):
-    """Override the color of the Power Suit using an index from the game's color wheel."""
+
+class PowerSuitColorOverride(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "Power Suit Color Override"
-    range_start = 0
-    range_end = 359
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class VariaSuitColorOverride(Range):
-    """Override the color of the Varia Suit using an index from the game's color wheel."""
+class VariaSuitColorOverride(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "Varia Suit Color Override"
-    range_start = 0
-    range_end = 359
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class GravitySuitColorOverride(Range):
-    """Override the color of the Gravity Suit using an index from the game's color wheel."""
+class GravitySuitColorOverride(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "Gravity Suit Color Override"
-    range_start = 0
-    range_end = 359
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class PhazonSuitColorOverride(Range):
-    """Override the color of the Phazon Suit using an index from the game's color wheel."""
+class PhazonSuitColorOverride(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "Phazon Suit Color Override"
-    range_start = 0
-    range_end = 359
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class HudColorOption(Choice):
-    """Determines the color of the HUD in the game. Will be overridden if any of the color overrides are greater than 0. Note: Certain colors will change the colors of the beam icons."""
+class HudColorOption(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "HUD Color"
-    default = 0
-    option_default = 0
-    option_red = 1
-    option_green = 2
-    option_blue = 3
-    option_violet = 4
-    option_yellow = 5
-    option_cyan = 6
-    option_white = 7
-    option_orange = 8
-    option_pink = 9
-    option_lime = 10
-    option_teal = 11
-    option_purple = 12
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class HudColorOverrideRed(Range):
-    """0 to 255, sets the Red channel of the HUD color."""
+class HudColorOverrideRed(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "HUD Color Red"
-    range_start = 0
-    range_end = 255
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_red option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class HudColorOverrideGreen(Range):
-    """0 to 255, sets the Green channel of the HUD color."""
+class HudColorOverrideGreen(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "HUD Color Green"
-    range_start = 0
-    range_end = 255
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_green option was moved to host.yaml.")
+        super().__init__(value)
 
 
-class HudColorOverrideBlue(Range):
-    """0 to 255, sets the Blue channel of the HUD color."""
+class HudColorOverrideBlue(Removed):
+    """DEPRECATED OPTION. Use host.yaml instead."""
 
     display_name = "HUD Color Blue"
-    range_start = 0
-    range_end = 255
-    default = 0
+
+    def __init__(self, value: str):
+        if value:
+            raise Exception("hud_color_blue option was moved to host.yaml.")
+        super().__init__(value)
 
 
 class DisplayNonLocalItems(Choice):
-    """How are displayed non-local items. None means only local items have matching models. Match Game means that only Metroid Prime game have matching models. Match Series means that any supported Metroid games will use Metroid Prime models that matches the item from the other world."""
+    """How are displayed non-local items.
+    None: means only local items have matching models.
+    Match Game: means that only Metroid Prime game have matching models.
+    Match Series: means that any supported Metroid games will use Metroid Prime models that matches the item from the other world."""
 
     display_name = "Display Non-Local Items"
     option_none = 0
@@ -545,16 +572,6 @@ prime_option_groups = [
     OptionGroup(
         "Cosmetic",
         [
-            FusionSuit,
-            HudColorOption,
-            HudColorOverrideRed,
-            HudColorOverrideGreen,
-            HudColorOverrideBlue,
-            RandomizeSuitColors,
-            PowerSuitColorOverride,
-            VariaSuitColorOverride,
-            GravitySuitColorOverride,
-            PhazonSuitColorOverride,
             DisplayNonLocalItems,
             EnergyTankCapacity,
         ],

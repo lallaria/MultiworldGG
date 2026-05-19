@@ -8,6 +8,7 @@ from .Items import (
     custom_suit_upgrade_table,
 )
 from .MetroidPrimeInterface import ITEMS_USED_FOR_LOCATION_TRACKING, InventoryItemData
+from .PrimeUtils import count_ammo
 
 if TYPE_CHECKING:
     from .MetroidPrimeClient import MetroidPrimeContext
@@ -16,6 +17,17 @@ if TYPE_CHECKING:
 async def handle_receive_items(
     ctx: "MetroidPrimeContext", current_items: Dict[str, InventoryItemData]
 ):
+    # Do not handle items while :
+    # - not knowing the current game
+    # - IGT is still at 0
+    # - in a cutscene
+    if (
+        ctx.game_interface.current_game is None or
+        ctx.game_interface.get_ingame_timer() == 0 or
+        ctx.game_interface.is_in_cutscene()
+    ):
+        return
+
     # Will be used when consumables are implemented
     # current_index = ctx.game_interface.get_last_received_index()
     for index, network_item in enumerate(ctx.items_received):
@@ -112,29 +124,29 @@ async def handle_disable_gravity_suit(
 async def handle_receive_missiles(
     ctx: "MetroidPrimeContext", current_items: Dict[str, InventoryItemData]
 ):
-    # Slot data is required for missiles + Power Bombs so we can check if launcher / main pb are enabled
+    # Handle Missile Expansions
     if ctx.slot_data and "Missile Expansion" in current_items:
-        # Handle Missile Expansions
-        amount_per_expansion = 5
+        has_local_player_picked_up_item = (
+            inventory_item_by_network_id(ctx.items_received[len(ctx.items_received) - 1].item, current_items).name.startswith("Missile ") and
+            ctx.items_received[len(ctx.items_received) - 1].player == ctx.slot
+        )
         missile_item = current_items["Missile Expansion"]
         current_capacity = missile_item.current_capacity
         current_amount = missile_item.current_amount
-        new_capacity = 0
+        new_capacity = count_ammo(
+            [
+                inventory_item_by_network_id(i.item, current_items).name
+                for i in ctx.items_received
+            ],
+            SuitUpgrade.Missile_Launcher.value,
+            SuitUpgrade.Missile_Expansion.value,
+            ctx.slot_data.get("missile_launcher", 0) > 0,
+        )
 
-        missile_sender = None
-        has_missile_launcher = not ctx.slot_data["missile_launcher"] or current_items[SuitUpgrade.Missile_Launcher.value].current_capacity > 0
-
-        for network_item in ctx.items_received:
-            item_data = inventory_item_by_network_id(network_item.item, current_items)
-            if item_data is None:
-                continue
-
-            if (
-                    item_data.name == SuitUpgrade.Missile_Launcher.value or
-                    item_data.name == SuitUpgrade.Missile_Expansion.value
-            ):
-                missile_sender = network_item.player
-                new_capacity += amount_per_expansion
+        has_missile_launcher = (
+            ctx.slot_data.get("missile_launcher", 0) == 0 or
+            current_items[SuitUpgrade.Missile_Launcher.value].current_capacity > 0
+        )
 
         diff = new_capacity - current_capacity
         new_amount = min(current_amount + diff, new_capacity)
@@ -142,12 +154,8 @@ async def handle_receive_missiles(
         ctx.game_interface.give_item_to_player(
             missile_item.id, new_amount, new_capacity
         )
-        if missile_sender != ctx.slot and diff > 0 and missile_sender is not None:
-            message = (
-                f"Missile capacity increased by {diff}"
-                if diff > 5
-                else f"Missile capacity increased by {diff} ({ctx.player_names[missile_sender]})"
-            )
+        if not has_local_player_picked_up_item and diff > 0:
+            message = f"Missile capacity increased by {diff}"
             if not has_missile_launcher:
                 message += " but Missile Launcher is required to use missiles"
             ctx.notification_manager.queue_notification(message)
@@ -158,49 +166,34 @@ async def handle_receive_power_bombs(
 ):
     # Handle Power Bomb Expansions
     if ctx.slot_data and SuitUpgrade.Power_Bomb_Expansion.value in current_items:
-        amount_per_expansion = 1
+        has_local_player_picked_up_item = (
+            inventory_item_by_network_id(ctx.items_received[len(ctx.items_received) - 1].item, current_items).name.startswith("Power Bomb ") and
+            ctx.items_received[len(ctx.items_received) - 1].player == ctx.slot
+        )
         pb_item = current_items[SuitUpgrade.Power_Bomb_Expansion.value]
         current_capacity = pb_item.current_capacity
         current_amount = pb_item.current_amount
-        new_capacity = 0
-        first_pb_capacity = 4
+        new_capacity = count_ammo(
+            [
+                inventory_item_by_network_id(i.item, current_items).name
+                for i in ctx.items_received
+            ],
+            SuitUpgrade.Main_Power_Bomb.value,
+            SuitUpgrade.Power_Bomb_Expansion.value,
+            ctx.slot_data.get("main_power_bomb", 0) > 0,
+        )
 
-        pb_sender = None
-        has_main_pb = not ctx.slot_data["main_power_bomb"] or current_items[SuitUpgrade.Main_Power_Bomb.value].current_capacity > 0
-
-        for network_item in ctx.items_received:
-            item_data = inventory_item_by_network_id(network_item.item, current_items)
-            if item_data is None:
-                continue
-
-            if (
-                item_data.name == SuitUpgrade.Main_Power_Bomb.value or
-                item_data.name == SuitUpgrade.Power_Bomb_Expansion.value
-            ):
-                pb_sender = network_item.player
-                if ctx.slot_data["main_power_bomb"]:
-                    if item_data.name == SuitUpgrade.Main_Power_Bomb.value:
-                        new_capacity += first_pb_capacity
-                    else:
-                        new_capacity += amount_per_expansion
-                else:
-                    new_capacity += first_pb_capacity if new_capacity == 0 else amount_per_expansion
-
-
-        # First PB expansion is worth 4 power bombs
-        if not ctx.slot_data["main_power_bomb"] and new_capacity > 0:
-            new_capacity += first_pb_capacity - 1
+        has_main_pb = (
+            ctx.slot_data.get("main_power_bomb", 0) == 0 or
+            current_items[SuitUpgrade.Main_Power_Bomb.value].current_capacity > 0
+        )
 
         diff = new_capacity - current_capacity
         new_amount = min(current_amount + diff, new_capacity)
 
         ctx.game_interface.give_item_to_player(pb_item.id, new_amount, new_capacity)
-        if pb_sender != ctx.slot and diff > 0 and pb_sender is not None:
-            message = (
-                f"Power Bomb capacity increased by {diff}"
-                if diff > 5
-                else f"Power Bomb capacity increased by {diff} ({ctx.player_names[pb_sender]})"
-            )
+        if not has_local_player_picked_up_item and diff > 0:
+            message = f"Power Bomb capacity increased by {diff}"
             if not has_main_pb:
                 message += " but Power Bomb (Main) is required to use power bombs"
             ctx.notification_manager.queue_notification(message)

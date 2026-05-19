@@ -1,6 +1,0 @@
-Make a 2 layer dict like so :
-
-
-First layer : Levels
-Second Layer : Each Room transitions?
-{<Level>{<Room1>TR1,TR2,TR3,TR4,TR5}}

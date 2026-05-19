@@ -1,7 +1,7 @@
 import os
 from typing import TYPE_CHECKING, Dict, Any, List
 
-from .Enum import HudColor, MetroidPrimeArea, ProgressiveUpgrade, SuitUpgrade
+from .Enum import MetroidPrimeArea, ProgressiveUpgrade, SuitUpgrade
 from .Items import (
     artifact_table,
     PROGRESSIVE_BEAM_ITEM_EXCLUSION_LIST,
@@ -52,28 +52,6 @@ def get_starting_beam(world: "MetroidPrimeWorld") -> str:
             starting_beam = item.split(" ")[1]
             break
     return starting_beam
-
-
-def color_options_to_value(options: "MetroidPrimeOptions") -> List[float]:
-    # If any overrides are set, use that instead
-    if (
-        options.hud_color_red.value
-        or options.hud_color_green.value
-        or options.hud_color_blue.value
-    ):
-        return [
-            options.hud_color_red.value / 255,
-            options.hud_color_green.value / 255,
-            options.hud_color_blue.value / 255,
-        ]
-
-    # get the key in hudcolor enum that matches all caps color
-    color: str = options.hud_color.current_key
-    color = color.upper()
-    for key in HudColor.__members__.keys():
-        if key == color:
-            return HudColor[key].value
-    return HudColor.DEFAULT.value
 
 
 def style(text: str, **kwargs: str):
@@ -167,14 +145,12 @@ def make_credits(world: "MetroidPrimeWorld") -> str:
         SuitUpgrade.Ice_Charge_Beam,
         SuitUpgrade.Plasma_Charge_Beam,
     }
-    if world.starting_beam is None:
-        excluded_items.add(SuitUpgrade.Power_Beam)
-    else:
-        excluded_items.add(SuitUpgrade(world.starting_beam))
     if options.progressive_beam_upgrades.value:
         excluded_items.update(PROGRESSIVE_BEAM_ITEM_EXCLUSION_LIST)
     if options.spring_ball.current_option_name.lower() == "its own progressive item":
         excluded_items.update(PROGRESSIVE_BOMB_ITEM_EXCLUSION_LIST)
+    elif options.spring_ball.current_option_name.lower() != "its own item":
+        excluded_items.add(SuitUpgrade.Spring_Ball)
     if not options.shuffle_scan_visor.value:
         excluded_items.add(SuitUpgrade.Scan_Visor)
     if not options.missile_launcher.value:
@@ -187,8 +163,10 @@ def make_credits(world: "MetroidPrimeWorld") -> str:
         excluded_items.add(SuitUpgrade.Unlimited_Power_Bombs)
 
     spoilers = [f"{style('Major Item Locations', font='C29C51F1', main_color='#89D6FF')}\n"]
-    if options.progressive_beam_upgrades.value:
-        for upgrade in ProgressiveUpgrade:
+    for upgrade in ProgressiveUpgrade:
+        if options.progressive_beam_upgrades.value and upgrade.endswith(' Beam'):
+            spoilers.append(spoil_location(upgrade.value))
+        if options.spring_ball.current_option_name.lower() == "its own progressive item" and upgrade.endswith(' Bomb'):
             spoilers.append(spoil_location(upgrade.value))
     for upgrade in SuitUpgrade:
         if upgrade not in excluded_items:
@@ -196,14 +174,6 @@ def make_credits(world: "MetroidPrimeWorld") -> str:
     for artifact in artifact_table.keys():
         spoilers.append(spoil_location(artifact))
     return "\n".join(spoilers)
-
-
-def get_tweaks(options: "MetroidPrimeOptions") -> Dict[str, List[float]]:
-    color = color_options_to_value(options)
-    if color != HudColor.DEFAULT.value:
-        return {"hudColor": color}
-    else:
-        return {}
 
 
 def get_strg(options: "MetroidPrimeOptions") -> Dict[str, List[str]]:
@@ -221,20 +191,6 @@ def get_strg(options: "MetroidPrimeOptions") -> Dict[str, List[str]]:
 
     strg[DEFAULT_OBJECTIVE_STRG_KEY][2] = objective_text
 
-    # Show suit colors in pause menu
-    pause_menu_overrides = {
-        "Power Suit": options.power_suit_color.value,
-        "Varia Suit": options.varia_suit_color.value,
-        "Gravity Suit": options.gravity_suit_color.value,
-        "Phazon Suit": options.phazon_suit_color.value,
-    }
-    # Update the name to include the color index if it is set
-    for item in strg[PAUSE_MENU_STRG_KEY]:
-        if item in pause_menu_overrides and pause_menu_overrides[item] != 0:
-            index = strg[PAUSE_MENU_STRG_KEY].index(item)
-            strg[PAUSE_MENU_STRG_KEY][
-                index
-            ] = f"{item} (Color: {pause_menu_overrides[item]})"
     return strg
 
 
@@ -291,14 +247,7 @@ def make_config(world: "MetroidPrimeWorld") -> Dict[str, Any]:
             "quickplay": bool(os.environ.get("DEBUG", False)),
             "quickpatch": bool(os.environ.get("DEBUG", False)),
             "quiet": bool(os.environ.get("DEBUG", False)),
-            "suitColors": {
-                "gravityDeg": options.gravity_suit_color.value or 0,
-                "phazonDeg": options.phazon_suit_color.value or 0,
-                "powerDeg": options.power_suit_color.value or 0,
-                "variaDeg": options.varia_suit_color.value or 0,
-            },
         },
-        "tweaks": get_tweaks(options),
         "gameConfig": {
             "resultsString": f"{get_apworld_version()} | {'_'.join(world.multiworld.get_out_file_name_base(world.player).split('_')[:2])}",
             "mainMenuMessage": f"Archipelago Metroid Prime {get_apworld_version()}",

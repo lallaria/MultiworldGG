@@ -115,7 +115,6 @@ class DSRWorld(World):
         self.enabled_location_categories.add(DSRLocationCategory.EVENT)
         self.enabled_location_categories.add(DSRLocationCategory.BOSS)
         self.enabled_location_categories.add(DSRLocationCategory.ITEM_LOT)
-        self.enabled_location_categories.add(DSRLocationCategory.BONFIRE_WARP)
         # self.enabled_location_categories.add(DSRLocationCategory.DOOR)
         if (self.options.fogwall_sanity.value == True):
             self.enabled_location_categories.add(DSRLocationCategory.FOG_WALL)
@@ -452,21 +451,21 @@ class DSRWorld(World):
                     self.location_name_to_id[location.name],
                     new_region
                 )
-            elif (location.category in self.enabled_location_categories and
-                  location.category in location_locked_categories): # DSRLocationCategory.BONFIRE_WARP
-                self.bw = self.bw + 1
-                default_item = location.default_item
-                # Place bonfire warp locations statically
-                event_item = self.create_item(default_item)
-                new_location = DSRLocation(
-                    self.player,
-                    location.name,
-                    location.category,
-                    default_item,
-                    self.location_name_to_id[location.name],
-                    new_region
-                )
-                new_location.place_locked_item(event_item)
+            # elif (location.category in self.enabled_location_categories and
+            #       location.category in location_locked_categories): # DSRLocationCategory.BONFIRE_WARP
+            #     self.bw = self.bw + 1
+            #     default_item = location.default_item
+            #     # Place bonfire warp locations statically
+            #     event_item = self.create_item(default_item)
+            #     new_location = DSRLocation(
+            #         self.player,
+            #         location.name,
+            #         location.category,
+            #         default_item,
+            #         self.location_name_to_id[location.name],
+            #         new_region
+            #     )
+            #     new_location.place_locked_item(event_item)
             else:
                 self.bc = self.bc + 1
                 default_item = location.default_item
@@ -557,8 +556,9 @@ class DSRWorld(World):
         # for item in skipitempool:
         #     print("skip item: " + str(item))
         limited_pool = [item for item in StillRequiredPool if item_dictionary[item.name].category not in [DSRItemCategory.FOGWALL, DSRItemCategory.BOSSFOGWALL]]
-        for item in limited_pool:
-            print("non-fogwall required item: " + str(item))
+        
+        # for item in limited_pool:
+        #     print("non-fogwall required item: " + str(item))
 
         # Replace "Soul of a Lost Undead" if needed
         if len(StillRequiredPool) + len(guaranteedpool) > len(removable_items):
@@ -902,12 +902,21 @@ class DSRWorld(World):
 
         slot_data = {
             "options": {
+                # Game Options
                 "goal_condition": self.options.goal_condition.current_key, # text of the option
-                "can_warp_without_lordvessel": self.options.can_warp_without_lordvessel.value,
                 "guaranteed_items": self.options.guaranteed_items.value,
+                "enable_deathlink": self.options.enable_deathlink.value,
+                # QoL
+                "can_warp_without_lordvessel": self.options.can_warp_without_lordvessel.value,
+                "warp_to_all_bonfires": self.options.warp_to_all_bonfires.value,
+                # Difficulty
+                "ghost_difficulty": self.options.ghost_difficulty.value,
+                # Sanity
                 "fogwall_sanity": self.options.fogwall_sanity.value,
                 "boss_fogwall_sanity": self.options.boss_fogwall_sanity.value,
+                # Logic
                 "logic_to_access_catacombs": self.options.logic_to_access_catacombs.current_key, # text of the option
+                # Equipment
                 "randomize_starting_loadouts": self.options.randomize_starting_loadouts.value,
                 "randomize_starting_gifts": self.options.randomize_starting_gifts.value,
                 "require_one_handed_starting_weapons": self.options.require_one_handed_starting_weapons.value,
@@ -919,12 +928,12 @@ class DSRWorld(World):
                 "no_weapon_requirements": self.options.no_weapon_requirements.value,
                 "no_spell_stat_requirements": self.options.no_spell_stat_requirements.value,
                 "no_miracle_covenant_requirements": self.options.no_miracle_covenant_requirements.value,
+                # Upgraded Weapons
                 "upgraded_weapons_percentage": self.options.upgraded_weapons_percentage.value,
                 "upgraded_weapons_allowed_infusions": self.options.upgraded_weapons_allowed_infusions.value,
                 "upgraded_weapons_adjusted_levels": self.options.upgraded_weapons_adjusted_levels.value,
                 "upgraded_weapons_min_level": self.options.upgraded_weapons_min_level.value,
                 "upgraded_weapons_max_level": self.options.upgraded_weapons_max_level.value,
-                "enable_deathlink": self.options.enable_deathlink.value,
             },
             "seed": self.multiworld.seed_name,  # to verify the server's multiworld
             "slot": self.multiworld.player_name[self.player],  # to connect to server
@@ -932,7 +941,7 @@ class DSRWorld(World):
             "itemsId": items_id,
             "itemsUpgrades": items_upgrades,
             "itemsAddress": items_address,
-            "apworld_api_version" : "0.1.1.0" # Manually set our apworld api level, for detecting compatibility with client
+            "apworld_api_version" : "0.1.3.0" # Manually set our apworld api level, for detecting compatibility with client
         }
 
         self.items_id = items_id

@@ -176,39 +176,40 @@ class EntranceOption(Choice):
 class EntrancePlandoOption(OptionDict):
     """If Entrance is Custom, forces the chosen levels to the chosen entrances. Note that if you plando a level to the Peak Point Matrix entrance for the ppm goal, this placement will be ignored!
     
-        Format is Entrance: Level. Monkey Madness: Dexter's Island will result in Dexter's Island being at the Monkey Madness entrance. Any entrance not set will have a random level. Any level assigned to more than one entrance will be placed at the later entrance.
+        Format is W-L Entrance: Level. 9-1 Monkey Madness: Dexter's Island will result in Dexter's Island being at the Monkey Madness entrance. Any entrance not set will have a random level. Any level assigned to more than one entrance will be placed at the later entrance.
         The default sequence is a "reverse lock endgame" sequence.
         Level names: "Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"
     """
 
     display_name = "Entrance Plando"
-    level_names = ["Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"]
+    level_values = ["Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"]
+    level_keys = ["1-1 Fossil Field", "1-2 Primordial Ooze", "1-3 Molten Lava", "2-1 Thick Jungle", "2-2 Dark Ruins","2-3 Cryptic Relics", "3-1 Stadium Attack", "4-1 Crabby Beach", "4-2 Coral Cave","4-3 Dexter's Island", "5-1 Snowy Mammoth", "5-2 Frosty Retreat", "5-3 Hot Springs","6-1 Gladiator Attack", "7-1 Sushi Temple", "7-2 Wabi Sabi Wall", "7-3 Crumbling Castle","8-1 City Park", "8-2 Specter's Factory", "8-3 TV Tower", "9-1 Monkey Madness","9-2 Peak Point Matrix"]
     default = {
-        "Fossil Field": "TV Tower",
-        "Primordial Ooze": "Specter's Factory",
-        "Molten Lava": "City Park",
-        "Thick Jungle": "Crumbling Castle",
-        "Dark Ruins": "Wabi Sabi Wall",
-        "Cryptic Relics": "Sushi Temple",
-        "Stadium Attack": "Gladiator Attack",
-        "Crabby Beach": "Hot Springs",
-        "Coral Cave": "Frosty Retreat",
-        "Dexter's Island": "Snowy Mammoth",
-        "Snowy Mammoth": "Dexter's Island",
-        "Frosty Retreat": "Coral Cave",
-        "Hot Springs": "Crabby Beach",
-        "Gladiator Attack": "Stadium Attack",
-        "Sushi Temple": "Cryptic Relics",
-        "Wabi Sabi Wall": "Dark Ruins",
-        "Crumbling Castle": "Thick Jungle",
-        "City Park": "Molten Lava",
-        "Specter's Factory": "Primordial Ooze",
-        "TV Tower": "Fossil Field",
-        "Monkey Madness": "Monkey Madness",
-        "Peak Point Matrix": "Peak Point Matrix"
+        "1-1 Fossil Field": "TV Tower",
+        "1-2 Primordial Ooze": "Specter's Factory",
+        "1-3 Molten Lava": "City Park",
+        "2-1 Thick Jungle": "Crumbling Castle",
+        "2-2 Dark Ruins": "Wabi Sabi Wall",
+        "2-3 Cryptic Relics": "Sushi Temple",
+        "3-1 Stadium Attack": "Gladiator Attack",
+        "4-1 Crabby Beach": "Hot Springs",
+        "4-2 Coral Cave": "Frosty Retreat",
+        "4-3 Dexter's Island": "Snowy Mammoth",
+        "5-1 Snowy Mammoth": "Dexter's Island",
+        "5-2 Frosty Retreat": "Coral Cave",
+        "5-3 Hot Springs": "Crabby Beach",
+        "6-1 Gladiator Attack": "Stadium Attack",
+        "7-1 Sushi Temple": "Cryptic Relics",
+        "7-2 Wabi Sabi Wall": "Dark Ruins",
+        "7-3 Crumbling Castle": "Thick Jungle",
+        "8-1 City Park": "Molten Lava",
+        "8-2 Specter's Factory": "Primordial Ooze",
+        "8-3 TV Tower": "Fossil Field",
+        "9-1 Monkey Madness": "Monkey Madness",
+        "9-2 Peak Point Matrix": "Peak Point Matrix"
     }
     schema = Schema({
-        Optional(Or(*level_names)): Or(*level_names)
+        Optional(Or(*level_keys)): Or(*level_values)
     })
 
 

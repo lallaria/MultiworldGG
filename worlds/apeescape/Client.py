@@ -942,6 +942,11 @@ class ApeEscapeClient(BizHawkClient):
                 "squareGadget": (RAM.squareGadgetAddress, 1, "MainRAM"),
                 "circleGadget": (RAM.circleGadgetAddress, 1, "MainRAM"),
                 "crossGadget": (RAM.crossGadgetAddress, 1, "MainRAM"),
+                "Training_triangleGadget": (RAM.Training_triangleGadgetAddress, 1, "MainRAM"),  # Gadget equipped to each face button
+                "Training_squareGadget": (RAM.Training_squareGadgetAddress, 1, "MainRAM"),
+                "Training_circleGadget": (RAM.Training_circleGadgetAddress, 1, "MainRAM"),
+                "Training_crossGadget": (RAM.Training_crossGadgetAddress, 1, "MainRAM"),
+                "Training_heldGadgetAddress": (RAM.Training_heldGadgetAddress, 1, "MainRAM"),
                 "gadgetUseState": (RAM.gadgetUseStateAddress, 1, "MainRAM"),  # Which gadget is used in what way. **Not used at the moment
                 "punchVisualAddress": (RAM.punchVisualAddress, 32, "MainRAM"),
                 "CatchingState": (RAM.CatchingState, 1, "MainRAM"),
@@ -953,7 +958,7 @@ class ApeEscapeClient(BizHawkClient):
                 "menuState": (RAM.menuStateAddress, 1, "MainRAM"),
                 "menuState2": (RAM.menuState2Address, 1, "MainRAM"),
                 "newGameAddress": (RAM.newGameAddress, 1, "MainRAM"),
-                "worldCanPressStart": (RAM.worldCanPressStart, 1, "MainRAM"),
+                "worldCanPressStart": (RAM.worldCanPressStart, 2, "MainRAM"),
                 # Level Select Coin hiding
                 "CoinTable": (RAM.startingCoinAddress, 100, "MainRAM"),
                 "TempCoinTable": (RAM.temp_startingCoinAddress, 100, "MainRAM"),
@@ -972,6 +977,10 @@ class ApeEscapeClient(BizHawkClient):
                 "WaterCatchStateFromServer": (RAM.tempWaterCatchAddress, 1, "MainRAM"),
                 "isUnderwater": (RAM.isUnderwater, 1, "MainRAM"),  # Underwater variable
                 "swim_oxygenLevel": (RAM.swim_oxygenLevelAddress, 2, "MainRAM"),
+                "swim_oxygenreplenishMax": (RAM.swim_oxygenreplenishMaxAddress, 2, "MainRAM"),
+                "swim_initialAirAmount": (RAM.swim_initialAirAmountAddress, 2, "MainRAM"),
+                "spike_UsingBoat": (RAM.spike_UsingBoat, 1, "MainRAM"),
+
                 # Lamp Reads
                 "CBLampStateFromServer": (RAM.tempCB_LampAddress, 1, "MainRAM"),
                 "DILampStateFromServer": (RAM.tempDI_LampAddress, 1, "MainRAM"),
@@ -1112,6 +1121,11 @@ class ApeEscapeClient(BizHawkClient):
             squareGadget = readValues["squareGadget"]
             circleGadget = readValues["circleGadget"]
             crossGadget = readValues["crossGadget"]
+            Training_triangleGadget = readValues["Training_triangleGadget"]
+            Training_squareGadget = readValues["Training_squareGadget"]
+            Training_circleGadget = readValues["Training_circleGadget"]
+            Training_crossGadget = readValues["Training_crossGadget"]
+            Training_heldGadgetAddress = readValues["Training_heldGadgetAddress"]
             gadgetUseState = readValues["gadgetUseState"]
             punchVisualAddress = readValues["punchVisualAddress"]
             CatchingState = readValues["CatchingState"]
@@ -1124,7 +1138,7 @@ class ApeEscapeClient(BizHawkClient):
             menuState = readValues["menuState"]
             menuState2 = readValues["menuState2"]
             newGameAddress = readValues["newGameAddress"]
-            worldCanPressStart = readValues["newGameAddress"]
+            worldCanPressStart = readValues["worldCanPressStart"]
             # Level Select Coin hiding
             CoinTable = readValues["CoinTable"]
             TempCoinTable = readValues["TempCoinTable"]
@@ -1144,6 +1158,9 @@ class ApeEscapeClient(BizHawkClient):
             WaterCatchStateFromServer = readValues["WaterCatchStateFromServer"]
             isUnderwater = readValues["isUnderwater"]
             swim_oxygenLevel = readValues["swim_oxygenLevel"]
+            swim_oxygenreplenishMax = readValues["swim_oxygenreplenishMax"]
+            swim_initialAirAmount = readValues["swim_initialAirAmount"]
+            spike_UsingBoat = readValues["spike_UsingBoat"]
 
             CBLampStateFromServer = readValues["CBLampStateFromServer"]
             DILampStateFromServer = readValues["DILampStateFromServer"]
@@ -1469,7 +1486,7 @@ class ApeEscapeClient(BizHawkClient):
             self.tokencount = tokenCountFromServer
 
             # ======== Locations handling =========
-            Locations_Reads = [currentLevel, gameState, currentRoom, previousCoinStateRoom, currentCoinStateRoom, gameRunning, TVT_BossPhase, gotMail, mailboxID, jakeVictory, S1_P2_State, S1_P2_Life, S2_isCaptured, levelselect_coinlock_Address, CoinTable, TempCoinTable, monkeylevelcounts, currentApes, transitionPhase, NearbyRoom]
+            Locations_Reads = [currentLevel, gameState, currentRoom, previousCoinStateRoom, currentCoinStateRoom, gameRunning, TVT_BossPhase, gotMail, mailboxID, jakeVictory, S1_P2_State, S1_P2_Life, S2_isCaptured, levelselect_coinlock_Address, CoinTable, TempCoinTable, monkeylevelcounts, currentApes, transitionPhase, NearbyRoom,cookies,SA_Completed,GA_Completed,temp_SA_Completed,temp_GA_Completed]
             await self.locations_handling(ctx, Locations_Reads)
 
             # Write Array
@@ -1482,56 +1499,6 @@ class ApeEscapeClient(BizHawkClient):
                 (RAM.unlockedGadgetsAddress, gadgetStateFromServer.to_bytes(2, "little"), "MainRAM"),
                 (RAM.requiredApesAddress, localhundoCount.to_bytes(1, "little"), "MainRAM"),
             ]
-            GadgetTrainingsUnlock = 0x00000000
-            trainingRoomProgress = 0xFF
-            # Training Room Unlock state checkup: Set to 0x00000000 to prevent all buttons from working
-            #varGoal = ctx.slot_data["goal"]
-            #varFastTokenGoal = ctx.slot_data["fasttokengoal"]
-            #boolActivateFastGoalWarp = (varFastTokenGoal == FastTokenGoalOption.option_on and varGoal in (GoalOption.option_mmtoken, GoalOption.option_ppmtoken) and tokenCountFromServer >= min(ctx.slot_data["requiredtokens"], ctx.slot_data["totaltokens"]))
-            # **Going into the room**
-            #if (transitionPhase == RAM.transitionPhase["InTransition"] and NearbyRoom == 90):
-                # If the FastGoal warp needs to be activated, needs to be done in transition
-                #if boolActivateFastGoalWarp:
-                    #GadgetTrainingsUnlock = 0x8C63FDCC
-                    #trainingRoomProgress = 0x01
-                #else:
-                    #GadgetTrainingsUnlock = 0x00000000
-                    #trainingRoomProgress  = 0xFF
-            #elif currentRoom == 90:
-                ## **After the transition or while in room**
-                ## Check for FastTokenGoal + enough tokens
-                #if boolActivateFastGoalWarp:
-                    #GadgetTrainingsUnlock = 0x8C63FDCC
-                    #trainingRoomProgress = 0x01
-                    ## Check which door needs to be redirected to
-                    #if varGoal == GoalOption.option_mmtoken:
-                        #doorTransition = doorTransitions.get(AEDoor.MM_SPECTER1_ROOM.value)
-                        #targetRoom = doorTransition[0]
-                        #targetDoor = doorTransition[1]
-                    #else:
-                        #doorTransition = doorTransitions.get(AEDoor.PPM_ENTRY.value)
-                        #targetRoom = doorTransition[0]
-                        #targetDoor = doorTransition[1]
-                    ## Change Transition2 to the desired transitions as needed
-                    #TR2_Adresses = list(RAM.transitionAddresses.get(2))
-                    #writes += [(TR2_Adresses[0], targetRoom.to_bytes(1, "little"), "MainRAM")]
-                    #writes += [(TR2_Adresses[1], targetDoor.to_bytes(1, "little"), "MainRAM")]
-                #else:
-                    ## You are in the room, but FastToken is not on OR you do not have enough tokens
-                    #GadgetTrainingsUnlock = 0x00000000
-                    #trainingRoomProgress = 0xFF
-            #else:
-                ## Not going into the Training Room NOR being into it, set these values to normal
-                #GadgetTrainingsUnlock = 0x8C63FDCC
-                #trainingRoomProgress = 0xFF
-
-            ##InFastTokenWarp = RAM.gameState["TimeStation"] == gameState and boolActivateFastGoalWarp and currentRoom in {83, 86, 87}
-            ##if InFastTokenWarp:
-                ##writes += [(RAM.gameStateAddress, RAM.gameState["InLevel"].to_bytes(1, "little"), "MainRAM")]
-            ##elif currentRoom == 88 and RAM.gameState["InLevel"] == gameState:
-                ##writes += [(RAM.gameStateAddress, RAM.gameState["TimeStation"].to_bytes(1, "little"), "MainRAM")]
-            #writes += [(RAM.GadgetTrainingsUnlockAddress, GadgetTrainingsUnlock.to_bytes(4, "little"), "MainRAM")]
-            #writes += [(RAM.trainingRoomProgressAddress, trainingRoomProgress.to_bytes(1, "little"), "MainRAM")]
 
             # Kickout Prevention (Monkey catch + Boss Kills)
             if self.preventKickOut == 1:
@@ -1565,6 +1532,7 @@ class ApeEscapeClient(BizHawkClient):
                     if temp_SA_Completed == 0xFF:
                         writes += [(RAM.SA_CompletedAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
                         writes += [(RAM.temp_SA_CompletedAddress, SA_Completed.to_bytes(1, "little"), "MainRAM")]
+                    if temp_GA_Completed == 0xFF:
                         writes += [(RAM.GA_CompletedAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
                         writes += [(RAM.temp_GA_CompletedAddress, GA_Completed.to_bytes(1, "little"), "MainRAM")]
                 elif RAM.gameState["LevelSelect"] != gameState:
@@ -1574,7 +1542,7 @@ class ApeEscapeClient(BizHawkClient):
                         writes += [(RAM.SA_CompletedAddress, temp_SA_Completed.to_bytes(1, "little"), "MainRAM")]
                         writes += [(RAM.temp_SA_CompletedAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
                     # Maybe not needed for GA since it will result in 0 but kept just to be safe
-                    if temp_SA_Completed != 0xFF:
+                    if temp_GA_Completed != 0x00:
                         writes += [(RAM.GA_CompletedAddress, temp_GA_Completed.to_bytes(1, "little"), "MainRAM")]
                         writes += [(RAM.temp_GA_CompletedAddress, 0x00.to_bytes(1, "little"), "MainRAM")]
                 if localLevelState != 0x00:
@@ -1696,7 +1664,7 @@ class ApeEscapeClient(BizHawkClient):
 
             # ========== Water Net ===========
             # Swim/Dive Prevention code
-            WN_Reads = [gameState, waternetState, gameRunning, spikeState2, swim_oxygenLevel, cookies, isUnderwater, watercatchState, currentRoom]
+            WN_Reads = [gameState, waternetState, gameRunning, spikeState2, swim_oxygenLevel, cookies, isUnderwater, watercatchState, currentRoom,spike_UsingBoat,swim_oxygenreplenishMax,swim_initialAirAmount]
             await self.water_net_handling(ctx, WN_Reads)
             # ================================
 
@@ -1710,7 +1678,7 @@ class ApeEscapeClient(BizHawkClient):
             # ====== Gadgets handling ========
             # For checking which gadgets should be equipped
             # Also apply Magic Punch visual correction
-            Gadgets_Reads = [currentLevel, currentRoom, heldGadget, gadgetStateFromServer, crossGadget, squareGadget, circleGadget, triangleGadget, menuState, menuState2, punchVisualAddress, gameState, currentGadgets]
+            Gadgets_Reads = [currentLevel, currentRoom, heldGadget, gadgetStateFromServer, crossGadget, squareGadget, circleGadget, triangleGadget, menuState, menuState2, punchVisualAddress, gameState, currentGadgets,NearbyRoom,transitionPhase,Training_crossGadget, Training_squareGadget, Training_circleGadget, Training_triangleGadget,Training_heldGadgetAddress]
             await self.gadgets_handler(ctx, Gadgets_Reads, temp_SA_Completed, temp_GA_Completed)
             # ================================
 
@@ -1722,7 +1690,7 @@ class ApeEscapeClient(BizHawkClient):
 
             # == Entrance Randomization Handling ===
             # For all things related to ER and Room Rando
-            ER_Reads = [gameState, status_currentWorld, status_currentLevel, currentLevel, transitionPhase, Spike_X_Pos, Spike_Y_Pos, Spike_Z_Pos, spikeState2, currentRoom, gameRunning, InputListener, Warp_State, Transition_Screen_Progress, LoadingState, Spike_CanMove, transitionAddresses]
+            ER_Reads = [gameState, status_currentWorld, status_currentLevel, currentLevel, transitionPhase, Spike_X_Pos, Spike_Y_Pos, Spike_Z_Pos, spikeState2, currentRoom, gameRunning, InputListener, Warp_State, Transition_Screen_Progress, LoadingState, Spike_CanMove, transitionAddresses,cookies]
             await self.ER_Handling(ctx, ER_Reads)
 
 
@@ -2099,6 +2067,12 @@ class ApeEscapeClient(BizHawkClient):
         currentApes = Locations_Reads[17]
         transitionPhase = Locations_Reads[18]
         NearbyRoom = Locations_Reads[19]
+        cookies = Locations_Reads[20]
+        SA_Completed = Locations_Reads[21]
+        GA_Completed = Locations_Reads[22]
+        temp_SA_Completed = Locations_Reads[23]
+        temp_GA_Completed = Locations_Reads[24]
+        is_dead = (cookies == 0x00)
 
         locationsToSend = []
         monkeysToSend = set()
@@ -2147,6 +2121,12 @@ class ApeEscapeClient(BizHawkClient):
         GlobalIDToValueTable  = dict(zip(keyList, globalMonkeys))
         # localmonkeys = await bizhawk.read(ctx.bizhawk_ctx, addresses)
         # Check if in level select or in time hub, then read global monkeys
+
+        # Check completion of Races (All coins unlocked) and write to the Right address
+        # Only trigger the function if allowcollect is on
+        trueSA_Completed = temp_SA_Completed if levelselect_coinlock_Address == 0x01 else SA_Completed
+        trueGA_Completed = temp_GA_Completed if levelselect_coinlock_Address == 0x01 else GA_Completed
+        await self.collect_races(ctx,trueSA_Completed,trueGA_Completed,levelselect_coinlock_Address)
 
         temp_counter = currentApes
         if gameState == RAM.gameState["LevelSelect"] or currentLevel == RAM.levels["Time"] or (level == 0x18 and gameState == RAM.gameState["InLevel"]) or self.forcecollect and transitionPhase != 0x06:
@@ -2256,7 +2236,6 @@ class ApeEscapeClient(BizHawkClient):
                                             #print(levelsToSync)
                 if temp_counter > currentApes:
                     locationWrites += [(RAM.currentApesAddress, temp_counter.to_bytes(1, "little"), "MainRAM")]
-
         # Check for Coins
 
         # New Coins System !
@@ -2264,7 +2243,6 @@ class ApeEscapeClient(BizHawkClient):
         # If a coin is collected and is not in the server it will then send
 
         # When allowcollect is on, the inverse is also true: Any coin the server have that is not in the game will be put in the game
-
         targetCoinTable = TempCoinTable if levelselect_coinlock_Address == 0x01 else CoinTable
         targetTableAddress = RAM.temp_startingCoinAddress if levelselect_coinlock_Address == 0x01 else RAM.startingCoinAddress
 
@@ -2394,7 +2372,7 @@ class ApeEscapeClient(BizHawkClient):
                         if (redkey_list[i] + self.offset) not in self.locations_list:
                             mailToSend.add(redkey_list[i] + self.offset)
         # Check for Jackets
-        if (localcondition) and (currentRoom in jacketsRooms) and (gameState == RAM.gameState["InLevel"] or gameState == RAM.gameState["TimeStation"]):
+        if (localcondition) and (currentRoom in jacketsRooms) and (gameState == RAM.gameState["InLevel"] or gameState == RAM.gameState["TimeStation"]) and transitionPhase not in (RAM.transitionPhase['InTransition'],RAM.transitionPhase['NotSpawned']) and not is_dead:
             jacketsaddrs = RAM.jacketsListLocal[currentRoom]
 
             key_list = list(jacketsaddrs.keys())
@@ -2406,16 +2384,20 @@ class ApeEscapeClient(BizHawkClient):
                 jacketDoesRespawn = val_list[i][2]
                 addresses = []
 
-                jacketaddresses = [jacketVisualAddress, jacketHitboxAddress]
                 addresses.append((jacketVisualAddress, 1, "MainRAM"))
                 addresses.append((jacketHitboxAddress, 2, "MainRAM"))
 
                 jacketReads = await bizhawk.read(ctx.bizhawk_ctx, addresses)
                 JacketVisual = int.from_bytes(jacketReads[0], byteorder='little')
                 JacketHitbox = int.from_bytes(jacketReads[1], byteorder='little')
-                print(f"Jacket {key_list[i]} => Respawn:[{jacketDoesRespawn}]: JacketVisual[{JacketVisual}]")
+                if self.FastWarp:
+                    RespawnValue = 0x04
+                else:
+                    RespawnValue = 0x02
+
+                #print(f"Jacket {key_list[i]} => Respawn:[{jacketDoesRespawn}]: JacketVisual[{JacketVisual}]")
                 if jacketDoesRespawn:
-                    if JacketVisual >= 0x02:
+                    if JacketVisual >= RespawnValue:
                         if (key_list[i] + self.offset) not in self.locations_list:
                             jacketsToSend.add(key_list[i] + self.offset)
                 else:
@@ -2616,6 +2598,13 @@ class ApeEscapeClient(BizHawkClient):
         punchVisualAddress = Gadgets_Reads[10]
         gameState = Gadgets_Reads[11]
         currentGadgets = Gadgets_Reads[12]
+        NearbyRoom = Gadgets_Reads[13]
+        transitionPhase = Gadgets_Reads[14]
+        Training_crossGadget = Gadgets_Reads[15]
+        Training_squareGadget = Gadgets_Reads[16]
+        Training_circleGadget = Gadgets_Reads[17]
+        Training_triangleGadget = Gadgets_Reads[18]
+        Training_heldGadgetAddress = Gadgets_Reads[19]
         # print(currentGadgets)
         gadgets_Writes = []
         punch_Guards = []
@@ -2624,10 +2613,15 @@ class ApeEscapeClient(BizHawkClient):
         # Training Rooms, do not trigger gadget replacement
         InTraining = 92 <= currentRoom <= 98
         if (gameState == RAM.gameState['TimeStation'] and InTraining):
+            if currentRoom == 98:
+                #Special Case, remove the Stun Club for Water Net room
+                if (crossGadget == 0x00):
+                    gadgets_Writes += [(RAM.crossGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
+                    gadgets_Writes += [(RAM.heldGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
             if currentRoom == 92:
                 if (AEItem.Radar.value in currentGadgets):
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0x02.to_bytes(1, "little"), "MainRAM")]
-                    gadgets_Writes += [(RAM.crossGadgetAddress, 0x02.to_bytes(1, "little"), "MainRAM")]
+                    gadgets_Writes += [(RAM.heldGadgetAddress, 0x02.to_bytes(1, "little"), "MainRAM")]
                 else:
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
                     gadgets_Writes += [(RAM.heldGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
@@ -2636,7 +2630,6 @@ class ApeEscapeClient(BizHawkClient):
                 if (AEItem.Sling.value in currentGadgets):
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0x03.to_bytes(1, "little"), "MainRAM")]
                     gadgets_Writes += [(RAM.heldGadgetAddress, 0x03.to_bytes(1, "little"), "MainRAM")]
-                    # Add ammo there to make sure we have enough for the rooms?
                 else:
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
                     gadgets_Writes += [(RAM.heldGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
@@ -2648,7 +2641,36 @@ class ApeEscapeClient(BizHawkClient):
                 else:
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
                     gadgets_Writes += [(RAM.heldGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
+                # Try and prevent hoop from crashing the game by resetting all related values
+                if (crossGadget == 0x04):
+                    #if (NearbyRoom != currentRoom) and transitionPhase in (RAM.transitionPhase['Loaded'],RAM.transitionPhase['InTransition']):
+                    if (NearbyRoom != currentRoom) and transitionPhase == RAM.transitionPhase['InTransition']:
+                        hoop_addresses = RAM.HoopValues
 
+                        hoop_keys = list(hoop_addresses.keys())
+                        hoop_values = list(hoop_addresses.values())
+
+                        Hoop_writes = []
+                        for x in range(len(hoop_keys)):
+
+                            #Hoop_guards = [(RAM.currentRoomIdAddress, currentRoom.to_bytes(1, "little"), "MainRAM")]
+                            # lamp_values2 = list(lamp_values[x].__str__().replace("[", "").replace("]", "").split(","))
+                            hoop_value = list(hoop_values[x])
+                            # print(doorlist_values[x])
+                            hoop_bytes = hoop_value[0]
+                            hoop_resetvalue = hoop_value[1].to_bytes(hoop_bytes, "little")
+                            #door_closedvalue = door_values[2].to_bytes(door_bytes, "little")
+                            hoop_address = (hoop_keys[x])
+                            # print(door_address)
+                            hoop_read = await bizhawk.read(ctx.bizhawk_ctx,[(hoop_address, hoop_bytes, "MainRAM")])
+                            #print(f"HoopRead :{hoop_read[0]} | HoopReset :{hoop_resetvalue}")
+                            if hoop_read[0] != hoop_resetvalue:
+                                Hoop_writes += [(hoop_address, hoop_resetvalue, "MainRAM")]
+                                #Door_guards += [(door_address, door_openvalue, "MainRAM")]
+                        if Hoop_writes:
+                            #print("Hoop Correction!")
+                            await bizhawk.write(ctx.bizhawk_ctx, Hoop_writes)
+                        gadgets_Writes += [(RAM.Controls_TriggersShapes, 0xBF.to_bytes(1, "little"), "MainRAM")]
             if currentRoom == 96:
                 if (AEItem.Flyer.value in currentGadgets):
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0x06.to_bytes(1, "little"), "MainRAM")]
@@ -2672,7 +2694,13 @@ class ApeEscapeClient(BizHawkClient):
                 else:
                     gadgets_Writes += [(RAM.crossGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
                     gadgets_Writes += [(RAM.heldGadgetAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
-
+            #Correct the gadget state while exiting training rooms
+            if transitionPhase == RAM.transitionPhase['InTransition']:
+                gadgets_Writes += [(RAM.triangleGadgetAddress, Training_triangleGadget.to_bytes(1, "little"), "MainRAM")]
+                gadgets_Writes += [(RAM.squareGadgetAddress, Training_squareGadget.to_bytes(1, "little"), "MainRAM")]
+                gadgets_Writes += [(RAM.circleGadgetAddress, Training_circleGadget.to_bytes(1, "little"), "MainRAM")]
+                gadgets_Writes += [(RAM.crossGadgetAddress, Training_crossGadget.to_bytes(1, "little"), "MainRAM")]
+                gadgets_Writes += [(RAM.heldGadgetAddress, Training_heldGadgetAddress.to_bytes(1, "little"), "MainRAM")]
         else:
             if gameState == RAM.gameState['InLevel']:
 
@@ -3751,7 +3779,9 @@ class ApeEscapeClient(BizHawkClient):
         LoadingState = ER_Reads[14]
         Spike_CanMove = ER_Reads[15]
         transitionAddresses = ER_Reads[16]
+        cookies = ER_Reads[17]
 
+        is_dead = (cookies == 0)
         ER_writes = []
         ER_guards = []
 
@@ -3822,9 +3852,13 @@ class ApeEscapeClient(BizHawkClient):
 
         # Code to send Spike to the right transition (If needed)
         if gameState in (RAM.gameState["InLevel"], RAM.gameState["InLevelTT"]):
-            # Disable FastWarp
-            if self.FastWarp:
-                self.FastWarp = False
+            #Disable FastWarp when exiting level?
+            if (self.FastWarp):
+                if currentRoom == 83:
+                    if (transitionPhase == RAM.transitionPhase['NotSpawned'] or is_dead):
+                        self.FastWarp = False
+                else:
+                    self.FastWarp = False
             if currentRoom == 88:
                 return
             # For all the Monkey Madness levels, treat it as Monkey Madness
@@ -3930,6 +3964,28 @@ class ApeEscapeClient(BizHawkClient):
 
         await bizhawk.write(ctx.bizhawk_ctx, ER_writes)
 
+    async def collect_races(self, ctx: "BizHawkClientContext", trueSA_Completed, trueGA_Completed, levelselect_coinlock_Address):
+        targetSA_CompleteAddress = RAM.temp_SA_CompletedAddress if levelselect_coinlock_Address == 0x01 else RAM.SA_CompletedAddress
+        targetGA_CompleteAddress = RAM.temp_GA_CompletedAddress if levelselect_coinlock_Address == 0x01 else RAM.GA_CompletedAddress
+        CR_Writes = []
+
+        if self.allowcollect:
+            # Get all coins from locations_list
+            SA_Coins = [item for item in RAM.coinsperlevel.get(7)]
+            GA_Coins = [item for item in RAM.coinsperlevel.get(14)]
+            SA_CollectedCoins = [item for item in SA_Coins if (item + self.offset + 200) in self.locations_list]
+            GA_CollectedCoins = [item for item in GA_Coins if (item + self.offset + 200) in self.locations_list]
+
+            #If this is true, SA Coins are all found/collected
+            if trueSA_Completed != 0x19 and set(RAM.coinsperlevel.get(7)).issubset(set(SA_CollectedCoins)):
+                print("Synced SA_Completed from collect")
+                CR_Writes += [(targetSA_CompleteAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
+            # If this is true, GA Coins are all found/collected
+            if trueGA_Completed != 0x19 and set(RAM.coinsperlevel.get(14)).issubset(set(GA_CollectedCoins)):
+                print("Synced GA_Completed from collect")
+                CR_Writes += [(targetGA_CompleteAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
+        if CR_Writes:
+            await bizhawk.write(ctx.bizhawk_ctx,CR_Writes)
     def format_cointable(self, ctx: "BizHawkClientContext", CoinTable, SA_Completed, GA_Completed, usage = ""):
         SA = 0
         GA = 0
@@ -3967,7 +4023,6 @@ class ApeEscapeClient(BizHawkClient):
                 coins_list += [item for item in RAM.coinsperlevel.get(entranceID)]
             if GA_Completed == 0x19 and entranceID == 14:
                 coins_list += [item for item in RAM.coinsperlevel.get(entranceID)]
-            #print(f"BaseLevelID:{baseLevelID}")
 
             if RAM.coinsperlevel.get(entranceID) != {}:
                 #print(set(RAM.coinsperlevel.get(entranceID)))
@@ -4011,7 +4066,6 @@ class ApeEscapeClient(BizHawkClient):
         worldCanPressStart = LSO_Reads[11]
         BUTTON_BYTE_ADDR_LOW = LSO_Reads[12]
         BUTTON_BYTE_ADDR_HIGH = LSO_Reads[13]
-
 
         LS_Writes = []
         if RAM.gameState["LevelSelect"] == gameState:
@@ -4060,7 +4114,7 @@ class ApeEscapeClient(BizHawkClient):
                 LS_Writes += [(RAM.temp_SA_CompletedAddress, current_SA_Completed.to_bytes(1, "little"), "MainRAM")]
             if current_GA_Completed != Temp_GA_Completed:
                 #print("Wrote To TempGA")
-                LS_Writes += [(RAM.temp_GA_CompletedAddress, current_SA_Completed.to_bytes(1, "little"), "MainRAM")]
+                LS_Writes += [(RAM.temp_GA_CompletedAddress, current_GA_Completed.to_bytes(1, "little"), "MainRAM")]
 
             if SA == 1:
                 LS_Writes += [(RAM.SA_CompletedAddress, 0x19.to_bytes(1, "little"), "MainRAM")]
@@ -4137,12 +4191,12 @@ class ApeEscapeClient(BizHawkClient):
                 LS_Writes += [(RAM.worldCanPressStart, 0x0000.to_bytes(2, "little"), "MainRAM")]
             if TokenGoal:
                 # Check if the user is pressing start (About 1 second)
+
                 if (BUTTON_BYTE_ADDR_LOW & 8) == 0:
-                    print("Pressed START")
                     # Press X and keep a variable up as you enter the goal region
                     token = self.tokencount
                     FastTokenUnlocked = token >= min(ctx.slot_data["requiredtokens"], ctx.slot_data["totaltokens"])
-                    if (self.FastWarp == False and FastTokenUnlocked):
+                    if (FastTokenUnlocked):
                         self.FastWarp = True
                         LS_Writes += [(RAM.Controls_TriggersShapes, 0xBF.to_bytes(1, "little"), "MainRAM")]
         await bizhawk.write(ctx.bizhawk_ctx, LS_Writes)
@@ -4168,11 +4222,15 @@ class ApeEscapeClient(BizHawkClient):
         isUnderwater = WN_Reads[6]
         watercatchState = WN_Reads[7]
         currentRoom = WN_Reads[8]
+        spike_UsingBoat = WN_Reads[9]
+        swim_oxygenreplenishMax = WN_Reads[10]
+        swim_initialAirAmount = WN_Reads[11]
 
         WN_writes = []
 
 
         is_grounded = spikeState2 in grounded
+        is_inboat = spike_UsingBoat == 0x01
         InTraining = 92 <= currentRoom <= 98
         # Base variables
         if waternetState == 0x00:
@@ -4184,9 +4242,9 @@ class ApeEscapeClient(BizHawkClient):
         elif waternetState == 0x01:
             WN_writes += [(RAM.swim_surfaceDetectionAddress, 0x0801853A.to_bytes(4, "little"), "MainRAM")]
             WN_writes += [(RAM.canDiveAddress, 0x00000000.to_bytes(4, "little"), "MainRAM")]
-            WN_writes += [(RAM.swim_oxygenReplenishSoundAddress, 0x00000000.to_bytes(4, "little"), "MainRAM")]
-            WN_writes += [(RAM.swim_ReplenishOxygenUWAddress, 0x00000000.to_bytes(4, "little"), "MainRAM")]
-            WN_writes += [(RAM.swim_replenishOxygenOnEntryAddress, 0x00000000.to_bytes(4, "little"), "MainRAM")]
+            WN_writes += [(RAM.swim_oxygenReplenishSoundAddress, 0x0C021DFE.to_bytes(4, "little"), "MainRAM")]
+            WN_writes += [(RAM.swim_ReplenishOxygenUWAddress, 0xA4500018.to_bytes(4, "little"), "MainRAM")]
+            WN_writes += [(RAM.swim_replenishOxygenOnEntryAddress, 0xA4434DC8.to_bytes(4, "little"), "MainRAM")]
         else:
             # (waternetstate > 0x01)
             WN_writes += [(RAM.swim_surfaceDetectionAddress, 0x0801853A.to_bytes(4, "little"), "MainRAM")]
@@ -4197,20 +4255,15 @@ class ApeEscapeClient(BizHawkClient):
 
         # Oxygen Handling
         if waternetState == 0x00:
-            if gameState == RAM.gameState["InLevel"] or gameState == RAM.gameState["InLevelTT"]:
+            if gameState == RAM.gameState["InLevel"]:
                 if gameRunning == 0x01:
                     # Set the air to the "Limited" value if 2 conditions:
-                    # Oxygen is higher that "Limited" value AND spike is Swimming or Grounded
-                    if spikeState2 in swimming:
-                        if (swim_oxygenLevel > limited_OxygenLevel):
+                    # Spike is Swimming or Grounded AND Oxygen is higher that "Limited" value
+                    AirCondition1 = ((spikeState2 in swimming and (swim_oxygenLevel > limited_OxygenLevel)) or (is_grounded and swim_oxygenLevel != limited_OxygenLevel))
+                    # Spike is not Swimming AND in_boat AND oxygen is not at limit
+                    AirCondition2 = ((spikeState2 not in swimming) and is_inboat and (swim_oxygenLevel != limited_OxygenLevel))
+                    if AirCondition1 or AirCondition2:
                             WN_writes += [(RAM.swim_oxygenLevelAddress, limited_OxygenLevel.to_bytes(2, "little"), "MainRAM")]
-                    else:
-                        # if self.waterHeight != 0:
-                        # self.waterHeight = 0
-                        if is_grounded:
-                            WN_writes += [(RAM.swim_oxygenLevelAddress, limited_OxygenLevel.to_bytes(2, "little"), "MainRAM")]
-
-                #else:
                 # Game Not running
                 #if swim_oxygenLevel == 0 and cookies == 0 and gameRunning == 0:
                 if swim_oxygenLevel == 0 and cookies == 0:
@@ -4224,16 +4277,17 @@ class ApeEscapeClient(BizHawkClient):
                         #if swim_oxygenLevel == 0:
                         WN_writes += [(RAM.cookieAddress, 0x00.to_bytes(1, "little"), "MainRAM")]
                         WN_writes += [(RAM.instakillAddress, 0xFF.to_bytes(1, "little"), "MainRAM")]
-
-        if waternetState == 0x01:
-
-            if isUnderwater == 0x00 and swim_oxygenLevel != limited_OxygenLevel:
-                WN_writes += [(RAM.swim_oxygenLevelAddress, limited_OxygenLevel.to_bytes(2, "little"), "MainRAM")]
-            if swim_oxygenLevel == 0 and cookies == 0 and gameRunning == 0:
-                # You died while swimming, reset Oxygen to "Limited" value prevent death loops
+            if isUnderwater == 0x01 and is_grounded:
+                # You exited the level while underwater, reset oxygen and underwater state
                 WN_writes += [(RAM.swim_oxygenLevelAddress, limited_OxygenLevel.to_bytes(2, "little"), "MainRAM")]
                 WN_writes += [(RAM.isUnderwater, 0x00.to_bytes(1, "little"), "MainRAM")]
-
+        if waternetState == 0x01:
+            if swim_oxygenreplenishMax != limited_OxygenLevel:
+                WN_writes += [(RAM.swim_oxygenreplenishMaxAddress, limited_OxygenLevel.to_bytes(2, "little"), "MainRAM")]
+                WN_writes += [(RAM.swim_initialAirAmountAddress, limited_OxygenLevel.to_bytes(2, "little"), "MainRAM")]
+        if waternetState == 0x02:
+            WN_writes += [(RAM.swim_oxygenreplenishMaxAddress, 0x258.to_bytes(2, "little"), "MainRAM")]
+            WN_writes += [(RAM.swim_initialAirAmountAddress, 0x258.to_bytes(2, "little"), "MainRAM")]
         # WaterCatch unlocking stuff bellow
         if watercatchState == 0x00:
             WN_writes += [(RAM.canWaterCatchAddress, 0x00.to_bytes(1, "little"), "MainRAM")]

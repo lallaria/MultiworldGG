@@ -17,7 +17,8 @@
                 is_adult or can_use(Dins_Fire) or
                 (has_explosives and (can_use(Sticks) or can_use(Slingshot) or Kokiri_Sword))",
             "Ice Cavern Compass Room": "is_adult and Blue_Fire",
-            "Ice Cavern Iron Boots Region": "Blue_Fire"
+            "Ice Cavern Iron Boots Region": "Blue_Fire",
+            "Farores Wind Warp": "can_use(Farores_Wind)"
         }
     },
     {
@@ -47,7 +48,8 @@
         "locations": {
             "Ice Cavern MQ Iron Boots Chest": "is_adult",
             "Sheik in Ice Cavern": "is_adult",
-            "Ice Cavern MQ Near End Pot": "is_adult",
+            "Ice Cavern MQ Near End Pot 1": "is_adult",
+            "Ice Cavern MQ Near End Pot 2": "is_adult",
             "Ice Cavern MQ GS Ice Block": "is_adult or can_child_attack",
             "Ice Cavern MQ GS Scarecrow": "
                 can_use(Scarecrow) or (Hover_Boots and can_use(Longshot)) or

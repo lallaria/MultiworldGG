@@ -1,6 +1,7 @@
-# Metroid Prime MultiworldGGMultiworldGGMultiworldGG
+# Metroid Prime MultiworldGG
 
-An AP/MWGG implementation of Metroid Prime multiworld randomizer using [randomprime](https://github.com/randovania/randomprime/)
+An AP/MultiworldGG implementation of Metroid Prime multiworld randomizer using [randomprime](https://github.com/randovania/randomprime/)
+
 
 ## Where is the options page?
 

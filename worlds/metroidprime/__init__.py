@@ -1,13 +1,10 @@
 import os
-import settings
-import typing
 from collections import defaultdict
 from logging import info
-from typing import Any, Dict, List, Optional, TextIO, Union, cast
+from typing import Any, cast, ClassVar, Dict, List, Optional, Set, TextIO, Union
 
 from BaseClasses import MultiWorld, Tutorial, ItemClassification
-from Options import NumericOption
-from worlds.LauncherComponents import Component, components, icon_paths, launch_subprocess, SuffixIdentifier, Type  # type: ignore
+from worlds.LauncherComponents import Component, components, icon_paths, launch, SuffixIdentifier, Type  # type: ignore
 from worlds.AutoWorld import World, WebWorld
 
 from .BlastShieldRando import (
@@ -37,6 +34,7 @@ from .PrimeOptions import (
     MetroidPrimeOptions,
     prime_option_groups,
 )
+from .PrimeSettings import MetroidPrimeSettings
 from .Regions import create_regions
 
 from .data.ChozoRuins import ChozoRuinsAreaData
@@ -62,10 +60,10 @@ class MultiworldWithPassthrough(MultiWorld):
     re_gen_passthrough: Dict[str, Dict[str, Any]] = {}
 
 
-def run_client(*_args: Any):
-    from .MetroidPrimeClient import launch
+def run_client(*_args: str):
+    from .MetroidPrimeClient import main
 
-    launch_subprocess(launch, name="MetroidPrimeClient")
+    launch(main, name="MetroidPrimeClient", args=_args)
 
 
 components.append(
@@ -80,24 +78,6 @@ components.append(
 
 
 icon_paths["Metroid Prime"] = "ap:worlds.metroidprime/assets/icon.png"
-
-
-class MetroidPrimeSettings(settings.Group):
-    class RomFile(settings.UserFilePath):
-        """File name of the Metroid Prime ISO"""
-
-        description = "Metroid Prime GC ISO file"
-        copy_to = "Metroid_Prime.iso"
-
-    class RomStart(str):
-        """
-        Set this to false to never autostart a rom (such as after patching),
-        Set it to true to have the operating system default program open the iso
-        Alternatively, set it to a path to a program to open the .iso file with (like Dolplhin)
-        """
-
-    rom_file: RomFile = RomFile(RomFile.copy_to)
-    rom_start: typing.Union[RomStart, bool] = False
 
 
 class MetroidPrimeWeb(WebWorld):
@@ -129,7 +109,7 @@ class MetroidPrimeWorld(World):
     topology_present = True
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = every_location
-    settings: MetroidPrimeSettings  # noqa
+    settings: ClassVar[MetroidPrimeSettings]
     item_name_groups = {"Artifacts": set(artifact_table.keys())}
     starting_room_data: StartRoomData
     prefilled_item_map: Dict[str, str] = {}  # Dict of location name to item name
@@ -293,12 +273,6 @@ class MetroidPrimeWorld(World):
         item_pool = generate_item_pool(self)
         self.multiworld.itempool += item_pool
 
-    def pre_fill(self) -> None:
-        for location_name, item_name in self.prefilled_item_map.items():
-            location = self.get_location(location_name)
-            item = self.create_item(item_name, ItemClassification.progression)
-            location.place_locked_item(item)
-
     def set_rules(self) -> None:
         self.multiworld.completion_condition[self.player] = lambda state: (
             state.can_reach("Mission Complete", "Region", self.player)
@@ -306,24 +280,11 @@ class MetroidPrimeWorld(World):
 
     def post_fill(self) -> None:
         if self.options.artifact_hints.value == ArtifactHints.option_enable_precollected:
-            start_hints: typing.Set[str] = self.options.start_hints.value
+            start_hints: Set[str] = self.options.start_hints.value
             for i in artifact_table:
                 start_hints.add(i)
 
     def generate_output(self, output_directory: str) -> None:
-        if self.options.randomize_suit_colors:
-            options: List[NumericOption] = [
-                self.options.power_suit_color,
-                self.options.varia_suit_color,
-                self.options.gravity_suit_color,
-                self.options.phazon_suit_color,
-            ]
-
-            # Select a random valid suit color index
-            for option in options:
-                if option.value == 0:
-                    option.value = self.random.randint(1, 35) * 10
-
         import json
 
         config_json_dict = make_config(self)

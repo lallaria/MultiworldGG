@@ -1987,7 +1987,7 @@ def set_locations(self, logic):
         connect_regions(self, AEDoor.CC_ENTRY.value, AELocation.Mailbox57.value, 
                         lambda state: CanHitOnce(state, self))
     if self.options.jacket == "true":
-        connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_UP.value, AELocation.Jacket10.value,
+        connect_regions(self, AEDoor.CC_BASEMENT_BUTTON_UP.value, AELocation.Jacket9.value,
                         lambda state: True)
 
     # City Park
@@ -2092,7 +2092,7 @@ def set_locations(self, logic):
         connect_regions(self, AEDoor.CP_BARRELSEWERMIDDLE.value, AELocation.Coin55.value, 
                         lambda state: HasFlyer(state, self) or IJ(state, self))
     if self.options.jacket == "true":
-        connect_regions(self, AEDoor.CP_BARREL_SEWERS_FRONT.value, AELocation.Jacket9.value,
+        connect_regions(self, AEDoor.CP_BARREL_SEWERS_FRONT.value, AELocation.Jacket10.value,
                         lambda state: True)
 
     # Specter's Factory
@@ -3499,6 +3499,8 @@ def fixed_levels(world, levellist, coinoption, goaloption, entoption, entplando)
                     levellist[x], levellist[0] = levellist[0], levellist[x]
 
     elif preset == 0x07: # custom
+        #Reformat the entrance plando segment to match real level names
+        entplando: dict = {k[4:]: v for k, v in entplando.items()}
         levelnames = ["Fossil Field", "Primordial Ooze", "Molten Lava", "Thick Jungle", "Dark Ruins", "Cryptic Relics", "Stadium Attack", "Crabby Beach", "Coral Cave", "Dexter's Island", "Snowy Mammoth", "Frosty Retreat", "Hot Springs", "Gladiator Attack", "Sushi Temple", "Wabi Sabi Wall", "Crumbling Castle", "City Park", "Specter's Factory", "TV Tower", "Monkey Madness", "Peak Point Matrix"] # Ordered list of level names
         levelids = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x14, 0x15, 0x16, 0x18, 0x1E] # Ordered list of level IDs
         for x in range (0, 22): # For each entrance
