@@ -13,7 +13,18 @@
   - [RetroArch](https://www.retroarch.com/?page=platforms) (funktioniert auch auf MacOS) 
 - Der integrierte Ocarina of Time Client, welcher mit [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases) installiert
   werden kann.
+- Falls du AP nutzen willst: Die neueste Version der APWorld von [hier](https://github.com/TreZc0/OoTR-APWorld/releases)
 - Eine `Ocarina of Time v1.0 NTSC-U oder NTSC-J ROM`. (Nicht aus Europa und keine Master-Quest oder Debug-Rom!)
+
+## APWorld installieren (nur mit AP)
+
+Da OoT aktuell auf nicht standardmäßige Weise mit AP ausgeliefert wird, kollidiert die alte APWorld mit der neuen. Lösche vor der Installation dieser APWorld den Ordner `oot` in `lib/worlds` in deinem Archipelago-Ordner. Anschließend kannst du die APWorld installieren, indem du sie doppelt anklickst oder per Drag-and-drop in den laufenden Archipelago Launcher ziehst. Alternativ kannst du im Archipelago Launcher die Option `Install APWorld` wählen oder die `.apworld`-Datei in den Ordner `custom_world` deiner Archipelago-Installation legen.
+
+Starte den Launcher nach der Installation neu.
+
+### Wichtiger Hinweis
+
+Archipelago bindet den OoT Client und den OoT Adjuster derzeit unabhängig von der APWorld fest ein, daher bleiben beide in jedem Fall vorhanden. Für diese neue APWorld MUSST du die neuen Clients verwenden: `Ocarina of Time Client` und `Ocarina of Time Adjuster`. Beide haben eine Beschreibung, die eindeutig auf die neue APWorld-Version hinweist.
 
 ## Konfigurieren des Emulators
 

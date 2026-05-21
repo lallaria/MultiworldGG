@@ -10,12 +10,10 @@
 - Your US Version of Battle for Bikini Bottom, probably
   named ``Nickelodeon SpongeBob SquarePants - Battle for Bikini Bottom (USA).iso``.
 
-## Installation Procedures
+## Installation Procedures (only needed if you use AP)
 
-- Place ``bfbb.apworld`` in ``custom_worlds`` of your AP installation (unless you use MWGG)
-- Place the included files from the ``lib/`` folder into ``lib/`` of your AP installation. (unless you use MWGG)
-- Place the ISO in the root folder of your AP installation and make sure it's
-  named ``Nickelodeon SpongeBob SquarePants - Battle for Bikini Bottom (USA).iso``.
+- Place ``bfbb.apworld`` in ``custom_worlds`` of your AP installation.
+- Place the included files from the ``lib/`` folder into ``lib/`` of your AP installation.
 
 For more information about .apworlds
 see [here](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/apworld%20specification.md)
@@ -25,7 +23,7 @@ see [here](https://github.com/MultiworldGG/MultiworldGG/blob/main/docs/apworld%2
 ### What is a config file and why do I need one?
 
 See the guide on setting up a basic YAML at the MultiworldGG setup
-guide: [Basic Multiworld Setup Guide](https://multiworld.gg/tutorial/Archipelago/setup/en)
+guide: [Basic Multiworld Setup Guide](/tutorial/Archipelago/setup/en)
 
 ### Where do I get a config file?
 
@@ -38,10 +36,17 @@ validator page: [YAML Validation page](https://multiworld.gg/mysterycheck)
 
 ## Joining a MultiWorld Game
 
-Start ``MultiworldGGLauncher.exe`` and choose ``BfBB Client``. You will be asked to provide a ``.apbfbb`` patch file so
-choose your patch file. The client will then open, patch and attempt to open the resulting ``.gcm`` ISO file. Patching
-can take a while and the client will become unresponsive while patching. You can also select a ``.gcm`` directly to just
-open it without patching or just click cancel, if you don't want to patch or open any ISO.
+Start ``MultiworldGGLauncher.exe`` and choose ``Open Patch``, and select your ``.apbfbb`` patch file.
+
+When opening a BfBB patch file for first time, you will also be prompted to select your BfBB ISO file. The patching process can take a while and the client may become unresponsive, so please be patient.
+
+After patching is complete, if you are using autostart (which is enabled by default), you will also be prompted to select your Dolphin executable.
+
+Alternatively, you can select the ``BfBB Client`` directly from the Launcher. This will ask for one of the following:
+- An ``.apbfbb`` file to patch and run the game.
+- An already-patched ``.gcm`` file to run the game directly.
+
+You can also select ``Cancel`` to open the client by itself without patching or launching a game.
 
 ### Connect to the Client
 

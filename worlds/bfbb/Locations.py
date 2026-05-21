@@ -175,7 +175,7 @@ sock_location_table = {
     LocationNames.sock_gl02_03: base_id + 100 + 38,
     LocationNames.sock_gl03_01: base_id + 100 + 39,
     LocationNames.sock_gl03_02: base_id + 100 + 40,
-    LocationNames.sock_gl04_03: base_id + 100 + 41,
+    LocationNames.sock_gl03_03: base_id + 100 + 41,
     LocationNames.sock_rb01_01: base_id + 100 + 42,
     LocationNames.sock_rb01_02: base_id + 100 + 43,
     LocationNames.sock_rb01_03: base_id + 100 + 44,

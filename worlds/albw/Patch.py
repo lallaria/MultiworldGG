@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, Optional
 from worlds.Files import APProcedurePatch, AutoPatchExtensionRegister
 from Patch import create_rom_file
-from Utils import Version, tuplize_version
+from Utils import Version, tuplize_version, user_path
 from settings import get_settings
 from .Hints import sanitize
 from .Items import item_table, APItem
@@ -31,7 +31,7 @@ class PatchInfo:
     hints: List[str]
     bow_of_light_hint: str
 
-    cur_version: ClassVar[Version] = Version(0, 2, 1)
+    cur_version: ClassVar[Version] = Version(0, 2, 3)
     min_compatible_version: ClassVar[Version] = Version(0, 2, 0)
 
     def __init__(
@@ -150,7 +150,7 @@ def patch_albw_inner(caller: ALBWProcedurePatch, rom: bytes, patch_name: str) ->
 
         # Optionally install the patch
         mod_path = getattr(get_settings().albw_settings, "mod_path", "")
-        if mod_path != "":
+        if mod_path != user_path(""):
             if os.path.exists(mod_path):
                 try:
                     albw_mod_path = os.path.join(mod_path, GAME_ID)

@@ -1,3 +1,4 @@
+from ..Options import IncludeSocks
 from ..constants import LocationNames, ItemNames
 from . import BfBBTestBase
 

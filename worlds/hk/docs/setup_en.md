@@ -57,4 +57,4 @@ website to generate a YAML using a graphical interface.
 ## Hints and other commands
 While playing in a multiworld, you can interact with the server using various commands listed in the 
 [commands guide](/tutorial/MultiworldGG/commands/en). You can use the MultiworldGG Text Client to do this,
-which is included in the latest release of the [Archipelago software](https://github.com/MultiworldGG/MultiworldGG/releases/latest).
+which is included in the latest release of the [MultiworldGG software](https://github.com/MultiworldGG/MultiworldGG/releases/latest).

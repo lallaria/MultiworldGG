@@ -17,12 +17,6 @@ import random
 import os
 import logging
 
-
-try:
-    from Utils import instance_name as apname
-except ImportError:
-    apname = "Archipelago"
-
 citra = CitraInterface()
 triple = TripleInterface()
 triple_addr = ""
@@ -156,7 +150,7 @@ class ALBWClientContext(CommonContext):
         from kvui import GameManager
 
         class ALBWManager(GameManager):
-            base_title: str = f"{apname} A Link Between Worlds Client"
+            base_title: str = "Archipelago A Link Between Worlds Client"
 
         self.ui = ALBWManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")

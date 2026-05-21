@@ -26,6 +26,7 @@ class BfBBContainer(APPlayerContainer):
     def __init__(self, *args: Any, **kwargs: Any):
         if "data" in kwargs:
             data = kwargs['data']
+            self.world_version: str = data['world_version']
             self.include_socks: int = data['include_socks']
             self.include_skills: int = data['include_skills']
             self.include_golden_underwear: int = data['include_golden_underwear']
@@ -42,6 +43,7 @@ class BfBBContainer(APPlayerContainer):
         opened_zipfile.writestr("zip_version",
                                 self.zip_version.to_bytes(1, "little"),
                                 compress_type=zipfile.ZIP_STORED)
+        opened_zipfile.writestr("world_version.json",json.dumps(self.world_version))
         opened_zipfile.writestr("include_socks",
                                 self.include_socks.to_bytes(1, "little"),
                                 compress_type=zipfile.ZIP_STORED)

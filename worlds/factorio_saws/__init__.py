@@ -111,6 +111,7 @@ class FactorioSAWS(World):
             self.options.silo.value = self.get_ut_data("silo", self.options.silo.value)
             self.options.satellite.value = self.get_ut_data("satellite", self.options.satellite.value)
             self.options.goal.value = self.get_ut_data("goal", self.options.goal.value)
+            self.options.recipe_ingredients.value = self.get_ut_data("recipe_ingredients", self.options.recipe_ingredients.value)
 
         # if max < min, then swap max and min
         if self.options.max_tech_cost < self.options.min_tech_cost:
@@ -198,6 +199,7 @@ class FactorioSAWS(World):
     def create_items(self) -> None:
         self.custom_technologies = self.set_custom_technologies()
         self.set_custom_recipes()
+        self.set_science_pack_names()
         for trap_name in self.trap_names:
             self.multiworld.itempool.extend(self.create_item(f"{trap_name} Trap") for _ in
                                             range(getattr(self.options,
@@ -595,7 +597,7 @@ class FactorioSAWS(World):
                                                      original_rocket_part.products,
                                                      original_rocket_part.energy)}
 
-        categories = ["metallurgy", "organic", "electromagnetics"]
+        categories = ["metallurgy", "organic", "electromagnetics", "cryogenics", "centrifuging"]
         self.random.shuffle(categories)
 
         if self.options.recipe_ingredients:
@@ -604,10 +606,19 @@ class FactorioSAWS(World):
                 valid_pool += sorted(science_pack_pools[pack])
                 self.random.shuffle(valid_pool)
                 if pack in recipes:  # skips over space science pack
+                    desired_category = None
+                    max_fluids = 2
+                    if pack in ("metallurgic-science-pack", "agricultural-science-pack", "electromagnetic-science-pack", "cryogenic-science-pack", "utility-science-pack"):
+                        desired_category = categories.pop()
+                        if desired_category == "centrifuging":
+                            max_fluids = 1
+                        elif desired_category in ["cryogenics", "electromagnetics"]:
+                            max_fluids = 3
+
                     new_recipe = self.make_quick_recipe(recipes[pack], valid_pool, ingredients_offset=
-                                                        ingredients_offset.value)
-                    if pack in ("metallurgic-science-pack", "agricultural-science-pack", "electromagnetic-science-pack"):
-                        new_recipe.category = categories.pop()
+                                                        ingredients_offset.value, allow_liquids=max_fluids)
+                    if desired_category:
+                        new_recipe.category = desired_category
                     if new_recipe.category == "crafting-with-fluid" and "fluoroketone-hot" in new_recipe.products:
                         new_recipe.category = "chemistry"
                     self.custom_recipes[pack] = new_recipe
@@ -621,14 +632,14 @@ class FactorioSAWS(World):
             if self.options.silo.value == Silo.option_randomize_recipe:
                 new_recipe = self.make_balanced_recipe(
                     recipes["rocket-silo"], valid_pool,
-                    factor=(self.options.max_science_pack.value + 1) / 7,
+                    factor=(self.options.max_science_pack.value + 1) / 11,
                     ingredients_offset=ingredients_offset.value)
                 self.custom_recipes["rocket-silo"] = new_recipe
 
             if self.options.satellite.value == Satellite.option_randomize_recipe:
                 new_recipe = self.make_balanced_recipe(
                     recipes["satellite"], valid_pool,
-                    factor=(self.options.max_science_pack.value + 1) / 7,
+                    factor=(self.options.max_science_pack.value + 1) / 11,
                     ingredients_offset=ingredients_offset.value)
                 self.custom_recipes["satellite"] = new_recipe
         bridge = "ap-energy-bridge"
@@ -665,6 +676,55 @@ class FactorioSAWS(World):
             if tech in tech_to_progressive_lookup:
                 prog_add.add(tech_to_progressive_lookup[tech])
         self.advancement_technologies |= prog_add
+
+    factorio_pack_names = frozenset({
+        "Astronomic", "Geological", "Friction", "Transportation", "Robotic",
+        "Nutritional", "Botanical", "Vehicular", "Ablative", "Atomic", "Magnetic",
+          "Computational", "Microscopic", "Offshore"})
+
+    def set_science_pack_names(self) -> None:
+        self.custom_science_pack_names = {}
+        generic_pack_names = set()
+        if self.options.recipe_ingredients:
+            for world in self.multiworld.worlds.values():
+                if hasattr(world, "factorio_pack_names"):
+                    generic_pack_names |= world.factorio_pack_names
+                elif world.game.startswith("Pokemon"):
+                    generic_pack_names |= {"Pokeball", "Oak's", "Evolution"}
+                elif world.game.startswith("The Legend of Zelda:") or world.game in ["A Link Between Worlds", "A Link to the Past", "Majora's Mask Recompiled", "Ocarina of Time", "Twilight Princess", "Wind Waker"]:
+                    generic_pack_names |= {"Triforce", "Wisdom", "Courage", "Power"}
+                elif world.game == "A Hat in Time":
+                    generic_pack_names |= {"Hat", "Chronological"}
+                elif "Final Fantasy" in world.game:
+                    generic_pack_names |= {"Magitech", "Crystal", "Imperial"}
+                elif "Kingdom Hearts" in world.game:
+                    generic_pack_names |= {"Keyblade", "Heart", "Darkness"}
+                elif world.game == "Jigsaw":
+                    generic_pack_names |= {"Puzzle"}
+                elif world.game == "Satisfactory":
+                    generic_pack_names |= {"Ficsit", "Somersloop"}
+                else:
+                    print(f"No custom science pack names added for {world.game}")
+
+            for pack in self.options.max_science_pack.get_ordered_science_packs():
+                if pack not in self.custom_recipes:
+                    continue
+
+                recipe = self.custom_recipes.get(pack, recipes[pack])
+                ingredients = set(recipe.ingredients.keys())
+                if "scrap" in ingredients:
+                    self.custom_science_pack_names[pack] = "Archeological Science Pack"
+                elif "biter-egg" in ingredients:
+                    self.custom_science_pack_names[pack] = "Biter Science Pack"
+                elif "pentapod-egg" in ingredients:
+                    self.custom_science_pack_names[pack] = "Pentapod Science Pack"
+                elif "lubricant" in ingredients:
+                    self.custom_science_pack_names[pack] = "Lubricated Science Pack"
+                elif generic_pack_names:
+                    name = generic_pack_names.pop()
+                    self.custom_science_pack_names[pack] = f"{name} Science Pack"
+                pass
+
 
     def create_item(self, name: str) -> FactorioItem:
         if name in tech_table:  # is a Technology
@@ -704,6 +764,7 @@ class FactorioSAWS(World):
             "silo": self.options.silo.value,
             "satellite": self.options.satellite.value,
             "goal": self.options.goal.value,
+            "recipe_ingredients": self.options.recipe_ingredients.value,
         }
 
     def interpret_slot_data(self, data):

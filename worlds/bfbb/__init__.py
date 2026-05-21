@@ -4,23 +4,25 @@ import typing
 from typing import TextIO
 
 import settings
-from BaseClasses import Item, Tutorial, ItemClassification
+from BaseClasses import Item, Tutorial, ItemClassification, Region, Entrance
 from Options import Accessibility
+from rule_builder.rules import Has
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, SuffixIdentifier, icon_paths
-from .Events import create_events
-from .Items import item_table, BfBBItem
-from .Locations import location_table, BfBBLocation, patrick_location_table
+from .Items import item_table, BfBBItem, item_name_groups
+from .LocationGroups import location_name_groups
+from .Locations import location_table, BfBBLocation, patrick_location_table, sock_location_table
 from .Options import BfBBOptions, RandomizeGateCost
-from .Regions import create_regions
+from .Regions import _get_locations_for_region, exit_table
 from .Rom import BfBBContainer
-from .Rules import set_rules
+from .Rules import logic
 from .Settings import BattleForBikiniBottomSettings
 from .Tracker import tracker_world_overview, tracker_world_detailed
-from .constants import ItemNames, ConnectionNames, game_name
+from .constants import ItemNames, ConnectionNames, game_name, RegionNames
 
 
 def run_client(*args):
+    print('running bfbb client', args)
     from worlds.LauncherComponents import launch
     from worlds.bfbb.BfBBClient import launch as bfbb_launch  # lazy import
     launch(bfbb_launch, f"{game_name} Client", args=args)
@@ -71,10 +73,20 @@ class BattleForBikiniBottom(World):
     topology_present = False
 
     item_name_to_id = {name: data.id for name, data in item_table.items()}
+    item_name_groups = item_name_groups
     location_name_to_id = location_table
+    location_name_groups = location_name_groups
 
     web = BattleForBikiniBottomWeb()
     ut_can_gen_without_yaml = True
+
+    item_mapping = {
+        ItemNames.so_100: ItemNames.so,
+        ItemNames.so_250: ItemNames.so,
+        ItemNames.so_500: ItemNames.so,
+        ItemNames.so_750: ItemNames.so,
+        ItemNames.so_1000: ItemNames.so
+    }
 
     def __init__(self, multiworld: "MultiWorld", player: int):
         super().__init__(multiworld, player)
@@ -150,11 +162,12 @@ class BattleForBikiniBottom(World):
         elif self.options.randomize_gate_cost.value == 1:
             level_inc_max = round(level_inc_max * 0.75)
         for v in self.level_order:
+            level_inc_max_actual = level_inc_max
             # set max increment after boss to 1/2
             if last_level is not None and last_level in [ConnectionNames.hub1_b1, ConnectionNames.hub2_b2]:
-                level_inc_max = 2 if self.options.include_skills else 1
-            level_inc_min = min(level_inc_min, level_inc_max)
-            cost = min(self.random.randint(level_inc_min, level_inc_max) + last_cost, self.options.required_spatulas.value - 1)
+                level_inc_max_actual = 2 if self.options.include_skills else 1
+            level_inc_min = min(level_inc_min, level_inc_max_actual)
+            cost = min(self.random.randint(level_inc_min, level_inc_max_actual) + last_cost, self.options.required_spatulas.value - 1)
             assert cost > 0, f"{v} gate cost too low"
             self.gate_costs[v] = cost
             last_level = v
@@ -168,7 +181,7 @@ class BattleForBikiniBottom(World):
         filler_weights = [1, 2]
         if self.options.include_purple_so.value == 0:
             filler_items += [ItemNames.so_500, ItemNames.so_750, ItemNames.so_1000]
-            filler_weights += [5, 3, 2]
+            filler_weights += [7, 8, 5]
         # Generate item pool
         itempool = [ItemNames.spat] * self.options.available_spatulas.value
         if 100 - self.options.available_spatulas.value > 0:
@@ -190,8 +203,8 @@ class BattleForBikiniBottom(World):
             itempool += [ItemNames.lvl_itm_kf2] * 6
             itempool += [ItemNames.lvl_itm_gy] * 4
         if self.options.include_purple_so.value:
-            so_items = [ItemNames.so_100, ItemNames.so_250, ItemNames.so_500, ItemNames.so_750, ItemNames.so_1000]
-            so_weights = [1, 2, 5, 3, 2]
+            so_items = [ItemNames.so_500, ItemNames.so_750, ItemNames.so_1000]
+            so_weights = [7, 8, 5]
             itempool += self.random.choices(so_items, weights=so_weights, k=38)
 
         # Convert itempool into real items
@@ -202,11 +215,92 @@ class BattleForBikiniBottom(World):
         self.multiworld.itempool += self.get_items()
 
     def set_rules(self):
-        create_events(self.multiworld, self.player)
-        set_rules(self.multiworld, self.options, self.player, self.gate_costs)
+        self.get_location("Credits").place_locked_item(self.create_item("Victory"))
+
+        allowed_loc_types = [ItemNames.spat]
+        if self.options.include_socks.value:
+            allowed_loc_types += [ItemNames.sock]
+        # if world.include_skills[player].value:
+        #     allowed_loc_types += [ItemNames.skills]
+        if self.options.include_golden_underwear.value:
+            allowed_loc_types += [ItemNames.golden_underwear]
+        if self.options.include_level_items.value:
+            allowed_loc_types += [ItemNames.lvl_itm]
+        if self.options.include_purple_so.value:
+            allowed_loc_types += [ItemNames.so_purple]
+
+        entrance_logic = logic[0]
+        location_logic = logic[1]
+
+        for name, rule_obj in entrance_logic.items():
+            entrance = self.get_entrance(name)
+            self.set_rule(entrance, rule_obj)
+
+        for loc_type, rules in location_logic.items():
+            if loc_type not in allowed_loc_types:
+                continue
+            for name, rule_obj in rules.items():
+                entrance = self.get_location(name)
+                self.set_rule(entrance, rule_obj)
+
+        self.set_completion_rule(Has("Victory"))
+
+    def dump_logic(self, output_directory: str):
+        import json
+        result = {
+            "locations": {},
+            "entrances": {}
+        }
+
+        # Add location rules.
+        for name, rule in logic[0].items():
+                result["entrances"][name] = rule.to_dict()
+
+        # Add entrance rules.
+        # TODO: this needs to export all entrances using exit_table
+        for loc_type, rules in logic[1].items():
+            for name, rule in rules.items():
+                result["locations"][name] = rule.to_dict()
+
+        with open(f'{output_directory}/bfbb_logic_dump.json', 'w') as f:
+            json.dump(result, f, indent=2)
 
     def create_regions(self):
-        create_regions(self.multiworld, self.options, self.player)
+        # create regions
+        self.multiworld.regions += [
+            self.create_region(k, _get_locations_for_region(self.options, k), v) for k, v in exit_table.items()
+        ]
+
+        # connect regions
+        self.get_entrance(ConnectionNames.start_game).connect(self.get_region(RegionNames.pineapple))
+        for k, v in exit_table.items():
+            if k == RegionNames.menu:
+                continue
+            for _exit in v:
+                exit_regions = _exit.split('->')
+                assert len(exit_regions) == 2
+                # ToDo: warp rando
+                target = self.get_region(exit_regions[1])
+                self.get_entrance(_exit).connect(target)
+
+        # place locked items
+        if not self.options.include_socks.value:
+            for k, _ in sock_location_table.items():
+                self.get_location(k).place_locked_item(self.create_item(ItemNames.sock))
+
+    def create_region(self, name: str, locations=None, exits=None) -> Region:
+        ret = Region(name, self.player, self.multiworld)
+        if locations:
+            for location in locations:
+                loc_id = location_table[location]
+                if not self.options.include_socks and location in sock_location_table.keys():
+                    loc_id = None
+                location = BfBBLocation(self.player, location, loc_id, ret)
+                ret.locations.append(location)
+        if exits:
+            for _exit in exits:
+                ret.exits.append(Entrance(self.player, _exit, ret))
+        return ret
 
     def fill_slot_data(self):
         return {
@@ -236,7 +330,7 @@ class BattleForBikiniBottom(World):
                 if option.value != v:
                     option.value = v
 
-    def create_item(self, name: str, ) -> Item:
+    def create_item(self, name: str) -> Item:
         item_data = item_table[name]
         classification = item_data.classification
         if name == ItemNames.spat:
@@ -267,6 +361,7 @@ class BattleForBikiniBottom(World):
             player=self.player,
             player_name=self.multiworld.get_player_name(self.player),
             data={
+                "world_version": self.world_version.as_simple_string(),
                 "include_socks": bool(self.options.include_socks.value),
                 "include_skills": bool(self.options.include_skills.value),
                 "include_golden_underwear": bool(self.options.include_golden_underwear.value),
@@ -278,3 +373,4 @@ class BattleForBikiniBottom(World):
             }
         )
         apbfbb.write()
+        # self.dump_logic(output_directory)

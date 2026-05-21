@@ -54,3 +54,27 @@ item_table = {
 }
 
 lookup_id_to_name: typing.Dict[int, str] = {data.id: name for name, data in item_table.items() if data.id}
+item_name_groups = {
+    ItemNames.so: {
+        ItemNames.so_100,
+        ItemNames.so_250,
+        ItemNames.so_500,
+        ItemNames.so_750,
+        ItemNames.so_1000
+    },
+    "Skills": {
+        ItemNames.bubble_bowl,
+        ItemNames.cruise_bubble,
+    },
+    "Level Items": {
+        ItemNames.lvl_itm_jf,
+        ItemNames.lvl_itm_bb,
+        ItemNames.lvl_itm_gl,
+        ItemNames.lvl_itm_rb,
+        ItemNames.lvl_itm_bc,
+        ItemNames.lvl_itm_sm,
+        ItemNames.lvl_itm_kf1,
+        ItemNames.lvl_itm_kf2,
+        ItemNames.lvl_itm_gy,
+    }
+}

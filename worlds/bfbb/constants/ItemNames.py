@@ -30,6 +30,7 @@ so_250 = "250 Shiny Objects"
 so_500 = "500 Shiny Objects"
 so_750 = "750 Shiny Objects"
 so_1000 = "1000 Shiny Objects"
+so = "Shiny Objects"
 # characters
 char_pat = "Patrick"
 char_sandy = "Sandy"

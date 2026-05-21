@@ -1,4 +1,0 @@
-*.z64
-ASM/roms/*.z64
-ASM/tools/armips
-data/Compress/ARCHIVE.bin

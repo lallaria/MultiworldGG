@@ -1,25 +1,10 @@
 from typing import List, Dict
 
 from . import BfBBOptions
-from .Locations import BfBBLocation, location_table, \
-    sock_location_table, spat_location_table, level_item_location_table, golden_underwear_location_table, \
+from .Locations import sock_location_table, spat_location_table, level_item_location_table, \
+    golden_underwear_location_table, \
     skill_location_table, purple_so_location_table
 from .constants import ConnectionNames, LevelNames, RegionNames, LocationNames
-
-from BaseClasses import MultiWorld, Region, Entrance
-
-
-def create_region(world: MultiWorld, player: int, name: str, locations=None, exits=None) -> Region:
-    ret = Region(name, player, world)
-    if locations:
-        for location in locations:
-            loc_id = location_table[location]
-            location = BfBBLocation(player, location, loc_id, ret)
-            ret.locations.append(location)
-    if exits:
-        for _exit in exits:
-            ret.exits.append(Entrance(player, _exit, ret))
-    return ret
 
 
 def _get_locations_for_region(options: BfBBOptions, name: str) -> List[str]:
@@ -28,8 +13,7 @@ def _get_locations_for_region(options: BfBBOptions, name: str) -> List[str]:
         result += [k for k in spat_location_table if f"{LevelNames.hub}:" in k]
     if name == RegionNames.b3:
         result += [LocationNames.credits]
-    if options.include_socks.value:
-        result += [k for k in sock_location_table if f"{name}:" in k]
+    result += [k for k in sock_location_table if f"{name}:" in k]
     if options.include_skills.value:
         result += [k for k in skill_location_table if f"{name}:" in k]
     if options.include_golden_underwear.value and "Hub" in name:
@@ -101,22 +85,3 @@ exit_table: Dict[str, List[str]] = {
     RegionNames.db05: [ConnectionNames.db05_db01],
     RegionNames.b3: [ConnectionNames.b3_cb]
 }
-
-
-def create_regions(world: MultiWorld, options: BfBBOptions, player: int):
-    # create regions
-    world.regions += [
-        create_region(world, player, k, _get_locations_for_region(options, k), v) for k, v in exit_table.items()
-    ]
-
-    # connect regions
-    world.get_entrance(ConnectionNames.start_game, player).connect(world.get_region(RegionNames.pineapple, player))
-    for k, v in exit_table.items():
-        if k == RegionNames.menu:
-            continue
-        for _exit in v:
-            exit_regions = _exit.split('->')
-            assert len(exit_regions) == 2
-            # ToDo: warp rando
-            target = world.get_region(exit_regions[1], player)
-            world.get_entrance(_exit, player).connect(target)

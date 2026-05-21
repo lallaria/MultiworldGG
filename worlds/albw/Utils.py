@@ -23,17 +23,19 @@ def setup_lib():
                     else:
                         os.remove(fullpath)
 
+    # clean up old temp directories
+    for directory in os.listdir(tempfile.gettempdir()):
+        if directory.startswith("albwrandomizer"):
+            path = os.path.join(tempfile.gettempdir(), directory)
+            if os.path.exists(os.path.join(path, "cleanup-tag")):
+                shutil.rmtree(path)
+
     apworld_path = os.path.dirname(os.path.dirname(__file__))
     if apworld_path.endswith(".apworld"):
         with zipfile.ZipFile(apworld_path, "r") as apworld:
-            ident = random.randrange(0, 1000000000)
-            tmp_path = os.path.join(tempfile.gettempdir(), f"albwrandomizer_{ident}")
-            while os.path.exists(tmp_path):
-                ident = random.randrange(0, 1000000000)
-                tmp_path = os.path.join(tempfile.gettempdir(), f"albwrandomizer_{ident}")
+            tmp_path = tempfile.mkdtemp(prefix="albwrandomizer")
             atexit.register(cleanup_lib)
             try:
-                os.mkdir(tmp_path)
                 randomizer_path = os.path.join(tmp_path, "albwrandomizer")
                 if not os.path.exists(randomizer_path):
                     os.mkdir(randomizer_path)
@@ -55,4 +57,8 @@ def cleanup_lib():
     global tmp_path
 
     if os.path.exists(tmp_path):
-        shutil.rmtree(tmp_path)
+        try:
+            shutil.rmtree(tmp_path)
+        except Exception:
+            with open(os.path.join(tmp_path, "cleanup-tag"), "w") as file:
+                pass

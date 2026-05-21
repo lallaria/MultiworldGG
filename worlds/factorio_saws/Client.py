@@ -244,7 +244,7 @@ class FactorioContext(CommonContext):
     def toggle_bridge_chat_out(self) -> None:
         self.bridge_chat_out = not self.bridge_chat_out
         if self.bridge_chat_out:
-            announcement = "Chat is now bridged to {apname}."
+            announcement = f"Chat is now bridged to {apname}."
         else:
             announcement = f"Chat is no longer bridged to {apname}."
         logger.info(announcement)
@@ -395,7 +395,7 @@ async def factorio_server_watcher(ctx: FactorioContext):
                                                                timeout=5)
                     if not ctx.server:
                         logger.info("Established bridge to Factorio Server. "
-                                    "Ready to connect to {apname} via /connect")
+                                    f"Ready to connect to {apname} via /connect")
                         check_stdin()
 
                 if not ctx.awaiting_bridge and "Archipelago Bridge Data available for game tick " in msg:
