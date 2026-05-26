@@ -13,27 +13,28 @@ from .Enum import SuitUpgrade
 LIBS: dict[str, dict[str, dict[str, str]|str]] = {
     'py_randomprime': {
         'links': {
-            'windows': 'https://files.pythonhosted.org/packages/fa/89/b6dd90d0bd497df20553d1e0a905ff46362eaca5fc8efd880df46c2680a0/py_randomprime-1.30.4-cp39-abi3-win_amd64.whl',
-            'linux': 'https://files.pythonhosted.org/packages/e5/c1/5cffd929774844a0ef4f045b643b69c8ff76f3b7d764d17d161fd9655a51/py_randomprime-1.30.4-cp39-abi3-manylinux_2_28_x86_64.whl',
-            'darwin-arm': 'https://files.pythonhosted.org/packages/7e/fd/5eefa606627e01bc2d9af12514aaca09fbcb4484603167ed179cc82b0e43/py_randomprime-1.30.4-cp39-abi3-macosx_11_0_arm64.whl',
-            'darwin-intel': 'https://files.pythonhosted.org/packages/86/35/405fb4faec0e4c823c8eac7371d684ea0526c4ec86f776ecfd2aa9c02ea0/py_randomprime-1.30.4-cp39-abi3-macosx_10_12_x86_64.whl',
+            'windows': 'https://files.pythonhosted.org/packages/10/02/db0f939d37c95a91aed5cb7c28e7b2f4bc71b63a49be2a1ea4d23e3a713b/py_randomprime-1.31.1-cp310-abi3-win_amd64.whl',
+            'linux': 'https://files.pythonhosted.org/packages/3b/a8/84953c96781ff7e1b6d03d560b708d128d1fcca5260965df2f7fa92df428/py_randomprime-1.31.1-cp310-abi3-manylinux_2_28_x86_64.whl',
+            'darwin-arm': 'https://files.pythonhosted.org/packages/6f/db/c5ae06636f6b8ddfadbe99fb40e0fc144a9f86638b8e2c47220d8bd9db17/py_randomprime-1.31.1-cp310-abi3-macosx_11_0_arm64.whl',
+            'darwin-intel': 'https://files.pythonhosted.org/packages/0a/21/e2e294b2728174a2d6f1a9c271963ab5eb6f43fd9f6270ad7e2094ece3de/py_randomprime-1.31.1-cp310-abi3-macosx_10_12_x86_64.whl',
         },
-        'version': '1.30.4',
+        'version': '1.31.1',
     },
     'ppc_asm': {
         'links': {
-            ope_sys: 'https://files.pythonhosted.org/packages/9d/35/d136daa215d40662a254597d109b9f601096d6178197295417e958e3d0c3/ppc_asm-1.6.1-py3-none-any.whl'
+            ope_sys: 'https://files.pythonhosted.org/packages/3e/4c/c2eed780f32fc5b77c5b6c33bdf1792dc362e838f2bb3491dd486a329ecc/ppc_asm-1.9.0-py3-none-any.whl'
             for ope_sys in ['windows', 'linux', 'darwin-arm', 'darwin-intel']
         },
-        'version': '1.6.1',
+        'version': '1.9.0',
     }
 }
 
 
 def setup_libs():
     """Downloads the libraries if they are not present."""
-    import shutil
+    import glob
     import requests
+    import shutil
     import zipfile
     import Utils
 
@@ -70,8 +71,9 @@ def setup_libs():
             # delete if it already exists
             if os.path.isdir(full_lib_path):
                 shutil.rmtree(full_lib_path)
-            if os.path.isdir(f"{full_lib_path}-*.dist-info"):
-                shutil.rmtree(f"{full_lib_path}-*.dist-info")
+            for f in glob.glob(f'{full_lib_path}-*.dist-info'):
+                if os.path.isdir(f):
+                    shutil.rmtree(f)
 
             if not Utils.is_frozen():
                 import subprocess
@@ -92,6 +94,12 @@ def setup_libs():
                     r.raise_for_status()
                     z = zipfile.ZipFile(io.BytesIO(r.content))
                     z.extractall(lib_path)
+
+
+def get_output_path(apmp1_file: str) -> str:
+    """Returns the output folder for the given apmp1_file."""
+    base_name = os.path.splitext(apmp1_file)[0]
+    return f'{base_name}.iso'
 
 
 def get_apworld_version():

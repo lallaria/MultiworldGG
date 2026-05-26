@@ -208,7 +208,7 @@ location_data_table: Dict[str, HereComesNikoLocationData] = {
     "Bathhouse - Kiosk": HereComesNikoLocationData(region="Bathhouse", id=base_id + 175, location_group="Kiosk"),
 
     # Achievements
-    "Achievement - Frog Fan": HereComesNikoLocationData(region="Tadpole HQ", id=base_id + 176, can_create=lambda options: options.enable_achievements.value != 2),
+    "Achievement - Frog Fan": HereComesNikoLocationData(region="Home", id=base_id + 176, can_create=lambda options: options.enable_achievements.value != 2),
     "Achievement - Employee Of The Month!": HereComesNikoLocationData(region="Home", id=base_id + 177, can_create=lambda options: options.enable_achievements.value != 2 and options.goal_completion.value != 1),
     "Achievement - Bottled Up": HereComesNikoLocationData(region="Bathhouse", id=base_id + 178, can_create=lambda options: options.enable_achievements.value != 2),
     "Achievement - Snail Fashion Show": HereComesNikoLocationData(region="Tadpole HQ", id=base_id + 179, can_create=lambda options: options.enable_achievements.value == 0),

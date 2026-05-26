@@ -11,7 +11,7 @@
   - [Gopher64](https://github.com/gopher64/gopher64) (Windows/Linux)
   - [ares](https://ares-emu.net/) (Windows/Linux)
   - [RetroArch](https://www.retroarch.com/?page=platforms) (funktioniert auch auf MacOS) 
-- Der integrierte Ocarina of Time Client, welcher mit [MultiworldGG](https://github.com/MultiworldGG/MultiworldGG/releases) installiert
+- Der integrierte MultiworldGG Ocarina of Time Client, welcher [hier](https://github.com/MultiworldGG/MultiworldGG/releases) installiert
   werden kann.
 - Falls du AP nutzen willst: Die neueste Version der APWorld von [hier](https://github.com/TreZc0/OoTR-APWorld/releases)
 - Eine `Ocarina of Time v1.0 NTSC-U oder NTSC-J ROM`. (Nicht aus Europa und keine Master-Quest oder Debug-Rom!)
@@ -71,8 +71,13 @@ und klicke dann auf `Download Patch File...`.
 Führe die `.apz5`-Datei mit einem Doppelklick aus, um deinen Ocarina Of Time-Client zu starten, sowie das patchen
 deiner ROM. Ist dieser Prozess fertig (kann etwas dauern), startet sich der Client und der Emulator automatisch
 (sofern das "Öffnen mit..." ausgewählt wurde).
+Alternativ kannst du den `Ocarina of Time Adjuster` vom Launcher aus nutzen, um viele Visuals und Soundeinstellungen anzupassen, wie eigene Musik, Models, Farben, usw.
+Nach dem Patch Vorgang im Adjuster wird der Client automatisch gestartet.
+
 Wenn du einen bestimmten Emulator automatisch starten möchtest, setze `oot_options.emulator_path` in deiner `host.yaml`
 auf die Emulator-Anwendung. Lasse den Wert leer, um beim ersten Aufruf nach einem Pfad gefragt zu werden.
+
+
 ### Verbinde zum Multiserver
 
 Sind einmal der Client und der Emulator gestartet, verbindet sich der OoT-Client automatisch mit der geladenen ROM.

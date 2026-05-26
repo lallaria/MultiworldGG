@@ -1,12 +1,11 @@
 import json
-import os
 import pkgutil
 from enum import Enum
 from functools import cache
 
 from .constants.game_data import character_widths
 from .mf.constants.game_data import file_screen_text_ptrs
-from .mf.data import get_data_path
+from .mf.data import get_relative_data_path
 from .rom import Region, Rom
 
 SPACE_CHAR = 0x40
@@ -23,8 +22,12 @@ VALUE_MARKUP_TAG = {
     "STOP_SOUND": (0xA000, 12),
     "WAIT": (0xE100, 8),
 }
+ADAM = 0xE200
+SAMUS = 0xE201
+FEDERATION = 0xE202
 BREAKING_CHARS = {SPACE_CHAR, NEXT, NEWLINE}
 NEWLINE_CHARS = {NEXT, NEWLINE}
+SPEAKER_CHARS = {ADAM, FEDERATION, SAMUS}
 
 KANJI_START = 0x4A0
 KANJI_WIDTH = 10
@@ -55,7 +58,7 @@ class MessageType(Enum):
 
 @cache
 def get_char_map(region: Region) -> dict[str, int]:
-    path = os.path.join("mf", "data", "char_map_mf.json")
+    path = get_relative_data_path(__file__, "char_map_mf.json")
     sections = json.loads(pkgutil.get_data(__name__, path).decode())
     char_map: dict[str, int] = {}
     for section in sections:
@@ -100,7 +103,7 @@ def center_text(rom: Rom, char_vals: list[int], max_width: int) -> None:
         line_width += get_char_width(rom, char_widths_addr, char_val)
         if char_val in NEWLINE_CHARS or index == len(char_vals):
             if line_width > 0:
-                assert line_width <= max_width
+                assert line_width <= max_width, "Line exceeds maximum width"
                 space_val = SPACE_TAG + (max_width - line_width) // 2
                 char_vals.insert(line_start, space_val)
                 index += 1
@@ -114,12 +117,13 @@ def encode_text(
     string: str,
     max_width: int = MAX_LINE_WIDTH,
     centered: bool = False,
-) -> list[int]:
+) -> bytes:
     char_map = get_char_map(rom.region)
     char_widths_addr = character_widths(rom)
     text: list[int] = []
     line_width = 0
     line_number = 0
+    current_speaker = ADAM
 
     prev_break: int | None = None
     width_since_break = 0
@@ -149,17 +153,21 @@ def encode_text(
                         # Check if normal markup tag
                         char_val = char_map.get(f"[{tag_str}]")
                         if char_val is None:
-                            char_val = char_map["?"]
-                            # raise ValueError(f"Invalid markup tag '{tag_str}'")
-                    if char_val in NEWLINE_CHARS:
+                            raise ValueError(f"Invalid markup tag '{tag_str}'")
+
+                    did_speaker_change = False
+                    if char_val in SPEAKER_CHARS and char_val != current_speaker:
+                        did_speaker_change = True
+                        current_speaker = char_val
+
+                    if char_val in NEWLINE_CHARS or did_speaker_change:
                         prev_break = len(text)
                         width_since_break = 0
                         line_width = 0
-                        if char_val == NEXT:
+                        if char_val == NEXT or did_speaker_change:
                             line_number = 0
                         else:
                             line_number += 1
-
                     text.append(char_val)
                     markup_tag = None
                 else:
@@ -169,10 +177,7 @@ def encode_text(
         else:
             escaped = False
 
-        try:
-            char_val = char_map[char]
-        except KeyError:
-            char_val = char_map["?"]
+        char_val = char_map.get(char, char_map["?"])
         char_width = get_char_width(rom, char_widths_addr, char_val)
         line_width += char_width
         width_since_break += char_width
@@ -232,7 +237,12 @@ def encode_text(
         text.append(NEWLINE)
 
     text.append(END)
-    return text
+
+    text_bytes = bytearray()
+    for val in text:
+        text_bytes.append(val & 0xFF)
+        text_bytes.append(val >> 8)
+    return bytes(text_bytes)
 
 
 def write_seed_hash(rom: Rom, seed_hash: str) -> None:

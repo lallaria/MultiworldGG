@@ -76,9 +76,11 @@ class GossipStone:
 
 class GossipText:
     def __init__(self, text: str, colors: Optional[list[str]] = None, hinted_locations: Optional[list[str]] = None,
-                 hinted_items: Optional[list[str]] = None, prefix: str = "They say that ") -> None:
+                 hinted_items: Optional[list[str]] = None, prefix: str = "They say that ",
+                 capitalize: bool = True) -> None:
         text = prefix + text
-        text = text[:1].upper() + text[1:]
+        if capitalize:
+            text = text[:1].upper() + text[1:]
         self.text: str = text
         self.colors: Optional[list[str]] = colors
         self.hinted_locations: Optional[list[str]] = hinted_locations
@@ -142,9 +144,12 @@ gossipLocations_reversemap: dict[str, int] = {
 
 def get_item_generic_name(item: Item) -> str:
     if getattr(item, "unshuffled_dungeon_item", False):
-        return item.type
+        return getattr(item, "type", item.name)
     else:
         return item.name
+    
+def get_item_type(item: Item) -> Optional[str]:
+    return getattr(item, 'type', None)
 
 
 def get_item_hint_text(item: Item, world: 'OOTWorld') -> str:
@@ -463,15 +468,16 @@ class HintArea(Enum):
             else:
                 parent_region = current_spot.parent_region
 
-            if parent_region.hint and (original_parent.name == 'Root' or parent_region.name != 'Root'):
-                if use_alt_hint and parent_region.alt_hint:
+            parent_hint = getattr(parent_region, 'hint', None)
+            if parent_hint and (original_parent.name == 'Root' or parent_region.name != 'Root'):
+                if use_alt_hint and getattr(parent_region, 'alt_hint', None):
                     return parent_region.alt_hint
-                return parent_region.hint
+                return parent_hint
 
             for entrance in parent_region.entrances:
                 if entrance not in already_checked:
                     # prioritize two-way entrances
-                    if entrance.type in ('OverworldOneWay', 'OwlDrop', 'Spawn', 'WarpSong'):
+                    if getattr(entrance, 'type', None) in ('OverworldOneWay', 'OwlDrop', 'Spawn', 'WarpSong'):
                         fallback_spot_queue.append(entrance)
                     else:
                         spot_queue.append(entrance)
@@ -534,7 +540,8 @@ class HintArea(Enum):
 
     # Formats the hint text for this area with proper grammar.
     # Dungeons are hinted differently depending on the clearer_hints setting.
-    def text(self, clearer_hints: bool, preposition: bool = False, world: Optional[int] = None) -> str:
+    def text(self, clearer_hints: bool, preposition: bool = False, use_2nd_person: bool = False,
+             world: Optional[int] = None) -> str:
         if self.is_dungeon and self.dungeon_name:
             text = get_hint(self.dungeon_name, clearer_hints).text
         else:
@@ -542,7 +549,10 @@ class HintArea(Enum):
         prefix, suffix = text.replace('#', '').split(' ', 1)
         if world is None:
             if prefix == "Link's":
-                text = f"@'s {suffix}"
+                if use_2nd_person:
+                    text = f'your {suffix}'
+                else:
+                    text = f"@'s {suffix}"
         else:
             replace_prefixes = ('a', 'an', 'the')
             move_prefixes = ('outside', 'inside')
@@ -783,7 +793,10 @@ def get_barren_hint(world: 'OOTWorld', checked: set[str], all_checked: set[str])
 
     area_weights = [world.empty_areas[area]['weight'] for area in areas]
 
-    area = random.choices(areas, weights=area_weights)[0]
+    if sum(area_weights) > 0:
+        area = random.choices(areas, weights=area_weights)[0]
+    else:
+        area = random.choice(areas)
     if world.empty_areas[area]['dungeon']:
         world.barren_dungeon += 1
 
@@ -978,7 +991,7 @@ def get_specific_item_hint(world: 'OOTWorld', checked: set[str]) -> HintReturn:
 def get_random_location_hint(world: 'OOTWorld', checked: set[str]) -> HintReturn:
     locations = list(filter(lambda location:
         not is_checked([location], checked)
-        and location.item.type not in ('Drop', 'Event', 'Shop', 'DungeonReward')
+        and get_item_type(location.item) not in ('Drop', 'Event', 'Shop', 'DungeonReward')
         and not is_restricted_dungeon_item(location.item, world)
         and not location.locked
         and location.name not in world.hint_exclusions
@@ -1196,6 +1209,7 @@ def get_important_check_hint(world: 'OOTWorld', checked: set[str]) -> HintReturn
     for location in locations:
         region = HintArea.at(location).text(world.clearer_hints)
         if region == hint_loc:
+            item_type = get_item_type(location.item)
             if (is_major_item(location.item)
                 # exclude locked items
                 and not location.locked
@@ -1206,11 +1220,11 @@ def get_important_check_hint(world: 'OOTWorld', checked: set[str]) -> HintReturn
                 or location.item.name == 'Biggoron Sword'
                 or location.item.name == 'Double Defense'
                 # Handle make keys not in own dungeon major items
-                or (location.item.type in ('SmallKey', 'SmallKeyRing') and not (world.shuffle_smallkeys == 'dungeon' or world.shuffle_smallkeys == 'vanilla'))
-                or (location.item.type in ('HideoutSmallKey', 'HideoutSmallKeyRing') and not world.shuffle_hideoutkeys == 'vanilla')
-                or (location.item.type in ('TCGSmallKey', 'TCGSmallKeyRing') and not world.shuffle_tcgkeys == 'vanilla')
-                or (location.item.type == 'BossKey' and not (world.shuffle_bosskeys == 'dungeon' or world.shuffle_bosskeys == 'vanilla'))
-                or (location.item.type == 'GanonBossKey' and not (world.shuffle_ganon_bosskey == 'vanilla'
+                or (item_type in ('SmallKey', 'SmallKeyRing') and not (world.shuffle_smallkeys == 'dungeon' or world.shuffle_smallkeys == 'vanilla'))
+                or (item_type in ('HideoutSmallKey', 'HideoutSmallKeyRing') and not world.shuffle_hideoutkeys == 'vanilla')
+                or (item_type in ('TCGSmallKey', 'TCGSmallKeyRing') and not world.shuffle_tcgkeys == 'vanilla')
+                or (item_type == 'BossKey' and not (world.shuffle_bosskeys == 'dungeon' or world.shuffle_bosskeys == 'vanilla'))
+                or (item_type == 'GanonBossKey' and not (world.shuffle_ganon_bosskey == 'vanilla'
                     or world.shuffle_ganon_bosskey == 'dungeon' or world.shuffle_ganon_bosskey == 'on_lacs'
                     or world.shuffle_ganon_bosskey == 'stones' or world.shuffle_ganon_bosskey == 'medallions'
                     or world.shuffle_ganon_bosskey == 'dungeons' or world.shuffle_ganon_bosskey == 'tokens'))):
@@ -1363,6 +1377,7 @@ def build_gossip_hints(worlds: list['OOTWorld']) -> None:
 def build_world_gossip_hints(world: 'OOTWorld', checked_locations: Optional[set[str]] = None) -> None:
     world.barren_dungeon = 0
     world.woth_dungeon = 0
+    hint_exclusions(world, clear_cache=True)
 
     # TODO: Implement proper reachability check using AP's CollectionState
     # For now, make all gossip stones reachable (matches old AP behavior)

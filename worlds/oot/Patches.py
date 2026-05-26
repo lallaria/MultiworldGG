@@ -23,7 +23,7 @@ except ImportError:
 
 from .Messages import read_messages, update_message_by_id, read_shop_items, update_warp_song_text, \
         write_shop_items, remove_unused_messages, make_player_message, \
-        add_item_messages, repack_messages, shuffle_messages, \
+        add_item_messages, update_map_compass_messages, repack_messages, shuffle_messages, \
         get_message_by_id, Text_Code
 from .MQ import patch_files, File, update_dmadata, insert_space, add_relocations
 from .Rom import Rom
@@ -80,6 +80,7 @@ def patch_rom(world, rom):
             address, value = [int(x, 16) for x in line.split(',')]
             rom.write_int32(address, value)
     rom.scan_dmadata_update()
+    patch_inexact_collectible_shortcuts(rom)
 
     # Write Randomizer title screen logo
     with open(data_path('title.bin'), 'rb') as stream:
@@ -1075,7 +1076,7 @@ def patch_rom(world, rom):
     if world.auto_equip_masks:
         rom.write_byte(rom.sym('CFG_MASK_AUTOEQUIP'), 0x01)
 
-    if world.shuffle_child_trade == 'skip_child_zelda':
+    if world.skip_child_zelda:
         save_context.give_item(world, 'Zeldas Letter')
         # AP forces this item to be local so it can always be given to the player. Usually it's a song so it's no problem.
         item = world.get_location('Song from Impa').item
@@ -1540,12 +1541,9 @@ def patch_rom(world, rom):
     if world.shuffle_freestanding_items:
     # Get freestanding item locations
         actor_override_locations = [location for location in world.get_locations() if location.disabled == DisableType.ENABLED and location.type == 'ActorOverride']
-        rupeetower_locations = [location for location in world.get_locations() if location.disabled == DisableType.ENABLED and location.type == 'RupeeTower']
 
         for location in actor_override_locations:
             patch_actor_override(location, rom)
-        for location in rupeetower_locations:
-            patch_rupee_tower(location, rom)
 
     # Write flag table data
     xflags_tables, alt_list = build_xflags_from_world(world)
@@ -1771,6 +1769,14 @@ def patch_rom(world, rom):
     rom.write_int32(0x2DD802C, 0x03006A40)
     rom.write_int16s(0x2DDEA40, list(shop_objs))
 
+    # mask shop
+    shop_objs = place_shop_items(rom, world, shop_items, messages,
+        list(filter(lambda loc: loc.type == 'MaskShop', world.get_region('Market Mask Shop Storefront').locations)))
+    shop_objs |= {0x013E, 0x00B2, 0x0111, 0x00C5, 0x0165} # Shop objects
+    rom.write_byte(0x340A029, len(shop_objs))
+    rom.write_int32(0x340A02C, 0x0300D400)
+    rom.write_int16s(0x3417400, list(shop_objs))
+
     # Scrub text stuff.
     def update_scrub_text(message, text_replacement, default_price, price, item_name=None):
         scrub_strip_text = ["some ", "1 piece   ", "5 pieces   ", "30 pieces   "]
@@ -1880,7 +1886,7 @@ def patch_rom(world, rom):
     if hasattr(world, 'adult_trade_shuffle') and world.adult_trade_shuffle:
         rom.write_byte(rom.sym('CFG_ADULT_TRADE_SHUFFLE'), 0x01)
         move_fado_in_lost_woods(rom)
-    if hasattr(world, 'shuffle_child_trade') and world.shuffle_child_trade != 'vanilla':
+    if hasattr(world, 'shuffle_child_trade') and (world.shuffle_child_trade or world.logic_rules == 'advanced'):
         rom.write_byte(rom.sym('CFG_CHILD_TRADE_SHUFFLE'), 0x01)
 
     if world.shuffle_silver_rupees != 'vanilla':
@@ -2047,69 +2053,7 @@ def patch_rom(world, rom):
 
     # give dungeon items the correct messages
     add_item_messages(messages, shop_items, world)
-    enhance_map_mq = 'map_mq' in world.enhance_map_compass
-    enhance_compass_reward = 'compass_reward' in world.enhance_map_compass
-    if enhance_map_mq or enhance_compass_reward:
-        reward_list = {
-            'Kokiri Emerald':   "\x05\x42Kokiri Emerald\x05\x40",
-            'Goron Ruby':       "\x05\x41Goron Ruby\x05\x40",
-            'Zora Sapphire':    "\x05\x43Zora Sapphire\x05\x40",
-            'Forest Medallion': "\x05\x42Forest Medallion\x05\x40",
-            'Fire Medallion':   "\x05\x41Fire Medallion\x05\x40",
-            'Water Medallion':  "\x05\x43Water Medallion\x05\x40",
-            'Spirit Medallion': "\x05\x46Spirit Medallion\x05\x40",
-            'Shadow Medallion': "\x05\x45Shadow Medallion\x05\x40",
-            'Light Medallion':  "\x05\x44Light Medallion\x05\x40",
-        }
-        dungeon_list = {
-            #                      dungeon name                      boss name        compass map
-            'Deku Tree':          ("the \x05\x42Deku Tree",          'Queen Gohma',   0x62, 0x88),
-            'Dodongos Cavern':    ("\x05\x41Dodongo\'s Cavern",      'King Dodongo',  0x63, 0x89),
-            'Jabu Jabus Belly':   ("\x05\x43Jabu Jabu\'s Belly",     'Barinade',      0x64, 0x8a),
-            'Forest Temple':      ("the \x05\x42Forest Temple",      'Phantom Ganon', 0x65, 0x8b),
-            'Fire Temple':        ("the \x05\x41Fire Temple",        'Volvagia',      0x7c, 0x8c),
-            'Water Temple':       ("the \x05\x43Water Temple",       'Morpha',        0x7d, 0x8e),
-            'Spirit Temple':      ("the \x05\x46Spirit Temple",      'Twinrova',      0x7e, 0x8f),
-            'Ice Cavern':         ("the \x05\x44Ice Cavern",         None,            0x87, 0x92),
-            'Bottom of the Well': ("the \x05\x45Bottom of the Well", None,            0xa2, 0xa5),
-            'Shadow Temple':      ("the \x05\x45Shadow Temple",      'Bongo Bongo',   0x7f, 0xa3),
-        }
-        for dungeon in world.dungeon_mq:
-            if dungeon in ['Thieves Hideout', 'Gerudo Training Ground', 'Ganons Castle']:
-                pass
-            elif dungeon in ['Bottom of the Well', 'Ice Cavern']:
-                dungeon_name, boss_name, compass_id, map_id = dungeon_list[dungeon]
-                if world.multiworld.players > 1:
-                    map_message = "\x13\x76\x08\x05\x42\x0F\x05\x40 found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x09" % (dungeon_name)
-                else:
-                    map_message = "\x13\x76\x08You found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x01It\'s %s!\x09" % (dungeon_name, "masterful" if world.dungeon_mq[dungeon] else "ordinary")
-
-                if enhance_map_mq and (world.mq_dungeons_random or world.mq_dungeons_count != 0 and world.mq_dungeons_count != 12):
-                    update_message_by_id(messages, map_id, map_message)
-            else:
-                dungeon_name, boss_name, compass_id, map_id = dungeon_list[dungeon]
-                if world.multiworld.players > 1:
-                    compass_message = "\x13\x75\x08\x05\x42\x0F\x05\x40 found the \x05\x41Compass\x05\x40\x01for %s\x05\x40!\x09" % (dungeon_name)
-                elif world.entrance_rando_reward_hints:
-                    vanilla_reward = world.get_location(boss_name).vanilla_item
-                    vanilla_reward_location = world.multiworld.find_item(vanilla_reward, world.player) # hinted_dungeon_reward_locations[vanilla_reward.name]
-                    if vanilla_reward_location is None:
-                        area = HintArea.ROOT.text(world.hint_rng, world.clearer_hints, preposition=True)
-                    else:
-                        area = HintArea.at(vanilla_reward_location).text(world.hint_rng, world.clearer_hints, preposition=True)
-                    compass_message = "\x13\x75\x08You found the \x05\x41Compass\x05\x40\x01for %s\x05\x40!\x01The %s can be found\x01%s!\x09" % (dungeon_name, vanilla_reward, area)
-                else:
-                    boss_location = next(filter(lambda loc: loc.type == 'Boss', world.get_entrance(f'{dungeon} Boss Door -> {boss_name} Boss Room').connected_region.locations))
-                    dungeon_reward = reward_list[boss_location.item.name]
-                    compass_message = "\x13\x75\x08You found the \x05\x41Compass\x05\x40\x01for %s\x05\x40!\x01It holds the %s!\x09" % (dungeon_name, dungeon_reward)
-                if enhance_compass_reward:
-                    update_message_by_id(messages, compass_id, compass_message)
-                if enhance_map_mq and (world.mq_dungeons_random or world.mq_dungeons_count != 0 and world.mq_dungeons_count != 12):
-                    if world.multiworld.players > 1:
-                        map_message = "\x13\x76\x08\x05\x42\x0F\x05\x40 found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x09" % (dungeon_name)
-                    else:
-                        map_message = "\x13\x76\x08You found the \x05\x41Dungeon Map\x05\x40\x01for %s\x05\x40!\x01It\'s %s!\x09" % (dungeon_name, "masterful" if world.dungeon_mq[dungeon] else "ordinary")
-                    update_message_by_id(messages, map_id, map_message)
+    update_map_compass_messages(messages, world)
 
     # Set hints on the altar inside ToT
     rom.write_int16(0xE2ADB2, 0x707A)
@@ -2362,6 +2306,23 @@ def write_rom_item(rom, item_id, item):
     rom.write_bytes(addr, row_bytes)
 
 
+def patch_inexact_collectible_shortcuts(rom):
+    # Incoming AP junk uses EnItem00 when collectible is set. That is only safe
+    # when the native collectible grants the same action as the item table row.
+    native_collectible_actions = rom.read_bytes(rom.sym('items'), rom.sym_length('items'))
+    for item_id in range(rom.sym_length('item_table') // item_row_struct.size):
+        item = read_rom_item(rom, item_id)
+        collectible = item['collectible']
+        if collectible == 0xFF:
+            continue
+        if (
+            collectible >= len(native_collectible_actions) or
+            native_collectible_actions[collectible] != item['action_id']
+        ):
+            item['collectible'] = 0xFF
+            write_rom_item(rom, item_id, item)
+
+
 texture_struct = struct.Struct('>HBxxxxxII') # Match texture_t in textures.c
 texture_fields = ['texture_id', 'file_buf', 'file_vrom_start', 'file_size']
 
@@ -2497,6 +2458,8 @@ def get_override_entry(ootworld, location):
     elif location.type == 'GS Token':
         type = 3
     elif location.type == 'Shop' and not (isinstance(location.item, OOTItem) and location.item.type == 'Shop'):
+        type = 0
+    elif location.type == 'MaskShop' and location.vanilla_item in ootworld.shuffle_child_trade:
         type = 0
     elif location.type == 'GrottoScrub' and not (isinstance(location.item, OOTItem) and location.item.type == 'Shop'):
         type = 4
@@ -2749,10 +2712,16 @@ def create_fake_name(item_name):
 def place_shop_items(rom, world, shop_items, messages, locations, init_shop_id=False):
     if init_shop_id:
         world.current_shop_id = 0x32
+        world.shop_location_flags = {}
 
     shop_objs = { 0x0148 } # "Sold Out" object
     for location in locations:
-        if isinstance(location.item, OOTItem) and location.item.type == 'Shop':
+        selected_mask_shop_item = location.type == 'MaskShop' and location.vanilla_item in world.shuffle_child_trade
+        custom_shop_item = True
+        if (isinstance(location.item, OOTItem) and location.item.type == 'Shop') or (
+            location.type == 'MaskShop' and not selected_mask_shop_item
+        ):
+            custom_shop_item = False
             shop_objs.add(location.item.special['object'])
             rom.write_int16(location.address1, location.item.index)
         else:
@@ -2785,13 +2754,20 @@ def place_shop_items(rom, world, shop_items, messages, locations, init_shop_id=F
 
             shop_item.object = obj_id
             shop_item.model = model
-            shop_item.price = location.price
+            shop_item.price = 0 if location.type == 'MaskShop' else location.price
             shop_item.pieces = 1
             shop_item.get_item_id = location.default
             shop_item.func1 = 0x808648CC
             shop_item.func2 = 0x808636B8
             shop_item.func3 = 0x00000000
             shop_item.func4 = 0x80863FB4
+
+            if (not world.complete_mask_quest and
+              ((location.vanilla_item == 'Mask of Truth' and 'Mask of Truth' in world.shuffle_child_trade) or
+               ('mask_shop' in world.misc_hints and location.vanilla_item == 'Goron Mask' and 'Goron Mask' in world.shuffle_child_trade) or
+               ('mask_shop' in world.misc_hints and location.vanilla_item == 'Zora Mask' and 'Zora Mask' in world.shuffle_child_trade) or
+               ('mask_shop' in world.misc_hints and location.vanilla_item == 'Gerudo Mask' and 'Gerudo Mask' in world.shuffle_child_trade))):
+                shop_item.func2 = 0x80863714
 
             message_id = (shop_id - 0x32) * 2
             shop_item.description_message = 0x8100 + message_id
@@ -2808,10 +2784,10 @@ def place_shop_items(rom, world, shop_items, messages, locations, init_shop_id=F
                     split_item_name[0] = create_fake_name(split_item_name[0])
 
                 if len(world.multiworld.worlds) > 1: # OOTWorld.MultiWorld.AutoWorld[]
-                    description_text = '\x08\x05\x41%s  %d Rupees\x01%s\x01\x05\x42%s\x05\x40\x01Special deal! ONE LEFT!\x09\x0A\x02' % (split_item_name[0], location.price, split_item_name[1], rom_safe_text(world.multiworld.get_player_name(location.item.player)))
+                    description_text = '\x08\x05\x41%s  %d Rupees\x01%s\x01\x05\x42%s\x05\x40\x01Special deal! ONE LEFT!\x09\x0A\x02' % (split_item_name[0], shop_item.price, split_item_name[1], rom_safe_text(world.multiworld.get_player_name(location.item.player)))
                 else:
-                    description_text = '\x08\x05\x41%s  %d Rupees\x01%s\x01\x05\x40Special deal! ONE LEFT!\x01Get it while it lasts!\x09\x0A\x02' % (split_item_name[0], location.price, split_item_name[1])
-                purchase_text = '\x08%s  %d Rupees\x09\x01%s\x01\x1B\x05\x42Buy\x01Don\'t buy\x05\x40\x02' % (split_item_name[0], location.price, split_item_name[1])
+                    description_text = '\x08\x05\x41%s  %d Rupees\x01%s\x01\x05\x40Special deal! ONE LEFT!\x01Get it while it lasts!\x09\x0A\x02' % (split_item_name[0], shop_item.price, split_item_name[1])
+                purchase_text = '\x08%s  %d Rupees\x09\x01%s\x01\x1B\x05\x42Buy\x01Don\'t buy\x05\x40\x02' % (split_item_name[0], shop_item.price, split_item_name[1])
             else:
                 if item_display.game == "Ocarina of Time":
                     shop_item_name = getSimpleHintNoPrefix(item_display)
@@ -2823,16 +2799,21 @@ def place_shop_items(rom, world, shop_items, messages, locations, init_shop_id=F
 
                 if len(world.multiworld.worlds) > 1:
                     shop_item_name = rom_safe_text(shop_item_name)
-                    do_line_break = sum(character_table[char] for char in f"{shop_item_name}  {location.price} Rupees") > NORMAL_LINE_WIDTH
-                    description_text = '\x08\x05\x41%s%s%d Rupees\x01\x05\x42%s\x05\x40\x01Special deal! ONE LEFT!\x09\x0A\x02' % (shop_item_name, '\x01' if do_line_break else '  ', location.price, rom_safe_text(world.multiworld.get_player_name(location.item.player)))
+                    do_line_break = sum(character_table[char] for char in f"{shop_item_name}  {shop_item.price} Rupees") > NORMAL_LINE_WIDTH
+                    description_text = '\x08\x05\x41%s%s%d Rupees\x01\x05\x42%s\x05\x40\x01Special deal! ONE LEFT!\x09\x0A\x02' % (shop_item_name, '\x01' if do_line_break else '  ', shop_item.price, rom_safe_text(world.multiworld.get_player_name(location.item.player)))
                 else:
-                    description_text = '\x08\x05\x41%s  %d Rupees\x01\x05\x40Special deal! ONE LEFT!\x01Get it while it lasts!\x09\x0A\x02' % (shop_item_name, location.price)
-                purchase_text = '\x08%s  %d Rupees\x09\x01\x01\x1B\x05\x42Buy\x01Don\'t buy\x05\x40\x02' % (shop_item_name, location.price)
+                    description_text = '\x08\x05\x41%s  %d Rupees\x01\x05\x40Special deal! ONE LEFT!\x01Get it while it lasts!\x09\x0A\x02' % (shop_item_name, shop_item.price)
+                purchase_text = '\x08%s  %d Rupees\x09\x01\x01\x1B\x05\x42Buy\x01Don\'t buy\x05\x40\x02' % (shop_item_name, shop_item.price)
 
             update_message_by_id(messages, shop_item.description_message, description_text, 0x03)
             update_message_by_id(messages, shop_item.purchase_message, purchase_text, 0x03)
 
-        if any(filter(lambda c: c in location.name, {'5', '6', '7', '8'})):
+            world.shop_location_flags[location.name] = shop_id - 0x32
+
+        if location.type == 'MaskShop':
+            if custom_shop_item:
+                world.current_shop_id += 1
+        elif any(filter(lambda c: c in location.name, {'5', '6', '7', '8'})):
             world.current_shop_id += 1
 
     return shop_objs
@@ -3002,12 +2983,21 @@ def patch_actor_override(location, rom: Rom):
 # Patch rupee towers (circular patterns of rupees) to include their flag in their actor initialization data z rotation.
 # Also used for goron pot, shadow spinning pots
 def patch_rupee_tower(location, rom: Rom):
-    flag = location.default
     if(isinstance(location.default, tuple)):
-        room, scene_setup, flag = location.default
+        default = location.default
     elif isinstance(location.default, list):
-        room, scene_setup, flag = location.default[0]
-    flag = flag + (room << 8)
+        default = location.default[0]
+    else:
+        raise Exception(f"Location does not have compatible data for patch_rupee_tower: {location.name}")
+    if len(default) == 3:
+        room, scene_setup, flag = default
+    elif len(default) == 4:
+        room, scene_setup, flag, _subflag = default
+    else:
+        raise Exception(f"Location does not have compatible data for patch_rupee_tower: {location.name}")
+    if location.scene == 0x3E:
+        return
+    flag = flag | (room << 8) | (scene_setup << 14)
     if location.address1:
         for address in location.address1:
             rom.write_bytes(address + 12, flag.to_bytes(2, byteorder='big'))

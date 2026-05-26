@@ -237,7 +237,13 @@ region_excluded_destinations: Dict[str, List[str]] = {
     LocationName.twin_bridges_star_road: [],
     LocationName.forest_star_road: [],
     LocationName.valley_star_road: [],
-    LocationName.star_road_special: [],
+    LocationName.star_road_special: [
+        LocationName.star_road_donut,
+        LocationName.star_road_vanilla,
+        LocationName.star_road_twin_bridges,
+        LocationName.star_road_forest,
+        LocationName.star_road_valley,
+    ],
     LocationName.special_complete: [
         LocationName.special_star_road,
     ],
@@ -315,29 +321,6 @@ region_excluded_destinations_per_starting_location: Dict[int, Dict[str, List[str
     },
 }
 
-region_boss_token_additions = {
-    LocationName.yi_to_ysp: 0,
-    LocationName.yi_to_dp: 1,
-    LocationName.dp_to_vd: 1,
-    LocationName.tw_to_foi: 1,
-    LocationName.foi_to_ci: 0,
-    LocationName.foi_to_sr: 0,
-    LocationName.ci_to_vob: 1,
-    LocationName.donut_plains_star_road: 0,
-    LocationName.vanilla_dome_star_road: 0,
-    LocationName.twin_bridges_star_road: 0,
-    LocationName.forest_star_road: 1,
-    LocationName.valley_star_road: 0,
-    LocationName.star_road_special: 0,
-    LocationName.special_complete: 0,
-    LocationName.donut_plains_entrance_pipe: 0,
-    LocationName.valley_donut_entrance_pipe: 0,
-    LocationName.vanilla_dome_top_entrance_pipe: 0,
-    LocationName.vanilla_dome_bottom_entrance_pipe: 1,
-    LocationName.chocolate_island_entrance_pipe: 1,
-    LocationName.valley_chocolate_entrance_pipe: 0,
-}
-
 region_excluded_destinations_without_shuffled_pipes: Dict[str, List[str]] = {
         LocationName.yi_to_ysp: [
             LocationName.sr_from_foi,
@@ -368,13 +351,13 @@ def generate_entrance_rando(world: "WaffleWorld"):
     world.teleport_data = {**smw_teleport_data}
     
     local_mapping: Dict[str, str] = {}
+    local_region_mapping = {**region_mapping}
     starting_location = possible_starting_entrances[world.options.starting_location.value]
     next_exits = [starting_location]
     processed_exits = []
     used_exits = []
-    local_region_mapping = {**region_mapping}
 
-    if world.options.map_teleport_shuffle == "off" or not world.options.map_transition_shuffle:
+    if world.options.map_teleport_shuffle == "off" and not world.options.map_transition_shuffle:
         local_mapping = {**smw_pipe_pairs, **smw_star_pairs, **smw_transition_pairs}
         for entrance, exit in local_mapping.items():
             world.local_mapping[entrance] = exit
@@ -393,28 +376,6 @@ def generate_entrance_rando(world: "WaffleWorld"):
     local_excluded_destinations = {**region_excluded_destinations, **exclusions}
 
     prefilled_exits: Dict[str, str] = {}
-    boss_token_requirements = {
-        LocationName.yi_to_ysp: 11,
-        LocationName.yi_to_dp: 11,
-        LocationName.dp_to_vd: 11,
-        LocationName.tw_to_foi: 11,
-        LocationName.foi_to_ci: 11,
-        LocationName.foi_to_sr: 11,
-        LocationName.ci_to_vob: 11,
-        LocationName.donut_plains_star_road: 11,
-        LocationName.vanilla_dome_star_road: 11,
-        LocationName.twin_bridges_star_road: 11,
-        LocationName.forest_star_road: 11,
-        LocationName.valley_star_road: 11,
-        LocationName.star_road_special: 11,
-        LocationName.special_complete: 11,
-        LocationName.donut_plains_entrance_pipe: 11,
-        LocationName.valley_donut_entrance_pipe: 11,
-        LocationName.vanilla_dome_top_entrance_pipe: 11,
-        LocationName.vanilla_dome_bottom_entrance_pipe: 11,
-        LocationName.chocolate_island_entrance_pipe: 11,
-        LocationName.valley_chocolate_entrance_pipe: 11,
-    }
 
     #if world.options.exclude_special_zone:
     #    prefilled_exits[LocationName.star_road_special] = LocationName.special_star_road
@@ -472,7 +433,6 @@ def generate_entrance_rando(world: "WaffleWorld"):
     used_exits = list(prefilled_exits.values())
 
     swap_count = 0
-    reset_count = 0
 
     while len(processed_exits) != len(local_region_mapping.keys()):
         if len(next_exits) == 0:
@@ -488,9 +448,6 @@ def generate_entrance_rando(world: "WaffleWorld"):
                 processed_exits = []
                 used_exits = list(prefilled_exits.values())
                 swap_count = 0
-                if reset_count == 10:
-                    local_mapping = {**smw_pipe_pairs, **smw_star_pairs, **smw_transition_pairs}
-                    break
                 continue
             unreached_candidate = world.random.choice(unreached_exits)
             if "Transition - " in unreached_candidate:
@@ -549,8 +506,8 @@ def generate_entrance_rando(world: "WaffleWorld"):
                     if len(possible_exits) == 0:
                         continue
                     selected_exit = world.random.choice(possible_exits)
+                    local_mapping[entrance] = selected_exit
                 used_exits.append(selected_exit)
-                local_mapping[entrance] = selected_exit
                 next_exits.append(selected_exit)
 
             processed_exits.append(exit)
@@ -558,57 +515,30 @@ def generate_entrance_rando(world: "WaffleWorld"):
         # Reachabilty check
         if len(processed_exits) == len(local_region_mapping.keys()):
             remaining_exits = list(local_region_mapping.keys())
-            check_next_exits = [(starting_location, 0)]
-            processed_entrances = []
-            boss_tokens = 0
+            check_next_exits = [starting_location]
 
             while len(remaining_exits) != 0:
                 cache_exits = remaining_exits.copy()
-                for exit_data in check_next_exits:
-                    exit = exit_data[0]
-                    boss_tokens = exit_data[1]
+                for exit in check_next_exits:
                     if exit not in remaining_exits:
                         continue
                     remaining_exits.remove(exit)
-                    check_next_exits.remove(exit_data)
+                    check_next_exits.remove(exit)
+
                     for entrance in local_region_mapping[exit]:
                         if entrance not in local_mapping.keys():
                             continue
-                        if entrance not in processed_entrances:
-                            boss_tokens += region_boss_token_additions[entrance]
-                            boss_token_requirements[entrance] = min(boss_tokens, boss_token_requirements[entrance])
-                        processed_entrances.append(entrance)
-                        check_next_exits.append((local_mapping[entrance], boss_tokens))
+                        check_next_exits.append(local_mapping[entrance])
                     
                 if len(cache_exits) == len(remaining_exits) and len(cache_exits) != 0:
-                    # EMERGENCY SWAP
-                    # Marks isolated exits as unreachable
-                    processed_exits = [x for x in processed_exits if x not in remaining_exits]
-                    used_exits = [x for x in used_exits if x not in remaining_exits]
-                    emergency_list = [x for x in processed_exits if x not in prefilled_exits.values()]
-                    if len(emergency_list) == 0:
-                        local_mapping = {}
-                        for entrance, exit in prefilled_exits.items():
-                            local_mapping[entrance] = exit
-                        next_exits = [starting_location]
-                        processed_exits = []
-                        used_exits = list(prefilled_exits.values())
-                        break
-
-                    #if world.options.exclude_special_zone:
-                    #    emergency_list.remove(LocationName.special_star_road)
-                    #    emergency_list.remove(LocationName.yoshis_house_tile)
-                    emergency_swap = world.random.choice(emergency_list)
-                    processed_exits.remove(emergency_swap)
-                    if emergency_swap in used_exits:
-                        used_exits.remove(emergency_swap)
-                    for exit, entrances in local_region_mapping.items():
-                        if exit not in processed_exits:
-                            for entrance in entrances:
-                                if entrance not in local_mapping.keys():
-                                    continue
-                                value = local_mapping.pop(entrance)
-                                next_exits.append(value)
+                    # Reroll everything
+                    local_mapping = {}
+                    for entrance, exit in prefilled_exits.items():
+                        local_mapping[entrance] = exit
+                    next_exits = [starting_location]
+                    processed_exits = []
+                    used_exits = list(prefilled_exits.values())
+                    swap_count = 0
                     break
 
     for entrance, exit in local_mapping.items():
@@ -621,8 +551,6 @@ def generate_entrance_rando(world: "WaffleWorld"):
 
     for exit, entrance in local_region_mapping.items():
         world.local_region_mapping[exit] = entrance
-
-    world.boss_token_requirements = {**boss_token_requirements}
 
 
 SILENT_EVENT_ADDR = 0x88933

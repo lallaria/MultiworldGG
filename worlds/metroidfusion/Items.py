@@ -29,8 +29,19 @@ for item in all_item_data:
     item_table[item[0]] = ItemData(item[0], item[1], item[2], item[3])
 
 item_names = [item for item in item_table.keys()]
+placeholder_names: set[str] = {"False Requirement Flag",
+                               "Wall Jump Boots",
+                               "Point of No Return",
+                               "Wall Jump Trick - Beginner",
+                               "Wall Jump Trick - Advanced",
+                               "Wall Jump Trick - Expert",
+                               "Shinespark Trick - Beginner",
+                               "Shinespark Trick - Advanced",
+                               "Shinespark Trick - Expert",
+                               "Combat - Advanced",
+                               "Combat - Expert"}
 
-valid_item_names = [*item_names, *[event[3] for event in events], "Wall Jump Boots"]
+valid_item_names = [*item_names, *[event[3] for event in events], *placeholder_names]
 
 # Everything not listed here has a quantity of one
 default_item_quantities = {

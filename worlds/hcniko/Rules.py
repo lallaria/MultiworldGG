@@ -42,20 +42,61 @@ def has_textbox(state: CollectionState, player, world, level):
         return True
 
 
+def has_contact_list(state: CollectionState, player, count: int):
+    return (state.has(f"Contact List {count}", player)
+        or state.has("Progressive Contact List", player, count))
+
+
+def can_swim(state: CollectionState, player, world, is_precise: bool = False):
+    return (world.options.swimming.value != 1
+            or (world.options.precisejumps.value == 1 and is_precise)
+            or state.has("Swim Course", player))
+
+
+def can_ac(state: CollectionState, player, world):
+    return (world.options.ac_repair.value != 1
+            or state.has("AC Repair", player))
+
+
+def can_parasol(state: CollectionState, player, world):
+    return (world.options.parasols.value != 1
+            or state.has("Parasol Repair", player))
+
+
+def can_soda(state: CollectionState, player, world):
+    return (world.options.soda_cans.value != 1
+            or state.has("Soda Repair", player))
+
+
+def can_bonk(state: CollectionState, player, world):
+    return (world.options.bonk_permit.value != 1
+            or state.has("Safety Helmet", player))
+
+
+def can_catch(state: CollectionState, player, world):
+    return (world.options.bug_catching.value != 1
+            or state.has("Bug Net", player))
+
+
+def can_collect(state: CollectionState, player, world):
+    return (world.options.applebasket.value != 1
+            or state.has("Apple Basket", player))
+
+
 def has_access_garden(state: CollectionState, player, world):
     access_option = world.options.access_garys_garden.value
     if access_option == 1:
         return (state.has("Gary's Garden Ticket", player)
                 and state.has("Tadpole HQ Ticket", player)
                 and (has_textbox(state, player, world, "Tadpole HQ"))
-                and (world.options.swimming.value != 1 or state.has("Swim Course", player)))
+                and can_swim(state, player, world))
     elif access_option == 2:
         return (state.has("Gary's Garden Ticket", player)
                 and (has_textbox(state, player, world, "Gary's Garden")))
     else:
         return (state.has("Tadpole HQ Ticket", player)
                 and (has_textbox(state, player, world, "Tadpole HQ"))
-                and (world.options.swimming.value != 1 or state.has("Swim Course", player)))
+                and can_swim(state, player, world))
 
 
 def has_party_ticket(state: CollectionState, player, world):
@@ -184,7 +225,8 @@ def get_region_rules(player, world):
         "Home -> Gary's Garden":
             lambda state: has_access_garden(state, player, world),
         "Tadpole HQ -> Home Party":
-            lambda state: has_enough_coins(state, player, world.kiosk_cost["Elevator"]),
+            lambda state: has_enough_coins(state, player, world.kiosk_cost["Elevator"])
+                          and has_textbox(state, player, world, "Tadpole HQ"),
         "Home -> ChatHome":
             lambda state: has_textbox(state, player, world, "Home"),
         "Home -> ChatParty":
@@ -340,7 +382,8 @@ def get_location_rules(player, world):
                           and state.has("Bathhouse Ticket", player)
                           and state.has("Tadpole HQ Ticket", player)
                           and has_enough_coins(state, player, world.kiosk_cost["Elevator"])
-                          and (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+                          and can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Achievement - Hopeless Romantic":
             lambda state: state.has("Hairball City Ticket", player)
                           and state.has("Turbine Town Ticket", player)
@@ -354,13 +397,9 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Bathhouse"),
         "Achievement - Volley Dreams":
             lambda state: has_all_tickets(state, player)
-                          and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
-                          and (options.swimming.value != 1
-                          or options.precisejumps.value == 1
-                          or state.has("Swim Course", player)),
+                          and has_contact_list(state, player, 1)
+                          and has_contact_list(state, player, 2)
+                          and can_swim(state, player, world, True),
         "Achievement - Snail Fashion Show":
             lambda state: has_all_tickets(state, player),
         "Turbine Town - Dustan on Wind Turbine":
@@ -371,24 +410,22 @@ def get_location_rules(player, world):
             lambda state: (state.has("Key", player, 7)
                           or state.has("Public Pool Key", player))
                           and has_textbox(state, player, world, "Public Pool")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Bathhouse - Poppy":
             lambda state: (state.has("Key", player, 7)
                           or state.has("Bathhouse Key", player, 2))
                           and has_textbox(state, player, world, "Bathhouse")
-                          and (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+                          and can_swim(state, player, world, True),
         "Tadpole HQ - Blippy":
             lambda state: (state.has("Key", player, 7)
                           or state.has("Tadpole HQ Key", player))
                           and has_textbox(state, player, world, "Tadpole HQ")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Hairball City - Above Frog Statue":
             lambda state: state.has("Key", player, 7)
                           or state.has("Hairball City Key", player)
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+                          and can_swim(state, player, world)
+                          and can_soda(state, player, world),
         "Salmon Creek Forest - Inside Locked Cave":
             lambda state: state.has("Key", player, 7)
                           or state.has("Salmon Creek Forest Key", player),
@@ -396,111 +433,89 @@ def get_location_rules(player, world):
             lambda state: state.has("Key", player, 7)
                           or state.has("Bathhouse Key", player, 2),
         "Salmon Creek Forest - Fish with Fischer":
-            lambda state: (state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                            and (options.fishsanity.value != 2 or state.has("Salmon Creek Forest Fish", player, 5))
                            and has_textbox(state, player, world, "Salmon Creek Forest")
-                           and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                           and can_swim(state, player, world),
         "Salmon Creek Forest - SPORTVIVAL":
-            lambda state: (state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
         "Hairball City - Nina":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                           and has_textbox(state, player, world, "Hairball City"),
         "Hairball City - Moomy":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                           and (options.seedsanity.value != 2 or state.has("Hairball City Seed", player, 10))
                           and has_textbox(state, player, world, "Hairball City"),
         "Hairball City - Game Kid":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Hairball City"),
         "Hairball City - Blippy Dog":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                           and (options.bonesanity.value != 2 or state.has("Hairball City Bone", player, 5))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+                          and can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Hairball City - Blippy":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Serschel & Louist":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Hairball City"),
         "Turbine Town - Blippy Dog":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                           and (options.bonesanity.value != 2 or state.has("Turbine Town Bone", player, 5))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+                          and can_swim(state, player, world)
+                          and can_parasol(state, player, world),
         "Turbine Town - Blippy":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_ac(state, player, world),
         "Turbine Town - Serschel & Louist":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Turbine Town")
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+                          and can_ac(state, player, world),
         "Salmon Creek Forest - Game Kid":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Salmon Creek Forest")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Blippy":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Serschel & Louist":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
         "Public Pool - SPORTVIVAL VOLLEY":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Public Pool")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Public Pool - Blessley":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Public Pool")
                           and (options.bug_catching.value != 1 or state.has("Bug Net", player)),
         "Public Pool - Little Gabi's Flowers":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and (options.flowersanity.value != 2 or state.has("Public Pool Flower", player, 3))
                           and has_textbox(state, player, world, "Public Pool"),
         "Bathhouse - Fish with Fischer":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                            and (options.fishsanity.value != 2 or state.has("Bathhouse Fish", player, 5))
                           and has_textbox(state, player, world, "Bathhouse")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Bathhouse - Blessley":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and has_textbox(state, player, world, "Bathhouse")
                           and (options.bug_catching.value != 1 or state.has("Bug Net", player)),
         "Bathhouse - Little Gabi's Flowers":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and (options.flowersanity.value != 2 or state.has("Bathhouse Flower", player, 3))
                           and has_textbox(state, player, world, "Bathhouse"),
         "Bathhouse - Blippy Dog":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and (options.bonesanity.value != 2 or state.has("Bathhouse Bone", player, 5))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+                          and can_swim(state, player, world)
+                          and can_parasol(state, player, world),
         "Bathhouse - Blippy":
             lambda state: (state.has("Key", player, 7)
-                          or state.has("Bathhouse Key", player, 2)) and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          or state.has("Bathhouse Key", player, 2)) and has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Dustan - Meeting First Time":
             lambda state: (has_access_to(state, player, "Hairball City - Dustan on Lighthouse")
                            or has_access_to(state, player, "Turbine Town - Dustan on Wind Turbine")
@@ -512,26 +527,22 @@ def get_location_rules(player, world):
                            or has_textbox(state, player, world, "Bathhouse")),
         # Cassette
         "Hairball City - Mitch":
-            lambda state: ((state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: (has_contact_list(state, player, 1)
                           and (has_enough_cassettes(state, player, world.cassette_cost["Hairball City - Mitch"])
                                or state.has("Hairball City Cassette", player, world.cassette_cost["Hairball City - Mitch"])))
                           and has_textbox(state, player, world, "Hairball City"),
         "Hairball City - Mai":
-            lambda state: ((state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: (has_contact_list(state, player, 1)
                           and (has_enough_cassettes(state, player, world.cassette_cost["Hairball City - Mai"])
                                or state.has("Hairball City Cassette", player, world.cassette_cost["Hairball City - Mai"])))
                           and has_textbox(state, player, world, "Hairball City"),
         "Turbine Town - Mitch":
-            lambda state: ((state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: (has_contact_list(state, player, 1)
                           and (has_enough_cassettes(state, player, world.cassette_cost["Turbine Town - Mitch"])
                                or state.has("Turbine Town Cassette", player, world.cassette_cost["Turbine Town - Mitch"])))
                           and has_textbox(state, player, world, "Turbine Town"),
         "Turbine Town - Mai":
-            lambda state: ((state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: (has_contact_list(state, player, 1)
                           and (has_enough_cassettes(state, player, world.cassette_cost["Turbine Town - Mai"])
                                or state.has("Turbine Town Cassette", player, world.cassette_cost["Turbine Town - Mai"])))
                           and has_textbox(state, player, world, "Turbine Town"),
@@ -540,16 +551,14 @@ def get_location_rules(player, world):
                                or state.has("Salmon Creek Forest Cassette", player, world.cassette_cost["Salmon Creek Forest - Mai"]))
                           and (state.has("Key", player, 7)
                                or state.has("Salmon Creek Forest Key", player))
-                          and (state.has("Contact List 1", player)
-                               or state.has("Progressive Contact List", player, 1)))
+                          and has_contact_list(state, player, 1))
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
         "Salmon Creek Forest - Mitch":
             lambda state: (has_enough_cassettes(state, player, world.cassette_cost["Salmon Creek Forest - Mitch"])
                                or state.has("Salmon Creek Forest Cassette", player, world.cassette_cost["Salmon Creek Forest - Mitch"]))
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
         "Public Pool - Mitch":
-            lambda state: ((state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2))
+            lambda state: (has_contact_list(state, player, 2)
                           and (has_enough_cassettes(state, player, world.cassette_cost["Public Pool - Mitch"])
                                or state.has("Public Pool Cassette", player, world.cassette_cost["Public Pool - Mitch"])))
                           and has_textbox(state, player, world, "Public Pool"),
@@ -583,61 +592,51 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Gary's Garden"),
         # Fish
         "Salmon Creek Forest - Bass":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 1)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Catfish":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 1)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Pike":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 1)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Salmon":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 1)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Trout":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 1)
+                          and can_swim(state, player, world),
         "Bathhouse - Anglerfish":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Bathhouse - Clione":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Bathhouse - Little Wiggly Guy":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Bathhouse - Jellyfish":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Bathhouse - Pufferfish":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_swim(state, player, world),
         "Hairball City - Fish with Fischer":
             lambda state: (options.fishsanity.value != 2 or state.has("Hairball City Fish", player, 5))
                           and has_textbox(state, player, world, "Hairball City")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Turbine Town - Fish with Fischer":
             lambda state: (options.fishsanity.value != 2 or state.has("Turbine Town Fish", player, 5))
                           and has_textbox(state, player, world, "Turbine Town")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Public Pool - Fish with Fischer":
             lambda state: (options.fishsanity.value != 2 or state.has("Public Pool Fish", player, 5))
                           and has_textbox(state, player, world, "Public Pool")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Tadpole HQ - Fish with Fischer":
             lambda state: (options.fishsanity.value != 2 or state.has("Tadpole HQ Fish", player, 5))
                           and has_textbox(state, player, world, "Tadpole HQ")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         # Snail Shop
         "Snail Shop - Bowtie":
             lambda state: has_tickets(state, player, 4),  # 10000$
@@ -672,63 +671,50 @@ def get_location_rules(player, world):
         "Snail Shop - Small Hat":
             lambda state: has_tickets(state, player, 1),  # 50$
         "Tadpole HQ - Ledge Above Elevator":
-            lambda state: has_enough_coins(state, player, world.kiosk_cost["Elevator"]),
+            lambda state: has_enough_coins(state, player, world.kiosk_cost["Elevator"])
+                          and has_textbox(state, player, world, "Tadpole HQ"),
         # Seedsanity
         "Hairball City - Seed By Nina":
             lambda state: state.has("Contact List 1", player)
                            or state.has("Progressive Contact List", player, 1),
         "Hairball City - Seed By Upper Flowerbed":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed On Top Of Lighthouse":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed On Top Of Palm Tree":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed By Train":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed By Wood Posts In Water":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed By Frog Of Destruction":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed By Frog Statue":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed By Mitch":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Seed By Turbine":
-            lambda state: state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1),
+            lambda state: has_contact_list(state, player, 1),
         "Salmon Creek Forest - Moomy":
             lambda state: (options.seedsanity.value != 2 or state.has("Salmon Creek Forest Seed", player, 10))
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
         "Bathhouse - Moomy":
             lambda state: (options.seedsanity.value != 2 or state.has("Bathhouse Seed", player, 10))
-                          and has_textbox(state, player, world, "Bathhouse"),
+                          and has_textbox(state, player, world, "Bathhouse")
+                          and can_ac(state, player, world),
         # Flowersanity
         "Public Pool - Left Flowerbed":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Public Pool - Middle Flowerbed":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Public Pool - Right Flowerbed":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Flowerbed By Gabi":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Flowerbed By Axolotl Family":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Flowerbed Above Axolotl Family":
-            lambda state: state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Little Gabi's Flowers":
             lambda state: (options.flowersanity.value != 2 or state.has("Hairball City Flower", player, 3))
                           and has_textbox(state, player, world, "Hairball City"),
@@ -745,17 +731,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 1":
             lambda state: (has_enough_cassettes(state, player, 1)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -767,17 +753,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 2":
             lambda state: (has_enough_cassettes(state, player, 2)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -789,17 +775,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 3":
             lambda state: (has_enough_cassettes(state, player, 3)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -811,17 +797,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 4":
             lambda state: (has_enough_cassettes(state, player, 4)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -833,17 +819,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 5":
             lambda state: (has_enough_cassettes(state, player, 5)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -855,17 +841,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 6":
             lambda state: (has_enough_cassettes(state, player, 6)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -877,17 +863,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 7":
             lambda state: (has_enough_cassettes(state, player, 7)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -899,17 +885,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 8":
             lambda state: (has_enough_cassettes(state, player, 8)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -921,17 +907,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 9":
             lambda state: (has_enough_cassettes(state, player, 9)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -943,17 +929,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 10":
             lambda state: (has_enough_cassettes(state, player, 10)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -965,17 +951,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 11":
             lambda state: (has_enough_cassettes(state, player, 11)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -987,17 +973,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 12":
             lambda state: (has_enough_cassettes(state, player, 12)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -1009,17 +995,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 13":
             lambda state: (has_enough_cassettes(state, player, 13)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -1031,17 +1017,17 @@ def get_location_rules(player, world):
         "Mitch/Mai - 14":
             lambda state: (has_enough_cassettes(state, player, 14)
                           and ((state.has("Hairball City Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Hairball City Textbox", player))
                           or (state.has("Turbine Town Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and options.textbox.value != 2 or state.has("Turbine Town Textbox", player))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                               and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1))
+                               and has_contact_list(state, player, 1)
                                and (state.has("Key", player, 7) or state.has("Salmon Creek Forest Key", player))
                                and options.textbox.value != 2 or state.has("Salmon Creek Forest Textbox", player))
                           or (state.has("Public Pool Ticket", player)
-                               and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
+                               and has_contact_list(state, player, 2)
                                and options.textbox.value != 2 or state.has("Public Pool Textbox", player))
                           or (state.has("Bathhouse Ticket", player)
                                and options.textbox.value != 2 or state.has("Bathhouse Textbox", player))
@@ -1052,38 +1038,38 @@ def get_location_rules(player, world):
                           and (options.textbox.value != 1 or state.has("Textbox", player)),
 
         "Hairball City - Apple On Frog Statue Island Pier 1":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Apple On Frog Statue Island Pier 2":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Apple On Frog Statue Island Pier 3":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Apple On Frog Statue Island Pier 4":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Apple On Frog Statue Island Pier 5":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Bug On Frog Statue Island 1":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Bug On Frog Statue Island 2":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Bug On Frog Statue Island 4":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Bug On Frog Statue Island 5":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Bug On Frog Statue Island 3":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
 
         "Salmon Creek Forest - Blippy Dog":
             lambda state: (options.bonesanity.value != 2 or state.has("Salmon Creek Forest Bone", player, 5))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+                          and can_swim(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Blippy Dog":
             lambda state: (options.bonesanity.value != 2 or state.has("Public Pool Bone", player, 5))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+                          and can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Tadpole HQ - Blippy Dog":
             lambda state: (options.bonesanity.value != 2 or state.has("Tadpole HQ Bone", player, 5))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+                          and can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Tadpole HQ - Blessley":
             lambda state: (has_textbox(state, player, world, "Tadpole HQ")
                           and (options.bug_catching.value != 1 or state.has("Bug Net", player))),
@@ -1097,403 +1083,385 @@ def get_location_rules(player, world):
             lambda state: (has_textbox(state, player, world, "Salmon Creek Forest")
                           and (options.bug_catching.value != 1 or state.has("Bug Net", player))),
         "Turbine Town - Shipping Container With Breakable Boxes":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_bonk(state, player, world),
         "Bathhouse - Breakable Box Inside Bathhouse Box":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_bonk(state, player, world),
         "Hairball City - Breakable Boxes Near Frog Of Destruction":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_bonk(state, player, world),
         "Salmon Creek Forest - Inside Boxes (Waterfall Cave)":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_bonk(state, player, world),
         "Public Pool - Breakable Boxes Near Frogtective":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_bonk(state, player, world)
+                          and can_swim(state, player, world),
         "Public Pool - Above Small Island":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player))
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_bonk(state, player, world)
+                          and can_ac(state, player, world),
         "Tadpole HQ - Breakable Boxes near Blessley":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_bonk(state, player, world),
 
         "Hairball City - Big Umbrella":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_parasol(state, player, world),
         "Turbine Town - Stone Pillar Behind Wind Turbine":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_parasol(state, player, world),
         "Turbine Town - Bug On Stone Pillar Behind Wind Turbine 1":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_parasol(state, player, world),
         "Turbine Town - Bug On Stone Pillar Behind Wind Turbine 2":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_parasol(state, player, world),
         "Salmon Creek Forest - Apple On Third Rock Cluster Near Building Submerged In Ocean 3":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_parasol(state, player, world)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Apple On Third Rock Cluster Near Building Submerged In Ocean 4":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_parasol(state, player, world)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Apple On Third Rock Cluster Near Building Submerged In Ocean 5":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_parasol(state, player, world)
+                          and can_swim(state, player, world),
         "Salmon Creek Forest - Apple On Third Rock Cluster Near Building Submerged In Ocean 6":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_parasol(state, player, world)
+                          and can_swim(state, player, world),
 
         "Public Pool - Far Away Island":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Far Away Island Left Side":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+            lambda state: can_soda(state, player, world),
         "Public Pool - Far Away Island Right Side":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Niko & 2D (Thought)":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 1":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 2":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 3":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 4":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 5":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 6":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 7":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 8":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 9":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 10":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 11":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 12":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 13":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 14":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 15":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 16":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 17":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 18":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 19":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 20":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 21":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 22":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 23":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Public Pool - Apple On Far Away Island 24":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_soda(state, player, world)
+                          and can_parasol(state, player, world),
         "Tadpole HQ - Big Tree Next To Louist":
-            lambda state: (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+            lambda state: can_soda(state, player, world),
 
         "Turbine Town - Near Fishing Containers":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Niko is a ninja (Thought)":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Fan to Fan":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 8":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 1":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 7":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 6":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 5":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 4":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 3":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Apple Near Dustan 2":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Seed On Lamp Near Office":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Seed In Office":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
         "Bathhouse - Seed By Serschel & Louist":
-            lambda state: (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: can_ac(state, player, world),
 
         "Achievement - Lost at Sea":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Behind The Train":
-            lambda state: (options.swimming.value != 1
-                          or options.precisejumps.value == 1
-                          or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Home - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Frog Statue Crown":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Moorish Idol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Not Nemo":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Eel":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Flying Fish":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Orange Fish":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Bone In Bush Ring":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Hairball City - Bone In Breakable Boxes On Left Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Hairball City - Bone On Back Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Hairball City - Bone On Right Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Hairball City - Bone Between Middle Buildings":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Hairball City - Bone Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Hairball City - Kappa (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Dog (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Dog 2 (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Niko admires a Frog Statue (Thought)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Nervous Frog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Hairball City - Next to Breakable Boxes Under Ramp":
-            lambda state: (options.swimming.value != 1
-                          or options.precisejumps.value == 1
-                          or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
 
         "Turbine Town - Albino Corydoras":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Turbine Town - Axolotl":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Turbine Town - Prianha":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Turbine Town - Mantaray":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Turbine Town - Sand Shrimp":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Turbine Town - Bone Above Big Parasol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and(state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and can_parasol(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Turbine Town - Bone On Edge Of Pig Parasol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and(state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and can_parasol(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Turbine Town - Bone Under Big Parasol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and(state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Turbine Town - Bone Above Back Parasol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and(state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Turbine Town - Bone Above Right Parasol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and(state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and can_parasol(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Turbine Town - Bone Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 1", player) or state.has("Progressive Contact List", player, 1)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 1),
         "Turbine Town - Dog 2 (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Turbine Town - Kappa (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_ac(state, player, world),
         "Turbine Town - Dog (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2))
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+            lambda state: has_contact_list(state, player, 2)
+                          and can_ac(state, player, world),
         "Turbine Town - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
 
         "Salmon Creek Forest - Beneath Pond":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bone On Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bone Above Parasol":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_parasol(state, player, world),
         "Salmon Creek Forest - Bone On Left Of Bone Dog":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bone On Right Of Bone Dog":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bone On Back Of Rock":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Woodisch (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Divin' Doe (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Niko & a rock (Thought)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Apple On Second Rock Cluster Near Building Submerged In Ocean 1":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Apple On Second Rock Cluster Near Building Submerged In Ocean 2":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Apple On Second Rock Cluster Near Building Submerged In Ocean 3":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bug On Second Rock Cluster Near Submerged Building In Ocean":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bug On Fourth Rock Cluster Near Submerged Building In Ocean":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bug Around Lower Pond 6":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bug Below Treehouse In Bushes 2":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bug On Third Rock Cluster Near Submerged Building In Ocean":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Salmon Creek Forest - Bone Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
 
         "Public Pool - Inside BIG Pool":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Inside Pool":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Bone In Breakable Boxes 1":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Public Pool - Bone In Breakable Boxes 2":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Public Pool - Bone In Breakable Boxes 3":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Public Pool - Bone In Breakable Boxes 4":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Public Pool - Bone In Breakable Boxes 5":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Public Pool - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Shark":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Squid":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Turtle":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Gramma Loreto":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Baby Crocodile":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Bone Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Public Pool - Britney (Chatsanity)":
-            lambda state: (options.swimming.value != 1
-                          or options.precisejumps.value == 1
-                          or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Public Pool - Niko, Pink Frog & King Frog (Thought)":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
 
         "Bathhouse - Bone Above Middle Bathhouse":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: can_swim(state, player, world)
+                          and can_parasol(state, player, world)
+                          and has_contact_list(state, player, 2),
         "Bathhouse - Bone In Middle Bathhouse":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 2),
         "Bathhouse - Bone Above Right Bathhouse":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))
-                          and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: can_swim(state, player, world)
+                          and can_parasol(state, player, world)
+                          and has_contact_list(state, player, 2),
         "Bathhouse - Bone In Water In Left Bathhouse":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 2),
         "Bathhouse - Bone On Right Bathhouse":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 2),
         "Bathhouse - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Bathhouse - Bone Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (state.has("Contact List 2", player) or state.has("Progressive Contact List", player, 2)),
+            lambda state: can_swim(state, player, world)
+                          and has_contact_list(state, player, 2),
         "Bathhouse - Hut in Water":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
 
         "Tadpole HQ - Bone On Wood Board On Side Of Right Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Bone Above Right Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Bone On Small Building Behind Big Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Bone In Breakable Boxes On Middle Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world),
         "Tadpole HQ - Bone On Net Near Left Building":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Blue Fairy Shrimp":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Bluestreak Cleaner Wrasse":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Honey Gourami":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Loach":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Neon Tetra":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Hasselhop (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Blippy (Chatsanity)":
             lambda state: (state.has("Key", player, 7) or state.has("Tadpole HQ Key", player)),
         "Tadpole HQ - Bone Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Tadpole HQ - Dog (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player))
+            lambda state: can_swim(state, player, world)
+                          and can_bonk(state, player, world)
                           and (state.has("Key", player, 7) or state.has("Tadpole HQ Key", player)),
 
         "Home - Give High Frog Lunchbox":
@@ -1502,7 +1470,7 @@ def get_location_rules(player, world):
             lambda state: has_textbox(state, player, world, "Hairball City"),
         "Hairball City - Dustan on Lighthouse":
             lambda state: (has_textbox(state, player, world, "Hairball City")
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))),
+                          and can_parasol(state, player, world)),
         "Hairball City - Gunter on Skyscraper":
             lambda state: has_textbox(state, player, world, "Hairball City"),
         "Hairball City - Handsome Frog":
@@ -1525,7 +1493,7 @@ def get_location_rules(player, world):
             lambda state: has_textbox(state, player, world, "Salmon Creek Forest"),
         "Salmon Creek Forest - Treeman":
             lambda state: (has_textbox(state, player, world, "Salmon Creek Forest")
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player))),
+                          and can_bonk(state, player, world)),
 
         "Public Pool - Frogtective":
             lambda state: has_textbox(state, player, world, "Public Pool"),
@@ -1534,7 +1502,7 @@ def get_location_rules(player, world):
 
         "Bathhouse - Dustan on Bathhouse":
             lambda state: (has_textbox(state, player, world, "Bathhouse")
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player))),
+                          and can_ac(state, player, world)),
         "Bathhouse - Game Kid":
             lambda state: has_textbox(state, player, world, "Bathhouse"),
         "Bathhouse - Handsome Frog":
@@ -1551,21 +1519,18 @@ def get_location_rules(player, world):
                           and (options.applebasket.value != 1 or state.has("Apple Basket", player))),
         "Tadpole HQ - Serschel & Louist":
             lambda state: (has_textbox(state, player, world, "Tadpole HQ")
-                          and (options.parasols.value != 1 or state.has("Parasol Repair", player))),
+                          and can_parasol(state, player, world)),
         "Tadpole HQ - Frog King":
             lambda state: has_textbox(state, player, world, "Tadpole HQ"),
         "Tadpole HQ - HUGE VOLLEY":
             lambda state: has_textbox(state, player, world, "Tadpole HQ"),
 
         "Hairball City - Blippy (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Blippy Dog (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Game Kid (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Hairball City - Louist (Chatsanity)":
             lambda state: has_access_to(state, player, "Hairball City - Serschel & Louist"),
         "Hairball City - Serschel (Chatsanity)":
@@ -1577,61 +1542,47 @@ def get_location_rules(player, world):
         "Hairball City - Stijn (Chatsanity)":
             lambda state: has_access_to(state, player, "Hairball City - Nina"),
         "Hairball City - Mitch (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Mai (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Moomy (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Hairball City - Dustan (Chatsanity)":
-            lambda state: (options.parasols.value != 1 or state.has("Parasol Repair", player)),
+            lambda state: can_parasol(state, player, world),
 
         "Turbine Town - Blippy (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Turbine Town - Blippy Dog (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Turbine Town - Serschel (Chatsanity)":
             lambda state: has_access_to(state, player, "Turbine Town - Serschel & Louist"),
         "Turbine Town - Louist (Chatsanity)":
             lambda state: has_access_to(state, player, "Turbine Town - Serschel & Louist"),
         "Turbine Town - Mitch (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Turbine Town - Mai (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Turbine Town - Dustan (Chatsanity)":
             lambda state: has_access_to(state, player, "Turbine Town - Dustan on Wind Turbine"),
         "Turbine Town - Melissa & Stijn (Chatsanity)":
             lambda state: has_access_to(state, player, "Salmon Creek Forest - Stijn & Melissa"),
 
         "Salmon Creek Forest - Blippy (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Salmon Creek Forest - Fischer (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Salmon Creek Forest - Mai (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                           or state.has("Progressive Contact List", player, 1))
+            lambda state: has_contact_list(state, player, 1)
                           and (state.has("Key", player, 7)
                            or state.has("Salmon Creek Forest Key", player)),
         "Salmon Creek Forest - Serschel (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Salmon Creek Forest - Louist (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                          or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Salmon Creek Forest - Trixie (Chatsanity)":
-            lambda state: (state.has("Contact List 1", player)
-                          or state.has("Progressive Contact List", player, 1)),
+            lambda state: has_contact_list(state, player, 1),
         "Salmon Creek Forest - Game Kid (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Salmon Creek Forest - Clint (Chatsanity)":
             lambda state: has_access_to(state, player, "Public Pool - Frogtective"),
         "Salmon Creek Forest - Clover (Chatsanity)":
@@ -1659,28 +1610,24 @@ def get_location_rules(player, world):
         "Salmon Creek Forest - Skippy (Chatsanity)":
             lambda state: has_access_to(state, player, "Bathhouse - Poppy"),
         "Salmon Creek Forest - Pine Frog (Chatsanity)":
-            lambda state: (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+            lambda state: can_bonk(state, player, world),
 
         "Public Pool - Blessley (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
+        "Public Pool - Clint (Chatsanity)":
+            lambda state: can_swim(state, player, world),
         "Public Pool - Mitch (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Public Pool - Blippy (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and (state.has("Key", player, 7)
                            or state.has("Public Pool Key", player)),
         "Public Pool - Little Gabi (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Public Pool - Trixie (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Public Pool - Vlog Frog (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Public Pool - Poppy (Chatsanity)":
             lambda state: has_access_to(state, player, "Bathhouse - Poppy"),
         "Public Pool - Paul (Chatsanity)":
@@ -1697,30 +1644,23 @@ def get_location_rules(player, world):
             lambda state: has_access_to(state, player, "Bathhouse - Poppy"),
 
         "Bathhouse - Blessley (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Vlog Frog (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Fischer (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Little Gabi (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Blippy (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and (state.has("Key", player, 7)
                            or state.has("Bathhouse Key", player, 2)),
         "Bathhouse - Blippy Dog (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2)),
+            lambda state: has_contact_list(state, player, 2),
         "Bathhouse - Gashadokuro (Chatsanity)":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world),
         "Bathhouse - Mahjong Frogs (Chatsanity)":
-            lambda state: (state.has("Contact List 2", player)
-                           or state.has("Progressive Contact List", player, 2))
+            lambda state: has_contact_list(state, player, 2)
                           and (state.has("Key", player, 7)
                            or state.has("Bathhouse Key", player, 2)),
         "Bathhouse - Penny (Chatsanity)":
@@ -1789,12 +1729,10 @@ def get_location_rules(player, world):
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
                               and has_textbox(state, player, world, "Tadpole HQ")),
@@ -1802,24 +1740,19 @@ def get_location_rules(player, world):
             lambda state: (state.has("Party Invitation", player)
                           and has_textbox(state, player, world, "Home"))
                           or (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
                               and (state.has("Key", player,7)
@@ -1829,20 +1762,17 @@ def get_location_rules(player, world):
             lambda state: (state.has("Party Invitation", player)
                               and has_textbox(state, player, world, "Home"))
                           or (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
                               and has_textbox(state, player, world, "Tadpole HQ")),
@@ -1856,14 +1786,10 @@ def get_location_rules(player, world):
             lambda state: (state.has("Hairball City Ticket", player)
                           and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (options.swimming.value != 1
-                                   or options.precisejumps.value == 1
-                                   or state.has("Swim Course", player))
+                              and can_swim(state, player, world, True)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Public Pool Ticket", player)
-                              and (options.swimming.value != 1
-                                   or options.precisejumps.value == 1
-                                   or state.has("Swim Course", player))
+                              and can_swim(state, player, world, True)
                               and has_textbox(state, player, world, "Public Pool")),
         "Chatsanity - Brooklyn Frog":
             lambda state: state.has("Hairball City Ticket", player)
@@ -1882,7 +1808,7 @@ def get_location_rules(player, world):
         "Chatsanity - Clint":
             lambda state: state.has("Public Pool Ticket", player)
                           and has_textbox(state, player, world, "Public Pool")
-                          and (options.swimming.value != 1 or state.has("Swim Course", player)),
+                          and can_swim(state, player, world),
         "Chatsanity - Clover":
             lambda state: state.has("Public Pool Ticket", player)
                           and has_textbox(state, player, world, "Public Pool"),
@@ -1916,6 +1842,20 @@ def get_location_rules(player, world):
         "Chatsanity - Dirk":
             lambda state: state.has("Public Pool Ticket", player)
                           and has_textbox(state, player, world, "Public Pool"),
+        "Chatsanity - Dispatcher":
+            lambda state: state.has("Hairball City Ticket", player)
+                          and has_textbox(state, player, world, "Hairball City")
+                          or state.has("Turbine Town Ticket", player)
+                          and has_textbox(state, player, world, "Turbine Town")
+                          or state.has("Salmon Creek Forest Ticket", player)
+                          and has_textbox(state, player, world, "Salmon Creek Forest")
+                          or state.has("Public Pool Ticket", player)
+                          and has_textbox(state, player, world, "Public Pool")
+                          or state.has("Bathhouse Ticket", player)
+                          and has_textbox(state, player, world, "Bathhouse")
+                          or (state.has("Tadpole HQ Ticket", player)
+                              and has_textbox(state, player, world, "Tadpole HQ"))
+                          or has_textbox(state, player, world, "Home"),
         "Chatsanity - Divin' Doe":
             lambda state: state.has("Salmon Creek Forest Ticket", player)
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
@@ -1925,7 +1865,7 @@ def get_location_rules(player, world):
         "Chatsanity - Dream Frog":
             lambda state: has_access_garden(state, player, world)
                           and has_enough_seeds(state, player, world, 3)
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+                          and can_ac(state, player, world),
         "Chatsanity - Dustan":
             lambda state: (state.has("Party Invitation", player)
                           and has_textbox(state, player, world, "Home"))
@@ -1947,14 +1887,12 @@ def get_location_rules(player, world):
                           or (state.has("Turbine Town Ticket", player)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
                               and has_textbox(state, player, world, "Tadpole HQ")),
@@ -2006,12 +1944,10 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Turbine Town"),
         "Chatsanity - Game Kid":
             lambda state: (state.has("Hairball City Ticket", player)
-                           and (state.has("Contact List 2", player)
-                                or state.has("Progressive Contact List", player, 2))
+                           and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Bathhouse Ticket", player)
                               and has_textbox(state, player, world, "Bathhouse"))
@@ -2024,7 +1960,7 @@ def get_location_rules(player, world):
             lambda state: has_access_garden(state, player, world),
         "Chatsanity - Gashadokuro":
             lambda state: state.has("Bathhouse Ticket", player)
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
+                          and can_swim(state, player, world)
                           and has_textbox(state, player, world, "Bathhouse"),
         "Chatsanity - Gull Friend":
             lambda state: state.has("Turbine Town Ticket", player)
@@ -2059,7 +1995,7 @@ def get_location_rules(player, world):
                           or (has_access_garden(state, player, world)
                               and has_enough_seeds(state, player, world, 2)),
         "Chatsanity - Hasselhop":
-            lambda state: (options.swimming.value != 1 or state.has("Swim Course", player))
+            lambda state: can_swim(state, player, world)
                           or (has_access_garden(state, player, world)
                               and has_enough_seeds(state, player, world, 10))
                           or (state.has("Hairball City Ticket", player)
@@ -2081,7 +2017,7 @@ def get_location_rules(player, world):
         "Chatsanity - Hungry Frog":
             lambda state: has_access_garden(state, player, world)
                           and has_enough_seeds(state, player, world, 9)
-                          and (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+                          and can_soda(state, player, world),
         "Chatsanity - Impatient Frog":
             lambda state: state.has("Hairball City Ticket", player)
                           and has_textbox(state, player, world, "Hairball City"),
@@ -2111,12 +2047,10 @@ def get_location_rules(player, world):
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
                               and has_textbox(state, player, world, "Tadpole HQ")),
@@ -2130,16 +2064,13 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Tadpole HQ"),
         "Chatsanity - Louist":
             lambda state: (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Bathhouse Ticket", player)
                               and has_textbox(state, player, world, "Bathhouse"))
@@ -2163,16 +2094,13 @@ def get_location_rules(player, world):
             lambda state: (state.has("Party Invitation", player)
                           and has_textbox(state, player, world, "Home"))
                           or (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and state.has("Key", player, 7)
                                    or state.has("Salmon Creek Forest Key", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
@@ -2220,18 +2148,15 @@ def get_location_rules(player, world):
             lambda state: (state.has("Party Invitation", player)
                           and has_textbox(state, player, world, "Home"))
                           or (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
                               and has_textbox(state, player, world, "Bathhouse"))
@@ -2251,8 +2176,7 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Bathhouse"),
         "Chatsanity - Moomy":
             lambda state: (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
@@ -2268,15 +2192,14 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Turbine Town"),
         "Chatsanity - Nervous Frog":
             lambda state: state.has("Hairball City Ticket", player)
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
+                          and can_swim(state, player, world)
                           and has_textbox(state, player, world, "Hairball City"),
         "Chatsanity - Niko a0.45":
             lambda state: state.has("Tadpole HQ Ticket", player)
                           and has_textbox(state, player, world, "Tadpole HQ"),
         "Chatsanity - Nina":
             lambda state: (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
@@ -2292,6 +2215,20 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Party Invitation", player)
                               and has_textbox(state, player, world, "Home")),
+        "Chatsanity - Pepper":
+            lambda state: state.has("Hairball City Ticket", player)
+                              and has_textbox(state, player, world, "Hairball City")
+                          or state.has("Turbine Town Ticket", player)
+                              and has_textbox(state, player, world, "Turbine Town")
+                          or state.has("Salmon Creek Forest Ticket", player)
+                              and has_textbox(state, player, world, "Salmon Creek Forest")
+                          or state.has("Public Pool Ticket", player)
+                              and has_textbox(state, player, world, "Public Pool")
+                          or state.has("Bathhouse Ticket", player)
+                              and has_textbox(state, player, world, "Bathhouse")
+                          or (state.has("Tadpole HQ Ticket", player)
+                              and has_textbox(state, player, world, "Tadpole HQ"))
+                          or has_textbox(state, player, world, "Home"),
         "Chatsanity - Pelly the Engineer":
             lambda state: (state.has("Turbine Town Ticket", player)
                           and has_textbox(state, player, world, "Turbine Town"))
@@ -2302,7 +2239,7 @@ def get_location_rules(player, world):
         "Chatsanity - Pine Frog":
             lambda state: state.has("Salmon Creek Forest Ticket", player)
                           and has_textbox(state, player, world, "Salmon Creek Forest")
-                          and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player)),
+                          and can_bonk(state, player, world),
         "Chatsanity - Poppy":
             lambda state: (state.has("Party Invitation", player)
                           and has_textbox(state, player, world, "Home"))
@@ -2332,16 +2269,13 @@ def get_location_rules(player, world):
                               and has_textbox(state, player, world, "Salmon Creek Forest")),
         "Chatsanity - Serschel":
             lambda state: (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Bathhouse Ticket", player)
                               and has_textbox(state, player, world, "Bathhouse"))
@@ -2451,12 +2385,10 @@ def get_location_rules(player, world):
                           or (state.has("Turbine Town Ticket", player)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
+                              and has_contact_list(state, player, 1)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Public Pool")),
         "Chatsanity - VR Frog":
             lambda state: state.has("Tadpole HQ Ticket", player)
@@ -2471,12 +2403,10 @@ def get_location_rules(player, world):
                           or (state.has("Salmon Creek Forest Ticket", player)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
                               and has_textbox(state, player, world, "Tadpole HQ")),
@@ -2491,36 +2421,22 @@ def get_location_rules(player, world):
                           and has_textbox(state, player, world, "Turbine Town"),
         "Chatsanity - Woodisch":
             lambda state: state.has("Salmon Creek Forest Ticket", player)
-                          and (options.swimming.value != 1 or state.has("Swim Course", player))
+                          and can_swim(state, player, world)
                           and has_textbox(state, player, world, "Salmon Creek Forest"),
         "Turbine Town - Inside Partially Sunken Shipping Container":
-            lambda state: (options.swimming.value != 1
-                          or options.precisejumps.value == 1
-                          or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Above Partially Sunken Shipping Container":
-            lambda state: (options.swimming.value != 1
-                          or options.precisejumps.value == 1
-                          or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Bug By Sunken Container 4":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Bug By Sunken Container 2":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Bug By Sunken Container 3":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Bug By Sunken Container 1":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Bug By Sunken Container 5":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         "Turbine Town - Bug On Top Of Wind Turbine":
             lambda state: state.has("Key", player, 7)
                           or state.has("Turbine Town Key", player),
@@ -2530,68 +2446,57 @@ def get_location_rules(player, world):
             lambda state: has_enough_coins(state, player, world.kiosk_cost["Elevator"]),
         "Chatsanity - Bone Dog":
             lambda state: (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
+                              and has_contact_list(state, player, 1)
+                              and can_swim(state, player, world)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 1", player)
-                                   or state.has("Progressive Contact List", player, 1))
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
+                              and has_contact_list(state, player, 1)
+                              and can_swim(state, player, world)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Salmon Creek Forest Ticket", player)
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
+                              and can_swim(state, player, world)
                               and has_textbox(state, player, world, "Salmon Creek Forest"))
                           or (state.has("Public Pool Ticket", player)
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
+                              and can_swim(state, player, world)
                               and has_textbox(state, player, world, "Public Pool"))
                           or (state.has("Bathhouse Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
+                              and has_contact_list(state, player, 2)
+                              and can_swim(state, player, world)
                               and has_textbox(state, player, world, "Bathhouse"))
                           or (state.has("Tadpole HQ Ticket", player)
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
+                              and can_swim(state, player, world)
                               and has_textbox(state, player, world, "Tadpole HQ")),
         "Chatsanity - Kappa":
             lambda state:(state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Turbine Town")),
         "Chatsanity - Dog":
             lambda state: (state.has("Hairball City Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
-                              and (options.ac_repair.value != 1 or state.has("AC Repair", player))
+                              and has_contact_list(state, player, 2)
+                              and can_ac(state, player, world)
                               and has_textbox(state, player, world, "Turbine Town"))
                           or (state.has("Tadpole HQ Ticket", player)
-                              and (options.swimming.value != 1 or state.has("Swim Course", player))
-                              and (options.bonk_permit.value != 1 or state.has("Safety Helmet", player))
+                              and can_swim(state, player, world)
+                              and can_bonk(state, player, world)
                               and (state.has("Key", player, 7) or state.has("Tadpole HQ Key", player))
                               and has_textbox(state, player, world, "Tadpole HQ")),
         "Chatsanity - Dog 2":
             lambda state: (state.has("Hairball City Ticket", player)
-                           and (state.has("Contact List 2", player)
-                                or state.has("Progressive Contact List", player, 2))
+                           and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Hairball City"))
                           or (state.has("Turbine Town Ticket", player)
-                              and (state.has("Contact List 2", player)
-                                   or state.has("Progressive Contact List", player, 2))
+                              and has_contact_list(state, player, 2)
                               and has_textbox(state, player, world, "Turbine Town")),
         "Tadpole HQ - Niko has nightmares (Thought)":
             lambda state: has_enough_coins(state, player, world.kiosk_cost["Elevator"]),
         "Tadpole HQ - Inbetween Four Skyscrapers":
-            lambda state: (options.swimming.value != 1
-                           or options.precisejumps.value == 1
-                           or state.has("Swim Course", player)),
+            lambda state: can_swim(state, player, world, True),
         # Gary's Garden Seeds
         "Gary's Garden - Seed 2":
             lambda state: state.has("Gary's Garden Seed", player, 1),
@@ -2599,7 +2504,7 @@ def get_location_rules(player, world):
             lambda state: state.has("Gary's Garden Seed", player, 2),
         "Gary's Garden - Seed 4":
             lambda state: state.has("Gary's Garden Seed", player, 3)
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+                          and can_ac(state, player, world),
         "Gary's Garden - Seed 5":
             lambda state: state.has("Gary's Garden Seed", player, 4),
         "Gary's Garden - Seed 6":
@@ -2612,7 +2517,7 @@ def get_location_rules(player, world):
             lambda state: state.has("Gary's Garden Seed", player, 8),
         "Gary's Garden - Seed 10":
             lambda state: state.has("Gary's Garden Seed", player, 9)
-                          and (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+                          and can_soda(state, player, world),
 
         "Gary's Garden - Flower Frog (Chatsanity)":
             lambda state: has_enough_seeds(state, player, world, 1),
@@ -2626,10 +2531,10 @@ def get_location_rules(player, world):
             lambda state: has_enough_seeds(state, player, world, 2),
         "Gary's Garden - Dream Frog (Chatsanity)":
             lambda state: has_enough_seeds(state, player, world, 3)
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+                          and can_ac(state, player, world),
         "Gary's Garden - Behind Large Rock":
             lambda state: has_enough_seeds(state, player, world, 3)
-                          and (options.ac_repair.value != 1 or state.has("AC Repair", player)),
+                          and can_ac(state, player, world),
         "Gary's Garden - Bird (Chatsanity)":
             lambda state: has_enough_seeds(state, player, world, 4),
         "Gary's Garden - On Tree Branch":
@@ -2654,10 +2559,10 @@ def get_location_rules(player, world):
             lambda state: has_enough_seeds(state, player, world, 8),
         "Gary's Garden - Hungry Frog (Chatsanity)":
             lambda state: has_enough_seeds(state, player, world, 9)
-                          and (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+                          and can_soda(state, player, world),
         "Gary's Garden - Tree Branch Near The Top":
             lambda state: has_enough_seeds(state, player, world, 9)
-                          and (options.soda_cans.value != 1 or state.has("Soda Repair", player)),
+                          and can_soda(state, player, world),
         "Gary's Garden - Gunter (Chatsanity)":
             lambda state: has_enough_seeds(state, player, world, 10),
         "Gary's Garden - Hasselhop (Chatsanity)":

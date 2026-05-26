@@ -19,7 +19,7 @@ from .Items import item_table, default_item_quantities, ap_name_to_mars_name, ma
 from .Locations import all_locations, MetroidFusionLocation, get_location_data_by_name, build_item_message, \
     location_groups, build_shiny_item_message, ERGroups
 from .Logic import create_logic_rule, create_logic_rule_for_list, LogicObject
-from .Options import MetroidFusionOptions, metroid_fusion_option_groups
+from .MFOptions import MetroidFusionOptions, metroid_fusion_option_groups
 from .Rom import MetroidFusionProcedurePatch
 from .StartingLocations import main_deck_hub, StartingLocation, sector_hub, starting_location_data, operations_deck
 from .data import memory
@@ -53,7 +53,7 @@ class MetroidFusionSettings(settings.Group):
         """File name of the Metroid Fusion ROM"""
         description = "Metroid Fusion (USA) ROM File"
         copy_to = "Metroid Fusion (USA).gba"
-        md5s = ["af5040fc0f579800151ee2a683e2e5b5"]
+        md5s = ["af5040fc0f579800151ee2a683e2e5b5", "5d07cc8a45eae858bea6dfc97f63e813"]
 
     rom_file: RomFile = RomFile(RomFile.copy_to)
     rom_start: bool = True
@@ -104,6 +104,7 @@ class MetroidFusionWorld(World):
     starting_region: Region
     starting_major_upgrades: int = 0
     starting_energy_tanks: int = 0
+    filler_items: list[str] = None
     open_sector_elevators: bool = False
     navigation_room_hint_locks: bool = False
 
@@ -120,14 +121,13 @@ class MetroidFusionWorld(World):
     item_name_groups = {
         "MajorUpgrades": major_upgrades
     }
-    version = 17
+    version = "1.22.2"
     debug = False
 
 
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
-        self.filler_items = None
         self.hint_text = None
         self.hint_pairs = None
         self.region_map = dict()
@@ -155,6 +155,7 @@ class MetroidFusionWorld(World):
                 self.starting_location_object = main_deck_hub
             self.starting_major_upgrades = 0
             self.starting_energy_tanks = 0
+            self.filler_items = None
             self.open_sector_elevators = False
             self.navigation_room_hint_locks = False
         elif self.options.GameMode == self.options.GameMode.option_open_sector_hub:
@@ -164,6 +165,7 @@ class MetroidFusionWorld(World):
                 self.starting_location_object = sector_hub
             self.starting_major_upgrades = 1
             self.starting_energy_tanks = 1
+            self.filler_items = None
             self.open_sector_elevators = True
             self.navigation_room_hint_locks = True
         elif self.options.GameMode == self.options.GameMode.option_custom:
@@ -186,6 +188,7 @@ class MetroidFusionWorld(World):
                     self.starting_location_object = main_deck_hub
             self.starting_major_upgrades = self.options.StartingMajorUpgrades.value
             self.starting_energy_tanks = self.options.StartingEnergyTanks.value
+            self.filler_items = sorted(self.options.FillerItems.value)
             self.open_sector_elevators = bool(self.options.OpenSectorElevators.value)
             self.navigation_room_hint_locks = bool(self.options.SectorNavigationRoomHintLocks.value)
 
@@ -213,9 +216,15 @@ class MetroidFusionWorld(World):
                 connecting_region = self.get_region(connection.destination.name)
                 logic_object = LogicObject(self.player, self.options)
                 if self.debug:
-                    print(f"{'One way connection' if connection.one_way else 'Two way connection'}: "
-                          f"{origin_region.name} to {connecting_region.name}")
-                logic_object.requirements, logic_object.energy_tanks = create_logic_rule_for_list(
+                    # print(f"{'One way connection' if connection.one_way else 'Two way connection'}: "
+                    #         f"{origin_region.name} to {connecting_region.name}")
+                    logging.info(f"{'One way connection' if connection.one_way else 'Two way connection'}: "
+                                 f"{origin_region.name} to {connecting_region.name}")
+                (logic_object.requirements,
+                 logic_object.energy_tanks,
+                 logic_object.missile_ammo,
+                 logic_object.power_bomb_ammo,
+                 logic_object.yaml_enabled) = create_logic_rule_for_list(
                     connection.requirements,
                     self.options,
                     self.debug)
@@ -278,9 +287,10 @@ class MetroidFusionWorld(World):
             self.region_map[source] = destination
             self.region_map[destination] = source
             self.spoiler_region_map[source] = destination
-        if self.debug:
-            for source, destination in self.spoiler_region_map.items():
-                print(f"{source} <-> {destination}")
+            if self.debug:
+                for source, destination in self.spoiler_region_map.items():
+                    # print(f"{source} <-> {destination}")
+                    logging.info(f"{source} <-> {destination}")
             from Utils import visualize_regions
             visualize_regions(self.get_region("Menu"), f"fusiondiagram{self.player}.puml")
 
@@ -366,7 +376,8 @@ class MetroidFusionWorld(World):
                 boss_location = metroid_bosses.pop()
                 self.get_location(boss_location).place_locked_item(item)
                 if self.debug:
-                    print(f"Placed Infant Metroid at {boss_location}")
+                    # print(f"Placed Infant Metroid at {boss_location}")
+                    logging.info(f"Placed Infant Metroid at {boss_location}")
             else:
                 self.multiworld.itempool.append(item)
 
@@ -376,8 +387,13 @@ class MetroidFusionWorld(World):
             location_data = get_location_data_by_name(location.name)
             logic_object = LogicObject(self.player, self.options)
             if self.debug:
-                print(f"\n{location.name} requirements:")
-            logic_object.requirements, logic_object.energy_tanks = create_logic_rule_for_list(
+                # print(f"\n{location.name} requirements:")
+                logging.info(f"\n{location.name} requirements:")
+            (logic_object.requirements,
+             logic_object.energy_tanks,
+             logic_object.missile_ammo,
+             logic_object.power_bomb_ammo,
+             logic_object.yaml_enabled) = create_logic_rule_for_list(
                 location_data.requirements, self.options, self.debug)
             add_rule(ap_location, logic_object.logic_rule)
 
@@ -789,9 +805,9 @@ class MetroidFusionWorld(World):
                         item_sprite = offworld_sprites[game][location.item.name].value
             if item_sprite is None: # If no offworld sprite, we use one based on classification
                 if location.item.classification & ItemClassification.progression:
-                    item_sprite = SpriteNames.Anonymous.value
+                    item_sprite = SpriteNames.APColor.value
                 else:
-                    item_sprite = SpriteNames.Empty.value
+                    item_sprite = SpriteNames.APMonochrome.value
             # For fun, local visible missile and power bomb tanks have a 1/1024 chance to be shiny.
             if location.item.player == self.player and not location_data.major:
                 if item_sprite == SpriteNames.MissileTank.value:
@@ -817,8 +833,6 @@ class MetroidFusionWorld(World):
             infant_metroids_required = self.options.InfantMetroidsInPool.value
 
         patch_dict["RequiredMetroidCount"] = infant_metroids_required
-        patch_dict["PowerBombsWithoutBombs"] = True
-        patch_dict["AccessibilityPatches"] = True
         patch_dict["RevealHiddenTiles"] = bool(self.options.RevealHiddenBlocks.value)
         patch_dict["DisableDemos"] = True
         patch_dict["SkipDoorTransitions"] = bool(self.options.FastDoorTransitions.value)
@@ -826,6 +840,7 @@ class MetroidFusionWorld(World):
         patch_dict["RoomNames"] = room_names
         patch_dict["TitleText"] = [{"Text": "         Archipelago", "LineNum": 12}]
         patch_dict["CreditsText"] = self.build_credits_text()
+        patch_dict["NerfGerons"] = bool(self.options.NerfGeronWeaknesses.value)
 
         if self.options.PaletteRandomization:
             patch_dict["Palettes"] = self.create_palette_rando(self.multiworld.seed)
@@ -887,6 +902,8 @@ class MetroidFusionWorld(World):
         if self.filler_items is None:
             self.filler_items = [item for item in item_table if
                                  item_table[item].classification == ItemClassification.filler]
+        if len(self.filler_items) == 0:
+            self.filler_items = ["Nothing"]
         return self.random.choice(self.filler_items)
 
     def fill_slot_data(self) -> Dict[str, Any]:
@@ -920,6 +937,7 @@ class MetroidFusionWorld(World):
             "PowerBombTankAmmo": self.options.PowerBombTankAmmo.value,
             "PONRsInLogic": self.options.PointOfNoReturnsInLogic.value,
             "ShinesparkDifficulty": self.options.ShinesparkTrickDifficulty.value,
+            "NerfGeronWeaknesses": self.options.NerfGeronWeaknesses.value,
             "WallJumpDifficulty": self.options.WallJumpTrickDifficulty.value,
             "CombatDifficulty": self.options.CombatDifficulty.value,
             "GameMode": self.options.GameMode.value,

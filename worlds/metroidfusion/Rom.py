@@ -21,7 +21,7 @@ class MetroidFusionPatchExtension(APPatchExtension):
     def call_mars(caller, rom, placement_file):
         from . import MetroidFusionWorld
         patch_dict = json.loads(caller.get_file(placement_file))
-        logging.info(f"Metroid Fusion APWorld v{patch_dict.get('GenerationVersion', 0)} was used for generation.")
+        logging.info(f"Metroid Fusion APWorld v{patch_dict.get('GenerationVersion')} was used for generation.")
         logging.info(f"Metroid Fusion APWorld v{MetroidFusionWorld.version} used for patching.")
         from .mars_patcher import patcher
         patcher.validate_patch_data_mf(patch_dict)
@@ -41,8 +41,8 @@ class MetroidFusionPatchExtension(APPatchExtension):
             rom_name = bytearray(rom_name_text, 'utf-8')
             rom_name.extend([0] * (20 - len(rom_name)))
             rom_data[memory.rom_name_location:memory.rom_name_location + 20] = bytes(rom_name)
-            rom_data[memory.generation_version_location] = patch_dict.get("GenerationVersion", 0)
-            rom_data[memory.patching_version_location] = MetroidFusionWorld.version
+            rom_data[memory.generation_version_location:memory.generation_version_location + 2] = bytes(bytearray(map(int, patch_dict.get("GenerationVersion").split("."))))
+            rom_data[memory.patching_version_location:memory.patching_version_location + 2] = map(int, MetroidFusionWorld.version.split("."))
         return rom_data
 
 

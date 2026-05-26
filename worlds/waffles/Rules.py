@@ -162,7 +162,7 @@ CanGetRedYoshi: Macro = Macro(
 
 CanGetYellowYoshi: Macro = Macro(
         CanReachRegion(Regions.star_road_3_region) |
-        (CanReachRegion(Regions.star_road_5_region) & CanCapeFly | HasPSwitch),
+        (CanReachRegion(Regions.star_road_5_region) & (CanCapeFly | HasPSwitch)),
     "Can get Yellow Yoshi",
     "Can get a Yellow Yoshi in any level",
     options=[OptionFilter(InventoryYoshiLogic, 0)],
@@ -388,18 +388,11 @@ class WaffleBasicRules(WaffleRules):
             f"{Regions.donut_plains_1_region} -> {Locations.donut_plains_1_exit_1}": 
                 True_(),
             f"{Regions.donut_plains_1_region} -> {Locations.donut_plains_1_exit_2}": 
-                (
-                    CanCarry & (
-                        HasGSP |
-                        CanCapeFly
-                    )
-                ) | CanYoshiCarry,
+                CanYoshiFly | (CanCarry & (HasGSP | CanCapeFly)),
             f"{Regions.donut_plains_2_region} -> {Locations.donut_plains_2_exit_1}": 
                 True_(),
             f"{Regions.donut_plains_2_region} -> {Locations.donut_plains_2_exit_2}": 
-                CanYoshiCarry | (CanClimb & (
-                    (CanCarry & CanBreakTurnBlocks) | HasYoshi)
-                ),
+                CanYoshiCarry | (CanCarry & (HasYoshi | (CanClimb & CanBreakTurnBlocks))),
             f"{Regions.donut_plains_3_region} -> {Locations.donut_plains_3_exit_1}": 
                 True_(),
             f"{Regions.donut_plains_4_region} -> {Locations.donut_plains_4_exit_1}": 
@@ -589,7 +582,7 @@ class WaffleBasicRules(WaffleRules):
             f"{Regions.special_zone_5_region} -> {Locations.special_zone_5_exit_1}": 
                 True_(),
             f"{Regions.special_zone_6_region} -> {Locations.special_zone_6_exit_1}": 
-                True_(),
+                CanSwim,
             f"{Regions.special_zone_7_region} -> {Locations.special_zone_7_exit_1}": 
                 CanCarryOrYoshiTongue,
             f"{Regions.special_zone_8_region} -> {Locations.special_zone_8_exit_1}": 
@@ -599,11 +592,9 @@ class WaffleBasicRules(WaffleRules):
     
         self.carryless_exit_rules = {
             f"{Regions.donut_plains_1_region} -> {Locations.donut_plains_1_exit_2}": 
-                HasGSP | CanCapeFly | CanYoshiCarry,
+                HasGSP | CanCapeFly | CanYoshiFly,
             f"{Regions.donut_plains_2_region} -> {Locations.donut_plains_2_exit_2}": 
-                CanYoshiCarry | (CanClimb & (
-                    (CanCarry & CanBreakTurnBlocks) | HasYoshi)
-                ),
+                HasYoshi | (CanClimb & CanCarry & CanBreakTurnBlocks),
             f"{Regions.donut_secret_1_region} -> {Locations.donut_secret_1_exit_2}": 
                 CanSwim,
 
@@ -1352,6 +1343,8 @@ class WaffleBasicRules(WaffleRules):
 
             Locations.vanilla_secret_3_dragon:
                 CanSwim,
+            Locations.vanilla_secret_3_midway:
+                CanSwim,
             Locations.vanilla_secret_3_powerup_block_1:
                 CanSwim,
             Locations.vanilla_secret_3_powerup_block_2:
@@ -1536,6 +1529,8 @@ class WaffleBasicRules(WaffleRules):
 
             Locations.twin_bridges_castle_powerup_block_1:
                 CanRun & CanClimb,
+            Locations.twin_bridges_castle_room_4:
+                CanRun,
 
             Locations.forest_of_illusion_1_powerup_block_1:
                 True_(),
@@ -2489,6 +2484,8 @@ class WaffleBasicRules(WaffleRules):
             location_rules = {
                 Locations.vanilla_secret_3_dragon:
                     True_(),
+                Locations.vanilla_secret_3_midway:
+                    True_(),
                 Locations.vanilla_secret_3_powerup_block_1:
                     True_(),
                 Locations.vanilla_secret_3_powerup_block_2:
@@ -2527,6 +2524,8 @@ class WaffleBasicRules(WaffleRules):
             location_rules = {
                 Locations.twin_bridges_castle_powerup_block_1:
                     CanClimb,
+                Locations.twin_bridges_castle_room_4:
+                    True_(),
             }
             self.update_rules(is_glitched, connection_rules=connection_rules, location_rules=location_rules)
 

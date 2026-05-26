@@ -2,7 +2,7 @@ import typing
 from random import Random
 
 from BaseClasses import Location, Item
-from .Locations import major_location_names
+from .Locations import major_location_names, escape_string
 
 if typing.TYPE_CHECKING:
     from . import MetroidFusionWorld
@@ -32,13 +32,15 @@ def build_hint_text(world: "MetroidFusionWorld", hinted_pair: HintedPair):
     if world.player == hinted_pair.item.player:
         item_text = f"Your [COLOR=3]{hinted_pair.item.name}[/COLOR]"
     else:
-        item_text = (f"[COLOR=4]{world.multiworld.get_player_name(hinted_pair.item.player)}'s[/COLOR] "
-                     f"[COLOR=3]{hinted_pair.item.name}[/COLOR]")
+        player_name = world.multiworld.get_player_name(hinted_pair.item.player)
+        item_text = (f"[COLOR=4]{escape_string(player_name)}'s[/COLOR] "
+                     f"[COLOR=3]{escape_string(hinted_pair.item.name)}[/COLOR]")
     if world.player == hinted_pair.location.player:
         location_text = f"your [COLOR=2]{hinted_pair.location.name}[/COLOR]"
     else:
-        location_text = (f"[COLOR=4]{world.multiworld.get_player_name(hinted_pair.location.player)}'s[/COLOR] "
-                         f"[COLOR=2]{hinted_pair.location.name}[/COLOR]")
+        player_name = world.multiworld.get_player_name(hinted_pair.location.player)
+        location_text = (f"[COLOR=4]{escape_string(player_name)}'s[/COLOR] "
+                         f"[COLOR=2]{escape_string(hinted_pair.location.name)}[/COLOR]")
     return f"{item_text} can be found at {location_text}."
 
 def create_hints(world: "MetroidFusionWorld") -> tuple[list[str], list[HintedPair]]:

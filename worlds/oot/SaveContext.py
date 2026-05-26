@@ -289,44 +289,33 @@ class SaveContext():
         elif item in SaveContext.save_writes_table:
             if item.startswith('Small Key Ring ('):
                 dungeon = item[:-1].split(' (', 1)[1]
-                save_writes = {
-                    "Forest Temple"          : {
-                        'keys.forest': 6 if world.dungeon_mq[dungeon] else 5,
-                        'total_keys.forest': 6 if world.dungeon_mq[dungeon] else 5,
-                    },
-                    "Fire Temple"            : {
-                        'keys.fire': 5 if world.dungeon_mq[dungeon] else 8,
-                        'total_keys.fire': 5 if world.dungeon_mq[dungeon] else 8,
-                    },
-                    "Water Temple"           : {
-                        'keys.water': 2 if world.dungeon_mq[dungeon] else 6,
-                        'total_keys.water': 2 if world.dungeon_mq[dungeon] else 6,
-                    },
-                    "Spirit Temple"          : {
-                        'keys.spirit': 7 if world.dungeon_mq[dungeon] else 5,
-                        'total_keys.spirit': 7 if world.dungeon_mq[dungeon] else 5,
-                    },
-                    "Shadow Temple"          : {
-                        'keys.shadow': 6 if world.dungeon_mq[dungeon] else 5,
-                        'total_keys.shadow': 6 if world.dungeon_mq[dungeon] else 5,
-                    },
-                    "Bottom of the Well"     : {
-                        'keys.botw': 2 if world.dungeon_mq[dungeon] else 3,
-                        'total_keys.botw': 2 if world.dungeon_mq[dungeon] else 3,
-                    },
-                    "Gerudo Training Ground" : {
-                        'keys.gtg': 3 if world.dungeon_mq[dungeon] else 9,
-                        'total_keys.gtg': 3 if world.dungeon_mq[dungeon] else 9,
-                    },
-                    "Thieves Hideout"        : {
+                if dungeon == "Thieves Hideout":
+                    save_writes = {
                         'keys.fortress': 4,
                         'total_keys.fortress': 4,
-                    },
-                    "Ganons Castle"          : {
-                        'keys.gc': 3 if world.dungeon_mq[dungeon] else 2,
-                        'total_keys.gc': 3 if world.dungeon_mq[dungeon] else 2,
-                    },
-                }[dungeon]
+                    }
+                elif dungeon == "Treasure Chest Game":
+                    save_writes = {
+                        'keys.tcg': 6,
+                        'total_keys.tcg': 6,
+                    }
+                else:
+                    mq_key_counts = {
+                        "Forest Temple"          : ('forest', 6, 5),
+                        "Fire Temple"            : ('fire', 5, 8),
+                        "Water Temple"           : ('water', 2, 6),
+                        "Spirit Temple"          : ('spirit', 7, 5),
+                        "Shadow Temple"          : ('shadow', 6, 5),
+                        "Bottom of the Well"     : ('botw', 2, 3),
+                        "Gerudo Training Ground" : ('gtg', 3, 9),
+                        "Ganons Castle"          : ('gc', 3, 2),
+                    }
+                    save_key, mq_count, vanilla_count = mq_key_counts[dungeon]
+                    key_count = mq_count if world.dungeon_mq[dungeon] else vanilla_count
+                    save_writes = {
+                        f'keys.{save_key}': key_count,
+                        f'total_keys.{save_key}': key_count,
+                    }
 
             elif item.startswith('Silver Rupee (') or item.startswith('Silver Rupee Pouch ('):
                 # Convert Pouch to regular Silver Rupee item name for mapping
@@ -734,7 +723,10 @@ class SaveContext():
                 'gtg'                    : Address(size=1),
                 'fortress'               : Address(size=1),
                 'gc'                     : Address(size=1),
-                'unused'                 : Address(size=5),
+                'gt_col'                 : Address(size=1),
+                'gc_col'                 : Address(size=1),
+                'tcg'                    : Address(size=1),
+                'unused'                 : Address(size=2),
             },
             'defense_hearts'             : Address(size=1, max=20),
             'gs_tokens'                  : Address(size=2, max=100),
@@ -753,6 +745,7 @@ class SaveContext():
                 'gtg'                    : Address(0xD4 + 0x1C * 0x0B + 0x10, size=2),
                 'fortress'               : Address(0xD4 + 0x1C * 0x0C + 0x10, size=2),
                 'gc'                     : Address(0xD4 + 0x1C * 0x0D + 0x10, size=2),
+                'tcg'                    : Address(0xD4 + 0x1C * 0x10 + 0x10, size=2),
             },
             'triforce_pieces'            : Address(0xD4 + 0x1C * 0x48 + 0x10, size=4), # Unused word in scene x48
             'pending_freezes'            : Address(0xD4 + 0x1C * 0x49 + 0x10, size=4), # Unused word in scene x49
@@ -1324,6 +1317,10 @@ class SaveContext():
             'keys.gc': None,
             'total_keys.gc': None,
         },
+        "Small Key (Treasure Chest Game)"         : {
+            'keys.tcg': None,
+            'total_keys.tcg': None,
+        },
         #HACK: these counts aren't used since exact counts based on whether the dungeon is MQ are defined above,
         # but the entries need to be there for key rings to be valid starting items
         "Small Key Ring (Forest Temple)"          : {
@@ -1361,6 +1358,10 @@ class SaveContext():
         "Small Key Ring (Ganons Castle)"          : {
             'keys.gc': 3,
             'total_keys.gc': 3,
+        },
+        "Small Key Ring (Treasure Chest Game)"    : {
+            'keys.tcg': 6,
+            'total_keys.tcg': 6,
         },
 
         "Ocarina A Button"          : {'ocarina_buttons.a': True},

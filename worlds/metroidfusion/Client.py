@@ -69,12 +69,12 @@ class MetroidFusionClient(BizHawkClient):
             from . import MetroidFusionWorld
             generation_version = (await bizhawk.read(
                 ctx.bizhawk_ctx,
-        [(memory.generation_version_location, 1, self.rom)]))[0]
+        [(memory.generation_version_location, 3, self.rom)]))[0]
             patch_version = (await bizhawk.read(
                 ctx.bizhawk_ctx,
-                [(memory.patching_version_location, 1, self.rom)]))[0]
-            logger.info(f"Metroid Fusion APWorld v{int.from_bytes(generation_version)} was used for generation.")
-            logger.info(f"Metroid Fusion APWorld v{int.from_bytes(patch_version)} was used for patching.")
+                [(memory.patching_version_location, 3, self.rom)]))[0]
+            logger.info(f"Metroid Fusion APWorld v{'.'.join(map(str, generation_version))} was used for generation.")
+            logger.info(f"Metroid Fusion APWorld v{'.'.join(map(str, patch_version))} was used for patching.")
             logger.info(f"Metroid Fusion APWorld v{MetroidFusionWorld.version} used for playing.")
             self.logged_version = True
             self.display_location_found_messages = (get_settings()["metroidfusion_options"]
@@ -416,6 +416,13 @@ class MetroidFusionClient(BizHawkClient):
         current_room_list = [room for room in room_names if room["Area"] == current_sector and room["Room"] == current_room]
         if len(current_room_list) > 0:
             self.current_room_name = current_room_list.pop()["Name"]
+            await ctx.send_msgs([{
+                "cmd": "Bounce",
+                "slots": [ctx.slot],
+                "data": {
+                    "Current Room": self.current_room_name
+                }
+            }])
         if current_sector is None:
             return
         if current_sector != self.current_sector:

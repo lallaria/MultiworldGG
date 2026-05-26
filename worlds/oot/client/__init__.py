@@ -50,7 +50,7 @@ deathlink_sent_this_death: we interacted with the multiworld on this death, wait
 
 oot_loc_name_to_id = network_data_package["games"]["Ocarina of Time"]["location_name_to_id"]
 
-script_version: int = 7
+script_version: int = 8
 
 def get_item_value(ap_id):
     return ap_id - 66000
@@ -88,6 +88,7 @@ class OoTContext(CommonContext):
         self.collectible_table = {}
         self.collectible_override_flags_address = 0
         self.collectible_offsets = {}
+        self.shop_flag_offsets = {}
         self.deathlink_enabled = False
         self.deathlink_pending = False
         self.deathlink_sent_this_death = False
@@ -128,6 +129,7 @@ class OoTContext(CommonContext):
             if slot_data:
                 self.collectible_override_flags_address = slot_data.get('collectible_override_flags', 0)
                 self.collectible_offsets = slot_data.get('collectible_flag_offsets', {})
+                self.shop_flag_offsets = slot_data.get('shop_flag_offsets', {})
         elif cmd == 'PrintJSON':
             if args.get('type') == 'ItemSend':
                 network_item = args.get('item')
@@ -162,6 +164,7 @@ def get_payload(ctx: OoTContext):
             "triggerDeath": trigger_death,
             "collectibleOverrides": ctx.collectible_override_flags_address,
             "collectibleOffsets": ctx.collectible_offsets,
+            "shopFlagOffsets": ctx.shop_flag_offsets,
             "pendingDisplayItems": pending_display_items,
         })
     return payload
@@ -308,23 +311,27 @@ async def n64_sync_task(ctx: OoTContext):
                 await asyncio.sleep(1)
         else:
             try:
-                ctx.n64_streams = await asyncio.wait_for(asyncio.open_connection("localhost", 28921), timeout=10)
+                ctx.n64_streams = await asyncio.wait_for(asyncio.open_connection("127.0.0.1", 28921), timeout=10)
                 ctx.n64_status = CONNECTION_TENTATIVE_STATUS
             except TimeoutError:
                 ctx.n64_status = CONNECTION_TIMING_OUT_STATUS
                 continue
-            except ConnectionRefusedError:
+            except (ConnectionRefusedError, OSError):
                 ctx.n64_status = CONNECTION_REFUSED_STATUS
                 await asyncio.sleep(1)
                 continue
 
 
 async def run_game(romfile, ctx: OoTContext | None = None):
-    status_callback = None if ctx is None else lambda text: show_client_message(ctx, text)
-    launch_rom(romfile, logger, status_callback)
+    loop = asyncio.get_running_loop()
+    status_callback = (
+        None if ctx is None
+        else lambda text: loop.call_soon_threadsafe(show_client_message, ctx, text)
+    )
+    await asyncio.to_thread(launch_rom, romfile, logger, status_callback)
 
 
-async def patch_and_run_game(apz5_file, ctx: OoTContext | None = None):
+def patch_game(apz5_file):
     apz5_file = os.path.abspath(apz5_file)
     base_name = os.path.splitext(apz5_file)[0]
     decomp_path = base_name + '-decomp.z64'
@@ -343,7 +350,32 @@ async def patch_and_run_game(apz5_file, ctx: OoTContext | None = None):
     rom.write_to_file(decomp_path)
     compress_rom_file(decomp_path, comp_path)
     os.remove(decomp_path)
-    async_start(run_game(comp_path, ctx))
+    return comp_path
+
+
+async def patch_and_run_game(apz5_file, ctx: OoTContext | None = None):
+    try:
+        comp_path = await asyncio.to_thread(patch_game, apz5_file)
+    except Exception:
+        logger.exception("Failed to patch OoT APZ5 file.")
+        return
+
+    await run_game(comp_path, ctx)
+
+
+def load_n64_bridge_task():
+    from .bridge import n64_bridge_task
+    return n64_bridge_task
+
+
+async def start_n64_bridge(ctx: OoTContext):
+    try:
+        n64_bridge_task = await asyncio.to_thread(load_n64_bridge_task)
+    except Exception:
+        logger.exception("OoT Bridge: failed to load native bridge.")
+        return
+
+    await n64_bridge_task(ctx)
 
 
 def main(*launcher_args: str):
@@ -368,8 +400,7 @@ def main(*launcher_args: str):
         ctx.run_cli()
 
         # Start the native emulator bridge (serves on localhost:28921)
-        from .bridge import n64_bridge_task
-        asyncio.create_task(n64_bridge_task(ctx), name="N64 Bridge")
+        asyncio.create_task(start_n64_bridge(ctx), name="N64 Bridge")
 
         ctx.n64_sync_task = asyncio.create_task(n64_sync_task(ctx), name="N64 Sync")
 

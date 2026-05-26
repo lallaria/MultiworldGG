@@ -210,7 +210,7 @@ def tokens_required_by_settings(world: World) -> int:
 # Hints required under certain settings
 conditional_always: dict[str, Callable[[World], bool]] = {
     'Market 10 Big Poes':           lambda world: world.options.big_poe_count.value > 3 and 'big_poes' not in world.options.misc_hints.value,
-    'Deku Theater Mask of Truth':   lambda world: not world.options.complete_mask_quest.value and world.options.shuffle_child_trade.value != 2 and 'mask_of_truth' not in world.options.misc_hints.value,  # 2 = skip_child_zelda
+    'Deku Theater Mask of Truth':   lambda world: not world.options.complete_mask_quest.value and 'Mask of Truth' not in world.options.shuffle_child_trade.value and 'mask_of_truth' not in world.options.misc_hints.value,
     'Song from Ocarina of Time':    lambda world: stones_required_by_settings(world) < 2,
     'HF Ocarina of Time Item':      lambda world: stones_required_by_settings(world) < 2,
     'Sheik in Kakariko':            lambda world: medallions_required_by_settings(world) < 5,
@@ -1938,9 +1938,7 @@ goalTable: dict[str, tuple[str, str, str]] = {
 # This specifies which hints will never appear due to either having known or known useless contents or due to the locations not existing.
 def hint_exclusions(world: World, clear_cache: bool = False) -> list[str]:
     exclusions: dict[int, list[str]] = hint_exclusions.exclusions
-    cache_key = getattr(world, "id", None)
-    if cache_key is None:
-        cache_key = getattr(world, "player", id(world))
+    cache_key = id(world)
 
     if not clear_cache and cache_key in exclusions:
         return exclusions[cache_key]
@@ -1990,6 +1988,8 @@ hint_exclusions.exclusions = {}
 
 
 def name_is_location(name: str, hint_type: str | Collection[str], world: World) -> bool:
+    if name not in world.multiworld.regions.location_cache.get(world.player, {}):
+        return False
     if isinstance(hint_type, (list, tuple)):
         for htype in hint_type:
             if htype in ['sometimes', 'song', 'overworld', 'dungeon', 'always', 'exclude'] and name not in hint_exclusions(

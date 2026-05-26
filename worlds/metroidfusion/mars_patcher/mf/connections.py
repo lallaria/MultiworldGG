@@ -1,4 +1,3 @@
-import os
 import pkgutil
 from collections.abc import Sequence
 
@@ -22,7 +21,7 @@ from .constants.main_hub_numbers import (
     MAIN_HUB_SMALL_NUM_BLOCK,
     MAIN_HUB_TILEMAP_ADDR,
 )
-from .data import get_data_path
+from .data import get_relative_data_path
 from ..minimap import Minimap
 from ..rom import Game, Rom
 from ..room_entry import BlockLayer, RoomEntry
@@ -77,15 +76,14 @@ class Connections:
         self.area_conns_count = gd.area_connections_count(rom)
 
     def set_elevator_connections(self, data: MarsschemamfElevatorconnections) -> None:
-        # Repoint area connections data
+        # Reserve space for 8 more area connections and repoint
         size = self.area_conns_count * 3
-        # Reserve space for 8 more area connections
-        new_size = size + 8 * 3
-        ac_addr = self.rom.reserve_free_space(new_size)
-        self.rom.copy_bytes(self.area_conns_addr, ac_addr, size)
-        # TODO: Move constant
-        self.rom.write_ptr(0x6945C, ac_addr)
-        self.area_conns_addr = ac_addr
+        ac_data = self.rom.read_bytes(self.area_conns_addr, size)
+        ac_data += bytearray(8 * 3)
+        # TODO: Move pointer constant
+        self.area_conns_addr = self.rom.write_repointable_data(
+            self.area_conns_addr, size, ac_data, [0x6945C]
+        )
 
         # Connect tops to bottoms
         pairs_top = data["ElevatorTops"]
@@ -198,10 +196,10 @@ class Connections:
                     break
 
         # Write new graphics and tilemap
-        path = os.path.join("data", "main_hub.gfx.lz")
+        path = get_relative_data_path(__file__, "main_hub.gfx.lz")
         gfx = pkgutil.get_data(__name__, path)
         self.rom.write_bytes(MAIN_HUB_GFX_ADDR, gfx)
-        path = os.path.join("data", "main_hub_tilemap.bin")
+        path = get_relative_data_path(__file__, "main_hub_tilemap.bin")
         tilemap = pkgutil.get_data(__name__, path)
         self.rom.write_bytes(MAIN_HUB_TILEMAP_ADDR + 2, tilemap)
 

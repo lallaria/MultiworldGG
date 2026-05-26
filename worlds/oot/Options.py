@@ -361,11 +361,13 @@ class MQDungeonCount(TrackRandomRange):
 
 
 class EmptyDungeons(Choice):
-    """Choose dungeons that are pre-completed. Pre-completed dungeons are filled with non-progression items."""
+    """Choose dungeons that are pre-completed. Pre-completed dungeons are filled with non-progression items.
+    Specific Rewards: choose rewards whose source or shuffled boss dungeon should be pre-completed."""
     display_name = "Pre-completed Dungeons Mode"
     option_none = 0
     option_specific = 1
     option_count = 2
+    option_rewards = 3
 
 
 class EmptyDungeonList(OptionSet):
@@ -380,6 +382,22 @@ class EmptyDungeonList(OptionSet):
         "Water Temple",
         "Shadow Temple",
         "Spirit Temple",
+    }
+
+
+class EmptyDungeonRewards(OptionSet):
+    """With pre-completed dungeons as Specific Rewards: chosen rewards whose dungeons are pre-completed."""
+    display_name = "Pre-completed Dungeon Rewards"
+    valid_keys = {
+        "Kokiri Emerald",
+        "Goron Ruby",
+        "Zora Sapphire",
+        "Light Medallion",
+        "Forest Medallion",
+        "Fire Medallion",
+        "Water Medallion",
+        "Shadow Medallion",
+        "Spirit Medallion",
     }
 
 
@@ -419,6 +437,7 @@ world_options: typing.Dict[str, type(Option)] = {
 
     "empty_dungeons_mode": EmptyDungeons,
     "empty_dungeons_list": EmptyDungeonList,
+    "empty_dungeons_rewards": EmptyDungeonRewards,
     "empty_dungeons_count": EmptyDungeonCount,
 }
 
@@ -605,18 +624,27 @@ class ShuffleOcarinas(Toggle):
     display_name = "Shuffle Ocarinas"
 
 
-class ShuffleChildTrade(Choice):
-    """Controls the behavior of the start of the child trade quest.
-    Vanilla: Malon will give you the Weird Egg at Hyrule Castle.
-    Shuffle: Malon will give you a random item, and the Weird Egg is shuffled.
-    Skip Child Zelda: The game starts with Zelda already met, Zelda's Letter obtained, and the item from Impa obtained.
-    """
+child_trade_items = frozenset({
+    "Weird Egg",
+    "Chicken",
+    "Zeldas Letter",
+    "Keaton Mask",
+    "Skull Mask",
+    "Spooky Mask",
+    "Bunny Hood",
+    "Goron Mask",
+    "Zora Mask",
+    "Gerudo Mask",
+    "Mask of Truth",
+})
+
+
+class ShuffleChildTrade(OptionSet):
+    """Select the child trade sequence items to shuffle.
+    To skip Child Zelda, start with Zelda's Letter and do not shuffle Zelda's Letter."""
     display_name = "Shuffle Child Trade Item"
-    option_vanilla = 0
-    option_shuffle = 1
-    option_skip_child_zelda = 2
-    alias_false = 0
-    alias_true = 1
+    valid_keys = child_trade_items
+    default = set()
 
 
 class ShuffleCard(Toggle):
@@ -968,27 +996,10 @@ class EnhanceMC(OptionSet):
     map_mq: Map tells if a dungeon is vanilla or MQ.
     map_dungeon_location: Map tells where a dungeon entrance leads.
     compass_boss_location: Compass tells which boss is in the dungeon.
-    compass_reward: Compass tells what dungeon reward is in the dungeon.
-
-    Backward compatibility:
-    true -> {'map_mq', 'compass_reward'}
-    false -> {}
-    """
+    compass_reward: Compass tells what dungeon reward is in the dungeon."""
     display_name = "Maps and Compasses Give Information"
     valid_keys = {"map_mq", "map_dungeon_location", "compass_boss_location", "compass_reward"}
     default = set()
-
-    @classmethod
-    def from_any(cls, data):
-        if isinstance(data, bool):
-            return cls({"map_mq", "compass_reward"} if data else set())
-        if isinstance(data, str):
-            lowered = data.strip().lower()
-            if lowered in {"true", "on", "yes", "1"}:
-                return cls({"map_mq", "compass_reward"})
-            if lowered in {"false", "off", "no", "0"}:
-                return cls(set())
-        return super().from_any(data)
 
 
 class GanonBKMedallions(Range):
@@ -1703,6 +1714,23 @@ class SfxOcarina(Choice):
     option_flute = 6
     default = 1
 
+
+class SfxLinkVoice(Choice):
+    """Change Link's voice in the adjuster. Custom voices can be placed in voices/oot/Adult or voices/oot/Child."""
+    option_default = 0
+    option_silent = 1
+    option_feminine = 2
+    default = 0
+
+
+class SfxLinkAdultVoice(SfxLinkVoice):
+    display_name = "Adult Voice"
+
+
+class SfxLinkChildVoice(SfxLinkVoice):
+    display_name = "Child Voice"
+
+
 sfx_options: typing.Dict[str, type(Option)] = {
     "sfx_navi_overworld":   sfx_navi_overworld,
     "sfx_navi_enemy":       sfx_navi_enemy,
@@ -1725,6 +1753,11 @@ sfx_options: typing.Dict[str, type(Option)] = {
     "sfx_daybreak":         sfx_daybreak,
     "sfx_cucco":            sfx_cucco,
     "sfx_ocarina":          SfxOcarina,
+}
+
+voice_options: typing.Dict[str, type(Option)] = {
+    "sfx_link_adult":        SfxLinkAdultVoice,
+    "sfx_link_child":        SfxLinkChildVoice,
 }
 
 
@@ -1784,6 +1817,7 @@ class OoTOptions(PerGameCommonOptions):
     mq_dungeons_count: MQDungeonCount
     empty_dungeons_mode: EmptyDungeons
     empty_dungeons_list: EmptyDungeonList
+    empty_dungeons_rewards: EmptyDungeonRewards
     empty_dungeons_count: EmptyDungeonCount
     bridge_stones: BridgeStones
     bridge_medallions: BridgeMedallions
